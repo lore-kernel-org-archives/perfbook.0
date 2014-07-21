@@ -1,112 +1,64 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e39.co.us.ibm.com ([32.97.110.160]:47526 "EHLO
- e39.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1752396AbaFBRvu (ORCPT	<rfc822;perfbook@vger.kernel.org>); Mon, 2 Jun 2014
- 13:51:50 -0400
-Received: from /spool/local	by e39.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Mon, 2 Jun 2014
- 11:51:49 -0600
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])	by d03dlp01.boulder.ibm.com
- (Postfix) with ESMTP id 95A3EC40003	for <perfbook@vger.kernel.org>; Mon, 2
- Jun 2014 11:51:47 -0600 (MDT)
-Received: from d03av06.boulder.ibm.com (d03av06.boulder.ibm.com
- [9.17.195.245])	by b03cxnp07029.gho.boulder.ibm.com (8.13.8/8.13.8/NCO v10.0)
- with ESMTP id s52FmQQ74522442	for <perfbook@vger.kernel.org>; Mon, 2 Jun 2014
- 17:48:26 +0200
-Received: from d03av06.boulder.ibm.com (loopback [127.0.0.1])	by
- d03av06.boulder.ibm.com (8.14.4/8.13.1/NCO v10.0 AVout) with ESMTP id
- s52HtlLl015316	for <perfbook@vger.kernel.org>; Mon, 2 Jun 2014 11:55:47 -0600
-Date: Mon, 2 Jun 2014 10:51:46 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: Minor patch for perfbook
-Message-ID: <20140602175146.GW22231@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: 
- <CA+rru_O9D8rFiE-8vniGroi_Hx0p0YbkvWm=fE6jhMh+bpCsUQ@mail.gmail.com>
+Received: from mail-vc0-f176.google.com ([209.85.220.176]:37823 "EHLO
+ mail-vc0-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with
+ ESMTP id S1753710AbaGUIY0 (ORCPT	<rfc822;perfbook@vger.kernel.org>); Mon, 21
+ Jul 2014 04:24:26 -0400
+Received: by mail-vc0-f176.google.com with SMTP id id10so6856936vcb.35 for
+ <perfbook@vger.kernel.org>; Mon, 21 Jul 2014 01:24:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=mime-version:date:message-id:subject:from:to:content-type;
+ bh=+sON9SSqJDGylJt6MLgkBkBHM73dW0O+v1sTReB0ovM=;
+ b=y/+t+RNKeiLnSpd5lq4vPS4jEIpEpZIRnD7Oc/3glqtITtj5EfTDtrE2zeDz/jUpni
+ Gc5rEBrvw5NHQJGS4In/7yBGHlsh6BTQp1fQr5Eb2679446S1mnFdkVQmDAPIWMnZKgH
+ CloCvz4dZXP0gaF3HnO9d2Aiko0P/YpTW3yp9dEGIBBzhe7zVncYu/BkKC6/0u8Ns7dz
+ KMDVbd/lRGjhucy2osm1e4caKNKeLmy3iksNvjaH/8u11CGq30MgsYHxx8yx0kmWpn+A
+ DKoBrov82u4fJzkqRD5yZEKmFrs2HJQpltnaU+h1ksfz41kftRYp9G85zxplfPYUGy7e
+ b8tQ==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: 
- <CA+rru_O9D8rFiE-8vniGroi_Hx0p0YbkvWm=fE6jhMh+bpCsUQ@mail.gmail.com>
+Date: Mon, 21 Jul 2014 16:24:26 +0800
+Message-ID: 
+ <CAOArY3XAD986MWLXcnG3VsYk40jyRgK8N+aWHniOnNJUTbmy9w@mail.gmail.com>
+Subject: Error report: perfbook Section 11.6.3.2
+From: Isaac To <isaac.to@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Zygmunt Bazyli Krynicki <zkrynicki@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: perfbook@vger.kernel.org
 
-On Mon, Jun 02, 2014 at 07:24:43PM +0200, Zygmunt Bazyli Krynicki wrote:
-> Hi.
-> 
-> I sent this patch a while ago but I haven't seen any replies or it being
-> applied in master so here it is again.
+Hi,
 
-Either I fat-fingered it or a spam filter ate it.  Either way, I have
-queued this one and pushed it, thank you for catching it and for
-resending!
+Thanks a lot for the free book, it is very useful!
 
-							Thanx, Paul
+I'd like to point out an error I see in Section 11.6.3.2, after Quick Quiz
+11.10.  It says the following:
 
-> Thanks
-> ZK
+  Suppose that a given test fails about once every hour, but after a bug fix,
+  a 24-hour test run fails only twice. What is the probability of this being
+  due to random chance, in other words, what is the probability that the fix
+  had no statistical effect?
 
-> From ff8057f470c5c30a403dab66ed892005e1568ab7 Mon Sep 17 00:00:00 2001
-> From: Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-> Date: Mon, 28 Apr 2014 14:01:33 +0200
-> Subject: [PATCH] Correct error message in lock_writer() in lock.c and
->  toolsoftrade.tex
-> 
-> Signed-off-by: Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-> ---
->  CodeSamples/toolsoftrade/lock.c | 4 ++--
->  toolsoftrade/toolsoftrade.tex   | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/CodeSamples/toolsoftrade/lock.c b/CodeSamples/toolsoftrade/lock.c
-> index 1c129e2..56489a7 100644
-> --- a/CodeSamples/toolsoftrade/lock.c
-> +++ b/CodeSamples/toolsoftrade/lock.c
-> @@ -62,7 +62,7 @@ void *lock_writer(void *arg)
->  	pthread_mutex_t *pmlp = (pthread_mutex_t *)arg;
->  
->  	if (pthread_mutex_lock(pmlp) != 0) {
-> -		perror("lock_reader:pthread_mutex_lock");
-> +		perror("lock_writer:pthread_mutex_lock");
->  		exit(-1);
->  	}
->  	for (i = 0; i < 3; i++) {
-> @@ -70,7 +70,7 @@ void *lock_writer(void *arg)
->  		poll(NULL, 0, 5);
->  	}
->  	if (pthread_mutex_unlock(pmlp) != 0) {
-> -		perror("lock_reader:pthread_mutex_unlock");
-> +		perror("lock_writer:pthread_mutex_unlock");
->  		exit(-1);
->  	}
->  	return NULL;
-> diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-> index b4a237a..c98f3a7 100644
-> --- a/toolsoftrade/toolsoftrade.tex
-> +++ b/toolsoftrade/toolsoftrade.tex
-> @@ -549,7 +549,7 @@ the other will wait until the first thread releases the lock.
->   34   pthread_mutex_t *pmlp = (pthread_mutex_t *)arg;
->   35 
->   36   if (pthread_mutex_lock(pmlp) != 0) {
-> - 37     perror("lock_reader:pthread_mutex_lock");
-> + 37     perror("lock_writer:pthread_mutex_lock");
->   38     exit(-1);
->   39   }
->   40   for (i = 0; i < 3; i++) {
-> @@ -557,7 +557,7 @@ the other will wait until the first thread releases the lock.
->   42     poll(NULL, 0, 5);
->   43   }
->   44   if (pthread_mutex_unlock(pmlp) != 0) {
-> - 45     perror("lock_reader:pthread_mutex_unlock");
-> + 45     perror("lock_writer:pthread_mutex_unlock");
->   46     exit(-1);
->   47   }
->   48   return NULL;
-> -- 
-> 1.9.1
-> 
+In other parts of the book, care has been taken to say something like
+"confidence level" to make the probability statements correct.  Not here.
 
+The only thing that we know about the probability of failing after the
+experiment is that "the probability of the test failing now is not zero".
+To know the "probability of this being due to random chance", or
+"probability that the fix had no effect", requires the knowledge of the
+behaviour of the bug itself (or, at least, the prior probability that the
+perhaps buggy system has a certain behaviour), and it is not specified in
+the question.  E.g., in an extreme world that the test can only fail at a
+rate of once every hour or never at all, we must admit that we are very
+very lucky during this particular test.
+
+The probability being calculated needs to be specified like "the
+probability of this happening *in case* the fix has no effect".  That "the
+fix has no effect" needs to be a *prerequisite*, and cannot itself be the
+probability to be computed.  The complement, i.e., 1 - 1.2e-8, is "the
+confidence level that the probability of failing is less than the
+original".  I'd suggest using the "confidence level" wording here, but
+explain what it is earlier in the book to tell the less mathematically apt
+readers understand the wordings.
+
+Regards,
+Isaac
