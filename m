@@ -1,97 +1,72 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e38.co.us.ibm.com ([32.97.110.159]:53710 "EHLO
- e38.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1754176AbaGVP5e (ORCPT	<rfc822;perfbook@vger.kernel.org>); Tue, 22 Jul 2014
- 11:57:34 -0400
-Received: from /spool/local	by e38.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Tue, 22 Jul
- 2014 09:57:33 -0600
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])	by d03dlp02.boulder.ibm.com
- (Postfix) with ESMTP id 9A4263E4003E	for <perfbook@vger.kernel.org>; Tue, 22
- Jul 2014 09:57:31 -0600 (MDT)
-Received: from d03av06.boulder.ibm.com (d03av06.boulder.ibm.com
- [9.17.195.245])	by b03cxnp08026.gho.boulder.ibm.com (8.13.8/8.13.8/NCO v10.0)
- with ESMTP id s6MFuHpb52625504	for <perfbook@vger.kernel.org>; Tue, 22 Jul
- 2014 17:56:17 +0200
-Received: from d03av06.boulder.ibm.com (loopback [127.0.0.1])	by
- d03av06.boulder.ibm.com (8.14.4/8.13.1/NCO v10.0 AVout) with ESMTP id
- s6MG1dru010492	for <perfbook@vger.kernel.org>; Tue, 22 Jul 2014 10:01:40
- -0600
-Date: Tue, 22 Jul 2014 08:57:30 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: Error report: perfbook Section 11.6.3.2
-Message-ID: <20140722155730.GA11241@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
+Return-Path: <isaac.to@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+ :cc:content-type;        bh=httlkoNBLqxBgKRcKfsyeeWsYNgjVciTCz5fH7zueus=;
+ b=PQpqCINXixYvvkJyPfWpwleFRh8rkK3GGDG5RlJ1PPWnChC50AiIDGbTbnrA7DcQQU
+ m9RoO0El2dUH/ZfQC6e4DdetviJ0Cra7IhDn+5YXIecuhOi4KZZ/cmsbD0S9SAyQ76Uj
+ vzn4DNG3gAc6xosSfhd7rnFb0LB1Ufct5EWLGvUn1caKJaaFjMK+9ehUMn1cFZbatYkr
+ V0dbrOuE4Cai5TvVbjysfsbAXeuWYZHCn2S3j2arBr2kTNUeQWM2GL/eNa9mRlzqYneB
+ AIUqU+WmcqGa/fWlU9MdOwDDHh75GpWEoD4NL1225zkGwJPDIf4wsjtYoe8U2ujZQu2J
+ KBlw==
+MIME-Version: 1.0
+In-Reply-To: <20140722155730.GA11241@linux.vnet.ibm.com>
 References: 
  <CAOArY3XAD986MWLXcnG3VsYk40jyRgK8N+aWHniOnNJUTbmy9w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: 
- <CAOArY3XAD986MWLXcnG3VsYk40jyRgK8N+aWHniOnNJUTbmy9w@mail.gmail.com>
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
-To: Isaac To <isaac.to@gmail.com>
+ <20140722155730.GA11241@linux.vnet.ibm.com>
+Date: Sat, 26 Jul 2014 16:47:51 +0800
+Message-ID: 
+ <CAOArY3UOo6mk=y5yQi+mqvRfrduJodYOE0tL3ioyAx4qx-Lfww@mail.gmail.com>
+Subject: Re: Error report: perfbook Section 11.6.3.2
+From: Isaac To <isaac.to@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Mon, Jul 21, 2014 at 04:24:26PM +0800, Isaac To wrote:
-> Hi,
-> 
-> Thanks a lot for the free book, it is very useful!
+On Tue, Jul 22, 2014 at 11:57 PM, Paul E. McKenney
+<paulmck@linux.vnet.ibm.com> wrote:
+>> The probability being calculated needs to be specified like "the
+>> probability of this happening *in case* the fix has no effect".  That "the
+>> fix has no effect" needs to be a *prerequisite*, and cannot itself be the
+>> probability to be computed.  The complement, i.e., 1 - 1.2e-8, is "the
+>> confidence level that the probability of failing is less than the
+>> original".  I'd suggest using the "confidence level" wording here, but
+>> explain what it is earlier in the book to tell the less mathematically apt
+>> readers understand the wordings.
+>
+> Good catch!
+>
+> How about if I reworded that paragraph as follows?
+>
+>         Suppose that a given test fails about once every hour, but after a
+>         bug fix, a 24-hour test run fails only twice.  Assuming that the
+>         failure leading to the bug is a random occurrence, and further
+>         assuming that the alleged fix actually had no effect on this
+>         particular bug, what is the probability that the small number
+>         of failures in the second run was due to random chance? This
+>         probability may be calculated by summing Equation 11.26 as
+>         follows:
 
-Glad you like it!
+I think if you already say "assuming that the failure ... is a random
+occurrence", then "was due to random chance" is redundant.  Perhaps
+"What is the probability of the small number of failures, assuming
+that the alleged fix actually has no effect on the test failure?"
+suffices.  On the other hand, that would not be very consistent with
+other parts of the book that uses the "confidence level" terminology.
+And the term is not defined elsewhere either.
 
-> I'd like to point out an error I see in Section 11.6.3.2, after Quick Quiz
-> 11.10.  It says the following:
-> 
->   Suppose that a given test fails about once every hour, but after a bug fix,
->   a 24-hour test run fails only twice. What is the probability of this being
->   due to random chance, in other words, what is the probability that the fix
->   had no statistical effect?
-> 
-> In other parts of the book, care has been taken to say something like
-> "confidence level" to make the probability statements correct.  Not here.
-> 
-> The only thing that we know about the probability of failing after the
-> experiment is that "the probability of the test failing now is not zero".
-> To know the "probability of this being due to random chance", or
-> "probability that the fix had no effect", requires the knowledge of the
-> behaviour of the bug itself (or, at least, the prior probability that the
-> perhaps buggy system has a certain behaviour), and it is not specified in
-> the question.  E.g., in an extreme world that the test can only fail at a
-> rate of once every hour or never at all, we must admit that we are very
-> very lucky during this particular test.
-> 
-> The probability being calculated needs to be specified like "the
-> probability of this happening *in case* the fix has no effect".  That "the
-> fix has no effect" needs to be a *prerequisite*, and cannot itself be the
-> probability to be computed.  The complement, i.e., 1 - 1.2e-8, is "the
-> confidence level that the probability of failing is less than the
-> original".  I'd suggest using the "confidence level" wording here, but
-> explain what it is earlier in the book to tell the less mathematically apt
-> readers understand the wordings.
+> I am shying away from explaining "confidence level" because I haven't
+> yet come up with a compact and accurate way of doing so.  However, I am
+> taking this email as encouragement to keep trying.  ;-)
 
-Good catch!
+Yes that is hard.  Actually I like the confidence level wording more,
+not only because it is more compact, but also because the wording
+clearly explain why the probability calculated is noteworthy.  On the
+other hand, I think the book is more on programming rather than
+mathematics, so I won't complain if the book does not try to teach
+fancy statistical ideas if that is not needed in the main theme.
 
-How about if I reworded that paragraph as follows?
-
-	Suppose that a given test fails about once every hour, but after a
-	bug fix, a 24-hour test run fails only twice.  Assuming that the
-	failure leading to the bug is a random occurrence, and further
-	assuming that the alleged fix actually had no effect on this
-	particular bug, what is the probability that the small number
-	of failures in the second run was due to random chance? This
-	probability may be calculated by summing Equation 11.26 as
-	follows:
-
-I am shying away from explaining "confidence level" because I haven't
-yet come up with a compact and accurate way of doing so.  However, I am
-taking this email as encouragement to keep trying.  ;-)
-
-							Thanx, Paul
-
-PS.  Congratulations!  You are the first to use the new mailing list
-     to report a bug in this book.  ;-)
+Regards,
+Isaac
 
