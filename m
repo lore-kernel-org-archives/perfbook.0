@@ -1,69 +1,100 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-oi0-f53.google.com ([209.85.218.53]:46560 "EHLO
- mail-oi0-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with
- ESMTP id S1754831AbaJINr7 (ORCPT	<rfc822;perfbook@vger.kernel.org>); Thu, 9
- Oct 2014 09:47:59 -0400
-Received: by mail-oi0-f53.google.com with SMTP id v63so2841272oia.40 for
- <perfbook@vger.kernel.org>; Thu, 09 Oct 2014 06:47:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;
- h=mime-version:date:message-id:subject:from:to:content-type;
- bh=BN4abJJVkiQdF2qcxoy4gzjHT+U6jov/fwvpuJ9ZcfQ=;
- b=GHDAQVgKDXaXIGahQd3KBFK+etAevbxUn14dGKqN5zWEiZpLEk/ATpr0bh7Lzb/HiC
- GOKYsMUJLP78eDN19Ovpu0KTyJs/s0YOqfu02a5o7sFIdaqo5QfXl3hgA4YMAfmIpPQt
- bzOGCmevB3EsTbP0BMubZoHXt7pdaQLM0dkyeP2K3xYk69IOrVXFpzG0OyGbk7ADr0C2
- wbjd/SfqjcfyyNxSktkH3xUrSL1SNVSjkEzdOSpzbMwuCobl9YxfqSFLFCDHrHqmQ3Hk
- LD7CIuhYbT/hmeBpLTpwWBIkmzgY0yuyfw7aep5xBBz8JTvRh5c6H3uMkPjKOW6g0rZS
- DcfA==
-MIME-Version: 1.0
-Date: Thu, 9 Oct 2014 22:47:56 +0900
-Message-ID: 
+Received: from e32.co.us.ibm.com ([32.97.110.150]:35659 "EHLO
+ e32.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
+ S1751032AbaJLNKc (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sun, 12 Oct 2014
+ 09:10:32 -0400
+Received: from /spool/local	by e32.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted	for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Sun, 12 Oct
+ 2014 07:10:32 -0600
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])	by d03dlp03.boulder.ibm.com
+ (Postfix) with ESMTP id 3AC2419D803E	for <perfbook@vger.kernel.org>; Sun, 12
+ Oct 2014 06:59:14 -0600 (MDT)
+Received: from d03av06.boulder.ibm.com (d03av06.boulder.ibm.com
+ [9.17.195.245])	by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0)
+ with ESMTP id s9CD8Lvl8192412	for <perfbook@vger.kernel.org>; Sun, 12 Oct
+ 2014 15:08:21 +0200
+Received: from d03av06.boulder.ibm.com (loopback [127.0.0.1])	by
+ d03av06.boulder.ibm.com (8.14.4/8.13.1/NCO v10.0 AVout) with ESMTP id
+ s9CDF97Y020416	for <perfbook@vger.kernel.org>; Sun, 12 Oct 2014 07:15:09
+ -0600
+Date: Sun, 12 Oct 2014 06:10:28 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: Typos in perfbook section 5.6 and table 9.7
+Message-ID: <20141012131028.GI4880@linux.vnet.ibm.com>
+Reply-To: paulmck@linux.vnet.ibm.com
+References: 
  <CAGfuzXRMegrY3xdfmr7nDE=DQ1O64GdNZvrxoq6JyEFfz6Eynw@mail.gmail.com>
-Subject: Typos in perfbook section 5.6 and table 9.7
-From: Motohiro Kanda <kanda.motohiro@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: 
+ <CAGfuzXRMegrY3xdfmr7nDE=DQ1O64GdNZvrxoq6JyEFfz6Eynw@mail.gmail.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
+To: Motohiro Kanda <kanda.motohiro@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Hi,
+On Thu, Oct 09, 2014 at 10:47:56PM +0900, Motohiro Kanda wrote:
+> Hi,
+> 
+> I enjoy the book so much and am making a Japanese translation here.
+> https://sites.google.com/site/kandamotohiro/perfbook
 
-I enjoy the book so much and am making a Japanese translation here.
-https://sites.google.com/site/kandamotohiro/perfbook
+Very good!  I have added this translation to the FAQ.
 
-I think I have found 2 typos in perfbook. Latest git repo also has these bugs.
+> I think I have found 2 typos in perfbook. Latest git repo also has these bugs.
+> 
+> 5.6 Parallel Counting Discussion
+> on page 82, in file count.tex says,
+> 
+> "The per-thread
+> variable implementation (count_stat.c) is significantly faster on updates than
+> the array-based implementation (count_end.c), but is slower at reads"
+> 
+> But it should read
+> 
+> per-thread variable implementation(count_end.c)
+> and
+> array-based implementation (count_stat.c)
+> 
+> And according to table 5.1,
+> array-based implementation has 408 ns vs.
+> per-thread variable implementation has 389 ns.
+> 
+> so, per-thread variable implementation is a little faster, not slower
+> at 1 core read.
 
-5.6 Parallel Counting Discussion
-on page 82, in file count.tex says,
+Good catch!  This sentence now reads as follows:
 
-"The per-thread
-variable implementation (count_stat.c) is significantly faster on updates than
-the array-based implementation (count_end.c), but is slower at reads"
+	The per-thread-variable implementation (count_end.c)
+	is significantly faster on updates than the array-based
+	implementation (count_stat.c), but is slower at reads on large
+	numbers of cores, and suffers severe lock contention when there
+	are many parallel readers.
 
-But it should read
+> Table 9.7  Which Deferred Technique to Choose?
+> on page 228 in file whichtochoose.tex says,
+> 
+> Sequence Locks has "Y" on Updates and Readers Progress Concurrently
+> 
+> But it should be N because on page 229, it says
+> 
+> sequence locking does not permit updates and readers to make forward
+> progress concurrently
 
-per-thread variable implementation(count_end.c)
-and
-array-based implementation (count_stat.c)
+And reference counting, hazard pointers, and RCU should all say "Y".
 
-And according to table 5.1,
-array-based implementation has 408 ns vs.
-per-thread variable implementation has 389 ns.
+I have made these changes with your Reported-by.
 
-so, per-thread variable implementation is a little faster, not slower
-at 1 core read.
+							Thanx, Paul
 
+> --
+> Kanda Motohiro
+> --
+> To unsubscribe from this list: send the line "unsubscribe perfbook" in
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
 
-
-Table 9.7  Which Deferred Technique to Choose?
-on page 228 in file whichtochoose.tex says,
-
-Sequence Locks has "Y" on Updates and Readers Progress Concurrently
-
-But it should be N because on page 229, it says
-
-sequence locking does not permit updates and readers to make forward
-progress concurrently
-
---
-Kanda Motohiro
