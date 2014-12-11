@@ -1,100 +1,106 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e32.co.us.ibm.com ([32.97.110.150]:35659 "EHLO
- e32.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1751032AbaJLNKc (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sun, 12 Oct 2014
- 09:10:32 -0400
-Received: from /spool/local	by e32.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+Received: from e33.co.us.ibm.com ([32.97.110.151]:46433 "EHLO
+ e33.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
+ S932909AbaLKRww (ORCPT	<rfc822;perfbook@vger.kernel.org>); Thu, 11 Dec 2014
+ 12:52:52 -0500
+Received: from /spool/local	by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Sun, 12 Oct
- 2014 07:10:32 -0600
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Thu, 11 Dec
+ 2014 10:52:52 -0700
 Received: from b03cxnp07028.gho.boulder.ibm.com
  (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])	by d03dlp03.boulder.ibm.com
- (Postfix) with ESMTP id 3AC2419D803E	for <perfbook@vger.kernel.org>; Sun, 12
- Oct 2014 06:59:14 -0600 (MDT)
-Received: from d03av06.boulder.ibm.com (d03av06.boulder.ibm.com
- [9.17.195.245])	by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0)
- with ESMTP id s9CD8Lvl8192412	for <perfbook@vger.kernel.org>; Sun, 12 Oct
- 2014 15:08:21 +0200
-Received: from d03av06.boulder.ibm.com (loopback [127.0.0.1])	by
- d03av06.boulder.ibm.com (8.14.4/8.13.1/NCO v10.0 AVout) with ESMTP id
- s9CDF97Y020416	for <perfbook@vger.kernel.org>; Sun, 12 Oct 2014 07:15:09
- -0600
-Date: Sun, 12 Oct 2014 06:10:28 -0700
+ (Postfix) with ESMTP id E401719D8039	for <perfbook@vger.kernel.org>; Thu, 11
+ Dec 2014 10:41:29 -0700 (MST)
+Received: from d03av01.boulder.ibm.com (d03av01.boulder.ibm.com
+ [9.17.195.167])	by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0)
+ with ESMTP id sBBHpohO31588602	for <perfbook@vger.kernel.org>; Thu, 11 Dec
+ 2014 10:51:50 -0700
+Received: from d03av01.boulder.ibm.com (localhost [127.0.0.1])	by
+ d03av01.boulder.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
+ sBBHqoPi024163	for <perfbook@vger.kernel.org>; Thu, 11 Dec 2014 10:52:50
+ -0700
+Date: Thu, 11 Dec 2014 09:52:48 -0800
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: Typos in perfbook section 5.6 and table 9.7
-Message-ID: <20141012131028.GI4880@linux.vnet.ibm.com>
+Subject: Re: perfbook build error
+Message-ID: <20141211175248.GK25340@linux.vnet.ibm.com>
 Reply-To: paulmck@linux.vnet.ibm.com
-References: 
- <CAGfuzXRMegrY3xdfmr7nDE=DQ1O64GdNZvrxoq6JyEFfz6Eynw@mail.gmail.com>
+References: <20141211173210.GE31140@pd.tnic>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: 
- <CAGfuzXRMegrY3xdfmr7nDE=DQ1O64GdNZvrxoq6JyEFfz6Eynw@mail.gmail.com>
+In-Reply-To: <20141211173210.GE31140@pd.tnic>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Motohiro Kanda <kanda.motohiro@gmail.com>
+To: Borislav Petkov <bp@alien8.de>
 Cc: perfbook@vger.kernel.org
 
-On Thu, Oct 09, 2014 at 10:47:56PM +0900, Motohiro Kanda wrote:
-> Hi,
+On Thu, Dec 11, 2014 at 06:32:10PM +0100, Borislav Petkov wrote:
+> Hey Paul,
 > 
-> I enjoy the book so much and am making a Japanese translation here.
-> https://sites.google.com/site/kandamotohiro/perfbook
+> building perfbook from today here fails with:
+> 
+> Underfull \hbox (badness 7576) in paragraph at lines 1234--1234
+> []\T1/ptm/b/n/14.4 Linux-Kernel Equiv-a-lents to
+>  []
+> 
+> ! Missing { inserted.
+> <inserted text> 
+>                 {
+> l.1246                  &
+>             \co{struct task_struct} \\
+> ? 
+> ! Emergency stop.
+> <inserted text> 
+>                 {
+> l.1246                  &
+>             \co{struct task_struct} \\
+> End of file on the terminal!
+> 
+> 
+> Here is how much of TeX's memory you used:
+>  9728 strings out of 495020
+>  150662 string characters out of 6181323
+>  256123 words of memory out of 5000000
+>  12316 multiletter control sequences out of 15000+600000
+>  92251 words of font info for 258 fonts, out of 8000000 for 9000
+>  14 hyphenation exceptions out of 8191
+>  33i,15n,35p,324b,1121s stack positions out of 5000i,500n,10000p,200000b,80000s
+> !  ==> Fatal error occurred, no output PDF file produced!
+> ---
+> 
+> That's somewhere around that table in toolsoftrade/toolsoftrade.tex,
+> lines 1240ff.
+> 
+> Maybe my latex setup is missing something...
 
-Very good!  I have added this translation to the FAQ.
+Hmmm...  Works for me.  (Famous last words...)
 
-> I think I have found 2 typos in perfbook. Latest git repo also has these bugs.
-> 
-> 5.6 Parallel Counting Discussion
-> on page 82, in file count.tex says,
-> 
-> "The per-thread
-> variable implementation (count_stat.c) is significantly faster on updates than
-> the array-based implementation (count_end.c), but is slower at reads"
-> 
-> But it should read
-> 
-> per-thread variable implementation(count_end.c)
-> and
-> array-based implementation (count_stat.c)
-> 
-> And according to table 5.1,
-> array-based implementation has 408 ns vs.
-> per-thread variable implementation has 389 ns.
-> 
-> so, per-thread variable implementation is a little faster, not slower
-> at 1 core read.
+I am at commit #763eb4b811f9 (Fix resizable-hash figures).
 
-Good catch!  This sentence now reads as follows:
+I also sometimes see odd errors like this due to an interrupted run that
+leaves bogus .aux files around.  A "make clean" will clear this up.
 
-	The per-thread-variable implementation (count_end.c)
-	is significantly faster on updates than the array-based
-	implementation (count_stat.c), but is slower at reads on large
-	numbers of cores, and suffers severe lock contention when there
-	are many parallel readers.
+I am also using an oldish version of latex.  Let me see what happens
+with a more recent version...  Well, on that system, it complains about
+pstricks.sty not being present.  :-/
 
-> Table 9.7  Which Deferred Technique to Choose?
-> on page 228 in file whichtochoose.tex says,
-> 
-> Sequence Locks has "Y" on Updates and Readers Progress Concurrently
-> 
-> But it should be N because on page 229, it says
-> 
-> sequence locking does not permit updates and readers to make forward
-> progress concurrently
+In the meantime, here is the version of latex I am using:
 
-And reference counting, hazard pointers, and RCU should all say "Y".
+	k$ latex --v
+	pdfTeX 3.1415926-1.40.10-2.2 (TeX Live 2009/Debian)
+	kpathsea version 5.0.0
+	Copyright 2009 Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
+	There is NO warranty.  Redistribution of this software is
+	covered by the terms of both the pdfTeX copyright and
+	the Lesser GNU General Public License.
+	For more information about these matters, see the file
+	named COPYING and the pdfTeX source.
+	Primary author of pdfTeX: Peter Breitenlohner (eTeX)/Han The Thanh (pdfTeX).
+	Compiled with libpng 1.2.46; using libpng 1.2.46
+	Compiled with zlib 1.2.3.4; using zlib 1.2.3.4
+	Compiled with poppler version 0.18.2
 
-I have made these changes with your Reported-by.
+CCing the mailing list in case someone knows how to solve this one.
 
 							Thanx, Paul
-
-> --
-> Kanda Motohiro
-> --
-> To unsubscribe from this list: send the line "unsubscribe perfbook" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
 
