@@ -3,60 +3,56 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=date:from:to:subject:message-id:mime-version:content-type
  :content-disposition:user-agent;
- bh=pH9ekuw54wpYmsf6MB9WracqRnGIKcByb3x4pB5lD2s=;
- b=gtIJwl8XOUm3ISae8AAJVs0VR2PaSzwlDPLhitOmMXc8n5UeP4aue/L9tdEgg/ukGc
- VJNXTHgowC0d0wbPvZp3LlX972redZBiR0pw4CZirDNjIVlmZcMf54QOnV+YsYTReXA/
- S4wAHTcTWudSRRJIdZCYrqXBl0wFtAIhBF5GRXOLlL1D9aumMtk3Q6peqlBfKZeDOHa5
- ghELBOkXlz1A/9Lv0LbkT5hU+RiLPKrSYltfjZSxSy8fwA9T/JeLOJyBATEI+TMzkZkI
- 2cHJlvzjGqrnCeRBPmPk9aGKacagA3HOPJ5ZHJd6SnY8m2rSiXE0b3qf79zm6WY1K7mc
- 4zFw==
-Date: Thu, 19 Mar 2015 21:30:21 +0200
+ bh=5sdxFWo7AljfLCWULmlRLxlC3qY/LLTbGYM2y1CKIAk=;
+ b=knJI578H389bFVw0BrLhfqsTJmAVqC2kS4b4HHo60vg0hp0dUphtudnNfmCeOGw2QZ
+ gfsgOQdHPVFhpJlYoVhrUsOnfV6MgbFhpZaiQFRTc2QJFY3S8JLoLX+VmorYIbHNlDwc
+ VdkLPSPn15DV4rfEhERccUWq+9x2sBqLYEvgTS37Eg9ZplBTnEpVwaHJzKhWFfD+JspH
+ iDP/eXoZTRtXXiWdyXw0qpl9stDk4RRWvrZ4TWXOz5qJCCYhw4TxH6CsPvqy5pps7e1e
+ sWjv21Af6AqdoHBqLxAMOA1EvZRhfSfviQ0VerQAzxs/tavgl8EhX5LsoxR2koeM1tD3
+ pAkQ==
+Date: Thu, 19 Mar 2015 21:52:05 +0200
 From: Andreea-Cristina Bernat <bernat.ada@gmail.com>
-Subject: [PATCH] api: Add multiple header files
-Message-ID: <20150319193021.GA30095@ada>
+Subject: [PATCH] hazptr: Modify name of global variable that creates confusion
+Message-ID: <20150319195205.GA30570@ada>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-To: perfbook@vger.kernel.org, paulmckrcu@gmail.com
+To: paulmckrcu@gmail.com, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-Add multiple header files to avoid the warning: implicit declaration of
-<function>.
+Since the former global variable plist was assigned to the local
+variable plist from the hazptr_init() function, the following warning
+was generated:
+	'plist' defined but not used.
+Therefore, this patch renames the global variable plist to gplist.
 
 Signed-off-by: Andreea-Cristina Bernat <bernat.ada@gmail.com>
 ---
- CodeSamples/api-pthreads/api-pthreads.h | 3 +++
- CodeSamples/api.h                       | 3 +++
- 2 files changed, 6 insertions(+)
+ CodeSamples/defer/hazptr.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/CodeSamples/api-pthreads/api-pthreads.h b/CodeSamples/api-pthreads/api-pthreads.h
-index f877097..35f4efb 100644
---- a/CodeSamples/api-pthreads/api-pthreads.h
-+++ b/CodeSamples/api-pthreads/api-pthreads.h
-@@ -26,6 +26,9 @@
- #include <errno.h>
- #include <limits.h>
- #include <sys/types.h>
-+#include <sys/wait.h>
-+#include <poll.h>
-+#include <sys/time.h>
- #ifndef __USE_GNU
- #define __USE_GNU
- #endif /* #ifndef __USE_GNU */
-diff --git a/CodeSamples/api.h b/CodeSamples/api.h
-index beda5f9..bb46828 100644
---- a/CodeSamples/api.h
-+++ b/CodeSamples/api.h
-@@ -420,6 +420,9 @@ static __inline__ long long get_timestamp(void)
- #include <errno.h>
- #include <limits.h>
- #include <sys/types.h>
-+#include <sys/wait.h>
-+#include <poll.h>
-+#include <sys/time.h>
- #ifndef __USE_GNU
- #define __USE_GNU
- #endif /* #ifndef __USE_GNU */
+diff --git a/CodeSamples/defer/hazptr.c b/CodeSamples/defer/hazptr.c
+index e8c8cbc..2e8f819 100644
+--- a/CodeSamples/defer/hazptr.c
++++ b/CodeSamples/defer/hazptr.c
+@@ -23,7 +23,7 @@
+
+ static hazptr_head_t __thread *rlist;
+ static unsigned long __thread rcount;
+-static hazptr_head_t __thread **plist;
++static hazptr_head_t __thread **gplist;
+
+ void hazptr_init(void)
+ {
+@@ -94,7 +94,7 @@ void hazptr_scan()
+ 	hazptr_head_t *tmplist;
+
+ 	/* List of hazard pointers, and its size. */
+-	hazptr_head_t **plist = plist;
++	hazptr_head_t **plist = gplist;
+ 	unsigned long psize;
+
+ 	if (plist == NULL) {
 -- 
 1.9.1
 
