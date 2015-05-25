@@ -1,58 +1,68 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-wi0-f182.google.com ([209.85.212.182]:38292 "EHLO
- mail-wi0-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with
- ESMTP id S1751101AbbEXQWf (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sun, 24
- May 2015 12:22:35 -0400
-Received: by wichy4 with SMTP id hy4so29430711wic.1 for
- <perfbook@vger.kernel.org>; Sun, 24 May 2015 09:22:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;        h=from:to:cc:subject:date:message-id;
- bh=W8ReB3IyUmIi+S0bK9lj7vI7Gl2Ft63wkTfGdSJSpsw=;
- b=I7cQuY2rzy6a4odMeFWjz9M6EIVCLODxsz6QM7coUqMo8yDkdK2ToonP+u0WaVPanx
- WkE4BXsmunxVILuY8Ag3GzZVYdzWiSgfxctO4TuJm5XUmbcxcA0OXSH7CYNMcldKCT8m
- otRPn4rXi20O4IFCeSC2/3HLtponfZsqUPpdNZ4KRW6qA3TlWv+zi3sXQAQUhK1ES1YV
- QgxZMn4Pjxg/TTKKJvglZnmu+2PzvoK2asa4JPefmFNbV8BJS3tK0OA7/D02WVQuYNGF
- 9IAjzEZrqg93pSRrFhiyD29UTwS0n/gYt1kJBhJzFp3yO+MjaZrH+9jBUNv0PG0QjkQW
- LagQ==
-From: Dave Willmer <dave.willmer@gmail.com>
-Subject: [PATCH] Typos and grammatical fixes
-Date: Sun, 24 May 2015 17:22:29 +0100
-Message-Id: <1432484549-5816-1-git-send-email-dave.willmer@gmail.com>
+Received: from e39.co.us.ibm.com ([32.97.110.160]:52342 "EHLO
+ e39.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
+ S1751086AbbEYDpI (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sun, 24 May 2015
+ 23:45:08 -0400
+Received: from /spool/local	by e39.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted	for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Sun, 24 May
+ 2015 21:45:08 -0600
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])	by d03dlp02.boulder.ibm.com
+ (Postfix) with ESMTP id 89D1E3E4003F	for <perfbook@vger.kernel.org>; Sun, 24
+ May 2015 21:45:04 -0600 (MDT)
+Received: from d03av05.boulder.ibm.com (d03av05.boulder.ibm.com [9.17.195.85])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ t4P3ipPa44499006	for <perfbook@vger.kernel.org>; Sun, 24 May 2015 20:44:51
+ -0700
+Received: from d03av05.boulder.ibm.com (localhost [127.0.0.1])	by
+ d03av05.boulder.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
+ t4P3j3Bv014550	for <perfbook@vger.kernel.org>; Sun, 24 May 2015 21:45:04
+ -0600
+Date: Sun, 24 May 2015 20:45:01 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH] Typos and grammatical fixes
+Message-ID: <20150525034501.GG5989@linux.vnet.ibm.com>
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <1432484549-5816-1-git-send-email-dave.willmer@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1432484549-5816-1-git-send-email-dave.willmer@gmail.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
-Cc: Dave <dave.willmer@gmail.com>
+To: Dave Willmer <dave.willmer@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From: Dave <dave.willmer@gmail.com>
+On Sun, May 24, 2015 at 05:22:29PM +0100, Dave Willmer wrote:
+> From: Dave <dave.willmer@gmail.com>
+> 
+> Signed-off-by: Dave <dave.willmer@gmail.com>
 
-Signed-off-by: Dave <dave.willmer@gmail.com>
----
- advsync/advsync.tex                       | 10 ++---
- advsync/memorybarriers.tex                | 26 ++++++------
- appendix/primitives/primitives.tex        |  4 +-
- appendix/questions/after.tex              |  2 +-
- appendix/questions/concurrentparallel.tex |  2 +-
- appendix/whymb/whymemorybarriers.tex      |  6 +--
- datastruct/datastruct.tex                 | 70 +++++++++++++++----------------
- debugging/debugging.tex                   | 32 +++++++-------
- defer/rcuapi.tex                          |  2 +-
- defer/rcuintro.tex                        |  2 +-
- defer/toyrcu.tex                          | 20 ++++-----
- defer/whichtochoose.tex                   |  2 +-
- formal/dyntickrcu.tex                     | 24 +++++------
- formal/spinhint.tex                       | 10 ++---
- future/future.tex                         |  2 +-
- future/htm.tex                            | 30 ++++++-------
- future/tm.tex                             | 24 +++++------
- locking/locking.tex                       | 32 +++++++-------
- rt/rt.tex                                 | 46 ++++++++++----------
- together/applyrcu.tex                     | 26 ++++++------
- together/count.tex                        |  4 +-
- together/hash.tex                         |  8 ++--
- 22 files changed, 192 insertions(+), 192 deletions(-)
+Very nice, queued!
+
+I dropped the hunks removing the blanks at the ends of the empty lines
+of the code samples because my current set of code-conversion scripts
+rely on them.  I also took the liberty of rewording a few changes.
+
+Please see below for the resulting patch, and please let me know if
+I messed anything up.
+
+							Thanx, Paul
+
+------------------------------------------------------------------------
+
+commit 93f8cc9d8de717f2446d4f179ec41bb48c6f84f0
+Author: Dave <dave.willmer@gmail.com>
+Date:   Sun May 24 17:22:29 2015 +0100
+
+    Typos and grammatical fixes
+    
+    Signed-off-by: Dave <dave.willmer@gmail.com>
+    Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 
 diff --git a/advsync/advsync.tex b/advsync/advsync.tex
-index dd567b3..1839985 100644
+index dd567b33e3ad..e21fe63f99da 100644
 --- a/advsync/advsync.tex
 +++ b/advsync/advsync.tex
 @@ -56,7 +56,7 @@ basis of real-time programming:
@@ -82,23 +92,8 @@ index dd567b3..1839985 100644
  and class~4 was first formulated in 2013.
  The final two classes have seen informal use for a great many decades,
  but were reformulated in 2013.
-@@ -167,12 +167,12 @@ the Linux kernel.
-  5                    struct cds_wfcq_node *new_tail)
-  6 {
-  7   struct cds_wfcq_node *old_tail;
-- 8 
-+ 8
-  9   old_tail = uatomic_xchg(&tail->p, new_tail);
- 10   CMM_STORE_SHARED(old_tail->next, new_head);
- 11   return old_tail != &head->node;
- 12 }
--13 
-+13
- 14 static inline bool
- 15 _cds_wfcq_enqueue(struct cds_wfcq_head *head,
- 16                   struct cds_wfcq_tail *tail,
 diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index 2d16542..6639fec 100644
+index 2d1654281a92..99e074d89325 100644
 --- a/advsync/memorybarriers.tex
 +++ b/advsync/memorybarriers.tex
 @@ -82,7 +82,7 @@ Many people do indeed expect their computers to keep track of things,
@@ -125,15 +120,6 @@ index 2d16542..6639fec 100644
 
  \QuickQuiz{}
  	What assumption is the code fragment
-@@ -441,7 +441,7 @@ This does not work for the non-atomic stores described earlier because
- the non-atomic stores do not return any indication of the earlier value,
- hence the possibility of ambiguity.
-
--Please note well that this section applies \emph{only} when all
-+Please note that this section applies \emph{only} when all
- CPUs' accesses are to one single variable.
- In this single-variable case, cache coherence guarantees the
- global ordering, at least assuming that some of the more aggressive
 @@ -790,7 +790,7 @@ these combinations in order to fully understand how this works.
  	But suppose that in combination~1 from
  	Table~\ref{tab:advsync:Memory-Barrier Combinations},
@@ -188,15 +174,6 @@ index 2d16542..6639fec 100644
  	This is why it is so very important that loads from a given variable
  	in a given critical
  	section see the last store from the last prior critical section to
-@@ -976,7 +976,7 @@ laid out in Section~\ref{sec:advsync:What Can You Trust?}.
-   4     while (atomic_read(&lck->a) != 0)
-   5       continue;
-   6 }
--  7 
-+  7
-   8 void spin_unlock(spinlock_t lck)
-   9 {
-  10   smp_mb();
 @@ -1833,7 +1833,7 @@ versa:
  \subsubsection{Examples of Memory Barrier Pairings}
  \label{sec:advsync:Examples of Memory Barrier Pairings}
@@ -216,7 +193,7 @@ index 2d16542..6639fec 100644
  {\tt \{B = 7, X = 9, Y = 8, C = \&Y\}}:
 
 diff --git a/appendix/primitives/primitives.tex b/appendix/primitives/primitives.tex
-index a3cd271..d7fb471 100644
+index a3cd2712add7..d7fb4710d976 100644
 --- a/appendix/primitives/primitives.tex
 +++ b/appendix/primitives/primitives.tex
 @@ -172,7 +172,7 @@ The \co{wait_all_threads()}
@@ -238,7 +215,7 @@ index a3cd271..d7fb471 100644
  \begin{figure}[htbp]
  { \scriptsize
 diff --git a/appendix/questions/after.tex b/appendix/questions/after.tex
-index 89a8c17..7ff2662 100644
+index 89a8c17976f7..7ff26620d321 100644
 --- a/appendix/questions/after.tex
 +++ b/appendix/questions/after.tex
 @@ -155,7 +155,7 @@ Why is time going backwards?
@@ -251,7 +228,7 @@ index 89a8c17..7ff2662 100644
 
  One possible reason is given by the following sequence of events:
 diff --git a/appendix/questions/concurrentparallel.tex b/appendix/questions/concurrentparallel.tex
-index 5d0c8ea..ce22280 100644
+index 5d0c8ea5b348..ce2228056062 100644
 --- a/appendix/questions/concurrentparallel.tex
 +++ b/appendix/questions/concurrentparallel.tex
 @@ -52,7 +52,7 @@ there are important situations where efficiency,
@@ -264,18 +241,9 @@ index 5d0c8ea..ce22280 100644
  short, so that even a software-based scheduler must make hard choices
  between subtlety on the one hand and efficiency on the other.
 diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
-index 00263f0..719de12 100644
+index 00263f057bcd..41668b42f654 100644
 --- a/appendix/whymb/whymemorybarriers.tex
 +++ b/appendix/whymb/whymemorybarriers.tex
-@@ -1139,7 +1139,7 @@ Therefore, we can add a memory barrier to function \co{bar} as follows:
-   4   smp_mb();
-   5   b = 1;
-   6 }
--  7 
-+  7
-   8 void bar(void)
-   9 {
-  10   if (b == 0)
 @@ -1565,7 +1565,7 @@ The benefit of this extremely weak memory model is that Alpha can use
  simpler cache hardware, which in turn permitted higher clock frequency
  in Alpha's heyday.
@@ -295,7 +263,7 @@ index 00263f0..719de12 100644
  	but causes groups of devices---and even memory itself---to
  	fail to respect cache coherence.
 diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
-index c20c242..25cd5c4 100644
+index c20c2420bf47..7a81b8b135d9 100644
 --- a/datastruct/datastruct.tex
 +++ b/datastruct/datastruct.tex
 @@ -69,7 +69,7 @@ Those interested in Schr\"odinger's animals can query them, however,
@@ -307,21 +275,6 @@ index c20c242..25cd5c4 100644
  high rate of queries to a single data element.
 
  Please keep this application in mind as various data structures are presented.
-@@ -140,12 +140,12 @@ offers excellent scalability.
-  2   struct cds_list_head hte_next;
-  3   unsigned long hte_hash;
-  4 };
-- 5 
-+ 5
-  6 struct ht_bucket {
-  7   struct cds_list_head htb_head;
-  8   spinlock_t htb_lock;
-  9 };
--10 
-+10
- 11 struct hashtab {
- 12   unsigned long ht_nbuckets;
- 13   struct ht_bucket ht_bkt[0];
 @@ -174,7 +174,7 @@ The \co{hashtab} structure (lines~11-14 in
  Figure~\ref{fig:datastruct:Hash-Table Data Structures})
  contains four \co{ht_bucket} structures (lines~6-9 in
@@ -331,58 +284,6 @@ index c20c242..25cd5c4 100644
  Each such bucket contains a list header \co{->htb_head} and
  a lock \co{->htb_lock}.
  The list headers chain \co{ht_elem} structures
-@@ -196,13 +196,13 @@ has bucket~0 with two elements and bucket~2 with one.
- \begin{verbatim}
-  1 #define HASH2BKT(htp, h) \
-  2   (&(htp)->ht_bkt[h % (htp)->ht_nbuckets])
-- 3 
-+ 3
-  4 static void hashtab_lock(struct hashtab *htp,
-  5                          unsigned long hash)
-  6 {
-  7   spin_lock(&HASH2BKT(htp, hash)->htb_lock);
-  8 }
-- 9 
-+ 9
- 10 static void hashtab_unlock(struct hashtab *htp,
- 11                            unsigned long hash)
- 12 {
-@@ -235,7 +235,7 @@ corresponding to the specified hash value.
-  7 {
-  8   struct ht_bucket *htb;
-  9   struct ht_elem *htep;
--10 
-+10
- 11   htb = HASH2BKT(htp, hash);
- 12   cds_list_for_each_entry(htep,
- 13                           &htb->htb_head,
-@@ -297,7 +297,7 @@ If no element matches, line~20 returns \co{NULL}.
-  7   cds_list_add(&htep->hte_next,
-  8                &HASH2BKT(htp, hash)->htb_head);
-  9 }
--10 
-+10
- 11 void hashtab_del(struct ht_elem *htep)
- 12 {
- 13   cds_list_del_init(&htep->hte_next);
-@@ -331,7 +331,7 @@ or modifying this same bucket, for example, by invoking
-  3 {
-  4   struct hashtab *htp;
-  5   int i;
-- 6 
-+ 6
-  7   htp = malloc(sizeof(*htp) +
-  8                nbuckets *
-  9                sizeof(struct ht_bucket));
-@@ -344,7 +344,7 @@ or modifying this same bucket, for example, by invoking
- 16   }
- 17   return htp;
- 18 }
--19 
-+19
- 20 void hashtab_free(struct hashtab *htp)
- 21 {
- 22   free(htp);
 @@ -517,7 +517,7 @@ read-mostly cases where updates are rare, but could happen at any time.
  \label{sec:datastruct:Read-Mostly Data Structures}
 
@@ -392,33 +293,6 @@ index c20c242..25cd5c4 100644
  scalability.
  In addition,
  the need for readers to exclude writers can degrade performance in
-@@ -541,7 +541,7 @@ section~\cite{McKenney:2013:SDS:2483852.2483867}.
-  3 {
-  4   rcu_read_lock();
-  5 }
-- 6 
-+ 6
-  7 static void hashtab_unlock_lookup(struct hashtab *htp,
-  8                                   unsigned long hash)
-  9 {
-@@ -579,7 +579,7 @@ Figure~\ref{fig:datastruct:RCU-Protected Hash-Table Read-Side Concurrency Contro
-  7 {
-  8   struct ht_bucket *htb;
-  9   struct ht_elem *htep;
--10 
-+10
- 11   htb = HASH2BKT(htp, hash);
- 12   cds_list_for_each_entry_rcu(htep,
- 13                               &htb->htb_head,
-@@ -646,7 +646,7 @@ RCU read-side critical section, for example, the caller must invoke
-  7   cds_list_add_rcu(&htep->hte_next,
-  8                    &HASH2BKT(htp, hash)->htb_head);
-  9 }
--10 
-+10
- 11 void hashtab_del(struct ht_elem *htep)
- 12 {
- 13   cds_list_del_rcu(&htep->hte_next);
 @@ -722,7 +722,7 @@ thread than is hazard pointers.
 
  This situation changes above 32 CPUs.
@@ -437,72 +311,6 @@ index c20c242..25cd5c4 100644
  One way to check this is to artificially throttle the update rates of
  per-bucket locking and hazard pointers to match that of RCU.
  Doing so does not significantly improve the lookup performace of
-@@ -1014,12 +1014,12 @@ which is the subject of the next section.
-  3   struct cds_list_head hte_next[2];
-  4   unsigned long hte_hash;
-  5 };
-- 6 
-+ 6
-  7 struct ht_bucket {
-  8   struct cds_list_head htb_head;
-  9   spinlock_t htb_lock;
- 10 };
--11 
-+11
- 12 struct ht {
- 13   long ht_nbuckets;
- 14   long ht_resize_cur;
-@@ -1034,7 +1034,7 @@ which is the subject of the next section.
- 23   void *(*ht_getkey)(struct ht_elem *htep);
- 24   struct ht_bucket ht_bkt[0];
- 25 };
--26 
-+26
- 27 struct hashtab {
- 28   struct ht *ht_cur;
- 29   spinlock_t ht_lock;
-@@ -1122,13 +1122,13 @@ the old table.
-  6                        key) % htp->ht_nbuckets;
-  7   return &htp->ht_bkt[*b];
-  8 }
-- 9 
-+ 9
- 10 static struct ht_bucket *
- 11 ht_get_bucket(struct ht **htp, void *key,
- 12               long *b, int *i)
- 13 {
- 14   struct ht_bucket *htbp;
--15 
-+15
- 16   htbp = ht_get_bucket_single(*htp, key, b);
- 17   if (*b <= (*htp)->ht_resize_cur) {
- 18     *htp = (*htp)->ht_new;
-@@ -1207,7 +1207,7 @@ with a resize operation.
-  5   struct ht *htp;
-  6   struct ht_bucket *htbp;
-  7   struct ht_bucket *htbp_new;
-- 8 
-+ 8
-  9   rcu_read_lock();
- 10   htp = rcu_dereference(htp_master->ht_cur);
- 11   htbp = ht_get_bucket_single(htp, key, &b);
-@@ -1219,14 +1219,14 @@ with a resize operation.
- 17   spin_lock(&htbp_new->htb_lock);
- 18   spin_unlock(&htbp->htb_lock);
- 19 }
--20 
-+20
- 21 void hashtab_unlock_mod(struct hashtab *htp_master,
- 22                         void *key)
- 23 {
- 24   long b;
- 25   struct ht *htp;
- 26   struct ht_bucket *htbp;
--27 
-+27
- 28   htp = rcu_dereference(htp_master->ht_cur);
- 29   htbp = ht_get_bucket(&htp, key, &b, NULL);
- 30   spin_unlock(&htbp->htb_lock);
 @@ -1273,7 +1273,7 @@ section.
  	The code in
  	Figures~\ref{fig:datastruct:Resizable Hash-Table Bucket Selection}
@@ -526,7 +334,7 @@ index c20c242..25cd5c4 100644
  	Suppose that one thread is inserting an element into the
  	new hash table during a resize operation.
 -	What prevents this insertion to be lost due to a subsequent
-+	What prevents this insertion being lost due to a subsequent
++	What prevents this insertion from being lost due to a subsequent
  	resize operation completing before the insertion does?
  \QuickQuizAnswer{
  	The second resize operation will not be able to move beyond
@@ -539,59 +347,6 @@ index c20c242..25cd5c4 100644
  	\co{synchronize_rcu()} to wait for the insertion's read-side
  	critical section to complete.
  } \QuickQuizEnd
-@@ -1325,7 +1325,7 @@ RCU read-side critical section.
-  7   struct ht *htp;
-  8   struct ht_elem *htep;
-  9   struct ht_bucket *htbp;
--10 
-+10
- 11   htp = rcu_dereference(htp_master->ht_cur);
- 12   htbp = ht_get_bucket(&htp, key, &b, &i);
- 13   cds_list_for_each_entry_rcu(htep,
-@@ -1337,7 +1337,7 @@ RCU read-side critical section.
- 19   }
- 20   return NULL;
- 21 }
--22 
-+22
- 23 void
- 24 hashtab_add(struct hashtab *htp_master,
- 25             struct ht_elem *htep)
-@@ -1346,14 +1346,14 @@ RCU read-side critical section.
- 28   int i;
- 29   struct ht *htp;
- 30   struct ht_bucket *htbp;
--31 
-+31
- 32   htp = rcu_dereference(htp_master->ht_cur);
- 33   htbp = ht_get_bucket(&htp, htp->ht_getkey(htep),
- 34                        &b, &i);
- 35   cds_list_add_rcu(&htep->hte_next[i],
- 36                    &htbp->htb_head);
- 37 }
--38 
-+38
- 39 void
- 40 hashtab_del(struct hashtab *htp_master,
- 41             struct ht_elem *htep)
-@@ -1362,7 +1362,7 @@ RCU read-side critical section.
- 44   int i;
- 45   struct ht *htp;
- 46   struct ht_bucket *htbp;
--47 
-+47
- 48   htp = rcu_dereference(htp_master->ht_cur);
- 49   htbp = ht_get_bucket(&htp, htp->ht_getkey(htep),
- 50                        &b, &i);
-@@ -1474,7 +1474,7 @@ a concurrent resize operation.
- 13   struct ht_bucket *htbp_new;
- 14   unsigned long hash;
- 15   long b;
--16 
-+16
- 17   if (!spin_trylock(&htp_master->ht_lock))
- 18     return -EBUSY;
- 19   htp = htp_master->ht_cur;
 @@ -1890,7 +1890,7 @@ cases it does give up some performance.
 
  The following sections touch on specialization, memory conservation,
@@ -602,7 +357,7 @@ index c20c242..25cd5c4 100644
  Whole books have been written on optimizing to a specific CPU, let
  alone to the set of CPU families in common use today.
 diff --git a/debugging/debugging.tex b/debugging/debugging.tex
-index 6fde3d1..0210d4f 100644
+index 6fde3d1b0116..0efc84b98793 100644
 --- a/debugging/debugging.tex
 +++ b/debugging/debugging.tex
 @@ -44,7 +44,7 @@ Section~\ref{sec:debugging:Probability and Heisenbugs}
@@ -700,22 +455,6 @@ index 6fde3d1..0210d4f 100644
  a context switch must have occurred during the test.
  On Linux-based systems, this context switch will be visible in
  \co{/proc/<PID>/sched} in the \co{nr_switches} field.
-@@ -2178,13 +2178,13 @@ Similarly, interrupt-based interference can be detected via the
- \begin{verbatim}
-   1 #include <sys/time.h>
-   2 #include <sys/resource.h>
--  3 
-+  3
-   4 /* Return 0 if test results should be rejected. */
-   5 int runtest(void)
-   6 {
-   7   struct rusage ru1;
-   8   struct rusage ru2;
--  9 
-+  9
-  10   if (getrusage(RUSAGE_SELF, &ru1) != 0) {
-  11     perror("getrusage");
-  12     abort();
 @@ -2248,7 +2248,7 @@ beginning of the sorted list, and use these to estimate a typical
  inter-element delta, which in turn may be multiplied by the number of
  elements in the list to obtain an upper bound on permissible values.
@@ -725,15 +464,6 @@ index 6fde3d1..0210d4f 100644
  the next element and the previous element is not too much greater than
  the average inter-element distance for the portion of the list accepted
  thus far, then the next element is accepted and the process repeats.
-@@ -2278,7 +2278,7 @@ Otherwise, the remainder of the list is rejected.
-  19   esac
-  20   shift
-  21 done
-- 22 
-+ 22
-  23 awk -v divisor=$divisor -v relerr=$relerr \
-  24     -v trendbreak=$trendbreak '{
-  25   for (i = 2; i <= NF; i++)
 @@ -2343,7 +2343,7 @@ This script takes three optional arguments as follows:
  	This defaults to 0.01, which is equivalent to 1\%.
  \item	\co{--trendbreak}: Ratio of inter-element spacing constituting
@@ -744,7 +474,7 @@ index 6fde3d1..0210d4f 100644
  	data value differs from the last one by more than 3.0, this
  	constitutes a break in the trend.
 diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-index eed973c..aa354ab 100644
+index eed973c29582..aa354abdff50 100644
 --- a/defer/rcuapi.tex
 +++ b/defer/rcuapi.tex
 @@ -481,7 +481,7 @@ The Linux kernel currently has a surprising number of RCU APIs and
@@ -757,7 +487,7 @@ index eed973c..aa354ab 100644
  However, careful inspection and analysis will be required, just as
  would be required in order to eliminate one of the many locking APIs.
 diff --git a/defer/rcuintro.tex b/defer/rcuintro.tex
-index 0b4a51c..03d6e12 100644
+index 0b4a51ccca85..03d6e120eafe 100644
 --- a/defer/rcuintro.tex
 +++ b/defer/rcuintro.tex
 @@ -160,7 +160,7 @@ Figure~\ref{fig:defer:Waiting for Pre-Existing Readers},
@@ -770,7 +500,7 @@ index 0b4a51c..03d6e12 100644
  \vspace{5pt}
  \begin{minipage}[t]{\columnwidth}
 diff --git a/defer/toyrcu.tex b/defer/toyrcu.tex
-index c9ba9e9..03d8bc4 100644
+index c9ba9e98d012..3f098c63e026 100644
 --- a/defer/toyrcu.tex
 +++ b/defer/toyrcu.tex
 @@ -1142,7 +1142,7 @@ As with the implementation described in
@@ -782,61 +512,6 @@ index c9ba9e9..03d8bc4 100644
  ranging from about one microsecond up to about 16~microseconds.
  This is nevertheless much cheaper than the roughly 200~microseconds
  incurred by the implementation in
-@@ -1200,18 +1200,18 @@ thread-local accesses to one, as is done in the next section.
-  4     ACCESS_ONCE(rcu_gp_ctr) + 1;
-  5   smp_mb();
-  6 }
-- 7 
-+ 7
-  8 static void rcu_read_unlock(void)
-  9 {
- 10   smp_mb();
- 11   __get_thread_var(rcu_reader_gp) =
- 12     ACCESS_ONCE(rcu_gp_ctr);
- 13 }
--14 
-+14
- 15 void synchronize_rcu(void)
- 16 {
- 17   int t;
--18 
-+18
- 19   smp_mb();
- 20   spin_lock(&rcu_gp_lock);
- 21   ACCESS_ONCE(rcu_gp_ctr) += 2;
-@@ -1386,7 +1386,7 @@ variables.
-  2 {
-  3   long tmp;
-  4   long *rrgp;
-- 5 
-+ 5
-  6   rrgp = &__get_thread_var(rcu_reader_gp);
-  7   tmp = *rrgp;
-  8   if ((tmp & RCU_GP_CTR_NEST_MASK) == 0)
-@@ -1395,19 +1395,19 @@ variables.
- 11   *rrgp = tmp;
- 12   smp_mb();
- 13 }
--14 
-+14
- 15 static void rcu_read_unlock(void)
- 16 {
- 17   long tmp;
--18 
-+18
- 19   smp_mb();
- 20   __get_thread_var(rcu_reader_gp)--;
- 21 }
--22 
-+22
- 23 void synchronize_rcu(void)
- 24 {
- 25   int t;
--26 
-+26
- 27   smp_mb();
- 28   spin_lock(&rcu_gp_lock);
- 29   ACCESS_ONCE(rcu_gp_ctr) +=
 @@ -1905,7 +1905,7 @@ not only of RCU itself, but also of the requirements of enclosing
  software environments and applications.
  Those wishing an even deeper understanding are invited to read
@@ -847,7 +522,7 @@ index c9ba9e9..03d8bc4 100644
  The preceding sections listed some desirable properties of the
  various RCU primitives.
 diff --git a/defer/whichtochoose.tex b/defer/whichtochoose.tex
-index c7aaf5d..11cb4e2 100644
+index c7aaf5d72abb..11cb4e2e3f55 100644
 --- a/defer/whichtochoose.tex
 +++ b/defer/whichtochoose.tex
 @@ -93,7 +93,7 @@ traversed.
@@ -860,7 +535,7 @@ index c7aaf5d..11cb4e2 100644
  with the best performance, particularly for read-side critical sections
  that traverse many data elements.
 diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
-index 56b93ef..aa22985 100644
+index 56b93efc99b7..abbd8754fbac 100644
 --- a/formal/dyntickrcu.tex
 +++ b/formal/dyntickrcu.tex
 @@ -365,7 +365,7 @@ The \co{rcu_try_flip_waitack_state()} state invokes
@@ -877,7 +552,7 @@ index 56b93ef..aa22985 100644
  is running, and line~45 tells \co{dyntick_nohz()} that this
  handler has completed.
 -Line~49 is used for liveness verification, much as is the corresponding
-+Line~49 is used for liveness verification, as is the corresponding
++Line~49 is used for liveness verification, just like the corresponding
  line of \co{dyntick_nohz()}.
 
  \QuickQuiz{}
@@ -899,29 +574,6 @@ index 56b93ef..aa22985 100644
 
  \subsubsection{Validating NMI Handlers}
  \label{sec:formal:Validating NMI Handlers}
-@@ -1999,7 +1999,7 @@ the opposite \co{dynticks} polarity.
-  1  void rcu_nmi_enter(void)
-  2  {
-  3    struct rcu_dynticks *rdtp;
-- 4 
-+ 4
-  5    rdtp = &__get_cpu_var(rcu_dynticks);
-  6    if (rdtp->dynticks & 0x1)
-  7      return;
-@@ -2007,11 +2007,11 @@ the opposite \co{dynticks} polarity.
-  9    WARN_ON(!(rdtp->dynticks_nmi & 0x1));
- 10    smp_mb();
- 11  }
--12 
-+12
- 13  void rcu_nmi_exit(void)
- 14  {
- 15    struct rcu_dynticks *rdtp;
--16 
-+16
- 17    rdtp = &__get_cpu_var(rcu_dynticks);
- 18    if (rdtp->dynticks & 0x1)
- 19      return;
 @@ -2026,7 +2026,7 @@ the opposite \co{dynticks} polarity.
  \end{figure}
 
@@ -940,15 +592,6 @@ index 56b93ef..aa22985 100644
 
  \subsubsection{Checking For Dynticks Quiescent States}
  \label{sec:formal:Checking For Dynticks Quiescent States}
-@@ -2115,7 +2115,7 @@ an reschedule IPI if so.
-  4    int ret;
-  5    int snap;
-  6    int snap_nmi;
-- 7 
-+ 7
-  8    snap = rdp->dynticks->dynticks;
-  9    snap_nmi = rdp->dynticks->dynticks_nmi;
- 10    smp_mb();
 @@ -2145,7 +2145,7 @@ Figures~\ref{fig:formal:Entering and Exiting Dynticks-Idle Mode},
  \ref{fig:formal:Interrupts From Dynticks-Idle Mode}.
  Lines~11 and 12 record the snapshots for later calls to
@@ -958,17 +601,8 @@ index 56b93ef..aa22985 100644
  neither irqs nor NMIs in progress (in other words, both snapshots
  have even values), hence in an extended quiescent state.
  If so, lines~15 and 16 count this event, and line~17 returns
-@@ -2161,7 +2161,7 @@ true if the CPU was in a quiescent state.
-  5    long curr_nmi;
-  6    long snap;
-  7    long snap_nmi;
-- 8 
-+ 8
-  9    curr = rdp->dynticks->dynticks;
- 10    snap = rdp->dynticks_snap;
- 11    curr_nmi = rdp->dynticks->dynticks_nmi;
 diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-index f08fda3..f5cbc2a 100644
+index f08fda354725..f5cbc2afe5e9 100644
 --- a/formal/spinhint.tex
 +++ b/formal/spinhint.tex
 @@ -130,7 +130,7 @@ Lines 19-28 actually do the initialization, while lines 29-39
@@ -1017,7 +651,7 @@ index f08fda3..f5cbc2a 100644
  pre-existing readers have completed their QRCU read-side critical
  sections).
 diff --git a/future/future.tex b/future/future.tex
-index e431fa7..65eb681 100644
+index e431fa7318a1..65eb681c40c3 100644
 --- a/future/future.tex
 +++ b/future/future.tex
 @@ -54,7 +54,7 @@ I list but three:
@@ -1030,7 +664,7 @@ index e431fa7..65eb681 100644
  	which inflict added violence upon the functional model.
  \item	Procedural languages can \emph{alias} function arguments,
 diff --git a/future/htm.tex b/future/htm.tex
-index 09b5dee..3de32c7 100644
+index 09b5deef8d58..5512b95912d9 100644
 --- a/future/htm.tex
 +++ b/future/htm.tex
 @@ -95,9 +95,9 @@ HTM's advantage is greatest in cases where a lock data structure is
@@ -1050,7 +684,7 @@ index 09b5dee..3de32c7 100644
  \begin{minipage}[t]{\columnwidth}
  \begin{verbatim}
 -Trasaction A        Transaction B
-+Transaction A        Transaction B
++Transaction A       Transaction B
 
  x = 1;              y = 2;
  y = 3;              x = 4;
@@ -1063,58 +697,6 @@ index 09b5dee..3de32c7 100644
 
  Unfortunately, most currently available HTM implementation refuse to
  make any
-@@ -654,16 +654,16 @@ semantics of locking, but loses locking's time-based messaging semantics.
- 	\scriptsize
- \begin{verbatim}
-   1   int my_status = -1;  /* Thread local. */
--  2 
-+  2
-   3   while (continue_working()) {
-   4     enqueue_any_new_work();
-   5     wp = dequeue_work();
-   6     do_work(wp);
-   7     my_timestamp = clock_gettime(...);
-   8   }
--  9 
-+  9
-  10   acquire_lock(&departing_thread_lock);
-- 11 
-+ 11
-  12   /*
-  13    * Disentangle from application, might
-  14    * acquire other locks, can take much longer
-@@ -672,7 +672,7 @@ semantics of locking, but loses locking's time-based messaging semantics.
-  17    */
-  18   my_status = get_return_status();
-  19   release_lock(&departing_thread_lock);
-- 20 
-+ 20
-  21   /* thread awaits repurposing. */
- \end{verbatim}
- 	\end{minipage}
-@@ -738,7 +738,7 @@ inversion.''
-   1 void boostee(void)
-   2 {
-   3   int i = 0;
--  4 
-+  4
-   5   acquire_lock(&boost_lock[i]);
-   6   for (;;) {
-   7     acquire_lock(&boost_lock[!i]);
-@@ -747,11 +747,11 @@ inversion.''
-  10     do_something();
-  11   }
-  12 }
-- 13 
-+ 13
-  14 void booster(void)
-  15 {
-  16   int i = 0;
-- 17 
-+ 17
-  18   for (;;) {
-  19     usleep(1000); /* sleep 1 ms. */
-  20     acquire_lock(&boost_lock[i]);
 @@ -886,7 +886,7 @@ Table~\ref{tab:future:Comparison of Locking and HTM}
  results in the updated comparison between augmented locking and HTM
  shown in
@@ -1152,7 +734,7 @@ index 09b5dee..3de32c7 100644
  So why don't current HTM implementations provide forward-progress
  guarantees for small transactions, for example, limited to the
 diff --git a/future/tm.tex b/future/tm.tex
-index 3e42e74..f3142f3 100644
+index 3e42e740c2cb..f3142f382635 100644
 --- a/future/tm.tex
 +++ b/future/tm.tex
 @@ -196,7 +196,7 @@ Here are some options available to TM:
@@ -1254,46 +836,9 @@ index 3e42e74..f3142f3 100644
 
  It seems likely that additional approaches will be uncovered, especially
 diff --git a/locking/locking.tex b/locking/locking.tex
-index 9feeaf0..8f22308 100644
+index 9feeaf077a7d..993e27fda126 100644
 --- a/locking/locking.tex
 +++ b/locking/locking.tex
-@@ -365,18 +365,18 @@ the third containing lock~D.
-   2   spinlock_t s;
-   3   struct list_head h;
-   4 };
--  5 
-+  5
-   6 struct list_head *list_start(struct locked_list *lp)
-   7 {
-   8   spin_lock(&lp->s);
-   9   return list_next(lp, &lp->h);
-  10 }
-- 11 
-+ 11
-  12 struct list_head *list_next(struct locked_list *lp,
-  13                             struct list_head *np)
-  14 {
-  15   struct list_head *ret;
-- 16 
-+ 16
-  17   ret = np->next;
-  18   if (ret == &lp->h) {
-  19     spin_unlock(&lp->s);
-@@ -413,12 +413,12 @@ been reached.
-   2   struct list_head n;
-   3   int a;
-   4 };
--  5 
-+  5
-   6 void list_print(struct locked_list *lp)
-   7 {
-   8   struct list_head *np;
-   9   struct list_ints *ip;
-- 10 
-+ 10
-  11   np = list_start(lp);
-  12   while (np != NULL) {
-  13     ip = list_entry(np, struct list_ints, n);
 @@ -653,7 +653,7 @@ Once all needed locks have been acquired, the transaction enters the
  second phase, where locks are released, but not acquired.
  This locking approach allows databases to provide serializability
@@ -1303,24 +848,6 @@ index 9feeaf0..8f22308 100644
  with some global ordering of all the transactions.
  Many such systems rely on the ability to abort transactions, although
  this can be simplified by avoiding making any changes to shared data
-@@ -844,7 +844,7 @@ quite useful in many settings.
-  11   spin_unlock(&lock2);
-  12   spin_unlock(&lock1);
-  13 }
-- 14 
-+ 14
-  15 void thread2(void)
-  16 {
-  17 retry:
-@@ -939,7 +939,7 @@ a group of threads starve, rather than just one of them.\footnote{
-  14   spin_unlock(&lock2);
-  15   spin_unlock(&lock1);
-  16 }
-- 17 
-+ 17
-  18 void thread2(void)
-  19 {
-  20   unsigned int wait = 1;
 @@ -982,7 +982,7 @@ Figure~\ref{fig:locking:Conditional Locking and Exponential Backoff}.
  		required to execute the critical section, which will
  		normally be in the microsecond or millisecond range.
@@ -1339,33 +866,6 @@ index 9feeaf0..8f22308 100644
  function.
  RAII locking instead requires that the lock acquisition and release take
  place in the same level of scoping, making such encapsulation difficult or
-@@ -1506,7 +1506,7 @@ the root \co{rcu_node} structure's \co{->fqslock} as been acquired.
-   3   int ret;
-   4   struct rcu_node *rnp = rnp_leaf;
-   5   struct rcu_node *rnp_old = NULL;
--  6 
-+  6
-   7   for (; rnp != NULL; rnp = rnp->parent) {
-   8     ret = (ACCESS_ONCE(gp_flags)) ||
-   9           !raw_spin_trylock(&rnp->fqslock);
-@@ -1615,7 +1615,7 @@ environments.
- \begin{verbatim}
-   1 typedef int xchglock_t;
-   2 #define DEFINE_XCHG_LOCK(n) xchglock_t n = 0
--  3 
-+  3
-   4 void xchg_lock(xchglock_t *xp)
-   5 {
-   6   while (xchg(xp, 1) == 1) {
-@@ -1623,7 +1623,7 @@ environments.
-   8       continue;
-   9   }
-  10 }
-- 11 
-+ 11
-  12 void xchg_unlock(xchglock_t *xp)
-  13 {
-  14   (void)xchg(xp, 0);
 @@ -1949,7 +1949,7 @@ synchronization design on locking, such software also almost always
  makes use of other synchronization mechanisms, including
  special counting algorithms (Chapter~\ref{chp:Counting}),
@@ -1393,8 +893,84 @@ index 9feeaf0..8f22308 100644
  API that is severely flawed from a parallel-programming viewpoint.
  Candidate flaws include:
 
+diff --git a/qqz.tex b/qqz.tex
+index d09e484cbafe..c30a4e216140 100644
+--- a/qqz.tex
++++ b/qqz.tex
+@@ -3134,7 +3134,7 @@ ret = ~ret & tmp;
+ 		required to execute the critical section, which will
+ 		normally be in the microsecond or millisecond range.
+ 	\item	The code does not check for overflow.
+-		On the other hand, this bug is nullified 
++		On the other hand, this bug is nullified
+ 		by the previous bug: 32 bits worth of seconds is
+ 		more than 50 years.
+ 	\end{enumerate}
+@@ -5377,7 +5377,7 @@ srcu_read_unlock(&srcucb, idx);
+ 	The code in
+ 	Figures~\ref{fig:datastruct:Resizable Hash-Table Bucket Selection}
+ 	and~\ref{fig:datastruct:Resizable Hash-Table Update-Side Concurrency Control}
+-	compute the hash and execute the bucket-selection logic twice for
++	computes the hash and executes the bucket-selection logic twice for
+ 	updates!
+ 	Why this blatant inefficiency?
+ \QuickA{}
+@@ -5390,7 +5390,7 @@ srcu_read_unlock(&srcucb, idx);
+ \QuickQ{}
+ 	Suppose that one thread is inserting an element into the
+ 	new hash table during a resize operation.
+-	What prevents this insertion to be lost due to a subsequent
++	What prevents this insertion from being lost due to a subsequent
+ 	resize operation completing before the insertion does?
+ \QuickA{}
+ 	The second resize operation will not be able to move beyond
+@@ -5402,7 +5402,7 @@ srcu_read_unlock(&srcucb, idx);
+ 	RCU read-side critical section.
+ 	As we will see when we examine the \co{hashtab_resize()}
+ 	function, this means that the first resize operation will
+-	use 
++	use
+ 	\co{synchronize_rcu()} to wait for the insertion's read-side
+ 	critical section to complete.
+
+@@ -5846,7 +5846,7 @@ srcu_read_unlock(&srcucb, idx);
+ \QuickQ{}
+ 	That is ridiculous!!!
+ 	After all, isn't getting the correct answer later than one would like
+-	\emph{has} better than getting an incorrect answer???
++	better than getting an incorrect answer???
+ \QuickA{}
+ 	This question fails to consider the option of choosing not to
+ 	compute the answer at all, and in doing so, also fails to consider
+@@ -6685,7 +6685,7 @@ srcu_read_unlock(&srcucb, idx);
+ 	If the CPU is not required to see all of its loads and
+ 	stores in order, then the {\tt b=1+a} might well see an
+ 	old version of the variable ``a''.
+-	
++
+ 	This is why it is so very important that each CPU or thread
+ 	see all of its own loads and stores in program order.
+
+@@ -6703,7 +6703,7 @@ srcu_read_unlock(&srcucb, idx);
+ 	that they were first, they would all see {\tt p==NULL}, and
+ 	they would all allocate memory.
+ 	All but one of those allocations would be leaked.
+-	
++
+ 	This is why it is so very important that all the critical sections
+ 	for a given exclusive lock appear to execute in some well-defined
+ 	order.
+@@ -6720,7 +6720,7 @@ srcu_read_unlock(&srcucb, idx);
+ 	to see the most recent store to this variable, it might well see
+ 	the original value of zero, and therefore set the counter to
+ 	one, which would be going backwards.
+-	
++
+ 	This is why it is so very important that loads from a given variable
+ 	in a given critical
+ 	section see the last store from the last prior critical section to
 diff --git a/rt/rt.tex b/rt/rt.tex
-index 538a34a..f2f7cf8 100644
+index 538a34af8d2f..daf943c30151 100644
 --- a/rt/rt.tex
 +++ b/rt/rt.tex
 @@ -37,7 +37,7 @@ said to be a soft real-time application:
@@ -1535,20 +1111,6 @@ index 538a34a..f2f7cf8 100644
  	at a time, where $N$ is a number specified somehow by the
  	developer.
  	There is a good chance that the Linux kernel's -rt patchset
-@@ -1154,11 +1154,11 @@ excessive real-time latencies.
-  3   current->rcu_read_lock_nesting++;
-  4   barrier();
-  5 }
-- 6 
-+ 6
-  7 void __rcu_read_unlock(void)
-  8 {
-  9   struct task_struct *t = current;
--10 
-+10
- 11   if (t->rcu_read_lock_nesting != 1) {
- 12     --t->rcu_read_lock_nesting;
- 13   } else {
 @@ -1255,8 +1255,8 @@ boosting of large numbers of readers.
  \paragraph{Preemptible spinlocks}
  are an important part of the -rt patchset due to the long-duration
@@ -1579,72 +1141,9 @@ index 538a34a..f2f7cf8 100644
  need for delta process accounting and the need to inform kernel subsystems
  (such as RCU) of the transitions.
 diff --git a/together/applyrcu.tex b/together/applyrcu.tex
-index 55062e3..81d2cab 100644
+index 55062e3efe0e..94e4d13efa6a 100644
 --- a/together/applyrcu.tex
 +++ b/together/applyrcu.tex
-@@ -115,22 +115,22 @@ held constant, ensuring that \co{read_count()} sees consistent data.
-   2   unsigned long total;
-   3   unsigned long *counterp[NR_THREADS];
-   4 };
--  5 
-+  5
-   6 long __thread counter = 0;
-   7 struct countarray *countarrayp = NULL;
-   8 DEFINE_SPINLOCK(final_mutex);
--  9 
-+  9
-  10 void inc_count(void)
-  11 {
-  12   counter++;
-  13 }
-- 14 
-+ 14
-  15 long read_count(void)
-  16 {
-  17   struct countarray *cap;
-  18   unsigned long sum;
-  19   int t;
-- 20 
-+ 20
-  21   rcu_read_lock();
-  22   cap = rcu_dereference(countarrayp);
-  23   sum = cap->total;
-@@ -140,7 +140,7 @@ held constant, ensuring that \co{read_count()} sees consistent data.
-  27   rcu_read_unlock();
-  28   return sum;
-  29 }
-- 30 
-+ 30
-  31 void count_init(void)
-  32 {
-  33   countarrayp = malloc(sizeof(*countarrayp));
-@@ -150,22 +150,22 @@ held constant, ensuring that \co{read_count()} sees consistent data.
-  37   }
-  38   memset(countarrayp, '\0', sizeof(*countarrayp));
-  39 }
-- 40 
-+ 40
-  41 void count_register_thread(void)
-  42 {
-  43   int idx = smp_thread_id();
-- 44 
-+ 44
-  45   spin_lock(&final_mutex);
-  46   countarrayp->counterp[idx] = &counter;
-  47   spin_unlock(&final_mutex);
-  48 }
-- 49 
-+ 49
-  50 void count_unregister_thread(int nthreadsexpected)
-  51 {
-  52   struct countarray *cap;
-  53   struct countarray *capold;
-  54   int idx = smp_thread_id();
-- 55 
-+ 55
-  56   cap = malloc(sizeof(*countarrayp));
-  57   if (cap == NULL) {
-  58     fprintf(stderr, "Out of memory\n");
 @@ -330,7 +330,7 @@ lock.
  This section shows how RCU may be used to avoid this overhead.
 
@@ -1654,35 +1153,8 @@ index 55062e3..81d2cab 100644
  lock read-side critical section in the original:
 
  \vspace{5pt}
-@@ -432,7 +432,7 @@ use of explicit memory barriers.
-  2   int length;
-  3   char a[0];
-  4 };
-- 5 
-+ 5
-  6 struct foo {
-  7   struct foo_a *fa;
-  8 };
-@@ -521,7 +521,7 @@ This copying might incur unacceptably large overhead.
-  3   double meas_2;
-  4   double meas_3;
-  5 };
-- 6 
-+ 6
-  7 struct animal {
-  8   char name[40];
-  9   double age;
-@@ -559,7 +559,7 @@ can be freed.
-  3   double meas_2;
-  4   double meas_3;
-  5 };
-- 6 
-+ 6
-  7 struct animal {
-  8   char name[40];
-  9   double age;
 diff --git a/together/count.tex b/together/count.tex
-index 009239c..892133d 100644
+index 009239c242a5..892133d019b0 100644
 --- a/together/count.tex
 +++ b/together/count.tex
 @@ -8,7 +8,7 @@ This section outlines possible solutions to some counter conundrums.
@@ -1704,7 +1176,7 @@ index 009239c..892133d 100644
  How can this counting best be done?
 
 diff --git a/together/hash.tex b/together/hash.tex
-index 9c7f1b7..60acdb1 100644
+index 9c7f1b7caeda..60acdb10d6b4 100644
 --- a/together/hash.tex
 +++ b/together/hash.tex
 @@ -14,7 +14,7 @@ This situation is analogous to that in
@@ -1743,6 +1215,4 @@ index 9c7f1b7..60acdb1 100644
  	Why would such a quantity be useful?
  	Beats me!
  	But group statistics in general are often useful.}
--- 
-1.9.3 (Apple Git-50)
 
