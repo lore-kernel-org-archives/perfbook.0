@@ -1,104 +1,49 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e39.co.us.ibm.com ([32.97.110.160]:50853 "EHLO
- e39.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1751104AbbIQSev (ORCPT	<rfc822;perfbook@vger.kernel.org>); Thu, 17 Sep 2015
- 14:34:51 -0400
-Received: from /spool/local	by e39.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Thu, 17 Sep
- 2015 12:34:51 -0600
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])	by d03dlp02.boulder.ibm.com
- (Postfix) with ESMTP id 383FC3E4003E	for <perfbook@vger.kernel.org>; Thu, 17
- Sep 2015 12:34:49 -0600 (MDT)
-Received: from d03av04.boulder.ibm.com (d03av04.boulder.ibm.com
- [9.17.195.170])	by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0)
- with ESMTP id t8HIXf3o55902290	for <perfbook@vger.kernel.org>; Thu, 17 Sep
- 2015 11:33:41 -0700
-Received: from d03av04.boulder.ibm.com (loopback [127.0.0.1])	by
- d03av04.boulder.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- t8HIYmP5008836	for <perfbook@vger.kernel.org>; Thu, 17 Sep 2015 12:34:48
- -0600
-Date: Thu, 17 Sep 2015 11:34:47 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 2/2] qqz: cross-link questions and answers
-Message-ID: <20150917183447.GH4029@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <1442482376-16981-1-git-send-email-pbonzini@redhat.com>
- <1442482376-16981-3-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1442482376-16981-3-git-send-email-pbonzini@redhat.com>
+Received: from mail-wi0-f169.google.com ([209.85.212.169]:33347 "EHLO
+ mail-wi0-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with
+ ESMTP id S1755519AbbI0MCM (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sun, 27
+ Sep 2015 08:02:12 -0400
+Received: by wiclk2 with SMTP id lk2so71667126wic.0 for
+ <perfbook@vger.kernel.org>; Sun, 27 Sep 2015 05:02:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;        h=sender:from:to:subject:date:message-id;
+ bh=ldOwK86XksEKywqKvHZJYKA3yi+lgBN5H++mdoUaI+o=;
+ b=wakkrC8cmRtjV2sJBu/QJaTRP90T9VguOARB6DdgvAK4tp5oMtTLLsbtrVEGjsxmRX
+ 6jbp0vc4Hrbev4k6uOwAy9Wo3qGCAhvuPiqxq4szlEPZl/cVwCW865Z4MxHjol+0sS1k
+ /uCOcSJgEyRoNrIviu+gySC//r+OAXWDOI1zmXSwEPj/z8PHEAg4KROjjmIrXbpYVKb1
+ 8W3eFR7ixRbE0nFjixJOn3SyOPKQY2bZ2wG9m7Lom3Bkyx84guIPPb/ZKJAYf8Zot8/z
+ s9w31wkjLMZTrpEntNWfpoGVZ0Xelkm7T2YBek3lJQUoBeFKOx3v4flvmggSALvHLJdL
+ G0GA==
+Received: from donizetti.lan. ([94.39.140.123]) by smtp.gmail.com with ESMTPSA
+ id wn10sm12793815wjc.46.2015.09.27.05.02.08 for <perfbook@vger.kernel.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Sun, 27 Sep
+ 2015 05:02:09 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] fix typo in quick quiz 4.17
+Date: Sun, 27 Sep 2015 14:02:02 +0200
+Message-Id: <1443355322-11907-1-git-send-email-pbonzini@redhat.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: perfbook@vger.kernel.org
+To: perfbook@vger.kernel.org
 
-On Thu, Sep 17, 2015 at 11:32:56AM +0200, Paolo Bonzini wrote:
-> This is useful even if you _are_ actually solving the quick quizzes.
-> Some ebook readers in particular support hyperlinks but have very
-> limited support for PDF search and back/forward.
-> 
-> The implementation is easy; it works by adding QQ.chapter.quiz labels
-> at the question and QQA.chapter.quiz at the answer.  The only
-> interesting point is using \edef and \getrefnumber to extract the
-> chapter number for answers, in a way that can be passed to
-> \hyperref.  An alternative would be to just use consecutive numbering
-> for the QQ and QQA labels, but I find this a little more elegant.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ toolsoftrade/toolsoftrade.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Very nice, people have been asking for this for some time.
-On their behalf, thank you very much!!!  Queued and pushed.
-
-							Thanx, Paul
-
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  qqz.sty | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/qqz.sty b/qqz.sty
-> index ca70c56..7270468 100644
-> --- a/qqz.sty
-> +++ b/qqz.sty
-> @@ -18,13 +18,15 @@
->  \newcounter{quickquizctr}
->  \newcommand{\QuickQuizAnswerChapter}{\textbf{Unknown QuickQAC!!!}}
-> 
-> +\newcommand{\QuickQHeading}[3]{\label{#1.#3}\hyperref[#2.#3]{\textbf{Quick Quiz #3:}}}
-> +
->  \newcommand{\QuickQuizChapter}[2]{
->  	\chapter{#2}
->  	\label{#1}
->  	\setcounter{quickquizctr}{0}}
->  \newcommand{\QuickQuiz}[1]{
->  	\stepcounter{quickquizctr}
-> -	\textbf{Quick Quiz \thechapter.\thequickquizctr:}}
-> +	\QuickQHeading{QQ}{QQA}{\thechapter.\thequickquizctr}}
->  \newcommand{\QuickQuizAnswer}[1]{\rule{7pt}{7pt}}
->  \newcommand{\QuickQuizEnd}{}
-> 
-> @@ -43,12 +45,12 @@
->  %% Internal interfaces generated by scripts.
-> 
->  \newcommand{\QuickQAC}[2]{
-> -	\renewcommand{\QuickQuizAnswerChapter}{\ref{#1}}
-> +	\edef\QuickQuizAnswerChapter{\getrefnumber{#1}}
->  	\setcounter{quickquizctr}{0}
->  	\section{#2}}
-> 
->  \newcommand{\QuickQ}[1]{
->  	\stepcounter{quickquizctr} ~ \\ ~ \\
-> -	\textbf{Quick Quiz \QuickQuizAnswerChapter.\thequickquizctr:} #1 ~ \\ }
-> +	\QuickQHeading{QQA}{QQ}{\QuickQuizAnswerChapter.\thequickquizctr} #1 ~ \\ }
-> 
->  \newcommand{\QuickA}[1]{\rule{7pt}{7pt} \\ ~ \\ \textbf{Answer:} \\ }
-> -- 
-> 2.5.0
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe perfbook" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 4e85a9c..ccbe0ad 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -964,7 +964,7 @@ rights to assume that the value of \co{goflag} would never change.
+ \QuickQuizAnswer{
+ 	It depends.
+ 	If the per-thread variable was accessed only from its thread,
+-	and never from a single handler, then no.
++	and never from a signal handler, then no.
+ 	Otherwise, it is quite possible that \co{ACCESS_ONCE()} is needed.
+ 	We will see examples of both situations in
+ 	Section~\ref{sec:count:Signal-Theft Limit Counter Implementation}.
+-- 
+2.5.0
 
