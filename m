@@ -1,60 +1,57 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e35.co.us.ibm.com ([32.97.110.153]:34407 "EHLO
- e35.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1752201AbbJNAxP (ORCPT	<rfc822;perfbook@vger.kernel.org>); Tue, 13 Oct 2015
- 20:53:15 -0400
-Received: from localhost	by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Tue, 13 Oct
- 2015 18:53:15 -0600
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])	by d03dlp02.boulder.ibm.com
- (Postfix) with ESMTP id 1DC543E4003E	for <perfbook@vger.kernel.org>; Tue, 13
- Oct 2015 18:53:13 -0600 (MDT)
-Received: from d03av05.boulder.ibm.com (d03av05.boulder.ibm.com [9.17.195.85])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- t9E0nw1e10093008	for <perfbook@vger.kernel.org>; Tue, 13 Oct 2015 17:49:58
- -0700
-Received: from d03av05.boulder.ibm.com (localhost [127.0.0.1])	by
- d03av05.boulder.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- t9E0rCdp030041	for <perfbook@vger.kernel.org>; Tue, 13 Oct 2015 18:53:12
- -0600
-Date: Tue, 13 Oct 2015 17:53:20 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: Trouble building perfbook
-Message-ID: <20151014005320.GS3910@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <561C9C0E.4090703@au1.ibm.com>
- <20151013133125.GM3910@linux.vnet.ibm.com> <561DA182.8000002@au1.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <561DA182.8000002@au1.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Return-Path: <sj38.park@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;        h=from:to:cc:subject:date:message-id;
+ bh=KzU5tNbML0gRX1RjCPB5xNoiFR9+E8HNq4vrSXRBjRY=;
+ b=rCdNK6FIxksLE+Fo3Btw1cWCIPZ3i8P8bvLG9PD8cPreV53rFEljGtmmWWp1RRDLhY
+ ylJGkoTc3DkXpAmKxJ0SYaOeFL0WJaC3K5rRAxJK7CQn1iFjtPnrT4bhaUddOoqcFo7O
+ IKA0q7Yb+o+nNz9Ycq9kEJDHi9NBMY6uBc2iPhPtYW3ptZaZmLz74Vb3EqPUMfmxwk0C
+ tTFxc82ATkpzBhinJHn6f91K2+BO/CwmVq2yJDA3hZE4K2xyLr3GdAa8FA3N4xqH56L0
+ C6MTbyHI9Iop082wwTKO4SCSxQObKjzOJofhd6UdtBzQfK5dHksJeHvqkAhq4Sm5a3j9
+ rloA==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH] remove wraiths of 2up from FAQ and .gitignore
+Date: Fri, 30 Oct 2015 18:37:16 +0900
+Message-Id: <1446197836-25128-1-git-send-email-sj38.park@gmail.com>
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Andrew Donnellan <andrew.donnellan@au1.ibm.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Oct 14, 2015 at 11:27:46AM +1100, Andrew Donnellan wrote:
-> On 14/10/15 00:31, Paul E. McKenney wrote:
-> >This looks like the same LaTeX bug that Borislav Petkov ran into
-> >some time back.  He came up with the workaround below, does this
-> >work for you?
-> 
-> Appears to work - thanks!
+Output have unified to perfbook.pdf from the commit
+0835aa627d2accb1f39c5584ddb693cf31c57db2 (Remove 2up from Makefile).
+However, the wraiths of 2up still exist. This commit removes them from
+FAQ and gitignore.
 
-Very good!
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ .gitignore | 1 -
+ FAQ.txt    | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-> >Just out of curiosity, what distro are you using?  I haven't run into
-> >this myself on either Ubuntu 12.04 or 14.04.
-> 
-> Debian 8.2 without backports. As it turns out that shipped with
-> TeXLive 2014.20141024. It appears the Debian bug you linked was
-> fixed in 2015.20150625, which my home machine running Debian testing
-> would have picked up by now, but I generally prefer more stable
-> things for my IBM machine...
+diff --git a/.gitignore b/.gitignore
+index 7c9c46f..5df1646 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -34,7 +34,6 @@ RCS
+ /Pieces
+ /.Detritus
+ /perfbook.ps
+-/perfbook-2up.ps
+ perfbook_html/
 
-Well, at least a fix is in the works.  ;-)
+ !/todo.txt
+diff --git a/FAQ.txt b/FAQ.txt
+index 631e18c..a698d3d 100644
+--- a/FAQ.txt
++++ b/FAQ.txt
+@@ -1,7 +1,7 @@
+ 1.	OK, I have downloaded this stuff.  What do I do now?
 
-							Thanx, Paul
+ 	A.	Type "make" from the top-level directory.  If all goes
+-		well, this will produce a file named "perfbook-2up.pdf",
++		well, this will produce a file named "perfbook.pdf",
+ 		which prints two virtual pages per physical page.
+
+ 2.	The Makefile cannot find pdflatex.  What is it and where can I
+-- 
+1.9.1
 
