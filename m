@@ -1,66 +1,59 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e38.co.us.ibm.com ([32.97.110.159]:44742 "EHLO
- e38.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1752181AbcAGU4A (ORCPT	<rfc822;perfbook@vger.kernel.org>); Thu, 7 Jan 2016
- 15:56:00 -0500
-Received: from localhost	by e38.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Thu, 7 Jan 2016
- 13:56:00 -0700
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])	by d03dlp03.boulder.ibm.com
- (Postfix) with ESMTP id 4F10A19D8026	for <perfbook@vger.kernel.org>; Thu, 7
- Jan 2016 13:44:00 -0700 (MST)
-Received: from d03av05.boulder.ibm.com (d03av05.boulder.ibm.com [9.17.195.85])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u07KtvBh25952266	for <perfbook@vger.kernel.org>; Thu, 7 Jan 2016 13:55:57
- -0700
-Received: from d03av05.boulder.ibm.com (localhost [127.0.0.1])	by
- d03av05.boulder.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u07KtuXP028806	for <perfbook@vger.kernel.org>; Thu, 7 Jan 2016 13:55:57 -0700
-Date: Thu, 7 Jan 2016 12:56:07 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] FAQ: remove duplicated prerequisite packages
-Message-ID: <20160107205607.GV3818@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <1452185957-16022-1-git-send-email-sj38.park@gmail.com>
+Return-Path: <sj38.park@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc:content-type;        bh=WwR84mSiT2ZHe5bn6lJedxZOzY26Rgfyc72jd4oQBnQ=;
+ b=gD5f09DxANkAU86uovDQnVT0lAqohnyraybCDywHDi8eG2GFp1Yu105U2zOxFil92b
+ rmVIt+QOM8RdOnH0GkuFO0XNGwicGvxdhGNxAWkqO7ANM4USz5JkbEZLJzpsbwWFPBX7
+ zGeVWdskxgu4UMvXjZ9asoFzHCWAuMSzwKDz4NQ02xfXwZKv9o+f2nMCABs1rjjBiVN0
+ jA3QHVK+6fkT9QCdELbE3gzCz09UrmwO4OvcYNZMiXwQVQRtLHuVVl0CrWQky/m37xj3
+ n8czkRrGav7dOqCWzxuDcr8OHWZkd2bLmsALzB5fPqjX6TygicluTDEhvBwyuL0gvmLD
+ YMng==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1452185957-16022-1-git-send-email-sj38.park@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
+In-Reply-To: 
+ <CAEjAshoeN2zOd=OEH_DBwdXG7uBDQkfWaeQr+8mTyoObF_onqg@mail.gmail.com>
+References: 
+ <CAEjAshoeN2zOd=OEH_DBwdXG7uBDQkfWaeQr+8mTyoObF_onqg@mail.gmail.com>
+From: SeongJae Park <sj38.park@gmail.com>
+Date: Mon, 18 Jan 2016 10:21:27 +0900
+Message-ID: 
+ <CAEjAshqMr-jMKx92UTAt2JdZd_F0Swmrwedquy4f+hRKX95hww@mail.gmail.com>
+Subject: Re: I am translating the book in Korean
+Content-Type: text/plain; charset=UTF-8
+To: Paul McKenney <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Fri, Jan 08, 2016 at 01:59:17AM +0900, SeongJae Park wrote:
-> Prerequisites for fedora has duplicated entry. This commit removes the
-> duplicates.
-> 
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+Hi Paul,
 
-Good catch, applied!
 
-							Thanx, Paul
+I am waiting for your reply yet. Is there anything wrong?
 
-> ---
->  FAQ.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/FAQ.txt b/FAQ.txt
-> index a698d3d..9af9cc0 100644
-> --- a/FAQ.txt
-> +++ b/FAQ.txt
-> @@ -30,7 +30,7 @@
-> 
->  			texlive-latex texlive-collection-latexextra
->  			psutils texlive-math* texlive-bibtex latex2html
-> -			xfig latex2html xfig (and maybe also gnuplot-latex
-> +			xfig (and maybe also gnuplot-latex
->  			texlive-publishers-doc texlive-fonts-extra
->  			texlive-science).
-> 
-> -- 
-> 2.5.0
-> 
+
+Thanks,
+SeongJae Park.
+
+On Fri, Jan 8, 2016 at 5:36 PM, SeongJae Park <sj38.park@gmail.com> wrote:
+> Hi Paul,
+>
+>
+> I got impressed from the perfbook since I read it;
+> And, few months ago, I found that few translation works are going on now.
+> Because there is no translation in Korean, I decided to translate the book
+> in Korean for personal fun recently. The translation progress is going on slowly
+> but consistently. And, I have finished translating the chapter 1 now.
+>
+> So, as you noticed in the FAQ.txt, I am sending my PDF at this mail.
+> If there is any problem, please let me know. If not, I hope the
+> information about
+> my work can be listed on the FAQ.txt because It would be helpful to
+> avoid conflict with
+> other Korean translation work that would happen in future.
+>
+> The PDF file is attached at this mail. The source is available at github:
+> https://github.com/sjp38/perfbook-ko_KR
+>
+>
+> Thanks,
+> SeongJae Park.
 
