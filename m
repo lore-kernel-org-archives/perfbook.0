@@ -1,61 +1,42 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mailgw.movielink.com.au ([175.103.28.14]:49006 "EHLO
- mailgw.movielink.com.au" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with
- ESMTP id S1751196AbcAZFxQ (ORCPT	<rfc822;perfbook@vger.kernel.org>); Tue, 26
- Jan 2016 00:53:16 -0500
-Date: Mon, 25 Jan 2016 16:58:00 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] intro: trivial: remove an unnecessary dot
-Message-ID: <20160126005800.GG4503@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <1453709567-9156-1-git-send-email-sj38.park@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1453709567-9156-1-git-send-email-sj38.park@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Return-Path: <sj38.park@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;        h=from:to:cc:subject:date:message-id;
+ bh=imMDSuCQZQUnC2oGCpTSLtLaXDVfI3WKPi2R2Ge0XbU=;
+ b=AXF3U+9t9m0SXab22JVFIOlHyyrMP/hCSb4860I0a5bQzVOSCGvmW1BLU1W8PfzLnv
+ 7EbtaXo1x4oH/3cP8d9RfezPo67RrK4uJzTo8A32ubovOTAcLeWCZp+SS0hsUec4C9Eq
+ MKCQoTb37sNbWFR4TxisIrDMSgUjKQ2WcKxfEjPyDr1AfmbTLYc4id9aBWwc9+s83XG8
+ 07LCV99I/bMUBANZLIdmu6EIR7vChSP825mdEtqS/3Y1OsXw1cfC2kCjn+JZZaNSe/I6
+ nsoQ4JNG/LcF4DoLF7uj/DjaNaU64EQ91cJihv04mUgO7i8V9xgyodJQc3XsNr4CgX78
+ Uq8g==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH 1/2] toolsoftrade: fix a typo
+Date: Sun, 14 Feb 2016 08:28:36 +0900
+Message-Id: <1455406117-6924-1-git-send-email-sj38.park@gmail.com>
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Jan 25, 2016 at 05:12:47PM +0900, SeongJae Park wrote:
-> There is an unnecessary dot that seemed to be inserted by trivial
-> mistake. This commit just removes the dot.
-> 
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+There is a miss of a tilde between line and line number. This change fix
+the typo.
 
-Good catch, applied!
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ toolsoftrade/toolsoftrade.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-							Thanx, Paul
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index ccbe0ad..8d54d3a 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -207,7 +207,7 @@ Otherwise, this is the parent, which checks for an error return from
+ the \co{fork()} primitive on line~4, and prints an error and exits
+ on lines~5-7 if so.
+ Otherwise, the \co{fork()} has executed successfully, and the parent
+-therefore executes line 9 with the variable \co{pid} containing the
++therefore executes line~9 with the variable \co{pid} containing the
+ process ID of the child.
 
-> ---
->  intro/intro.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/intro/intro.tex b/intro/intro.tex
-> index fc5a51e..0a8ecb7 100644
-> --- a/intro/intro.tex
-> +++ b/intro/intro.tex
-> @@ -332,7 +332,7 @@ This change in focus is due to the fact that, although Moore's Law
->  continues to deliver increases in transistor density, it has ceased to
->  provide the traditional single-threaded performance increases.
->  This can be seen in
-> -Figure~\ref{fig:intro:Clock-Frequency Trend for Intel CPUs}.\footnote{	
-> +Figure~\ref{fig:intro:Clock-Frequency Trend for Intel CPUs}\footnote{	
->  	This plot shows clock frequencies for newer CPUs theoretically
->  	capable of retiring one or more instructions per clock, and MIPS
->  	(millions of instructions per second, usually from the old
-> -- 
-> 1.9.1
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe perfbook" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
-
+ \begin{figure}[tbp]
 -- 
-This message has been scanned for viruses and
-dangerous content by MailScanner, and is
-believed to be clean.
+1.9.1
 
