@@ -1,42 +1,81 @@
 Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;        h=from:to:cc:subject:date:message-id;
- bh=imMDSuCQZQUnC2oGCpTSLtLaXDVfI3WKPi2R2Ge0XbU=;
- b=AXF3U+9t9m0SXab22JVFIOlHyyrMP/hCSb4860I0a5bQzVOSCGvmW1BLU1W8PfzLnv
- 7EbtaXo1x4oH/3cP8d9RfezPo67RrK4uJzTo8A32ubovOTAcLeWCZp+SS0hsUec4C9Eq
- MKCQoTb37sNbWFR4TxisIrDMSgUjKQ2WcKxfEjPyDr1AfmbTLYc4id9aBWwc9+s83XG8
- 07LCV99I/bMUBANZLIdmu6EIR7vChSP825mdEtqS/3Y1OsXw1cfC2kCjn+JZZaNSe/I6
- nsoQ4JNG/LcF4DoLF7uj/DjaNaU64EQ91cJihv04mUgO7i8V9xgyodJQc3XsNr4CgX78
- Uq8g==
+ s=20120113;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=+aBytkVl5pkYHJSSoUs3NItrcbMtrJu3wXlufBELqpE=;
+ b=bcdooDnDOqHXX0LAegnoGTdqhI9dKvdHzGoK7JOpyQi+2J9tiSdF5ArU8qwLCEuaTi
+ 70VPFM+cr18yu4p80mWuY5lIifevs4ls4UTphdkrzNkZWWDy2ITfjr4J9CcimwcHSaxl
+ mdx/Pej4PEsEHGn6G8EgRe0f1oHnuuTqHYpfDvC+tSfuLS2nt8jvVW3Y+ycwgil7xXLU
+ IpblQlJ7CaySQ3foZT1YjBznYv821UQBAc2401+pZgV3+Tj/0L6UJtyRetUd4xJi53cz
+ HwyloJvcs81F3krmhSYC1PgPbZG4fe+L4G5p5aDZ89gzBxetw9C7upLeQcDU8d5CTIqZ
+ LPYQ==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 1/2] toolsoftrade: fix a typo
-Date: Sun, 14 Feb 2016 08:28:36 +0900
-Message-Id: <1455406117-6924-1-git-send-email-sj38.park@gmail.com>
+Subject: [PATCH 2/2] cpu: rearrange summary of chapter
+Date: Sun, 14 Feb 2016 08:28:37 +0900
+Message-Id: <1455406117-6924-2-git-send-email-sj38.park@gmail.com>
+In-Reply-To: <1455406117-6924-1-git-send-email-sj38.park@gmail.com>
+References: <1455406117-6924-1-git-send-email-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-There is a miss of a tilde between line and line number. This change fix
-the typo.
+Summary of chapter and introduction about following chapters is in the
+end part of `swdesign.tex` though it is not software design specific
+content.  Moreover, the detailed introduction about following chapters
+is in `cpu.tex`, too.  It would be better to gather them in one `tex`
+file.  This commit gather them in `cpu.tex`.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- toolsoftrade/toolsoftrade.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ cpu/cpu.tex      | 13 +++++++++++++
+ cpu/swdesign.tex | 13 -------------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index ccbe0ad..8d54d3a 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -207,7 +207,7 @@ Otherwise, this is the parent, which checks for an error return from
- the \co{fork()} primitive on line~4, and prints an error and exits
- on lines~5-7 if so.
- Otherwise, the \co{fork()} has executed successfully, and the parent
--therefore executes line 9 with the variable \co{pid} containing the
-+therefore executes line~9 with the variable \co{pid} containing the
- process ID of the child.
+diff --git a/cpu/cpu.tex b/cpu/cpu.tex
+index 6f1ae54..d765e71 100644
+--- a/cpu/cpu.tex
++++ b/cpu/cpu.tex
+@@ -43,6 +43,19 @@ text~\cite{Hennessy95a}.
+ \input{cpu/hwfreelunch}
+ \input{cpu/swdesign}
 
- \begin{figure}[tbp]
++So, to sum up:
++
++\begin{enumerate}
++\item	The good news is that multicore systems are inexpensive and
++	readily available.
++\item	More good news:  The overhead of many synchronization operations
++	is much lower than it was on parallel systems from the early 2000s.
++\item	The bad news is that the overhead of cache misses is still high,
++	especially on large systems.
++\end{enumerate}
++
++The remainder of this book describes ways of handling this bad news.
++
+ In particular,
+ Chapter~\ref{chp:Tools of the Trade} will cover some of the low-level
+ tools used for parallel programming,
+diff --git a/cpu/swdesign.tex b/cpu/swdesign.tex
+index cdae106..4e9e91d 100644
+--- a/cpu/swdesign.tex
++++ b/cpu/swdesign.tex
+@@ -88,16 +88,3 @@ problem into one for which an embarrassingly parallel solution exists.
+ 	techniques to be used on the non-performance-critical bulk of
+ 	the program.
+ } \QuickQuizEnd
+-
+-So, to sum up:
+-
+-\begin{enumerate}
+-\item	The good news is that multicore systems are inexpensive and
+-	readily available.
+-\item	More good news:  The overhead of many synchronization operations
+-	is much lower than it was on parallel systems from the early 2000s.
+-\item	The bad news is that the overhead of cache misses is still high,
+-	especially on large systems.
+-\end{enumerate}
+-
+-The remainder of this book describes ways of handling this bad news.
 -- 
 1.9.1
 
