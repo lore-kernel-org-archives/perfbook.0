@@ -1,39 +1,44 @@
-Return-Path: <sj38.park@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;        h=from:to:cc:subject:date:message-id;
- bh=Ewf74/FtQIs8gP6vW5J4xZWutUGr7fPfwS3WCE8H2Tw=;
- b=dTabxxELJzIAZMkq232XGIdbDPDigXsG1gdn86JNJeKQJBTmJpW84M8+E328q18bgV
- i+tptU0pz7waJyY5YY3zPtGM9KQ8becBAQLHf7robDJogsSBSpdBXplfqUQ3LdMP/9bW
- 66oQ8mZmtR9iU5mhxfvTUYbix3yhQWrEV5nlzBI8w85ih/5QnukkOUBjgUrfWmh0ZPmx
- Zg0bMpFqj78IktQMh5FTcRTKCMlVbFUvNs5ImnJ1Oz4JNlwb+ywLUaWkeHvUWdrhSHCY
- tLSo/D70TZ9TGHYmTT5Fl4HzhgqvYZnihHOIlEqIVoJ78CpIOUW+NaYlihs+AY21lqG/
- Q1Vw==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH] toolsoftrade: add missed closing parenthesis
-Date: Sun, 14 Feb 2016 10:54:06 +0900
-Message-Id: <1455414846-7123-1-git-send-email-sj38.park@gmail.com>
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+Return-Path: <andrew.donnellan@au1.ibm.com>
+From: Andrew Donnellan <andrew.donnellan@au1.ibm.com>
+Subject: [PATCH] FAQ: Add note on installing Steel City Comic font
+Date: Mon, 15 Feb 2016 15:02:09 +1100
+Message-Id: <1455508929-12672-1-git-send-email-andrew.donnellan@au1.ibm.com>
+To: perfbook@vger.kernel.org, paulmck@linux.vnet.ibm.com
 List-ID: <perfbook.vger.kernel.org>
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- toolsoftrade/toolsoftrade.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Signed-off-by: Andrew Donnellan <andrew.donnellan@au1.ibm.com>
 
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index 8d54d3a..bfe3c52 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -394,7 +394,7 @@ Figure~\ref{fig:toolsoftrade:Threads Created Via pthread-create() Share Memory}
- The first argument is a pointer to a \co{pthread_t} in which to store the
- ID of the thread to be created, the second \co{NULL} argument is a pointer
- to an optional \co{pthread_attr_t}, the third argument is the function
--(in this case, \co{mythread()}
-+(in this case, \co{mythread()})
- that is to be invoked by the new thread, and the last \co{NULL} argument
- is the argument that will be passed to \co{mythread}.
+---
+
+I needed to do this to get the comics to render properly - it took me a
+while to figure out. By the looks of it, there's no way to get Inkscape to
+pick up a font from a custom directory. If anyone's found a neater way to
+do this let me know.
+---
+ FAQ.txt | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/FAQ.txt b/FAQ.txt
+index 80fe7f2..57ab6c9 100644
+--- a/FAQ.txt
++++ b/FAQ.txt
+@@ -1,6 +1,13 @@
+ 1.	OK, I have downloaded this stuff.  What do I do now?
+
+-	A.	Type "make" from the top-level directory.  If all goes
++	A.	First, install the Steel City Comic font from
++		fonts/steel-city-comic.regular.ttf. On most modern
++		Linux systems, this can be done easily from your
++		desktop environment, or by copying the file to the
++		~/.fonts directory. You may need to run "fc-cache" to
++		rebuild your font cache.
++		
++		Type "make" from the top-level directory.  If all goes
+ 		well, this will produce a file named "perfbook.pdf",
+ 		which prints two virtual pages per physical page.
 
 -- 
-1.9.1
+Andrew Donnellan              Software Engineer, OzLabs
+andrew.donnellan@au1.ibm.com  Australia Development Lab, Canberra
++61 2 6201 8874 (work)        IBM Australia Limited
 
