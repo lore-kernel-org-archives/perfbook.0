@@ -1,77 +1,62 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e17.ny.us.ibm.com ([129.33.205.207]:48917 "EHLO
- e17.ny.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1751745AbcBOGNy (ORCPT	<rfc822;perfbook@vger.kernel.org>); Mon, 15 Feb 2016
- 01:13:54 -0500
-Received: from localhost	by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Mon, 15 Feb
- 2016 01:13:53 -0500
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24])	by d01dlp03.pok.ibm.com (Postfix) with ESMTP id B152DC9003E
- for <perfbook@vger.kernel.org>; Mon, 15 Feb 2016 01:13:48 -0500 (EST)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u1F6Do6R28508160	for <perfbook@vger.kernel.org>; Mon, 15 Feb 2016 06:13:50
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u1F6DnR5006142	for <perfbook@vger.kernel.org>; Mon, 15 Feb 2016 01:13:50
- -0500
-Date: Sun, 14 Feb 2016 22:13:55 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] FAQ: Add note on installing Steel City Comic font
-Message-ID: <20160215061355.GA6719@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <1455508929-12672-1-git-send-email-andrew.donnellan@au1.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1455508929-12672-1-git-send-email-andrew.donnellan@au1.ibm.com>
+Received: from mail-pf0-f172.google.com ([209.85.192.172]:36613 "EHLO
+ mail-pf0-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with
+ ESMTP id S1948978AbcBTIwd (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sat, 20
+ Feb 2016 03:52:33 -0500
+Received: by mail-pf0-f172.google.com with SMTP id e127so64520060pfe.3 for
+ <perfbook@vger.kernel.org>; Sat, 20 Feb 2016 00:52:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=g8Y7Ssj8SdQunYEJ9JWSMffjLFe3wEcF05slST7IIQk=;
+ b=y00qZzXOR4kRN4fWJrKH46Nm6nBqJME2n9JheacxVt8jHS9RkV+DdjCOsyVmwXVlGf
+ xF1xLOSHbpIdqze5uvlBFQjJ0UOW2WPWZy3HhXSaMD0Nxjz4Aaxgwz99AAU31hFlMziz
+ uGSHCKeFNecYOT6IECOsRWO0oU3UBPZb5reX+OwFeuZmOl4rEZoFsNdWvCoO87pqCXyN
+ rcpWrcpRuPi6EfDT1mVtDiXlwitNHwPLZla/eHeGzmnDKhBxJSgSWyru9oOy8by7sBWv
+ B4zfBbhrNjEvjJtJtc7owKMXYPAbFVZLLH5d61p0RTECu7tXJJBuD3/q11OFkxNIYbCw
+ 1zNg==
+From: Hitoshi Mitake <mitake.hitoshi@gmail.com>
+Subject: [PATCH 2/2] Let a writer thread go back to the original CPU in the
+ toy RCU pseudocode
+Date: Sat, 20 Feb 2016 17:52:02 +0900
+Message-Id: <1455958322-25225-2-git-send-email-mitake.hitoshi@gmail.com>
+In-Reply-To: <1455958322-25225-1-git-send-email-mitake.hitoshi@gmail.com>
+References: <1455958322-25225-1-git-send-email-mitake.hitoshi@gmail.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Andrew Donnellan <andrew.donnellan@au1.ibm.com>
-Cc: perfbook@vger.kernel.org
+To: perfbook@vger.kernel.org
+Cc: mitake.hitoshi@gmail.com
 
-On Mon, Feb 15, 2016 at 03:02:09PM +1100, Andrew Donnellan wrote:
-> Signed-off-by: Andrew Donnellan <andrew.donnellan@au1.ibm.com>
+This commit a little bit improves the logic of a writer thread. The
+new logic lets the writer go back to the original CPU after run_on()
+the final CPU.
 
-Good catch, queued!
+Of course it is a trivial improvement and the original two lines
+pseudocode is beautiful. If it isn't worth to apply, please ignore it.
 
-							Thanx, Paul
+Signed-off-by: Hitoshi Mitake <mitake.hitoshi@gmail.com>
+---
+ defer/rcuintro.tex | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-> ---
-> 
-> I needed to do this to get the comics to render properly - it took me a
-> while to figure out. By the looks of it, there's no way to get Inkscape to
-> pick up a font from a custom directory. If anyone's found a neater way to
-> do this let me know.
-> ---
->  FAQ.txt | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/FAQ.txt b/FAQ.txt
-> index 80fe7f2..57ab6c9 100644
-> --- a/FAQ.txt
-> +++ b/FAQ.txt
-> @@ -1,6 +1,13 @@
->  1.	OK, I have downloaded this stuff.  What do I do now?
-> 
-> -	A.	Type "make" from the top-level directory.  If all goes
-> +	A.	First, install the Steel City Comic font from
-> +		fonts/steel-city-comic.regular.ttf. On most modern
-> +		Linux systems, this can be done easily from your
-> +		desktop environment, or by copying the file to the
-> +		~/.fonts directory. You may need to run "fc-cache" to
-> +		rebuild your font cache.
-> +		
-> +		Type "make" from the top-level directory.  If all goes
->  		well, this will produce a file named "perfbook.pdf",
->  		which prints two virtual pages per physical page.
-> 
-> -- 
-> Andrew Donnellan              Software Engineer, OzLabs
-> andrew.donnellan@au1.ibm.com  Australia Development Lab, Canberra
-> +61 2 6201 8874 (work)        IBM Australia Limited
-> 
+diff --git a/defer/rcuintro.tex b/defer/rcuintro.tex
+index 03d6e12..135922c 100644
+--- a/defer/rcuintro.tex
++++ b/defer/rcuintro.tex
+@@ -166,8 +166,11 @@ quite complex, a toy implementation is exceedingly simple:
+ \begin{minipage}[t]{\columnwidth}
+ \scriptsize
+ \begin{verbatim}
+-  1 for_each_online_cpu(cpu)
+-  2   run_on(cpu);
++  1 int orig_cpu = smp_processor_id();
++  2 for_each_online_cpu(cpu)
++  3   run_on(cpu);
++  4 if (orig_cpu != smp_processor_id())
++  5   run_on(orig_cpu);
+ \end{verbatim}
+ \end{minipage}
+ \vspace{5pt}
+-- 
+1.9.1
 
