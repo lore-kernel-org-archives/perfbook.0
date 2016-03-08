@@ -2,127 +2,52 @@ Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=FTMIhNo5bnI3EtQS6YJVVH4ZTpir8hKMA5z6kyHkOos=;
- b=EjUdRB6InpQ36AXDPggnDstuc155qvP1gtNBhjINdteaFJRRADDcKAigD0df511mvd
- D2J/tspemNQV+Auw2IC/n9ds+v+u8pQdMcO+8qWZapjWVOY2ikFh5vUFvhcT7hK2PBTa
- rsN0tGWxT2GWBSwQ0MH6i10vqRUc53Ag6SZvjWNFYuTEA+uoXIj++g7W89jGKBK8QYda
- 5shrHsJUMsVQBzVKex32DODVZyuK2c0rHBvLzRzXFos5ThPSmlKDytvRD7yWUr7HQbJv
- P2wyxTGzPOBmZZz8lYv5WvqEdEk1ct/ZoDHCo0gQChmoPA/BG3WozlSzTXDvzdRnZKTd
- qfEA==
+ bh=nAHlYt+O3pEKQcllB2pbKpOZELlk+JB/pu/2mF4cJpc=;
+ b=yPqRhYVlrwmQl8W78xUeH52CMj4g0lnHnwfaiKz3zri574tcr7sZrz6NFUoJJ/Zv0p
+ Dr1rrhKdJfZOyRIP32u/aT99sqZL0zl9P2g7PwYhPHt8DTRDexHUz5OGq1OjW274znu0
+ HLvN0lE4/Y67YRXOp+4NhOsczjr2PM5g7SmQ6vSV1BMzkT1l+72Wu8EjCKF1F6ge7uw7
+ LeFGbO2ZZCx+r4+amL9nHTqKWNuHnm5OChbDg0Un2juN32Nog1PvurvOPiqvNjufU1Vw
+ ODA29l29Bm6VRrqwgbG91ZySrWncDCMAS9v4ll49LW8E+/ltzs423rTDR3QF3KyeKAdB
+ J3qg==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 1/2] count: fix typos
-Date: Tue,  8 Mar 2016 09:13:38 +0900
-Message-Id: <1457396019-32324-1-git-send-email-sj38.park@gmail.com>
-In-Reply-To: 
- <CAEjAshoJF=eb42=h0EAd47_x7u1hL80ZekU8qDcpDPYLjv8i-Q@mail.gmail.com>
+Subject: [PATCH 2/2] count: fix a word to fit in context
+Date: Tue,  8 Mar 2016 09:13:39 +0900
+Message-Id: <1457396019-32324-2-git-send-email-sj38.park@gmail.com>
+In-Reply-To: <1457396019-32324-1-git-send-email-sj38.park@gmail.com>
 References: 
  <CAEjAshoJF=eb42=h0EAd47_x7u1hL80ZekU8qDcpDPYLjv8i-Q@mail.gmail.com>
+ <1457396019-32324-1-git-send-email-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-This commit fix typos such as wrong spelling, missed or unnecessarily
-inserted words and characters in `COUNTING` section.
+A word of quick quiz in `Parallel Counting Performance` subsection does
+not fit with its context.  It says ``'count_stat.c' row of Table
+'Statistical Counter Performance on Power-6' shows that the _update_
+side scales linearly with the number of threads.''.  However, the table
+shows read performance under 1 core and 32 cores, not update performance
+under different number of cores.  Also, the context says about read-side
+performance, not update-side performance.  This commit fix the word to
+fit in the context by changing the word to _read_-side performance.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- count/count.tex | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ count/count.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/count/count.tex b/count/count.tex
-index 83b695f..8f69a10 100644
+index 8f69a10..3a3ca80 100644
 --- a/count/count.tex
 +++ b/count/count.tex
-@@ -672,7 +672,7 @@ at the beginning of this chapter.
- 	to reduce.
- 	However, the worst case is unchanged because although the
- 	counter \emph{could} move in either direction, the worst
--	case is whenthe read operation completes immediately,
-+	case is when the read operation completes immediately,
- 	but then is delayed for $\Delta$ time units, during which
- 	time all the changes in the counter's value move it in
- 	the same direction, again giving us an absolute error
-@@ -851,7 +851,7 @@ comes at the cost of the additional thread running \co{eventual()}.
- 	the per-thread \co{counter} variables
- 	might need to be limited to 32 bits in order to sum them accurately,
- 	but with a 64-bit \co{global_count} variable to avoid overflow.
--	In this case, it is necessary to zero the per-thead
-+	In this case, it is necessary to zero the per-thread
- 	\co{counter} variables periodically in order to avoid overflow.
- 	It is extremely important to note that this zeroing cannot
- 	be delayed too long or overflow of the smaller per-thread
-@@ -1648,7 +1648,7 @@ Then line~34 releases \co{gblcnt_mutex}, and line~35 returns success.
-
- Lines~38-50 show \co{read_count()}, which returns the aggregate value
- of the counter.
--It acquires \co{gblcnt_mutex} on line~43 and releases it on line 48,
-+It acquires \co{gblcnt_mutex} on line~43 and releases it on line~48,
- excluding global operations from \co{add_count()} and \co{sub_count()},
- and, as we will see, also excluding thread creation and exit.
- Line~44 initializes local variable \co{sum} to the value of
-@@ -2262,7 +2262,7 @@ then line~25 returns failure.
-
- Otherwise, line~28 adds \co{delta} to the global counter, line~29
- spreads counts to the local state if appropriate, line~30 releases
--\co{gblcnt_mutex} (again, as noted earlier), and finally, line 31
-+\co{gblcnt_mutex} (again, as noted earlier), and finally, line~31
- returns success.
-
- Lines~34-63 of
-@@ -2305,7 +2305,7 @@ Line~9 acquires \co{gblcnt_mutex} and line~16 releases it.
- Line~10 initializes local variable \co{sum} to the value of
- \co{globalcount}, and the loop spanning lines~11-15 adds the
- per-thread counters to this sum, isolating each per-thread counter
--using \co{split_ctrandmax} on line 13.
-+using \co{split_ctrandmax} on line~13.
- Finally, line~17 returns the sum.
-
- \begin{figure}[tbp]
-@@ -2432,7 +2432,7 @@ line~30 subtracts this thread's \co{countermax} from \co{globalreserve}.
+@@ -3297,7 +3297,7 @@ courtesy of eventual consistency.
  \QuickQuiz{}
- 	What stops a thread from simply refilling its
- 	\co{ctrandmax} variable immediately after
--	\co{flush_local_count()} on line 14 of
-+	\co{flush_local_count()} on line~14 of
- 	Figure~\ref{fig:count:Atomic Limit Counter Utility Functions 1}
- 	empties it?
- \QuickQuizAnswer{
-@@ -2449,7 +2449,7 @@ line~30 subtracts this thread's \co{countermax} from \co{globalreserve}.
- 	What prevents concurrent execution of the fastpath of either
- 	\co{add_count()} or \co{sub_count()} from interfering with
- 	the \co{ctrandmax} variable while
--	\co{flush_local_count()} is accessing it on line 27 of
-+	\co{flush_local_count()} is accessing it on line~27 of
- 	Figure~\ref{fig:count:Atomic Limit Counter Utility Functions 1}
- 	empties it?
- \QuickQuizAnswer{
-@@ -2542,7 +2542,7 @@ Even though per-thread state will now be manipulated only by the
- corresponding thread, there will still need to be synchronization
- with the signal handlers.
- This synchronization is provided by the state machine shown in
--Figure~\ref{fig:count:Signal-Theft State Machine}
-+Figure~\ref{fig:count:Signal-Theft State Machine}.
- The state machine starts out in the IDLE state, and when \co{add_count()}
- or \co{sub_count()} find that the combination of the local thread's count
- and the global count cannot accommodate the request, the corresponding
-@@ -3576,7 +3576,7 @@ Summarizing the summary:
- 	counters' partitioned updates and non-partitioned reads), but also
- 	across time (as in
- 	Section~\ref{sec:count:Approximate Limit Counters}'s and
--	Section~\ref{sec:count:Exact Limit Counters}'s and
-+	Section~\ref{sec:count:Exact Limit Counters}'s
- 	limit counters running fast when far from
- 	the limit, but slowly when close to the limit).
- \item	Partitioning across time often batches updates locally
-@@ -3585,7 +3585,7 @@ Summarizing the summary:
- 	improving performance and scalability.
- 	All the algorithms shown in
- 	Tables~\ref{tab:count:Statistical Counter Performance on Power-6}
--	and~\ref{tab:count:Limit Counter Performance on Power-6}?
-+	and~\ref{tab:count:Limit Counter Performance on Power-6}
- 	make heavy use of batching.
- \item	Read-only code paths should remain read-only:  Spurious
- 	synchronization writes to shared memory kill performance
+ 	On the \url{count_stat.c} row of
+ 	Table~\ref{tab:count:Statistical Counter Performance on Power-6},
+-	we see that the update side scales linearly with the number of
++	we see that the read-side scales linearly with the number of
+ 	threads.
+ 	How is that possible given that the more threads there are,
+ 	the more per-thread counters must be summed up?
 -- 
 1.9.1
 
