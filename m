@@ -1,51 +1,99 @@
-Return-Path: <sj38.park@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mail-pa0-f65.google.com ([209.85.220.65]:35991 "EHLO
+ mail-pa0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with
+ ESMTP id S1750828AbcDBCws (ORCPT	<rfc822;perfbook@vger.kernel.org>); Fri, 1
+ Apr 2016 22:52:48 -0400
+Received: by mail-pa0-f65.google.com with SMTP id 1so14655076pal.3 for
+ <perfbook@vger.kernel.org>; Fri, 01 Apr 2016 19:52:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=l8OetMJ7UA792Hk+l9EeE5oQIfM4vNTLssDucijus3s=;
- b=WuhPYRgF2Sf0gJgak1N8t2mXZbR4iFvO+pmTb1K4S0Tq1thB4yF5gwisgGAd+6doE0
- YLxlVyxRUtBquGg5izu8qGOKkhcAM63W08wc21mdbiiSDDTy0I5GjL7/lgcpyBg48vH+
- 0EKk4TiUH4VCuC5JPfwgyoNOpGtzqbtZtzHZCYElto/70KQgLolk7XVElZR7BNAapJ3u
- +KEOJkahRSVy15wszUolNE75U+qlV4pVbmcYEDh/FwWOqHMDT1FyNnAtjDqL9YKkMlwe
- Fuzs9AZslx7PaYTlDhOIJGTfatZ4gG7ESycEcuvof9mferQJaCR5dEU2vkQaUSb5+ITT
- dq4Q==
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=y6sZALNJfQDZ5muxHjG3OQlCzsfPJ8c1XIdpBrlEzwo=;
+ b=SrRCek5lAak0MOgA3QQ2p1aXt/DpAC04UtZsJv4n7+9maZOlYFBEpilqW1AMK7X5n+
+ 48HU0GfTU8sMy5fPFj/ao74B2rYVRxY1b/JC3KhJJGpVAMz3vKtLmsWiXtRl14R1Fq7U
+ T1JrPDnaX5sVnzWhWDBarUfcZeec1KAz4XFn6Yc5p0u790Rre1FAYahq/ildi0uIMqkT
+ BFvrbms6ZgWK52IKLLXcSoh9+lttMfYy/KKW4sTv8NKNDp65GvFl3JXEV6H3OK6FED18
+ FQxBsm4Hq4skI986eLW05oMdd5KHmA8tfvmorHqu2zqFnOZVTNCakmPchYpk0dOlaKQG
+ bcWQ==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 6/6] advsync: fix wrong reference to section ``MMIO write
- barrier''
-Date: Sat,  2 Apr 2016 09:28:31 +0900
-Message-Id: <1459556911-11538-7-git-send-email-sj38.park@gmail.com>
-In-Reply-To: <1459556911-11538-1-git-send-email-sj38.park@gmail.com>
+Date: Sat, 2 Apr 2016 11:52:40 +0900 (KST)
+Subject: Re: [PATCH 4/6] advsync: fix wrong code example
+In-Reply-To: 
+ <CADj5ksQFv7pCx1WLdWRtNQwff7LBg+BspASL5dhbJAJVC2qeUQ@mail.gmail.com>
+Message-ID: <alpine.DEB.2.10.1604021149350.22948@hxeon>
 References: <1459556911-11538-1-git-send-email-sj38.park@gmail.com>
-To: paulmck@linux.vnet.ibm.com
-Cc: dhowells@redhat.com, perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+ <1459556911-11538-5-git-send-email-sj38.park@gmail.com>
+ <CADj5ksQFv7pCx1WLdWRtNQwff7LBg+BspASL5dhbJAJVC2qeUQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Yokosawa Akira <akiyks@gmail.com>
+Cc: SeongJae Park <sj38.park@gmail.com>, perfbook@vger.kernel.org
 
-A sentence references ``MMIO write barrier'' subsection though the
-section does not exists.  Unfortunately, there is no section for MMIO
-write barrier though appendix ``Why Memory Barriers?'' says about
-mmiowb() subtly.  For the purpose of the sentence, it could be
-alternated with reference to ``Device operations'' subsection because it
-describes about the exceptional case.  For the reason, this commit
-updates it to the reference to ``Device Operations'' subsection.
+Hi,
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- advsync/memorybarriers.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, 2 Apr 2016, Yokosawa Akira wrote:
 
-diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index 1fe0953..b511f51 100644
---- a/advsync/memorybarriers.tex
-+++ b/advsync/memorybarriers.tex
-@@ -1559,7 +1559,7 @@ other strictly in the order specified.
+> Sorry, I missed cc: to the list. Reposting...
+>
+> -- 
+> Hi,
+>
+> 2016-04-02 9:28 GMT+09:00 SeongJae Park <sj38.park@gmail.com>:
+>> The code means `Y = *(A + 4)` but it is written as `Y = *A`. This commit
+>> fixes the typo.
+>>
+>> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+>> ---
+>>  advsync/memorybarriers.tex | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
+>> index ee9312d..b1f49d3 100644
+>> --- a/advsync/memorybarriers.tex
+>> +++ b/advsync/memorybarriers.tex
+>> @@ -1364,7 +1364,7 @@ Y = LOAD *(A + 4); X = LOAD *A;
+>>  \begin{minipage}[t]{\columnwidth}
+>>  \scriptsize
+>>  \begin{verbatim}
+>> -*A = X; Y = *A;
+>> +*A = X; Y = *(A + 4);
+>
+> I think
+>
+> + *A = X; *(A + 4) = Y;
+>
+> is what meets the possible combination given below.
+>
+> STORE *A = X; STORE *(A + 4) = Y;
+> STORE *(A + 4) = Y; STORE *A = X;
+> STORE {*A, *(A + 4) } = {X, Y};
 
- The use of LOCK and UNLOCK operations generally precludes the need for
- other sorts of memory barrier (but note the exceptions mentioned in the
--subsection ``MMIO write barrier'').
-+Section~\ref{sec:advsync:Device Operations}).
+Oops, you're right.  Thank you for let me know.  I will upload modified
+version patch soon.
 
- \QuickQuiz{}
- 	What effect does the following sequence have on the
--- 
-1.9.1
 
+Thanks,
+SeongJae Park
+
+>
+> Regards,
+>
+>
+> --
+> Akira Yokosawa <akiysw@gmail.com>
+>
+>
+>>  \end{verbatim}
+>>  \end{minipage}
+>>  \vspace{5pt}
+>> --
+>> 1.9.1
+>>
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe perfbook" in
+>> the body of a message to majordomo@vger.kernel.org
+>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>
