@@ -1,97 +1,85 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pf0-f195.google.com ([209.85.192.195]:34711 "EHLO
- mail-pf0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with
- ESMTP id S1751347AbcDCWZd (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sun, 3
- Apr 2016 18:25:33 -0400
-Received: by mail-pf0-f195.google.com with SMTP id d184so3714363pfc.1 for
- <perfbook@vger.kernel.org>; Sun, 03 Apr 2016 15:25:32 -0700 (PDT)
+Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=DK99G8YNVuG2s5GlfuzIFubzzR7W3FaVOyqBOnMhYOM=;
- b=dJ8mJHrvPFBNJvWPVSc2BXaZ2Q4EaWO75KCkqvswBuCsvOsnv3BmkalKuaAWSAX8Ep
- CBqeBH+d07+PJhLdlUf9hHoJDkykor6SHPnhf0IJA1NWkCpfOSspmuUtSza2A5LK1Oex
- /l3LCI7W6hWB3TZElr4wJtS3w+n4F5j5q4ASd6VjSFU544+tZmjGkqPQ6ej9WDZKnZTY
- wcX8HCzeXyXmxEohguBOPmNkj4+uYC3uk/GuOuv1QkKfIW9QXnCzz74JmFg5DnjdB6eu
- PQaCQ+48PFKj6rzLdEP6uZ43dxu7VRcMXkmPlS1mqc//v2y6oGIqBPNfskAC4jtQpgAD
- 74Og==
+ bh=J19IGTl7JQZWp1qBQ2Eq9UNDuB0wIFcLgwh93mOHfZc=;
+ b=YqH9mw2pzTc5js5dX2UhjrZHH6BItkcK6GvkI7/GmeZciJD455Y8l8Zwp4kGOA/1J8
+ yDVhhj6DrM/YcObC0FW+6z9+hBVMRMXiwuxPAGW+DQo0AYlY8TGBDzVhjmmwOsQTOaX8
+ 364Z+8NPjZ1d8Uijo3e/s7vdDlKIq/UxS90IcNz9OaJivUlhQh2qlZHjBX2j+aWTzryh
+ XTWV85OSsBnCrXOygv0Z2rHBhafL79W7eC0Bw+0aqVFVQqMzgyOs0PZfhypIdmdaae7U
+ Xg8TyzoaftH1InU3l10ippe3dt8PAbiaLRX3k33OaJg71dflsVBkBBROn01z1Sj941Rp
+ 6ayw==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH] advsync: fix latex syntax related typos
-Date: Mon,  4 Apr 2016 07:25:19 +0900
-Message-Id: <1459722319-8443-1-git-send-email-sj38.park@gmail.com>
-In-Reply-To: <alpine.DEB.2.10.1604040651570.22948@hxeon>
-References: <alpine.DEB.2.10.1604040651570.22948@hxeon>
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
+Subject: [PATCH] advsync: use latex reference feature consistently
+Date: Mon,  4 Apr 2016 07:33:41 +0900
+Message-Id: <1459722821-9548-1-git-send-email-sj38.park@gmail.com>
+In-Reply-To: <alpine.DEB.2.10.1604040728190.22948@hxeon>
+References: <alpine.DEB.2.10.1604040728190.22948@hxeon>
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+List-ID: <perfbook.vger.kernel.org>
 
-This commit fixes typos related with latex.  The typos include:
-missed tildes, doubly inserted commas, and incinsistently formatted code
-citations.
+References to other sections in `Advanced Synchronization` chapter use
+latex reference feature and section name direct citation inconsistently.
+Because most other parts are using latex reference feature and it is
+easier for document maintainance, it would be better to use latex
+reference feature only.  For the reason, this commit enforces latex
+reference feature to the references.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- advsync/memorybarriers.tex | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ advsync/memorybarriers.tex | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index c668f3c..47d910a 100644
+index 47d910a..3f5c293 100644
 --- a/advsync/memorybarriers.tex
 +++ b/advsync/memorybarriers.tex
-@@ -37,7 +37,7 @@ appears to guarantee that the assertion never fires.
- After all, if \co{r1 != 1}, we might hope that Thread~1's load from \co{y}
- must have happened before Thread~2's store to \co{y}, which might raise
- further hopes that Thread~2's load from \co{x} must happen after
--Thread 1's store to \co{x}, so that \co{r2 == 1}, as required by the
-+Thread~1's store to \co{x}, so that \co{r2 == 1}, as required by the
- assertion.
- The example is symmetric, so similar hopeful reasoning might lead
- us to hope that \co{r2 != 1} guarantees that \co{r1 == 1}.
-@@ -295,7 +295,7 @@ over a 532-nanosecond time period, as shown in
- Figure~\ref{fig:advsync:A Variable With Multiple Simultaneous Values}.
- This data was collected on 1.5GHz POWER5 system with 8 cores, each containing
- a pair of hardware threads.
--CPUs~1, 2, 3, and 4 recorded the values, while CPU 0 controlled the test.
-+CPUs~1, 2, 3, and~4 recorded the values, while CPU~0 controlled the test.
- The timebase counter period was about 5.32ns, sufficiently fine-grained
- to allow observations of intermediate cache states.
+@@ -1454,7 +1454,8 @@ memory system as time progresses.  All stores before a write barrier will
+ occur in the sequence \emph{before} all the stores after the write barrier.
 
-@@ -1039,10 +1039,10 @@ a few simple rules:
- 		that variable's value.}
- \item	If one CPU does ordered stores to variables A and B,\footnote{
- 		For example, by executing the store to A, a
--		memory barrier, and then the store to B.},
-+		memory barrier, and then the store to B.}
- 	and if a second CPU does ordered loads from B and A,\footnote{
- 		For example, by executing the load from B, a
--		memory barrier, and then the load from A.},
-+		memory barrier, and then the load from A.}
- 	then if the second CPU's load from B gives the value stored
- 	by the first CPU, then the second CPU's load from A must
- 	give the value stored by the first CPU.
-@@ -1903,9 +1903,9 @@ In the above example, CPU~2 perceives that \co{B} is 7,
- despite the load of \co{*C}
- (which would be \co{B}) coming after the \co{LOAD} of \co{C}.
+ $\dagger$ Note that write barriers should normally be paired with read
+-or data dependency barriers; see the ``SMP barrier pairing'' subsection.
++or data dependency barriers; see the
++Section~\ref{sec:advsync:SMP Barrier Pairing}.
 
--If, however, a data dependency barrier were to be placed between the load of C
--and the load of \co{*C} (i.e.: \co{B}) on CPU~2, again with initial values of
--{\tt \{B = 7, X = 9, Y = 8, C = \&Y\}}:
-+If, however, a data dependency barrier were to be placed between the load of
-+\co{C} and the load of \co{*C} (i.e.: \co{B}) on CPU~2, again with initial
-+values of {\tt \{B = 7, X = 9, Y = 8, C = \&Y\}}:
+ \paragraph{Data Dependency Barriers}
 
- \vspace{5pt}
- \begin{minipage}[t]{\columnwidth}
-@@ -2002,7 +2002,7 @@ Figure~\ref{fig:advsync:Read Barrier Supplied}.
- \end{figure*}
+@@ -1479,19 +1480,19 @@ time the barrier completes, the effects of all the stores prior to that
+ touched by the load will be perceptible to any loads issued after the data
+ dependency barrier.
 
- To illustrate this more completely, consider what could happen if the code
--contained a load of A either side of the read barrier, once again
-+contained a load of \co{A} either side of the read barrier, once again
- with the same initial values of
- {\tt \{A = 0, B = 9\}}:
+-See the ``Examples of memory barrier sequences'' subsection for diagrams
+-showing the ordering constraints.
++See the Section~\ref{sec:advsync:Examples of Memory Barrier Pairings} for
++diagrams showing the ordering constraints.
 
+ $\dagger$ Note that the first load really has to have a
+ \emph{data} dependency and
+ not a control dependency.  If the address for the second load is dependent
+ on the first load, but the dependency is through a conditional rather than
+ actually loading the address itself, then it's a \emph{control} dependency and
+-a full read barrier or better is required.  See the ``Control dependencies''
+-subsection for more information.
++a full read barrier or better is required.  See the
++Section~\ref{sec:advsync:Control Dependencies} for more information.
+
+ $\dagger$ Note that data dependency barriers should normally be paired with
+-write barriers; see the ``SMP barrier pairing'' subsection.
++write barriers; see the Section~\ref{sec:advsync:SMP Barrier Pairing}.
+
+ \paragraph{Read Memory Barriers}
+
+@@ -1593,7 +1594,8 @@ of the confines of a given architecture:
+ \item	There is no guarantee that a CPU will see the correct order
+ 	of effects from a second CPU's accesses, even \emph{if} the second CPU
+ 	uses a memory barrier, unless the first CPU \emph{also} uses a matching
+-	memory barrier (see the subsection on ``SMP Barrier Pairing'').
++	memory barrier (see the
++	Section~\ref{sec:advsync:SMP Barrier Pairing}).
+ \item	There is no guarantee that some intervening piece of off-the-CPU
+ 	hardware\footnote{
+ 		This is of concern primarily in operating-system kernels.
 -- 
 1.9.1
 
