@@ -1,46 +1,110 @@
-Return-Path: <sj38.park@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=uLYstHwWT4IKYjjewe5qA5CaabQ/99FiPoYFGvRnQK8=;
- b=hxTAe3CaVhwI0Dg2vxLEjzoH32/mIap3qT5NoWRK0LQg2dIyNv82+18uqOzaP8Wr/1
- 7C/utr+nHJvoWZCOInGUXWQeD4v5iJ4clqTncy9hkXrDueKc2xDl+3qlOlYiOLN7WHWx
- 9EwzqlakBssygBnoS6qNKcNNgVt/ujPg5dVu66zpdghC90Vvrz6ZT4Kz3D8SaL7Dylyd
- 09rlybmwFihx+InZgJWf2S1I0dzgB2E5L9w5EoW5v/aTIzi6JbDXybSF+i7WVz5f84lg
- fh/Ecsy9jtwzl2l0A9lD59k/Ouk41Ryq1BDG2NmJzpku4n2Bz8pn/6rSfip3FyeqOprd
- wg6Q==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH] advsync: fix wrong code example
-Date: Sat,  2 Apr 2016 12:03:56 +0900
-Message-Id: <1459566236-15362-1-git-send-email-sj38.park@gmail.com>
-In-Reply-To: <alpine.DEB.2.10.1604021149350.22948@hxeon>
-References: <alpine.DEB.2.10.1604021149350.22948@hxeon>
-To: akiyks@gmail.com
-Cc: paulmck@linux.vnet.ibm.com, perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from e37.co.us.ibm.com ([32.97.110.158]:42458 "EHLO
+ e37.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
+ S1751133AbcDCNhh (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sun, 3 Apr 2016
+ 09:37:37 -0400
+Received: from localhost	by e37.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted	for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Sun, 3 Apr 2016
+ 07:37:37 -0600
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28])	by d03dlp03.boulder.ibm.com (Postfix) with ESMTP id
+ 80EA619D803F	for <perfbook@vger.kernel.org>; Sun, 3 Apr 2016 07:25:27 -0600
+ (MDT)
+Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
+ b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ u33DbY3K41287696	for <perfbook@vger.kernel.org>; Sun, 3 Apr 2016 13:37:34 GMT
+Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
+ d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
+ u33DbXV7015310	for <perfbook@vger.kernel.org>; Sun, 3 Apr 2016 09:37:34 -0400
+Date: Sun, 3 Apr 2016 06:37:32 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 3/6] advsync: use latex reference feature consistently
+Message-ID: <20160403133732.GJ3663@linux.vnet.ibm.com>
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <1459556911-11538-1-git-send-email-sj38.park@gmail.com>
+ <1459556911-11538-4-git-send-email-sj38.park@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1459556911-11538-4-git-send-email-sj38.park@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: SeongJae Park <sj38.park@gmail.com>
+Cc: dhowells@redhat.com, perfbook@vger.kernel.org
 
-The code means `*(A + 4) = Y` but it is written as `Y = *A`. This commit
-fixes the typo.
+On Sat, Apr 02, 2016 at 09:28:28AM +0900, SeongJae Park wrote:
+> References to other sections in `Advanced Synchronization` chapter use
+> latex reference feature and section name direct citation inconsistently.
+> Because most other parts are using latex reference feature and it is
+> easier for document maintainance, it would be better to use latex
+> reference feature only.  For the reason, this commit enforces latex
+> reference feature to the references.
+> 
+> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 
-Suggested-by: Akira Yokosawa <akiysw@gmail.com>
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- advsync/memorybarriers.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+One issue below, please fix and resubmit.
 
-diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index ee9312d..8e9c876 100644
---- a/advsync/memorybarriers.tex
-+++ b/advsync/memorybarriers.tex
-@@ -1364,7 +1364,7 @@ Y = LOAD *(A + 4); X = LOAD *A;
- \begin{minipage}[t]{\columnwidth}
- \scriptsize
- \begin{verbatim}
--*A = X; Y = *A;
-+*A = X; *(A + 4) = Y;
- \end{verbatim}
- \end{minipage}
- \vspace{5pt}
--- 
-1.9.1
+> ---
+>  advsync/memorybarriers.tex | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
+> 
+> diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
+> index 15de36a..ee9312d 100644
+> --- a/advsync/memorybarriers.tex
+> +++ b/advsync/memorybarriers.tex
+> @@ -1454,7 +1454,8 @@ memory system as time progresses.  All stores before a write barrier will
+>  occur in the sequence \emph{before} all the stores after the write barrier.
+> 
+>  $\dagger$ Note that write barriers should normally be paired with read
+> -or data dependency barriers; see the ``SMP barrier pairing'' subsection.
+> +or data dependency barriers; see the
+> +Section~\ref{sec:advsync:SMP Barrier Pairing}.
+> 
+>  \paragraph{Data Dependency Barriers}
+> 
+> @@ -1479,19 +1480,19 @@ time the barrier completes, the effects of all the stores prior to that
+>  touched by the load will be perceptible to any loads issued after the data
+>  dependency barrier.
+> 
+> -See the ``Examples of memory barrier sequences'' subsection for diagrams
+> -showing the ordering constraints.
+> +See the Section~\ref{sec:advsync:Examples of Memory Barrier Pairings} for
+> +diagrams showing the ordering constraints.
+> 
+>  $\dagger$ Note that the first load really has to have a
+>  \emph{data} dependency and
+>  not a control dependency.  If the address for the second load is dependent
+>  on the first load, but the dependency is through a conditional rather than
+>  actually loading the address itself, then it's a \emph{control} dependency and
+> -a full read barrier or better is required.  See the ``Control dependencies''
+> -subsection for more information.
+> +a full read barrier or better is required.  See the
+> +Section~\ref{sec:advsync:Control Dependencies} for more information.
+> 
+>  $\dagger$ Note that data dependency barriers should normally be paired with
+> -write barriers; see the ``SMP barrier pairing'' subsection.
+> +write barriers; see the Section~\ref{sec:advsync:SMP Barrier Pairign}.
+
+The above gets me a LaTeX error, could you please fix and resubmit?
+It is good practice to verify that it builds beforehand.  ;-)
+
+							Thanx, Paul
+
+> 
+>  \paragraph{Read Memory Barriers}
+> 
+> @@ -1593,7 +1594,8 @@ of the confines of a given architecture:
+>  \item	There is no guarantee that a CPU will see the correct order
+>  	of effects from a second CPU's accesses, even \emph{if} the second CPU
+>  	uses a memory barrier, unless the first CPU \emph{also} uses a matching
+> -	memory barrier (see the subsection on ``SMP Barrier Pairing'').
+> +	memory barrier (see the
+> +	Section~\ref{sec:advsync:SMP Barrier Pairing}).
+>  \item	There is no guarantee that some intervening piece of off-the-CPU
+>  	hardware\footnote{
+>  		This is of concern primarily in operating-system kernels.
+> -- 
+> 1.9.1
+> 
 
