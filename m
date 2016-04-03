@@ -1,184 +1,95 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e35.co.us.ibm.com ([32.97.110.153]:49836 "EHLO
- e35.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1753581AbcDCNwR (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sun, 3 Apr 2016
- 09:52:17 -0400
-Received: from localhost	by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+Received: from e17.ny.us.ibm.com ([129.33.205.207]:57845 "EHLO
+ e17.ny.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
+ S1751153AbcDCN47 (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sun, 3 Apr 2016
+ 09:56:59 -0400
+Received: from localhost	by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted	for
  <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Sun, 3 Apr 2016
- 07:52:16 -0600
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25])	by d03dlp02.boulder.ibm.com (Postfix) with ESMTP id
- 846BE3E4001C	for <perfbook@vger.kernel.org>; Sun, 3 Apr 2016 07:52:13 -0600
- (MDT)
+ 09:56:58 -0400
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28])	by d01dlp01.pok.ibm.com (Postfix) with ESMTP id 68F5A38C8039
+ for <perfbook@vger.kernel.org>; Sun, 3 Apr 2016 09:56:55 -0400 (EDT)
 Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u33DqDE437421078	for <perfbook@vger.kernel.org>; Sun, 3 Apr 2016 13:52:13 GMT
+ b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ u33DutEi42205228	for <perfbook@vger.kernel.org>; Sun, 3 Apr 2016 13:56:55 GMT
 Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
  d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u33DqCEx014643	for <perfbook@vger.kernel.org>; Sun, 3 Apr 2016 09:52:12 -0400
-Date: Sun, 3 Apr 2016 06:52:11 -0700
+ u33DusDB024427	for <perfbook@vger.kernel.org>; Sun, 3 Apr 2016 09:56:55 -0400
+Date: Sun, 3 Apr 2016 06:56:54 -0700
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 2/6] advsync: fix latex syntax related typos
-Message-ID: <20160403135211.GM3663@linux.vnet.ibm.com>
+Subject: Re: [PATCH 1/6] advsync: Fix trivial typos
+Message-ID: <20160403135654.GA5835@linux.vnet.ibm.com>
 Reply-To: paulmck@linux.vnet.ibm.com
 References: <1459556911-11538-1-git-send-email-sj38.park@gmail.com>
- <1459556911-11538-3-git-send-email-sj38.park@gmail.com>
+ <1459556911-11538-2-git-send-email-sj38.park@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1459556911-11538-3-git-send-email-sj38.park@gmail.com>
+In-Reply-To: <1459556911-11538-2-git-send-email-sj38.park@gmail.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 To: SeongJae Park <sj38.park@gmail.com>
 Cc: dhowells@redhat.com, perfbook@vger.kernel.org
 
-On Sat, Apr 02, 2016 at 09:28:27AM +0900, SeongJae Park wrote:
-> This commit fixes typos related with latex.  The typos include:
-> unnecessarily doubly inserted commas, missed tildes, missed dots,
-> wrongly located dot and question mark, unwrapped citation.
+On Sat, Apr 02, 2016 at 09:28:26AM +0900, SeongJae Park wrote:
+> This commit fixes trivial typos under `advsync/` directory.
 > 
 > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 
-Some good ones, and some that I cannot accept.  Could you please resubmit
-as noted below?
+Queued, thank you!
 
 							Thanx, Paul
 
 > ---
->  advsync/advsync.tex        |  4 ++--
->  advsync/memorybarriers.tex | 22 +++++++++++-----------
->  2 files changed, 13 insertions(+), 13 deletions(-)
+>  advsync/advsync.tex        | 4 ++--
+>  advsync/memorybarriers.tex | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 > 
 > diff --git a/advsync/advsync.tex b/advsync/advsync.tex
-> index 118dc74..12bacbf 100644
+> index 7250e96..118dc74 100644
 > --- a/advsync/advsync.tex
 > +++ b/advsync/advsync.tex
-> @@ -78,14 +78,14 @@ basis of real-time programming:
->  \begin{enumerate}
->  \item	Real-time forward-progress guarantees usually have some
->  	definite time associated with them, for example,
-> -	``scheduling latency must be less than 100 microseconds.''
-> +	``scheduling latency must be less than 100 microseconds.''.
-
-We should have be period either before or after the quates, not both.
-The exception would be if the quotes contained a computer command that
-ended with a period.
-
->  	In contrast, the most popular forms of NBS only guarantees
->  	that progress will be made in finite time, with no definite
->  	bound.
->  \item	Real-time forward-progress guarantees are sometimes
->  	probabilistic, as in the soft-real-time guarantee that
->  	``at least 99.9\% of the time, scheduling latency must
-> -	be less than 100 microseconds.''
-> +	be less than 100 microseconds.''.
-
-Ditto.
-
->  	In contrast, NBS's forward-progress
->  	guarantees have traditionally been unconditional.
->  \item	Real-time forward-progress guarantees are often conditioned on
+> @@ -30,7 +30,7 @@ gives a brief overview of non-blocking synchronization.
+> 
+>  Although locking is the workhorse of parallelism in production, in
+>  many situations performance, scalability, and real-time response can
+> -all be greatly improved though use of lockless techniques.
+> +all be greatly improved through use of lockless techniques.
+>  A particularly impressive example of such a lockless technique are
+>  the statistical counters describe in
+>  Section~\ref{sec:count:Statistical Counters},
+> @@ -45,7 +45,7 @@ Other examples we have covered include:
+>  	Section~\ref{sec:SMPdesign:Resource Allocator Caches}.
+>  \item	The maze solver in Section~\ref{sec:SMPdesign:Beyond Partitioning}.
+>  \item	The data-ownership techniques described in
+> -	Section~\ref{chp:Data Ownership}.
+> +	Chapter~\ref{chp:Data Ownership}.
+>  \item	The reference-counting and RCU techinques described in
+>  	Chapter~\ref{chp:Deferred Processing}.
+>  \item	The lookup code paths described in Chapter~\ref{chp:Data Structures}.
 > diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-> index c668f3c..15de36a 100644
+> index 99e074d..c668f3c 100644
 > --- a/advsync/memorybarriers.tex
 > +++ b/advsync/memorybarriers.tex
-> @@ -37,7 +37,7 @@ appears to guarantee that the assertion never fires.
->  After all, if \co{r1 != 1}, we might hope that Thread~1's load from \co{y}
->  must have happened before Thread~2's store to \co{y}, which might raise
->  further hopes that Thread~2's load from \co{x} must happen after
-> -Thread 1's store to \co{x}, so that \co{r2 == 1}, as required by the
-> +Thread~1's store to \co{x}, so that \co{r2 == 1}, as required by the
-
-This is fine.
-
->  assertion.
->  The example is symmetric, so similar hopeful reasoning might lead
->  us to hope that \co{r2 != 1} guarantees that \co{r1 == 1}.
-> @@ -295,7 +295,7 @@ over a 532-nanosecond time period, as shown in
->  Figure~\ref{fig:advsync:A Variable With Multiple Simultaneous Values}.
->  This data was collected on 1.5GHz POWER5 system with 8 cores, each containing
->  a pair of hardware threads.
-> -CPUs~1, 2, 3, and 4 recorded the values, while CPU 0 controlled the test.
-> +CPUs~1, 2, 3, and 4 recorded the values, while CPU~0 controlled the test.
-
-This is a good change, but should have "and~4" as well.
-
->  The timebase counter period was about 5.32ns, sufficiently fine-grained
->  to allow observations of intermediate cache states.
+> @@ -759,7 +759,7 @@ these combinations in order to fully understand how this works.
+>  	it is not possible for one of the loads to see the
+>  	results of the other load.
+>  	However, if we know that CPU~2's load from B returned a
+> -	newer value than CPU~1's load from B, the we also know
+> +	newer value than CPU~1's load from B, then we also know
+>  	that CPU~2's load from A returned either the same value
+>  	as CPU~1's load from A or some later value.
 > 
-> @@ -320,7 +320,7 @@ CPU~4 believes that the value is ``4'' for almost 500ns.
-> 
->  \QuickQuiz{}
->  	How could CPUs possibly have different views of the
-> -	value of a single variable \emph{at the same time?}
-> +	value of a single variable \emph{at the same time}?
-
-It looks better if the question mark has the same itailics state
-as the word immediately preceding it, so this should remain as is.
-
->  \QuickQuizAnswer{
->  	Many CPUs have write buffers that record the values of
->  	recent writes, which are applied once the corresponding
-> @@ -459,8 +459,8 @@ For example, in the following set of operations, CPU~1's access to
->  A does not unconditionally precede its access to B from the viewpoint
->  of an external logic analyzer
->  \IfInBook{(see Appendix~\ref{chp:app:whymb:Why Memory Barriers?}
-> -	  for examples).
-> -	 }
-> +	  for examples)
-> +	 }.
-
-Aren't the "then" and "else" clauses supposed to be right next to each
-other?  I don't believe this change works.
-
->  	 {(the system is only to act \emph{as if} the accesses
->  	  are in order; it is not necessarily required to actually
->  	  force them to be in order).}
-> @@ -1037,10 +1037,10 @@ a few simple rules:
->  		for example, if a given CPU never loaded or stored
->  		the shared variable, then it can have no opinion about
->  		that variable's value.}
-> -\item	If one CPU does ordered stores to variables A and B,\footnote{
-> +\item	If one CPU does ordered stores to variables A and B\footnote{
->  		For example, by executing the store to A, a
->  		memory barrier, and then the store to B.},
-> -	and if a second CPU does ordered loads from B and A,\footnote{
-> +	and if a second CPU does ordered loads from B and A\footnote{
-
-The footnote should be after the comma, otherwise the spacing looks
-strange.  (Might be different in Korean, of course.)
-
->  		For example, by executing the load from B, a
->  		memory barrier, and then the load from A.},
->  	then if the second CPU's load from B gives the value stored
-> @@ -1903,9 +1903,9 @@ In the above example, CPU~2 perceives that \co{B} is 7,
->  despite the load of \co{*C}
->  (which would be \co{B}) coming after the \co{LOAD} of \co{C}.
-> 
-> -If, however, a data dependency barrier were to be placed between the load of C
-> -and the load of \co{*C} (i.e.: \co{B}) on CPU~2, again with initial values of
-> -{\tt \{B = 7, X = 9, Y = 8, C = \&Y\}}:
-> +If, however, a data dependency barrier were to be placed between the load of
-> +\co{C} and the load of \co{*C} (i.e.: \co{B}) on CPU~2, again with initial
-> +values of {\tt \{B = 7, X = 9, Y = 8, C = \&Y\}}:
-
-This one looks good.
-
->  \vspace{5pt}
->  \begin{minipage}[t]{\columnwidth}
-> @@ -2002,7 +2002,7 @@ Figure~\ref{fig:advsync:Read Barrier Supplied}.
->  \end{figure*}
-> 
->  To illustrate this more completely, consider what could happen if the code
-> -contained a load of A either side of the read barrier, once again
-> +contained a load of \co{A} either side of the read barrier, once again
-
-This one does too.
-
->  with the same initial values of
->  {\tt \{A = 0, B = 9\}}:
-> 
+> @@ -1047,7 +1047,7 @@ a few simple rules:
+>  	by the first CPU, then the second CPU's load from A must
+>  	give the value stored by the first CPU.
+>  \item	If one CPU does a load from A ordered before a store to B,
+> -	and if a second CPU does a load from B ordered before a store from A,
+> +	and if a second CPU does a load from B ordered before a store to A,
+>  	and if the second CPU's load from B gives the value stored by
+>  	the first CPU, then the first CPU's load from A must \emph{not}
+>  	give the value stored by the second CPU.
 > -- 
 > 1.9.1
 > 
