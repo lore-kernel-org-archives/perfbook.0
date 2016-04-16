@@ -1,43 +1,52 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=aaM8HX98PrRQphGq5C0Az1FvATGobx/623Q5AquK0x4=;
- b=OnWQvwbMFvLCcwtsmqav+RlLRffYMoeZH632cUJfsZfjkREaqh57lN0Iv5Yt/+GXqw
- An5ydvhRwgpXV1rsp14dGAgPpsgSpEa9XmJEgiZ47CxM22dRKy4vCX9eMzcq/O6j/9hL
- oNm0Mh9vlzmdwFQdfYR6hSAvWVShaHqOWs9o1XOiez4XETw6Rf7m9gktq9aMscnbGlh2
- vFllYVz7oQ57wRPwGveUdH9SXhBJaH0NFFf9dZ+uYZDyZFcGeWWDnI4+r0vQznMDxx9Q
- dK4K1ejOfiZNKFGfuqk9JGhjRbAErMBR2wSdykYrCSig7W3ouzFiu9aYotEBx83aT5yN
- 54hA==
+ s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=WyIpqUFhAaiHaHcSrPxsMZY3Dl1jrUIkQOKF8r8VyZQ=;
+ b=BwSXmrRtCgoqF+qRePQb/RadK7YXuZaiDWGn8gf/Qp2z920xSynxLLycbV5ZX5nH2P
+ pLOKSP3t1lRfLh6+Qz6l8ArZvNGYEPr4zRsgz53EbzOMrEnXKJ1gYWzZpHwQ6zSOi+KT
+ nRAdjLTzMsWydFamd26jgdIfbwcShLSe4tisueFQFe7Tct9zglqEhZ4BNN5qCJciolS4
+ tuBykefGIeFJcr/IUUEFBO2UpmUgbEaQwwTN6/b5kMXIgPtdkL3OPOhVuwiyGQE6b282
+ itDdN7AHc9PFEEwDYyDJbnrW+Z6jxVFm6ggkNUF+EhkvtCiV/5KtB9w/4Lh0OIctCOZ5
+ AT6w==
+Subject: [PATCH 1/3] advsync: Fix a trivial typo
+References: <5711F2CF.1030907@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/3] advsync: Typo fix and vertical spacing tweaks
-Message-ID: <5711F2CF.1030907@gmail.com>
-Date: Sat, 16 Apr 2016 17:07:43 +0900
+Message-ID: <5711F3B5.6080505@gmail.com>
+Date: Sat, 16 Apr 2016 17:11:33 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <5711F2CF.1030907@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 To: paulmck@linux.vnet.ibm.com
-Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From e9f9f2126a24841bb19970292716819f0300872b Mon Sep 17 00:00:00 2001
+From dd4bfd425504ccef4226bc782394255c3dc4777a Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiysw@gmail.com>
-Date: Sat, 16 Apr 2016 16:48:19 +0900
-Subject: [PATCH 0/3] advsync: Typo fix and vertical spacing tweaks
+Date: Fri, 15 Apr 2016 21:59:40 +0900
+Subject: [PATCH 1/3] advsync: Fix a trivial typo
 
-As I mentioned earlier, I tweaked vertical spacings in the
-`Guarantees` subsection. This series also fixes a typo I made
-in the previous patch. It also adds necessary blank lines in the
-latex source of the `What Can You Trust?` subsection.
+In commit 5795796caa89 ("advsync: Another fix to use latex reference
+feature consistently"), I made a typo. This commit fixes it.
 
-Akira Yokosawa (3):
-  advsync: Fix a trivial typo
-  advsync: Add necessary blank lines around minipages
-  advsync: Tweak vertical spacing around code snippets
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ advsync/memorybarriers.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- advsync/memorybarriers.tex | 44 ++++++++++++++------------------------------
- 1 file changed, 14 insertions(+), 30 deletions(-)
+diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
+index e527def..965718c 100644
+--- a/advsync/memorybarriers.tex
++++ b/advsync/memorybarriers.tex
+@@ -1508,7 +1508,7 @@ Read memory barriers imply data dependency barriers, and so can substitute
+ for them.
+
+ $\dagger$ Note that read barriers should normally be paired with write barriers;
+-see Secton~\ref{sec:advsync:SMP Barrier Pairing}.
++see Section~\ref{sec:advsync:SMP Barrier Pairing}.
+
+ \paragraph{General Memory Barriers}
 
 -- 
 1.9.1
