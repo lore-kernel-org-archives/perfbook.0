@@ -1,70 +1,90 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=12Cc1mLAGS9JUjx/dXf6t5jYy6DNdnOo3Uudxv716HE=;
- b=PC1GlO3sqEqYGi/UpzbYs6xpaS7ekDDIDxAkLFVYAj3F0oQVdbdtNdTtai+nAw2CPT
- /PtWmXjOaUUxLsbf8VDoldHGLRjCEkFaB13lvlZyX9J1OvA7LqUxF6J7Seuu0JehR1z8
- CeK4g2eBLFZfGuUeSa72N1WvWdMUr3VfQ5HEVFTC2cGy0sWJms/e+dXvBAnUCJLlSlCV
- loLw8r8T3zalNS3Dj6rX1OansScymr51fUQSeR6Fv/YhbRBV0yi0uN27Yuk6SCSeZ4z/
- 8FvLar1H0GlsbucEWV5CaatIHjAUa43wbhXifw0rG4KkA6t4BfC4CfMNs6V4PjNc8uzY
- Hvow==
-Subject: [PATCH 2/2] runlatex.sh: Fix while loop condition
-References: <5718E390.1090309@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <5718E478.3000406@gmail.com>
-Date: Thu, 21 Apr 2016 23:32:24 +0900
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from e34.co.us.ibm.com ([32.97.110.152]:35759 "EHLO
+ e34.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
+ S1751761AbcDUQSN (ORCPT	<rfc822;perfbook@vger.kernel.org>); Thu, 21 Apr 2016
+ 12:18:13 -0400
+Received: from localhost	by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted	for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Thu, 21 Apr
+ 2016 10:18:12 -0600
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23])	by d03dlp02.boulder.ibm.com (Postfix) with ESMTP id
+ D774D3E4003B	for <perfbook@vger.kernel.org>; Thu, 21 Apr 2016 10:18:09 -0600
+ (MDT)
+Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
+ b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ u3LGI9Ke35061882	for <perfbook@vger.kernel.org>; Thu, 21 Apr 2016 16:18:09
+ GMT
+Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
+ d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
+ u3LGI9dt003111	for <perfbook@vger.kernel.org>; Thu, 21 Apr 2016 12:18:09
+ -0400
+Date: Thu, 21 Apr 2016 09:18:40 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: perfbook patch
+Message-ID: <20160421161840.GA3879@linux.vnet.ibm.com>
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <571883EE.4080103@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <5718E390.1090309@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <571883EE.4080103@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Balbir Singh <bsingharora@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From a5cb77713f4720592f75db71394fcad784ca480e Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiysw@gmail.com>
-Date: Thu, 21 Apr 2016 22:11:06 +0900
-Subject: [PATCH 2/2] runlatex.sh: Fix while loop condition
+On Thu, Apr 21, 2016 at 05:40:30PM +1000, Balbir Singh wrote:
+> Hey, Paul
+> 
+> perfbook failed to build on Fedora 23 due to a texlive issue. I am not sure if other users are facing it. In any case I came up with a patch -- update FAQ.txt with an answer. I was not sure if it is worth posting to perfbook mailing list
+> 
+> I'm attaching it - FYI. I hope its useful
+> 
+> Balbir
 
-After commit 33b93f8258f5 ("qqz: Cross-link questions and answers"),
-'make' becomes to terminate prematurely with warning messages such as
+Hello, Balbir, and thank you!
 
->   Latex Warning: There were undefined references
->   Latex Warning: There were multiply-defined labels.
+I tried it on Ubuntu 14.04, and it works just fine there.  So are you
+OK with the following hijacking of your original patch?
 
-This can be dealt with loosening loop condition in runlatex.sh
-which is given to 'grep' command.
-Also, This commit increases the iteration max count to accommodate
-the required number of 'pdflatex' invocations caused by qqz cross-link.
+							Thanx, Paul
 
-Signed-off-by: Akira Yokosawa <akiysw@gmail.com>
----
- utilities/runlatex.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+------------------------------------------------------------------------
 
-diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
-index 8d2d77a..15d96c1 100644
---- a/utilities/runlatex.sh
-+++ b/utilities/runlatex.sh
-@@ -47,7 +47,7 @@ then
- 		echo "No bibliography directory, skipping bibtex."
- 	fi
- fi
--while grep -q 'LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.' $basename.log
-+while grep -q 'LaTeX Warning:' $basename.log
- do
- 	iter=`expr $iter + 1`
- 	echo "pdflatex $iter"
-@@ -56,7 +56,7 @@ do
- 	then
- 		echo "----- Fatal latex error, see $basename.log for details. -----"
- 	fi
--	if test "$iter" -eq 4
-+	if test "$iter" -eq 5
- 	then
- 		echo "Iteration limit: $iter passes through pdflatex"
- 		exit 1
--- 
-1.9.1
+commit 8c4c3c54d4d4246f6b13a914dda9c9ac42bf0c2e
+Author: Balbir Singh <bsingharora@gmail.com>
+Date:   Thu Apr 21 09:16:44 2016 -0700
+
+    Fix build error on Fedora 23 with texlive
+    
+    The listings package is broken. The fix suggested is taken from
+    http://osdir.com/ml/general/2014-06/msg50467.html
+    
+    Signed-off-by: Balbir Singh <bsingharora@gmail.com>
+    Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+
+diff --git a/perfbook.tex b/perfbook.tex
+index ac46e74f6b6f..d607f66b428f 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -35,6 +35,18 @@
+   literate={\_}{}{0\discretionary{\_}{}{\_}}%
+ }
+ %%HTMLNOSKIP
++\makeatletter
++\renewcommand\lstinline[1][]{%
++\leavevmode\bgroup % \hbox\bgroup --> \bgroup
++\def\lst@boxpos{b}%
++\lsthk@PreSet\lstset{flexiblecolumns,#1}%
++\lsthk@TextStyle
++\ifnum\iffalse{\fi`}=\z@\fi
++\@ifnextchar\bgroup{%
++\ifnum`{=\z@}\fi%
++\afterassignment\lst@InlineG \let\@let@token}{%
++\ifnum`{=\z@}\fi\lstinline@}}
++\makeatother
+ \newcommand{\co}[1]{\lstinline[breaklines=yes,breakatwhitespace=yes]{#1}}
+
+ \title{Is Parallel Programming Hard, And, If So, What Can You Do About It?}
 
