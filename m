@@ -1,60 +1,55 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e19.ny.us.ibm.com ([129.33.205.209]:34162 "EHLO
- e19.ny.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1752205AbcDQDg2 (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sat, 16 Apr 2016
- 23:36:28 -0400
-Received: from localhost	by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Sat, 16 Apr
- 2016 23:36:26 -0400
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24])	by d01dlp01.pok.ibm.com (Postfix) with ESMTP id C6C2338C8039
- for <perfbook@vger.kernel.org>; Sat, 16 Apr 2016 23:36:24 -0400 (EDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u3H3aOqb31064190	for <perfbook@vger.kernel.org>; Sun, 17 Apr 2016 03:36:24
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u3H3aODj026560	for <perfbook@vger.kernel.org>; Sat, 16 Apr 2016 23:36:24
- -0400
-Date: Sat, 16 Apr 2016 20:36:52 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/3] advsync: Typo fix and vertical spacing tweaks
-Message-ID: <20160417033652.GJ3687@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <5711F2CF.1030907@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=E1vA8vNYznxpSpP9HH9ehu8r22FFcB/PHvz0E07Ps30=;
+ b=0jFhykwlOPUOIiFb4sIY0PSWp58ZKk+F3dIxgqhUMCN9uMWj5resQOUCvXwHaTcuOI
+ 8wZVLHqE9ei8ICa6Jm0Apx6/3oNXuLu0/WwuufJh0otW4OjRKiwWuc5FB7u5zsLstrYL
+ /+VXAoCkyzyPJrxmKh6T7xfS+cbdVBcmin8+SufaHQxI0KTPov+uSecusK9+oYI0RKPG
+ ug0koFRrez6ahWCbW/Lr+kttOvGuj/qHD1xbQrzZ4e/Un/n9LiaEiGMk9ZU4QzjibA3c
+ 5jo7J8Te3SlppP0oYUbiDbNoI4kUNw1w+SlZRWb3idWeqjgAlAqPpX+j1JUBxqVMrlk9
+ dFbg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/2] qqz and runlatex improvements
+Message-ID: <5718E390.1090309@gmail.com>
+Date: Thu, 21 Apr 2016 23:28:32 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5711F2CF.1030907@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: paulmck@linux.vnet.ibm.com
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Apr 16, 2016 at 05:07:43PM +0900, Akira Yokosawa wrote:
-> >From e9f9f2126a24841bb19970292716819f0300872b Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiysw@gmail.com>
-> Date: Sat, 16 Apr 2016 16:48:19 +0900
-> Subject: [PATCH 0/3] advsync: Typo fix and vertical spacing tweaks
-> 
-> As I mentioned earlier, I tweaked vertical spacings in the
-> `Guarantees` subsection. This series also fixes a typo I made
-> in the previous patch. It also adds necessary blank lines in the
-> latex source of the `What Can You Trust?` subsection.
-> 
-> Akira Yokosawa (3):
->   advsync: Fix a trivial typo
->   advsync: Add necessary blank lines around minipages
->   advsync: Tweak vertical spacing around code snippets
-> 
->  advsync/memorybarriers.tex | 44 ++++++++++++++------------------------------
->  1 file changed, 14 insertions(+), 30 deletions(-)
+From a5cb77713f4720592f75db71394fcad784ca480e Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiysw@gmail.com>
+Date: Thu, 21 Apr 2016 23:02:59 +0900
+Subject: [PATCH 0/2] qqz and runlatex improvements
 
-Nice!
+Hi,
 
-Queued and pushed.
+There have been two issues that bother me a little since I began to
+build perfbook.pdf myself.
+One is the cross-link references of quick quizzes that land on random
+nearby places in the PDF.
+The other is the premature termination of make with warning messages
+displayed.
+I think I have managed to fix both issues.
 
-							Thanx, Paul
+However, .sty file modification may introduce regressions and
+should be fully tested before being pushed out. Can anybody on the
+list test it and give feedback?
+
+Thanks.
+
+Akira Yokosawa (2):
+  qqz: Improve accuracy of cross-links
+  runlatex.sh: Fix while loop condition
+
+ qqz.sty               | 14 ++++++++------
+ utilities/runlatex.sh |  4 ++--
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+
+-- 
+1.9.1
 
