@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=JNNjH9DdwPbviYYu/ot+sV5D7C3IUyIs9eMcM8El9fo=;
- b=uzMuGpexheE6yGqvWew66VV6zO6dqeYikD7t57jCqqqeoVNbXieV61E88u643YZtf8
- i1Z6qjiGTDTrE/pdaffVheRFMSPOo19nndKKB7hjUClyo43p9ZtneC79MDTmb1SWSdIO
- /3eYgiwO8V/jU2+v8ano/sSkHC3oYyr+xjG5SGRvv8VzRsk41sKd1Boy1CD3M74xMyHv
- octiZrJT4Vq4qO2Eb9zIKCHH2NUcrZ0gnETHGFng9ggMYxag17iSf6L+pyqIGTDCsf5z
- BLp/dmt5mE33eNkoakiBiAoM1XeRcwPDlvOjZTRE1ZBlhF8yMNvj7zC2BIJoMbQISFNK
- fEiQ==
-Subject: [PATCH 1/2] qqz: Improve accuracy of cross-links
+ bh=12Cc1mLAGS9JUjx/dXf6t5jYy6DNdnOo3Uudxv716HE=;
+ b=PC1GlO3sqEqYGi/UpzbYs6xpaS7ekDDIDxAkLFVYAj3F0oQVdbdtNdTtai+nAw2CPT
+ /PtWmXjOaUUxLsbf8VDoldHGLRjCEkFaB13lvlZyX9J1OvA7LqUxF6J7Seuu0JehR1z8
+ CeK4g2eBLFZfGuUeSa72N1WvWdMUr3VfQ5HEVFTC2cGy0sWJms/e+dXvBAnUCJLlSlCV
+ loLw8r8T3zalNS3Dj6rX1OansScymr51fUQSeR6Fv/YhbRBV0yi0uN27Yuk6SCSeZ4z/
+ 8FvLar1H0GlsbucEWV5CaatIHjAUa43wbhXifw0rG4KkA6t4BfC4CfMNs6V4PjNc8uzY
+ Hvow==
+Subject: [PATCH 2/2] runlatex.sh: Fix while loop condition
 References: <5718E390.1090309@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <5718E40D.3030609@gmail.com>
-Date: Thu, 21 Apr 2016 23:30:37 +0900
+Message-ID: <5718E478.3000406@gmail.com>
+Date: Thu, 21 Apr 2016 23:32:24 +0900
 MIME-Version: 1.0
 In-Reply-To: <5718E390.1090309@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,87 +22,49 @@ To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From b1b643edfe021163754c6aa83f81669bc544f386 Mon Sep 17 00:00:00 2001
+From a5cb77713f4720592f75db71394fcad784ca480e Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiysw@gmail.com>
-Date: Thu, 21 Apr 2016 21:29:57 +0900
-Subject: [PATCH 1/2] qqz: Improve accuracy of cross-links
+Date: Thu, 21 Apr 2016 22:11:06 +0900
+Subject: [PATCH 2/2] runlatex.sh: Fix while loop condition
 
-In commit 33b93f8258f5 ("qqz: Cross-link questions and answers"),
-cross-links of quick quizzes and their answers were implemented.
-However it uses the \stepcounter{} command, and direct references
-of 'quickquizctr' counter is not output to the .aux file.
-The symptom is when you click on a hyperlink in the resulting PDF,
-you jump to a random nearby label such as that of Figure, Table,
-or Section, etc. which happens just before the \label{} using
-'quickquizctr'.
+After commit 33b93f8258f5 ("qqz: Cross-link questions and answers"),
+'make' becomes to terminate prematurely with warning messages such as
 
-By using \refstepcounter{} instead and using 2 counters
-'quickquizctr' and 'quickquizctrC' ('C' stands for 'Chapter')
-and defining \theHNum at the head of qqz.sty, then redefining
-it within the \QuickQuizAnsers command, matching QQ.n.m's and
-QQA.n.m's are output to the .aux file correctly.
+>   Latex Warning: There were undefined references
+>   Latex Warning: There were multiply-defined labels.
 
-By applying this change, resulting hyperlinks become to jump
-almost directly where you'd expect.
-
-This change may have the effect of increasing the required number
-of 'pdflatex' invocations to get final result. The following commit
-will take care of it.
+This can be dealt with loosening loop condition in runlatex.sh
+which is given to 'grep' command.
+Also, This commit increases the iteration max count to accommodate
+the required number of 'pdflatex' invocations caused by qqz cross-link.
 
 Signed-off-by: Akira Yokosawa <akiysw@gmail.com>
 ---
- qqz.sty | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ utilities/runlatex.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qqz.sty b/qqz.sty
-index 7270468..438f515 100644
---- a/qqz.sty
-+++ b/qqz.sty
-@@ -15,7 +15,9 @@
- %%
- %% Authors: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-
--\newcounter{quickquizctr}
-+\newcounter{quickquizctr}[chapter]
-+\newcounter{quickquizctrC}[section]
-+\newcommand*{\theHNum}{\arabic{chapter}.\arabic{quickquizctr}}
- \newcommand{\QuickQuizAnswerChapter}{\textbf{Unknown QuickQAC!!!}}
-
- \newcommand{\QuickQHeading}[3]{\label{#1.#3}\hyperref[#2.#3]{\textbf{Quick Quiz #3:}}}
-@@ -23,9 +25,9 @@
- \newcommand{\QuickQuizChapter}[2]{
- 	\chapter{#2}
- 	\label{#1}
--	\setcounter{quickquizctr}{0}}
-+	}
- \newcommand{\QuickQuiz}[1]{
--	\stepcounter{quickquizctr}
-+	\refstepcounter{quickquizctr}
- 	\QuickQHeading{QQ}{QQA}{\thechapter.\thequickquizctr}}
- \newcommand{\QuickQuizAnswer}[1]{\rule{7pt}{7pt}}
- \newcommand{\QuickQuizEnd}{}
-@@ -37,6 +39,7 @@
- % There is probably a better way to do this, but this does work.
-
- \newcommand{\QuickQuizAnswers}{
-+	\renewcommand*{\theHNum}{\arabic{section}.\arabic{quickquizctrC}}
- 	\chapter{Answers to Quick Quizzes}
- 	\label{chp:Answers to Quick Quizzes}
- 	~ \\
-@@ -46,11 +49,10 @@
-
- \newcommand{\QuickQAC}[2]{
- 	\edef\QuickQuizAnswerChapter{\getrefnumber{#1}}
--	\setcounter{quickquizctr}{0}
- 	\section{#2}}
-
- \newcommand{\QuickQ}[1]{
--	\stepcounter{quickquizctr} ~ \\ ~ \\
--	\QuickQHeading{QQA}{QQ}{\QuickQuizAnswerChapter.\thequickquizctr} #1 ~ \\ }
-+	\refstepcounter{quickquizctrC} ~ \\ ~ \\
-+	\QuickQHeading{QQA}{QQ}{\QuickQuizAnswerChapter.\thequickquizctrC} #1 ~ \\ }
-
- \newcommand{\QuickA}[1]{\rule{7pt}{7pt} \\ ~ \\ \textbf{Answer:} \\ }
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index 8d2d77a..15d96c1 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -47,7 +47,7 @@ then
+ 		echo "No bibliography directory, skipping bibtex."
+ 	fi
+ fi
+-while grep -q 'LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.' $basename.log
++while grep -q 'LaTeX Warning:' $basename.log
+ do
+ 	iter=`expr $iter + 1`
+ 	echo "pdflatex $iter"
+@@ -56,7 +56,7 @@ do
+ 	then
+ 		echo "----- Fatal latex error, see $basename.log for details. -----"
+ 	fi
+-	if test "$iter" -eq 4
++	if test "$iter" -eq 5
+ 	then
+ 		echo "Iteration limit: $iter passes through pdflatex"
+ 		exit 1
 -- 
 1.9.1
 
