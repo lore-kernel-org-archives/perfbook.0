@@ -1,65 +1,74 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e18.ny.us.ibm.com ([129.33.205.208]:38852 "EHLO
- e18.ny.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1751008AbcDWFnd (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sat, 23 Apr 2016
- 01:43:33 -0400
-Received: from localhost	by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Sat, 23 Apr
- 2016 01:43:32 -0400
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26])	by d01dlp02.pok.ibm.com (Postfix) with ESMTP id F0ED26E803C
- for <perfbook@vger.kernel.org>; Sat, 23 Apr 2016 01:43:14 -0400 (EDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u3N5hTlW40173746	for <perfbook@vger.kernel.org>; Sat, 23 Apr 2016 05:43:29
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u3N5hTTk018713	for <perfbook@vger.kernel.org>; Sat, 23 Apr 2016 01:43:29
- -0400
-Date: Fri, 22 Apr 2016 22:44:02 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 2/2] runlatex.sh: Fix while loop condition
-Message-ID: <20160423054402.GO3756@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <5718E390.1090309@gmail.com> <5718E478.3000406@gmail.com>
- <20160421162741.GB3879@linux.vnet.ibm.com> <57194E98.1040001@gmail.com>
- <20160421235400.GI3879@linux.vnet.ibm.com> <571A1FF0.2080602@gmail.com>
- <20160422133424.GP3879@linux.vnet.ibm.com> <571ADA6C.8030904@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=QzBuBUmEgzqM39vB6rgIFH2To5XjKIQfvDL0AJKFtDE=;
+ b=dVwTTlcazfoBsd7/GNxkkuOW+70q3E+tfgLLn9VM2to2lt7qNarNv6NSorQKqS6V/q
+ KT+X3TbL7isxcIXiWQvm3SLNPIk8LbahPSKPpjTo3+SDeMHoq4+3eQse3DuYbVlfnO0k
+ VzDo1QGiLuDItCiB/ZyW+ZgGkU3A6agBoNCDZeW3czA5DanrRGu6WPGMLnxcKxu4qKls
+ ENyxh38z3Rs1AMtnDyaRuTyISq+5tdY1x7P+AUpnnf20gf3pnELMXCfaAR2HJsBY1sGa
+ oBzx2eeh5foTgaF3v0Ya5AHIW8U8Wb+kOrCauF6Dw4TmACbbwx2242bX/knOAS9iGJz3
+ zLAg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v2 0/3] qqz and runlatex improvements
+Message-ID: <571B5FBE.6030005@gmail.com>
+Date: Sat, 23 Apr 2016 20:42:54 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <571ADA6C.8030904@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Apr 23, 2016 at 11:14:04AM +0900, Akira Yokosawa wrote:
-> Hi, Paul.
-> 
-> I'm tempted to move the bibtex part out from runlatex.sh into Makefile.
-> If I make targets for .bbl files in Makefile, then the .bbl files won't be
-> necessary in the repository any more.
-> 
-> I'm wondering why those .bbl files are in the repository in the first place.
-> Was there any reason I can't think of?
-> 
-> Yes, I know controlling latex with Makefile is sometimes tricky because of
-> its side effects, but I think I can manage.
-> 
-> Just want to confirm the circumstances.
+From 0a9063f5bfc9a984b505fefe54d347f39e099f58 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiysw@gmail.com>
+Date: Sat, 23 Apr 2016 20:37:29 +0900
+Subject: [PATCH v2 0/3] qqz and runlatex improvements
 
-History.  That and laziness.  ;-)
+Hi,
 
-Originally, the bib/*.bib files were not present, so the .bbl file
-was absolutely necessary for anyone but me to build the book.  I
-eventually got the bib/*.bib files to where they could be placed
-in the archive, but never bothered updating things to get the .bbl
-files out of git control.
+There have been two issues that bother me a little since I began to
+build perfbook.pdf myself.
+One is the cross-link references of quick quizzes that land on random
+nearby places in the PDF.
+The other is the premature termination of make with warning messages
+displayed.
+I think I have managed to fix both issues.
 
-Please do feel free to try updating the build as you suggest.
+However, .sty file modification may introduce regressions and
+should be fully tested before being pushed out. Can anybody on the
+list test it and give feedback?
 
-							Thanx, Paul
+Thanks.
+
+Changes since v1:
+Refactored runlatex.sh into 3 parts and improved the build behavior
+in response to the feedbacks from Paul[1].
+As the result of the change, *.bbl files are not necessary any more,
+so a patch to remove them is added.
+
+[1] http://www.spinics.net/lists/perfbook/msg00160.html
+
+Akira Yokosawa (3):
+  qqz: Improve accuracy of cross-links
+  Improve behavior of build scripts
+  Remove *.bbl from repository
+
+ .gitignore                 |    2 +-
+ Makefile                   |   55 +-
+ perfbook-1c.bbl            | 2103 -------------------------------------------
+ perfbook-hb.bbl            | 1949 ----------------------------------------
+ perfbook.bbl               | 2146 --------------------------------------------
+ qqz.sty                    |   14 +-
+ utilities/runfirstlatex.sh |   46 +
+ utilities/runlatex.sh      |   85 +-
+ 8 files changed, 168 insertions(+), 6232 deletions(-)
+ delete mode 100644 perfbook-1c.bbl
+ delete mode 100644 perfbook-hb.bbl
+ delete mode 100644 perfbook.bbl
+ create mode 100644 utilities/runfirstlatex.sh
+
+-- 
+1.9.1
 
