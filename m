@@ -1,79 +1,122 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=85tJLGRCYjmMPyxA31XcUtxrO/vdgIQpEujWrIR62tg=;
- b=nWg37M4Sf4wbVw6340d+tBJSo3JR3z0FilMlik9Mm822nuDsY4b4iS/ivpVSjdJ4sO
- shmDy7yk6fNPzwZLcX6R0ggiOyUA9QZ6Lbfmh1MYQNt1ymMGhC4EJG8rc7XPRCoz8GmE
- DAH4HJpces91eMXdla96mMbBPC5HyvMXsoiwSfNvheSC5K/EwhV9U1PltP+VViMXGlTN
- P92qZN2b8oKIuWcfCLOL0y3DrCFKZPYrHy1sjo05vWslJb56v/8PMmQ2LSP5ShQDUzLf
- 8P5RtEvWYIUSqLppcAgYa7rgolwdSOwE1mjHMQciLpjvm93m9wvuFzSKlwP6kCAJLJYc
- DE9g==
+ s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=awB3U+X6tCwklmbCOyXs9kNnLeQeWDZaeYcnHM3D9B4=;
+ b=j/54QTuDGOnkJc6eYoqRDWr0REceXc/yycqx1cI2PVaOLJK4bxQ2hdrXkqRVdFIeX9
+ RVG2rYVGzMSjvHd4sIsIDO6vxKDWP3fIUL+512hSbVrd0wAZI7pcfmOtKoTjaKsNwDUA
+ vApvVoOrn9xEu4Um8F5aWjQ3ACaUuVqdW9rju/nHw59cBduINW+xpJ+SybNuajr46W1E
+ WnO/OxIIih+e0RPJFCgxVlUdepaVzCh0FxnPf5/hU2qL8e8Iu2FqLZ8c1+lWO/zxg/5c
+ acSouAFEvP+MAEsPCnFDCfbOp3ao6ROJo+LEHOci4dDoE/bB2JipUy1HF3NZYOTfIeDm
+ qSJw==
+Subject: [PATCH v3 1/3] qqz: Improve accuracy of cross-links
+References: <571C1843.1060906@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH v3 0/3] qqz and runlatex improvements
-Message-ID: <571C1843.1060906@gmail.com>
-Date: Sun, 24 Apr 2016 09:50:11 +0900
+Message-ID: <571C1C8F.9000602@gmail.com>
+Date: Sun, 24 Apr 2016 10:08:31 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <571C1843.1060906@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org, pbonzini@redhat.com, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 687dd92a14a751c5919c80f9d7d8609db94d7634 Mon Sep 17 00:00:00 2001
+From 6ecb00b37832372d18cdc7ff5eaea9a53eab3cb9 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiysw@gmail.com>
-Date: Sun, 24 Apr 2016 09:26:52 +0900
-Subject: [PATCH v3 0/3] qqz and runlatex improvements
+Date: Sun, 24 Apr 2016 08:19:20 +0900
+Subject: [PATCH v3 1/3] qqz: Improve accuracy of cross-links
 
-Hi,
+In commit 33b93f8258f5 ("qqz: Cross-link questions and answers"),
+cross-links of quick quizzes and their answers were implemented.
+However it uses the \stepcounter{} command, and direct references
+of 'quickquizctr' counter is not output to the .aux file.
+The symptom is when you click on a hyperlink in the resulting PDF,
+you jump to a random nearby label such as that of Figure, Table,
+or Section, etc. which happens just before the \label{} using
+'quickquizctr'.
 
-There have been two issues that bother me a little since I began to
-build perfbook.pdf myself.
-One is the cross-link references of quick quizzes that land on random
-nearby places in the PDF.
-The other is the premature termination of make with warning messages
-displayed.
-I think I have managed to fix both issues.
+By using \refstepcounter{} instead and using 2 counters
+'quickquizctr' and 'quickquizctrC' ('C' stands for 'Chapter'),
+each of which is automatically reset at a new chapter and
+a new section respectively, and defining \theHNum at the head
+of qqz.sty, then redefining it within the \QuickQuizAnsers
+command, matching QQ.n.m's and QQA.n.m's are output to the .aux
+file correctly.
 
-Paul tested v2 of this series and found that it is ready to be pushed
-out if minor fixes of a trailing blank and "XXXXXX" in commit messages
-are done.
+By applying this change, resulting hyperlinks become to jump to
+places almost exactly where you'd expect.
 
-Changes since v2:
-    Updated copyright notices in qqz.sty
-    Removed a trailing blank in runfirstlatex.sh
-    Fixed "XXXXXX" in commit messages
-    Added "-f" option to "rm" in runlatex.sh
-    Other minor changes in commit messages
+This change may have the effect of increasing the required number
+of 'pdflatex' iterations to get a final result. The following
+commit will take care of it.
 
-Changes since v1:
-Refactored runlatex.sh into 3 parts and improved the build behavior
-in response to the feedback's from Paul[1].
-As the result of the change, *.bbl files are not necessary any more,
-so a patch to remove them is added.
+This commit also updates the copyright notices in the header,
+including the name of Paolo Bonzini who authored the commit
+mentioned above.
 
-[1] http://www.spinics.net/lists/perfbook/msg00160.html
+Signed-off-by: Akira Yokosawa <akiysw@gmail.com>
+---
+ qqz.sty | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-Akira Yokosawa (3):
-  qqz: Improve accuracy of cross-links
-  Improve behavior of build scripts
-  Remove *.bbl from repository
+diff --git a/qqz.sty b/qqz.sty
+index 7270468..08229b8 100644
+--- a/qqz.sty
++++ b/qqz.sty
+@@ -12,10 +12,16 @@
+ %% \QuickQuizAnswers -- to dump out all questions and answers in new section.
+ %%
+ %% Copyright (C) IBM Corporation, 2008
++%% Copyright (C) Paolo Bonzini, 2015
++%% Copyright (C) Akira Yokosawa, 2016
+ %%
+ %% Authors: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
++%%          Paolo Bonzini <pbonzini@redhat.com> # cross-link questions and answers
++%%          Akira Yokosawa <akiyks@gmail.com>   # improvement of cross-link
 
- .gitignore                 |    2 +-
- Makefile                   |   55 +-
- perfbook-1c.bbl            | 2103 -------------------------------------------
- perfbook-hb.bbl            | 1949 ----------------------------------------
- perfbook.bbl               | 2146 --------------------------------------------
- qqz.sty                    |   18 +-
- utilities/runfirstlatex.sh |   46 +
- utilities/runlatex.sh      |   85 +-
- 8 files changed, 172 insertions(+), 6232 deletions(-)
- delete mode 100644 perfbook-1c.bbl
- delete mode 100644 perfbook-hb.bbl
- delete mode 100644 perfbook.bbl
- create mode 100644 utilities/runfirstlatex.sh
+-\newcounter{quickquizctr}
++\newcounter{quickquizctr}[chapter]
++\newcounter{quickquizctrC}[section]
++\newcommand*{\theHNum}{\arabic{chapter}.\arabic{quickquizctr}}
+ \newcommand{\QuickQuizAnswerChapter}{\textbf{Unknown QuickQAC!!!}}
 
+ \newcommand{\QuickQHeading}[3]{\label{#1.#3}\hyperref[#2.#3]{\textbf{Quick Quiz #3:}}}
+@@ -23,9 +29,9 @@
+ \newcommand{\QuickQuizChapter}[2]{
+ 	\chapter{#2}
+ 	\label{#1}
+-	\setcounter{quickquizctr}{0}}
++	}
+ \newcommand{\QuickQuiz}[1]{
+-	\stepcounter{quickquizctr}
++	\refstepcounter{quickquizctr}
+ 	\QuickQHeading{QQ}{QQA}{\thechapter.\thequickquizctr}}
+ \newcommand{\QuickQuizAnswer}[1]{\rule{7pt}{7pt}}
+ \newcommand{\QuickQuizEnd}{}
+@@ -37,6 +43,7 @@
+ % There is probably a better way to do this, but this does work.
+
+ \newcommand{\QuickQuizAnswers}{
++	\renewcommand*{\theHNum}{\arabic{section}.\arabic{quickquizctrC}}
+ 	\chapter{Answers to Quick Quizzes}
+ 	\label{chp:Answers to Quick Quizzes}
+ 	~ \\
+@@ -46,11 +53,10 @@
+
+ \newcommand{\QuickQAC}[2]{
+ 	\edef\QuickQuizAnswerChapter{\getrefnumber{#1}}
+-	\setcounter{quickquizctr}{0}
+ 	\section{#2}}
+
+ \newcommand{\QuickQ}[1]{
+-	\stepcounter{quickquizctr} ~ \\ ~ \\
+-	\QuickQHeading{QQA}{QQ}{\QuickQuizAnswerChapter.\thequickquizctr} #1 ~ \\ }
++	\refstepcounter{quickquizctrC} ~ \\ ~ \\
++	\QuickQHeading{QQA}{QQ}{\QuickQuizAnswerChapter.\thequickquizctrC} #1 ~ \\ }
+
+ \newcommand{\QuickA}[1]{\rule{7pt}{7pt} \\ ~ \\ \textbf{Answer:} \\ }
 -- 
 1.9.1
+
 
