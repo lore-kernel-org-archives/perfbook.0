@@ -1,76 +1,56 @@
-Return-Path: <sj38.park@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=YmXtmRCpxgzKyh4tc4iV6F2+n9hrf88ghsIhKA+WWz4=;
- b=aruUg0UzFm1tLM/Kv1ygv1wlK68Ptyb7OUgzFrI+Eghv7fcQvCRkzDcMoWr9XoAAVj
- yfxZASxoSySsma2vD41KF205XOIITA6xjAX4JNRveDqtQxtK222G+KpqrWX0NOUWOn7X
- At9BkJtZZ7cb8D75cEx/rTkq95t1OZR/To7rFlU4gmOqtinVjvOmmoZRHxkbY+UumhGS
- RX47AIxnc1vfcDRPyHS2DJeEoh5VN52iuwFxeGJOLGREpgNGNBwTAWuxOyn5NdM6q6HO
- Is+Hxs/0ZMHyhdokkK8HfUT0dt+TqNas9G4ZngNFbiJ4JYnxtIj7RiHTCpbHo1uUUQJD
- /d7w==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 2/2] SMPdesign: keep consistent expression
-Date: Wed, 27 Apr 2016 08:33:15 +0900
-Message-Id: <1461713595-29898-3-git-send-email-sj38.park@gmail.com>
-In-Reply-To: <1461713595-29898-1-git-send-email-sj38.park@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from e18.ny.us.ibm.com ([129.33.205.208]:48128 "EHLO
+ e18.ny.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
+ S1754341AbcDZXrW (ORCPT	<rfc822;perfbook@vger.kernel.org>); Tue, 26 Apr 2016
+ 19:47:22 -0400
+Received: from localhost	by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted	for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Tue, 26 Apr
+ 2016 19:47:21 -0400
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28])	by d01dlp01.pok.ibm.com (Postfix) with ESMTP id 5E5B638C803B
+ for <perfbook@vger.kernel.org>; Tue, 26 Apr 2016 19:47:18 -0400 (EDT)
+Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
+ b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ u3QNlItb42008794	for <perfbook@vger.kernel.org>; Tue, 26 Apr 2016 23:47:18
+ GMT
+Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
+ d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
+ u3QNlHML005148	for <perfbook@vger.kernel.org>; Tue, 26 Apr 2016 19:47:18
+ -0400
+Date: Tue, 26 Apr 2016 16:47:55 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/2] SMPdesign: fixup trivial nitpicks
+Message-ID: <20160426234755.GX3715@linux.vnet.ibm.com>
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <1461713595-29898-1-git-send-email-sj38.park@gmail.com>
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1461713595-29898-1-git-send-email-sj38.park@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: SeongJae Park <sj38.park@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-There are few inconsistent expressions for code / type mentioning and
-reference to figure / source file.  This commit polishes the expressions
-to be more consistent with other expressions.
+On Wed, Apr 27, 2016 at 08:33:13AM +0900, SeongJae Park wrote:
+> This patchset contains fixup of trivial nitpicks that found during translation
+> of SMPdesign/ directory.
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- SMPdesign/SMPdesign.tex | 4 ++--
- SMPdesign/beyond.tex    | 6 ++++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
+Good eyes, queued and pushed them both.
 
-diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
-index d2b092d..f609e7e 100644
---- a/SMPdesign/SMPdesign.tex
-+++ b/SMPdesign/SMPdesign.tex
-@@ -991,11 +991,11 @@ Figure~\ref{fig:SMPdesign:Allocator-Cache Data Structures}.
- The ``Global Pool'' of Figure~\ref{fig:SMPdesign:Allocator Cache Schematic}
- is implemented by \co{globalmem} of type \co{struct globalmempool},
- and the two CPU pools by the per-CPU variable \co{percpumem} of
--type \co{percpumempool}.
-+type \co{struct percpumempool}.
- Both of these data structures have arrays of pointers to blocks
- in their \co{pool} fields, which are filled from index zero upwards.
- Thus, if \co{globalmem.pool[3]} is \co{NULL}, then the remainder of
--the array from index 4 up must also be NULL.
-+the array from index 4 up must also be \co{NULL}.
- The \co{cur} fields contain the index of the highest-numbered full
- element of the \co{pool} array, or -1 if all elements are empty.
- All elements from \co{globalmem.pool[0]} through
-diff --git a/SMPdesign/beyond.tex b/SMPdesign/beyond.tex
-index f4035cd..e52980b 100644
---- a/SMPdesign/beyond.tex
-+++ b/SMPdesign/beyond.tex
-@@ -135,7 +135,8 @@ Line~20 initializes for the next pass through the outer loop.
- \end{figure}
+							Thanx, Paul
 
- The pseudocode for \co{maze_try_visit_cell()} is shown on lines~1-12
--of Figure~\ref{fig:SMPdesign:SEQ Helper Pseudocode}.
-+of Figure~\ref{fig:SMPdesign:SEQ Helper Pseudocode}
-+(\co{maze.c}).
- Line~4 checks to see if cells \co{c} and \co{n} are adjacent and connected,
- while line~5 checks to see if cell \co{n} has not yet been visited.
- The \co{celladdr()} function returns the address of the specified cell.
-@@ -146,7 +147,8 @@ is now full, and line~10 marks this cell as visited and also records
- the distance from the maze start.  Line~11 then returns success.
-
- The pseudocode for \co{maze_find_any_next_cell()} is shown on lines~14-28
--of the figure (\co{maze.c}).
-+of Figure~\ref{fig:SMPdesign:SEQ Helper Pseudocode}
-+(\co{maze.c}).
- Line~17 picks up the current cell's distance plus 1,
- while lines~19, 21, 23, and~25
- check the cell in each direction, and lines~20, 22, 24, and~26
--- 
-1.9.1
+> SeongJae Park (2):
+>   SMPdesign: add missing tildes
+>   SMPdesign: keep consistent expression
+> 
+>  SMPdesign/SMPdesign.tex     | 6 +++---
+>  SMPdesign/beyond.tex        | 6 ++++--
+>  SMPdesign/partexercises.tex | 2 +-
+>  3 files changed, 8 insertions(+), 6 deletions(-)
+> 
+> -- 
+> 1.9.1
+> 
 
