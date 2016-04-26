@@ -1,77 +1,90 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e17.ny.us.ibm.com ([129.33.205.207]:40314 "EHLO
- e17.ny.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1750749AbcDZBif (ORCPT	<rfc822;perfbook@vger.kernel.org>); Mon, 25 Apr 2016
- 21:38:35 -0400
-Received: from localhost	by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Mon, 25 Apr
- 2016 21:38:34 -0400
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24])	by d01dlp02.pok.ibm.com (Postfix) with ESMTP id 617F66E8041
- for <perfbook@vger.kernel.org>; Mon, 25 Apr 2016 21:38:16 -0400 (EDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u3Q1cVEX38404292	for <perfbook@vger.kernel.org>; Tue, 26 Apr 2016 01:38:31
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u3Q1cUod018295	for <perfbook@vger.kernel.org>; Mon, 25 Apr 2016 21:38:31
- -0400
-Date: Mon, 25 Apr 2016 18:39:06 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] advsync: fix trivial typos
-Message-ID: <20160426013906.GX3874@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <1461633750-17992-1-git-send-email-sj38.park@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=niF+/Niqt4H6uKMKxW2niz3o1rDHasLuaaESmdlWiqw=;
+ b=ps/K2VDTnSN8LMuDYSw0+A6QFIsh6KSeZRPf61ZG74eCc1/BugwM887gj0cu9xgmc4
+ xp7BDJtptHHhoyPwACy3R7KTzxrZL+ycdUe/PLb53LOrdxopJiBissyVZ8LvZklR02ku
+ 9d9Jwd8slRz4jXax4Nov1Ii/zF1yYPuF6OpN/25zACHgGujrmllhFuiYQwpf6Q9HfXFC
+ kdynVZKKkAmsglZhkziHsLSH2kBvbFF9Oc/U31CfK9n0JUaHM5UeU7XDJKYFWncNs4l+
+ 1gP805Jt/CheA0cczI/dLLuk2ZCMpQgPvzOL0XYO9BnGFiByMe05qXQz5o1OJrl8C5p4
+ MmgA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] Another regression fix of build script improvement
+Message-ID: <6a3c510c-f4c6-6826-46af-a91c7a45d17a@gmail.com>
+Date: Tue, 26 Apr 2016 22:16:34 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1461633750-17992-1-git-send-email-sj38.park@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Apr 26, 2016 at 10:22:30AM +0900, SeongJae Park wrote:
-> Earlier two commits to advsync/memorybarriers.tex file, commit
-> 8de1474e3282 ("Add larger multiple-value-write scenario") and commit
-> 514f21cd4156 ("Add caveats to the Software Logic Analyzer") has made few
-> trivial typos.  This commit fixes them.
-> 
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+From c2ea05aa026f81e4b7641b8a14144fd8caa8f661 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiysw@gmail.com>
+Date: Tue, 26 Apr 2016 21:20:15 +0900
+Subject: [PATCH] Another regression fix of build script improvement
 
-Good eyes!  Queued and pushed.
+After commit 4038e781ed56 ("Improve behavior of build scripts"),
+it is impossible to build 'perfbook-1c.pdf' and 'perfbook-hb.pdf'
+just after cloning the git repository.
+The reason is the lack of rules for 'perfbook-1c.tex' and
+'perfbook-hb.tex'targets, which are required for them.
+This commit adds those rules to Makefile.
+The reason I couldn't find the bug during my test is both
+'perfbook-1c.tex' and 'perfbook-hb.tex' survive even
+'make neatfreak' which I assumed to be used to clean everything.
+To avoid similar regression to recur, this commit also appends
+them to the 'clean' target.
 
-							Thanx, Paul
+Signed-off-by: Akira Yokosawa <akiysw@gmail.com>
+---
+ Makefile | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-> ---
->  advsync/memorybarriers.tex | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-> index cc39d2d..a0ef76d 100644
-> --- a/advsync/memorybarriers.tex
-> +++ b/advsync/memorybarriers.tex
-> @@ -363,7 +363,7 @@ consistent with the increase in number of CPUs.
->  The remaining 15 columns in the table record the values most recently
->  observed by the corresponding CPU at each point in time, with changes
->  in value marked by italics and parentheses.
-> -Again, CPU 0 coordinates the test, so does not record any values.
-> +Again, CPU~0 coordinates the test, so does not record any values.
-> 
->  \begin{table*}[htbp]
->  \scriptsize
-> @@ -508,7 +508,7 @@ We have entered a regime where we must bid a fond farewell to
->  comfortable intuitions about values of variables and the passage of time.
->  This is the regime where memory barriers are needed.
-> 
-> -All that aside, is is important to remember the lessons from
-> +All that aside, it is important to remember the lessons from
->  Chapters~\ref{chp:Hardware and its Habits}
->  and~\ref{cha:Partitioning and Synchronization Design}.
->  Having all CPUs write concurrently to the same variable
-> -- 
-> 1.9.1
-> 
+diff --git a/Makefile b/Makefile
+index b909c81..4d9ed30 100644
+--- a/Makefile
++++ b/Makefile
+@@ -176,20 +176,24 @@ perfbook.bbl: $(BIBSOURCES) perfbook.aux
+ perfbook.aux: $(LATEXSOURCES) $(EPSSOURCES) extraction embedfonts
+ 	sh utilities/runfirstlatex.sh perfbook
+
+-perfbook-1c.pdf: perfbook-1c.bbl $(LATEXSOURCES) $(EPSSOURCES) extraction embedfonts
+-	sed -e 's/,twocolumn//' -e '/^\\frontmatter/a \\\\pagestyle{plain}' -e 's/setboolean{twocolumn}{true}/setboolean{twocolumn}{false}/' < perfbook.tex > perfbook-1c.tex
++perfbook-1c.pdf: perfbook-1c.tex perfbook-1c.bbl $(LATEXSOURCES) $(EPSSOURCES) extraction embedfonts
+ 	sh utilities/runlatex.sh perfbook-1c
+
++perfbook-1c.tex: perfbook.tex
++	sed -e 's/,twocolumn//' -e '/^\\frontmatter/a \\\\pagestyle{plain}' -e 's/setboolean{twocolumn}{true}/setboolean{twocolumn}{false}/' < perfbook.tex > perfbook-1c.tex
++
+ perfbook-1c.bbl: $(BIBSOURCES) perfbook-1c.aux
+ 	bibtex perfbook-1c
+
+ perfbook-1c.aux: $(LATEXSOURCES) $(EPSSOURCES) extraction embedfonts
+ 	sh utilities/runfirstlatex.sh perfbook-1c
+
+-perfbook-hb.pdf: perfbook-hb.bbl $(LATEXSOURCES) $(EPSSOURCES) extraction embedfonts
+-	sed -e 's/,twocolumn/&,letterpaperhb/' -e 's/setboolean{hardcover}{false}/setboolean{hardcover}{true}/' < perfbook.tex > perfbook-hb.tex
++perfbook-hb.pdf: perfbook-hb.tex perfbook-hb.bbl $(LATEXSOURCES) $(EPSSOURCES) extraction embedfonts
+ 	sh utilities/runlatex.sh perfbook-hb
+
++perfbook-hb.tex: perfbook.tex
++	sed -e 's/,twocolumn/&,letterpaperhb/' -e 's/setboolean{hardcover}{false}/setboolean{hardcover}{true}/' < perfbook.tex > perfbook-hb.tex
++
+ perfbook-hb.bbl: $(BIBSOURCES) perfbook-hb.aux
+ 	bibtex perfbook-hb
+
+@@ -257,7 +261,7 @@ clean:
+ 		-o -name '*.dvi' -o -name '*.log' \
+ 		-o -name '*.qqz' -o -name '*.toc' -o -name '*.bbl' | xargs rm -f
+ 	rm -f perfbook_flat.tex perfbook_html.tex perfbook.out perfbook-1c.out
+-	rm -f perfbook-hb.out
++	rm -f perfbook-hb.out perfbook-1c.tex perfbook-hb.tex
+ 	rm -rf perfbook_html
+ 	rm -f SMPdesign/DiningPhilosopher5.eps \
+ 	      SMPdesign/DiningPhilosopher5TB.eps \
+-- 
+1.9.1
 
