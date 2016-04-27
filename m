@@ -1,56 +1,54 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e18.ny.us.ibm.com ([129.33.205.208]:48128 "EHLO
- e18.ny.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1754341AbcDZXrW (ORCPT	<rfc822;perfbook@vger.kernel.org>); Tue, 26 Apr 2016
- 19:47:22 -0400
-Received: from localhost	by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Tue, 26 Apr
- 2016 19:47:21 -0400
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28])	by d01dlp01.pok.ibm.com (Postfix) with ESMTP id 5E5B638C803B
- for <perfbook@vger.kernel.org>; Tue, 26 Apr 2016 19:47:18 -0400 (EDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u3QNlItb42008794	for <perfbook@vger.kernel.org>; Tue, 26 Apr 2016 23:47:18
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u3QNlHML005148	for <perfbook@vger.kernel.org>; Tue, 26 Apr 2016 19:47:18
- -0400
-Date: Tue, 26 Apr 2016 16:47:55 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/2] SMPdesign: fixup trivial nitpicks
-Message-ID: <20160426234755.GX3715@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <1461713595-29898-1-git-send-email-sj38.park@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=KECvrbw85snSkaiBWiAa1JYGcvB+gThcc5p0kzoRUCc=;
+ b=OLlvNSWpFCTwaJynwGkX7ZrcC6BHJ+wvOCKh6jiRrKlsjTn5mAi34r8y7iu9zjGpX3
+ sLtC/rhRVWl6WZnRJj54uRI7NoA6DN+v838mjh07XMnskhGKyf4JszQvo3jKtJYazbEs
+ mMm9FlZA8/zc5OKApcdV0QDrgFjVjgGrmTflnErKP9ZWEYc1Qw+q8GJDGw4F78jywB0V
+ K3iYVkIJQEhw5gvmsUrYtRVCXU0P05zP1K8CtuC1uExxANm+0i95jbQ/vgoSY2sBv6ap
+ fumrTHEpCbwYrSp3g2oudQ+8lHfiDUw1blu5fvQt7zr8NzupOokOpfXgp53SB/24pkSd
+ Pqwg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Some questions
+Message-ID: <c95dbdd5-69f5-76f3-b678-08e78032ffd2@gmail.com>
+Date: Thu, 28 Apr 2016 00:21:48 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1461713595-29898-1-git-send-email-sj38.park@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Apr 27, 2016 at 08:33:13AM +0900, SeongJae Park wrote:
-> This patchset contains fixup of trivial nitpicks that found during translation
-> of SMPdesign/ directory.
+Hi, Paul.
 
-Good eyes, queued and pushed them both.
+The quotations recently added at the top of Chapters look really nice!
+They make perfbook look more like a full-fledged publication.
 
-							Thanx, Paul
+However, the newly added Table 14.2 "A Variable With More Simultaneous Values"
+seems like it is not complete yet.  Is that the case?
 
-> SeongJae Park (2):
->   SMPdesign: add missing tildes
->   SMPdesign: keep consistent expression
-> 
->  SMPdesign/SMPdesign.tex     | 6 +++---
->  SMPdesign/beyond.tex        | 6 ++++--
->  SMPdesign/partexercises.tex | 2 +-
->  3 files changed, 8 insertions(+), 6 deletions(-)
-> 
-> -- 
-> 1.9.1
-> 
+Looks like you used some custom script or something to generate the table
+from a raw data that contains when each cpu sees the updates.
+
+Do you have a plan to replace the Table with a Figure something like
+Figure 14.5 "A Variable With Multiple Simultaneous Values"?
+
+If you do, I'll refrain from touching the Table. Rather, I'd be interested
+in improving the script you might be using, if any.
+
+Another totally unrelated question is about the URL you placed in
+Section C.7: "http://www.openvms.compaq.com/wizard/wiz_2637.html".
+Sadly, this URL is no longer valid. Do you happen to aware of an alternative
+URL still accessible today?
+
+By looking up a Wikipedia article, I found a page at
+http://h18002.www1.hp.com/alphaserver/technology/chip-docs.html,
+which is "Archived technical documentation library" of Alpha
+containing links to technical documentation for Alpha microprocessors
+and Alpha ATX motherboards. Is there a document there which can be
+referred to instead of the above mentioned URL?
+
+                                                  Thanks, Akira
 
