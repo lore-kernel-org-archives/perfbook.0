@@ -2,42 +2,84 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=/gdjbyWHNzjyY4bFt3f6hhrJk+0/e6pEhY1WTDxXi+U=;
- b=AWzWO2pT8kKdB25bpBbXZ0o3XrxMj3mcpkdrbp3FQ2Vsw4/R2vkoiIAu2pr0+9owWe
- eHJuYMWiXlGxp+9ew/UnSzrkfgEfEBIEmbaqxccd25BZeSi6LZWJGqV4MpuvNYtO3dp+
- KhZiq8vVPJdGXe0pRP2IrxFYy72ePDY6C8EGrrpYUY4zqIcmekQchbzdVb80kkDw+Fe9
- yR9HnRKilbPzNY/6AOcw/78BAABf+i9nRtNe4o8RhBCEQFVIOCTFaqfKgT144cjC8S6z
- aqy/jPedGxcunXBTNiHBwa0TPs6ovaIUNQNkx6SrDE2EEJwAZV4xP1Xr4Tk6OCI5xsoF
- ubzQ==
-Subject: Re: [RFT PATCH 1/5] Further improvement of build scripts (was Re:
- [RFT PATCH 0/5] Another round of build script tweaks)
+ bh=BDrLzgjF0RfOeIz1QyqAGNxOfoN+OmVbc3leoBfjFc0=;
+ b=scdb0kCjv14nZNb74G5jJive+RIo9hy0mkJ4kDchpu0nS40JjwY2R1B7r5wNLunMLW
+ iyoiXOb9Os4IvnJfnpUA07iVTxV9oWO2AypCWKfguj/0ttBFXaeEFQ9dueiac4O2QN9f
+ RReRT/fhNFiM+tvOO0QJpc/cIOIRscBfhxoEVTqn+mKAGDP2TGrYXHPmFM8I6JpBupBJ
+ XSVPjo3h7QS8AdMhyIixGEn4JmZX4w0x7C2tzTe+EoBTfBwm049dQ3naB5TP44lJbS9+
+ NK06dSePHURqiTISHPVGyZHISOHxNVijllq/eNrn7BN8Kro+0bXQsMj4OgO98CcXwEEf
+ rbvw==
+Subject: [RFT PATCH 2/5] Add font installation check
 References: <9f8a3c0d-75fe-0b6f-733f-2134f67ccd6f@gmail.com>
- <a14c9dfc-9404-4db6-27f7-73bbddf0ce21@gmail.com>
- <2824f7bb-1848-d8dc-c4da-4193c92b9800@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <b6c6743b-8048-b7dd-cf27-da676613bad4@gmail.com>
-Date: Tue, 3 May 2016 21:24:40 +0900
+Message-ID: <0050aeae-8bef-287d-37a6-531d957fccad@gmail.com>
+Date: Tue, 3 May 2016 07:57:57 +0900
 MIME-Version: 1.0
-In-Reply-To: <2824f7bb-1848-d8dc-c4da-4193c92b9800@gmail.com>
+In-Reply-To: <9f8a3c0d-75fe-0b6f-733f-2134f67ccd6f@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi.
+From 9720d1856b2b695c34648ca566a4afdcdcb86abb Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiysw@gmail.com>
+Date: Mon, 2 May 2016 19:03:11 +0900
+Subject: [RFT PATCH 2/5] Add font installation check
 
-I had a trouble with this patch myself.
-This patch changes the targets "embedfonts" and "extraction" to empty targets.
-This will create actual files of those names.
-If you checkout to another branch after those files are created,
-the original Makefile does not work properly.
+This commit adds tests in eps2pdf.sh and runlatex.sh which check
+the presence of the Steel City Comic font in the font cache and
+in PDF files generated from .svg files.
+If either of the tests fails, a message referring the user to
+items 1 and 1.1 in FAQ.txt will be displayed.
 
-If you encounter this issue, please remove those files manually.
+Signed-off-by: Akira Yokosawa <akiysw@gmail.com>
+---
+ utilities/eps2pdf.sh  | 12 ++++++++++++
+ utilities/runlatex.sh |  8 ++++++++
+ 2 files changed, 20 insertions(+)
 
-I should have used different names for the empty targets.
+diff --git a/utilities/eps2pdf.sh b/utilities/eps2pdf.sh
+index c0fcdf9..b72f1a5 100644
+--- a/utilities/eps2pdf.sh
++++ b/utilities/eps2pdf.sh
+@@ -18,6 +18,18 @@
+ # http://www.gnu.org/licenses/gpl-2.0.html.
+ #
+ # Copyright (c) 2010 Paul E. McKenney, IBM Corporation.
++# Copyright (c) 2016 Akira Yokosawa
++
++if ! fc-list | grep -q steel
++then
++	echo "#######################################################################"
++	echo "## Steel City Comic font is not found in the font cache!             ##"
++	echo "## Some speech baloons in the cartoons would be rendered awkwardly.  ##"
++	echo "## See item 1 in FAQ.txt for how to install the font.                ##"
++	echo "## Nevertheless, this build will resume in a short while.            ##"
++	echo "#######################################################################"
++	sleep 5
++fi
 
-Sorry for the trouble.
+ epsfiles=`find . -name '*.eps' -print`
+ for i in $epsfiles
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index 228d320..3e46e6f 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -111,4 +111,12 @@ fi
+ rm -f $basename-warning.log $basename-warning-prev.log
+ touch $basename.pdf
+ echo "No 'LaTeX Warning' found. '$basename.pdf' is ready."
++if ! grep -q -i "steel city comic" cartoons/*.pdf
++then
++	echo "#######################################################################"
++	echo "## Steel City Comic font is not found in the resulting PDF!          ##"
++	echo "## Some speech baloons in the cartoons have been rendered awkwardly. ##"
++	echo "## See items 1 and 1.1 in FAQ.txt for the solution.                  ##"
++	echo "#######################################################################"
++fi
+ exit 0
+-- 
+1.9.1
 
-                                              Thanks, Akira
 
