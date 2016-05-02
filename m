@@ -1,74 +1,68 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e37.co.us.ibm.com ([32.97.110.158]:44426 "EHLO
- e37.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1752404AbcEAWDd (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sun, 1 May 2016
- 18:03:33 -0400
-Received: from localhost	by e37.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Sun, 1 May 2016
- 16:03:32 -0600
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29])	by d03dlp03.boulder.ibm.com (Postfix) with ESMTP id
- 040E019D805E	for <perfbook@vger.kernel.org>; Sun, 1 May 2016 16:03:13 -0600
- (MDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u41M3T0239780404	for <perfbook@vger.kernel.org>; Sun, 1 May 2016 22:03:29 GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u41M3Twm032529	for <perfbook@vger.kernel.org>; Sun, 1 May 2016 18:03:29 -0400
-Date: Sun, 1 May 2016 15:03:31 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [FOLLOW-UP RFC PATCH] advsync: Minor fix of word choice
-Message-ID: <20160501220331.GN3686@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <6cc7de73-01cd-a186-78c4-2cce19f74d31@gmail.com>
- <bc44e04e-2d2c-0000-a6e1-625e51d8fb62@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=oAiE1dDDTR0eueNNYLOwhLoYL5VkLEK4mdvUWxI5nk8=;
+ b=DRIiW0OrZCoQ6ZYQ/8krxzwvR9Fu0YXz0G7VshTVAqCVyVw1+SaXFdsUQcBzjzYvyu
+ Q5ua0mz5eUprArSwbC6ANNs72dPAKVUIM1r7WlkouCfwO6+/Jx/NLXMu0ZCvlurbGBbc
+ NO+TuVjyvvWvqzNur+6E+G57OTEbMYs2zLdnH/jJ4J05l+dAlO157iZjVfLC3WDYKaIQ
+ 216BdPZhrlT5DdrNqnREkHwHtsKH9tSDMahX6bn8kxR8T1GNqkj53ypuV2uhk5cYi33s
+ 86hYDt3IfzQqvt52Q5YjUDHVap+FA2E65+exq6vplfYeMfrv0rLsDflxVg65KaRtwTsV
+ WM3g==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [RFT PATCH 0/5] Another round of build script tweaks
+Message-ID: <9f8a3c0d-75fe-0b6f-733f-2134f67ccd6f@gmail.com>
+Date: Tue, 3 May 2016 07:47:14 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bc44e04e-2d2c-0000-a6e1-625e51d8fb62@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Apr 30, 2016 at 05:29:51PM +0900, Akira Yokosawa wrote:
-> >From 67433ddbf67a7d37e83426fed98228c245408c89 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiysw@gmail.com>
-> Date: Sat, 30 Apr 2016 17:08:03 +0900
-> Subject: [FOLLOW-UP RFC PATCH] advsync: Minor fix of word choice
-> 
-> This should have been "the vertical line", not "the vertical bar".
-> 
-> Signed-off-by: Akira Yokosawa <akiysw@gmail.com>
+From 4ce174f3c72367fed945fb4448e294d205b8d88a Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiysw@gmail.com>
+Date: Tue, 3 May 2016 00:18:53 +0900
+Subject: [RFT PATCH 0/5]  Another round of build script tweaks
 
-I squashed this into your previous patch and also pulled in fixes for
-a couple of grammatical nits.
+This series restructures build scripts rather radically. 
+My initial feeling was that [5/5] would be the most controversial,
+and placed at the end of the series.
+But in hindsight, [1/5] seems to be the most controversial one.
 
-Thank you!
+Anyway, I'd like people to try them and give feedback.
 
-							Thanx, Paul
+In commit 4038e781ed56 ("Improve behavior of build scripts"),
+I caused some regressions.  They were fixed soon after,
+but I think changes in build scripts need to be heavily tested
+before being pulled in.
 
-> ---
->  advsync/memorybarriers.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-> index dfbf0f3..9cc546c 100644
-> --- a/advsync/memorybarriers.tex
-> +++ b/advsync/memorybarriers.tex
-> @@ -378,7 +378,7 @@ Again, CPU~0 coordinates the test, so does not record any values.
->  All CPUs eventually agree on the final value of 9, but not before
->  the values 15 and 12 take early leads.
->  Note that there are fourteen different opinions on the variable's value
-> -at time 21 indicated by the vertical bar in the lower diagram.
-> +at time 21 indicated by the vertical line in the lower diagram.
->  Note also that all CPUs see sequences whose orderings are consistent with
->  the directed graph shown in
->  Figure~\ref{fig:advsync:Possible Global Orders With More Simultaneous Values}.
-> -- 
-> 1.9.1
-> 
-> 
+Any feedback is welcome. Thanks.
+
+Akira Yokosawa (5):
+  Further improvement of build scripts
+  Add font installation check
+  Add short name targets in Makefile
+  Add explanation of short name target in FAQ.txt
+  Make default target of Makefile overridable
+
+ .gitignore            |   10 +-
+ FAQ.txt               |   23 +
+ Makefile              |  322 +--
+ contrib.tex           |   60 -
+ count/sig-theft.dot   |   19 +-
+ count/sig-theft.eps   |  457 ---
+ origpub.tex           |    8 -
+ qqz.tex               | 7707 -------------------------------------------------
+ utilities/eps2pdf.sh  |   12 +
+ utilities/runlatex.sh |    9 +
+ 10 files changed, 181 insertions(+), 8446 deletions(-)
+ delete mode 100644 contrib.tex
+ delete mode 100644 count/sig-theft.eps
+ delete mode 100644 origpub.tex
+ delete mode 100644 qqz.tex
+
+-- 
+1.9.1
 
