@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=BDrLzgjF0RfOeIz1QyqAGNxOfoN+OmVbc3leoBfjFc0=;
- b=scdb0kCjv14nZNb74G5jJive+RIo9hy0mkJ4kDchpu0nS40JjwY2R1B7r5wNLunMLW
- iyoiXOb9Os4IvnJfnpUA07iVTxV9oWO2AypCWKfguj/0ttBFXaeEFQ9dueiac4O2QN9f
- RReRT/fhNFiM+tvOO0QJpc/cIOIRscBfhxoEVTqn+mKAGDP2TGrYXHPmFM8I6JpBupBJ
- XSVPjo3h7QS8AdMhyIixGEn4JmZX4w0x7C2tzTe+EoBTfBwm049dQ3naB5TP44lJbS9+
- NK06dSePHURqiTISHPVGyZHISOHxNVijllq/eNrn7BN8Kro+0bXQsMj4OgO98CcXwEEf
- rbvw==
-Subject: [RFT PATCH 2/5] Add font installation check
+ bh=JpgK/Xh0eQLMHQOmCsLR6t2J3PNofwtypRH/IDn+VB8=;
+ b=Dh0xhZkWvf1C78RjE57HMkDgkPtcnyJEYrZaMwK+elCcdBLuF9kGinL59rJM0woRbO
+ R3O3LuTDDnnHwCGNsvpKfIkOmiVhsall9sABYVniJzFryKgArCq5tJCk6Qj2T8SjErWt
+ dqrJrKfLdKk9ouh4516yvpl7p8oa599bstEfYelCHzff/TWf1qjv55BL5Nj9zKJLNo2+
+ a68NqmcOsilLIwKErAOIx73GWyPF5XcBwM/X4doPEXffJucy1dXiUF0Ym46QEvUy0+G9
+ lytwigM+PPwVUdq6KdBrwM/64I4VhbRUlCCEh6R89/NlBtTDZ70GuGEeDKjceud9pFhX
+ JXhw==
+Subject: [RFT PATCH 3/5] Add short name targets in Makefile
 References: <9f8a3c0d-75fe-0b6f-733f-2134f67ccd6f@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <0050aeae-8bef-287d-37a6-531d957fccad@gmail.com>
-Date: Tue, 3 May 2016 07:57:57 +0900
+Message-ID: <b499d9fb-888a-843e-9d2b-194386fcc6ca@gmail.com>
+Date: Tue, 3 May 2016 07:59:39 +0900
 MIME-Version: 1.0
 In-Reply-To: <9f8a3c0d-75fe-0b6f-733f-2134f67ccd6f@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,63 +22,42 @@ To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 9720d1856b2b695c34648ca566a4afdcdcb86abb Mon Sep 17 00:00:00 2001
+From cc911005c633213f6496ea010c69d6fec1ddb1e4 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiysw@gmail.com>
-Date: Mon, 2 May 2016 19:03:11 +0900
-Subject: [RFT PATCH 2/5] Add font installation check
+Date: Mon, 2 May 2016 19:29:03 +0900
+Subject: [RFT PATCH 3/5] Add short name targets in Makefile
 
-This commit adds tests in eps2pdf.sh and runlatex.sh which check
-the presence of the Steel City Comic font in the font cache and
-in PDF files generated from .svg files.
-If either of the tests fails, a message referring the user to
-items 1 and 1.1 in FAQ.txt will be displayed.
+This commit adds short name targets "2c", "1c", and "hb" in
+Makefile.
+
+"2c" is added for consistency.
 
 Signed-off-by: Akira Yokosawa <akiysw@gmail.com>
 ---
- utilities/eps2pdf.sh  | 12 ++++++++++++
- utilities/runlatex.sh |  8 ++++++++
- 2 files changed, 20 insertions(+)
+ Makefile | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/utilities/eps2pdf.sh b/utilities/eps2pdf.sh
-index c0fcdf9..b72f1a5 100644
---- a/utilities/eps2pdf.sh
-+++ b/utilities/eps2pdf.sh
-@@ -18,6 +18,18 @@
- # http://www.gnu.org/licenses/gpl-2.0.html.
- #
- # Copyright (c) 2010 Paul E. McKenney, IBM Corporation.
-+# Copyright (c) 2016 Akira Yokosawa
+diff --git a/Makefile b/Makefile
+index eaf101e..662e2c2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -66,9 +66,15 @@ SVGSOURCES = \
+ 	datastruct/*.svg \
+ 	rt/*.svg
+
+-.PHONY: all clean distclean touchsvg neatfreak
++.PHONY: all clean distclean touchsvg neatfreak 1c 2c hb
+ all: perfbook.pdf
+
++2c: perfbook.pdf
 +
-+if ! fc-list | grep -q steel
-+then
-+	echo "#######################################################################"
-+	echo "## Steel City Comic font is not found in the font cache!             ##"
-+	echo "## Some speech baloons in the cartoons would be rendered awkwardly.  ##"
-+	echo "## See item 1 in FAQ.txt for how to install the font.                ##"
-+	echo "## Nevertheless, this build will resume in a short while.            ##"
-+	echo "#######################################################################"
-+	sleep 5
-+fi
++1c: perfbook-1c.pdf
++
++hb: perfbook-hb.pdf
++
+ perfbook.pdf: perfbook.bbl
+ 	sh utilities/runlatex.sh perfbook
 
- epsfiles=`find . -name '*.eps' -print`
- for i in $epsfiles
-diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
-index 228d320..3e46e6f 100644
---- a/utilities/runlatex.sh
-+++ b/utilities/runlatex.sh
-@@ -111,4 +111,12 @@ fi
- rm -f $basename-warning.log $basename-warning-prev.log
- touch $basename.pdf
- echo "No 'LaTeX Warning' found. '$basename.pdf' is ready."
-+if ! grep -q -i "steel city comic" cartoons/*.pdf
-+then
-+	echo "#######################################################################"
-+	echo "## Steel City Comic font is not found in the resulting PDF!          ##"
-+	echo "## Some speech baloons in the cartoons have been rendered awkwardly. ##"
-+	echo "## See items 1 and 1.1 in FAQ.txt for the solution.                  ##"
-+	echo "#######################################################################"
-+fi
- exit 0
 -- 
 1.9.1
 
