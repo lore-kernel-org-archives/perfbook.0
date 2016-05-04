@@ -1,80 +1,76 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e17.ny.us.ibm.com ([129.33.205.207]:57373 "EHLO
- e17.ny.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1756831AbcEDAvw (ORCPT	<rfc822;perfbook@vger.kernel.org>); Tue, 3 May 2016
- 20:51:52 -0400
-Received: from localhost	by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Tue, 3 May 2016
- 20:51:51 -0400
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24])	by d01dlp01.pok.ibm.com (Postfix) with ESMTP id 49E4638C8051
- for <perfbook@vger.kernel.org>; Tue, 3 May 2016 20:51:49 -0400 (EDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u440pnIR29360240	for <perfbook@vger.kernel.org>; Wed, 4 May 2016 00:51:49 GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u440pmHH029144	for <perfbook@vger.kernel.org>; Tue, 3 May 2016 20:51:49 -0400
-Date: Tue, 3 May 2016 17:51:48 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] .gitignore: Add planned empty targets
-Message-ID: <20160504005148.GS3800@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <37282858-f590-1eed-457e-7f825634ee9d@gmail.com>
- <9f3461a6-7257-1c4c-68f5-fb66644992e4@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=O3b+xrRos126Dwiu8/IdCeEzdoRNjRjpDtDZIfEYdIc=;
+ b=Avxz0Oo7lrD03YgMrzora09d7APv8YbgmH5iO/g1vGlR0bgcE7/u+qgXDnumwv26HC
+ jj6sx82WLMZ7YoxXoD7LUqPlGWtPfFvA6e2NFzZsjk+4+xTCVpn15TbZ0dd+WARBBe3H
+ ESmwZLjVd8dPpk/TWJjm4MyGjoFsZ25yMKYJ1elcD/NIn8cGf7Gq/3IwBoynmMdXJTS0
+ hwJrFvYyI/+/m/0kzeTK9PuL5E7YmlhQrHpTiOubb/g7Ciw5c1qiQBbtXP+Vxj3AvYu+
+ XXPu64B+D2aQDhrgOAl9Cx3mWWu0xFXZ3CEtQahkd29B5eif7oiBq+wl6RbalRXarjoj
+ 0Udg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [GIT PULL FOR TEST v2] Another round of build script tweaks
+Message-ID: <3d253c44-5f0d-a809-119d-70f0ba38000e@gmail.com>
+Date: Thu, 5 May 2016 00:39:22 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9f3461a6-7257-1c4c-68f5-fb66644992e4@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, May 04, 2016 at 08:10:53AM +0900, Akira Yokosawa wrote:
-> On 2016/05/04 8:06, Akira Yokosawa wrote:
-> >>From f0be4630d38992d2f247678914c208113c437509 Mon Sep 17 00:00:00 2001
-> > From: Akira Yokosawa <akiysw@gmail.com>
-> > Date: Wed, 4 May 2016 07:38:30 +0900
-> > Subject: [PATCH] .gitignore: Add planned empty targets
-> > 
-> > This change will prevent "git status" from complaining when you
-> > switch from a planned test branch to other branches.
-> > Note: Target names 'extraction' and 'embedfonts' are now denoted
-> > as phony targets on the master branch. Therefore, it is safe to
-> > change them to empty targets of the same names on the planned test
-> > branch.
-> > 
-> > Signed-off-by: Akira Yokosawa <akiysw@gmail.com>
-> > ---
-> >  .gitignore | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/.gitignore b/.gitignore
-> > index 39fd69d..18b3d63 100644
-> > --- a/.gitignore
-> > +++ b/.gitignore
-> > @@ -25,6 +25,12 @@ perfbook-1c.tex
-> >  perfbook-1c.out
-> >  perfbook-hb.tex
-> >  perfbook-hb.out
-> > +qqz_first
-> > +perfbook_aux
-> > +perfbook-1c_aux
-> > +perfbook-hb_aux
-> > +extraction
-> > +embedfonts
-> >  
-> >  RCS
-> >  
-> > 
-> 
-> Hi,
-> I also want this one to be pulled before I start working on
-> v2 of "Another round of build script tweaks" series.
+Hi, Paul.
 
-Done.  Feel free clone the archive and send pull requests, by the way.
+Finally, I set up a GitHub account, and pushed v2 of the series
+"Another round of build script tweaks".
 
-							Thanx, Paul
+Please pull this into your local test branch and take time to see if
+it actually works as you would expect. I'm fairly certain there would
+be some regression, especially in the final commit 92ae43c3a72a
+("Further improvement of build scripts").
+I'm also concerned about the fix of sig-theft.dot.
+
+Changes from v1.
+    Reorganized the entire series so that minor changes would come
+    first.
+
+Note: While I set up the account, I noticed a typo in my git-config
+setting of user.email.  My email address in the commit messages so
+far was wrong. Sorry for the slip-up...
+
+                                                Thanks, Akira
+
+---
+The following changes since commit 3f8bb7d620edee44637be00ba738761a4fc0732e:
+
+  .gitignore: Add planned empty targets (2016-05-03 17:49:50 -0700)
+
+are available in the git repository at:
+
+  https://github.com/akiyks/perfbook.git makefile-tweaks-v2
+
+for you to fetch changes up to 92ae43c3a72a3bcd7fd99ac681209ceafc6d7e65:
+
+  Further improvement of build scripts (2016-05-04 23:43:06 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (7):
+      Add font installation check
+      Add short name targets in Makefile
+      sig-theft: Fix .dot source for dot - graphviz version 2.36.0
+      Make default target of "make" overridable
+      Makefile: Reorder rules
+      Makefile: Use wildcards
+      Further improvement of build scripts
+
+ .gitignore            |   1 -
+ FAQ.txt               |  23 ++++
+ Makefile              | 336 ++++++++++++++++++-------------------------------
+ count/sig-theft.dot   |  17 +--
+ count/sig-theft.eps   | 338 +++++++++++++++++++++++---------------------------
+ utilities/eps2pdf.sh  |  12 ++
+ utilities/runlatex.sh |   9 ++
+ 7 files changed, 333 insertions(+), 403 deletions(-)
 
