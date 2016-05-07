@@ -1,59 +1,151 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e31.co.us.ibm.com ([32.97.110.149]:38864 "EHLO
- e31.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1751379AbcEKI41 (ORCPT	<rfc822;perfbook@vger.kernel.org>); Wed, 11 May 2016
- 04:56:27 -0400
-Received: from localhost	by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Wed, 11 May
- 2016 02:56:26 -0600
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28])	by d03dlp02.boulder.ibm.com (Postfix) with ESMTP id
- C5F213E40030	for <perfbook@vger.kernel.org>; Wed, 11 May 2016 02:56:24 -0600
- (MDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u4B8uO6V37552146	for <perfbook@vger.kernel.org>; Wed, 11 May 2016 08:56:24
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u4B8uNd5018221	for <perfbook@vger.kernel.org>; Wed, 11 May 2016 04:56:24
- -0400
-Date: Wed, 11 May 2016 01:56:26 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH v3 1/3] qqz: Improve accuracy of cross-links
-Message-ID: <20160511085626.GD3515@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <571C1843.1060906@gmail.com> <571C1C8F.9000602@gmail.com>
- <57307D90.3050200@redhat.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=VinLQQz/btoqf2I/GsIsO39wnPEZ6i4A0/F/wnODFsQ=;
+ b=kMZN2aedSu4pr8RdDcCEeNg2GLcg8D/8ZWCkBfldPRZV5Qb/23LI5c0dR6dCWS3E4J
+ avULJQcp29MEA9jR+wQSJm9rDqJU21YjLBSYYlGeFxbocG3zWfH5YPQb8yA/ptqSswgs
+ WAY2njtYm5RJ480FKc8BbwUPnHkvaAog9MPsIBsSzx66e90+pSge+3cF2hQrh9vdg71s
+ N90Z83yHPk+16Zw0xeEnkImbx7HAaWz4aKphIv9V9EH0TeG45xQjnnyxNscpijOOiZCj
+ mwQ+jtDFc9QupX/tLGQyZnkuA0WuMnVBINL+x8pSavetxX7aIzetHsqsrr3CiXRglyZL
+ wkgA==
+Subject: Re: [GIT PULL v3] Another round of build script tweaks
+References: <3d253c44-5f0d-a809-119d-70f0ba38000e@gmail.com>
+ <13c274c8-bde5-b13c-7c1b-64731a2298c2@gmail.com>
+ <20160505132153.GG3750@linux.vnet.ibm.com>
+ <5864f027-b0dd-ee44-0005-c9fb289bc8cc@gmail.com>
+ <20160506110935.GA3593@linux.vnet.ibm.com>
+ <9bef63f8-e639-598f-c422-573e178b261d@gmail.com>
+ <20160507132039.GN3593@linux.vnet.ibm.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <66044a40-906d-0c7c-afdd-d26da56db3c5@gmail.com>
+Date: Sun, 8 May 2016 00:23:49 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <57307D90.3050200@redhat.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <20160507132039.GN3593@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 
-On Mon, May 09, 2016 at 02:07:44PM +0200, Paolo Bonzini wrote:
+On 2016/05/07 06:20:39 -0700, Paul E. McKenney wrote:
+> On Sat, May 07, 2016 at 09:06:18AM +0900, Akira Yokosawa wrote:
+>> Hi, Paul.
+>>
+>> On 2016/05/06 04:09:35 -0700, Paul E. McKenney wrote:
+>>> On Fri, May 06, 2016 at 08:47:13AM +0900, Akira Yokosawa wrote:
+>>>> Is it OK to commit the fixes on the makefile-tweaks-v2 branch?
+>>>
+>>> Make the above changes, and I will commit it.  "git rebase -i" is
+>>> of course your friend for this task.
+>>>
+>>
+>> It seems there were no advance in master since then, so rebase was
+>> not necessary.
 > 
+> The issue is not master moving.  If I do move it in the next little
+> bit, it will be for changes under CodeSamples, which won't conflict
+> with your changes anyway.  So for me it will be a simple merge, not
+> a problem at all.
 > 
-> On 24/04/2016 03:08, Akira Yokosawa wrote:
-> > This commit also updates the copyright notices in the header,
-> > including the name of Paolo Bonzini who authored the commit
-> > mentioned above.
+> I am instead asking you to rebase in order to put the changes I
+> requested into a few of the earlier patches.  For example:
 > 
-> Not sure what's Paul's policy about copyright and authors in files (the
-> "Copyright (C)" stuff dates back to before the US joined the Berne
-> Convention; and authorship is recorded well in git logs).
+> 	git branch makefile-tweaks-v3
+> 	git rebase -i origin/master origin/master makefile-tweaks-v3
+> 
+> Creating the branch allows you to keep the history.  This is important,
+> as it allows you to do this as a check after you are done:
+> 
+> 	git diff makefile-tweaks-v2
+> 
+> Any diffs should of course correspond to intentional changes.
+> 
+> Alternatively, you can do the following:
+> 
+> 	git checkout -b makefile-tweaks-v3 origin/master
+> 
+> Then for each commit ID "X":
+> 
+> 	git cherry-pick -n X
+> 	# Do any needed editing
+> 	git commit -a -s
+> 
+> At the end, you can again use "git diff" to check your work.
+> 
+> You don't have a huge number of commits, so either way will work well.
+> If you had (say) 20 commits, "git rebase -i" would work much better.
+> 
+>> Pull request follows. Note that this is relative to the last one.
+>> Do you prefer a request relative to the current master?
+> 
+> Please!  That allows you to create FAQ-BUILD.txt to start with and
+> have your changes relative to that.
 
-My employer also dates before the Berne convention, so no problem here.
+I see. Attached is the retry of the PULL request. I hope it is what you are
+expecting. In the future, I'll do things this way. There are a lot of things
+I need to learn regarding the workflow using git.
 
-> Apart from this, I agree with the meat of the change. I didn't know
-> about the \newcounter{}[] syntax, hence my hack using \setcounter.
+                                             Thanks, Akira
+---
+Changes from v2:
+    changes from "Fix regression in Makefile" to "Makefile: Add comment on why
+    'extraction' is an empty target".  In short, 
+        1) regression in v2 ("make distclean") is fixed
+        2) questions on build issues in FAQ.txt are moved to a new file FAQ-BUILD.txt,
+        3) use of empty targets "perfbook_aux", "perfbook-1c_aux" and
+           "perfbook-hb_aux" are abandoned and actual "perfbook.aux", etc. are
+           used instead,
+        4) rule for qqz.tex is added and qqz.tex is removed from the repository, 
+        5) rule for (.dot -> pdf) is removed and rule of (.dot -> .eps) is used
+           instead. store15tred.esp is added to the repository,
+        6) rules related to perfbook_html is removed,
 
-I expect both the original and the improvement to be quite welcome,
-especially for people reading this on small form-factor devices!
+Changes from v1:
+    Reorganized the entire series so that minor changes would come
+    first.
 
-							Thanx, Paul
+---
+The following changes since commit 3f8bb7d620edee44637be00ba738761a4fc0732e:
+
+  .gitignore: Add planned empty targets (2016-05-03 17:49:50 -0700)
+
+are available in the git repository at:
+
+  https://github.com/akiyks/perfbook.git makefile-tweaks-v3
+
+for you to fetch changes up to 22332091df93f7255a8b898272be903f365a7152:
+
+  Makefile: Add comment on why 'extraction' is an empty target (2016-05-07 23:36:48 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (13):
+      Add font installation check
+      Add short name targets in Makefile
+      sig-theft: Fix .dot source for dot - graphviz version 2.36.0
+      Make default target of "make" overridable
+      Makefile: Reorder rules
+      Makefile: Use wildcards
+      Further improvement of build scripts
+      Fix regression in Makefile
+      Place trouble-shooting questions to FAQ-BUILD.txt
+      Further tweaks of Makefile
+      rm qqz.tex and add store15tred.esp in repository
+      Remove rules related to perfbook_html
+      Makefile: Add comment on why 'extraction' is an empty target
+
+ .gitignore              |   11 +-
+ FAQ-BUILD.txt           |   80 +
+ FAQ.txt                 |   68 +-
+ Makefile                |  353 +--
+ advsync/store15tred.eps |  653 ++++
+ count/sig-theft.dot     |   17 +-
+ count/sig-theft.eps     |  338 +--
+ qqz.tex                 | 7707 -----------------------------------------------
+ utilities/eps2pdf.sh    |   12 +
+ utilities/runlatex.sh   |   13 +-
+ 10 files changed, 1062 insertions(+), 8190 deletions(-)
+ create mode 100644 FAQ-BUILD.txt
+ create mode 100644 advsync/store15tred.eps
+ delete mode 100644 qqz.tex
 
