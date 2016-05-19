@@ -1,61 +1,60 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e37.co.us.ibm.com ([32.97.110.158]:47317 "EHLO
- e37.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1751441AbcESAdx (ORCPT	<rfc822;perfbook@vger.kernel.org>); Wed, 18 May 2016
- 20:33:53 -0400
-Received: from localhost	by e37.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Wed, 18 May
- 2016 18:33:49 -0600
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29])	by d03dlp03.boulder.ibm.com (Postfix) with ESMTP id
- EF34D19D803F	for <perfbook@vger.kernel.org>; Wed, 18 May 2016 18:33:28 -0600
- (MDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u4J0XkUk39583746	for <perfbook@vger.kernel.org>; Thu, 19 May 2016 00:33:46
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u4J0XjPd031845	for <perfbook@vger.kernel.org>; Wed, 18 May 2016 20:33:46
- -0400
-Date: Wed, 18 May 2016 17:33:50 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/2] locking: fixup trivial nitpicks
-Message-ID: <20160519003350.GG3528@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <1463612040-21728-1-git-send-email-sj38.park@gmail.com>
+Return-Path: <sj38.park@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc;        bh=jxtC5XEDZ+HWAigHVnidg0TP69UgXziwbfyUSwccwNQ=;
+ b=YwKzgkfY/THiFtYSKU+mU6eokAZMlS5HTZwI6rXU9h6ufhIJ+0v3AFErKZdnR5ezYe
+ JM7n7jUUyyinQNtmBZ4iMauH7JuGEGbRqVHSB/LOBfv8VlFA5XET8wNog/OWSV8xLpNG
+ 4XQ6BM7WW5jiqa6cITkBICKnltwarm1IzXGeGv0joyNd3Guzpr/3FLDjSxcW5ASQxgDr
+ IPTXvCrOjCK4AeZZsfGqVo9B82KP4Qj03aYaKgRoTz5zIi8QJzIyDDoigorYTG666Yf3
+ gCQMhUQI+9lokUkUtb+VewfO4FlxP73Qj6D6FDJ0GckxR/4pxtZ9yucwuocYe5T1zJVY
+ r5jQ==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1463612040-21728-1-git-send-email-sj38.park@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
+In-Reply-To: <20160519003350.GG3528@linux.vnet.ibm.com>
+References: <1463612040-21728-1-git-send-email-sj38.park@gmail.com>
+ <20160519003350.GG3528@linux.vnet.ibm.com>
+From: SeongJae Park <sj38.park@gmail.com>
+Date: Thu, 19 May 2016 09:35:15 +0900
+Message-ID: 
+ <CAEjAshpT1X-nhz_8WiboQ9R6Uz1w7NbVqgnE=+nv6R8nL=Pn0A@mail.gmail.com>
+Subject: Re: [PATCH 0/2] locking: fixup trivial nitpicks
+Content-Type: text/plain; charset=UTF-8
+To: Paul McKenney <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Thu, May 19, 2016 at 07:53:58AM +0900, SeongJae Park wrote:
-> This patchset contains fixup of trivial nitpickes that found during translation
-> of locking/ directory.
+On Thu, May 19, 2016 at 9:33 AM, Paul E. McKenney
+<paulmck@linux.vnet.ibm.com> wrote:
+> On Thu, May 19, 2016 at 07:53:58AM +0900, SeongJae Park wrote:
+>> This patchset contains fixup of trivial nitpickes that found during translation
+>> of locking/ directory.
+>
+> Queued and pushed, thank you!
+>
+> On future submissions, could you please capitalize the word in the
+> subject line following the ":", as shown below?  (I have been fixing
+> them manually.)
 
-Queued and pushed, thank you!
+Ok, I will!
 
-On future submissions, could you please capitalize the word in the
-subject line following the ":", as shown below?  (I have been fixing
-them manually.)
 
-							Thanx, Paul
+Thanks,
+SeongJae Park
 
-> SeongJae Park (2):
->   locking: use consistent expressions
-    locking: Use consistent expressions
->   locking: fix typos
-    locking: Fix typos
-> 
->  locking/locking.tex | 38 +++++++++++++++++++-------------------
->  1 file changed, 19 insertions(+), 19 deletions(-)
-> 
-> -- 
-> 1.9.1
-> 
+>
+>                                                         Thanx, Paul
+>
+>> SeongJae Park (2):
+>>   locking: use consistent expressions
+>     locking: Use consistent expressions
+>>   locking: fix typos
+>     locking: Fix typos
+>>
+>>  locking/locking.tex | 38 +++++++++++++++++++-------------------
+>>  1 file changed, 19 insertions(+), 19 deletions(-)
+>>
+>> --
+>> 1.9.1
+>>
+>
 
