@@ -1,71 +1,66 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=obFJ4WxZbI0+Fou9zo7fGxR5SvzsvO0NSCLm27hlPaI=;
- b=NSvd3evSRlDYVg7ygGxQPG4tF9HCjHjpKI76JA+QToGG4E7aqd5ilIJbFYeXm25Kfw
- 3cMhFRuTskuZUf64MJOa8jFXOC3EVRarhHLRQPiLbgS94AhoLo+b4FPodRaydR5w6Niq
- blUhAbuzPKa9gTNGdHA0huerh/fV7lBH5Z+ysmX7axxktj2tOZ1YJYnK7fxnhA0gRox8
- rTpiCnO8loijc3afsS/udsemoBJ1e3GdubQGQ3KsXXtc6Eyi2tvrMJ/rOnW4OFqYFp7D
- pY7IMi+ZCKJdmklTDm7tEF0wuXZuuXr93JKyArUQxr2fTbSk8C0WwNAGVYQBBrFwk9ig
- 1Dkw==
-Subject: Test result on Ubuntu 16.04 (was Re: [PATCH] Improve messages
- regarding font installation)
-References: <0b0668b6-76b8-2490-9777-1e0aa0e10280@gmail.com>
- <09228564-927a-0300-9f7c-7c86915092c0@gmail.com>
- <20160519194651.GV3528@linux.vnet.ibm.com>
- <27cce515-fa2c-f32e-fb35-ae0439a11207@gmail.com>
- <7c8fa167-70f1-9d01-d3db-2c2de2b6161f@gmail.com>
- <20160520041308.GB3528@linux.vnet.ibm.com>
- <169da448-5839-5b48-555f-19ef2d358722@gmail.com>
- <96472949-eb2b-a3d8-59ed-25150c83ffba@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <3d57be07-dd15-9553-4b50-343246948fbd@gmail.com>
-Date: Sat, 21 May 2016 19:22:04 +0900
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from e31.co.us.ibm.com ([32.97.110.149]:57188 "EHLO
+ e31.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
+ S1751920AbcEUPBz (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sat, 21 May 2016
+ 11:01:55 -0400
+Received: from localhost	by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted	for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Sat, 21 May
+ 2016 09:01:54 -0600
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27])	by d03dlp02.boulder.ibm.com (Postfix) with ESMTP id
+ E58893E4003B	for <perfbook@vger.kernel.org>; Sat, 21 May 2016 09:01:47 -0600
+ (MDT)
+Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
+ b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ u4LF1l9L39911550	for <perfbook@vger.kernel.org>; Sat, 21 May 2016 15:01:47
+ GMT
+Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
+ d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
+ u4LF1lLU002416	for <perfbook@vger.kernel.org>; Sat, 21 May 2016 11:01:47
+ -0400
+Date: Sat, 21 May 2016 08:01:55 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [GIT PULL v2] Fix false positive font warning and update related
+ documents
+Message-ID: <20160521150155.GD3528@linux.vnet.ibm.com>
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <f3ad99e8-8d6f-5910-9aad-35a35bfb3ea6@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <96472949-eb2b-a3d8-59ed-25150c83ffba@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f3ad99e8-8d6f-5910-9aad-35a35bfb3ea6@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-On 2016/05/21 8:43 +0900, Akira Yokosawa wrote:
-> On 2016/05/20 21:00 +0900, Akira Yokosawa wrote:
-[snip]
->>
->> It seems cairo version you are using is 1.10.2.
->> The version I'm using is 1.13.1.
->>
->> As a band-aid fix, I'll send a patch in reply to this message.
->> Please note that there may be conflict with the previous patch
->> ("Improve messages regarding font installation").
->>
+On Sat, May 21, 2016 at 09:13:08AM +0900, Akira Yokosawa wrote:
+> The following changes since commit adc5a0ed9702d1fa2ec8620b1ff16ed2fbd6b9a4:
 > 
-> Hi, Paul.
+>   Fix typo "baloon" -> "balloon" (2016-05-18 18:30:31 -0700)
 > 
-> I've made a better patch series relative to current master.
-> I tested on both Ubuntu 12.04 and Ubuntu 14.04.
-> I don't have Ubuntu 16.04 yet, but I'm going to test on it.
-
-Hi, Paul,
-I tested the patch on Ubuntu 16.04.
-It works fine there.
-
-FYI, there is a minor problem in eps2pdf.sh with a2ping spitting
-a lot of messages
-"GPL Ghostscript 9.18: Unrecoverable error, exit code 1".
-
-Luckily for us, the resulting PDF looks fine to me.
-Googling the above message hits a lot of pages.
-But I can't figure out a workaround yet.
-
-                                               Thanks, Akira
-
-> I'll send a pull request later.
-> (Yes, I'm using "git rebase -i")
+> are available in the git repository at:
 > 
->                                                   Thanks, Akira
+>   https://github.com/akiyks/perfbook.git fix-false-positive-v4
 > 
-[snip]
+> for you to fetch changes up to bd11b0d690485e0110d9ab31562a790f39d9abe6:
+> 
+>   Improve messages regarding font installation (2016-05-21 09:09:41 +0900)
+
+Pulled, thank you!  This does eliminate the false positive.
+
+							Thanx, Paul
+
+> ----------------------------------------------------------------
+> Akira Yokosawa (2):
+>       Fix false positives in font check
+>       Improve messages regarding font installation
+> 
+>  FAQ-BUILD.txt         | 6 +++---
+>  howto/howto.tex       | 9 +++++----
+>  utilities/eps2pdf.sh  | 4 ++--
+>  utilities/runlatex.sh | 4 ++--
+>  4 files changed, 12 insertions(+), 11 deletions(-)
+> 
 
