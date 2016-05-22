@@ -1,66 +1,72 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from e31.co.us.ibm.com ([32.97.110.149]:57188 "EHLO
- e31.co.us.ibm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org	with ESMTP id
- S1751920AbcEUPBz (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sat, 21 May 2016
- 11:01:55 -0400
-Received: from localhost	by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Sat, 21 May
- 2016 09:01:54 -0600
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27])	by d03dlp02.boulder.ibm.com (Postfix) with ESMTP id
- E58893E4003B	for <perfbook@vger.kernel.org>; Sat, 21 May 2016 09:01:47 -0600
- (MDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u4LF1l9L39911550	for <perfbook@vger.kernel.org>; Sat, 21 May 2016 15:01:47
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u4LF1lLU002416	for <perfbook@vger.kernel.org>; Sat, 21 May 2016 11:01:47
- -0400
-Date: Sat, 21 May 2016 08:01:55 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [GIT PULL v2] Fix false positive font warning and update related
- documents
-Message-ID: <20160521150155.GD3528@linux.vnet.ibm.com>
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <f3ad99e8-8d6f-5910-9aad-35a35bfb3ea6@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=MvPpjAAN556aMGHgPSYdgl+RcBIFvtHo1IZMJMFV9Dk=;
+ b=kl5W+RyRnwNszMsQlLmxm5JrS04XCuy3pfxPmAEpxDz/p6xKpKA5ijtQiWhRM5CrtD
+ JPu+0ar0YG0cn7RKiTL3tup2/7aXR63I/YJZsPpd1ioDBVwa8DNRK3DRlq/PUKy+elgd
+ kB10MJYvEAT0VnjXSrhcHCDAl9QmhigVxXlYQ7idRxGz4JADFb/p3B/tSQGRY18E3Kij
+ XPY9YISj9sxeWXSP417KYYyxMNp7z2HjqNh5el7kDHrawHhBGUcykCv6lnshKBw2eWhw
+ oMwEnhbuJmoqs8zOV6D3lkoKyvIJ+Vaou8SUjgVghNs+wJcpaD49vbpTVPHpJz1AdgJH
+ FwRQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] cpu: Add citation of HP11
+Message-ID: <9cd19ab1-37ce-b528-fddc-919e88a21bfc@gmail.com>
+Date: Sun, 22 May 2016 12:57:44 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f3ad99e8-8d6f-5910-9aad-35a35bfb3ea6@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, May 21, 2016 at 09:13:08AM +0900, Akira Yokosawa wrote:
-> The following changes since commit adc5a0ed9702d1fa2ec8620b1ff16ed2fbd6b9a4:
-> 
->   Fix typo "baloon" -> "balloon" (2016-05-18 18:30:31 -0700)
-> 
-> are available in the git repository at:
-> 
->   https://github.com/akiyks/perfbook.git fix-false-positive-v4
-> 
-> for you to fetch changes up to bd11b0d690485e0110d9ab31562a790f39d9abe6:
-> 
->   Improve messages regarding font installation (2016-05-21 09:09:41 +0900)
+From ffbc919394b33fd71a2ee0203083b0d7388d541d Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Thu, 5 May 2016 11:59:04 +0900
+Subject: [PATCH] cpu: Add citation of HP11
 
-Pulled, thank you!  This does eliminate the false positive.
+Latest edition of Hennessy and Patterson's "Computer Architecture"
+is Fifth edition (2011). This commit adds a citation of it in
+Chapter 3.
 
-							Thanx, Paul
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ bib/hw.bib  | 7 +++++++
+ cpu/cpu.tex | 2 +-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-> ----------------------------------------------------------------
-> Akira Yokosawa (2):
->       Fix false positives in font check
->       Improve messages regarding font installation
-> 
->  FAQ-BUILD.txt         | 6 +++---
->  howto/howto.tex       | 9 +++++----
->  utilities/eps2pdf.sh  | 4 ++--
->  utilities/runlatex.sh | 4 ++--
->  4 files changed, 12 insertions(+), 11 deletions(-)
-> 
+diff --git a/bib/hw.bib b/bib/hw.bib
+index 943206a..4c3f418 100644
+--- a/bib/hw.bib
++++ b/bib/hw.bib
+@@ -74,6 +74,13 @@ year="1992"
+ ,publisher="Morgan Kaufman"
+ }
+
++@Book{Hennessy2011
++,author="John L. Hennessy and David A. Patterson"
++,title="Computer Architecture, Fifth Edition: A Quantitative Approach"
++,year="2011"
++,publisher="Morgan Kaufman"
++}
++
+ @Book{DavidECuller1999
+ ,author="David E. Culler and Jaswinder Pal Singh and Anoop Gupta"
+ ,title="Parallel Computer Architecture: a Hardware/Software Approach"
+diff --git a/cpu/cpu.tex b/cpu/cpu.tex
+index 04cca00..b9c7ef2 100644
+--- a/cpu/cpu.tex
++++ b/cpu/cpu.tex
+@@ -15,7 +15,7 @@ within a shared-memory system.
+ These few pages can do no more than scratch the surface of shared-memory
+ parallel hardware design; readers desiring more detail would do well
+ to start with a recent edition of Hennessy and Patterson's classic
+-text~\cite{Hennessy95a}.
++text~\cite{Hennessy2011,Hennessy95a}.
+
+ \QuickQuiz{}
+ 	Why should parallel programmers bother learning low-level
+-- 
+1.9.1
 
