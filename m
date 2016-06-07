@@ -2,193 +2,97 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=q2uR5+Xb8oqrl7Gnwt8xWKkR1N0e2SFlB2iYlv4ScfE=;
- b=qalPqPCsLLoln/BipkI6Lq1C4HQ1ag+kjnyaLwLL5gH/3aMpwuIdUzEmqFHq5KBvTm
- ld9dCVClHnvnRjqZOju+HIx+P88nPoQqUyDVIFPxCdzoph6t6nOEUBi6r0gXzXUk5LIP
- kCUTkvXdiG+5r4nkhTq9MUxdY6WHIkQJsFaq/FCJHTJX+/I+7MdLLKbqESNbj4dmhxlT
- CaV/dUk0NgrNr6VRXXtirvtFPv8MtlfWcbYIXBhkxR+pMEQqmwzXuJsAaHwPNwhFWqBx
- qpPKJ0MIeYiHYgRv+yRS3aC5Yp26MbSw60IvYEPP3JYGgmJ7OK0Ot78uZI2Cf0mfuRSK
- SzKw==
-Subject: [RFC PATCH 3/3] Makefile: Promote eps2pdf.sh to implicit rules
+ bh=h9x/TqHVh4edAgS8Mzu8SRRZqN0OPTVB19fVquZfbAY=;
+ b=hDVWh3EC6QCeth9+9ePyki3YA9vdJCTUdpYsMGKbfuSRPhRxWAc0YRNOnYEV+EaGpP
+ Nx6bsSISDghiaSoCuGsdHmR7UVJwSSNRWskyN4bb6b3+VU+PlqphDtAdZb23qzQCs+nC
+ PHP+Bvk5pA6FBuUj67ndllLZ1RJZK+lePw31haxN1Em2JOsAxi/UeW1+hH0EIn8Qxea3
+ efmUpF7vUcgsw4VLMkNLcIkI9nJiMDIqLGDjVydMtZZo/0bsz1ph5eXzW18wygDXowPO
+ 9/wcqRa6u3jVS8/89sW5d6Jt/cTe5mfGR1Z15R5i59LnxK1aq5BNepEGFabZ6xWBhhEk
+ NcHQ==
+Subject: Re: [RFC PATCH 0/3] Another round of cleanup and improvement of build
+ scripts
 References: <be0f87e8-a39f-6c82-1946-46bacfcd6f66@gmail.com>
+ <20160607203351.GL3723@linux.vnet.ibm.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <addf9868-338a-b16e-f25c-46309d93861d@gmail.com>
-Date: Sun, 5 Jun 2016 23:58:59 +0900
+Message-ID: <654099e5-1ade-4f17-c5e0-ccc395f2fea9@gmail.com>
+Date: Wed, 8 Jun 2016 07:21:23 +0900
 MIME-Version: 1.0
-In-Reply-To: <be0f87e8-a39f-6c82-1946-46bacfcd6f66@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20160607203351.GL3723@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From d6c5dc0374c6e558d0acc003273b42537e50297f Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 5 Jun 2016 15:06:23 +0900
-Subject: [RFC PATCH 3/3] Makefile: Promote eps2pdf.sh to implicit rules
+On 2016/06/07 13:33:51 -0700, Paul E. McKenney wrote:
+> On Sun, Jun 05, 2016 at 11:52:36PM +0900, Akira Yokosawa wrote:
+>> >From d6c5dc0374c6e558d0acc003273b42537e50297f Mon Sep 17 00:00:00 2001
+>> From: Akira Yokosawa <akiyks@gmail.com>
+>> Date: Sun, 5 Jun 2016 23:34:26 +0900
+>> Subject: [RFC PATCH 0/3] Another round of cleanup and improvement of build scripts
+>>
+>> Hi, 
+>>
+>> This series enables parallel build of '.pdf' figures in the first build
+>> or a build after removing them by 'make distclean' or 'make neatfreak'.
+>>
+>> It is by no means complete, but it works just fine for the evaluation
+>> purposes. Any feedback is welcome. Further improvements and cosmetic
+>> changes are in my to-do list.
+>>                                                      Thanks, Akira
+> 
+> I applied and pushed these, thank you.
 
-In the first build or a build after removing '.pdf' files by
-'make neatfreak' or 'make distclean', '.pdf' figures can be built
-in parallel if the rules for '.eps' -> 'pdf' and '.svn' -> 'pdf'
-are given in Makefile instead of shell scripts.
+Oh! I didn't expect them to be applied at the half baked stage...
+Anyway, thanks.
 
-This commit adds what are done in utilities/eps2pdf.sh, etc. as
-implicit rules in Makefile.
-As the result of the change, empty target 'embedfonts' is removed.
-Now 'make -j2' works fine despite several warnings of duplicated
-targets. Those warnings will be taken care of by a later patch.
+> (And yes, I missed the pull request, so the SHA-1's do not match,
+> apologies!)
 
-Note that as of this commit, '-jN' option is not guaranteed to always
-work as expected.
-It is safe to use it when you specify a single target.
+No problem!
 
-Using '-jN' for multiple targets such as in 'make -j2 1c 2c', some
-of the targets may fail to build depending on the timing of parallel
-processing, supposedly due to interference of '.aux' files used by
-'bibtex'.
+I'll submit followup patches later today. (I mean within 20 hours.)
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- Makefile | 64 ++++++++++++++++++++++++++--------------------------------------
- 1 file changed, 26 insertions(+), 38 deletions(-)
+                                                   Thanks, Akira
 
-diff --git a/Makefile b/Makefile
-index d842263..6acb341 100644
---- a/Makefile
-+++ b/Makefile
-@@ -26,42 +26,29 @@ LATEXSOURCES = \
- 	together/*.tex \
- 	toolsoftrade/*.tex
-
--EPSTARGETS_OF_TEX = \
-+EPSSOURCES_FROM_TEX = \
- 	SMPdesign/DiningPhilosopher5.eps \
- 	SMPdesign/DiningPhilosopher5TB.eps \
- 	SMPdesign/DiningPhilosopher4part-b.eps \
- 	SMPdesign/DiningPhilosopher5PEM.eps
-
--EPSTARGETS_OF_DOT = \
-+EPSSOURCES_FROM_DOT = \
- 	advsync/store15tred.eps \
- 	count/sig-theft.eps
-
- EPSSOURCES = \
--	SMPdesign/*.eps \
--	advsync/*.eps \
--	appendix/questions/*.eps \
--	appendix/whymb/*.eps \
--	count/*.eps \
--	cpu/*.eps \
--	datastruct/*.eps \
--	defer/*.eps \
--	easy/*.eps \
--	future/*.eps \
--	intro/*.eps \
--	locking/*.eps \
--	$(EPSTARGETS_OF_TEX) \
--	$(EPSTARGETS_OF_DOT)
-+	$(wildcard */*.eps) \
-+	$(wildcard */*/*.eps) \
-+	$(EPSSOURCES_FROM_TEX) \
-+	$(EPSSOURCES_FROM_DOT)
-+
-+PDFTARGETS_OF_EPS := $(EPSSOURCES:%.eps=%.pdf)
-
- BIBSOURCES = bib/*.bib
-
--SVGSOURCES = \
--	cartoons/*.svg \
--	debugging/*.svg \
--	count/*.svg \
--	SMPdesign/*.svg \
--	defer/*.svg \
--	datastruct/*.svg \
--	rt/*.svg
-+SVGSOURCES = $(wildcard */*.svg)
-+
-+PDFTARGETS_OF_SVG := $(SVGSOURCES:%.svg=%.pdf)
-
- default = $(PERFBOOK_DEFAULT)
-
-@@ -86,10 +73,10 @@ perfbook.pdf: perfbook.bbl
- perfbook.bbl: $(BIBSOURCES) perfbook.aux
- 	bibtex perfbook
-
--perfbook.aux: $(LATEXSOURCES) extraction embedfonts
-+perfbook.aux: $(LATEXSOURCES) extraction
- 	sh utilities/runfirstlatex.sh perfbook
-
--perfbook_flat.tex qqz.tex: perfbook.tex $(LATEXSOURCES) $(EPSSOURCES) embedfonts
-+perfbook_flat.tex qqz.tex: perfbook.tex $(LATEXSOURCES) $(EPSSOURCES) $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG)
- 	echo > qqz.tex
- 	texexpand perfbook.tex > perfbook_flat.tex
- 	sh utilities/extractqqz.sh < perfbook_flat.tex > qqz.tex
-@@ -99,12 +86,6 @@ extraction: perfbook_flat.tex
- 	sh utilities/extractorigpub.sh < perfbook_flat.tex > origpub.tex
- 	touch extraction
-
--embedfonts: $(EPSSOURCES) $(SVGSOURCES)
--	sh utilities/fixfigfonts.sh
--	sh utilities/fixdotfonts.sh
--	sh utilities/eps2pdf.sh
--	touch embedfonts
--
- perfbook-1c.pdf: perfbook-1c.tex perfbook-1c.bbl
- 	sh utilities/runlatex.sh perfbook-1c
-
-@@ -114,7 +95,7 @@ perfbook-1c.tex: perfbook.tex
- perfbook-1c.bbl: $(BIBSOURCES) perfbook-1c.aux
- 	bibtex perfbook-1c
-
--perfbook-1c.aux: $(LATEXSOURCES) extraction embedfonts
-+perfbook-1c.aux: $(LATEXSOURCES) extraction
- 	sh utilities/runfirstlatex.sh perfbook-1c
-
- perfbook-hb.pdf: perfbook-hb.tex perfbook-hb.bbl
-@@ -126,18 +107,25 @@ perfbook-hb.tex: perfbook.tex
- perfbook-hb.bbl: $(BIBSOURCES) perfbook-hb.aux
- 	bibtex perfbook-hb
-
--perfbook-hb.aux: $(LATEXSOURCES) extraction embedfonts
-+perfbook-hb.aux: $(LATEXSOURCES) extraction
- 	sh utilities/runfirstlatex.sh perfbook-hb
-
- # Rules related to perfbook_html are removed as of May, 2016
-
--$(EPSTARGETS_OF_TEX): %.eps: %.tex
-+$(EPSSOURCES_FROM_TEX): %.eps: %.tex
- 	latex -output-directory=$(shell dirname $<) $<
- 	dvips -Pdownload35 -E $(patsubst %.tex,%.dvi,$<) -o $@
- 	sh utilities/fixanepsfonts.sh $@
-
--$(EPSTARGETS_OF_DOT): %.eps: %.dot
-+$(EPSSOURCES_FROM_DOT): %.eps: %.dot
- 	dot -Tps -o $@ $<
-+	sh utilities/fixanepsfonts.sh $@
-+
-+$(PDFTARGETS_OF_EPS): %.pdf: %.eps
-+	a2ping --below --hires --bboxfrom=compute-gs $< $@
-+
-+$(PDFTARGETS_OF_SVG): %.pdf: %.svg
-+	inkscape --export-pdf=$@ $<
-
- clean:
- 	find . -name '*.aux' -o -name '*.blg' \
-@@ -146,11 +134,11 @@ clean:
- 	rm -f perfbook_flat.tex perfbook.out perfbook-1c.out
- 	rm -f qqz.tex
- 	rm -f perfbook-hb.out perfbook-1c.tex perfbook-hb.tex
--	rm -f extraction embedfonts
-+	rm -f extraction
-
- distclean: clean
- 	sh utilities/cleanpdf.sh
--	rm -f $(EPSTARGETS_OF_DOT) $(EPSTARGETS_OF_TEX)
-+	rm -f $(EPSSOURCES_FROM_DOT) $(EPSSOURCES_FROM_TEX)
-
- touchsvg:
- 	find . -name '*.svg' | xargs touch
--- 
-1.9.1
-
+> 							Thanx, Paul
+> 
+>> The series can also be pulled as follows:
+>>
+>> ---- 
+>> The following changes since commit e719d43325af354d6f0a8a8c8d914b82430a9ff4:
+>>
+>>   Add TEST_HASH symbol to allow tests to be excluded (2016-05-30 09:50:52 -0700)
+>>
+>> are available in the git repository at:
+>>
+>>   https://github.com/akiyks/perfbook.git cleanup-makefile
+>>
+>> for you to fetch changes up to d6c5dc0374c6e558d0acc003273b42537e50297f:
+>>
+>>   Makefile: Promote eps2pdf.sh to implicit rules (2016-06-05 23:17:49 +0900)
+>> ----
+>>
+>> Akira Yokosawa (3):
+>>   Remove .eps files whose sources are .dot
+>>   FAQ-BUILD.txt: Add graphviz package as required
+>>   Makefile: Promote eps2pdf.sh to implicit rules
+>>
+>>  FAQ-BUILD.txt           |   4 +-
+>>  Makefile                |  62 ++---
+>>  advsync/.gitignore      |   1 +
+>>  advsync/store15tred.eps | 653 ------------------------------------------------
+>>  count/.gitignore        |   1 +
+>>  count/sig-theft.eps     | 435 --------------------------------
+>>  6 files changed, 30 insertions(+), 1126 deletions(-)
+>>  create mode 100644 advsync/.gitignore
+>>  delete mode 100644 advsync/store15tred.eps
+>>  create mode 100644 count/.gitignore
+>>  delete mode 100644 count/sig-theft.eps
+>>
+>> -- 
+>> 1.9.1
+>>
+> 
+> 
 
