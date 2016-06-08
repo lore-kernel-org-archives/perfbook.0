@@ -1,84 +1,66 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=NYOPoMF5Eu5FQGHoqpuLS3T3wSwqKSVhAirSyF4QcfQ=;
- b=TcWvIMG+qIUhhmNoJwXinzMuM0Zk24+WOk57tyoMG4BgxQqlM9Uv0zl5rQW1eiazTX
- Dw3Q3ejmhgAPgaYEJZNciNGuvbhDUkBOzz5OIl5xmwdGk3w0Fw6ZGzbd8VcA8rjqWDla
- KjUpFrI1HFAbTD8AQdp9pEh0ci+GFJX5A8WiD+ingp2GNGRB73gu9k4tgje/W0Dz06C1
- xSqAaK15uftMH1mDSrxF+Y3bAbjQDye0LVEYmZg6sowi3abjOWnoI7cd2HyEIAJbtsBD
- MhDokWZZSv+6xU38uHvNv8BN6+cG7lFdbhhWUybavPbtulcLCFA5OQageIxs51CTwRiZ
- wTig==
-Subject: Re: [Question] Redundant .fig and .svg files
-References: <89eb7320-04cb-af7d-1cec-38260bd7bfe0@gmail.com>
- <20160528174905.GH4337@linux.vnet.ibm.com>
+ s=20120113; h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding; bh=rbao07h1hI1of35hWnMUYsNz31xRjlUuEk4dN2nfOpo=;
+ b=gs3JiRbQCwm1qHV4lbrSLV/hgWkiFN6t5a2U4mEx9OfVytJHEYe68F9t12T987LdiL
+ lxM6w/WxFbC/sCCnxkqjHJ6o1mn0Dl9+4YBAtOA5q09XQVaFdLm/v1l7HsH1R2SNGKeO
+ wZQx4GhPyGeCnfXMj8TaR/fRKHLLEn96/1CY10Qk0H0VOimN8yJ9JBERJMZ6bju5LIWH
+ 9XyBZZeCCY8fXip0cHhqsLBc1ExuNKyg87jQEswv2qB+9oCDgrxIJSp4w5nGMCXnqDkx
+ xW8tCAtIP7sxjnv6+yuBPE0RguaNLYp0LOYVs885w9mdMC7lDO+wi3ZSGq+43l8JkY6x /Kew==
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <bf46b1cb-3920-dfc3-3b45-6d1ceb65867a@gmail.com>
-Date: Wed, 1 Jun 2016 23:48:29 +0900
+Subject: [GIT PULL] Follow-up patches of cleanup-makefile
+Message-ID: <e1642a9c-14f1-6cfe-e4f5-7d726226a952@gmail.com>
+Date: Wed, 8 Jun 2016 23:36:14 +0900
 MIME-Version: 1.0
-In-Reply-To: <20160528174905.GH4337@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2016/05/28 10:49:05 -0700, Paul E. McKenney wrote:
-> On Sat, May 28, 2016 at 09:14:57AM +0900, Akira Yokosawa wrote:
->> Hi Paul,
->>
->> I'm doing another round of build script cleanup.
->> In the cleanup, I found redundant .fig and .svg files listed below.
->>
->>     SMPdesign/lockdeq.fig SMPdesign/lockdeq.svg
->
-> This one is used on line 191 of SMPdesign/partexercises.tex.
->
->>     cartoons/patterns.fig cartoons/patterns.svg
->
-> Ah, this one's purpose is to allow .fig-style patterns to be cut and
-> pasted into .svg files.
+Hi Paul,
 
-I see. But I want them to be ignored by wildcards in Makefile.
-Would it be acceptable if I make a directory such as 'cartoons/.unused'
-and move those files there?
+These are follow-up patches of the previous patch series.
+They will suppress warning messages and streamline messages displayed
+during build.
 
-Also, I found that 'appendix/rcuimpl/RCUpreemptCounters.fig'
-and 'appendix/rcuimple/RCUpreemptCounters.eps' are in the repository
-but are not used in any .tex sources. Would it be OK to do the same
-for them?
+I hope you like them.
 
->
->> It seems the .fig files are not used any more.
->> Do you mind if I remove them from the repository?
->
-> Feel free to remove SMPdesign/lockdeq.fig, but please leave the others.
->
-> That said, if you know of a way to get decent shading patterns out of
-> inkscape, then the two cartoons/patterns files could be dispensed with.
->
+                                                Thanks, Akira
+          
+--- 
+The following changes since commit ca71bc6cf0bf303257b589d7edf251d627e90ce3:
 
-Well, I'm afraid I can't help you here.
+  Fix typo in epigram attribution (2016-06-07 13:30:31 -0700)
 
-BTW, I'd like to explain my intention of this round of cleanup.
+are available in the git repository at:
 
-My goal this time is to make it possible to use -jN option of 'make'
-in building just after cloning the repository (or after doing
-'make neatfreak').
+  https://github.com/akiyks/perfbook.git cleanup-makefile-v2
 
-To achieve this, those rules written in scripts under the 'utilities'
-directory need to be promoted into Makefile. In doing so, I want to use
-wildcards in Makefile. 
+for you to fetch changes up to 35e4d20da570eab7e6ca6a59b92ab438d2efd7b2:
 
-In trying this approach, I noticed there are a few figures that are not
-used anywhere. So I asked the first question of this thread.
+  Makefile: Use wildcard for .dot files (2016-06-08 23:05:39 +0900)
 
-Are you interested in this kind of build script restructuring?
-Or am I trying too much?
+----------------------------------------------------------------
+Akira Yokosawa (3):
+      build scripts: Suppress warning messages
+      Hide sources of unused figures
+      Makefile: Use wildcard for .dot files
 
-                                                      Thanks, Akira 
-
-> 							Thanx, Paul
->
->
+ Makefile                                           |  58 +++---
+ SMPdesign/lockdeq.fig                              | 219 ---------------------
+ .../MoreThanOneValue-15CPU-noresp.eps              |   0
+ .../MoreThanOneValue-15CPU-noresp.fig              |   0
+ .../rcuimpl/{ => .unused}/RCUpreemptCounters.fig   |   0
+ cartoons/{ => .unused}/patterns.fig                |   0
+ cartoons/{ => .unused}/patterns.svg                |   0
+ utilities/runfirstlatex.sh                         |   2 +-
+ utilities/runlatex.sh                              |  16 +-
+ 9 files changed, 32 insertions(+), 263 deletions(-)
+ delete mode 100644 SMPdesign/lockdeq.fig
+ rename advsync/{ => .unused}/MoreThanOneValue-15CPU-noresp.eps (100%)
+ rename advsync/{ => .unused}/MoreThanOneValue-15CPU-noresp.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUpreemptCounters.fig (100%)
+ rename cartoons/{ => .unused}/patterns.fig (100%)
+ rename cartoons/{ => .unused}/patterns.svg (100%)
 
