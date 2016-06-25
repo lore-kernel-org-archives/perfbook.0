@@ -1,87 +1,68 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13902 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)	by vger.kernel.org
- with ESMTP id S1751255AbcFWUEa (ORCPT	<rfc822;perfbook@vger.kernel.org>);
- Thu, 23 Jun 2016 16:04:30 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])	by
- mx0b-001b2d01.pphosted.com (8.16.0.11/8.16.0.11) with SMTP id u5NK3pBl043810
- for <perfbook@vger.kernel.org>; Thu, 23 Jun 2016 16:04:29 -0400
-Received: from e38.co.us.ibm.com (e38.co.us.ibm.com [32.97.110.159])	by
- mx0b-001b2d01.pphosted.com with ESMTP id 23rj7h9usr-1	(version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT)	for <perfbook@vger.kernel.org>; Thu,
- 23 Jun 2016 16:04:29 -0400
-Received: from localhost	by e38.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Thu, 23 Jun
- 2016 14:04:28 -0600
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27])	by d03dlp01.boulder.ibm.com (Postfix) with ESMTP id
- 62E6C1FF0051	for <perfbook@vger.kernel.org>; Thu, 23 Jun 2016 14:04:10 -0600
- (MDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u5NK4S8c57016538	for <perfbook@vger.kernel.org>; Thu, 23 Jun 2016 20:04:28
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u5NK4QDU008503	for <perfbook@vger.kernel.org>; Thu, 23 Jun 2016 16:04:26
- -0400
-Date: Thu, 23 Jun 2016 13:04:26 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [GIT PULL] Further tweak position of 'Just Count!' figure
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <8469e8ad-a958-6543-6a2e-92baa0d5996c@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=G0Fo4vd8srQICkhv8rUQ6HP1U+bSyUfAao7BdkxlCrs=;
+ b=G8upVFAsvhzQ5XSJ1roU1ZJ0Z9GdkKY9NpwypFXNRQBoxp8rDmxLYY9PXpq1Bgkfsf
+ XebJKAM4VacMv/zo3at9Lfz1NUopZ9oyNN1wUBhOGGk/B9yTaI5nmF96I+jilFhtvzIv
+ 84aIQM4WQ1xzF5DRFkluY+PnXACeJ4EEltvQ41299tsC0DihEJoKqLa504VglhmHoGtX
+ Nn6cmmTwlLALp8CSQ+pqdrVBokzYHXm7/KkGnwgDhFsnFk2NL9khTXq3yFj8ue1hKTUL
+ Vvq8D04uS1Mv72JoSCSODqM93imZjzCZUisqspfKzCME1aEZ5zCD17pE1lnaV05z3Eju
+ zPEQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [GIT PULL] Preamble and qqz fixes
+Message-ID: <69dfc090-de59-583a-73a9-885a204ee394@gmail.com>
+Date: Sat, 25 Jun 2016 20:53:21 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8469e8ad-a958-6543-6a2e-92baa0d5996c@gmail.com>
-Message-Id: <20160623200426.GS1473@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Jun 22, 2016 at 07:37:07AM +0900, Akira Yokosawa wrote:
-> Hi,
-> 
-> I have tested the 'footmisc' package and it works!
-> Although there are reports of conflict between 'footnote' and 'hyperref'
-> packages, I have not seen any trouble.
-> Furthermore, I came across 'footnotebackref' package which enables
-> cross-link of a footnote at the bottom and the corresponding footnote mark
-> in the text. I added it in the last commit of this pull request.
-> Note that in older TeX distribution, you may need to install it manually.
-> 
->                                                    Thanks, Akira
-> ---
-> The following changes since commit 15ddcdd3ae6bdc088f7c49f78edf62fff5090cfd:
-> 
->   Further tweak position of "Just Count!" figure (2016-06-20 10:30:49 -0700)
-> 
-> are available in the git repository at:
-> 
->   https://github.com/akiyks/perfbook.git footnote-position
-> 
-> for you to fetch changes up to a3611df3582024130563ccb5167e39ca330aa804:
-> 
->   Add 'footnotebackref' package (2016-06-22 06:56:26 +0900)
-> 
-> ----------------------------------------------------------------
-> Akira Yokosawa (5):
->       Revert "Further tweak position of "Just Count!" figure"
->       Revert "count: Tweak position of Figure 5.1"
->       Add 'footmisc' package for better placement of footnote
->       Add comments on the purpose of additional packages
->       Add 'footnotebackref' package
-> 
->  count/count.tex | 44 ++++++++++++++++++++++----------------------
->  perfbook.tex    |  4 +++-
->  2 files changed, 25 insertions(+), 23 deletions(-)
+Hi Paul,
 
-Applied and pushed, thank you!
+Here is another pull request.
+This time, I did some functional fixes in preamble and qqz.sty.
 
-I have a fairly old LaTeX setup, and it works for me.  If it turns out
-that people have trouble with it, we can revert that last commit.
+1st patch fixes typos in the definition of \co{} macro.
+Yea, at first glance, they are hard to catch, but...
+Now, line-breaks at white spaces are enabled and the increased room
+for line-breaks results in better looking typesetting.
 
-							Thanx, Paul
+Fixes in qqz.sty are not actually fixes but improvements.
+2nd patch adds macro definitions for referencing qqz's, which has been
+done manually in count/count.tex. It also adds hyperref to the qqz at
+a referencing text.
+
+3rd patch improves accuracy of hyperref to QQA's by tweaking the
+position of \refstepcounter macro.  Now, a click on a "Quick Quiz" in
+the text will bring you exactly where you'd expect.
+
+                                                Thanks, Akira
+
+---
+The following changes since commit a3611df3582024130563ccb5167e39ca330aa804:
+
+   Add 'footnotebackref' package (2016-06-22 06:56:26 +0900)
+
+are available in the git repository at:
+
+   https://github.com/akiyks/perfbook.git preamble-qqz-fixes
+
+for you to fetch changes up to 5490f317396516659927dd615cb4ca5affb3cf39:
+
+   qqz: Improve accuracy of hyperref to QQA (2016-06-25 18:04:56 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (3):
+       Fix typo in the definition of \co macro
+       qqz: Add macro's for referencing quick quizzes
+       qqz: Improve accuracy of hyperref to QQA
+
+  count/count.tex | 16 ++++++++--------
+  perfbook.tex    |  5 +++--
+  qqz.sty         | 22 +++++++++++++++-------
+  3 files changed, 26 insertions(+), 17 deletions(-)
 
