@@ -2,17 +2,17 @@ Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=yojqAvHrpUR5SKV+hAjTLKPoK6p5egl+dDfnFxRWcuY=;
- b=M7SL7X/R51ltBy95PYswFKPZ8PKK8/ukT/fvb5Kru5RZdLnv0FFPR2Dt9c32IJV8Y/
- 2Vrw8VJA7Wo1vXyqtF8iCO0w40rPRIFCXkfmI5fNK1J+AbSGfkwjzZGDNm2bY/Sdj62t
- en8lnFb0du/5QBRUIWRLBvhxMDJ+p/sumJChUBdIOy7PelAsgTSDjgqqMo3Ld/rOX7/H
- wQfDG2P91gmKdT50V3d92ym+hqBm24/8H0GNaWwhZBeRLg+lAkyEmtrMPB8Xys80GXG/
- uWL1ykMnSC6U6tpH3TYbDpt4dpmr7j0jTDbJpCRPU14bRPI+N1ZkGBZKK2WZ5vFg+4nh
- xoKg==
+ bh=6fD3ZAiqft11HrKFnjDHeBxvZhEbZAbcAeWO8r2d44s=;
+ b=LrxaniStTPeeo7mV0ocMWWax91Pei1hYeKWqbmyHdGe03jAbP0lF/trG8q7KVTbufi
+ dHVd/d6wO0gclyH4WMlci5tS8UGeQbFoB4kl5JLFjbT4NbLL/nCPTDCeS7bQtH5MoX9W
+ eXFjd28T00HU3evR5a5a0MPSDwg9RGc4IgD49IWGzrF8ji4+lneXzTAHMB7+JEM/qGwm
+ xER7f7jflBEio7OxFZT6p8Hkee+4RlTWQLc9l7QXT5k2D0+W5POSKxlDGhuPeW47kvKX
+ K8VuylhBJd9uAye/icRd/8IgoGIHRDJXccrZNA4Hmjq2Z2Z0arwwigLjmiTFyUvutjc8
+ XSNw==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 1/4] defer: Fix typos
-Date: Fri,  1 Jul 2016 09:43:51 +0900
-Message-Id: <1467333834-17050-2-git-send-email-sj38.park@gmail.com>
+Subject: [PATCH 2/4] defer: Insert missing tildes
+Date: Fri,  1 Jul 2016 09:43:52 +0900
+Message-Id: <1467333834-17050-3-git-send-email-sj38.park@gmail.com>
 In-Reply-To: <1467333834-17050-1-git-send-email-sj38.park@gmail.com>
 References: <1467333834-17050-1-git-send-email-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
@@ -21,70 +21,96 @@ List-ID: <perfbook.vger.kernel.org>
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- defer/defer.tex          | 4 ++--
- defer/rcufundamental.tex | 2 +-
- defer/seqlock.tex        | 2 +-
- defer/whichtochoose.tex  | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ defer/rcufundamental.tex |  2 +-
+ defer/seqlock.tex        | 10 +++++-----
+ defer/toyrcu.tex         | 10 +++++-----
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/defer/defer.tex b/defer/defer.tex
-index 437b131..29c99e1 100644
---- a/defer/defer.tex
-+++ b/defer/defer.tex
-@@ -16,7 +16,7 @@ deferring work often enables weakening of synchronization primitives,
- thereby reducing synchronization overhead.
- General approaches work deferral include
- reference counting (Section~\ref{sec:defer:Reference Counting}),
--hazard pointesr (Section~\ref{sec:defer:Hazard Pointers}),
-+hazard pointers (Section~\ref{sec:defer:Hazard Pointers}),
- sequence locking (Section~\ref{sec:defer:Sequence Locks}),
- and RCU (Section~\ref{sec:defer:Read-Copy Update (RCU)}).
- Finally, Section~\ref{sec:defer:Which to Choose?}
-@@ -36,7 +36,7 @@ consisting of a simple linked list.\footnote{
- Modern demultiplexing algorithms use more complex data structures,
- for example, hash tables~\cite{McKenney92b}, however, as in
- Chapter~\ref{chp:Counting}, an extremely simple algorithm will
--help highlight isses specific to parallelism in an extremely
-+help highlight issues specific to parallelism in an extremely
- easy-to-understand setting.
-
- We further simplify the algorithm by reducing the search key from
 diff --git a/defer/rcufundamental.tex b/defer/rcufundamental.tex
-index 89d5adb..76f9aee 100644
+index 76f9aee..8c6e0c5 100644
 --- a/defer/rcufundamental.tex
 +++ b/defer/rcufundamental.tex
-@@ -642,7 +642,7 @@ freed, as shown on the final row of
- Figure~\ref{fig:defer:RCU Deletion From Linked List}.
- At this point, we have completed the deletion of
- element~\co{5,6,7}.
--The following section covers replacement.
-+The following example covers replacement.
+@@ -734,7 +734,7 @@ Figure~\ref{fig:defer:RCU Replacement in Linked List}.
+ As far as the readers are concerned, we are back to having a single version
+ of the list, but with the new element in place of the old.
 
- \paragraph{Example 2: Maintaining Multiple Versions During Replacement}
- \label{sec:defer:Example 2: Maintaining Multiple Versions During Replacement}
+-After the \co{kfree()} on line 7 completes, the list will
++After the \co{kfree()} on line~7 completes, the list will
+ appear as shown on the final row of
+ Figure~\ref{fig:defer:RCU Replacement in Linked List}.
+
 diff --git a/defer/seqlock.tex b/defer/seqlock.tex
-index 7f81eb8..c9f34f7 100644
+index c9f34f7..f56659f 100644
 --- a/defer/seqlock.tex
 +++ b/defer/seqlock.tex
-@@ -349,4 +349,4 @@ the possibility of read-side failure, let alone starvation.
- In addition, it would also be nice to overcome sequence locking's limitations
- with pointers.
- The following section presents a synchronization mechanism with exactly
--these proporties.
-+these properties.
-diff --git a/defer/whichtochoose.tex b/defer/whichtochoose.tex
-index 3ac3c46..6157b80 100644
---- a/defer/whichtochoose.tex
-+++ b/defer/whichtochoose.tex
-@@ -71,7 +71,7 @@ that do encounter an update.
+@@ -287,7 +287,7 @@ increment of the sequence number on line~44, then releases the lock.
+ } \QuickQuizEnd
 
- Of course, as shown in the ``Updates and Readers Progress Concurrently''
- column, this detection of updates implies
--that sequence locking does not permit updates and readers to make forward
-+that sequence locking does not permit updaters and readers to make forward
- progress concurrently.
- After all, preventing such forward progress is the whole point of using
- sequence locking in the first place!
+ \QuickQuiz{}
+-	Why isn't \co{seq} on line 2 of
++	Why isn't \co{seq} on line~2 of
+ 	Figure~\ref{fig:defer:Sequence-Locking Implementation}
+ 	\co{unsigned} rather than \co{unsigned long}?
+ 	After all, if \co{unsigned} is good enough for the Linux
+@@ -297,17 +297,17 @@ increment of the sequence number on line~44, then releases the lock.
+ 	The Linux kernel has a number of special attributes that allow
+ 	it to ignore the following sequence of events:
+ 	\begin{enumerate}
+-	\item	Thread 0 executes \co{read_seqbegin()}, picking up
++	\item	Thread~0 executes \co{read_seqbegin()}, picking up
+ 		\co{->seq} in line~17, noting that the value is even,
+ 		and thus returning to the caller.
+-	\item	Thread 0 starts executing its read-side critical section,
++	\item	Thread~0 starts executing its read-side critical section,
+ 		but is then preempted for a long time.
+ 	\item	Other threads repeatedly invoke \co{write_seqlock()} and
+ 		\co{write_sequnlock()}, until the value of \co{->seq}
+ 		overflows back to the value that Thread~0 fetched.
+-	\item	Thread 0 resumes execution, completing its read-side
++	\item	Thread~0 resumes execution, completing its read-side
+ 		critical section with inconsistent data.
+-	\item	Thread 0 invokes \co{read_seqretry()}, which incorrectly
++	\item	Thread~0 invokes \co{read_seqretry()}, which incorrectly
+ 		concludes that Thread~0 has seen a consistent view of
+ 		the data protected by the sequence lock.
+ 	\end{enumerate}
+diff --git a/defer/toyrcu.tex b/defer/toyrcu.tex
+index 3f098c6..2177e6d 100644
+--- a/defer/toyrcu.tex
++++ b/defer/toyrcu.tex
+@@ -1578,9 +1578,9 @@ overhead.
+ 		greater than that of the global \co{rcu_gp_ctr}.
+ 	\item	Thread~0 acquires a reference to RCU-protected data
+ 		element~A.
+-	\item	Thread 1 now removes the data element~A that thread~0
++	\item	Thread~1 now removes the data element~A that thread~0
+ 		just acquired a reference to.
+-	\item	Thread 1 invokes \co{synchronize_rcu()}, which
++	\item	Thread~1 invokes \co{synchronize_rcu()}, which
+ 		increments the global \co{rcu_gp_ctr} by
+ 		\co{RCU_GP_CTR_BOTTOM_BIT}.
+ 		It then checks all of the per-thread \co{rcu_reader_gp}
+@@ -1589,7 +1589,7 @@ overhead.
+ 		\co{synchronize_rcu()}, so thread~1 does not wait
+ 		for thread~0 to complete its RCU read-side critical
+ 		section.
+-	\item	Thread 1 then frees up data element~A, which thread~0
++	\item	Thread~1 then frees up data element~A, which thread~0
+ 		is still referencing.
+ 	\end{enumerate}
+
+@@ -1707,9 +1707,9 @@ using the aforementioned quiescent states.
+ Each of these quiescent states contains a call to
+ \co{rcu_quiescent_state()}, which is shown from lines~9-15 in the figure.
+ Threads entering extended quiescent states (for example, when blocking)
+-may instead call \co{rcu_thread_offline()} (lines 17-23) when entering
++may instead call \co{rcu_thread_offline()} (lines~17-23) when entering
+ an extended quiescent state and then call
+-\co{rcu_thread_online()} (lines 25-28) when leaving it.
++\co{rcu_thread_online()} (lines~25-28) when leaving it.
+ As such, \co{rcu_thread_online()} is analogous to \co{rcu_read_lock()}
+ and \co{rcu_thread_offline()} is analogous to \co{rcu_read_unlock()}.
+ In addition, \co{rcu_quiescent_state()} can be thought of as a
 -- 
 1.9.1
 
