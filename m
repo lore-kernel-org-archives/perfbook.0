@@ -1,16 +1,16 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113; h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding; bh=KCTJwyEQdF/lB8l8nVyIn1tPlKhVS3qwbOFTQp2GAsw=;
- b=euk2Qm5E2QEZUBK4vXxTal4CtcpIwFSUWOA5Z9vqmMowJU6YbboYO6vO/KypwmrSfb
- 9DQeHuBsJoepGC2ZuxISCPxkyn0mOGbBhBWCOMLANtx8ku0nQkzMfyy20FnQhXQ1l6UK
- IRFHX9yfh0Ur9DBJ4E4CPUrNoPpbfzg409NI9DLW44HmVQ98JGcIPXHicUcJlcR0KwJl
- fEKs1Viquc+qTIprkyW0W3JUhseuR8KDgr6Pxx7Oc/LZwLhFJQpPubqMHrbiTj4r8q/m
- ycmWMSNcOoTc3TDdZQpEARKBadc1o38e1fQ1oQaXx6JM+Vfsi2afsBAqGpPmv1mEEzlS v1mQ==
+ :content-transfer-encoding; bh=Qx1Ha3MRF1E53j817lVj3qzzdQOMcqhQjfJAn3xubeQ=;
+ b=oFbRmAgAoomQl6G0xSaKViXvZB/uBCoMfoJfyAXy7VmvfuD7MUDIBgW7n036wElJhp
+ zSbqZTOhtmJpimTl4PrSvWtLMR/Hyk6laMk95vXkaWbQ1wQNF+YrCVKEVuzh0w9VDYyd
+ j4B/IDWnYzGZqqlR2hqEsvINOqBSilCNvSDreTYrP1oukpULEyAm6t7NDCeU4/LRgQry
+ HFHzCJV+IjBiFf0yBbpsHVVmEWyKBAjBMj4i50RkK9TDsYRDqBnfKtqm6Z363PTM7g1A
+ 0SwgEjdk/uAh999KBYwW2jjBXKtTxLPlq0MHzzxhjJrCg0Rh2dI8VdImywvK4BZfhmgc X1Xg==
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] defer/refcnt: Typo fix
-Message-ID: <44ecaa1a-300e-db13-aac8-c1e114db460f@gmail.com>
-Date: Tue, 12 Jul 2016 00:18:07 +0900
+Subject: [PATCH] defer/refcnt: Another typo fix
+Message-ID: <75cf85b4-97e8-1425-911b-4f4713aff57e@gmail.com>
+Date: Tue, 12 Jul 2016 00:36:29 +0900
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
@@ -18,10 +18,10 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
- From 2288acdf6164253618031a044cf307067be08e9f Mon Sep 17 00:00:00 2001
+ From ae44b15b34f4cba077d0c49e7416f66681895a3d Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 12 Jul 2016 00:13:54 +0900
-Subject: [PATCH] defer/refcnt: Typo fix
+Date: Tue, 12 Jul 2016 00:33:08 +0900
+Subject: [PATCH] defer/refcnt: Another typo fix
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
@@ -29,18 +29,18 @@ Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/defer/refcnt.tex b/defer/refcnt.tex
-index a2f44a4..8dfa8fe 100644
+index 8dfa8fe..76ebf4d 100644
 --- a/defer/refcnt.tex
 +++ b/defer/refcnt.tex
-@@ -119,7 +119,7 @@
+@@ -267,7 +267,7 @@ Figure~\ref{fig:defer:Pre-BSD Packet Routing List}:
   
-  Reference counting tracks the number of references to a given object in
-  order to prevent that object from being prematurely freed.
--As such, it has a long an honorable history of use dating back to
-+As such, it has a long and honorable history of use dating back to
-  at least the early
-  1960s~\cite{Weizenbaum:1963:SLP:367593.367617}.\footnote{
-  	Weizenbaum discusses reference counting as if it was already
+  The problem is that the reference count is located in the object
+  to be protected, but that means that there is no protection during
+-the instant in time when the reference count itself if being acquired!
++the instant in time when the reference count itself is being acquired!
+  This is the reference-counting counterpart of a locking issue noted
+  by Gamsa et al.~\cite{Gamsa99}.
+  One could imagine using a global lock or reference count to protect
 -- 
 1.9.1
 
