@@ -1,42 +1,50 @@
-Return-Path: <sj38.park@gmail.com>
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=OfTCnn9zINAoB+vCxKFo0wPWIOunolRJTNtMX+S/UBA=;
- b=XtlPNDn+2M5wJXFCcq9Kxuw4XFnA9W8lULh7Jl0DKuuffrlaJXpeKyDxGf09pdhTPf
- 3GdXKAglfhZRyUPNaPD/ELsDneqVoGYZBXs5KTbvxv0VXw+MgqZfasgdjzVkush0QKI2
- l6GeqKQOUtpf3M6R5czafsFCDlSLZECVQ94I84U5Uh9aoglgDWpZhkZDx705BrX1jI70
- SDOXXT6WjDAxeEufZ373FRcbQqZoPDWwDXx79SIMaD3kT1IUJ+I9sWHspfO8qZlzLIuX
- Xl4/EZmt3NZoXfBgU9V2e0hAUVROd5NBo6/gVmS+zarxcZ5vUL7A9Xs1zxnTZmX/yoWH
- dunw==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 4/4] defer/seqlock: Fix wrong code line reference
-Date: Sat, 16 Jul 2016 16:58:50 +0900
-Message-Id: <1468655930-9894-5-git-send-email-sj38.park@gmail.com>
-In-Reply-To: <1468655930-9894-1-git-send-email-sj38.park@gmail.com>
-References: <1468655930-9894-1-git-send-email-sj38.park@gmail.com>
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+ s=20120113; h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding; bh=/TzQtCuAtlI09p0DJB9e4V3qQ3WfAKyHLi5sIc4SACA=;
+ b=NMOaXJTrPyOnCppbmKH+xNFaSNU1fzUe2zqPAW7OCmvpwm8EDfwznTrcmVxKox7LOO
+ lMGpGCPnbUY4+CAJkdpaEOBqb+rJ9GM7NzR7Wy2xGw1P7HrXcaEJIpvi0A3GADsKtRwV
+ kHDWPgzWBAfnXqxNL24rCIZcqWyzV3U/dupltGLR3g3AdUgy93ZcPThObhflJ6DOYwZs
+ +hbwZiK4VcpmFxGJ3XtIC3Fota4ew1GC1/DwI+mw0c2wBb1+UDQhSLCl5Df9ygisHrfT
+ 3ksVusO4Crpg0Cd+Jt036324svmGv0wTYhskrixiS0PgOmOXzNfyb61v6BMOkjt/jK6Q 7sjQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] qqz: Add another hyperlink to black box in QQA
+Message-ID: <0bf67306-7169-4ce5-ca66-b68c2833ee99@gmail.com>
+Date: Sun, 17 Jul 2016 14:50:04 +0900
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+ From 2a74b30f0a1d036e45c6aa5ef431034c23f790db Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Tue, 12 Jul 2016 20:28:08 +0900
+Subject: [PATCH] qqz: Add another hyperlink to black box in QQA
+
+This commit adds another cross-link to the black boxes in QQA.
+I think this change would meet readers' expectation.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- defer/seqlock.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  qqz.sty | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/defer/seqlock.tex b/defer/seqlock.tex
-index f379439..dbe2ebf 100644
---- a/defer/seqlock.tex
-+++ b/defer/seqlock.tex
-@@ -400,7 +400,7 @@ Figure~\ref{fig:defer:Sequence-Locked Pre-BSD Routing Table Lookup},
- line~5 adds \co{->re_freed}, which is checked on lines~29 and~30.
- Line~8 adds a sequence lock, which is used by \co{route_lookup()}
- on lines~18, 23, and~32, with lines~24 and~33 branching back to
--the \co{retry} label on line~16.
-+the \co{retry} label on line~17.
- The effect is to retry any lookup that runs concurrently with an update.
-
- In
+diff --git a/qqz.sty b/qqz.sty
+index 12dc85e..0c97df9 100644
+--- a/qqz.sty
++++ b/qqz.sty
+@@ -78,7 +78,8 @@
+  	\noindent
+  	\QuickQHeading{QQA}{QQ}{\QuickQuizAnswerChapter.\thequickquizctrC} #1 ~ \\ }
+  
+-\newcommand{\QuickA}[1]{\rule{7pt}{7pt}
++\newcommand{\QuickA}[1]{%
++	\hyperref[QQ.\QuickQuizAnswerChapter.\thequickquizctrC]{\rule{7pt}{7pt}}
+  	\par\vspace{0.8\baselineskip}
+  	\noindent\textbf{Answer:} \\ }
+  
 -- 
 1.9.1
 
