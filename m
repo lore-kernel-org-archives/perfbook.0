@@ -2,89 +2,82 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=BL8wFOckkuQlXkpCUZeGT3KFWoNxjGVuLpQgCyr+GKk=;
- b=LLBRSpyvj9ImmZiIsMq/hsc3SN7l7fNMp9JThPrG+ccqpu+hI2KWGs3u9y/lD/pOBL
- OLtqeGekol7ejSgd69calTGFE0QPMF3y/AP+0eJQYenVBRP4B55NJrrp2UymRzXz00BI
- oNLDSMbvVKVLI6phol2J8/swUHmyLU1twNhk618Lwq20evrbSHUNwLmYcD4Exn/9+Kox
- UBd3+UtF9Q1RPPKB97zPvusCqFz5dI7k00hIT9E4nAgqyC5OTpfZjyVFFiRFFtgmRIsV
- QvwS2DsbedPtmbq+ssqFPM9QZlNllpZdHfFw58ZyCAxkMSnLbsH//CRS0ENh2PUdMZ2w
- 4xHQ==
-Subject: Re: [PATCH] qqz: Add another hyperlink to black box in QQA
+ bh=+s0zRfzNgfITTTfGEAU4CN6af330aJgrTPHee5xBsfc=;
+ b=pxRmGea9SuJKVkMLD8mrX1BxDAid94KIOcWwSdwPKfAGU3hmAUXIyvwKnEPbymre6z
+ xmnSq8+Uk6acMtjGJBb/WlIhZVu2Zbe5UnCBvhbA+nZdfi6kbL4S2dg79PqAa1CaZlC4
+ sr7M5/1XM1ugzzF3WEC7gikbTeih+0j4FrXoMpuz+08VYmdrWiv4nFbx9Q6cvGqX6S29
+ gamTlibP+2NR5SuC2QjC2ENqWqFAZM4VoMbzCnzfN51XSp9f06xnuMY/Zyf4YvV7+5G1
+ AUrDnumiXr5USPy3PNT4rqYzJA+qJjcYwqC4hC+4/JSLnANklYG+fy8/J4iWhXtdbjxI BFwg==
+Subject: [PATCH] qqz: Modify back link target at end of QQA to just after the
+ end of QQ
 References: <0bf67306-7169-4ce5-ca66-b68c2833ee99@gmail.com>
  <20160717215900.GD7094@linux.vnet.ibm.com>
  <731d8ed0-deae-e159-a889-ba38822011e8@gmail.com>
  <20160717233606.GE7094@linux.vnet.ibm.com>
+ <113d52db-a2b8-8900-8163-576e8129877f@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <113d52db-a2b8-8900-8163-576e8129877f@gmail.com>
-Date: Mon, 18 Jul 2016 08:58:59 +0900
+Message-ID: <f7cd9f02-0c3d-1c59-1e87-2838a81b7147@gmail.com>
+Date: Mon, 18 Jul 2016 09:04:29 +0900
 MIME-Version: 1.0
-In-Reply-To: <20160717233606.GE7094@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <113d52db-a2b8-8900-8163-576e8129877f@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-On 2016/07/18 8:36, Paul E. McKenney wrote:
-> On Mon, Jul 18, 2016 at 07:54:27AM +0900, Akira Yokosawa wrote:
->> On 2016/07/17 14:59:00 -0700, Paul E. McKenney wrote:
->>> On Sun, Jul 17, 2016 at 02:50:04PM +0900, Akira Yokosawa wrote:
->>> >From 2a74b30f0a1d036e45c6aa5ef431034c23f790db Mon Sep 17 00:00:00 2001
->>>> From: Akira Yokosawa <akiyks@gmail.com>
->>>> Date: Tue, 12 Jul 2016 20:28:08 +0900
->>>> Subject: [PATCH] qqz: Add another hyperlink to black box in QQA
->>>>
->>>> This commit adds another cross-link to the black boxes in QQA.
->>>> I think this change would meet readers' expectation.
->>>>
->>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->>>
->>> I agree!  For reasons that are not clear to me, I had to hand-apply
->>> this patch.  Might have been a white-space issue, which I did not
->>> think to check for...
->>>
->>> Please take a look at the patch below to make sure that I did it
->>> correctly.
->>
->> Yes, you did it right. I'm wondering what was wrong on my side.
->
-> My guess is whitespace.  Or maybe the email got mangled along the way.
->
->>> Also, this suggests a possibility:  In the quick-quiz answer, suppose
->>> that the heading and the black box link (as they do now) to the beginning
->>> of the quick-quiz question, but that the white box links to the end
->>> (or just after the end) of the quick-quiz question.  That way, the
->>> reader could choose the return point.
->>>
->>> Would that make sense?
->>
->> Well, yes if readers expect the behavior.
->> But for long answers, there are cases where you can choose only the white
->> boxes in your view. I'm hesitating because of your reaction to the first
->> attempt  the other day.
->
-> All good points!
->
->> Anyway, I'm going to submit a patch for you to try.
->>
->> Also we'd also need to update the explanation in the answer of Quick Quiz 1.3
->> if we actually do the change.
->
-> Looking forward to it!
+ From 2441e281a03d846b9e326c02f21ba44754a3d1bc Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 18 Jul 2016 08:28:00 +0900
+Subject: [PATCH] qqz: Modify back link target at end of QQA to just after the
+  end of QQ
 
-So, I'm submitting 2 versions of patch in reply to this mail.
-1st one makes "the white box link to the end the quick-quiz question."
-2nd one makes "the white box link to just after the end of the quick-quiz
-question."
+This commit modifies the target of back link at the end of QQA
+(white box) to just after the end of corresponding QQ in the main
+text.
+This change enables you to easily reach the text following a
+(possibly long) QQ by clicking a white box at the end of the QQA.
 
-Both of them are relative to current master.
-Please compare them and let me know which one you like.
-Or just apply the one you choose.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+  qqz.sty | 9 +++++++--
+  1 file changed, 7 insertions(+), 2 deletions(-)
 
-Then I'll compose the additional explanation according to your choice.
+diff --git a/qqz.sty b/qqz.sty
+index 0c97df9..6623d00 100644
+--- a/qqz.sty
++++ b/qqz.sty
+@@ -20,6 +20,7 @@
+  %%          Akira Yokosawa <akiyks@gmail.com>   # improvement of cross-link
+  
+  \newcounter{quickquizctr}[chapter]
++\newcounter{quickquizctrE}[chapter]
+  \newcounter{quickquizctrC}[section]
+  \newcommand*{\theHNum}{\arabic{chapter}.\arabic{quickquizctr}}
+  \newcommand{\QuickQuizAnswerChapter}{\textbf{Unknown QuickQAC!!!}}
+@@ -33,7 +34,11 @@
+  \newcommand{\QuickQuiz}[1]{
+  	\refstepcounter{quickquizctr}
+  	\QuickQHeading{QQ}{QQA}{\thechapter.\thequickquizctr}}
+-\newcommand{\QuickQuizAnswer}[1]{\hyperref[QQA.\thechapter.\thequickquizctr]{\rule{7pt}{7pt}}}
++\newcommand{\QuickQuizAnswer}[1]{%
++	\hyperref[QQA.\thechapter.\thequickquizctr]{\rule{7pt}{7pt}}
++
++	\refstepcounter{quickquizctrE}%
++	\label{QQE.\thechapter.\thequickquizctrE}}
+  \newcommand{\QuickQuizEnd}{}
+  
+  % To create a macro referencing the previously defined quick quiz:
+@@ -84,7 +89,7 @@
+  	\noindent\textbf{Answer:} \\ }
+  
+  \newcommand{\QuickE}{%
+-	\hyperref[QQ.\QuickQuizAnswerChapter.\thequickquizctrC]{\ding{113}}
++	\hyperref[QQE.\QuickQuizAnswerChapter.\thequickquizctrC]{\ding{113}}
+  	\vspace{1.5\baselineskip}
+  }
+  
+-- 
+1.9.1
 
-                                           Thanks, Akira
-
-> 						Thanx, Paul
->
 
