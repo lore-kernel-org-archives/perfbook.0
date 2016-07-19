@@ -1,110 +1,59 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38691 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)	by vger.kernel.org with
- ESMTP id S1751290AbcGRWmV (ORCPT	<rfc822;perfbook@vger.kernel.org>); Mon, 18
- Jul 2016 18:42:21 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])	by
- mx0a-001b2d01.pphosted.com (8.16.0.11/8.16.0.11) with SMTP id u6IMXhEY132072
- for <perfbook@vger.kernel.org>; Mon, 18 Jul 2016 18:42:21 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])	by
- mx0a-001b2d01.pphosted.com with ESMTP id 2495r7c2na-1	(version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT)	for <perfbook@vger.kernel.org>; Mon,
- 18 Jul 2016 18:42:20 -0400
-Received: from localhost	by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Mon, 18 Jul
- 2016 18:42:19 -0400
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24])	by d01dlp02.pok.ibm.com (Postfix) with ESMTP id 67D4C6E803F
- for <perfbook@vger.kernel.org>; Mon, 18 Jul 2016 18:41:58 -0400 (EDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u6IMgHuM64028826	for <perfbook@vger.kernel.org>; Mon, 18 Jul 2016 22:42:17
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u6IMgHGD025449	for <perfbook@vger.kernel.org>; Mon, 18 Jul 2016 18:42:17
- -0400
-Date: Mon, 18 Jul 2016 15:42:41 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] qqz: Modify back link target at end of QQA to the end of
- QQ
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <0bf67306-7169-4ce5-ca66-b68c2833ee99@gmail.com>
- <20160717215900.GD7094@linux.vnet.ibm.com>
- <731d8ed0-deae-e159-a889-ba38822011e8@gmail.com>
- <20160717233606.GE7094@linux.vnet.ibm.com>
- <113d52db-a2b8-8900-8163-576e8129877f@gmail.com>
- <51abb1c5-e843-ef5c-0c7f-121281ba2631@gmail.com>
- <20160718152525.GK7094@linux.vnet.ibm.com>
- <db41c385-84b4-78ea-8c08-faea987f8175@gmail.com>
- <3c27b3c8-77e2-e672-290d-a4dca787681e@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=PG4K6aYNdkPzqjRYgppnMVqWnOHK6OQ7xKHUFczXoQ0=;
+ b=Hfzl3cX2xNrMgqvn/kIVPugHRxWpU2sPzEaP/LuAbatPjvtDOrx4uO71JQoSHjzUqW
+ 9faoNMCnwWy/B7vlKAvvcZUihaMVEo5hIpdUI0G5ajk1wgkC7BmD4YEk2EcOCGDqcjd6
+ BK29bofVAgI2q8IeP/EFGI7XwzVaKm6PZUtu52G4bQGf/UgFNMQO7ay1J2l0tWcYweYM
+ ovcF0HJJNFjF4W8Ksj2myjnUGiJlALY5XJJBC6WCbhEzQmYpHt7qqWpDNNPN0H+AHJk+
+ xr3isycy4Sqt8ISDglLp11H9S4I9Ew2g3zUI3AtI5NKN0gUdgq8rGTSea29pE21xXT5v
+ jQ7w==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] howto: Update explanation of cross-link between QQs and QQAs
+Message-ID: <55319b08-655a-c5e7-dc55-9459dff58a1b@gmail.com>
+Date: Tue, 19 Jul 2016 22:06:33 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3c27b3c8-77e2-e672-290d-a4dca787681e@gmail.com>
-Message-Id: <20160718224241.GO7094@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Jul 19, 2016 at 06:50:07AM +0900, Akira Yokosawa wrote:
-> >From e51d65d2b5e10dcf4bd4f5970010c0cded292f0e Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Mon, 18 Jul 2016 08:41:12 +0900
-> Subject: [PATCH] qqz: Modify back link target at end of QQA to the end of QQ
-> 
-> This commit modifies the target of back link at the end of QQA
-> (white box) to the end of corresponding QQ in the main text.
-> This change enables you to easily reach the text following a
-> (possibly long) QQ by clicking a white box at the end of the QQA.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+From d12e861e19ba9fd78ec6169ee7f56b4ca191bc7a Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Tue, 19 Jul 2016 21:56:44 +0900
+Subject: [PATCH] howto: Update explanation of cross-link between QQs and QQAs
 
-Much better!  Queued and pushed, thank you!
+This commit attempts to update the explanation to reflect the
+changes made by commit 3a66515124a8 ("qqz: Modify back link
+target at end of QQA to the end of QQ").
 
-							Thanx, Paul
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ howto/howto.tex | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-> ---
->  qqz.sty | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/qqz.sty b/qqz.sty
-> index 0c97df9..4505f8c 100644
-> --- a/qqz.sty
-> +++ b/qqz.sty
-> @@ -20,6 +20,7 @@
->  %%          Akira Yokosawa <akiyks@gmail.com>   # improvement of cross-link
-> 
->  \newcounter{quickquizctr}[chapter]
-> +\newcounter{quickquizctrE}[chapter]
->  \newcounter{quickquizctrC}[section]
->  \newcommand*{\theHNum}{\arabic{chapter}.\arabic{quickquizctr}}
->  \newcommand{\QuickQuizAnswerChapter}{\textbf{Unknown QuickQAC!!!}}
-> @@ -33,7 +34,10 @@
->  \newcommand{\QuickQuiz}[1]{
->  	\refstepcounter{quickquizctr}
->  	\QuickQHeading{QQ}{QQA}{\thechapter.\thequickquizctr}}
-> -\newcommand{\QuickQuizAnswer}[1]{\hyperref[QQA.\thechapter.\thequickquizctr]{\rule{7pt}{7pt}}}
-> +\newcommand{\QuickQuizAnswer}[1]{%
-> +	\refstepcounter{quickquizctrE}%
-> +	\hyperref[QQA.\thechapter.\thequickquizctr]{\rule{7pt}{7pt}}%
-> +	\label{QQE.\thechapter.\thequickquizctrE}}
->  \newcommand{\QuickQuizEnd}{}
-> 
->  % To create a macro referencing the previously defined quick quiz:
-> @@ -84,7 +88,7 @@
->  	\noindent\textbf{Answer:} \\ }
-> 
->  \newcommand{\QuickE}{%
-> -	\hyperref[QQ.\QuickQuizAnswerChapter.\thequickquizctrC]{\ding{113}}
-> +	\hyperref[QQE.\QuickQuizAnswerChapter.\thequickquizctrC]{\ding{113}}
->  	\vspace{1.5\baselineskip}
->  }
-> 
-> -- 
-> 1.9.1
-> 
-> 
+diff --git a/howto/howto.tex b/howto/howto.tex
+index 30eac7b..68ed47d 100644
+--- a/howto/howto.tex
++++ b/howto/howto.tex
+@@ -208,9 +208,13 @@ Here are a few possible strategies:
+ \end{enumerate}
+
+ Note that as of mid-2016 the quick quizzes are hyperlinked
+-to the answer and vice versa.
++to the answers and vice versa.
+ Click either the ``Quick Quiz'' headings or the small squares
+ to move back and forth between quiz and answer.
++Also note that the white squares at the end of answers are
++linked to the black squares at the end of quizzes.
++If you want to continue reading text after the end of quizzes,
++white squares would be of your choice.
+ } \QuickQuizEnd
+
+ In short, if you need a deep
+-- 
+1.9.1
 
