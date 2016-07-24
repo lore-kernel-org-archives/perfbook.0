@@ -1,76 +1,264 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41025 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)	by vger.kernel.org with
- ESMTP id S1751972AbcGSPRQ (ORCPT	<rfc822;perfbook@vger.kernel.org>); Tue, 19
- Jul 2016 11:17:16 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])	by
- mx0a-001b2d01.pphosted.com (8.16.0.11/8.16.0.11) with SMTP id u6JF9CeQ070665
- for <perfbook@vger.kernel.org>; Tue, 19 Jul 2016 11:17:16 -0400
-Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209])	by
- mx0a-001b2d01.pphosted.com with ESMTP id 2496gqq4rr-1	(version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT)	for <perfbook@vger.kernel.org>; Tue,
- 19 Jul 2016 11:17:15 -0400
-Received: from localhost	by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Tue, 19 Jul
- 2016 11:17:14 -0400
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24])	by d01dlp01.pok.ibm.com (Postfix) with ESMTP id B58B038C8041
- for <perfbook@vger.kernel.org>; Tue, 19 Jul 2016 11:17:11 -0400 (EDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u6JFHBSx65339520	for <perfbook@vger.kernel.org>; Tue, 19 Jul 2016 15:17:11
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u6JFHBCr000982	for <perfbook@vger.kernel.org>; Tue, 19 Jul 2016 11:17:11
- -0400
-Date: Tue, 19 Jul 2016 08:17:35 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] formal: Trivial typo fixes
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <ee5270b0-78c0-ae91-6a93-336968af2589@gmail.com>
- <6e78783e-7f09-931d-5981-ad11af4bd7b5@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=VkNxkcQu6riVliUiSJKKfvErwqkv1VudDns9G/L4rgg=;
+ b=1BoTJBrdgsg3LEK7uhDNxDjwk/hdM/76ayl+UYFn3n2ufleqMnokSNBjXzbywIgFxn
+ 0eEGUHWl2HoGSQc2/wWkfAfSGmjXeftG233BMDhaipnJ8sGVUdF5Z6kETAVyhXczg5G0
+ jW2YGjUVk8xZ5Ds6EQfPduwKIlPzu3413eiysCtY68IVIo0VJeC+HFVmZcOnxgl4oOfc
+ tmdXfENPTGJO/hPXQc1ZskC6GHpVYgf/iffQeMMxL45VB9NcRpRnVayRyYDmDSDmCY12
+ h4s1wkqnVvkOisrfALDnhzNuFv85JlcURKpVey/ZSHGdq/gXh9xv+q/tAB4VDaf/RP6z
+ tMag==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] defer/rcuapi: Merge Tables 9.3 and 9.4
+Message-ID: <fa1dcdab-7d30-3066-4286-74038c355735@gmail.com>
+Date: Sun, 24 Jul 2016 11:39:54 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6e78783e-7f09-931d-5981-ad11af4bd7b5@gmail.com>
-Message-Id: <20160719151735.GW7094@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Jul 20, 2016 at 12:08:29AM +0900, Akira Yokosawa wrote:
-> On 2016/07/19 23:42 +0900, Akira Yokosawa wrote:
-> 
-> Hi Paul,
-> 
-> These are typos I noticed while reading recently updated part in "formal/formal.tex".
-> 
-> >  	Furthermore, although the L4 microkernel is a large software
-> >  	artifact from the viewpoint of formal verification, it is tiny
-> > -	compared to the a great number of projects, including LLVM,
-> > +	compared to a great number of projects, including LLVM,
-> 
-> Here, "the" and "a" are redundant. I removed "the", because I have no idea
-> how many projects are there in this context.
-> 
-> >  	gcc, the Linux kernel, Hadoop, MongoDB, and a great many others.
-> >  
-> >  	Although formal verification is finally starting to show some
-> > @@ -171,4 +171,4 @@ All else being equal, a simpler implementation is much better than
-> >  a mechanical proof for a complex implementation!
-> >  
-> >  And the open challenge to those working on formal verification techniques
-> > -and systems is prove this summary wrong!
-> > +and systems is to prove this summary wrong!
-> > 
-> 
-> This seems a trivial one.
+From 1e4c0d9ae90cf0f5dcd44a27651614119aebef62 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 24 Jul 2016 10:39:37 +0900
+Subject: [PATCH] defer/rcuapi: Merge Tables 9.3 and 9.4
 
-Agreed on both, pulled and pushed.  And thank you for your careful
-review and the fixes!
+By using "sidewaystable" environment, Tables 9.3 and 9.4 can be
+merged into a wider single table.
 
-							Thanx, Paul
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ defer/rcuapi.tex | 112 ++++++++++++++++++++-----------------------------------
+ perfbook.tex     |   1 +
+ 2 files changed, 41 insertions(+), 72 deletions(-)
+
+diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+index 183bb8b..6f69115 100644
+--- a/defer/rcuapi.tex
++++ b/defer/rcuapi.tex
+@@ -16,159 +16,127 @@ presents concluding remarks.
+ \subsubsection{RCU has a Family of Wait-to-Finish APIs}
+ \label{sec:defer:RCU has a Family of Wait-to-Finish APIs}
+
+-\begin{table*}[p]
++\begin{sidewaystable*}[htbp]
+ \centering
+-\scriptsize\tymin=1.1in
+-\begin{tabulary}{5.9in}{L|L|L|L|L}
++\scriptsize\tymin=1.4in
++\begin{tabulary}{7.8in}{L|L|L|L|L|L}
+ Attribute &
+     RCU Classic &
+ 	RCU BH &
+ 	    RCU Sched &
+-		Realtime RCU \\
++		Realtime RCU &
++		    SRCU \\
+ \hline
+ \hline
+ Purpose &
+     Original &
+ 	Prevent DDoS attacks &
+ 	    Wait for preempt-disable regions, hardirqs, \& NMIs &
+-	        Realtime response \\
++	        Realtime response &
++		    Sleeping readers \\
+ \hline
+ Availability &
+     2.5.43 &
+ 	2.6.9 &
+ 	    2.6.12 &
+-	        2.6.26 \\
++		2.6.26 &
++		    2.6.19 \\
+ \hline
+ Read-side primitives &
+-    \begin{minipage}[t]{1.0in}{ \raggedright
++    \begin{minipage}[t]{1.4in}{ \raggedright
+       \co{rcu_read_lock()}~! \\
+       \co{rcu_read_unlock()}~! }\end{minipage} &
+-	\begin{minipage}[t]{1.0in}{ \raggedright
++	\begin{minipage}[t]{1.4in}{ \raggedright
+ 	  \co{rcu_read_lock_bh()} \\
+ 	  \co{rcu_read_unlock_bh()} }\end{minipage} &
+-	    \begin{minipage}[t]{1.0in}{ \raggedright
++	    \begin{minipage}[t]{1.4in}{ \raggedright
+ 	      \co{preempt_disable()} \\
+ 	      \co{preempt_enable()} \\
+ 	      (and friends) }\end{minipage} &
+-	        \begin{minipage}[t]{1.0in}{ \raggedright
++	        \begin{minipage}[t]{1.4in}{ \raggedright
+ 		  \co{rcu_read_lock()} \\
+-		  \co{rcu_read_unlock()} }\end{minipage} \\
++		  \co{rcu_read_unlock()} }\end{minipage} &
++		    \begin{minipage}[t]{1.4in}{ \raggedright
++		      \co{srcu_read_lock()} \\
++		      \co{srcu_read_unlock()} }\end{minipage} \\
+ \hline
+ { Update-side primitives (synchronous) } &
+     { \co{synchronize_rcu()} \co{synchronize_net()} } &
+ 	\co{synchronize_rcu_bh()} &
+ 	    \co{synchronize_sched()} &
+-	        { \co{synchronize_rcu()} \co{synchronize_net()} } \\
++	        { \co{synchronize_rcu()} \co{synchronize_net()} } &
++		    \co{synchronize_srcu()} \\
+ \hline
+ { Update-side primitives (asynchronous/callback) } &
+     \co{call_rcu()} ! &
+ 	\co{call_rcu_bh()} &
+ 	    \co{call_rcu_sched()} &
+-	        \co{call_rcu()} \\
++	        \co{call_rcu()} &
++		    \co{call_srcu()} \\
+ \hline
+ { Update-side primitives (wait for callbacks) } &
+     \co{rcu_barrier()} &
+ 	\co{rcu_barrier_bh()} &
+ 	    \co{rcu_barrier_sched()} &
+-	        \co{rcu_barrier()} \\
++	        \co{rcu_barrier()} &
++		    N/A \\
+ \hline
+ Type-safe memory &
+     \co{SLAB_DESTROY_BY_RCU} &
+ 	&
+ 	    &
+-	        \co{SLAB_DESTROY_BY_RCU} \\
++	        \co{SLAB_DESTROY_BY_RCU} &
++		    \\
+ \hline
+ Read side constraints &
+     No blocking &
+ 	No bottom-half (BH) enabling &
+ 	    No blocking &
+-	        Only preemption and lock acquisition \\
++	        Only preemption and lock acquisition &
++		    No \co{synchronize_srcu()} wtih same \co{srcu_struct} \\
+ \hline
+ Read side overhead &
+     Preempt disable/enable (free on non-PREEMPT) &
+ 	BH disable/enable &
+ 	    Preempt disable/enable (free on non-PREEMPT) &
+-	        Simple instructions, irq disable/enable \\
++	        Simple instructions, irq disable/enable &
++		    Simple instructions, preempt disable/enable, memory barriers \\
+ \hline
+ Asynchronous update-side overhead &
+     sub-microsecond &
+ 	sub-microsecond &
+ 	    sub-microsecond &
+-	        sub-microsecond \\
++	        sub-microsecond &
++		    N/A \\
+ \hline
+ Grace-period latency &
+     10s of milliseconds &
+ 	10s of milliseconds &
+ 	    10s of milliseconds &
+-	        10s of milliseconds \\
++	        10s of milliseconds &
++		    10s of milliseconds \\
+ \hline
+ Non-\co{PREEMPT_RT} implementation &
+     RCU Classic &
+ 	RCU BH &
+ 	    RCU Classic &
+-	        Preemptible RCU \\
++	        Preemptible RCU &
++		    SRCU \\
+ \hline
+ \co{PREEMPT_RT} implementation &
+     Preemptible RCU &
+ 	Realtime RCU &
+ 	    Forced Schedule on all CPUs &
+-	        Realtime RCU \\
++	        Realtime RCU &
++		    SRCU \\
+ \end{tabulary}
+ \caption{RCU Wait-to-Finish APIs}
+ \label{tab:defer:RCU Wait-to-Finish APIs}
+-\end{table*}
+-
+-\begin{table*}[p]
+-\centering
+-\scriptsize\tymin=1.1in\tymax=1.5in
+-\begin{tabulary}{4.5in}{L|L}
+-Attribute &
+-    SRCU \\
+-\hline
+-\hline
+-Purpose &
+-    Sleeping readers \\
+-\hline
+-Availability &
+-    2.6.19 \\
+-\hline
+-Read-side primitives &
+-    \begin{minipage}[t]{1.5in}{ \raggedright
+-      \co{srcu_read_lock()} \\
+-      \co{srcu_read_unlock()} }\end{minipage} \\
+-\hline
+-Update-side primitives (synchronous) &
+-    \co{synchronize_srcu()} \\
+-\hline
+-Update-side primitives (asynchronous/callback) &
+-    \co{call_srcu()} \\
+-\hline
+-Update-side primitives (wait for callbacks) &
+-    N/A \\
+-\hline
+-Type-safe memory &
+-    \\
+-\hline
+-Read side constraints &
+-    No \co{synchronize_srcu()} wtih same \co{srcu_struct} \\
+-\hline
+-Read side overhead &
+-    Simple instructions, preempt disable/enable, memory barriers \\
+-\hline
+-Asynchronous update-side overhead &
+-    N/A \\
+-\hline
+-Grace-period latency &
+-    10s of milliseconds \\
+-\end{tabulary}
+-\caption{Sleepable RCU Wait-to-Finish APIs}
+-\label{tab:defer:Sleepable RCU Wait-to-Finish APIs}
+-\end{table*}
++\end{sidewaystable*}
+
+ The most straightforward answer to ``what is RCU'' is that RCU is
+ an API used in the Linux kernel, as summarized by
+-Tables~\ref{tab:defer:RCU Wait-to-Finish APIs} and
+-\ref{tab:defer:Sleepable RCU Wait-to-Finish APIs},
++Table~\ref{tab:defer:RCU Wait-to-Finish APIs},
+ which shows the wait-for-RCU-readers portions of the non-sleepable and
+ sleepable APIs, respectively,
+ and by
+@@ -386,7 +354,7 @@ elsewhere~\cite{PaulEMcKenney2007PreemptibleRCU}.
+ } \QuickQuizEnd
+
+ The ``SRCU'' column in
+-Table~\ref{tab:defer:Sleepable RCU Wait-to-Finish APIs}
++Table~\ref{tab:defer:RCU Wait-to-Finish APIs}
+ displays a specialized RCU API that permits
+ general sleeping in RCU read-side critical
+ sections~\cite{PaulEMcKenney2006c}.
+diff --git a/perfbook.tex b/perfbook.tex
+index 493c05a..9216485 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -15,6 +15,7 @@
+ \usepackage{subfigure}
+ % \usepackage{breakurl}
+ \usepackage{graphicx}
++\usepackage{rotating}
+ \usepackage{enumerate}
+ \usepackage{ifthen}
+ \usepackage{xcolor}
+-- 
+1.9.1
 
