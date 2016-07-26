@@ -1,378 +1,446 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15895 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)	by vger.kernel.org
- with ESMTP id S1752656AbcGYQSM (ORCPT	<rfc822;perfbook@vger.kernel.org>);
- Mon, 25 Jul 2016 12:18:12 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])	by
- mx0b-001b2d01.pphosted.com (8.16.0.11/8.16.0.11) with SMTP id u6PGE7pm111692
- for <perfbook@vger.kernel.org>; Mon, 25 Jul 2016 12:18:11 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])	by
- mx0b-001b2d01.pphosted.com with ESMTP id 24c1h4hctv-1	(version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT)	for <perfbook@vger.kernel.org>; Mon,
- 25 Jul 2016 12:18:10 -0400
-Received: from localhost	by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Mon, 25 Jul
- 2016 12:18:10 -0400
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23])	by d01dlp03.pok.ibm.com (Postfix) with ESMTP id 828F9C90041
- for <perfbook@vger.kernel.org>; Mon, 25 Jul 2016 12:17:56 -0400 (EDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u6PGI6vl49872980	for <perfbook@vger.kernel.org>; Mon, 25 Jul 2016 16:18:06
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u6PGI6uW026329	for <perfbook@vger.kernel.org>; Mon, 25 Jul 2016 12:18:06
- -0400
-Date: Mon, 25 Jul 2016 09:18:36 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] Use UK style punctuation order
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <f8d9e71c-eae4-bc6a-ef50-8fab86e65c80@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=64T2JA5ZQx2r+CtX8OoQY8TM97+gr8CEmH8fJXcZgCE=;
+ b=UtLP3ByTk2sCzGOqj7whhrVQelPgNwIdzaaHY7AZNM5K60qVcZLI12KXkDzx+RBpPS
+ 1lWIhi3gM7BUfqlWmzdpqCA3KU1faTKEWVx5v9MWvqquKvXw4NnWyUR3YN+n1fOnH0Jl
+ LrXAmXLIPtvRxXW86FlZMkGCYVTAcAiNAj2UuhDe6d8cYTmE/3PygoseKxeWwsX4C2qM
+ FgcTfkjVyeNUMIVS33bRttC2MdvQvbR8EDYF8Xno5drFIu/G/JggZV035jVo1v4bCsqa
+ PL3jVZQnNZBWoUjOIqs2kyAM8YPpbjYhhFXcpfe3OG92EjUJJwdmDZusG5RJJI+XDt5I
+ ZSKg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] Use unspaced em dashes consistently
+Message-ID: <0d4c9581-07cd-d515-75b0-a2165d6da011@gmail.com>
+Date: Tue, 26 Jul 2016 23:45:05 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f8d9e71c-eae4-bc6a-ef50-8fab86e65c80@gmail.com>
-Message-Id: <20160725161836.GI7094@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Jul 25, 2016 at 07:36:26PM +0900, Akira Yokosawa wrote:
-> >From e4493b424941f1cfe8831c278bc6235d67f4a391 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Mon, 25 Jul 2016 17:25:12 +0900
-> Subject: [PATCH] Use UK style punctuation order
-> 
-> This commit replaces American style punctuation order around
-> closing quotation marks with the UK style.
-> In some cases, it promotes quoted sentences to full ones beginning
-> with capital letters.
-> 
-> (Excerpt from Paul's mail)
-> ----
->     Despite being American myself, for this sort of book, the UK approach
->     is better because it removes ambiguities like the following:
-> 
->         Type "ls -a," look for the file ".," and file a bug if you
->         don't see it.
-> 
->     The following is much more clear:
-> 
->         Type "ls -a", look for the file ".", and file a bug if you
->         don't see it.
-> ----
-> 
-> Suggested-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+From cbaeb197166e9c3916976906c9a315051a749a68 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Tue, 26 Jul 2016 23:40:32 +0900
+Subject: [PATCH] Use unspaced em dashes consistently
 
-Applied, thank you very much!
+Suggested-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ SMPdesign/SMPdesign.tex              |  8 ++++----
+ advsync/memorybarriers.tex           | 10 +++++-----
+ advsync/rcu.tex                      |  4 ++--
+ appendix/primitives/primitives.tex   |  2 +-
+ appendix/questions/after.tex         |  2 +-
+ appendix/questions/questions.tex     |  2 +-
+ appendix/rcuimpl/rcupreempt.tex      |  2 +-
+ appendix/rcuimpl/srcu.tex            |  4 ++--
+ appendix/whymb/whymemorybarriers.tex | 10 +++++-----
+ count/count.tex                      |  6 +++---
+ cpu/overview.tex                     |  2 +-
+ defer/rcuapi.tex                     |  2 +-
+ defer/rcuusage.tex                   |  2 +-
+ easy/easy.tex                        |  2 +-
+ formal/spinhint.tex                  |  2 +-
+ glossary.tex                         |  4 ++--
+ intro/intro.tex                      |  2 +-
+ together/applyrcu.tex                |  2 +-
+ together/refcnt.tex                  |  2 +-
+ 19 files changed, 35 insertions(+), 35 deletions(-)
 
-							Thanx, Paul
+diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
+index 0f524b6..0a65c38 100644
+--- a/SMPdesign/SMPdesign.tex
++++ b/SMPdesign/SMPdesign.tex
+@@ -343,7 +343,7 @@ in the form of an additional data structure, the \co{struct bucket}.
+ In contrast with the contentious situation
+ shown in Figure~\ref{fig:SMPdesign:Lock Contention},
+ data locking helps promote harmony, as illustrated by
+-Figure~\ref{fig:SMPdesign:Data Locking} --- and in parallel programs,
++Figure~\ref{fig:SMPdesign:Data Locking}---and in parallel programs,
+ this \emph{almost} always translates into increased performance and
+ scalability.
+ For this reason, data locking was heavily used by Sequent in
+@@ -947,7 +947,7 @@ freeing in the common case and the need to efficiently distribute
+ memory in face of unfavorable allocation and freeing patterns.
 
-> ---
->  appendix/questions/concurrentparallel.tex |  4 ++--
->  cpu/cpu.tex                               |  2 +-
->  cpu/overview.tex                          |  2 +-
->  datastruct/datastruct.tex                 |  2 +-
->  debugging/debugging.tex                   |  2 +-
->  defer/rcufundamental.tex                  |  4 ++--
->  defer/rcuusage.tex                        |  4 ++--
->  defer/updates.tex                         |  2 +-
->  easy/easy.tex                             |  2 +-
->  formal/axiomatic.tex                      |  2 +-
->  formal/spinhint.tex                       |  2 +-
->  locking/locking.tex                       |  2 +-
->  rt/rt.tex                                 | 16 ++++++++--------
->  together/applyrcu.tex                     |  2 +-
->  together/refcnt.tex                       |  8 ++++----
->  15 files changed, 28 insertions(+), 28 deletions(-)
-> 
-> diff --git a/appendix/questions/concurrentparallel.tex b/appendix/questions/concurrentparallel.tex
-> index 663bf36..76b3d8a 100644
-> --- a/appendix/questions/concurrentparallel.tex
-> +++ b/appendix/questions/concurrentparallel.tex
-> @@ -11,7 +11,7 @@ between the two, and it turns out that these distinctions can be
->  understood from a couple of different perspectives.
-> 
->  The first perspective treats ``parallel'' as an abbreviation for
-> -``data parallel,'' and treats ``concurrent'' as pretty much everything
-> +``data parallel'', and treats ``concurrent'' as pretty much everything
->  else.
->  From this perspective, in parallel computing, each partition of the
->  overall problem can proceed completely independently, with no
-> @@ -90,7 +90,7 @@ perspective and ``parallel'' by many taking the second perspective.
->  Which is just fine.
->  No rule that humankind writes carries any weight against objective
->  reality, including the rule dividing multiprocessor programs into
-> -categories such as ``concurrent'' and ``parallel.''
-> +categories such as ``concurrent'' and ``parallel''.
-> 
->  This categorization failure does not mean such rules are useless,
->  but rather that you should take on a suitably skeptical frame of mind when
-> diff --git a/cpu/cpu.tex b/cpu/cpu.tex
-> index f81a40e..6bfdf91 100644
-> --- a/cpu/cpu.tex
-> +++ b/cpu/cpu.tex
-> @@ -3,7 +3,7 @@
-> 
->  \QuickQuizChapter{chp:Hardware and its Habits}{Hardware and its Habits}
-> 
-> -\epigraph{Premature abstraction is the root of all evil}
-> +\epigraph{Premature abstraction is the root of all evil.}
->  	 {\emph{A cast of thousands}}
-> 
->  Most people have an intuitive understanding that passing messages between
-> diff --git a/cpu/overview.tex b/cpu/overview.tex
-> index 9972adf..49ca800 100644
-> --- a/cpu/overview.tex
-> +++ b/cpu/overview.tex
-> @@ -100,7 +100,7 @@ single-cycle access.\footnote{
->  In 2008, CPU designers still can construct a 4KB memory with single-cycle
->  access, even on systems with multi-GHz clock frequencies.
->  And in fact they frequently do construct such memories, but they now
-> -call them ``level-0 caches,'' and they can be quite a bit bigger than 4KB.
-> +call them ``level-0 caches'', and they can be quite a bit bigger than 4KB.
-> 
->  \begin{figure}[htb]
->  \centering
-> diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
-> index 978e4a5..da735ae 100644
-> --- a/datastruct/datastruct.tex
-> +++ b/datastruct/datastruct.tex
-> @@ -1684,7 +1684,7 @@ one.
->  Is it possible to create an RCU-protected resizable hash table that
->  makes do with just one pair?
-> 
-> -It turns out that the answer is ``yes.''
-> +It turns out that the answer is ``yes''.
->  Josh Triplett et al.~\cite{Triplett:2011:RPHash}
->  produced a \emph{relativistic hash table} that incrementally
->  splits and combines corresponding hash chains so that readers always
-> diff --git a/debugging/debugging.tex b/debugging/debugging.tex
-> index bf42a70..b8156c8 100644
-> --- a/debugging/debugging.tex
-> +++ b/debugging/debugging.tex
-> @@ -1072,7 +1072,7 @@ So suppose that a given test has been failing 10\% of the time.
->  How many times do you have to run the test to be 99\% sure that
->  your supposed fix has actually improved matters?
-> 
-> -Another way to ask this question is ``how many times would we need
-> +Another way to ask this question is ``How many times would we need
->  to run the test to cause the probability of failure to rise above 99\%?''
->  After all, if we were to run the test enough times that the probability
->  of seeing at least one failure becomes 99\%, if there are no failures,
-> diff --git a/defer/rcufundamental.tex b/defer/rcufundamental.tex
-> index da71d42..54a8840 100644
-> --- a/defer/rcufundamental.tex
-> +++ b/defer/rcufundamental.tex
-> @@ -45,8 +45,8 @@ zero overhead.
->  	of concurrent RCU updaters.
->  } \QuickQuizEnd
-> 
-> -This leads to the question ``what exactly is RCU?'', and perhaps also
-> -to the question ``how can RCU \emph{possibly} work?'' (or, not
-> +This leads to the question ``What exactly is RCU?'', and perhaps also
-> +to the question ``How can RCU \emph{possibly} work?'' (or, not
->  infrequently, the assertion that RCU cannot possibly work).
->  This document addresses these questions from a fundamental viewpoint;
->  later installments look at them from usage and from API viewpoints.
-> diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
-> index 619f968..51d492e 100644
-> --- a/defer/rcuusage.tex
-> +++ b/defer/rcuusage.tex
-> @@ -30,7 +30,7 @@ Wait for things to finish &
->  \label{tab:defer:RCU Usage}
->  \end{table}
-> 
-> -This section answers the question ``what is RCU?'' from the viewpoint
-> +This section answers the question ``What is RCU?'' from the viewpoint
->  of the uses to which RCU can be put.
->  Because RCU is most frequently used to replace some existing mechanism,
->  we look at it primarily in terms of its relationship to such mechanisms,
-> @@ -839,7 +839,7 @@ these restrictions, and as to how they can best be handled.
->  \label{sec:defer:RCU is a Poor Man's Garbage Collector}
-> 
->  A not-uncommon exclamation made by people first learning about
-> -RCU is ``RCU is sort of like a garbage collector!''.
-> +RCU is ``RCU is sort of like a garbage collector!''
->  This exclamation has a large grain of truth, but it can also be
->  misleading.
-> 
-> diff --git a/defer/updates.tex b/defer/updates.tex
-> index 4642a15..c6ae836 100644
-> --- a/defer/updates.tex
-> +++ b/defer/updates.tex
-> @@ -22,7 +22,7 @@ OpLog, which he has applied to
->  Linux-kernel pathname lookup, VM reverse mappings, and the \co{stat()} system
->  call~\cite{SilasBoydWickizerPhD}.
-> 
-> -Another approach, called ``Disruptor,'' is designed for applications
-> +Another approach, called ``Disruptor'', is designed for applications
->  that process high-volume streams of input data.
->  The approach is to rely on single-producer-single-consumer FIFO queues,
->  minimizing the need for synchronization~\cite{AdrianSutton2013LCA:Disruptor}.
-> diff --git a/easy/easy.tex b/easy/easy.tex
-> index 05b2c5a..3ca7eb2 100644
-> --- a/easy/easy.tex
-> +++ b/easy/easy.tex
-> @@ -243,7 +243,7 @@ containing only one element!
->  	given that each philosopher requires two forks at a time to eat,
->  	one is supposed to come up with a fork-allocation algorithm that
->  	avoids deadlock.
-> -	Paul's response was ``Sheesh!  Just get five more forks!''.
-> +	Paul's response was ``Sheesh!  Just get five more forks!''
-> 
->  	This in itself was OK, but Paul then applied this same solution to
->  	circular linked lists.
-> diff --git a/formal/axiomatic.tex b/formal/axiomatic.tex
-> index bb10338..cc420cf 100644
-> --- a/formal/axiomatic.tex
-> +++ b/formal/axiomatic.tex
-> @@ -68,7 +68,7 @@ Alglave et al.~\cite{Alglave:2014:HCM:2594291.2594347},
->  which creates a set of axioms to represent the memory model and then
->  converts litmus tests to theorems that might be proven or disproven
->  over this set of axioms.
-> -The resulting tool, called ``herd,''  conveniently takes as input the
-> +The resulting tool, called ``herd'',  conveniently takes as input the
->  same litmus tests as PPCMEM, including the IRIW litmus test shown in
->  Figure~\ref{fig:formal:IRIW Litmus Test}.
-> 
-> diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-> index 1f7140c..a5cc151 100644
-> --- a/formal/spinhint.tex
-> +++ b/formal/spinhint.tex
-> @@ -16,7 +16,7 @@ comparison of Promela syntax to that of C.
->  Section~\ref{sec:formal:Promela Example: Locking}
->  shows how Promela may be used to verify locking,
->  \ref{sec:formal:Promela Example: QRCU}
-> -uses Promela to verify an unusual implementation of RCU named ``QRCU,''
-> +uses Promela to verify an unusual implementation of RCU named ``QRCU'',
->  and finally
->  Section~\ref{sec:formal:Promela Parable: dynticks and Preemptible RCU}
->  applies Promela to RCU's dyntick-idle implementation.
-> diff --git a/locking/locking.tex b/locking/locking.tex
-> index 2d887d8..4d4b94b 100644
-> --- a/locking/locking.tex
-> +++ b/locking/locking.tex
-> @@ -268,7 +268,7 @@ the comparison function is a
->  complicated function involving also locking.
->  How can the library function avoid deadlock?
-> 
-> -The golden rule in this case is ``release all locks before invoking
-> +The golden rule in this case is ``Release all locks before invoking
->  unknown code.''
->  To follow this rule, the \co{qsort()} function must release all
->  locks before invoking the comparison function.
-> diff --git a/rt/rt.tex b/rt/rt.tex
-> index dbb2c1a..f1ed929 100644
-> --- a/rt/rt.tex
-> +++ b/rt/rt.tex
-> @@ -8,7 +8,7 @@
->  An important emerging area in computing is that of parallel real-time
->  computing.
->  Section~\ref{sec:rt:What is Real-Time Computing?}
-> -looks at a number of definitions of ``real-time computing,'' moving
-> +looks at a number of definitions of ``real-time computing'', moving
->  beyond the usual sound bites to more meaningful criteria.
->  Section~\ref{sec:rt:Who Needs Real-Time Computing?}
->  surveys the sorts of applications that need real-time response.
-> @@ -156,7 +156,7 @@ the real-time application itself.
->  \label{sec:rt:Environmental Constraints}
-> 
->  Constraints on the environment address the objection to open-ended
-> -promises of response times implied by ``hard real time.''
-> +promises of response times implied by ``hard real time''.
->  These constraints might specify permissible operating temperatures,
->  air quality, levels and types of electromagnetic radiation, and, to
->  Figure~\ref{fig:rt:Hard Real-Time Response Guarantee, Meet Hammer}'s
-> @@ -510,8 +510,8 @@ large Earth-bound telescopes to de-twinkle starlight;
->  military applications, including the afore-mentioned avionics;
->  and financial-services applications, where the first computer to recognize
->  an opportunity is likely to reap most of the resulting profit.
-> -These four areas could be characterized as ``in search of production,''
-> -``in search of life,'' 	``in search of death,'' and ``in search of money.''
-> +These four areas could be characterized as ``in search of production'',
-> +``in search of life'', ``in search of death'', and ``in search of money''.
-> 
->  Financial-services applications differ subtlely from applications in
->  the other three categories in that money is non-material, meaning that
-> @@ -528,7 +528,7 @@ as described in
->  Section~\ref{sec:rt:Real-World Real-Time Specifications},
->  the unusual nature of these requirements has led some to refer to
->  financial and information-processing applications as ``low latency''
-> -rather than ``real time.''
-> +rather than ``real time''.
-> 
->  Regardless of exactly what we choose to call it, there is substantial
->  need for real-time
-> @@ -805,7 +805,7 @@ There has of course been much debate over which of these approaches
->  is best for real-time systems, and this debate has been going on for
->  quite some
->  time~\cite{JonCorbet2004RealTimeLinuxPart1,JonCorbet2004RealTimeLinuxPart2}.
-> -As usual, the answer seems to be ``it depends,'' as discussed in the
-> +As usual, the answer seems to be ``It depends,'' as discussed in the
->  following sections.
->  Section~\ref{sec:rt:Event-Driven Real-Time Support}
->  considers event-driven real-time systems, and
-> @@ -1402,7 +1402,7 @@ workloads and fix any real-time bugs.\footnote{
->  	so that others can benefit.
->  	Keep in mind that when you need to port your application to
->  	a later version of the Linux kernel, \emph{you} will be one of those
-> -	``others.''}
-> +	``others''.}
-> 
->  A sixth source of OS jitter is provided by some in-kernel
->  full-system synchronization algorithms, perhaps most notably
-> @@ -1903,7 +1903,7 @@ One rule of thumb uses the following four questions to help you choose:
->  	100 milliseconds to complete?
->  \end{enumerate}
-> 
-> -If the answer to any of these questions is ``yes,'' you should choose
-> +If the answer to any of these questions is ``yes'', you should choose
->  real-fast over real-time, otherwise, real-time might be for you.
-> 
->  Choose wisely, and if you do choose real-time, make sure that your
-> diff --git a/together/applyrcu.tex b/together/applyrcu.tex
-> index 4fbbcb9..981cc50 100644
-> --- a/together/applyrcu.tex
-> +++ b/together/applyrcu.tex
-> @@ -294,7 +294,7 @@ Line~69 can then safely free the old \co{countarray} structure.
->  	to the structure definition, memory allocation, and \co{NULL}
->  	return checking.
-> 
-> -	Of course, a better question is ``why doesn't the language
-> +	Of course, a better question is ``Why doesn't the language
->  	implement cross-thread access to \co{__thread} variables?''
->  	After all, such an implementation would make both the locking
->  	and the use of RCU unnecessary.
-> diff --git a/together/refcnt.tex b/together/refcnt.tex
-> index 407f569..d9ff656 100644
-> --- a/together/refcnt.tex
-> +++ b/together/refcnt.tex
-> @@ -587,15 +587,15 @@ summarized in the following list.
->  	Returns the integer value of the referenced variable.
->  	This need not be an atomic operation, and it need not issue any
->  	memory-barrier instructions.
-> -	Instead of thinking of as ``an atomic read,'' think of it as
-> -	``a normal read from an atomic variable.''
-> +	Instead of thinking of as ``an atomic read'', think of it as
-> +	``a normal read from an atomic variable''.
->  \item	\co{void atomic_set(atomic_t *var, int val);}
->  	Sets the value of the referenced atomic variable to ``val''.
->  	This need not be an atomic operation, and it is not required
->  	to either issue memory
->  	barriers or disable compiler optimizations.
-> -	Instead of thinking of as ``an atomic set,'' think of it as
-> -	``a normal set of an atomic variable.''
-> +	Instead of thinking of as ``an atomic set'', think of it as
-> +	``a normal set of an atomic variable''.
->  \item	\co{void call_rcu(struct rcu_head *head, void (*func)(struct rcu_head *head));}
->  	Invokes \co{func(head)} some time after all currently executing RCU
->  	read-side critical sections complete, however, the \co{call_rcu()}
-> -- 
-> 1.9.1
-> 
+ To see this tension, consider a straightforward application of
+-data ownership to this problem --- simply carve up memory so that
++data ownership to this problem---simply carve up memory so that
+ each CPU owns its share.
+ For example, suppose that a system with two CPUs has two gigabytes
+ of memory (such as the one that I am typing on right now).
+@@ -1166,7 +1166,7 @@ the blocks in that group, with
+ the number of blocks in the group being the ``allocation run length''
+ displayed on the x-axis.
+ The y-axis shows the number of successful allocation/free pairs per
+-microsecond --- failed allocations are not counted.
++microsecond---failed allocations are not counted.
+ The ``X''s are from a two-thread run, while the ``+''s are from a
+ single-threaded run.
+
+@@ -1341,7 +1341,7 @@ Code locking can often be tolerated at this level, because this
+ level is so infrequently reached in well-designed systems~\cite{McKenney01e}.
+
+ Despite this real-world design's greater complexity, the underlying
+-idea is the same --- repeated application of parallel fastpath,
++idea is the same---repeated application of parallel fastpath,
+ as shown in
+ Table~\ref{fig:app:questions:Schematic of Real-World Parallel Allocator}.
+
+diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
+index 7ddc9a9..97d294f 100644
+--- a/advsync/memorybarriers.tex
++++ b/advsync/memorybarriers.tex
+@@ -80,7 +80,7 @@ Isn't that why we have computers in the first place, to keep track of things?
+ Many people do indeed expect their computers to keep track of things,
+ but many also insist that they keep track of things quickly.
+ One difficulty that modern computer-system vendors face is that
+-the main memory cannot keep up with the CPU -- modern CPUs can execute
++the main memory cannot keep up with the CPU---modern CPUs can execute
+ hundreds of instructions in the time required to fetch a single variable
+ from memory.
+ CPUs therefore sport increasingly large caches, as shown in
+@@ -188,7 +188,7 @@ actually running this code on real-world weakly-ordered hardware
+ (a 1.5GHz 16-CPU POWER 5 system) resulted in the assertion firing
+ 16 times out of 10 million runs.
+ Clearly, anyone who produces code with explicit memory barriers
+-should do some extreme testing -- although a proof of correctness might
++should do some extreme testing---although a proof of correctness might
+ be helpful, the strongly counter-intuitive nature of the behavior of
+ memory barriers should in turn strongly limit one's trust in such proofs.
+ The requirement for extreme testing should not be taken lightly, given
+@@ -325,7 +325,7 @@ CPU~4 believes that the value is ``4'' for almost 500ns.
+ 	cache line makes its way to the CPU.
+ 	Therefore, it is quite possible for each CPU to see a
+ 	different value for a given variable at a single point
+-	in time --- and for main memory to hold yet another value.
++	in time---and for main memory to hold yet another value.
+ 	One of the reasons that memory barriers were invented was
+ 	to allow software to deal gracefully with situations like
+ 	this one.
+@@ -2090,7 +2090,7 @@ No such guarantee exists for the first load of
+
+ Many CPUs speculate with loads: that is, they see that they will need to
+ load an item from memory, and they find a time where they're not using
+-the bus for any other loads, and then do the load in advance --- even though
++the bus for any other loads, and then do the load in advance---even though
+ they haven't actually got to that point in the instruction execution
+ flow yet.
+ Later on, this potentially permits the actual load instruction to
+@@ -2484,7 +2484,7 @@ Although cache-coherence protocols guarantee that a given CPU sees its
+ own accesses in order, and that all CPUs agree on the order of modifications
+ to a single variable contained within a single cache line, there is no
+ guarantee that modifications to different variables will be seen in
+-the same order by all CPUs --- although some computer systems do make
++the same order by all CPUs---although some computer systems do make
+ some such guarantees, portable software cannot rely on them.
+
+ \begin{figure*}[htb]
+diff --git a/advsync/rcu.tex b/advsync/rcu.tex
+index 79df127..4b49cfc 100644
+--- a/advsync/rcu.tex
++++ b/advsync/rcu.tex
+@@ -205,7 +205,7 @@ this list throughout the update process.
+ To update element~B, we first allocate a new element and copy element~B
+ to it, then update the copy to produce element~B'.
+ We then execute \co{list_replace_rcu()} so that element~A now
+-references the new element~B' --- however, element~B still references
++references the new element~B'---however, element~B still references
+ element~C so that any pre-existing readers still referencing old element~B
+ are still able to advance to element~C.
+ New readers will find element~B'.
+@@ -218,7 +218,7 @@ now containing elements~A, B', and C.
+
+ This procedure where \emph{readers} continue traversing the list
+ while a \emph{copy} operation is used to carry out an \emph{update}
+-is what gives RCU --- or read-copy update --- its name.
++is what gives RCU---or read-copy update---its name.
+
+ \begin{figure}[p]
+ \centering
+diff --git a/appendix/primitives/primitives.tex b/appendix/primitives/primitives.tex
+index b12ae89..e0ec93c 100644
+--- a/appendix/primitives/primitives.tex
++++ b/appendix/primitives/primitives.tex
+@@ -380,7 +380,7 @@ init_per_thread(name, v)
+ 	One approach would be to create an array indexed by
+ 	\co{smp_thread_id()}, and another would be to use a hash
+ 	table to map from \co{smp_thread_id()} to an array
+-	index --- which is in fact what this
++	index---which is in fact what this
+ 	set of APIs does in pthread environments.
+
+ 	Another approach would be for the parent to allocate a structure
+diff --git a/appendix/questions/after.tex b/appendix/questions/after.tex
+index 8af6a57..09f6276 100644
+--- a/appendix/questions/after.tex
++++ b/appendix/questions/after.tex
+@@ -252,7 +252,7 @@ anything you do while holding that lock will appear to happen after
+ anything done by any prior holder of that lock.
+ No need to worry about which CPU did or did not execute a memory
+ barrier, no need to worry about the CPU or compiler reordering
+-operations -- life is simple.
++operations---life is simple.
+ Of course, the fact that this locking prevents these two pieces of
+ code from running concurrently might limit the program's ability
+ to gain increased performance on multiprocessors, possibly resulting
+diff --git a/appendix/questions/questions.tex b/appendix/questions/questions.tex
+index 5f0bd3f..b921a38 100644
+--- a/appendix/questions/questions.tex
++++ b/appendix/questions/questions.tex
+@@ -11,7 +11,7 @@ SMP programming.
+ Each section also shows how to {\em avoid} having to worry about
+ the corresponding question, which can be extremely important if
+ your goal is to simply get your SMP code working as quickly and
+-painlessly as possible --- which is an excellent goal, by the way!
++painlessly as possible---which is an excellent goal, by the way!
+
+ Although the answers to these questions are often quite a bit less
+ intuitive than they would be in a single-threaded setting,
+diff --git a/appendix/rcuimpl/rcupreempt.tex b/appendix/rcuimpl/rcupreempt.tex
+index 54681e3..fbb41b8 100644
+--- a/appendix/rcuimpl/rcupreempt.tex
++++ b/appendix/rcuimpl/rcupreempt.tex
+@@ -1414,7 +1414,7 @@ a full grace period, and hence it is safe to do:
+ 	would have had to precede the first ``Old counters zero [0]'' rather
+ 	than the second one.
+ 	This in turn would have meant that the read-side critical section
+-	would have been much shorter --- which would have been
++	would have been much shorter---which would have been
+ 	counter-productive,
+ 	given that the point of this exercise was to identify the longest
+ 	possible RCU read-side critical section.
+diff --git a/appendix/rcuimpl/srcu.tex b/appendix/rcuimpl/srcu.tex
+index 7a15e5c..2bbd214 100644
+--- a/appendix/rcuimpl/srcu.tex
++++ b/appendix/rcuimpl/srcu.tex
+@@ -27,7 +27,7 @@ as fancifully depicted in
+ Figure~\ref{fig:app:rcuimpl:srcu:Sleeping While RCU Reading Considered Harmful},
+ with the most likely disaster being hangs due to memory exhaustion.
+ After all, any concurrency-control primitive that could result in
+-system hangs --- even when used correctly -- does not deserve to exist.
++system hangs---even when used correctly---does not deserve to exist.
+
+ However, the realtime kernels that require spinlock critical sections
+ be preemptible~\cite{IngoMolnar05a} also require that RCU read-side critical
+@@ -626,7 +626,7 @@ Figure~\ref{fig:app:rcuimpl:Update-Side Implementation}.
+ Line~5 takes a snapshot of the grace-period counter.
+ Line~6 acquires the mutex, and lines~7-10 check to see whether
+ at least two grace periods have elapsed since the snapshot,
+-and, if so, releases the lock and returns --- in this case, someone
++and, if so, releases the lock and returns---in this case, someone
+ else has done our work for us.
+ Otherwise, line~11 guarantees that any other CPU that sees the
+ incremented value of the grace period counter in \co{srcu_read_lock()}
+diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
+index 9a1d1b1..0351407 100644
+--- a/appendix/whymb/whymemorybarriers.tex
++++ b/appendix/whymb/whymemorybarriers.tex
+@@ -33,7 +33,7 @@ Modern CPUs are much faster than are modern memory systems.
+ A 2006 CPU might be capable of executing ten instructions per nanosecond,
+ but will require many tens of nanoseconds to fetch a data item from
+ main memory.
+-This disparity in speed --- more than two orders of magnitude --- has
++This disparity in speed---more than two orders of magnitude---has
+ resulted in the multi-megabyte caches found on modern CPUs.
+ These caches are associated with the CPUs as shown in
+ Figure~\ref{fig:app:whymb:Modern Computer System Cache Structure},
+@@ -630,7 +630,7 @@ write to it, CPU~0 must stall for an extended period of time.\footnote{
+ \label{fig:app:whymb:Writes See Unnecessary Stalls}
+ \end{figure}
+
+-But there is no real reason to force CPU~0 to stall for so long --- after
++But there is no real reason to force CPU~0 to stall for so long---after
+ all, regardless of what data happens to be in the cache line that CPU~1
+ sends it, CPU~0 is going to unconditionally overwrite it.
+
+@@ -889,7 +889,7 @@ With this latter approach the sequence of operations might be as follows:
+ 	state.
+ \item	Since the store to ``a'' was the only
+ 	entry in the store buffer that was marked by the \co{smp_mb()},
+-	CPU~0 can also store the new value of ``b'' --- except for the
++	CPU~0 can also store the new value of ``b''---except for the
+ 	fact that the cache line containing ``b'' is now in ``shared''
+ 	state.
+ \item	CPU~0 therefore sends an ``invalidate'' message to CPU~1.
+@@ -967,7 +967,7 @@ A CPU with an invalidate queue may acknowledge an invalidate message
+ as soon as it is placed in the queue, instead of having to wait until
+ the corresponding line is actually invalidated.
+ Of course, the CPU must refer to its invalidate queue when preparing
+-to transmit invalidation messages --- if an entry for the corresponding
++to transmit invalidation messages---if an entry for the corresponding
+ cache line is in the invalidate queue, the CPU cannot immediately
+ transmit the invalidate message; it must instead wait until the
+ invalidate-queue entry has been processed.
+@@ -2415,7 +2415,7 @@ future such problems:
+
+ \item	Device interrupts that ignore cache coherence.
+
+-	This might sound innocent enough --- after all, interrupts
++	This might sound innocent enough---after all, interrupts
+ 	aren't memory references, are they?
+ 	But imagine a CPU with a split cache, one bank of which is
+ 	extremely busy, therefore holding onto the last cacheline
+diff --git a/count/count.tex b/count/count.tex
+index d7feed4..dbb3530 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -1129,7 +1129,7 @@ variables vanish when that thread exits.
+ 	So why should user-space code need to do this???
+ \QuickQuizAnswer{
+ 	Remember, the Linux kernel's per-CPU variables are always
+-	accessible, even if the corresponding CPU is offline --- even
++	accessible, even if the corresponding CPU is offline---even
+ 	if the corresponding CPU never existed and never will exist.
+
+ { \scriptsize
+@@ -2467,7 +2467,7 @@ line~30 subtracts this thread's \co{countermax} from \co{globalreserve}.
+ 	\co{gblcnt_mutex}.
+ 	By that time, the caller of \co{flush_local_count()} will have
+ 	finished making use of the counts, so there will be no problem
+-	with this other thread refilling --- assuming that the value
++	with this other thread refilling---assuming that the value
+ 	of \co{globalcount} is large enough to permit a refill.
+ } \QuickQuizEnd
+
+@@ -2827,7 +2827,7 @@ line~33 sends the thread a signal.
+ 	But the caller has acquired this lock, so it is not possible
+ 	for the other thread to hold it, and therefore the other thread
+ 	is not permitted to change its \co{countermax} variable.
+-	We can therefore safely access it --- but not change it.
++	We can therefore safely access it---but not change it.
+ } \QuickQuizEnd
+
+ \QuickQuiz{}
+diff --git a/cpu/overview.tex b/cpu/overview.tex
+index 49ca800..b92c42c 100644
+--- a/cpu/overview.tex
++++ b/cpu/overview.tex
+@@ -114,7 +114,7 @@ a bit to help combat memory-access latencies,
+ these caches require highly predictable data-access patterns to
+ successfully hide those latencies.
+ Unfortunately, common operations such as traversing a linked list
+-have extremely unpredictable memory-access patterns --- after all,
++have extremely unpredictable memory-access patterns---after all,
+ if the pattern was predictable, us software types would not bother
+ with the pointers, right?
+ Therefore, as shown in
+diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+index ed2f5a0..4ca7cf0 100644
+--- a/defer/rcuapi.tex
++++ b/defer/rcuapi.tex
+@@ -565,7 +565,7 @@ Finally, the \co{list_splice_init_rcu()} primitive is similar
+ to its non-RCU counterpart, but incurs a full grace-period latency.
+ The purpose of this grace period is to allow RCU readers to finish
+ their traversal of the source list before completely disconnecting
+-it from the list header -- failure to do this could prevent such
++it from the list header---failure to do this could prevent such
+ readers from ever terminating their traversal.
+
+ \QuickQuiz{}
+diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
+index 51d492e..a8c0973 100644
+--- a/defer/rcuusage.tex
++++ b/defer/rcuusage.tex
+@@ -420,7 +420,7 @@ rcu_read_unlock();
+ 	pre-existing RCU read-side critical sections complete, but
+ 	is enclosed in an RCU read-side critical section that cannot
+ 	complete until the \co{synchronize_rcu()} returns.
+-	The result is a classic self-deadlock--you get the same
++	The result is a classic self-deadlock---you get the same
+ 	effect when attempting to write-acquire a reader-writer lock
+ 	while read-holding it.
+
+diff --git a/easy/easy.tex b/easy/easy.tex
+index 05fb06c..3e4bb8a 100644
+--- a/easy/easy.tex
++++ b/easy/easy.tex
+@@ -124,7 +124,7 @@ Linux kernel:
+ The set of useful programs resembles the Mandelbrot set
+ (shown in Figure~\ref{fig:easy:Mandelbrot Set})
+ in that it does
+-not have a clear-cut smooth boundary --- if it did, the halting problem
++not have a clear-cut smooth boundary---if it did, the halting problem
+ would be solvable.
+ But we need APIs that real people can use, not ones that require a
+ Ph.D. dissertation be completed for each and every potential use.
+diff --git a/formal/spinhint.tex b/formal/spinhint.tex
+index a5cc151..0970ad7 100644
+--- a/formal/spinhint.tex
++++ b/formal/spinhint.tex
+@@ -472,7 +472,7 @@ C++, or Java.
+ 	must be avoided like the plague because they cause the state
+ 	space to explode.  On the other hand, there is no penalty for
+ 	infinite loops in Promela as long as none of the variables
+-	monotonically increase or decrease -- Promela will figure out
++	monotonically increase or decrease---Promela will figure out
+ 	how many passes through the loop really matter, and automatically
+ 	prune execution beyond that point.
+ \item	In C torture-test code, it is often wise to keep per-task control
+diff --git a/glossary.tex b/glossary.tex
+index b8ce6a3..9bfb3b3 100644
+--- a/glossary.tex
++++ b/glossary.tex
+@@ -76,7 +76,7 @@
+ 	value, and columns of cache lines (``ways'') in which every
+ 	cache line has a different hash value.
+ 	The associativity of a given cache is its number of
+-	columns (hence the name ``way'' -- a two-way set-associative
++	columns (hence the name ``way''---a two-way set-associative
+ 	cache has two ``ways''), and the size of the cache is its
+ 	number of rows multiplied by its number of columns.
+ \item[Cache Line:]
+@@ -385,7 +385,7 @@
+ 	A scalar (non-vector) CPU capable of executing multiple instructions
+ 	concurrently.
+ 	This is a step up from a pipelined CPU that executes multiple
+-	instructions in an assembly-line fashion --- in a super-scalar
++	instructions in an assembly-line fashion---in a super-scalar
+ 	CPU, each stage of the pipeline would be capable of handling
+ 	more than one instruction.
+ 	For example, if the conditions were exactly right,
+diff --git a/intro/intro.tex b/intro/intro.tex
+index e8df596..89d2c7c 100644
+--- a/intro/intro.tex
++++ b/intro/intro.tex
+@@ -159,7 +159,7 @@ as discussed in Section~\ref{sec:cpu:Hardware Free Lunch?}.
+ 	This high cost of parallel systems meant that
+ 	parallel programming was restricted to a privileged few who
+ 	worked for an employer who either manufactured or could afford to
+-	purchase machines costing upwards of \$100,000 --- in 1991 dollars US.
++	purchase machines costing upwards of \$100,000---in 1991 dollars US.
+
+ 	In contrast, in 2006, Paul finds himself typing these words on a
+ 	dual-core x86 laptop.
+diff --git a/together/applyrcu.tex b/together/applyrcu.tex
+index 981cc50..7309fe2 100644
+--- a/together/applyrcu.tex
++++ b/together/applyrcu.tex
+@@ -15,7 +15,7 @@ Section~\ref{sec:count:Per-Thread-Variable-Based Implementation}
+ described an implementation of statistical counters that provided
+ excellent
+ performance, roughly that of simple increment (as in the C \co{++}
+-operator), and linear scalability --- but only for incrementing
++operator), and linear scalability---but only for incrementing
+ via \co{inc_count()}.
+ Unfortunately, threads needing to read out the value via \co{read_count()}
+ were required to acquire a global
+diff --git a/together/refcnt.tex b/together/refcnt.tex
+index d9ff656..9c88989 100644
+--- a/together/refcnt.tex
++++ b/together/refcnt.tex
+@@ -151,7 +151,7 @@ other operations in addition to the reference count, but where
+ a reference to the object must be held after the lock is released.
+ Figure~\ref{fig:together:Simple Reference-Count API} shows a simple
+ API that might be used to implement simple non-atomic reference
+-counting -- although simple reference counting is almost always
++counting---although simple reference counting is almost always
+ open-coded instead.
+
+ { \scriptsize
+-- 
+1.9.1
 
