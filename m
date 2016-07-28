@@ -1,85 +1,66 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57593 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)	by vger.kernel.org with
- ESMTP id S1756920AbcG0SuI (ORCPT	<rfc822;perfbook@vger.kernel.org>); Wed, 27
- Jul 2016 14:50:08 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])	by
- mx0a-001b2d01.pphosted.com (8.16.0.11/8.16.0.11) with SMTP id u6RIn05f089341
- for <perfbook@vger.kernel.org>; Wed, 27 Jul 2016 14:50:07 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])	by
- mx0a-001b2d01.pphosted.com with ESMTP id 24e0gmuqew-1	(version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT)	for <perfbook@vger.kernel.org>; Wed,
- 27 Jul 2016 14:50:07 -0400
-Received: from localhost	by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Wed, 27 Jul
- 2016 14:50:06 -0400
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23])	by d01dlp03.pok.ibm.com (Postfix) with ESMTP id AB35DC90062
- for <perfbook@vger.kernel.org>; Wed, 27 Jul 2016 14:49:45 -0400 (EDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u6RIntIR49610994	for <perfbook@vger.kernel.org>; Wed, 27 Jul 2016 18:49:55
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u6RIntND027155	for <perfbook@vger.kernel.org>; Wed, 27 Jul 2016 14:49:55
- -0400
-Date: Wed, 27 Jul 2016 11:49:55 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2] Tweak width of epigraph
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <7dd18275-9406-b024-9766-6fe6aa3cb7e4@gmail.com>
- <20160726152216.GY7094@linux.vnet.ibm.com>
- <86975302-4961-0437-8170-df9e12145390@gmail.com>
- <fadd9a11-78e8-ced4-ae35-66ca845b7fd4@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=TuwLceCs+PZdgjRpiaOIOvtbPCY4IueWozuKBzNefYY=;
+ b=INveU1eiGCLis28hRnKLS0lPo83KZGkhvXzutI3VPNeV1eCPRFrk05kafYVurTA2ah
+ vk0tVZEoDPAvkxUfdUzTFE4EPUv1JZDEoha4CmC/UaWhWUuj0WP+R//+Ummm2E3ACHhy
+ GzGQYPVTyHh6YcV/JcGVj71OZbMigPH5Ho3GsgaF1ads5LhTOrBxuCM9rx3RptD8BvRV
+ 0D0kR2v9ICVOotUvfM61Ii7PDL5vbQqqUhiQAQqESMsnKa9AL0MhYanVPzBaZhVk3MY7
+ xdmrhiYy5POUTN7SJkQH/JMVvv4VGNFFB8k/99KRRb3EFxe2e+KwoKdPWO7Dc297bp/U
+ 9mXQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Some more feedback on Chapter 9
+Message-ID: <a6181fde-e96e-294c-d0df-e996c27b401f@gmail.com>
+Date: Thu, 28 Jul 2016 22:06:22 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fadd9a11-78e8-ced4-ae35-66ca845b7fd4@gmail.com>
-Message-Id: <20160727184955.GG3873@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Jul 28, 2016 at 12:09:32AM +0900, Akira Yokosawa wrote:
-> >From 63252e8e5f8e3a74e1ab41fd577b90cdf037e36c Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Wed, 27 Jul 2016 23:51:18 +0900
-> Subject: [PATCH v2] Tweak width of epigraph
-> 
-> The default of \epigraphwidth is .5\textwidth.
-> This causes different widths of one-column and two-column layouts.
-> This commit defines it in an absolute length to specify same
-> width for both layouts
-> 
-> Suggested-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Hi Paul,
 
-Much better!!!  Queued, thank you!
+There are still several issues regarding Chapter 9 I want to feedback.
+I'm afraid most of them are beyond my ability to submit as patches.
 
-							Thanx, Paul
+* At the beginning of Section 9.5.2, there is a credit of the form
+  "Authors: ...".
+  But there is \OriginallyPublished{} command just above the credit.
+  I'm wondering if the credit in the text is necessary.
+  There is a similar credit at the beginning of Section 14.2, but there is
+  no \OriginallyPublished{} command there. This section seems to have been
+  written for perfbook. If this is the case, for a consistent look, it would
+  be better if the credit is moved to Appendix F.1.
 
-> ---
->  perfbook.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/perfbook.tex b/perfbook.tex
-> index 9216485..95902be 100644
-> --- a/perfbook.tex
-> +++ b/perfbook.tex
-> @@ -31,7 +31,7 @@
->  \usepackage{footnotebackref} % to enable cross-ref of footnote
->  \usepackage[all]{hypcap} % for going to the top of figure and table
->  \usepackage{epigraph}
-> -
-> +\setlength{\epigraphwidth}{2.3in}
->  % custom packages
-> 
->  \usepackage{qqz}
-> -- 
-> 1.9.1
-> 
-> 
+* Position of Quick Quiz 9.44 looks a little premature. SRCU is  mentioned
+  just after the Quick Quiz.
+
+* The 2nd sentence of Section 9.5.4.4 ends as "... in the companion article."
+  This seems like a vestige of its origin in LWN. Should be fixed to match
+  the context.
+
+* In the introduction of Section 9.5.5, understanding of the whole Chapter 9
+  is listed in the prerequisite for the "toy" implementation. I suppose
+  recursion is not intended here.
+
+* Also in the introduction of Section 9.5.5, Section 9.5.5.2 is not mentioned.
+
+* (Typo) In the 2nd paragraph of Section 9.7, there is a redundant "can" in
+  "... so that updates can can operate locally, ...".
+  (Yes, I can submit the fix of this one as a patch. If you want me to do so,
+  please let me know.)
+
+* (Apart from Chapter 9) In Section 14.2.10.1, there are four instances of
+  $\dagger$ for introducing notes. I'm wondering if they can be converted
+  to footnotes. I'm not sure where they should be placed in the text, though.
+
+I said earlier there were a few issues, but in the end there are a quite a few.
+
+I don't mind if some (or all) of them be taken care of later after the upcoming
+release.
+
+                                                      Thanks, Akira
 
