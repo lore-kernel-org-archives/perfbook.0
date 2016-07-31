@@ -1,52 +1,48 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39035 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)	by vger.kernel.org with
- ESMTP id S1750945AbcGaWju (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sun, 31
- Jul 2016 18:39:50 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])	by
- mx0a-001b2d01.pphosted.com (8.16.0.11/8.16.0.11) with SMTP id u6VL4RXf118212
- for <perfbook@vger.kernel.org>; Sun, 31 Jul 2016 17:05:43 -0400
-Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209])	by
- mx0a-001b2d01.pphosted.com with ESMTP id 24grd314p4-1	(version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT)	for <perfbook@vger.kernel.org>; Sun,
- 31 Jul 2016 17:05:43 -0400
-Received: from localhost	by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Sun, 31 Jul
- 2016 17:05:42 -0400
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24])	by d01dlp01.pok.ibm.com (Postfix) with ESMTP id 5754238C8039
- for <perfbook@vger.kernel.org>; Sun, 31 Jul 2016 17:05:39 -0400 (EDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u6VL5drD63570064	for <perfbook@vger.kernel.org>; Sun, 31 Jul 2016 21:05:39
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u6VL5drM010108	for <perfbook@vger.kernel.org>; Sun, 31 Jul 2016 17:05:39
- -0400
-Received: from paulmck-ThinkPad-W541 (sig-9-65-78-218.ibm.com [9.65.78.218])
- by d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVin) with ESMTP id
- u6VL5c3F010104	for <perfbook@vger.kernel.org>; Sun, 31 Jul 2016 17:05:39
- -0400
-Date: Sun, 31 Jul 2016 14:05:43 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Release v2016.07.31a is now available
-Reply-To: paulmck@linux.vnet.ibm.com
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-Id: <20160731210543.GA11050@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Return-Path: <sj38.park@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;        h=from:to:cc:subject:date:message-id;
+ bh=I1D55dsgMBHgnUkEMlrbdcX2UzYXoyxaD00n+Ze3m2s=;
+ b=aRg/k8qm/1xKTTpNC1t0ClMBvgIDZkfJyUaUUVjuX4STFkwsjQEDRjqJ/PvJdKRpzB
+ IwxO5qCvdHcbo4drHlPn9cNwlg5CTywpnuRH0t7w50LBcEc82Bk8OpztTDso0M2eldJ0
+ INgBzefJkO1KrpBZ9qaT2GVUT2mZ+h4o7MTYucu5F6HD1sl3x8WILCNOwECPqrM1qZ8h
+ ClRrlwfYijq9U2NCkDC46ioMM0uDghO6PNRWKGBYvjzoDfhjlazlZ2GWCoJQkR+8osfI
+ vjuMggVl9Tk5n3fli0vLXsS3BVixH2RsuFN84NSgE2oxGgdjK/OAXBBM2fU8Nl/pW4WS
+ MhHg==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH] datastruct: Fix code citation typos
+Date: Mon,  1 Aug 2016 08:18:15 +0900
+Message-Id: <1470007095-7503-1-git-send-email-sj38.park@gmail.com>
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
 
-Hello!
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ datastruct/datastruct.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-It has been 18 months, but a new release of "Is Parallel Programming
-Hard, And, If So, What Can You Do About It?" is now available.  Please
-see http://paulmck.livejournal.com/44156.html for the announcement, and
-thank you all for your many contributions!
+diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
+index da735ae..4807223 100644
+--- a/datastruct/datastruct.tex
++++ b/datastruct/datastruct.tex
+@@ -1089,7 +1089,7 @@ may be freed.
 
-							Thanx, Paul
+ The \co{->ht_idx} field on line~16 indicates which of the two sets of
+ list pointers are being used by this instantiation of the hash table,
+-and is used to index the \co{->hte_next[]} array in the \co{ht_bucket}
++and is used to index the \co{->hte_next[]} array in the \co{ht_elem}
+ structure on line~3.
+
+ The \co{->ht_hash_private}, \co{->ht_cmp()}, \co{->ht_gethash()},
+@@ -1543,7 +1543,7 @@ Otherwise, line~19 picks up a reference to the current hash table,
+ and lines~21-24 allocate a new hash table of the desired size.
+ If a new set of hash/key functions have been specified, these are
+ used for the new table, otherwise those of the old table are preserved.
+-If line~25 detects memory-allocation failure, line~26 releases \co{->htlock}
++If line~25 detects memory-allocation failure, line~26 releases \co{->ht_lock}
+ and line~27 returns a failure indication.
+
+ Line~29 starts the bucket-distribution process by installing a reference
+-- 
+1.9.1
 
