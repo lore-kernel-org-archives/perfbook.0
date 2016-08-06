@@ -1,89 +1,71 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=MmSF90LdJ28S5FTiNKz1tXHXGIi0Ctglmcgo5vIBc/A=;
- b=YBDs9/VdBiqEl6MjN72w4/xn3hWKYKZEOh6rClRNYbUdpdcmH/OULVK8uDC0qgXTdS
- 5N/OVZf6YoOnbWwXSjmwdNF5LNxQFq4uiA8Kiifdwy2PM3TZj+Yctd2UpdTXe8MLXuyV
- /jfb25VF8AkZzWeDe9ywfMbEfu0CTr0gnZnsKRLTwFQCeYBjPvQTnDmprlnguhIxWI5o
- 8+b+NWTxD3gb5HRAuxfCC1yfn7CBGKJkvxDN2QIVnpvWBhPasqEBkWNSICkiUk35B/6C
- S4rxCQpDbbXgIKY/8AgU1nLZKrpx9JmYjXJrpjozq+UI6NFRembi98n8wVy5aMe6WsRF
- +7AQ==
-Subject: Re: Memory barrier -- fix sample code
-References: <1470097946.3000.3.camel@gmail.com>
- <20160802040204.GY3482@linux.vnet.ibm.com>
- <1470125114.3000.7.camel@gmail.com>
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=DxbVUrECjbVqSUpeKmwC4G49tiX4/PTNEMkyDmyXQks=;
+ b=Bog9dhiZPm7IjaHa6eu/SLlEoq/KoKzNPrBSDW1kYTSx994hj0Ot+h/iGpg/+icstM
+ QJKA3K7FVNy3EFnDktv7VgiZAHckTbx/b24snkjw0RgyDutsXRyFfoi7DtkARx+Gjjey
+ hFt0ZM/74yrMDl/MB4R4ZMWJAjoRgyS8ylmNrRwVbsd06s/3qnY5DpokKuSnr/zUOgLZ
+ +jAjLNiwG6dyVYP+ImBuv/Hq01m9P+V4v+d55LD1dfx7BIFp+GKItoR4xUiKEPxvXQiq
+ 7nykTbgXUkGXyNfr614KiT8iqp3szfTQy3l5eqe1kc34HECpbdeYJJI/6qv30KMtXOs7
+ P5+A==
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <8a09ce4e-0ed6-bf0e-8941-f7c539b0f6f4@gmail.com>
-Date: Tue, 2 Aug 2016 21:09:03 +0900
+Subject: [GIT PULL] SMPdesign: Use subscript in lockdeqhash figures
+Message-ID: <fb2c9c38-c715-e176-a576-5dd4391832d5@gmail.com>
+Date: Sat, 6 Aug 2016 19:07:29 +0900
 MIME-Version: 1.0
-In-Reply-To: <1470125114.3000.7.camel@gmail.com>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-To: Balbir Singh <bsingharora@gmail.com>
-Cc: paulmck@linux.vnet.ibm.com, perfbook@vger.kernel.org
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2016/08/02 18:05:14 +1000, Balbir Singh wrote:
-> On Mon, 2016-08-01 at 21:02 -0700, Paul E. McKenney wrote:
->> On Tue, Aug 02, 2016 at 10:32:26AM +1000, Balbir Singh wrote:
->>>  
->>> From: Balbir singh <bsingharora@gmail.com>
->>> Date: Tue, 2 Aug 2016 10:26:34 +1000
->>> Subject: [PATCH] Correct a sample in memorybarriers.tex
->>>  
->>> We probably don't want to show GFP_KERNEL allocation
->>> under spin_lock, GFP_ATOMIC seems much better.
->>>  
->>> Signed-off-by: Balbir singh <bsingharora@gmail.com>
->> Good catch, applied, thank you!
->>  
->> However, I had to apply this by hand due to some recent mass changes to
->> figures containing code.  Could you please move to current perfbook.git
->> for future submissions?
->>  
->>  							Thanx, Paul
-> 
-> I thought I did a git pull before patching.
-> 
-> My git-head pointed to 413b7bc1cf6d65368300e96016ac15ac728b66fd
-> 
-> I'll double check. Thanks for applying it by hand
-> 
+Hi Paul,
 
-Hi,
+This is somewhat related to the "using hyphens for minus signs" issue.
+In Figures 6.8 and 6.9, entry names such as "L-2" are used.
+The "-" here means minus, but it is *not* obvious at first glance if
+it means "L minus 2" or not.
 
-Seems like a problem of character encoding.
+If we make "-2" a subscript, it would be much easier to see that
+it means "L whose sequence number is 'minus 2'".
+So, I tweaked the xfig sources of the figures to make those numbers
+in entries look like subscripts. I also altered the numbers in entry names
+mentioned in the corresponding text as subscripts (using math mode).
 
-I see you are using Evolution.
-Here is an excerpt from Linux's Documentation/email-clients.txt.
+I'm sending this as a pull request as the resulting patch became fairly
+large due to eps files.
 
-----
-Evolution (GUI)
+I hope you like there tweaks.
 
-Some people use this successfully for patches.
+Additional patch is a fix of entry numbers of Figure 6.9, which is
+actually 16 if my understanding of the figure is correct.
 
-When composing mail select: Preformat
-  from Format->Paragraph Style->Preformatted (Ctrl-7)
-  or the toolbar
+                                             Thanks, Akira 
 
-Then use:
-  Insert->Text File... (Alt-n x)
-to insert the patch.
+---------
+The following changes since commit ec15e80376f04f5b2be8779aedfda3ba184a4e37:
 
-You can also "diff -Nru old.c new.c | xclip", select Preformat, then
-paste with the middle button.
+  Fix URL for MathieuDesnoyers2009LFCollabSummit (2016-08-05 13:12:07 -0700)
 
-----
+are available in the git repository at:
 
-I hope this helps.
+  https://github.com/akiyks/perfbook.git lockdeqhash-use-subscript
 
-                                   Thanks, Akira
+for you to fetch changes up to 7893124def444db34fbb6bc2b4e9b2f20675c2eb:
 
-> Balbir Singh.
-> --
-> To unsubscribe from this list: send the line "unsubscribe perfbook" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
+  SMPdesign: Fix number of elements regarding Figure 6.9 (2016-08-06 18:14:07 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (2):
+      SMPdesign: Use subscript in lockdeqhash figures
+      SMPdesign: Fix number of elements regarding Figure 6.9
+
+ SMPdesign/lockdeqhash1R.eps   | 330 +++++++++++++++++++++++++++++++++++-------
+ SMPdesign/lockdeqhash1R.fig   |  39 +++--
+ SMPdesign/lockdeqhashlots.eps | 323 +++++++++++++++++++++++++++++++++++------
+ SMPdesign/lockdeqhashlots.fig |  48 ++++--
+ SMPdesign/partexercises.tex   |  14 +-
+ 5 files changed, 622 insertions(+), 132 deletions(-)
 
