@@ -2,49 +2,53 @@ Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Jmicia9ZoULCD4DJ2Eo0piz2cNBbf4aRYg0pHXow46g=;
- b=q7VQpw6bXULNuplEcC5W96a1BAuJeydBnjWeyXuM961PmszXB7LAqbxywg+9XPCBb9
- 0pg32+IQrG/Qw69OMUW/WrejCeR+Gx56xmzsdHiWyKbIwhtJRoztS8C+E6vfu/wRpkQb
- qYIzagPk5zp3vywQ2xQgPVu02FyMCHi9jQbW9G+xHMWvKs8XfuH1dvxQi3Ne4H9nT+S3
- NUyUS5ayUM2RQz5DDJXEO5ROjvv1/endANm5f+n6XGfsgxjwoSnevgyljhdYmiilRaNQ
- 4rXTq2SO+rVMQVgP+ODtDtaNdt5Wu71MPoSDeQNMzDohgDxJejl/+LopDum54uofoDlj
- ETdQ==
+ bh=mDyUpXjqsSrFhLzCw7g7l6oVjOBVj56UeDG38LUai6k=;
+ b=MHoV/qbXilWV/MrApxzMV6Eyay4wG26spvZbWWwpjRcrkZn0r7nGYlp8dTApc5M/e5
+ AY4I7vdiulOAq5g7mXqNMAHg0qko/uODgBprwCAt9TUiPLFmfuKWtTp/xEP9Nyf3OZWZ
+ ohfuGBh2J62btid0TN7MjtuHNhqzNfNfSg6roMxLpX18Gb+WSFfVzKMQNWaz1PEnOBUX
+ 3KIcxw/NbfDBQym9/b0DxsfJV4PaRwWieCr+9HIp0EI/FnOzFsaEYENnRngYEl4CHLLV
+ bxaHo95fwRgSyhi6kgqQWxheEuKuivNk0MlL9kYCICksKXbsZdEZqvoent5QZHSDcIeF
+ X7Xw==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 1/3] rcutorture: Update usage
-Date: Sun,  7 Aug 2016 12:41:25 +0900
-Message-Id: <1470541287-12588-2-git-send-email-sj38.park@gmail.com>
+Subject: [PATCH 2/3] rcutorture: Remove redundant n_read_pt initialization
+Date: Sun,  7 Aug 2016 12:41:26 +0900
+Message-Id: <1470541287-12588-3-git-send-email-sj38.park@gmail.com>
 In-Reply-To: <1470541287-12588-1-git-send-email-sj38.park@gmail.com>
 References: <1470541287-12588-1-git-send-email-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Commit ca4aa79d18ba ("Add read-only and update-only perf test to
-rcutorture.h.") and commit 5f66427aeb6b ("Fix false-sharing and
-thread-affinity problems, use pthread_setspecific().") have introduced
-additional arguments for additional workloads and cpustride.  However,
-its usage message does not updated for them.  This commit updates
-rcutorture usage message to indicate their existence.
+Per-thread read count variable, n_reads_pt is redundantly initalized
+inside rperftest() and uperftest() though perftestinit() do initialize
+both of n_reads_pt and n_updates_pt before.  This commit removes the
+redundancy.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- CodeSamples/defer/rcutorture.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ CodeSamples/defer/rcutorture.h | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/CodeSamples/defer/rcutorture.h b/CodeSamples/defer/rcutorture.h
-index 3d9842f..2feb4ad 100644
+index 2feb4ad..6ea0c09 100644
 --- a/CodeSamples/defer/rcutorture.h
 +++ b/CodeSamples/defer/rcutorture.h
-@@ -387,7 +387,8 @@ void stresstest(int nreaders)
+@@ -213,7 +213,6 @@ void rperftest(int nreaders, int cpustride)
+ 	long arg;
 
- void usage(int argc, char *argv[])
- {
--	fprintf(stderr, "Usage: %s [nreaders [ perf | stress ] ]\n", argv[0]);
-+	fprintf(stderr, "Usage: %s [nreaders [ perf | rperf | uperf | stress [cpustride] ] ]\n",
-+			argv[0]);
- 	exit(-1);
- }
+ 	perftestinit();
+-	init_per_thread(n_reads_pt, 0LL);
+ 	for (i = 0; i < nreaders; i++) {
+ 		arg = (long)(i * cpustride);
+ 		create_thread(rcu_read_perf_test, (void *)arg);
+@@ -227,7 +226,6 @@ void uperftest(int nupdaters, int cpustride)
+ 	long arg;
 
+ 	perftestinit();
+-	init_per_thread(n_reads_pt, 0LL);
+ 	for (i = 0; i < nupdaters; i++) {
+ 		arg = (long)(i * cpustride);
+ 		create_thread(rcu_update_perf_test, (void *)arg);
 -- 
 1.9.1
 
