@@ -1,71 +1,31 @@
-Return-Path: <akiyks@gmail.com>
+Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=DxbVUrECjbVqSUpeKmwC4G49tiX4/PTNEMkyDmyXQks=;
- b=Bog9dhiZPm7IjaHa6eu/SLlEoq/KoKzNPrBSDW1kYTSx994hj0Ot+h/iGpg/+icstM
- QJKA3K7FVNy3EFnDktv7VgiZAHckTbx/b24snkjw0RgyDutsXRyFfoi7DtkARx+Gjjey
- hFt0ZM/74yrMDl/MB4R4ZMWJAjoRgyS8ylmNrRwVbsd06s/3qnY5DpokKuSnr/zUOgLZ
- +jAjLNiwG6dyVYP+ImBuv/Hq01m9P+V4v+d55LD1dfx7BIFp+GKItoR4xUiKEPxvXQiq
- 7nykTbgXUkGXyNfr614KiT8iqp3szfTQy3l5eqe1kc34HECpbdeYJJI/6qv30KMtXOs7
- P5+A==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [GIT PULL] SMPdesign: Use subscript in lockdeqhash figures
-Message-ID: <fb2c9c38-c715-e176-a576-5dd4391832d5@gmail.com>
-Date: Sat, 6 Aug 2016 19:07:29 +0900
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+ s=20120113;        h=from:to:cc:subject:date:message-id;
+ bh=rjDBVmc8Xcl2fhGseMUss0tX1knLWXnAL5AvnGo4zJM=;
+ b=fL8dBUOAGsnUpE1d/cJRMnVuCUWVacpShANxi7vfPXaYn8Jf34dqTfj5JqeZ6dH+t0
+ 16SCWl2+Mme1UoSgwScbXvlnjkZ6bIE2+0FBPzWaOcvXYIZSNb9Uz++5jSjafEBLibr3
+ dwTB/RtLszOOnaQSyBIbymb4d+mjKLtnONnBDEqhAEneHRohPsj+9Zi9H22uvycuulFY
+ uJk1sIDj9D385dggpPsrf5Rx+sh4eGYpi8aEUUrotW9rq0+rmQLfSwxSsBp3JynIsuqy
+ tnkQrVWVcTr1W3Q174fw4iplvZ7igcOeZMjiy2Fdz3is4ufSzEsFG+xfj5MpL87NyKRO
+ Wy4A==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH 0/3] Polish rcutorture.h
+Date: Sun,  7 Aug 2016 12:41:24 +0900
+Message-Id: <1470541287-12588-1-git-send-email-sj38.park@gmail.com>
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+This patchset contains few fixups for trivial nitpicks of rcutorture.
 
-This is somewhat related to the "using hyphens for minus signs" issue.
-In Figures 6.8 and 6.9, entry names such as "L-2" are used.
-The "-" here means minus, but it is *not* obvious at first glance if
-it means "L minus 2" or not.
+SeongJae Park (3):
+  rcutorture: Update usage
+  rcutorture: Remove redundant n_read_pt initialization
+  rcutorture: Protect fake workload from compiler optimization
 
-If we make "-2" a subscript, it would be much easier to see that
-it means "L whose sequence number is 'minus 2'".
-So, I tweaked the xfig sources of the figures to make those numbers
-in entries look like subscripts. I also altered the numbers in entry names
-mentioned in the corresponding text as subscripts (using math mode).
+ CodeSamples/defer/rcutorture.h | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-I'm sending this as a pull request as the resulting patch became fairly
-large due to eps files.
-
-I hope you like there tweaks.
-
-Additional patch is a fix of entry numbers of Figure 6.9, which is
-actually 16 if my understanding of the figure is correct.
-
-                                             Thanks, Akira 
-
----------
-The following changes since commit ec15e80376f04f5b2be8779aedfda3ba184a4e37:
-
-  Fix URL for MathieuDesnoyers2009LFCollabSummit (2016-08-05 13:12:07 -0700)
-
-are available in the git repository at:
-
-  https://github.com/akiyks/perfbook.git lockdeqhash-use-subscript
-
-for you to fetch changes up to 7893124def444db34fbb6bc2b4e9b2f20675c2eb:
-
-  SMPdesign: Fix number of elements regarding Figure 6.9 (2016-08-06 18:14:07 +0900)
-
-----------------------------------------------------------------
-Akira Yokosawa (2):
-      SMPdesign: Use subscript in lockdeqhash figures
-      SMPdesign: Fix number of elements regarding Figure 6.9
-
- SMPdesign/lockdeqhash1R.eps   | 330 +++++++++++++++++++++++++++++++++++-------
- SMPdesign/lockdeqhash1R.fig   |  39 +++--
- SMPdesign/lockdeqhashlots.eps | 323 +++++++++++++++++++++++++++++++++++------
- SMPdesign/lockdeqhashlots.fig |  48 ++++--
- SMPdesign/partexercises.tex   |  14 +-
- 5 files changed, 622 insertions(+), 132 deletions(-)
+-- 
+1.9.1
 
