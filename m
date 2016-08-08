@@ -1,71 +1,92 @@
-Return-Path: <bsingharora@gmail.com>
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=HQ76MGn2U1Hc48mhcjV9ix8z2E3jfLi8t5O788876rk=;
- b=GHxY+CgyI9GbJv6LL9S5zYEERNDDnL/V1YVhvnUGpylOSOqksBRdfITDRbWZD/acv2
- D2hebDMtSBNMDVsfOMOqiIWyFnkKSx3HLy8K7eWrYyxciJEGbs+DDCke3B9IV/WUIlDQ
- q928EbJcxLr4aHuCOZ7NkPCKFSOERXd2zbCUDo7MnDn4bq0BkxPA7xoRIu8Xa76iYTuo
- ft6FYEkPIzS2JFLCJ6a+27yGwzveCaziAEgZgs7nTWyfXSQioKJTsyXCvZzytO3Bs+Br
- 5NQmYCCO6sxIkd9YEApxTb2s08ghGW5p8c6EQSr1UsXe/MxK7QxKWDdNGeLsFDcWJUTk
- W9mQ==
-Subject: Re: Memory barrier -- fix sample code
-References: <1470097946.3000.3.camel@gmail.com>
- <20160802040204.GY3482@linux.vnet.ibm.com>
- <1470125114.3000.7.camel@gmail.com>
- <8a09ce4e-0ed6-bf0e-8941-f7c539b0f6f4@gmail.com>
-From: Balbir Singh <bsingharora@gmail.com>
-Message-ID: <fc9c9ca5-cbc1-b734-a5a6-69af3aeb8b24@gmail.com>
-Date: Mon, 8 Aug 2016 14:58:59 +1000
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=kaYKVZJ9gId+e1fSBXSkdQu+bxK2IH3VCkDQN6yc668=;
+ b=DE+Kfuy0ZNXBsvRM3BEEXWud489AT2b/Rc8AGrUuECVmrBlXgHkkEstQLyRd6VSMr6
+ XgXjDaQs+WFM6fpavKfxblcjWglQQ3WLXx/u1Sy5XvJqALmqJTToN1Vq9ltfSczSDaAG
+ HNcHJroDVFw9GKXNfdCRSG3Pw3MCIgvV0lV0dXyU/H2uwDC/HSKTIS7yGgqdLrcvKYpo
+ dPLxICjd2JgnSPfn6mIVuGwSr1JpdcxzyyXmcTa5Io4c1cDXl3ifbQKEG0bIEnrCyTlQ
+ giPEqtSgTwYRJ681VWsIv0MlS6/MwMtWHR9g2r95nRgW7TJAxHu1TpBZGUW1+dS3Ekb5
+ oO1g==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/5] Several cosmetic fixes
+Message-ID: <32c543fd-cad8-f3da-4b1f-15ed2fd919c0@gmail.com>
+Date: Tue, 9 Aug 2016 00:00:35 +0900
 MIME-Version: 1.0
-In-Reply-To: <8a09ce4e-0ed6-bf0e-8941-f7c539b0f6f4@gmail.com>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: paulmck@linux.vnet.ibm.com, perfbook@vger.kernel.org
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
+From 572ae1f4ad166e144ceb0306100cb4f5a1235a4e Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 8 Aug 2016 23:06:10 +0900
+Subject: [PATCH 0/5] Several cosmetic fixes
 
+Hi,
 
-On 02/08/16 22:09, Akira Yokosawa wrote:
-> On 2016/08/02 18:05:14 +1000, Balbir Singh wrote:
->> On Mon, 2016-08-01 at 21:02 -0700, Paul E. McKenney wrote:
->>> On Tue, Aug 02, 2016 at 10:32:26AM +1000, Balbir Singh wrote:
->>>>  
->>>> From: Balbir singh <bsingharora@gmail.com>
->>>> Date: Tue, 2 Aug 2016 10:26:34 +1000
->>>> Subject: [PATCH] Correct a sample in memorybarriers.tex
->>>>  
->>>> We probably don't want to show GFP_KERNEL allocation
->>>> under spin_lock, GFP_ATOMIC seems much better.
->>>>  
->>>> Signed-off-by: Balbir singh <bsingharora@gmail.com>
->>> Good catch, applied, thank you!
->>>  
->>> However, I had to apply this by hand due to some recent mass changes to
->>> figures containing code.  Could you please move to current perfbook.git
->>> for future submissions?
->>>  
->>>  							Thanx, Paul
->>
->> I thought I did a git pull before patching.
->>
->> My git-head pointed to 413b7bc1cf6d65368300e96016ac15ac728b66fd
->>
->> I'll double check. Thanks for applying it by hand
->>
-> 
-> Hi,
-> 
-> Seems like a problem of character encoding.
-> 
-> I see you are using Evolution.
-> Here is an excerpt from Linux's Documentation/email-clients.txt.
-> 
+This patch series consists of mostly cosmetic fixes.
 
+1st one introduces 'extdash' package to enable hyphenation
+of fairly long cmnpound words such as "eventually-consistent".
 
-Yes, I do have flow-off and I use an external editor to prevent white
-space damage. Thanks, I'll double check my editor settings
+2nd one removes a line break between "lines" and "n-m".
 
-Balbir
+3rd one adds \nbco{} command ("nbco" stands for non breakable co)
+to make sure short code snippet not to be broken.
+
+4th one replaces "..." with \ldots for better looking ellipsis.
+
+5th one is just a trial of marking up numbers to avoid using
+hyphens as minus signs. There are two types of mark up.
+One is \txnum{} which is to be used for values in running text.
+The other is \conum{} which is to be used for a value which appears
+in a nearby code snippet. This patch contains small number of example
+uses. I don't use math mode directly because you can modify the
+appearance of each mark-up by modifying just the definition in the
+preamble.
+
+The effect of this series can be seen in the first paragraph of
+Section 6.1.2.3 "Hashed Double-Ended Queue" in the two column layout.
+Before the changes, the following line break looks ugly.
+
+... decreasing numbers (-1, -2, -
+3, ...), while a series of ...
+
+There are other ways to prevent the line break here, but I think using
+math mode or \nbco{} command is natural enough. 
+
+                                           Thanks, Akira
+
+----------------------------------------------
+Akira Yokosawa (5):
+  Trial use of extdash package with shortcuts option
+  formal/ppcmem: Avoid break-line after 'lines' in source
+  Add \nbco{} command for code snippet without line break
+  Use \ldots for ellipsis
+  Trial of marking up numbers in text
+
+ SMPdesign/SMPdesign.tex              | 4 ++--
+ SMPdesign/partexercises.tex          | 4 ++--
+ advsync/memorybarriers.tex           | 2 +-
+ appendix/rcuhist/RCUinLinux.tex      | 2 +-
+ appendix/rcuimpl/rcupreempt.tex      | 6 +++---
+ appendix/whymb/whymemorybarriers.tex | 2 +-
+ count/count.tex                      | 4 ++--
+ datastruct/datastruct.tex            | 2 +-
+ formal/ppcmem.tex                    | 7 ++++---
+ future/htm.tex                       | 2 +-
+ howto/howto.tex                      | 2 +-
+ intro/intro.tex                      | 6 +++---
+ locking/locking.tex                  | 2 +-
+ perfbook.tex                         | 6 ++++++
+ rt/rt.tex                            | 2 +-
+ toolsoftrade/toolsoftrade.tex        | 4 ++--
+ 16 files changed, 32 insertions(+), 25 deletions(-)
+
+-- 
+1.9.1
 
