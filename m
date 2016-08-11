@@ -1,142 +1,350 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34273 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)	by vger.kernel.org
- with ESMTP id S1752345AbcHJWmu (ORCPT	<rfc822;perfbook@vger.kernel.org>);
- Wed, 10 Aug 2016 18:42:50 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])	by
- mx0b-001b2d01.pphosted.com (8.16.0.11/8.16.0.11) with SMTP id u7AMdEKC053617
- for <perfbook@vger.kernel.org>; Wed, 10 Aug 2016 18:42:49 -0400
-Received: from e18.ny.us.ibm.com (e18.ny.us.ibm.com [129.33.205.208])	by
- mx0b-001b2d01.pphosted.com with ESMTP id 24qm9uter3-1	(version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT)	for <perfbook@vger.kernel.org>; Wed,
- 10 Aug 2016 18:42:49 -0400
-Received: from localhost	by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Wed, 10 Aug
- 2016 18:42:48 -0400
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23])	by d01dlp02.pok.ibm.com (Postfix) with ESMTP id AB1A96E8045
- for <perfbook@vger.kernel.org>; Wed, 10 Aug 2016 18:42:25 -0400 (EDT)
-Received: from d01av01.pok.ibm.com (d01av01.pok.ibm.com [9.56.224.215])	by
- b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- u7AMgjlo15532486	for <perfbook@vger.kernel.org>; Wed, 10 Aug 2016 22:42:45
- GMT
-Received: from d01av01.pok.ibm.com (localhost [127.0.0.1])	by
- d01av01.pok.ibm.com (8.14.4/8.14.4/NCO v10.0 AVout) with ESMTP id
- u7AMgj9U021867	for <perfbook@vger.kernel.org>; Wed, 10 Aug 2016 18:42:45
- -0400
-Date: Wed, 10 Aug 2016 15:42:50 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2 0/1] Trial of replacing hyphens with minus signs
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <32c543fd-cad8-f3da-4b1f-15ed2fd919c0@gmail.com>
- <20160808163608.GJ3482@linux.vnet.ibm.com>
- <5d1f41dd-a4f1-81f7-cc6c-b9ce8c229f88@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=USbvrR2uUDKeduWh7+8LkjTuA7KqmsFGcMd1Hxw4WX4=;
+ b=QiSvUb/HtTlCUKnat15Kjx24xX3nirGIr6Z9vdOcwWRHbBMQ/LAwLMkRFln8ILm16O
+ F5xc2Ss8RbHJqx8YPmtQzcFWUTlaZiLOH4Ke0NFxXXlcB+fQM7ORHJjPOibo1FYTkHjo
+ YXJNVqZ7s+YreyOUeM2cT1GPP9j0oHT7bWrUQOcxuYrP5OP5bYPHm8UBV4zMI+rBzHTj
+ 1lQCE7op/sOV/IyU4XfS3WlT3Bpg6JySumaNBwW/PaKDUKaDew/jVk5JklAjWXt7NH4N
+ D8ZvgaNO8s1pBCEoByCwHEDhT1zEffz1ssgDJ9WVFe/d05/ETU0NvlPjPWrOf18O05Dx
+ y8+Q==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [RFT GIT PULL] Makefile: Add ".fig -> .eps" rule
+Message-ID: <2d788653-610c-bc99-0d70-f86b96056c7e@gmail.com>
+Date: Fri, 12 Aug 2016 00:14:20 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5d1f41dd-a4f1-81f7-cc6c-b9ce8c229f88@gmail.com>
-Message-Id: <20160810224250.GP3482@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Aug 09, 2016 at 11:04:34PM +0900, Akira Yokosawa wrote:
-> >From f4068f222bfa4f1cb60b9c16e9228990bc886280 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Tue, 9 Aug 2016 22:28:34 +0900
-> Subject: [PATCH v2 0/1] Trial of replacing hyphens with minus signs
-> 
-> This is round two of my attempt to avoid using hyphens as minus signs.
+Hi Paul,
 
-And I am good with this one.  The positive and negative numerals appear
-to use the same glyphs, so postive and negative numbers look the same,
-which is good.
+As I said the other day, I added a rule for ".fig -> .eps" in Makefile and
+evaluate the increase in time of the first build (or builds after
+"make neatfreak").
 
-> First of all, I didn't intend to mark up every number in the text.
-> The reason I used two latex commands was to make it easy to try
-> several different combinations of appearance in the resulting PDF.
-> Once we choose one combination, we can replace the mark-up commands
-> by automatic scripting.  I prepared two types of mark up because
-> there already exist numbers enclosed in \co{}.
+To reduce the build time, 2nd patch moves several currently unused ".fig" files
+to ".unused" sub-directories.
+3rd patch removes ".eps" files in the repository whose sources are ".fig" files.
+4th patch updates ".gitignore"s to reflect the removed files.
+5th patch updates FAQ-BUILD.txt to notify people that we now need the "fig2ps"
+package for "fig2eps" command on Ubuntu.
 
-But if they are in \co{}, it makes sense to use hyphens, which is
-the tradition for typewriter/command-line display.
+The result of the evaluation is as follows.
+Time is measured by "time" command such as "$ make neatfreak; time make -j4"
+on a virtual machine with 4 cpus. The "real" times are collected from the output.
+The value in each cell is the simple average of 4 samples.
 
-> I should have made this point clear in the previous series cover
-> letter.
-> 
-> This time, I choose the simple math mode for negative numbers. I think
-> this is acceptable enough.  I'm not sure if we should also use \co{}
-> for some negative numbers.  This can be discussed later.
-> 
-> BTW, I used a script to find candidates of negative numbers. 
-> Although it outputs a lot of false positives within verbatim and \co{}
-> code snippets, it is still useful as hints.
-> 
-> Following is the diff of "before" and "after" of the output of the
-> script.  I hope this can help you grasp what it looks like.
+             |before (sec)| after (sec)|            | 
+no of thread | (1a508f6a) | (641b6a55) | diff (sec) | diff (%)
+       1     |     141.8  |     153.5  |      11.7  |     8.3
+       2     |      83.8  |      89.9  |       6.1  |     7.3
+       3     |      64.7  |      68.8  |       4.1  |     6.3
+       4     |      55.7  |      59.0  |       3.3  |     5.9
 
-Anyway, the patch looked good, so I pulled it in.
+As you may see, the time increase would be almost unnoticeable if you are
+building with more than -j4.
 
-							Thanx, Paul
+Of course, modification of Makefile needs to be fully tested before merging. 
+I've tested myself doing the above evaluation.
 
->                                                 Thanks, Akira
-> 
-> ------
-> --- /tmp/before	2016-08-09 22:11:29.061603725 +0900
-> +++ /tmp/after	2016-08-09 22:11:50.129602753 +0900
-> @@ -1,8 +1,4 @@
-> -./future/htm.tex:642:	to -1.
->  ./future/htm.tex:656:  1   int my_status = -1;  /* Thread local. */
-> -./SMPdesign/beyond.tex:272:which must be initialized to all [-1,-1].
-> -./SMPdesign/partexercises.tex:277:be assigned decreasing numbers (-1, -2, -3, \ldots), while a series of
-> -./SMPdesign/SMPdesign.tex:1000:element of the \co{pool} array, or -1 if all elements are empty.
->  ./count/count.tex:787: 40     exit(-1);
->  ./count/count.tex:3062: 10     exit(-1);
->  ./together/applyrcu.tex:148: 36     exit(-1);
-> @@ -14,7 +10,6 @@
->  ./toolsoftrade/toolsoftrade.tex:188:  7   exit(-1);
->  ./toolsoftrade/toolsoftrade.tex:228:  8     if (pid == -1) {
->  ./toolsoftrade/toolsoftrade.tex:232: 12       exit(-1);
-> -./toolsoftrade/toolsoftrade.tex:259:If the process ID is instead -1, this indicates that the \co{wait()}
->  ./toolsoftrade/toolsoftrade.tex:294: 12   exit(-1);
->  ./toolsoftrade/toolsoftrade.tex:395: 18     exit(-1);
->  ./toolsoftrade/toolsoftrade.tex:399: 22     exit(-1);
-> @@ -34,15 +29,7 @@
->  ./toolsoftrade/toolsoftrade.tex:739: 19     exit(-1);
->  ./toolsoftrade/toolsoftrade.tex:883: 25       exit(-1);
->  ./toolsoftrade/toolsoftrade.tex:890: 32       exit(-1);
-> -./appendix/questions/after.tex:146:17563: & 1152396.251585 & (-16.928) & 27 & 27 & 27 \\
-> -./appendix/questions/after.tex:147:18004: & 1152396.252581 & (-12.875) & 24 & 24 & 24 \\
-> -./appendix/questions/after.tex:148:18163: & 1152396.252955 & (-19.073) & 18 & 18 & 18 \\
-> -./appendix/questions/after.tex:149:18765: & 1152396.254449 & (-148.773) & 216 & 216 & 216 \\
-> -./appendix/questions/after.tex:150:19863: & 1152396.256960 & (-6.914) & 18 & 18 & 18 \\
-> -./appendix/questions/after.tex:151:21644: & 1152396.260959 & (-5.960) & 18 & 18 & 18 \\
-> -./appendix/questions/after.tex:152:23408: & 1152396.264957 & (-20.027) & 15 & 15 & 15 \\
->  ./rt/rt.tex:1360:	\co{echo -1 > /proc/sys/kernel/sched_rt_runtime_us}
->  ./rt/rt.tex:1711: 3   exit(-1);
->  ./rt/rt.tex:1715: 7   exit(-1);
->  ./rt/rt.tex:1719:11   exit(-1);
-> -./datastruct/datastruct.tex:1076:The \co{->ht_resize_cur} field on line~14 is equal to -1 unless a resize
-> ------ 
-> 
-> Akira Yokosawa (1):
->   Trial of replacing hyphens of negative values with minus signs
-> 
->  SMPdesign/SMPdesign.tex       |  2 +-
->  SMPdesign/beyond.tex          |  2 +-
->  SMPdesign/partexercises.tex   |  2 +-
->  appendix/questions/after.tex  | 14 +++++++-------
->  datastruct/datastruct.tex     |  2 +-
->  future/htm.tex                |  2 +-
->  toolsoftrade/toolsoftrade.tex |  2 +-
->  utilities/findminusnum.sh     | 29 +++++++++++++++++++++++++++++
->  8 files changed, 42 insertions(+), 13 deletions(-)
->  create mode 100644 utilities/findminusnum.sh
-> 
-> -- 
-> 1.9.1
-> 
+If you are satisfied with the change, please consider merging.
+
+                                               Thanks, Akira
+
+-----
+The following changes since commit 1a508f6ad8b6d4e722c8511c459ae7ae9d2591b5:
+
+  Get .gitignore in right place for hash-table code (2016-08-10 16:14:18 -0700)
+
+are available in the git repository at:
+
+  https://github.com/akiyks/perfbook.git makefile-add-fig-eps-rule
+
+for you to fetch changes up to 641b6a5541323d737b1e2ca31e9a805da19514f1:
+
+  FAQ-BUILD.txt: Add 'fig2ps' as necessary package on Ubuntu (2016-08-11 22:50:02 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (5):
+      Makefile: Add .fig -> .eps rule
+      Move unused .fig and .eps files to .unused directory
+      Remove .eps files whose sources are .fig files
+      Update and create .gitignore files
+      FAQ-BUILD.txt: Add 'fig2ps' as necessary package on Ubuntu
+
+ FAQ-BUILD.txt                                      |    2 +-
+ Makefile                                           |   18 +-
+ SMPdesign/.gitignore                               |   10 +
+ SMPdesign/AllocatorPool.eps                        |  287 --
+ SMPdesign/LockGranularity.eps                      |  243 --
+ SMPdesign/MazeNumberPath.eps                       |  157 -
+ SMPdesign/MemoryBarrierPairing.eps                 |  218 --
+ SMPdesign/ParallelFastpath.eps                     |  213 -
+ SMPdesign/allocatorcache.eps                       |  225 --
+ SMPdesign/lockdeqhash.eps                          |  218 --
+ SMPdesign/lockdeqhash1R.eps                        |  784 ----
+ SMPdesign/lockdeqhashlots.eps                      |  479 ---
+ SMPdesign/lockdeqpair.eps                          |  177 -
+ advsync/.gitignore                                 |   22 +
+ advsync/.unused/MoreThanOneValue-15CPU-noresp.eps  | 1306 -------
+ advsync/AbstractMemoryAccessModel.eps              |  191 -
+ advsync/DataDependencyNeeded.eps                   |  775 ----
+ advsync/DataDependencySupplied.eps                 |  738 ----
+ advsync/MemoryArchitecture.eps                     |  327 --
+ advsync/MemoryBarrierPairing.eps                   |  221 --
+ advsync/MoreThanOneValue-15CPU.eps                 | 1306 -------
+ advsync/MoreThanOneValue.eps                       |  200 -
+ advsync/RCU-API.eps                                |  200 -
+ advsync/RCUDeletion.eps                            |  253 --
+ advsync/RCUInsertion.eps                           |  210 -
+ advsync/RCUReaderGP.eps                            |  181 -
+ advsync/RCUReaderGPExtends.eps                     |  199 -
+ advsync/RCUReplacement.eps                         |  414 --
+ advsync/ReadBarrierNeeded.eps                      |  673 ----
+ advsync/ReadBarrierSupplied.eps                    |  693 ----
+ advsync/ReadBarrierSupplied1.eps                   |  722 ----
+ advsync/ReadBarrierSupplied2.eps                   |  699 ----
+ advsync/SpeculativeLoad.eps                        |  603 ---
+ advsync/SpeculativeLoadBarrier.eps                 |  595 ---
+ advsync/SpeculativeLoadBarrierCancel.eps           |  633 ---
+ advsync/SplitCache.eps                             |  250 --
+ advsync/WriteBarrierOrdering.eps                   |  613 ---
+ appendix/questions/.gitignore                      |    1 +
+ appendix/questions/after.eps                       |  170 -
+ appendix/rcuhist/{ => .unused}/linux-RCU.eps       |    0
+ appendix/rcuhist/{ => .unused}/linux-RCUlock.eps   |    0
+ appendix/rcuhist/{ => .unused}/rcuAPI.eps          |    0
+ .../rcuimpl/{ => .unused}/AdvanceRCUCallbacks.fig  |    0
+ .../rcuimpl/{ => .unused}/BigTreeClassicRCU.fig    |    0
+ .../rcuimpl/{ => .unused}/BigTreeClassicRCUBH.fig  |    0
+ .../{ => .unused}/BigTreeClassicRCUBHdyntick.fig   |    0
+ appendix/rcuimpl/{ => .unused}/FlatClassicRCU.fig  |    0
+ .../{ => .unused}/GenericRCUStateMachine.fig       |    0
+ appendix/rcuimpl/{ => .unused}/GracePeriodBad.fig  |    0
+ appendix/rcuimpl/{ => .unused}/RCUTreeInit.fig     |    0
+ appendix/rcuimpl/{ => .unused}/RCUTreeLeafScan.fig |    0
+ appendix/rcuimpl/{ => .unused}/RCUTreeQSScan.fig   |    0
+ appendix/rcuimpl/{ => .unused}/RCUbweBlock.fig     |    0
+ .../{ => .unused}/RCUpreemptCounterFlip.fig        |    0
+ appendix/rcuimpl/{ => .unused}/RCUpreemptLists.fig |    0
+ .../{ => .unused}/RCUpreemptListsCompare.fig       |    0
+ .../rcuimpl/{ => .unused}/RCUpreemptStates.fig     |    0
+ .../rcuimpl/{ => .unused}/RCUpreemptTimeline.fig   |    0
+ .../rcuimpl/{ => .unused}/RCUpreemptValidation.fig |    0
+ appendix/rcuimpl/{ => .unused}/RCUrt-MBnowaste.fig |    0
+ appendix/rcuimpl/{ => .unused}/RCUrt-MBwaste.fig   |    0
+ .../rcuimpl/{ => .unused}/TinyRCUCallbacks.fig     |    0
+ appendix/rcuimpl/{ => .unused}/TreeClassicRCU.fig  |    0
+ .../rcuimpl/{ => .unused}/TreeClassicRCUGP.fig     |    0
+ appendix/rcuimpl/{ => .unused}/TreeMapping.fig     |    0
+ .../rcuimpl/{ => .unused}/TreeRCUStateMachine.fig  |    0
+ appendix/rcuimpl/{ => .unused}/srcuds.fig          |    0
+ appendix/rcuimpl/AdvanceRCUCallbacks.eps           |  316 --
+ appendix/rcuimpl/BigTreeClassicRCU.eps             |  286 --
+ appendix/rcuimpl/BigTreeClassicRCUBH.eps           |  305 --
+ appendix/rcuimpl/BigTreeClassicRCUBHdyntick.eps    |  462 ---
+ appendix/rcuimpl/FlatClassicRCU.eps                |  254 --
+ appendix/rcuimpl/GenericRCUStateMachine.eps        |  514 ---
+ appendix/rcuimpl/GracePeriodBad.eps                |  194 -
+ appendix/rcuimpl/RCUTreeInit.eps                   |  490 ---
+ appendix/rcuimpl/RCUTreeLeafScan.eps               |  504 ---
+ appendix/rcuimpl/RCUTreeQSScan.eps                 |  504 ---
+ appendix/rcuimpl/RCUbweBlock.eps                   |  575 ---
+ appendix/rcuimpl/RCUpreemptCounterFlip.eps         |  291 --
+ appendix/rcuimpl/RCUpreemptLists.eps               |  220 --
+ appendix/rcuimpl/RCUpreemptListsCompare.eps        |  311 --
+ appendix/rcuimpl/RCUpreemptStates.eps              | 4120 --------------------
+ appendix/rcuimpl/RCUpreemptTimeline.eps            |  351 --
+ appendix/rcuimpl/RCUpreemptValidation.eps          |  696 ----
+ appendix/rcuimpl/RCUrt-MBnowaste.eps               |  273 --
+ appendix/rcuimpl/RCUrt-MBwaste.eps                 |  345 --
+ appendix/rcuimpl/TinyRCUCallbacks.eps              |  233 --
+ appendix/rcuimpl/TreeClassicRCU.eps                |  288 --
+ appendix/rcuimpl/TreeClassicRCUGP.eps              |  730 ----
+ appendix/rcuimpl/TreeMapping.eps                   |  219 --
+ appendix/rcuimpl/TreeRCUStateMachine.eps           |  358 --
+ appendix/rcuimpl/srcuds.eps                        |  268 --
+ appendix/whymb/.gitignore                          |    7 +
+ appendix/whymb/MESI.eps                            |  293 --
+ appendix/whymb/cacheSB.eps                         |  216 -
+ appendix/whymb/cacheSBf.eps                        |  247 --
+ appendix/whymb/cacheSBfIQ.eps                      |  271 --
+ appendix/whymb/cacheSC.eps                         |  150 -
+ appendix/whymb/cacheSCwrite.eps                    |  170 -
+ appendix/whymb/hostileordering.eps                 |  243 --
+ count/.gitignore                                   |    5 +
+ count/GlobalInc.eps                                |  429 --
+ count/GlobalTreeInc.eps                            |  501 ---
+ count/PerThreadInc.eps                             |  421 --
+ count/count_lim.eps                                |  177 -
+ count/globbal.eps                                  |  331 --
+ cpu/.gitignore                                     |    2 +
+ cpu/3DI.eps                                        |  193 -
+ cpu/SystemArch.eps                                 |  395 --
+ datastruct/.gitignore                              |    1 +
+ datastruct/hashdiagram.eps                         |  301 --
+ defer/.gitignore                                   |   10 +
+ defer/GracePeriodGood.eps                          |  210 -
+ defer/Linux_hlist.eps                              |  208 -
+ defer/Linux_list.eps                               |  241 --
+ defer/Linux_list_abbr.eps                          |  139 -
+ defer/QSBRGracePeriod.eps                          |  255 --
+ defer/RCUDeletion.eps                              |  253 --
+ defer/RCUListDeleteClassic.eps                     |  328 --
+ defer/RCUReplacement.eps                           |  470 ---
+ defer/RCUenvAPI.eps                                |  214 -
+ defer/rwlockRCUupdate.eps                          |  264 --
+ formal/.gitignore                                  |    1 +
+ formal/RCUpreemptStates.eps                        | 4120 --------------------
+ intro/.gitignore                                   |    4 +
+ intro/FourTaskCategories.eps                       |  261 --
+ intro/FourTaskOrder.eps                            |  321 --
+ intro/Generality.eps                               |  386 --
+ intro/PPGrelation.eps                              |  165 -
+ locking/.gitignore                                 |    5 +
+ locking/DeadlockCycle.eps                          |  227 --
+ locking/LayeredLockHierarchy.eps                   |  222 --
+ locking/LocalLockHierarchy.eps                     |  221 --
+ locking/NonLocalLockHierarchy.eps                  |  221 --
+ locking/rnplock.eps                                |  305 --
+ toolsoftrade/.gitignore                            |    1 +
+ toolsoftrade/shellparallel.eps                     |  210 -
+ 137 files changed, 84 insertions(+), 41864 deletions(-)
+ delete mode 100644 SMPdesign/AllocatorPool.eps
+ delete mode 100644 SMPdesign/LockGranularity.eps
+ delete mode 100644 SMPdesign/MazeNumberPath.eps
+ delete mode 100644 SMPdesign/MemoryBarrierPairing.eps
+ delete mode 100644 SMPdesign/ParallelFastpath.eps
+ delete mode 100644 SMPdesign/allocatorcache.eps
+ delete mode 100644 SMPdesign/lockdeqhash.eps
+ delete mode 100644 SMPdesign/lockdeqhash1R.eps
+ delete mode 100644 SMPdesign/lockdeqhashlots.eps
+ delete mode 100644 SMPdesign/lockdeqpair.eps
+ delete mode 100644 advsync/.unused/MoreThanOneValue-15CPU-noresp.eps
+ delete mode 100644 advsync/AbstractMemoryAccessModel.eps
+ delete mode 100644 advsync/DataDependencyNeeded.eps
+ delete mode 100644 advsync/DataDependencySupplied.eps
+ delete mode 100644 advsync/MemoryArchitecture.eps
+ delete mode 100644 advsync/MemoryBarrierPairing.eps
+ delete mode 100644 advsync/MoreThanOneValue-15CPU.eps
+ delete mode 100644 advsync/MoreThanOneValue.eps
+ delete mode 100644 advsync/RCU-API.eps
+ delete mode 100644 advsync/RCUDeletion.eps
+ delete mode 100644 advsync/RCUInsertion.eps
+ delete mode 100644 advsync/RCUReaderGP.eps
+ delete mode 100644 advsync/RCUReaderGPExtends.eps
+ delete mode 100644 advsync/RCUReplacement.eps
+ delete mode 100644 advsync/ReadBarrierNeeded.eps
+ delete mode 100644 advsync/ReadBarrierSupplied.eps
+ delete mode 100644 advsync/ReadBarrierSupplied1.eps
+ delete mode 100644 advsync/ReadBarrierSupplied2.eps
+ delete mode 100644 advsync/SpeculativeLoad.eps
+ delete mode 100644 advsync/SpeculativeLoadBarrier.eps
+ delete mode 100644 advsync/SpeculativeLoadBarrierCancel.eps
+ delete mode 100644 advsync/SplitCache.eps
+ delete mode 100644 advsync/WriteBarrierOrdering.eps
+ create mode 100644 appendix/questions/.gitignore
+ delete mode 100644 appendix/questions/after.eps
+ rename appendix/rcuhist/{ => .unused}/linux-RCU.eps (100%)
+ rename appendix/rcuhist/{ => .unused}/linux-RCUlock.eps (100%)
+ rename appendix/rcuhist/{ => .unused}/rcuAPI.eps (100%)
+ rename appendix/rcuimpl/{ => .unused}/AdvanceRCUCallbacks.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/BigTreeClassicRCU.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/BigTreeClassicRCUBH.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/BigTreeClassicRCUBHdyntick.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/FlatClassicRCU.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/GenericRCUStateMachine.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/GracePeriodBad.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUTreeInit.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUTreeLeafScan.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUTreeQSScan.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUbweBlock.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUpreemptCounterFlip.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUpreemptLists.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUpreemptListsCompare.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUpreemptStates.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUpreemptTimeline.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUpreemptValidation.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUrt-MBnowaste.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/RCUrt-MBwaste.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/TinyRCUCallbacks.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/TreeClassicRCU.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/TreeClassicRCUGP.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/TreeMapping.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/TreeRCUStateMachine.fig (100%)
+ rename appendix/rcuimpl/{ => .unused}/srcuds.fig (100%)
+ delete mode 100644 appendix/rcuimpl/AdvanceRCUCallbacks.eps
+ delete mode 100644 appendix/rcuimpl/BigTreeClassicRCU.eps
+ delete mode 100644 appendix/rcuimpl/BigTreeClassicRCUBH.eps
+ delete mode 100644 appendix/rcuimpl/BigTreeClassicRCUBHdyntick.eps
+ delete mode 100644 appendix/rcuimpl/FlatClassicRCU.eps
+ delete mode 100644 appendix/rcuimpl/GenericRCUStateMachine.eps
+ delete mode 100644 appendix/rcuimpl/GracePeriodBad.eps
+ delete mode 100644 appendix/rcuimpl/RCUTreeInit.eps
+ delete mode 100644 appendix/rcuimpl/RCUTreeLeafScan.eps
+ delete mode 100644 appendix/rcuimpl/RCUTreeQSScan.eps
+ delete mode 100644 appendix/rcuimpl/RCUbweBlock.eps
+ delete mode 100644 appendix/rcuimpl/RCUpreemptCounterFlip.eps
+ delete mode 100644 appendix/rcuimpl/RCUpreemptLists.eps
+ delete mode 100644 appendix/rcuimpl/RCUpreemptListsCompare.eps
+ delete mode 100644 appendix/rcuimpl/RCUpreemptStates.eps
+ delete mode 100644 appendix/rcuimpl/RCUpreemptTimeline.eps
+ delete mode 100644 appendix/rcuimpl/RCUpreemptValidation.eps
+ delete mode 100644 appendix/rcuimpl/RCUrt-MBnowaste.eps
+ delete mode 100644 appendix/rcuimpl/RCUrt-MBwaste.eps
+ delete mode 100644 appendix/rcuimpl/TinyRCUCallbacks.eps
+ delete mode 100644 appendix/rcuimpl/TreeClassicRCU.eps
+ delete mode 100644 appendix/rcuimpl/TreeClassicRCUGP.eps
+ delete mode 100644 appendix/rcuimpl/TreeMapping.eps
+ delete mode 100644 appendix/rcuimpl/TreeRCUStateMachine.eps
+ delete mode 100644 appendix/rcuimpl/srcuds.eps
+ create mode 100644 appendix/whymb/.gitignore
+ delete mode 100644 appendix/whymb/MESI.eps
+ delete mode 100644 appendix/whymb/cacheSB.eps
+ delete mode 100644 appendix/whymb/cacheSBf.eps
+ delete mode 100644 appendix/whymb/cacheSBfIQ.eps
+ delete mode 100644 appendix/whymb/cacheSC.eps
+ delete mode 100644 appendix/whymb/cacheSCwrite.eps
+ delete mode 100644 appendix/whymb/hostileordering.eps
+ delete mode 100644 count/GlobalInc.eps
+ delete mode 100644 count/GlobalTreeInc.eps
+ delete mode 100644 count/PerThreadInc.eps
+ delete mode 100644 count/count_lim.eps
+ delete mode 100644 count/globbal.eps
+ create mode 100644 cpu/.gitignore
+ delete mode 100644 cpu/3DI.eps
+ delete mode 100644 cpu/SystemArch.eps
+ create mode 100644 datastruct/.gitignore
+ delete mode 100644 datastruct/hashdiagram.eps
+ create mode 100644 defer/.gitignore
+ delete mode 100644 defer/GracePeriodGood.eps
+ delete mode 100644 defer/Linux_hlist.eps
+ delete mode 100644 defer/Linux_list.eps
+ delete mode 100644 defer/Linux_list_abbr.eps
+ delete mode 100644 defer/QSBRGracePeriod.eps
+ delete mode 100644 defer/RCUDeletion.eps
+ delete mode 100644 defer/RCUListDeleteClassic.eps
+ delete mode 100644 defer/RCUReplacement.eps
+ delete mode 100644 defer/RCUenvAPI.eps
+ delete mode 100644 defer/rwlockRCUupdate.eps
+ create mode 100644 formal/.gitignore
+ delete mode 100644 formal/RCUpreemptStates.eps
+ create mode 100644 intro/.gitignore
+ delete mode 100644 intro/FourTaskCategories.eps
+ delete mode 100644 intro/FourTaskOrder.eps
+ delete mode 100644 intro/Generality.eps
+ delete mode 100644 intro/PPGrelation.eps
+ create mode 100644 locking/.gitignore
+ delete mode 100644 locking/DeadlockCycle.eps
+ delete mode 100644 locking/LayeredLockHierarchy.eps
+ delete mode 100644 locking/LocalLockHierarchy.eps
+ delete mode 100644 locking/NonLocalLockHierarchy.eps
+ delete mode 100644 locking/rnplock.eps
+ create mode 100644 toolsoftrade/.gitignore
+ delete mode 100644 toolsoftrade/shellparallel.eps
 
