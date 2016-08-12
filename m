@@ -1,62 +1,49 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=1VzY5IU0rsNQQxJ7YCJdTNBkWyQQ7tkdZnG+mb/SltA=;
- b=0sT79iwKm8ie7HIrxDxVXm+LjueBu0HHgj29/EcP5GxTbBoEYhX4/N2pSpXXic2UOT
- oFkODGOUlErHpwir+JCwuPU5qbFG5Kf5Ulv8yEyUiRQF5WnU2EJZ/KSrr4crTg/0E4ku
- YhGoE/SDJMoN6yM6xPljusLRQs3YZUW5o/GZiYmOmcJmv3F8GJVNtZ+3PH72FGI7KuAk
- W6GGn2JR6TRpd7YrhU1KDVIe0itsjbgPXBcV33AmDEr0VJjWK6dh1NhfiMAspb2pkOo8
- 33xXYFieYGziaLrhv1Xc8TnhkQdZZ+Rbf+vSeXp/YAgoKCHzYsgIObDAungFQDH82La1
- Zwdw==
-Subject: [RFT GIT PULL v2] Makefile: Add ".fig -> .eps" rule
-References: <2d788653-610c-bc99-0d70-f86b96056c7e@gmail.com>
- <20160811175403.GB3482@linux.vnet.ibm.com>
- <89115e47-37d6-b563-435e-6dbecf078963@gmail.com>
- <20160811233940.GH3482@linux.vnet.ibm.com>
- <88b66a0b-6b1b-2627-d262-c7c95a8aa69d@gmail.com>
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=wIzTi5WXwTOdrkUF9BQtG+tRFTLJ28iu9g32JYU62wo=;
+ b=vFtYR1tJXXo5q3533+i59RxHj8w8cMnmyHCrlg3iojR93oN+4hXowi5kp02hQENbF/
+ bCAHoO53CArpt2CZKDHmNjUxJNTsbe0qfcEr1NkOhPz3WDsOh1Y+iIH8s5UbFjAilWk6
+ 2gQxbzGn17xT2HgVZuCIZ/cl5COldh5Yp4OXm8AwlsDa2bFoO3L02zRh9I9ct6+ePl4l
+ g+OuoDagMj1CiO04JTaWaUqHtHH0L1MBrIlB1nXK95ZoEhFjdn14kLxeZ/mlKtDH708E
+ DTadnzVZ+ZU4T0Dr/IsZb44bTSa6WdjHwoUGP8g4+DQiuFbQgQMDH0HNHxtNOodMzpwZ
+ roNQ==
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <54cbc8fb-9189-8ec3-b0cd-5e0b984e861f@gmail.com>
-Date: Fri, 12 Aug 2016 10:56:11 +0900
+Subject: [PATCH] Some more hyphenation of compound words
+Message-ID: <fde6fc31-0847-2395-0e7d-ecefcdb50444@gmail.com>
+Date: Fri, 12 Aug 2016 18:12:32 +0900
 MIME-Version: 1.0
-In-Reply-To: <88b66a0b-6b1b-2627-d262-c7c95a8aa69d@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-To: paulmck@linux.vnet.ibm.com
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+From 9761c723cb8a53b257878fd4fff0b042d0ccebbb Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Wed, 10 Aug 2016 20:30:56 +0900
+Subject: [PATCH] Some more hyphenation of compound words
 
-I've added the availability check of "fig2eps" in Makefile, as well as that of "dot"
-command which was added fairly recently to necessary commands.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ SMPdesign/criteria.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I hope this helps people after the merge of branch.
-
-If you want to see what the error message would look like, after pulling this branch,
-modify the definition of "FIG2EPS" or "DOT" macro around line 40 of Makefile,
-then "make neatfreak; make" will show a false positive error message.
-
-This pull request is relative to the previous RFT pull request.
-
-                                                    Thanks, Akira
--------
-The following changes since commit 641b6a5541323d737b1e2ca31e9a805da19514f1:
-
-  FAQ-BUILD.txt: Add 'fig2ps' as necessary package on Ubuntu (2016-08-11 22:50:02 +0900)
-
-are available in the git repository at:
-
-  https://github.com/akiyks/perfbook.git makefile-add-fig-eps-rule
-
-for you to fetch changes up to 7f8776ab67bb37bccb7128dc67be6c85a5aacfb6:
-
-  Makefile: Add availability check of 'fig2eps' and 'dot' commands (2016-08-12 10:39:36 +0900)
-
-----------------------------------------------------------------
-Akira Yokosawa (1):
-      Makefile: Add availability check of 'fig2eps' and 'dot' commands
-
- Makefile | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+diff --git a/SMPdesign/criteria.tex b/SMPdesign/criteria.tex
+index a84f301..f2f4602 100644
+--- a/SMPdesign/criteria.tex
++++ b/SMPdesign/criteria.tex
+@@ -48,7 +48,7 @@ contention, overhead, read-to-write ratio, and complexity:
+ 	This may be lock contention, memory contention, or a host
+ 	of other performance killers.
+ \item[Work-to-Synchronization Ratio:]  A uniprocessor,
+-	single-threaded, non-preemptible, and non-interruptible\footnote{
++	single\-/threaded, non-preemptible, and non\-/interruptible\footnote{
+ 		Either by masking interrupts or by being oblivious to them.}
+ 	version of a given parallel
+ 	program would not need any synchronization primitives.
+-- 
+1.9.1
 
