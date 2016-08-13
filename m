@@ -3,17 +3,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=to:cc:from:subject:message-id:date:user-agent:mime-version
  :content-transfer-encoding;
- bh=wIzTi5WXwTOdrkUF9BQtG+tRFTLJ28iu9g32JYU62wo=;
- b=vFtYR1tJXXo5q3533+i59RxHj8w8cMnmyHCrlg3iojR93oN+4hXowi5kp02hQENbF/
- bCAHoO53CArpt2CZKDHmNjUxJNTsbe0qfcEr1NkOhPz3WDsOh1Y+iIH8s5UbFjAilWk6
- 2gQxbzGn17xT2HgVZuCIZ/cl5COldh5Yp4OXm8AwlsDa2bFoO3L02zRh9I9ct6+ePl4l
- g+OuoDagMj1CiO04JTaWaUqHtHH0L1MBrIlB1nXK95ZoEhFjdn14kLxeZ/mlKtDH708E
- DTadnzVZ+ZU4T0Dr/IsZb44bTSa6WdjHwoUGP8g4+DQiuFbQgQMDH0HNHxtNOodMzpwZ
- roNQ==
+ bh=xaexmttdsXKIaOiUGBmLw5OqId3PNS5kZVJGOgzURR4=;
+ b=I0WtN+pMfxMivbbB3HyylxCs/fMydWkItiVCGyRsdH64Ozb5990f5HO6PGtNNNXTUI
+ fNBn6Ccp5QWYwVG1lr00ShhZSHPN0bugZmyBQ4QKgpWemN6h4YN77ftfmxp0uabqvf7C
+ +zQs7H9cO1IuPHULrX0yux9+BdemPJWL+QfhZUTOIJxcW7M9TOU0fthD114ckTDuPjNx
+ yca2xgB4lCaOIfeHaSnud3lNrJo5bVCt1+r1OCpXZAvaaJg3A3OJ/DgTa/BC0S4uxbhT
+ V8AnW74jkgyH+Ytx9NoR03N7J0B2LZYP8oH0CqjowbpVck+2TrzD6s82DkYJJUQzc0OQ
+ 8t6w==
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] Some more hyphenation of compound words
-Message-ID: <fde6fc31-0847-2395-0e7d-ecefcdb50444@gmail.com>
-Date: Fri, 12 Aug 2016 18:12:32 +0900
+Subject: [RFC PATCH 0/3] Trial of replacing hyphens with en-dashes
+Message-ID: <6ccb8aae-d3f1-9081-745c-a98ff8d2875c@gmail.com>
+Date: Sat, 13 Aug 2016 12:38:11 +0900
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -21,29 +21,50 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 9761c723cb8a53b257878fd4fff0b042d0ccebbb Mon Sep 17 00:00:00 2001
+From a63dd50b648013af5780341f9c740bf9d9f6b65d Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 10 Aug 2016 20:30:56 +0900
-Subject: [PATCH] Some more hyphenation of compound words
+Date: Sat, 13 Aug 2016 11:17:19 +0900
+Subject: [RFC PATCH 0/3] Trial of replacing hyphens with en-dashes
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- SMPdesign/criteria.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Paul,
 
-diff --git a/SMPdesign/criteria.tex b/SMPdesign/criteria.tex
-index a84f301..f2f4602 100644
---- a/SMPdesign/criteria.tex
-+++ b/SMPdesign/criteria.tex
-@@ -48,7 +48,7 @@ contention, overhead, read-to-write ratio, and complexity:
- 	This may be lock contention, memory contention, or a host
- 	of other performance killers.
- \item[Work-to-Synchronization Ratio:]  A uniprocessor,
--	single-threaded, non-preemptible, and non-interruptible\footnote{
-+	single\-/threaded, non-preemptible, and non\-/interruptible\footnote{
- 		Either by masking interrupts or by being oblivious to them.}
- 	version of a given parallel
- 	program would not need any synchronization primitives.
+This is an RFC patch series of my attempt to replace hyphens used for
+ranges of numbers with en-dashes.
+Instead of sending modifications in LaTeX sources as patches, I'm
+submitting scripts which do the replacements on the fly.
+The "sed" script is fairly stable now, and there is no false positives
+AFAIK.
+There might still be false negatives I'm not aware of. Any false positive
+would be addressed by adding a sed pattern.
+As a bonus, the sed pattern also contains fixes of typos such as "line~mm-nn".
+
+To try the replacement, at the top directory of perfbook, invoke the
+script by "sh utilities/dohyphen2endash.sh".
+You need to be in a clean git repository. This check is to ensure
+that you can revert the changes made by the script by "git reset --hard".
+So you might want to try this series on a test branch.
+Or the check of git status can be overridden by a "-f" or "--force" option.
+
+The modification by the scripts can be reviewed by "git diff" afterwards.
+
+It is up to the editor's choice whether or not to commit the result.
+
+Just adding the scripts to the repository is fine with me.
+
+                                                Thanks, Akira 
+------
+
+Akira Yokosawa (3):
+  Trial of replacing hyphens with en-dashes for number ranges
+  dohyphen2endash.sh: Add check of git status
+  dohyphen2endash.sh: Use mktemp to create temp file
+
+ utilities/dohyphen2endash.sh | 74 ++++++++++++++++++++++++++++++++++++++++++++
+ utilities/hyphen2endash.sh   | 50 ++++++++++++++++++++++++++++++
+ 2 files changed, 124 insertions(+)
+ create mode 100644 utilities/dohyphen2endash.sh
+ create mode 100644 utilities/hyphen2endash.sh
+
 -- 
 1.9.1
 
