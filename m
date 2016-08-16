@@ -1,86 +1,61 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55655 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)	by vger.kernel.org with
- ESMTP id S1750975AbcHNI3G (ORCPT	<rfc822;perfbook@vger.kernel.org>); Sun, 14
- Aug 2016 04:29:06 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])	by
- mx0a-001b2d01.pphosted.com (8.16.0.11/8.16.0.11) with SMTP id u7E2XnFc015441
- for <perfbook@vger.kernel.org>; Sat, 13 Aug 2016 22:36:07 -0400
-Received: from e37.co.us.ibm.com (e37.co.us.ibm.com [32.97.110.158])	by
- mx0a-001b2d01.pphosted.com with ESMTP id 24sxujysbn-1	(version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT)	for <perfbook@vger.kernel.org>; Sat,
- 13 Aug 2016 22:36:07 -0400
-Received: from localhost	by e37.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted	for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Sat, 13 Aug
- 2016 20:36:06 -0600
-Date: Sat, 13 Aug 2016 19:36:10 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [RFC PATCH 0/3] Trial of replacing hyphens with en-dashes
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <6ccb8aae-d3f1-9081-745c-a98ff8d2875c@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6ccb8aae-d3f1-9081-745c-a98ff8d2875c@gmail.com>
-Message-Id: <20160814023610.GG3482@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Return-Path: <sj38.park@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;        h=from:to:cc:subject:date:message-id;
+ bh=JTuhUR+EJycIg+zCoPc/U/TiHCjhqralwc20MAhBcQw=;
+ b=ilEOovl16u6TLw8Kf2aWkHlieeDqStY5KKcxqEjQLhCsK/AE2BWx/rsV5w4WyDSxgI
+ YX+VeKRDTm7m8EkuZPa/6XkrcLhkdWC+h3d2s9CiDLEiSvB9nNXVe4yfqAAQl3pTjGwz
+ KDQ79tHHxcjKUwiVi3vCs/FRuKvPAUXbekBP3EXn1+zPSVFIcGTf06uJUVxjKFwOEcTZ
+ 9zmBvpPx4CbZskTENTzGMZUIZRINUj1C+NEojV9GRTGWLSVejpYI3ATLW4ztMoehyF6s
+ R+XuQ2FkakC9Ao1POLd+bDaVud8FujfcOSGe45X8NY2Bh+J4lXfuhSxOiG9865HmwO3u
+ 47Vg==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH 1/2] Makefile: Check availability of `a2ping` and `inkscape`
+Date: Tue, 16 Aug 2016 10:16:51 +0900
+Message-Id: <1471310212-4354-1-git-send-email-sj38.park@gmail.com>
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Aug 13, 2016 at 12:38:11PM +0900, Akira Yokosawa wrote:
-> >From a63dd50b648013af5780341f9c740bf9d9f6b65d Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sat, 13 Aug 2016 11:17:19 +0900
-> Subject: [RFC PATCH 0/3] Trial of replacing hyphens with en-dashes
-> 
-> Hi Paul,
-> 
-> This is an RFC patch series of my attempt to replace hyphens used for
-> ranges of numbers with en-dashes.
-> Instead of sending modifications in LaTeX sources as patches, I'm
-> submitting scripts which do the replacements on the fly.
-> The "sed" script is fairly stable now, and there is no false positives
-> AFAIK.
-> There might still be false negatives I'm not aware of. Any false positive
-> would be addressed by adding a sed pattern.
-> As a bonus, the sed pattern also contains fixes of typos such as "line~mm-nn".
-> 
-> To try the replacement, at the top directory of perfbook, invoke the
-> script by "sh utilities/dohyphen2endash.sh".
-> You need to be in a clean git repository. This check is to ensure
-> that you can revert the changes made by the script by "git reset --hard".
-> So you might want to try this series on a test branch.
-> Or the check of git status can be overridden by a "-f" or "--force" option.
-> 
-> The modification by the scripts can be reviewed by "git diff" afterwards.
-> 
-> It is up to the editor's choice whether or not to commit the result.
-> 
-> Just adding the scripts to the repository is fine with me.
+This commit modifies Makefile to check availability of `a2ping` and
+`inkscape` command as it already does for `dot` and `fig2eps`.
 
-And, after inspecting the scripts, I took this approach.
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ Makefile | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Thank you!
+diff --git a/Makefile b/Makefile
+index b3d7c4c..60e8e96 100644
+--- a/Makefile
++++ b/Makefile
+@@ -41,6 +41,10 @@ DOT := $(shell which dot 2>/dev/null)
 
-							Thanx, Paul
+ FIG2EPS := $(shell which fig2eps 2>/dev/null)
 
->                                                 Thanks, Akira 
-> ------
-> 
-> Akira Yokosawa (3):
->   Trial of replacing hyphens with en-dashes for number ranges
->   dohyphen2endash.sh: Add check of git status
->   dohyphen2endash.sh: Use mktemp to create temp file
-> 
->  utilities/dohyphen2endash.sh | 74 ++++++++++++++++++++++++++++++++++++++++++++
->  utilities/hyphen2endash.sh   | 50 ++++++++++++++++++++++++++++++
->  2 files changed, 124 insertions(+)
->  create mode 100644 utilities/dohyphen2endash.sh
->  create mode 100644 utilities/hyphen2endash.sh
-> 
-> -- 
-> 1.9.1
-> 
++A2PING := $(shell which a2ping 2>/dev/null)
++
++INKSCAPE := $(shell which inkscape 2>/dev/null)
++
+ default = $(PERFBOOK_DEFAULT)
+
+ ifeq ($(default),)
+@@ -127,10 +131,16 @@ endif
+
+ $(PDFTARGETS_OF_EPS): %.pdf: %.eps
+ 	@echo "$< --> $@"
++ifndef A2PING
++	$(error "$< --> $@: a2ping not found. Please install it.")
++endif
+ 	@a2ping --below --hires --bboxfrom=compute-gs $< $@ > /dev/null 2>&1
+
+ $(PDFTARGETS_OF_SVG): %.pdf: %.svg
+ 	@echo "$< --> $@"
++ifndef INKSCAPE
++	$(error "$< --> $@: inkscape not found. Please install it.")
++endif
+ 	@inkscape --export-pdf=$@ $<
+
+ clean:
+-- 
+1.9.1
 
