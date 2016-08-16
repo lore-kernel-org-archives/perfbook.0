@@ -1,48 +1,82 @@
-Return-Path: <sj38.park@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=etOerkldFoBQ7PVjuDyfppLsBl+gNsqRUew41KV0csk=;
- b=s5f+uatKn0NSSZMncMjVZnj28MtU+/zEDeLlUTAmkJZkpbv7U6TzcotEjHosng9rXJ
- O5baoJsqu0egqnOy3yK7PaDddJId9SNRS2rP6m7BW77oxqS4eHp3/RJN5K9Sr3+CaXz0
- Hheae0DI25eecmI5vb/J5O+yvZFymGEMpPo5vw3kx+CbqNv0S5HMjwdfmeseNlGg2oyc
- QKpLR7dQvA92oWw6MRnzMa0n+qg+RyxFHw2fmbElNTJYdFNrfO26/Y+qOvtPlQmkh/LX
- y3VLta7KAicFdEwas2x/WQDzAIIbkATidQPvLk/OwWv01bgQR/N+RZoeH1XYzh8MVFPi
- VtbA==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 2/2] FAQ-BUILD: Add package requirements for Fedora 24
-Date: Tue, 16 Aug 2016 10:16:52 +0900
-Message-Id: <1471310212-4354-2-git-send-email-sj38.park@gmail.com>
-In-Reply-To: <1471310212-4354-1-git-send-email-sj38.park@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62637 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)	by vger.kernel.org
+ with ESMTP id S1752742AbcHPCqw (ORCPT	<rfc822;perfbook@vger.kernel.org>);
+ Mon, 15 Aug 2016 22:46:52 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])	by
+ mx0b-001b2d01.pphosted.com (8.16.0.11/8.16.0.11) with SMTP id u7G2cbbc065638
+ for <perfbook@vger.kernel.org>; Mon, 15 Aug 2016 22:46:52 -0400
+Received: from e37.co.us.ibm.com (e37.co.us.ibm.com [32.97.110.158])	by
+ mx0b-001b2d01.pphosted.com with ESMTP id 24tgpdwdgx-1	(version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT)	for <perfbook@vger.kernel.org>; Mon,
+ 15 Aug 2016 22:46:51 -0400
+Received: from localhost	by e37.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted	for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;	Mon, 15 Aug
+ 2016 20:46:51 -0600
+Date: Mon, 15 Aug 2016 19:46:55 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 1/2] Makefile: Check availability of `a2ping` and
+ `inkscape`
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <1471310212-4354-1-git-send-email-sj38.park@gmail.com>
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1471310212-4354-1-git-send-email-sj38.park@gmail.com>
+Message-Id: <20160816024655.GH3482@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: SeongJae Park <sj38.park@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-This commit adds package requirements for Fedora 24.  It has been tested
-on `fedora:24` docker image.
+On Tue, Aug 16, 2016 at 10:16:51AM +0900, SeongJae Park wrote:
+> This commit modifies Makefile to check availability of `a2ping` and
+> `inkscape` command as it already does for `dot` and `fig2eps`.
+> 
+> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- FAQ-BUILD.txt | 5 +++++
- 1 file changed, 5 insertions(+)
+Applied both, thank you!
 
-diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index d2c5352..6627bbb 100644
---- a/FAQ-BUILD.txt
-+++ b/FAQ-BUILD.txt
-@@ -43,6 +43,11 @@
- 			texlive-science texlive-bibtex-extra latex2html
- 			gnuplot-x11 xfig inkscape graphviz fig2ps
+							Thanx, Paul
 
-+		On Fedora 24, installing the following set of packages
-+		suffices:
-+			fig2ps graphviz texlive-epstopdf inkscape latex2html
-+			texlive-collection-latexextra
-+
- 		Other systems might provide similarly named packages.
- 		For example, Doug Miller noted that the following list
- 		of teTeX components worked for him on RHEL5:
--- 
-1.9.1
+> ---
+>  Makefile | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/Makefile b/Makefile
+> index b3d7c4c..60e8e96 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -41,6 +41,10 @@ DOT := $(shell which dot 2>/dev/null)
+> 
+>  FIG2EPS := $(shell which fig2eps 2>/dev/null)
+> 
+> +A2PING := $(shell which a2ping 2>/dev/null)
+> +
+> +INKSCAPE := $(shell which inkscape 2>/dev/null)
+> +
+>  default = $(PERFBOOK_DEFAULT)
+> 
+>  ifeq ($(default),)
+> @@ -127,10 +131,16 @@ endif
+> 
+>  $(PDFTARGETS_OF_EPS): %.pdf: %.eps
+>  	@echo "$< --> $@"
+> +ifndef A2PING
+> +	$(error "$< --> $@: a2ping not found. Please install it.")
+> +endif
+>  	@a2ping --below --hires --bboxfrom=compute-gs $< $@ > /dev/null 2>&1
+> 
+>  $(PDFTARGETS_OF_SVG): %.pdf: %.svg
+>  	@echo "$< --> $@"
+> +ifndef INKSCAPE
+> +	$(error "$< --> $@: inkscape not found. Please install it.")
+> +endif
+>  	@inkscape --export-pdf=$@ $<
+> 
+>  clean:
+> -- 
+> 1.9.1
+> 
 
