@@ -1,55 +1,65 @@
-Return-Path: <sj38.park@gmail.com>
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc;        bh=EWlh8jaT+1b++35jvZHy8LuKsCmKR5Nb587AxNJ1Fqc=;
- b=vIQXIla83H89irvCMhPhsGJ+mIsl7GidBZyqyFUUQD/WTzSJplebw8qWlt2CePqKta
- Gv7/jgYz5+gDrqDPs0S6bSC/5nJ5cthZsPyfaN63KAzA8GX29w+DZ30KaLcRxbzoL2KS
- 4asZVJsevvZI+emY2nLByNDsOT9eonZemen95Jm8XLZUj1hQqqwK5CmV8HlYeTw+zvow
- q5uVHYTzQ10RSFBqCS1qXTObY4Sq041/kuO/97BSfb7daC6DKZueWFHzqBYQQQw1nFhT
- HxVSq92lEJWDD++i2y6Bk2aWZY8NoBCX29ob9Q+WEw8RQocDG+/kxVSs/1+WeNO7kXS/
- d5tQ==
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=OgrMKqEnYRmgVSX6+B8WLCufKVohyT3ghMucQQIswn4=;
+ b=omg3h8I6BFZfdJpX6YB55DWCozZkjBFGZkFq3uQNzx4ROM/hC8zrQHWVQqSygNFo11
+ qkUPtlTwh3b+i4OzSGczv0kWju1mOmRfXnHwIaWyNrW1KmuCc7cpb55NyY37JUafwc4k
+ sSDOJb/at8o3ckeg6MCBUn01hvxXRxOnXcpOBV1Z0mUP9X3M3CUEE5R97vbDMA9RjVp7
+ LjwNFlEdSsFjoSZTtKz2p0E8XmuTe300LxPxcTTVAwEZUBKy2FGbTVBhZReUYaQiwILq
+ c+mKFCOKn3MYQNb4/bZtUzgKxAi7hogzF28PtIYbwlQFuMqH+TydHPoI4Fc/cQWGIbrO
+ chYA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/3] Typo fixes
+Message-ID: <bd90da8b-ed06-e104-8a70-96b029ad666a@gmail.com>
+Date: Wed, 24 Aug 2016 23:07:24 +0900
 MIME-Version: 1.0
-In-Reply-To: <20160823004910.GX3482@linux.vnet.ibm.com>
-References: <1471910788-24070-1-git-send-email-sj38.park@gmail.com>
- <20160823004910.GX3482@linux.vnet.ibm.com>
-From: SeongJae Park <sj38.park@gmail.com>
-Date: Tue, 23 Aug 2016 09:59:16 +0900
-Message-ID: 
- <CAEjAshpJKFmY3HzE_XaO_UO3ouLPQQA6mbucrpyV=LUtbO2Vvw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] debugging: Trivial fixups
 Content-Type: text/plain; charset=UTF-8
-To: Paul McKenney <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Tue, Aug 23, 2016 at 9:49 AM, Paul E. McKenney
-<paulmck@linux.vnet.ibm.com> wrote:
-> On Tue, Aug 23, 2016 at 09:06:26AM +0900, SeongJae Park wrote:
->> This patchset contains trivial fixups under debugging/ that found during Korean
->> translation.
->>
->> SeongJae Park (2):
->>   debugging: Add missing tilde
->>   debugging: Fix contextual typos
->>
->>  debugging/debugging.tex | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> Good catches, applied, thank you!
->
-> Though I must confess that there have been times that it seemed that
-> running programmers under debuggers might be a good idea.  ;-)
+From 98c6fbbe2a7b04bc1ad11d70d96995425d8635de Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Wed, 24 Aug 2016 20:43:42 +0900
+Subject: [PATCH 0/3] Typo fixes
 
-I hesitated to determine that as a typo for the same reason, too.  However, I
-took heart as I realized that there is no one to be the ``programmer under
-debugger'' if the situation comes _instead of_ me. ;)
+Hi,
 
+This series consists of typo fixes.
 
-Thank,
-SeongJae Park
+1st patch is the result of a variant of hypen2endash.sh script.
+No, this patch does not convert hyphens to endashes, but
+replaces spaces in "lines nn-mm" and "Lines nn-mm" with tildes.
+It also corrects typos such as "line^nn-mm" to "lines~nn-mm".
+Modified sed script can be found in the commit message.
 
->
->                                                         Thanx, Paul
->
+2nd patch adjusts plurality of verbs in appendix/rcuimpl/rcutreewt.tex
+after the 1st patch. This file is not referenced any more, so this fix
+may be unnecessary.
+
+3rd patch fixes typos I noticed while reviewing Chapter 7.
+
+                                                  Thanks, Akira
+
+Akira Yokosawa (3):
+  treewide: Use nbsp after 'Lines' and 'lines'
+  appendix/rcuimpl: Adjust plurality of verb
+  locking: Typo fixes
+
+ appendix/questions/after.tex         |  4 +--
+ appendix/rcuimpl/rcutreewt.tex       |  8 +++---
+ appendix/rcuimpl/srcu.tex            |  2 +-
+ appendix/whymb/whymemorybarriers.tex |  2 +-
+ datastruct/datastruct.tex            |  2 +-
+ formal/dyntickrcu.tex                |  2 +-
+ formal/spinhint.tex                  | 56 ++++++++++++++++++------------------
+ locking/locking.tex                  |  8 +++---
+ toolsoftrade/toolsoftrade.tex        |  2 +-
+ 9 files changed, 43 insertions(+), 43 deletions(-)
+
+-- 
+1.9.1
 
