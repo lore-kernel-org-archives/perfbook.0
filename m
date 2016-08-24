@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=qtpOzT8o5vk8tiN53BkAyco9k28DzKSshi1Gk9MqufA=;
- b=FSL7DSN6WdjJvYxOqYZL8J5pvUZC5dVPCpG9Ud5HG563LC1I/YVhkqwS6WF/gwgNrh
- zhBYpM9Werufr1QkmWqG74B3qdFrk81OID43YqWeHJTs2zkcVacUWh68eVVvbpAY64iA
- FQ01Zra9+HNrnU6G0sNV5DeXcVN8C9MgGBwc9dNZOqYJdpDhFSP+hsE9OIZ7yjdJ4I8w
- V1f7uqhvnIZTYHqjEUSFSHWTzbcRU0MBJ480/o9N/DVVnj5YQC0nUsFmHI4QyecN4WdF
- olI7n3154DdfSANJam+uyTcaxDNM7PrC4qOik8kgG96R5rjjYhLy3Zum+Zds8N062JQt
- 8PWA==
-Subject: [PATCH 2/3] appendix/rcuimpl: Adjust plurality of verb
+ bh=KYMTg1TidbqG8s/M9ho2VnbwB+BiWZDNAO7YS+6YPso=;
+ b=xd9KL9vElH/v35sdraMk099mpS5X/1mDZW1QG696ab+0Uyi3gJngx52LY1MlfgDKuD
+ Dpu7Ex5KD9Uhbc6VlqqcF6y67iDJ2pVf5xsiFEO4vAn+clwLrPTUGWN0bt1pLefvwOOw
+ qvVACU7HhSAMFrJQK8u2Il0RoyUehqFSTl4m2ouvZCAj+Vi8EDL95+fWgb7WQjPQrxpR
+ 4uX/UfgxKjh24wjZsgfCzY2pkDupyuSoYjMurQCWexdsdtULbrv/O+Y8cJPzTYPwOM3y
+ 8aeavOGOHElQzNpZ+lmpDYRPpnCgYUgMnFg8YqYHYuEU6RP2ChaO73gPo7Zrkojvuv2K
+ XxTA==
+Subject: [PATCH 3/3] locking: Typo fixes
 References: <bd90da8b-ed06-e104-8a70-96b029ad666a@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <edcb05bb-d688-4da1-c50d-3ad712199919@gmail.com>
-Date: Wed, 24 Aug 2016 23:10:46 +0900
+Message-ID: <eeb07795-6105-b8dc-9a55-f664c64e440a@gmail.com>
+Date: Wed, 24 Aug 2016 23:11:57 +0900
 MIME-Version: 1.0
 In-Reply-To: <bd90da8b-ed06-e104-8a70-96b029ad666a@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,31 +22,55 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From a8bfa8fee42830a350729a4b96d1c662ea8cb7df Mon Sep 17 00:00:00 2001
+From 98c6fbbe2a7b04bc1ad11d70d96995425d8635de Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 14 Aug 2016 15:06:08 +0900
-Subject: [PATCH 2/3] appendix/rcuimpl: Adjust plurality of verb
-
-This commit is to adjust plurality of verbs in accordance with
-the changes made in the previous commit.
+Date: Wed, 24 Aug 2016 20:41:41 +0900
+Subject: [PATCH 3/3] locking: Typo fixes
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/rcuimpl/rcutreewt.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ locking/locking.tex | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/appendix/rcuimpl/rcutreewt.tex b/appendix/rcuimpl/rcutreewt.tex
-index bb7e0e3..c9f2e9b 100644
---- a/appendix/rcuimpl/rcutreewt.tex
-+++ b/appendix/rcuimpl/rcutreewt.tex
-@@ -3906,7 +3906,7 @@ duration, with line~14 invoking \co{print_other_cpu_stall()} if so.
- Figure~\ref{fig:app:rcuimpl:rcutreewt:Code for print-cpu-stall}
- shows the code for \co{print_cpu_stall()}.
+diff --git a/locking/locking.tex b/locking/locking.tex
+index 9eafcf5..48a3520 100644
+--- a/locking/locking.tex
++++ b/locking/locking.tex
+@@ -234,7 +234,7 @@ containing locks from both the library and the caller.
+ 	\begin{enumerate}
+ 	\item	If one of the library function's arguments is a pointer
+ 		to a lock that this library function acquires, and if
+-		the library function holds one if its locks while
++		the library function holds one of its locks while
+ 		acquiring the caller's lock, then we could have a
+ 		deadlock cycle involving both caller and library locks.
+ 	\item	If one of the library functions returns a pointer to
+@@ -469,7 +469,7 @@ Chapter~\ref{chp:Deferred Processing}.
+ \subsubsection{Locking Hierarchies and Pointers to Locks}
+ \label{sec:locking:Locking Hierarchies and Pointers to Locks}
 
--Lines~6-11 prints a console message and dumps the current CPU's stack,
-+Lines~6-11 print a console message and dump the current CPU's stack,
- while lines~12-17 compute the time to the next CPU stall warning, should
- the grace period stretch on that much additional time.
+-Althought there are some exceptions, an external API containing a pointer
++Although there are some exceptions, an external API containing a pointer
+ to a lock is very often a misdesigned API.
+ Handing an internal lock to some other software component is after all
+ the antithesis of information hiding, which is in turn a key design
+@@ -495,7 +495,7 @@ prevents hangs due to lost wakeups.
+ \QuickQuizAnswer{
+ 	Absolutely not!
+
+-	Consider the a program that acquires \co{mutex_a}, and then
++	Consider a program that acquires \co{mutex_a}, and then
+ 	\co{mutex_b}, in that order, and then passes \co{mutex_a}
+ 	to \co{pthread_cond_wait}.
+ 	Now, \co{pthread_cond_wait} will release \co{mutex_a}, but
+@@ -622,7 +622,7 @@ must release the locks and start over.
+ 	the code will always retry, never making forward progress.
+ 	This is termed ``livelock'' if no thread makes any forward progress or
+ 	``starvation''
+-	if some threads make forward progress but other do not
++	if some threads make forward progress but others do not
+ 	(see Section~\ref{sec:locking:Livelock and Starvation}).
+ } \QuickQuizEnd
 
 -- 
 1.9.1
