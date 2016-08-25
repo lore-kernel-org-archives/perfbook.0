@@ -1,78 +1,82 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=KYMTg1TidbqG8s/M9ho2VnbwB+BiWZDNAO7YS+6YPso=;
- b=xd9KL9vElH/v35sdraMk099mpS5X/1mDZW1QG696ab+0Uyi3gJngx52LY1MlfgDKuD
- Dpu7Ex5KD9Uhbc6VlqqcF6y67iDJ2pVf5xsiFEO4vAn+clwLrPTUGWN0bt1pLefvwOOw
- qvVACU7HhSAMFrJQK8u2Il0RoyUehqFSTl4m2ouvZCAj+Vi8EDL95+fWgb7WQjPQrxpR
- 4uX/UfgxKjh24wjZsgfCzY2pkDupyuSoYjMurQCWexdsdtULbrv/O+Y8cJPzTYPwOM3y
- 8aeavOGOHElQzNpZ+lmpDYRPpnCgYUgMnFg8YqYHYuEU6RP2ChaO73gPo7Zrkojvuv2K
- XxTA==
-Subject: [PATCH 3/3] locking: Typo fixes
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59821 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1758715AbcHYMV5 (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Thu, 25 Aug 2016 08:21:57 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.11/8.16.0.11) with SMTP id u7PCKAJF098388
+ for <perfbook@vger.kernel.org>; Thu, 25 Aug 2016 08:21:56 -0400
+Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154]) by
+ mx0b-001b2d01.pphosted.com with ESMTP id 250w841syj-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Thu,
+ 25 Aug 2016 08:21:56 -0400
+Received: from localhost by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 25 Aug
+ 2016 06:21:55 -0600
+Date: Thu, 25 Aug 2016 05:22:09 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/3] Typo fixes
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <bd90da8b-ed06-e104-8a70-96b029ad666a@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <eeb07795-6105-b8dc-9a55-f664c64e440a@gmail.com>
-Date: Wed, 24 Aug 2016 23:11:57 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <bd90da8b-ed06-e104-8a70-96b029ad666a@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20160825122209.GP3482@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 98c6fbbe2a7b04bc1ad11d70d96995425d8635de Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 24 Aug 2016 20:41:41 +0900
-Subject: [PATCH 3/3] locking: Typo fixes
+On Wed, Aug 24, 2016 at 11:07:24PM +0900, Akira Yokosawa wrote:
+> >From 98c6fbbe2a7b04bc1ad11d70d96995425d8635de Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Wed, 24 Aug 2016 20:43:42 +0900
+> Subject: [PATCH 0/3] Typo fixes
+> 
+> Hi,
+> 
+> This series consists of typo fixes.
+> 
+> 1st patch is the result of a variant of hypen2endash.sh script.
+> No, this patch does not convert hyphens to endashes, but
+> replaces spaces in "lines nn-mm" and "Lines nn-mm" with tildes.
+> It also corrects typos such as "line^nn-mm" to "lines~nn-mm".
+> Modified sed script can be found in the commit message.
+> 
+> 2nd patch adjusts plurality of verbs in appendix/rcuimpl/rcutreewt.tex
+> after the 1st patch. This file is not referenced any more, so this fix
+> may be unnecessary.
+> 
+> 3rd patch fixes typos I noticed while reviewing Chapter 7.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- locking/locking.tex | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+All applied, thank you!
 
-diff --git a/locking/locking.tex b/locking/locking.tex
-index 9eafcf5..48a3520 100644
---- a/locking/locking.tex
-+++ b/locking/locking.tex
-@@ -234,7 +234,7 @@ containing locks from both the library and the caller.
- 	\begin{enumerate}
- 	\item	If one of the library function's arguments is a pointer
- 		to a lock that this library function acquires, and if
--		the library function holds one if its locks while
-+		the library function holds one of its locks while
- 		acquiring the caller's lock, then we could have a
- 		deadlock cycle involving both caller and library locks.
- 	\item	If one of the library functions returns a pointer to
-@@ -469,7 +469,7 @@ Chapter~\ref{chp:Deferred Processing}.
- \subsubsection{Locking Hierarchies and Pointers to Locks}
- \label{sec:locking:Locking Hierarchies and Pointers to Locks}
+I followed up patch 1 with a few "line N" and "Line N" changes in those
+same files as well.
 
--Althought there are some exceptions, an external API containing a pointer
-+Although there are some exceptions, an external API containing a pointer
- to a lock is very often a misdesigned API.
- Handing an internal lock to some other software component is after all
- the antithesis of information hiding, which is in turn a key design
-@@ -495,7 +495,7 @@ prevents hangs due to lost wakeups.
- \QuickQuizAnswer{
- 	Absolutely not!
+							Thanx, Paul
 
--	Consider the a program that acquires \co{mutex_a}, and then
-+	Consider a program that acquires \co{mutex_a}, and then
- 	\co{mutex_b}, in that order, and then passes \co{mutex_a}
- 	to \co{pthread_cond_wait}.
- 	Now, \co{pthread_cond_wait} will release \co{mutex_a}, but
-@@ -622,7 +622,7 @@ must release the locks and start over.
- 	the code will always retry, never making forward progress.
- 	This is termed ``livelock'' if no thread makes any forward progress or
- 	``starvation''
--	if some threads make forward progress but other do not
-+	if some threads make forward progress but others do not
- 	(see Section~\ref{sec:locking:Livelock and Starvation}).
- } \QuickQuizEnd
-
--- 
-1.9.1
-
+>                                                   Thanks, Akira
+> 
+> Akira Yokosawa (3):
+>   treewide: Use nbsp after 'Lines' and 'lines'
+>   appendix/rcuimpl: Adjust plurality of verb
+>   locking: Typo fixes
+> 
+>  appendix/questions/after.tex         |  4 +--
+>  appendix/rcuimpl/rcutreewt.tex       |  8 +++---
+>  appendix/rcuimpl/srcu.tex            |  2 +-
+>  appendix/whymb/whymemorybarriers.tex |  2 +-
+>  datastruct/datastruct.tex            |  2 +-
+>  formal/dyntickrcu.tex                |  2 +-
+>  formal/spinhint.tex                  | 56 ++++++++++++++++++------------------
+>  locking/locking.tex                  |  8 +++---
+>  toolsoftrade/toolsoftrade.tex        |  2 +-
+>  9 files changed, 43 insertions(+), 43 deletions(-)
+> 
+> -- 
+> 1.9.1
+> 
 
