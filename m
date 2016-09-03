@@ -3,17 +3,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=to:cc:from:subject:message-id:date:user-agent:mime-version
  :content-transfer-encoding;
- bh=3idaW4OHzSEC+u8iU/58wbrNS3UpXwmtLHLNiU19pK4=;
- b=Okj14iklo82roBxI2Y81Gi1SPrEEvc558I8mT5m/zJgrY/FuiUT5BzhEktZlMH8GIz
- 4ySOzm6I70xg9kwkecLBQLwjMRCXun3PyoRjkN6fgJS2+M7ISkYX2jdt9S0ypRyNjQqs
- oPud6aY1MxJFhfnfIi/L3mUS+tGMZ3XoA3MobPTiVcQntTDQG9yHMGN6Lyi4a4akoGFh
- Q7Yi09daUz5eqHkuQCYOVP+Jf3DBhKPUZLuuR7Kk8ATkuzOHbi+krriTT2DPtezW0kKW
- iDthQL6APIkLxyggVyuPS5JJ7SpOgwz1syQ/qemwNX4uUy48A39kG7k4y0w61bCYawRd
- 8gAA==
+ bh=Re1jtegB3feJGgA7Jn4if/Jld/wtJVv/VISd9Wnf+cg=;
+ b=tMxejwFzyyJTpHQvbAV8STzKFVT0Y4B0faM+liXOLEhlwF3XmZkA5IDWPjQO2koXEp
+ c44VKcC+CyM2vwfvgcFgoHwe4bq65UsgSsS6sEC5BbiYW8SaiRRoHo53m5001GLk3MaH
+ 5BrnQ4fv6IvoyHxM4BdnIIG8Yq8Pn9Gu11wtR1H/LTa6Up97Fcegflb5kJv+agjmoEHT
+ zz74mBWSlUKzK1T21a/LqEoISbKNXwaelBYvCaQZaQHgZuNAKNjlgm7dH7TPROW+7uJm
+ r5dvMIZ+dujORP+qSxLXiUib1bFyZtK4avkDCB3BsUGkIj/rXah6zNpR7b5RR6Ck0J+V
+ /kLA==
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] advsync: Additional use of em dash
-Message-ID: <d1418f71-43b7-8889-4db3-e5e756cd934f@gmail.com>
-Date: Sun, 4 Sep 2016 00:24:01 +0900
+Subject: [PATCH] toolsoftrade: Typo fix
+Message-ID: <8ea0d045-2f2b-4b4e-5ef5-490944c8ee44@gmail.com>
+Date: Sun, 4 Sep 2016 08:19:10 +0900
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -21,33 +21,29 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From cb9e378a80f7a441181a71e713f1db3fac5dc71a Mon Sep 17 00:00:00 2001
+From f8e9541c541291726dc7cfa712468546e2795f97 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 4 Sep 2016 00:13:04 +0900
-Subject: [PATCH] advsync: Additional use of em dash
-
-In commit 114e8f3ef6e9 ("Use unspaced em dashes consistently"),
-I failed to replace a spaced hyphen.
-This commit replaces the remaining hyphen with an unspaced em dash.
+Date: Sun, 4 Sep 2016 08:01:03 +0900
+Subject: [PATCH] toolsoftrade: Typo fix
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- advsync/memorybarriers.tex | 2 +-
+ toolsoftrade/toolsoftrade.tex | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index 27180a7..862992e 100644
---- a/advsync/memorybarriers.tex
-+++ b/advsync/memorybarriers.tex
-@@ -1446,7 +1446,7 @@ Memory barriers are such interventions.  They impose a perceived partial
- ordering over the memory operations on either side of the barrier.
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 130faaf..0782892 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -677,7 +677,7 @@ Finally, lines~44-47 release the lock.
 
- Such enforcement is important because the CPUs and other devices in a system
--can use a variety of tricks to improve performance - including reordering,
-+can use a variety of tricks to improve performance---including reordering,
- deferral and combination of memory operations; speculative loads; speculative
- branch prediction and various types of caching.  Memory barriers are used to
- override or suppress these tricks, allowing the code to sanely control the
+ Figure~\ref{fig:toolsoftrade:Demonstration of Same Exclusive Lock}
+ shows a code fragment that runs \co{lock_reader()} and
+-\co{lock_writer()} as thread using the same lock, namely, \co{lock_a}.
++\co{lock_writer()} as threads using the same lock, namely, \co{lock_a}.
+ Lines~2-6 create a thread running \co{lock_reader()}, and then
+ Lines~7-11 create a thread running \co{lock_writer()}.
+ Lines~12-19 wait for both threads to complete.
 -- 
 1.9.1
 
