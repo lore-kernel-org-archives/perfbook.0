@@ -1,82 +1,49 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59821 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1758715AbcHYMV5 (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Thu, 25 Aug 2016 08:21:57 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.11/8.16.0.11) with SMTP id u7PCKAJF098388
- for <perfbook@vger.kernel.org>; Thu, 25 Aug 2016 08:21:56 -0400
-Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 250w841syj-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Thu,
- 25 Aug 2016 08:21:56 -0400
-Received: from localhost by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 25 Aug
- 2016 06:21:55 -0600
-Date: Thu, 25 Aug 2016 05:22:09 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/3] Typo fixes
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <bd90da8b-ed06-e104-8a70-96b029ad666a@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=EbnUXn2G4yqQn9rNbcDjCNri35zki+nqogVDccCRYAQ=;
+ b=udqO8xw6PuXZ14CLXqHhOOBpg0a8LcKXQIsLH6f2+8y9hppM2D9wGVmWWlOh8Z6Jng
+ 1TSLAjNmoGadwwKrTASh7IcaOyqQ89GOz5t9oENAXXr2WWNsPZvcyL8CB4LorRc7IpKJ
+ jbx8Ui56UnYJS9xJDAYATslSHjNSAwEZdg5HCcjOYvvm/DVvhYN8ZFBDPcoYVAJ5kbhU
+ Yi2HJhcyeqY0u4mWz2HkcZvndb4P2lLBM30UlGz2YeTWmrWvj7JOgR+cMqRJCce711Jw
+ +jF4arTT85cSa5BZFfF19Gon5iESiF3xZQeP0WVGKfXNYJyRGS8rD499XqzZhfsfu3ra
+ 6/9A==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] More hyphenation of long compound word
+Message-ID: <c343372d-8371-f8b3-eb40-1647c20cf7c8@gmail.com>
+Date: Sun, 4 Sep 2016 00:21:06 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bd90da8b-ed06-e104-8a70-96b029ad666a@gmail.com>
-Message-Id: <20160825122209.GP3482@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Aug 24, 2016 at 11:07:24PM +0900, Akira Yokosawa wrote:
-> >From 98c6fbbe2a7b04bc1ad11d70d96995425d8635de Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Wed, 24 Aug 2016 20:43:42 +0900
-> Subject: [PATCH 0/3] Typo fixes
-> 
-> Hi,
-> 
-> This series consists of typo fixes.
-> 
-> 1st patch is the result of a variant of hypen2endash.sh script.
-> No, this patch does not convert hyphens to endashes, but
-> replaces spaces in "lines nn-mm" and "Lines nn-mm" with tildes.
-> It also corrects typos such as "line^nn-mm" to "lines~nn-mm".
-> Modified sed script can be found in the commit message.
-> 
-> 2nd patch adjusts plurality of verbs in appendix/rcuimpl/rcutreewt.tex
-> after the 1st patch. This file is not referenced any more, so this fix
-> may be unnecessary.
-> 
-> 3rd patch fixes typos I noticed while reviewing Chapter 7.
+From 0ab1a7f060fe89570a189e481e11bd2f16f23a7e Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 4 Sep 2016 00:12:28 +0900
+Subject: [PATCH] More hyphenation of long compound word
 
-All applied, thank you!
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ locking/locking.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I followed up patch 1 with a few "line N" and "Line N" changes in those
-same files as well.
+diff --git a/locking/locking.tex b/locking/locking.tex
+index 48a3520..c5e45bf 100644
+--- a/locking/locking.tex
++++ b/locking/locking.tex
+@@ -1068,7 +1068,7 @@ Even assuming perfect scalability, \emph{one hundred} CPUs would
+ be required to keep up with a single CPU executing the same code
+ without locking.
 
-							Thanx, Paul
-
->                                                   Thanks, Akira
-> 
-> Akira Yokosawa (3):
->   treewide: Use nbsp after 'Lines' and 'lines'
->   appendix/rcuimpl: Adjust plurality of verb
->   locking: Typo fixes
-> 
->  appendix/questions/after.tex         |  4 +--
->  appendix/rcuimpl/rcutreewt.tex       |  8 +++---
->  appendix/rcuimpl/srcu.tex            |  2 +-
->  appendix/whymb/whymemorybarriers.tex |  2 +-
->  datastruct/datastruct.tex            |  2 +-
->  formal/dyntickrcu.tex                |  2 +-
->  formal/spinhint.tex                  | 56 ++++++++++++++++++------------------
->  locking/locking.tex                  |  8 +++---
->  toolsoftrade/toolsoftrade.tex        |  2 +-
->  9 files changed, 43 insertions(+), 43 deletions(-)
-> 
-> -- 
-> 1.9.1
-> 
+-This situation underscores the synchronization-granularity
++This situation underscores the synchronization\-/granularity
+ tradeoff discussed in Section~\ref{sec:SMPdesign:Synchronization Granularity},
+ especially Figure~\ref{fig:SMPdesign:Synchronization Efficiency}:
+ Too coarse a granularity will limit scalability, while too fine a
+-- 
+1.9.1
 
