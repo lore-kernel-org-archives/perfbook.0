@@ -1,99 +1,134 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35848 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1756339AbcIFOJL (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 6
- Sep 2016 10:09:11 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id u86E7eBd085226
- for <perfbook@vger.kernel.org>; Tue, 6 Sep 2016 10:09:11 -0400
-Received: from e38.co.us.ibm.com (e38.co.us.ibm.com [32.97.110.159]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 259xwbhru2-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
- 06 Sep 2016 10:09:11 -0400
-Received: from localhost by e38.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 6 Sep 2016
- 08:09:08 -0600
-Date: Tue, 6 Sep 2016 07:09:05 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2] treewide: Add \noindent where necessary
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <7080142c-a8de-3fb8-c7e0-de2939730beb@gmail.com>
- <309e736b-ba53-5e55-ea23-8fc69959375c@gmail.com>
- <20160906120126.GG3663@linux.vnet.ibm.com>
- <a05f42f5-b7e2-725a-2332-b178f2310cd2@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=KBqZbo+VMyO2DVnpzDNSlux5RlxQOoF0DOLkOngiQw8=;
+ b=fcAfIaN9lR6a+ZO9nyKowYT6NdwkAayxGDY98a+AqxpZtPm3FfsPvCZIWF4k8DFcjy
+ 4Q58FTC6Mm486ue2Kqp3cW715/t0D35nAECP17ca9FJAIzNCHI2g3Sx+njwsYEPC+56F
+ BYDT28YXBFALKiGZGvmfEbYupuzEZrIjzwug87JqnpYd3fZ8bPvdX87jfjfEUCJQ9wR4
+ uvC7CUncnd3kfv+rNyBYm7Y+Te0VNKWCh9I+n50TZoN+0Eo9lKL4TAhFSLXCqtJkg1zU
+ Pt9/9c8w7k4FfAwaTqYhYo0DpGj/fPu1O+10W2lQzGd9lmmvoumcIhemZxGRXWWorbnq
+ LS8Q==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] TRIAL: Indentation tweaks around 'verbbox' environment
+Message-ID: <b76692c9-330c-2531-67dd-b7f445644227@gmail.com>
+Date: Thu, 8 Sep 2016 00:47:57 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a05f42f5-b7e2-725a-2332-b178f2310cd2@gmail.com>
-Message-Id: <20160906140905.GH3663@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Sep 06, 2016 at 10:18:53PM +0900, Akira Yokosawa wrote:
-> On 2016/09/06 21:01, Paul E. McKenney wrote:
-> > On Tue, Sep 06, 2016 at 08:17:29PM +0900, Akira Yokosawa wrote:
-> >> On 2016/09/05 23:47:56 +0900, Akira Yokosawa wrote:
-> >>> >From 3590a93264e8497f5464397de1644076cd28f467 Mon Sep 17 00:00:00 2001
-> >>> From: Akira Yokosawa <akiyks@gmail.com>
-> >>> Date: Sun, 4 Sep 2016 08:01:50 +0900
-> >>> Subject: [PATCH v2] treewide: Add \noindent where necessary
-> >>>
-> >>> When there is some environment definition just after a section
-> >>> heading, the implicit non-indentation of first paragraph is lost.
-> >>>
-> >>> This seems inconsistent.
-> >>>
-> >>> This commit adds "\noindent"s just before such first paragraphs
-> >>> to recover the non-indentation.
-> >>>
-> >>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> >>
-> >> Hi Paul,
-> >>
-> >> I'd like to retract this patch.
-> >> I suppose you don't like explicit \noindent in the text either.
-> >>
-> >> I prefer fixing the position of first paragraphs in the latex source.
-> >> That might cause the variation in position of floating figures, but
-> >> should be acceptable.
-> >>
-> >> What do you think?
-> > 
-> > My first thought was "just make the environment do it", thinking that
-> > this was of of the origpub macros.
-> > 
-> > Another thought is to forbid use of floating figures immediately after
-> > section headers.  That would be a bit of an ugly change, but much easier
-> > to maintain against changing LaTeX versions.
-> > 
-> > I am mostly working on code, so now is a good time for invasive changes
-> > like this, but I do want to avoid the current change just resulting in
-> > the need for many future changes.  Especially given differences between
-> > different formatting options.  ;-)
-> 
-> Indeed.
-> 
-> About the origpub macro involved in one of the hunks, if you replace it
-> with standard \label{}, the paragraph under the figure is still indented.
-> 
-> Regarding the figure itself as a paragraph, the paragraph under it is
-> the second one and indentation should be expected.
-> 
-> Addition of \noindent there was unnecessary from the beginning.
-> 
-> The other hunks are all related to the "verbbox" environment, which I
-> introduced.  That means I'm shooting myself in the foot... 
-> 
-> So moving floating figures seems to be necessary only when they are
-> related to "verbbox".
-> 
-> It would be even better if we can fix the side-effect of "verbbox"
-> environment. Let me seek this approach first.
+From 480c37c4749ae4957791636e84e77566265613c2 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Thu, 8 Sep 2016 00:20:29 +0900
+Subject: [PATCH] TRIAL: Indentation tweaks around 'verbbox' environment
 
-Sounds good to me!
+This is a trial commit to avoid the side-effect of the "verbbox"
+environment, i.e., when it is used just after a section heading,
+the following paragraph loses implicit non-indentation.
 
-							Thanx, Paul
+This commit moves such a "verbbox" environment *before* the section
+heading.
+
+There are also cases where two "verbbox" environments are placed just
+after section headings. To accommodate such cases, one of such
+"verbbox" need to be replaced with "myverbbox" environment to give
+another temporary verbatimbox content holder.
+
+This commit includes an example of such a case.
+
+Note that the "myverbbox" environment is provided in recent versions
+of the "verbatimbox" package, namely after v3.0.
+
+If you have older versions of "verbatimbox" package, you need to
+update. Also the newer one requires the "readarray" package.
+
+Please make sure you have those required packages.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ defer/toyrcu.tex | 31 +++++++++++++++++--------------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
+
+diff --git a/defer/toyrcu.tex b/defer/toyrcu.tex
+index cd334ed..01da2cc 100644
+--- a/defer/toyrcu.tex
++++ b/defer/toyrcu.tex
+@@ -30,9 +30,6 @@ and free-running counters.
+ Finally, Section~\ref{defer:Summary of Toy RCU Implementations}
+ provides a summary and a list of desirable RCU properties.
+
+-\subsubsection{Lock-Based RCU}
+-\label{defer:Lock-Based RCU}
+-
+ { \scriptsize
+ \begin{verbbox}
+   1 static void rcu_read_lock(void)
+@@ -52,6 +49,10 @@ provides a summary and a list of desirable RCU properties.
+  15 }
+ \end{verbbox}
+ }
++
++\subsubsection{Lock-Based RCU}
++\label{defer:Lock-Based RCU}
++
+ \begin{figure}[bp]
+ \centering
+ \theverbbox
+@@ -434,9 +435,6 @@ suitable for a high-stress debugging environment.
+ The next section describes a variation on the reference-counting
+ scheme that is more favorable to writers.
+
+-\subsubsection{Starvation-Free Counter-Based RCU}
+-\label{defer:Starvation-Free Counter-Based RCU}
+-
+ { \scriptsize
+ \begin{verbbox}
+   1 DEFINE_SPINLOCK(rcu_gp_lock);
+@@ -446,15 +444,9 @@ scheme that is more favorable to writers.
+   5 DEFINE_PER_THREAD(int, rcu_read_idx);
+ \end{verbbox}
+ }
+-\begin{figure}[tbp]
+-\centering
+-\theverbbox
+-\caption{RCU Global Reference-Count Pair Data}
+-\label{fig:defer:RCU Global Reference-Count Pair Data}
+-\end{figure}
+
+ { \scriptsize
+-\begin{verbbox}
++\begin{myverbbox}{\verbboxa}
+   1 static void rcu_read_lock(void)
+   2 {
+   3   int i;
+@@ -483,11 +475,22 @@ scheme that is more favorable to writers.
+  26   }
+  27   __get_thread_var(rcu_nesting) = n - 1;
+  28 }
+-\end{verbbox}
++\end{myverbbox}
+ }
++
++\subsubsection{Starvation-Free Counter-Based RCU}
++\label{defer:Starvation-Free Counter-Based RCU}
++
+ \begin{figure}[tbp]
+ \centering
+ \theverbbox
++\caption{RCU Global Reference-Count Pair Data}
++\label{fig:defer:RCU Global Reference-Count Pair Data}
++\end{figure}
++
++\begin{figure}[tbp]
++\centering
++\verbboxa
+ \caption{RCU Read-Side Using Global Reference-Count Pair}
+ \label{fig:defer:RCU Read-Side Using Global Reference-Count Pair}
+ \end{figure}
+-- 
+1.9.1
 
