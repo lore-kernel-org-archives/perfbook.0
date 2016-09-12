@@ -1,60 +1,156 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=oeYEF9IjCZKydSnmDz6PJiDGfCmPnu8vTkHdachiLx4=;
- b=dHQZGY3k8uF+mlzQHvOMDW2fQ99z22rJYJ+35ZtvVzgWES3YnoC/JfI5iFuD1qmOPK
- Y2bjGB9BRvCWYT99NncDVVCmX1x5gp+y1/zenHpFbQKjOHKVJ3nQJP0qWQ059jcdkpkJ
- jmOwuBT2sgEaHeLmV1sLE2QyY/wx2+07eVtsBnLitMSfz6FpA2RdUDBDP00MlTDTA6Ae
- SuTfXbhEzKJbAKwVzEUOVV5sWKvtcfi6uib0a5CblwI+L5tf9bmggV/Q1QJAxACk4XGk
- sglqIuyFaOTGC004mmNIfEZw7QieprEubDESw/evuAJ9eUZqDGxGSaEMNvGgqwJKsl/p
- 2lMA==
-Subject: Re: [RFC PATCH] toyrcu: Enclose 'verbbox' within 'figure'
-References: <b76692c9-330c-2531-67dd-b7f445644227@gmail.com>
- <017bdee4-c318-f7f5-95bf-b213b4df86e5@gmail.com>
- <20160908111622.GM3663@linux.vnet.ibm.com>
- <ed8f9798-0ff5-7d96-ef30-b2157af7c4fd@gmail.com>
- <20160910162819.GV32751@linux.vnet.ibm.com>
- <0e40a631-1b13-865a-412b-3e50b532308f@gmail.com>
- <20160912144911.GF3851@linux.vnet.ibm.com>
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=vPq2RHWV7l9kd3zm09fZs8zKnqjA35zplbVWf6Uh/pI=;
+ b=PafxKqz2Qk+54+fWczYe9UpSolh14fKx35sbMe33KCUenx98hRrWaTMkbuPQVl/76U
+ zgC4NCw9B30z/Jk6e/5NrmT6d+pS0DicBlxSo4TerPIg2t9QsmwpB6WPRffGjfvgjkiK
+ nWJgmWDffwtje7qBxF5Jw+YJYBp/gnU7hoC6+q2ZcyVyR5JrNataUzyipeww17c+e2LS
+ vgxJ+B1IOR7kqrnHge1H6qm2Rr0xJDU2eoFk7K6bqy/GPQaMuH4AiPmT1N8O9TH2CmER
+ R383cHknoHfE/PJXWTzkrMeJwibyj/RbZixN4QcUJTbPDefbl5AO9OwL5Je26yRsJAsw
+ vXjQ==
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <dc704946-85f3-16dd-c6fc-4a5dcb039dbd@gmail.com>
-Date: Tue, 13 Sep 2016 00:05:39 +0900
+Subject: [PATCH] Add scripts to check 'verbbox' env usage
+Message-ID: <9188d6a7-2735-ef7a-68da-bac8bb531cb7@gmail.com>
+Date: Tue, 13 Sep 2016 00:08:11 +0900
 MIME-Version: 1.0
-In-Reply-To: <20160912144911.GF3851@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=iso-2022-jp
 Content-Transfer-Encoding: 7bit
-To: paulmck@linux.vnet.ibm.com
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2016/09/12 07:49:11 -0700, Paul E. McKenney wrote:
-> On Sun, Sep 11, 2016 at 11:49:13AM +0900, Akira Yokosawa wrote:
->> >From 1cbac7a606ed336367529414512d84005f92bf1f Mon Sep 17 00:00:00 2001
->> From: Akira Yokosawa <akiyks@gmail.com>
->> Date: Sun, 11 Sep 2016 11:33:33 +0900
->> Subject: [RFC PATCH] toyrcu: Enclose 'verbbox' within 'figure'
->>
->> Bare "verbbox" environment just after a section heading causes
->> the "afterheading"-ness of the first paragraph.
->> By enclosing the "verbbox" by a "figure" environment, we can
->> avoid the side-effect.
->>
->> This commit does the enclosing by moving \begin{figure} ahead of
->> \begin{verbbox}.
->>
->> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> 
-> Much better!  Applied, thank you!
+From 177cdd60c2cfe8798547ad260bb821feeb896133 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 12 Sep 2016 23:39:22 +0900
+Subject: [PATCH] Add scripts to check 'verbbox' env usage
 
-Thanks for applying this.
-I'll do tree-wide modifications and submit them as a pull request.
-Before doing it, I've made a set of scripts to find modification 
-candidate. I'm sending them as a patch. They can be used later
-to check if any wrong pattern of "verbbox" env might have sneaked in.
+This commit adds scripts to search modification candidates
+for enclosing "verbbox" environment within "figure" environment.
 
-                                                   Thanks, Akira 
-> 
-> 							Thanx, Paul
-> 
+At the top of perfbook directory, the command
+
+$ sh utilities/doverbboxcheck.sh
+
+will show \begin{figure} statements to be moved ahead of
+"verbbox" environment.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ utilities/doverbboxcheck.sh | 36 +++++++++++++++++++++++++++
+ utilities/verbboxcheck.pl   | 59 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 95 insertions(+)
+ create mode 100644 utilities/doverbboxcheck.sh
+ create mode 100644 utilities/verbboxcheck.pl
+
+diff --git a/utilities/doverbboxcheck.sh b/utilities/doverbboxcheck.sh
+new file mode 100644
+index 0000000..2801bf1
+--- /dev/null
++++ b/utilities/doverbboxcheck.sh
+@@ -0,0 +1,36 @@
++#!/bin/sh
++#
++# Apply verbboxcheck.pl for all .tex files
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, you can access it online at
++# http://www.gnu.org/licenses/gpl-2.0.html.
++#
++# Copyright (C) Akira Yokosawa, 2016
++#
++# Authors: Akira Yokosawa <akiyks@gmain.com>
++
++# check if companion script exists
++if ! test -e utilities/verbboxcheck.pl
++then
++	echo "utilities/verrboxcheck.pl not found."
++	exit 1
++fi
++texfiles=`find . -name '*.tex' -print`
++for i in $texfiles
++do
++	basename="${i%.tex}"
++#	echo $basename
++	perl ./utilities/verbboxcheck.pl $basename.tex
++done
++
+diff --git a/utilities/verbboxcheck.pl b/utilities/verbboxcheck.pl
+new file mode 100644
+index 0000000..976a41f
+--- /dev/null
++++ b/utilities/verbboxcheck.pl
+@@ -0,0 +1,59 @@
++#!/usr/bin/perl
++#
++# Check usage pattern of "verbbox" environment
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, you can access it online at
++# http://www.gnu.org/licenses/gpl-2.0.html.
++#
++# Copyright (C) Akira Yokosawa, 2016
++#
++# Authors: Akira Yokosawa <akiyks@gmail.com>
++
++my $line_now;
++my $line_prev;
++my $line_prev_prev;
++my $in_figure = 0;
++my $interval = 0;
++my $line_num;
++my $fig_line;
++my $fig_line_num;
++my $infile = $ARGV[0];
++
++$line_prev_prev = <>;
++$line_prev = <>;
++$line_now = <>;
++$line_num = 3;
++
++while($line_now) {
++    if ($in_figure == 1) {
++	if ($line_now =~ /\\theverbbox/) {
++	    print "$infile:$fig_line_num:$fig_line";
++	    $in_figure = 0;
++	}
++	$interval++;
++    }
++    if ($line_now =~ /\\begin\{figure\}/) {
++	$in_figure = 1;
++	$fig_line = $line_now;
++	$fig_line_num = $line_num;
++    }
++    if ($interval > 3) {
++	$in_figure = 0;
++	$interval = 0;
++    }
++    $line_prev_prev = $line_prev;
++    $line_prev = $line_now;
++    $line_now = <>;
++    $line_num++;
++}
+-- 
+1.9.1
 
