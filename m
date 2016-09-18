@@ -1,84 +1,50 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50363 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1755204AbcIMPwV (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Tue, 13 Sep 2016 11:52:21 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id u8DFmIOi004005
- for <perfbook@vger.kernel.org>; Tue, 13 Sep 2016 11:52:20 -0400
-Received: from e38.co.us.ibm.com (e38.co.us.ibm.com [32.97.110.159]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 25eh21d4kn-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
- 13 Sep 2016 11:52:20 -0400
-Received: from localhost by e38.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 13 Sep
- 2016 09:52:20 -0600
-Date: Tue, 13 Sep 2016 08:52:18 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [GIT PULL] treewide: Enclose 'verbbox' within 'figure'
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <00a15c91-6d25-4136-e72e-6c00ff0ed57e@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=5jt6pVRDPtIgNpYqd5exTCUKWjZtvknk0GG7j5jmRpg=;
+ b=XtrExy7qPy00PnBZ9FV9cad3fStG4z7hsKGVb0EJXZeKW0C7GQCLk+xFB10BqB8X9R
+ 1cVb4BE+QpEmoYV5sQJJO6RBvHcNGOsxxWu2gAWS1/8KJMCDvuhJHOitqMKQfYFUyvQ4
+ QGkuK5Gaj+0MZADwBx5BHmD7+QZkmD72mgCO5+KIhoVJpf3U2WfMzKELDObLW4Oj0+s2
+ XNQR88a8OujY2sAWQu2g8QVx3GKeKIkpKCJOpd9HyOr9Hc9aU7vRsmIyufEG3MhnpM7B
+ WSYluan7ekBz6TQEr2iT4uDPcXqudL3FkT5iCr4hyVIUAnWAGip7Moob4S5Jl11RweM7
+ cf7g==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/2] Add rules in hyphen2endash.sh
+Message-ID: <2247f46e-3c0a-89a5-f13f-b9ba591bc570@gmail.com>
+Date: Sun, 18 Sep 2016 23:24:42 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <00a15c91-6d25-4136-e72e-6c00ff0ed57e@gmail.com>
-Message-Id: <20160913155218.GK3851@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Sep 14, 2016 at 12:21:53AM +0900, Akira Yokosawa wrote:
-> The following changes since commit 13fd84a696ca3951b5a2c2d15b524cf898c9400e:
-> 
->   Add scripts to check 'verbbox' env usage (2016-09-13 07:05:06 -0700)
-> 
-> are available in the git repository at:
-> 
->   https://github.com/akiyks/perfbook.git enclose-verbbox-in-figure-v2
-> 
-> for you to fetch changes up to a9fe7df2efbc785602351e8fd9f26b0a683f6b9f:
-> 
->   treewide: Enclose 'verbbox' within 'figure' (2016-09-14 00:02:53 +0900)
+From ec548ecfa8846f40731a0945853d3ac9018b4d71 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 18 Sep 2016 23:09:34 +0900
+Subject: [PATCH 0/2] Add rules in hyphen2endash.sh
 
-Pulled, thank you!
+This is an update of scripts added in commit dd08907f289d
+("Trial of replacing hyphens with en-dashes for number ranges").
 
-							Thanx, Paul
+1st patch adds patterns for the following:
+  o CPUs~nn--mm
+  o \co{xxx}--\co{yyy}
 
-> ----------------------------------------------------------------
-> Akira Yokosawa (1):
->       treewide: Enclose 'verbbox' within 'figure'
-> 
->  SMPdesign/SMPdesign.tex              | 16 ++++++-------
->  SMPdesign/beyond.tex                 |  8 +++----
->  SMPdesign/partexercises.tex          |  6 ++---
->  advsync/advsync.tex                  |  2 +-
->  advsync/memorybarriers.tex           |  4 ++--
->  appendix/primitives/primitives.tex   | 10 ++++----
->  appendix/questions/after.tex         |  4 ++--
->  appendix/whymb/whymemorybarriers.tex |  4 ++--
->  count/count.tex                      | 44 ++++++++++++++++++------------------
->  datastruct/datastruct.tex            | 28 +++++++++++------------
->  debugging/debugging.tex              |  4 ++--
->  defer/defer.tex                      |  2 +-
->  defer/hazptr.tex                     |  6 ++---
->  defer/rcuapi.tex                     |  4 ++--
->  defer/rcufundamental.tex             | 10 ++++----
->  defer/rcuusage.tex                   | 16 ++++++-------
->  defer/refcnt.tex                     |  4 ++--
->  defer/seqlock.tex                    | 10 ++++----
->  formal/axiomatic.tex                 |  4 ++--
->  formal/dyntickrcu.tex                | 16 ++++++-------
->  formal/ppcmem.tex                    |  8 +++----
->  formal/spinhint.tex                  | 30 ++++++++++++------------
->  future/htm.tex                       |  2 +-
->  locking/locking-existence.tex        |  4 ++--
->  locking/locking.tex                  | 16 ++++++-------
->  rt/rt.tex                            |  8 +++----
->  together/applyrcu.tex                | 12 +++++-----
->  together/refcnt.tex                  |  8 +++----
->  toolsoftrade/toolsoftrade.tex        | 16 ++++++-------
->  29 files changed, 153 insertions(+), 153 deletions(-)
-> 
+It also fixes typo in the authors email address.
+
+2nd patch merges several rules by using "[abc]" regex patterns.
+
+Akira Yokosawa (2):
+  hyphen2endash.sh: Add substitution patterns
+  hyphen2endash.sh: Merge subst patterns
+
+ utilities/dohyphen2endash.sh |  2 +-
+ utilities/hyphen2endash.sh   | 23 +++++++++++------------
+ 2 files changed, 12 insertions(+), 13 deletions(-)
+
+-- 
+1.9.1
 
