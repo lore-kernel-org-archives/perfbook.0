@@ -2,49 +2,59 @@ Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Lx6i8c/xPe36pm8sCiNDTJJeMMNdOtltFE5XYdqix/g=;
- b=0JqmqDTnQmQKM9UbPWu/eyzyiNh/HUyw3xghS2ff06UfUAnd/yUw91py3a1dHaSqii
- VGsM7Mhsg+ZXz1V/TVRgH9vpJr1BBj5fyKFuLHW0sw9PLv192la6rJ6+xTm5gjfq00sl
- sav41vIYJgGZo1H6HTM6Rw56xUenCw7iFJk8vZ52GtppKoJBo7vXAU6l8prMJeNkQWYF
- WT3q0vIiHwq9AgGPrYrebYYkpKQvqHq7KV0JP64YNVkLeh9y6AL72NjmZwskfNba/LkB
- 5c4z5gIJ4Lzo9wV/MUX5tTlJ0980upyegzgxezeD2qo1QeFYs5oKZFbxSwYS2irT3QiT
- 8U0A==
+ bh=No1vBurEKlN3N/b3effu863uFri9Zhcq7bqSU7P3A0I=;
+ b=zJnwPZ7ZS/3lMHKS1fmpl/x4+pROWH4rvChqsumbh2OoTjdk/uf+0swTL4uP1atH2H
+ NOur23ZttnDjSdVU3539gojEtW5qXA9dzCJqB5B0mJUCWIU4anwpc/JEmtIYpBxJsCRF
+ OF5KZ+xx/zRwwf/OOTlogQLp+d2r55NN+SWXoPF0nqMaTmFta1JtXxNUZHyxcfhsxAOm
+ 5PAcVWIiysoQBOAz6ViWkKokejlv+aLJUU6z85OQY+bOdSYXHFPG9s5AoqdoE7XSbfm/
+ cga8DfLDWScPX8ZSvsKh1L8I7KIUyMHSxKoalXb188d4DWERtNMXNe4cvd0fRqCRmTSa
+ HY5Q==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH v2] formal/dyntickrcu: Fix typos
-Date: Wed, 21 Sep 2016 22:01:57 +0900
-Message-Id: <20160921130157.9244-1-sj38.park@gmail.com>
-In-Reply-To: 
- <CAEjAshq0mtEeqefxyS5mvgbJB5iW9sD6Z2cNTc7X3W7jfT2nRg@mail.gmail.com>
-References: 
- <CAEjAshq0mtEeqefxyS5mvgbJB5iW9sD6Z2cNTc7X3W7jfT2nRg@mail.gmail.com>
-To: akiyks@gmail.com, paulmck@linux.vnet.ibm.com
+Subject: [PATCH 10/17] formal/dyntickrcu: Fix wrong line number quotation
+Date: Wed, 21 Sep 2016 11:44:41 +0900
+Message-Id: <20160921024448.24744-11-sj38.park@gmail.com>
+In-Reply-To: <20160921024448.24744-1-sj38.park@gmail.com>
+References: <20160921024448.24744-1-sj38.park@gmail.com>
+To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Suggested-by: Akira Yokosawa <akiyks@gmail.com>
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
  formal/dyntickrcu.tex | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
-index 5ede587..bbbdb18 100644
+index 1d3e155..a36901e 100644
 --- a/formal/dyntickrcu.tex
 +++ b/formal/dyntickrcu.tex
-@@ -886,10 +886,10 @@ results in failure, as line~23 is checking that the wrong variable
- is even.
- Upon failure, \co{spin} writes out a
- ``trail'' file
--(\path{dyntickRCU-base-sl-busted.spin.trail})
--file, which records the sequence of states that lead to the failure.
-+(\path{dyntickRCU-base-sl-busted.spin.trail}),
-+which records the sequence of states that lead to the failure.
- Use the {\tt spin -t -p -g -l dyntickRCU-base-sl-busted.spin}
--command to cause \co{spin} to retrace this sequence of state,
-+command to cause \co{spin} to retrace this sequence of states,
- printing the statements executed and the values of variables
- (\path{dyntickRCU-base-sl-busted.spin.trail.txt}).
- Note that the line numbers do not match the listing above due to
+@@ -1098,7 +1098,7 @@ The first step is to convert \co{dyntick_nohz()} to
+ }
+
+ It is important to note that when a group of statements is passed
+-to \co{EXECUTE_MAINLINE()}, as in lines~11-14, all
++to \co{EXECUTE_MAINLINE()}, as in lines~12-15, all
+ statements in that group execute atomically.
+
+ \QuickQuiz{}
+@@ -1216,7 +1216,7 @@ to model an interrupt handler:
+ }
+
+ The loop from lines~7-48 models up to \co{MAX_DYNTICK_LOOP_IRQ}
+-interrupts, with lines~8 and~9 forming the loop condition and line~45
++interrupts, with lines~8 and~9 forming the loop condition and line~46
+ incrementing the control variable.
+ Line~10 tells \co{dyntick_nohz()} that an interrupt handler
+ is running, and line~45 tells \co{dyntick_nohz()} that this
+@@ -2046,7 +2046,7 @@ Otherwise, the two functions increment \co{dynticks_nmi}, with
+ \co{rcu_nmi_enter()} leaving it with an odd value and \co{rcu_nmi_exit()}
+ leaving it with an even value.
+ Both functions execute memory barriers between this increment
+-and possible RCU read-side critical sections on lines~11 and~21,
++and possible RCU read-side critical sections on lines~10 and~20,
+ respectively.
+
+ \subsubsection{Interrupts From Dynticks-Idle Mode}
 -- 
 2.10.0
 
