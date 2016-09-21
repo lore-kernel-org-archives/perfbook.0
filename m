@@ -2,70 +2,50 @@ Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4M6/xwfrPn5aC0P8QqqXXC0CoXsSNQBS4bKO2XlX4Es=;
- b=AZQhGItO8SnvGgcuh/MxUp9v1pHCVs3WLvw7dCPrcdh5DZtwKfnY8K+FgTxFXCPULs
- P3p7d6vKByo+uloMS4yy5p0sSIBl+c1tgUNUSssbIyCKT7XQ2AV8zQTxWyb/KRk5/fMF
- +0vlMABjF2pNDw5W3rLTLsfw2w05NCfwuHOtOjo7eacAG5mpcpVC8Kw9xIhYiztS5qd+
- IFDhcMZLHEF3/t/+5J8IPdoXjy1Cc1naNseDzdkU02FSVaMsrdBDuOqGGx8GP5kiqtWb
- SD3ohkaLziijSKaybA9KYNK28NLx56Y257B5+3q4imOEXOWbSgAPo1Q4A0YV5STgRU0u
- V81Q==
+ bh=5BfoXSE6PkP+WVAJS1rFj3KEHJtNh/Hf8DrnKEE+T0o=;
+ b=u04cMqB6fBGFZxz9Umz+ENvBKHceP9xJNveW7JjCpr/GahS5kAd2/rEmidCicFxWBM
+ 2Rz6gPwBa+VqEJJHhdZv7rJp+2broJnJ7Sy7C/G6futEZHLicfbP8DpALNMta7dMw41n
+ 4JiJ27/zDgWgk6N/RqQoy6MkH+QLmoJFnbp4y1rNNHkIZc0/bzAlR2/OQp8J+lgHn/Ga
+ JXxEWvWEqnP8lT9NC+aup55zezxXdz27vhskTaSOAaC1nOQa3/2Ek5g2+wAQZ4DDCW4Y
+ 2889hS+p+agVedcKCC1uR2Ogan7p1sQhQTz4+o5EyAwnZR4PybnDmdsMv1reXkkwLyNU
+ oqMQ==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 02/17] formal/spinhint: Add missing NBSPs
-Date: Wed, 21 Sep 2016 11:44:33 +0900
-Message-Id: <20160921024448.24744-3-sj38.park@gmail.com>
+Subject: [PATCH 03/17] formal/spinhint: Fix typos
+Date: Wed, 21 Sep 2016 11:44:34 +0900
+Message-Id: <20160921024448.24744-4-sj38.park@gmail.com>
 In-Reply-To: <20160921024448.24744-1-sj38.park@gmail.com>
 References: <20160921024448.24744-1-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-This commit adds missing non-breakable spaces.
-
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- formal/spinhint.tex | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ formal/spinhint.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-index 10f6263..7787ed8 100644
+index 7787ed8..e91d458 100644
 --- a/formal/spinhint.tex
 +++ b/formal/spinhint.tex
-@@ -738,7 +738,7 @@ havelock array entry on line~26, starts the current locker on
- line~27, and advances to the next locker on line~28.
- Once all locker processes are spawned, the do-od loop
- moves to line~29, which checks the assertion.
--Lines 30 and 31 initialize the control variables,
-+Lines~30 and~31 initialize the control variables,
- lines~32-40 atomically sum the havelock array entries,
- line~41 is the assertion, and line~42 exits the loop.
+@@ -422,7 +422,7 @@ Given a source file \path{qrcu.spin}, one can use the following commands:
+ 	you.
 
-@@ -1009,7 +1009,7 @@ of the pair and sums them.
- The atomic block consists of a single do-od statement.
- This do-od statement (spanning lines~3-12) is unusual in that
- it contains two unconditional
--branches with guards on lines 4 and 8, which causes Promela to
-+branches with guards on lines~4 and~8, which causes Promela to
- non-deterministically choose one of the two (but again, the full
- state-space search causes Promela to eventually make all possible
- choices in each applicable situation).
-@@ -1107,7 +1107,7 @@ re-invoke \co{sum_unordered} if the fastpath is potentially
- usable.
+ 	Don't forget to capture the output, especially
+-	if you are working on a remote machine,
++	if you are working on a remote machine.
 
- Lines~28-40 execute the slowpath code if need be, with
--lines 30 and 38 acquiring and releasing the update-side lock,
-+lines~30 and~38 acquiring and releasing the update-side lock,
- lines~31-33 flipping the index, and lines~34-37 waiting for
- all pre-existing readers to complete.
+ 	If your model includes forward-progress checks, you will likely
+ 	need to enable ``weak fairness'' via the \co{-f} command-line
+@@ -594,7 +594,7 @@ The following tricks can help you to abuse Promela safely:
+ 	Because each statement contributes to state, we can reduce
+ 	the number of useless states by enclosing it in an \co{atomic}
+ 	block as shown in
+-	Figure~\ref{fig:analysis:Atomic Block for Complex Promela Assertion}
++	Figure~\ref{fig:analysis:Atomic Block for Complex Promela Assertion}.
 
-@@ -1374,7 +1374,7 @@ Is QRCU really correct?
- We have a Promela-based mechanical proof and a by-hand proof that both
- say that it is.
- However, a recent paper by Alglave et al.~\cite{JadeAlglave2013-cav}
--says otherwise (see Section 5.1 of the paper at the bottom of page 12).
-+says otherwise (see Section~5.1 of the paper at the bottom of page~12).
- Which is it?
-
- I do not know, as I never have been able to track down the code in which
+ \item	Promela does not provide functions.
+ 	You must instead use C preprocessor macros.
 -- 
 2.10.0
 
