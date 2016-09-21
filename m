@@ -2,17 +2,17 @@ Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=5BfoXSE6PkP+WVAJS1rFj3KEHJtNh/Hf8DrnKEE+T0o=;
- b=u04cMqB6fBGFZxz9Umz+ENvBKHceP9xJNveW7JjCpr/GahS5kAd2/rEmidCicFxWBM
- 2Rz6gPwBa+VqEJJHhdZv7rJp+2broJnJ7Sy7C/G6futEZHLicfbP8DpALNMta7dMw41n
- 4JiJ27/zDgWgk6N/RqQoy6MkH+QLmoJFnbp4y1rNNHkIZc0/bzAlR2/OQp8J+lgHn/Ga
- JXxEWvWEqnP8lT9NC+aup55zezxXdz27vhskTaSOAaC1nOQa3/2Ek5g2+wAQZ4DDCW4Y
- 2889hS+p+agVedcKCC1uR2Ogan7p1sQhQTz4+o5EyAwnZR4PybnDmdsMv1reXkkwLyNU
- oqMQ==
+ bh=xWDkHZYYB597sqlaR81RFIVjnxTjyYFOe/XN/fUEhQE=;
+ b=BO034aair6FSPZG0GDyp7jxUgrJVdtonLcuR710Exo3EWG/16029oJtcQhYgGBjiBZ
+ YsDea32vJQKo9R92wPpKh0tdy4OYc3quGtxG9RKaL5DuL2ZyodjmsSYbiEWWvFq9+hUb
+ jcOHOa7YndoNKdqSrBtv/wzTfxXtWICg2b4FHfSxtTwCf724v5DAxHoY0YspI+DI6moF
+ pD7vx5qBPO5rDrJ4g43eY8I1eEni1NaxHjzF5+rcn6CZzihSOKlBDnmlNQKLiqGJyARA
+ QAKlUAxwD1VuORC82cChf3q1YSagciW3TBB2nEVanSuYnEhUhgdj25UoYozfMB79ob7P
+ eauA==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 03/17] formal/spinhint: Fix typos
-Date: Wed, 21 Sep 2016 11:44:34 +0900
-Message-Id: <20160921024448.24744-4-sj38.park@gmail.com>
+Subject: [PATCH 04/17] formal/spinhint: Use \path{} for file name quotation
+Date: Wed, 21 Sep 2016 11:44:35 +0900
+Message-Id: <20160921024448.24744-5-sj38.park@gmail.com>
 In-Reply-To: <20160921024448.24744-1-sj38.park@gmail.com>
 References: <20160921024448.24744-1-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
@@ -21,31 +21,22 @@ List-ID: <perfbook.vger.kernel.org>
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- formal/spinhint.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ formal/spinhint.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-index 7787ed8..e91d458 100644
+index e91d458..73ebe8e 100644
 --- a/formal/spinhint.tex
 +++ b/formal/spinhint.tex
-@@ -422,7 +422,7 @@ Given a source file \path{qrcu.spin}, one can use the following commands:
- 	you.
+@@ -409,7 +409,7 @@ Given a source file \path{qrcu.spin}, one can use the following commands:
+ 	This actually searches the state space.  The number of states
+ 	can reach into the tens of millions with very small state
+ 	machines, so you will need a machine with large memory.
+-	For example, qrcu.spin with 3 readers and 2 updaters required
++	For example, \path{qrcu.spin} with 3 readers and 2 updaters required
+ 	2.7GB of memory.
 
- 	Don't forget to capture the output, especially
--	if you are working on a remote machine,
-+	if you are working on a remote machine.
-
- 	If your model includes forward-progress checks, you will likely
- 	need to enable ``weak fairness'' via the \co{-f} command-line
-@@ -594,7 +594,7 @@ The following tricks can help you to abuse Promela safely:
- 	Because each statement contributes to state, we can reduce
- 	the number of useless states by enclosing it in an \co{atomic}
- 	block as shown in
--	Figure~\ref{fig:analysis:Atomic Block for Complex Promela Assertion}
-+	Figure~\ref{fig:analysis:Atomic Block for Complex Promela Assertion}.
-
- \item	Promela does not provide functions.
- 	You must instead use C preprocessor macros.
+ 	If you aren't sure whether your machine has enough memory,
 -- 
 2.10.0
 
