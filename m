@@ -2,17 +2,18 @@ Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=xWDkHZYYB597sqlaR81RFIVjnxTjyYFOe/XN/fUEhQE=;
- b=w+h5tndL6j7tJV8qczQVMVZA8d4KdW7ar+o7eeOi1qCpMPdj02LxXnNIw5MVf6zJFm
- XXcpP9aKl/uB5tYPtDkxJSOrcLeDvfTEcGmhf/izJOKgrmj3ko+Ma3D2tdMGwjTapx0I
- vlCl4Hc9JMouLhhYxm+rs1GIFA5JP3vo5cI0zXZNKdNlLRrE43EuWQjhppaCi3XC6K7K
- uoEDqz7zqa02jjWKJ/vTxAkNjUpW98l2fVcylxBzUffygMJlLpHNDnP2RmzeRztZIgMf
- NklSHxFoln2b8tLQd5JWNHM3D1sWgTiZakuBA+lOX7BztBu1/GK4ciVpJ9WYkZ1quhH9
- bnwA==
+ bh=cvGjbYzMCZiLOAL3mFZsXl0wG9wuJF4G6mEWMvRNAaw=;
+ b=g6ORsOvYB5/n99PN3n3rgI9oB6lnVLUx+p9kn/Bz0v1WWtm0gkJmKvCmfit5SbZ6gM
+ jDu07IyEQ2ApVxQLagg/Ld/XUUvb8ntsAkLKwPR+1PE2IpmE20BHuHQ/0t1Lnd94uMQ2
+ we4ee6YxwSblAK/I+jugwRFLPQyrMHSKvZkHGyPxUTakPqXJUFPCKFQHQR0tfkDfcIXe
+ 3DadQCvSQBjius/dnG/Y+e/q1lw6qB9ZlpAD55MbaKxd3G4nuaHi+89UnFe+L0vWjgnp
+ EEYnHRQet4zamsuAxuDm9h+JaH/TUvjE5/ImaODsq4jr+xeJS2VZOUmx7dqLd4B2QYNL
+ 0k5Q==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH v3 04/17] formal/spinhint: Use \path{} for file name quotation
-Date: Wed, 28 Sep 2016 06:56:28 +0900
-Message-Id: <20160927215641.7330-4-sj38.park@gmail.com>
+Subject: [PATCH v3 05/17] formal/spinhint: Use \co{} for variable quotation
+ consistently
+Date: Wed, 28 Sep 2016 06:56:29 +0900
+Message-Id: <20160927215641.7330-5-sj38.park@gmail.com>
 In-Reply-To: <20160927215641.7330-1-sj38.park@gmail.com>
 References: <20160927215641.7330-1-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
@@ -25,18 +26,18 @@ Signed-off-by: SeongJae Park <sj38.park@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-index e91d458..73ebe8e 100644
+index 73ebe8e..878fa61 100644
 --- a/formal/spinhint.tex
 +++ b/formal/spinhint.tex
-@@ -409,7 +409,7 @@ Given a source file \path{qrcu.spin}, one can use the following commands:
- 	This actually searches the state space.  The number of states
- 	can reach into the tens of millions with very small state
- 	machines, so you will need a machine with large memory.
--	For example, qrcu.spin with 3 readers and 2 updaters required
-+	For example, \path{qrcu.spin} with 3 readers and 2 updaters required
- 	2.7GB of memory.
+@@ -921,7 +921,7 @@ allows an assertion to determine when all the readers are finished
+ (since a QRCU update cannot be permitted to complete until all
+ pre-existing readers have completed their QRCU read-side critical
+ sections).
+-The readerprogress array elements have values as follows,
++The \co{readerprogress} array elements have values as follows,
+ indicating the state of the corresponding reader:
 
- 	If you aren't sure whether your machine has enough memory,
+ \begin{enumerate}
 -- 
 2.10.0
 
