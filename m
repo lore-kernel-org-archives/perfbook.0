@@ -2,17 +2,18 @@ Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=d4QLp8FPOxlAh7D4DNFypVfNm3jgTHGyEolTyL2baE8=;
- b=XLIvXGQ4c+Yh5rNl8AyLI7XZ9nKR1YKljdD4/pw6P21V/tWwz2VFays3zesLN2c5QS
- r5t0yIQ/QBW9Q4oA8tTm3n63EOEmb8Dd5n9H3K2kIO15WItzpngFBYLPJaTpP6af29O2
- t0xTH+TNMNwi6cHUdufUALstQHPJaW8OoqXiPqAD7gQXg4hcG5HLz9n2pApG/gLNd882
- K0rVzNRAkLkyEmJodx1QgzaUJJIzZoSug9RcJM0qMOSSf8atG7EoEXUQHCqdzS1LftfQ
- 8fCOO5ZZdpANgf4jI2GKqj9qTiZ/VfzHFLHJ0Kxl688xHxhxr1cweVW7Msl6L6XyyU4X
- olAQ==
+ bh=zwXh4BuGWAEucguXZXOCgAzxYjrwB2K/tAzN+GfIX1s=;
+ b=hfCpqjubWn7VtCs4vIYnkCcu/HzI6ey21vszrEGWHaUfQyT4X5Vnse1xaMzLXt8bMT
+ C2JW9TEtf0V4H1lr98FRiHE2+RUUPbk2Lzti2POGfRKetBFagjReUqdmPBGQZ0hDLA0r
+ fVgxQM2G+kk+l617JCSemz6hcYybk1vq/w6GyHkJr9D3Gyjmx6LIOQnZlbMy07//NFnL
+ 928C3nJW1SQTPIhmdfZ9rVaLpMr2bCJ1NaCNSbTOXrzoiuE05YxiJN2QCK1yup0AdVWf
+ 3z5EN0rqvQQInwGk7E9XytXhHgOC7BeJp7q2H/OD048nwKTzbje5hEOE9xk8DaLP1hSz
+ 0deA==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH v3 15/17] formal/ppcmem: Substitute `paper` with `chapter`
-Date: Wed, 28 Sep 2016 06:56:39 +0900
-Message-Id: <20160927215641.7330-15-sj38.park@gmail.com>
+Subject: [PATCH v3 16/17] formal/ppcmem: Polish a sentence by removing
+ unnecessary conjunction
+Date: Wed, 28 Sep 2016 06:56:40 +0900
+Message-Id: <20160927215641.7330-16-sj38.park@gmail.com>
 In-Reply-To: <20160927215641.7330-1-sj38.park@gmail.com>
 References: <20160927215641.7330-1-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
@@ -21,26 +22,22 @@ List-ID: <perfbook.vger.kernel.org>
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- formal/ppcmem.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ formal/ppcmem.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/formal/ppcmem.tex b/formal/ppcmem.tex
-index e33ba2f..743a891 100644
+index 743a891..7dc9675 100644
 --- a/formal/ppcmem.tex
 +++ b/formal/ppcmem.tex
-@@ -391,10 +391,10 @@ It is worth repeating that formal methods and tools are no substitute for
- testing. The fact is that producing large reliable concurrent software
- artifacts, the Linux kernel for example, is quite difficult. Developers
- must therefore be prepared to apply every tool at their disposal towards
--this goal. The tools presented in this paper are able to locate bugs that
-+this goal. The tools presented in this chapter are able to locate bugs that
- are quite difficult to produce (let alone track down) via testing. On the
- other hand, testing can be applied to far larger bodies of software than
--the tools presented in this paper are ever likely to handle. As always,
-+the tools presented in this chapter are ever likely to handle. As always,
- use the right tools for the job!
+@@ -233,7 +233,7 @@ The next section describes how to run this litmus test.
+ \subsection{Running a Litmus Test}
+ \label{sec:formal:Running a Litmus Test}
 
- Of course, it is always best to avoid the need to work at this level
+-Although litmus tests may be run interactively via
++Litmus tests may be run interactively via
+ \url{http://www.cl.cam.ac.uk/~pes20/ppcmem/}, which can help build an
+ understanding of the memory model.
+ However, this approach requires that the user manually carry out the
 -- 
 2.10.0
 
