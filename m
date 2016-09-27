@@ -1,70 +1,73 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55378 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S934685AbcI0QOS (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 27
- Sep 2016 12:14:18 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id u8RGDbrl071292
- for <perfbook@vger.kernel.org>; Tue, 27 Sep 2016 12:14:18 -0400
-Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 25qr13d7vb-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
- 27 Sep 2016 12:14:17 -0400
-Received: from localhost by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 27 Sep
- 2016 10:14:16 -0600
-Date: Tue, 27 Sep 2016 09:14:14 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2] formal/dyntickrcu: Adjust font size of sample code
-Reply-To: paulmck@linux.vnet.ibm.com
+Return-Path: <sj38.park@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc;        bh=jCIazUM3Pg0UeaoVm/OO0PCm39N6Vnq2RwKHvzBaCIQ=;
+ b=aZt49ELy8n1E3XG6qIYR3g/neHXy4VH+PO3jIClQ1iCF60GvkkgwVsZkODI/iT+LFS
+ DJzuqPoejx1oV5wOqfZhUO4ZvKzkEZLjp/RRpFu+jfxb2KM65DHctDSjXEcVSsf5SF/t
+ KtLjYAyOfN8DDPGc55qg2916W501ceSUFKtKG6XHFtXx/oh1haHKj2f2+EGfnhdxXDZ5
+ QuzORBIwzKyOzzY2rFat62M+kG6mfwLVniPMUzWFxkcTgiEqp5NGc3hHXPOehzJC76Yb
+ lEanynffJQ02hqWQ9dnnZ71oBO880MG39I3YwkttbIUJobnVPM0rskaOZnFgWQx9kf6Q
+ bYyw==
+MIME-Version: 1.0
+In-Reply-To: <20160927161414.GK14933@linux.vnet.ibm.com>
 References: 
  <CAEjAshrzBH+=e7mHU3Dzw5ydOwBFHVtOVU-4Vqg0xJQX3HDewQ@mail.gmail.com>
  <20160921130548.9393-1-sj38.park@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20160921130548.9393-1-sj38.park@gmail.com>
-Message-Id: <20160927161414.GK14933@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+ <20160927161414.GK14933@linux.vnet.ibm.com>
+From: SeongJae Park <sj38.park@gmail.com>
+Date: Wed, 28 Sep 2016 06:54:31 +0900
+Message-ID: 
+ <CAEjAshqfKRpR7BSM0uBfZzg_O+=zmVb7dB6P9_r57Wy-mCxt9w@mail.gmail.com>
+Subject: Re: [PATCH v2] formal/dyntickrcu: Adjust font size of sample code
+Content-Type: text/plain; charset=UTF-8
+To: Paul McKenney <paulmck@linux.vnet.ibm.com>
+Cc: Yokosawa Akira <akiyks@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
-Cc: akiyks@gmail.com, perfbook@vger.kernel.org
 
-On Wed, Sep 21, 2016 at 10:05:48PM +0900, SeongJae Park wrote:
-> Code for `dyntickRCU-irqnn-ssl.spin` has a too long line.  Because the
-> line breaks the layout, this commit reduces font size of the sample code
-> for better layout.
-> 
-> Suggested-by: Akira Yokosawa <akiyks@gmail.com>
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+On Wed, Sep 28, 2016 at 1:14 AM, Paul E. McKenney
+<paulmck@linux.vnet.ibm.com> wrote:
+> On Wed, Sep 21, 2016 at 10:05:48PM +0900, SeongJae Park wrote:
+>> Code for `dyntickRCU-irqnn-ssl.spin` has a too long line.  Because the
+>> line breaks the layout, this commit reduces font size of the sample code
+>> for better layout.
+>>
+>> Suggested-by: Akira Yokosawa <akiyks@gmail.com>
+>> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+>
+> Thank you both!
+>
+> SeongJae, could you please resend the series?  Sorry to be so picky,
+> but you might be underestimating my ability to apply the wrong patch
+> at the wrong time.  ;-)
 
-Thank you both!
+Of course I will :)  I will send the series again in reply to this mail.
 
-SeongJae, could you please resend the series?  Sorry to be so picky,
-but you might be underestimating my ability to apply the wrong patch
-at the wrong time.  ;-)
 
-							Thanx, Paul
+Thanks, SeongJae Park
 
-> ---
->  formal/dyntickrcu.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
-> index d0b2c6e..a63d324 100644
-> --- a/formal/dyntickrcu.tex
-> +++ b/formal/dyntickrcu.tex
-> @@ -1252,7 +1252,7 @@ and finally lines~32-43 model \co{rcu_irq_exit()}.
-> 
->  The \co{grace_period()} process then becomes as follows:
-> 
-> -{ \scriptsize
-> +{ \fontsize{6.7pt}{8pt}\selectfont
->  \begin{verbatim}
->    1 proctype grace_period()
->    2 {
-> -- 
-> 2.10.0
-> 
+>
+>                                                         Thanx, Paul
+>
+>> ---
+>>  formal/dyntickrcu.tex | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
+>> index d0b2c6e..a63d324 100644
+>> --- a/formal/dyntickrcu.tex
+>> +++ b/formal/dyntickrcu.tex
+>> @@ -1252,7 +1252,7 @@ and finally lines~32-43 model \co{rcu_irq_exit()}.
+>>
+>>  The \co{grace_period()} process then becomes as follows:
+>>
+>> -{ \scriptsize
+>> +{ \fontsize{6.7pt}{8pt}\selectfont
+>>  \begin{verbatim}
+>>    1 proctype grace_period()
+>>    2 {
+>> --
+>> 2.10.0
+>>
+>
 
