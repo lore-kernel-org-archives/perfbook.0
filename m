@@ -1,76 +1,47 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39412 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S935005AbcI3APZ (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 29
- Sep 2016 20:15:25 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id u8U0DIvn088329
- for <perfbook@vger.kernel.org>; Thu, 29 Sep 2016 20:15:24 -0400
-Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 25s8sr9xg1-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Thu,
- 29 Sep 2016 20:15:24 -0400
-Received: from localhost by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 29 Sep
- 2016 18:15:23 -0600
-Date: Thu, 29 Sep 2016 17:15:23 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] count: Enclose 'REQACK' in \mbox{}
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <c2f828ca-14da-971e-427a-2edeb9d7e916@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=AmjGI4CU+B68UAnFcg1WzA9CrylY7qOrKSvfZNIVm2k=;
+ b=ZUUDkmbjeVmuYBOg/Kl5CinLSxI3UjPtctJYMdsQ62D5GtpH3BPe9SBynrOjiOSvsr
+ R0sLsP3tT9duxGoixpnZrweTVLYM/OHmSrrhurEo3oJkIBpjwWxcCliHZHj2CfbejMMw
+ Ic/7eOUf/UEulgzfO8uxNc6pm7gCiKYRgyd178O0S+z1kewEV3Es5eBjr00AMDwFA5KE
+ ur9SDVdaaYvtL0KS0rRIo3JkcQNf2xuXF7Zr0eRT6IzgSWc2wpukZ0F22HkM94Fm7Y9M
+ k9zzfi+ymTwnpqqCo3QHWOvxo1ypgE8I03UMZEOaHg2/1aV4M93V37+1ueFQ7CT6yEEi
+ f0hQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/3] Margin lengths and microtype tweaks
+Message-ID: <fb8777a9-a5f2-ede7-69b6-8882f05cdb81@gmail.com>
+Date: Wed, 5 Oct 2016 00:20:20 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c2f828ca-14da-971e-427a-2edeb9d7e916@gmail.com>
-Message-Id: <20160930001523.GH14933@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Sep 29, 2016 at 11:23:53PM +0900, Akira Yokosawa wrote:
-> >From 793c4a74be5cb0997b82789d19eebb2b7836d2fa Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Thu, 29 Sep 2016 23:17:12 +0900
-> Subject: [PATCH] count: Enclose 'REQACK' in \mbox{}
-> 
-> This commit prevents "REQACK" from being hyphenated in Answer of
-> Quick Quiz 5.47.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+From a37c36710b08dce3b4be06416a131b1f99aa327a Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Wed, 5 Oct 2016 00:00:59 +0900
+Subject: [PATCH 0/3] Margin lengths and microtype tweaks
 
-Queued and pushed, thank you!
+Hi Paul,
 
-							Thanx, Paul
+This patch series makes tiny adjustments of margin lengths
+definitions and a workaround of slight miss-alignment of code
+snippets caused by the use of "microtype" package.
 
-> ---
->  count/count.tex | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/count/count.tex b/count/count.tex
-> index 39747d0..0eb95c3 100644
-> --- a/count/count.tex
-> +++ b/count/count.tex
-> @@ -2641,7 +2641,7 @@ The slowpath then sets that thread's \co{theft} state to IDLE.
->  		the fastpath.
->  	\item	The following race would result:
->  		\begin{enumerate}
-> -		\item	The slowpath sets a given thread's state to REQACK.
-> +		\item	The slowpath sets a given thread's state to \mbox{REQACK}.
->  		\item	That thread has just finished its fastpath, and
->  			notes the REQACK state.
->  		\item	The thread receives the signal, which also notes
-> @@ -2652,7 +2652,7 @@ The slowpath then sets that thread's \co{theft} state to IDLE.
->  		\item	The fastpath sets the state to READY, disabling
->  			further fastpath execution for this thread.
->  		\end{enumerate}
-> -		The basic problem here is that the combined REQACK state
-> +		The basic problem here is that the combined \mbox{REQACK} state
->  		can be referenced by both the signal handler and the
->  		fastpath.
->  		The clear separation maintained by the four-state
-> -- 
-> 2.7.4
-> 
+                                        Thanks, Akira
+---
+Akira Yokosawa (3):
+  Rewrite custom margins for hardcover
+  Tweak oddside and evenside margins of onecolumn
+  Disable 'microtype' in code snippets
+
+ perfbook.tex | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+-- 
+2.7.4
 
