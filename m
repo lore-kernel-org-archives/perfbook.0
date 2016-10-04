@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=jAjBxnXnj3b9j4MB7viEN7obGD4xn9I2bnRq+php+N0=;
- b=FjYdD7ygj7kqmwiqmnF9hypO8WLDHKIXEpfss8zxCYCzuSgw086FQsGxkeCvW3trYx
- DP/PzH/jntfrNzbnbswxdaCq9gAiMlKM2OtGgD5nEbEPlyTDRaXYoOjS8k/ylLI2WvU/
- 9cFkHp/MZ/bydmUtVbJxFDW8sLryQTZPY4AyOiPXdJU+TCgHdqf0BCEIDtrEP6xjE4Aa
- jMilu1Ddzzew4wX1ugaeGAYFe+hwfXT/svXiGoyR9csHerUHObV3MMJI2Hp4bsSTm5ov
- ebhrBqzRNayJqWV+FmugkYtC6m5/m2yG5Md1e0fk7AHw1UN0sqb2Kf1XzRcgWBvakwfS
- CGZw==
-Subject: [PATCH 2/3] Tweak oddside and evenside margins of onecolumn
+ bh=Z9h+oDBnU3mwk0CW5SYBTmQek+F1TcBqZdzBmaYNUDI=;
+ b=R9Wqmgs9jZL8KL+XCR0JztbUngZoYI27cEr3OtK9DhHwVhHw+qBWsgvPjUoqDOa7D9
+ LTFdvybVQ/S8H6Xl+1w9bUJpd8u5evMD0wtMfs3fotIJ6phpC6ZVBlzGDlyN0IsMoTYB
+ 9T3p7YwlZfQOq9D340MNkdCfMspifCGjTnk2uROum7uROXACCNkwgKqwzmFuChnfP4Ob
+ TVfuAoAVqeMSZR8/ZXux/RMTP7nFQFLhjI+i8OWJiiG+s9QTjA5f/xLcHbypY+UVxVuZ
+ sp1zMqRnU88Fvt6VbyLOT2F9oV82S4xpltX5Ddng3xDU5dDen3r3IJjFU7wMv6lYB1YH
+ 2+Zw==
+Subject: [PATCH 3/3] Disable 'microtype' in code snippets
 References: <fb8777a9-a5f2-ede7-69b6-8882f05cdb81@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <6de5f5be-fdea-5a40-949d-1b07b6c47a50@gmail.com>
-Date: Wed, 5 Oct 2016 00:24:03 +0900
+Message-ID: <e1e5adb0-0415-0f89-e6ac-a72ce2bb064d@gmail.com>
+Date: Wed, 5 Oct 2016 00:25:34 +0900
 MIME-Version: 1.0
 In-Reply-To: <fb8777a9-a5f2-ede7-69b6-8882f05cdb81@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,35 +22,40 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From adb8dde5b698103ee789d88b09aa836f72808bb9 Mon Sep 17 00:00:00 2001
+From a37c36710b08dce3b4be06416a131b1f99aa327a Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 3 Oct 2016 17:26:20 +0900
-Subject: [PATCH 2/3] Tweak oddside and evenside margins of onecolumn
+Date: Mon, 3 Oct 2016 18:36:28 +0900
+Subject: [PATCH 3/3] Disable 'microtype' in code snippets
 
-To reduce jaggy looks of odd and even pages in onecolumn layout
-displayed in a PDF reader, this commit tweaks \oddsidemargin
-and \evensidemargin lengths.
+"microtype" package can affect monospece-ness of code snippets.
+The symptom is evident in Figures 12.17 and 12.18, where patch
+diffs beginning with "-" and "+" have slightly different indents.
+This commit addresses this issue by adding a \microtypesetup{}
+command at the start of "verbatim" and "verbbox" environments
+with the help of "etoolbox" package.
 
-It keeps exact alignment of pages in double-side print.
+This workaround is mentioned in Section 9 of microtype documentation:
+http://mirrors.ctan.org/macros/latex/contrib/microtype/microtype.pdf
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- perfbook.tex | 2 ++
- 1 file changed, 2 insertions(+)
+ perfbook.tex | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/perfbook.tex b/perfbook.tex
-index dd68c58..14c06f8 100644
+index 14c06f8..66c93fe 100644
 --- a/perfbook.tex
 +++ b/perfbook.tex
-@@ -106,6 +106,8 @@
- \setlength{\textheight}{8.25in}
- \setlength{\textwidth}{4.75in}
- \setlength{\columnsep}{0in}
-+\addtolength{\oddsidemargin}{0.3in}
-+\addtolength{\evensidemargin}{-0.3in}
- }
+@@ -9,6 +9,9 @@
 
- \IfHardCover{
+ % Improves the text layout
+ \usepackage{microtype}
++\usepackage{etoolbox}
++\AtBeginEnvironment{verbatim}{\microtypesetup{activate=false}}
++\AtBeginEnvironment{verbbox}{\microtypesetup{activate=false}}
+
+ \usepackage{lscape}
+ \usepackage{epsfig}
 -- 
 2.7.4
 
