@@ -2,25 +2,22 @@ Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=C8DErZmTZd+zRhKueaLNCXoyzsyrqkbb+OzKbAMqbE0=;
- b=QMHZRBoGiYjQ27D+T4kuJOF8JRVcBGcZusYf1B79v0jOXseFQ5kO21fJwlMbDe2WSk
- APc8AtL+N/aMTTcRPA/Dc1pzxZe5Kv9rwCq+2iTw0dFb0nnPJK6GXW2PYbSiYcNrZyL/
- CW50vs/oHAQxzLxvLnXxAdbCg8N9nCfcr2d3YhPQIGGzwf97Wa6kbtYROrL4cWHlSXrU
- MB+XcAlNJ3q7LtsZ32xQxIira5hJ9HmvnNbqjes3LdsiFg4G0OQtEPyF9SMdXax2w7cR
- 554lc4FEokZnbtpHR5CVVtOSUtbx6D7OnjqtrUDgXsycHbTp3EF0VHvbkPygQ9kFabvR
- 7q9Q==
+ bh=cnDSvtZ3Y4GSZDlcaxqltRNYSaooJWj2CeoJZkb0ngo=;
+ b=c+Tx7w9sxXH3Kq/bOyA5BKDVu8Fl/+/fh1XJ8JqrlxvkDBSsah7KNgzMm4Yzf/nd/g
+ srLGsemjuzQogSnDB+ZI1cU2I+EEmBtu30F/GLKdzldI++5X+ifXJFP4gMc2ecLDSYbJ
+ x5Q3zcYmZwtSnChTUbO7ez00uXvif4HhB06GaftpR6lQP90r6rz4IGmOHJGa2KS05RUg
+ qfxjdJsc85404k6maKb3HgvuNk94s/LTPu6Fu83JBgtIcG0AWh104DO2HvGLchEZdo0l
+ 5LEn0mHdgJQKECUcTaTHQ/vjhs7fp/WW0lcj2b2Gr0IWEolrpWE/zMj8m+HVjx422ttv
+ d3pA==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 6/8] together: Fix a wrong field citation
-Date: Tue, 11 Oct 2016 08:07:36 +0900
-Message-Id: <20161010230738.14452-7-sj38.park@gmail.com>
+Subject: [PATCH 7/8] together: Fix a contextual typo
+Date: Tue, 11 Oct 2016 08:07:37 +0900
+Message-Id: <20161010230738.14452-8-sj38.park@gmail.com>
 In-Reply-To: <20161010230738.14452-1-sj38.park@gmail.com>
 References: <20161010230738.14452-1-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-
-A sentence is pointing out ->a[] field while it should point out ->fa
-field by its context.  This commit fixes the wrong field citation.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
@@ -28,18 +25,18 @@ Signed-off-by: SeongJae Park <sj38.park@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/together/applyrcu.tex b/together/applyrcu.tex
-index 86471633a64a..60d489c3b7bb 100644
+index 60d489c3b7bb..02d36e6ba5f3 100644
 --- a/together/applyrcu.tex
 +++ b/together/applyrcu.tex
-@@ -465,7 +465,7 @@ length~\cite{Arcangeli03}.
- \item	CPU~0 loads the value of \co{->fa->length}, obtaining the value 16.
- \item	CPU~1 shrinks the array to be of length 8, and assigns a pointer
- 	to a new \co{foo_a} structure containing an 8-character block
--	of memory into \co{->a[]}.
-+	of memory into \co{->fa}.
- \item	CPU~0 picks up the new pointer from \co{->a[]}, and stores a
- 	new value into element 12.
- 	But because CPU~0 is still referencing the old \co{foo_a}
+@@ -606,7 +606,7 @@ can be freed.
+ 	\item	Use \co{rcu_assign_pointer()} to point \co{->mp}
+ 		back to the old embedded \co{->meas} field.
+ 	\item	After another grace period elapses, free up the
+-		new \co{measurement} field.
++		new \co{measurement} structure.
+ 	\end{enumerate}
+
+ 	This approach uses a heavier weight update procedure to eliminate
 -- 
 2.10.0
 
