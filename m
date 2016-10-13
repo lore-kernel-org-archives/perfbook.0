@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=qCRf017sMOMcMdzwE6mIkCvFenYZoUCdq9FKAOMeFc4=;
- b=MweWvp/BXC4jqO0EdgsPcaOEAuhUxJKI8dGODFHBZjFXd4+jcGGg73uYNHJzzjQBQx
- PGOZEjRuQNaHCU7Awccfs8tID130EUabAyOs1Z3cAih1zWJpRfDFNMB4SGvaN8IzNCaR
- I9LZxSQluhd4t8Po6LzzNcOnFl7Qsk0MACtkAynI4Yt8SSHv29mUp7t9WOUhKnt3L120
- YTCvcPOWjl4DgiboRG87SVKcezE4HXexpkJ11Nf5ARY0MIvuz6Mbkqx00KDs4WFk5u0E
- yH0P56QkinqVa70ue674gmxcKNKdxeLys6y7dHkuUd80ttsX9lRs8zsKt2Ol0ZLJYIZ+
- 3Xyw==
-Subject: [PATCH 1/2] Makefile: Use more automatic variables
+ bh=ssQK8zHYi8S2/6favGCXWveNLc6nQFiMgKUPXA5SU6I=;
+ b=mpIwDe7+xSTfV5CzkOuysfgE9jOA5VT9GBVsogPbpxBXNu15qgThLmmC70rKSjEvB1
+ 6Er1DU4HeBuVprKY4x94BzGLR+Ny3KkP4fTPGDWd5TRoHiubXTl0jqZoIqaXIO68mm+5
+ 2OHyHdYSCYDyoMk7NbtnbzNRRivXkB9sP9NAVy/bGk+RYIVU5ToteRS+Y0KzkQ5mySza
+ onNPmJ/HFMp7wK2jYuS86/rJInRcDNokD+Pu+qSNlbdee5Bj2QoT3VcmcLyA/j2Pxtnf
+ 4oY7BroIM2nJ+TkUy+Y0RPP8kQ4+pa5VkU6mj1vPds2sJnTXFgOjkt6eUi6gD4CKY/ah
+ Gaug==
+Subject: [PATCH 2/2] Makefile: Use secondary expansion
 References: <dee02541-574c-3686-8dc7-5cb02303a408@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <459f86ae-cb02-3eea-ab8b-eaebf0e68be5@gmail.com>
-Date: Fri, 14 Oct 2016 07:07:07 +0900
+Message-ID: <085886d5-a536-1f32-8f37-bc039b31a2ba@gmail.com>
+Date: Fri, 14 Oct 2016 07:08:40 +0900
 MIME-Version: 1.0
 In-Reply-To: <dee02541-574c-3686-8dc7-5cb02303a408@gmail.com>
 Content-Type: text/plain; charset=iso-2022-jp
@@ -22,84 +22,58 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 2d0765641c633f9e259339f0814259aefbae863e Mon Sep 17 00:00:00 2001
+From 3fc3583818c9103ef2d1c01516b362c4b6768604 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 9 Oct 2016 20:38:46 +0900
-Subject: [PATCH 1/2] Makefile: Use more automatic variables
+Date: Mon, 10 Oct 2016 00:10:27 +0900
+Subject: [PATCH 2/2] Makefile: Use secondary expansion
 
-This commit simplifies some rules by using automatic variables
-such as "$<" and "$@".
-It also simplifies the "clean" rule by using wildcards.
-.gitignore is modified accordingly.
+By using secondary expansion, abbreviated targets' dependencies
+can be expressed as a single rule.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- .gitignore |  7 ++-----
- Makefile   | 15 +++++++--------
- 2 files changed, 9 insertions(+), 13 deletions(-)
-
-diff --git a/.gitignore b/.gitignore
-index 4a2dc33..965b94d 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -18,11 +18,8 @@ perfbook_flat.tex
- qqz.tex
- contrib.tex
- origpub.tex
--perfbook.out
--perfbook-1c.tex
--perfbook-1c.out
--perfbook-hb.tex
--perfbook-hb.out
-+perfbook*.out
-+perfbook-*.tex
- extraction
- embedfonts
+ Makefile | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 55361c3..6e6d66b 100644
+index 6e6d66b..eb83af4 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -80,22 +80,22 @@ perfbook_flat.tex: perfbook.tex $(LATEXSOURCES) $(PDFTARGETS_OF_EPS) $(PDFTARGET
- 	echo > qqz.tex
- 	echo > contrib.tex
- 	echo > origpub.tex
--	texexpand perfbook.tex > perfbook_flat.tex
-+	texexpand perfbook.tex > $@
+@@ -9,7 +9,9 @@ LATEXSOURCES = \
 
- qqz.tex: perfbook_flat.tex
--	sh utilities/extractqqz.sh < perfbook_flat.tex > qqz.tex
-+	sh utilities/extractqqz.sh < $< > $@
+ LATEXGENERATED = qqz.tex contrib.tex origpub.tex
 
- contrib.tex: perfbook_flat.tex qqz.tex
--	cat perfbook_flat.tex qqz.tex | sh utilities/extractcontrib.sh > contrib.tex
-+	cat $^ | sh utilities/extractcontrib.sh > $@
+-PDFTARGETS := perfbook.pdf perfbook-1c.pdf perfbook-hb.pdf
++ABBREVTARGETS := 1c hb
++
++PDFTARGETS := perfbook.pdf $(foreach v,$(ABBREVTARGETS),perfbook-$(v).pdf)
 
- origpub.tex: perfbook_flat.tex
--	sh utilities/extractorigpub.sh < perfbook_flat.tex > origpub.tex
-+	sh utilities/extractorigpub.sh < $< > $@
+ EPSSOURCES_FROM_TEX := \
+ 	SMPdesign/DiningPhilosopher5.eps \
+@@ -58,15 +60,11 @@ else
+ 	targ = $(default)
+ endif
 
- perfbook-1c.tex: perfbook.tex
--	sed -e 's/,twocolumn//' -e 's/setboolean{twocolumn}{true}/setboolean{twocolumn}{false}/' < perfbook.tex > perfbook-1c.tex
-+	sed -e 's/,twocolumn//' -e 's/setboolean{twocolumn}{true}/setboolean{twocolumn}{false}/' < $< > $@
+-.PHONY: all touchsvg clean distclean neatfreak 1c 2c hb ls-unused
++.PHONY: all touchsvg clean distclean neatfreak 2c ls-unused $(ABBREVTARGETS)
+ all: $(targ)
 
- perfbook-hb.tex: perfbook.tex
--	sed -e 's/,twocolumn/&,letterpaperhb/' -e 's/setboolean{hardcover}{false}/setboolean{hardcover}{true}/' < perfbook.tex > perfbook-hb.tex
-+	sed -e 's/,twocolumn/&,letterpaperhb/' -e 's/setboolean{hardcover}{false}/setboolean{hardcover}{true}/' < $< > $@
+-1c: perfbook-1c.pdf
+-
+ 2c: perfbook.pdf
 
- # Rules related to perfbook_html are removed as of May, 2016
+-hb: perfbook-hb.pdf
+-
+ $(PDFTARGETS): %.pdf: %.tex %.bbl
+ 	sh utilities/runlatex.sh $(basename $@)
 
-@@ -139,9 +139,8 @@ clean:
- 	find . -name '*.aux' -o -name '*.blg' \
- 		-o -name '*.dvi' -o -name '*.log' \
- 		-o -name '*.qqz' -o -name '*.toc' -o -name '*.bbl' | xargs rm -f
--	rm -f perfbook_flat.tex perfbook.out perfbook-1c.out
-+	rm -f perfbook_flat.tex perfbook*.out perfbook-*.tex
- 	rm -f $(LATEXGENERATED)
--	rm -f perfbook-hb.out perfbook-1c.tex perfbook-hb.tex
- 	rm -f extraction
-
- distclean: clean
+@@ -156,3 +154,6 @@ ls-unused:
+ neatfreak: distclean
+ 	# Don't forget to regenerate the .pdf from each .svg file
+ 	find . -name '*.pdf' | xargs rm -f
++
++.SECONDEXPANSION:
++$(ABBREVTARGETS): %: perfbook-$$@.pdf
 -- 
 2.7.4
 
