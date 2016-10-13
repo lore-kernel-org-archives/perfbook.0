@@ -1,53 +1,58 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54016 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751297AbcJKHbC (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Tue, 11 Oct 2016 03:31:02 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id u9B7SQlW086147
- for <perfbook@vger.kernel.org>; Tue, 11 Oct 2016 03:31:01 -0400
-Received: from e38.co.us.ibm.com (e38.co.us.ibm.com [32.97.110.159]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 260rwvq9g6-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
- 11 Oct 2016 03:31:01 -0400
-Received: from localhost by e38.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 11 Oct
- 2016 01:31:01 -0600
-Date: Tue, 11 Oct 2016 00:31:08 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/8] Fixups for together/ directory
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <20161010230738.14452-1-sj38.park@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=x14f8GzD0qZLYmVodWBazeMgRnlGkzb8XsmQQ7U+tf0=;
+ b=OEDX9joZL9CQuEAtxYkvFo9m57+5dK01mPq8NwFGyb4QwgXnTDeczEexIwElEJ838n
+ 5rvW1sC2Iwq+4zQtBXIyj0jbnGfskvBnmnXeSOkScxXgPfctoCxb1TPKZ94TMW5pZsuZ
+ hMEn1eCi2aQmszFfEcWWVIDncfz346iZ64u636enGLbUSbAHgbK+LSCnsmnR1FM7hB7X
+ sRAls6GMeuFV64OqUdKd8mQxHv9HiASbxBRKzE5AmqCV0FkCTP70UNwPuazZgY+fXo10
+ HcnwSJ33GFlUUmC3fUnSOVM6vRXlC/5zAH4vuCN5kct9WA7Ey/fe2ad2xfYkGWLtQK8C
+ 1OzQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/2] Makefile cleanups
+Message-ID: <dee02541-574c-3686-8dc7-5cb02303a408@gmail.com>
+Date: Fri, 14 Oct 2016 07:05:35 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20161010230738.14452-1-sj38.park@gmail.com>
-Message-Id: <20161011073108.GB29518@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Oct 11, 2016 at 08:07:30AM +0900, SeongJae Park wrote:
-> This patchset fixes few trivial problems under together/ directory that found
-> by Korean translation work.
-> 
-> SeongJae Park (8):
->   together: Add missing NBSPs for line numbers
->   together: Fix a wrong code line quotation
->   together: Fix wrong function name quotations
->   together: Add a missing comma
->   together: Append `()` suffix to function name quotation
->   together: Fix a wrong field citation
->   together: Fix a contextual typo
->   together: Improve struct field quotation readability
-> 
->  together/applyrcu.tex | 14 +++++++-------
->  together/refcnt.tex   | 10 +++++-----
->  2 files changed, 12 insertions(+), 12 deletions(-)
+From 3fc3583818c9103ef2d1c01516b362c4b6768604 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Thu, 13 Oct 2016 20:51:46 +0900
+Subject: [PATCH 0/2] Makefile cleanups
 
-Queued and pushed, thank you!
+Hi,
 
-							Thanx, Paul
+Here is a patch set sequel to commit 0e6e192e6ea7 ("Makefile: Use
+implicit rules for various layout options").
+
+1st patch shortens some rules by using automatic variables.
+2nd one gets rid of apparent dependency rules like "1c: perfbook-1c.pdf"
+by using secondary-expansion feature of GNU make.
+
+Now almost all redundant rules have been removed.
+There is no change in the behavior of make command.
+
+This set is a by-product of my attempt to try some alternative monospace
+fonts to be used among Times Roman text.  To give you an easy way to
+compare candidates, I'm preparing patches to add a few make targets, but
+not sure where it goes.  This cleanup set seems worthwhile on its own.
+
+                                            Thanks, Akira
+
+Akira Yokosawa (2):
+  Makefile: Use more automatic variables
+  Makefile: Use seconday expansion
+
+ .gitignore |  7 ++-----
+ Makefile   | 28 ++++++++++++++--------------
+ 2 files changed, 16 insertions(+), 19 deletions(-)
+
+-- 
+2.7.4
 
