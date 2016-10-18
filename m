@@ -2,52 +2,54 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=JegQm8WXZlcsveaHHkr5ug7B4j1o081jLl/O3vQmzII=;
- b=OnWiCb8nxnYieNwlOb+hIcXhHMhIzTqowvmkXsoQqPFR5PqyMWg46IMZ+gyeT79Ngp
- o1hFqXYDmGZnIDzEEp5hYK1iCyVcNvUf/CxYnXt9/YKeCR/OHGSYCabXWroMei4vlZIf
- sp9nIx8dWWJitmCo4eN5l+8kBuzVmnkRevXaA5yBoCdipWUYuVgTQUUwCpwHLQMcSITN
- kUULYcPMQto2oq43yyV+ygg7UfAUHaWINL7Buo6r7/Sy3+zQvXF4yYz15355RS2DfCzp
- +5eEudJf4OF8ErD3k398BSK0vXwFqbDvYDL204SniZ7AvpfmJG1tfbckF3oZZtDU3zq8
- 9wow==
-Subject: [PATCH 5/6] Redefine \path command for sans serif font
+ bh=i4bResOHuiStDH//zNDs+JHUehAZoUZouDVNn/otGVQ=;
+ b=QDG+ixhhD9UzVWwvMsD2Kf4coxAiFxYZ+sLLxzEGZkfusL+N61V/62YC0bhwlo/mqa
+ AdrXHiUtXiMk+LOXQ7rCuz6j6UUwcuVkn7G2vTP1eQ5J/4xMcfJD3zyOfLnXEYhNqgEQ
+ OjH3XfLgOO0VXfk1Q4KACcVbgxWO6RXOAfVmhIvP+3Gxzx/JNhijH/TRhNfsGfh1n4yl
+ /M58dx0R9hWDrTpQMKTMX5rgUjtuzCaJAvR9xrKnQhCVsDJSdrw0DOa7kATYAKRKb6lx
+ KwqxMcolhtaxVhTMBGDZvtDxtWjd89ovD5NtHIOdiggOgBVVj5bsIlWr0meYbtkY2Ism
+ PK9Q==
+Subject: [PATCH 6/6] Makefile: Add notice of mathastext version for 1csf
 References: <9229c60d-0468-7632-e59e-3921f0e46f54@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <a79404a2-50f7-5673-bc0c-8950f7aad66b@gmail.com>
-Date: Wed, 19 Oct 2016 07:06:32 +0900
+Message-ID: <b658af34-658d-c751-a56d-34508f24832e@gmail.com>
+Date: Wed, 19 Oct 2016 07:08:48 +0900
 MIME-Version: 1.0
 In-Reply-To: <9229c60d-0468-7632-e59e-3921f0e46f54@gmail.com>
-Content-Type: text/plain; charset=iso-2022-jp
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From e5db129b6fe3f2612a9f823f213a734499a0893e Mon Sep 17 00:00:00 2001
+From ec360d66cdab86bbe98d544aca52aaec1e03518e Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 10 Oct 2016 23:34:50 +0900
-Subject: [PATCH 5/6] Redefine \path command for sans serif font
+Date: Sun, 16 Oct 2016 19:35:37 +0900
+Subject: [PATCH 6/6] Makefile: Add notice of mathastext version for 1csf
 
-The "mathastext" package interferes with \path command and make
-it lose line-breaking at a "/" or a ".".
-Redefining \path command seems to work.
+On Ubuntu Trusty, the version of mathastext package installed in
+TeX Lve is 1.3c. It conflicts with hyperref package's \url and
+\path commands and breaks their line-break behavior.
+The issue was resolved in version 1.3i.
+This commit adds a notice to the target "1csf" regarding this.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- perfbook.tex | 1 +
+ Makefile | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/perfbook.tex b/perfbook.tex
-index 0d6f08d..0dfc380 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -64,6 +64,7 @@
- \renewcommand{\familydefault}{\sfdefault}
- \normalfont
- \usepackage[italic]{mathastext}
-+\renewcommand{\path}[1]{\nolinkurl{#1}} % workaround of interference with mathastext
- }{}
+diff --git a/Makefile b/Makefile
+index 2ccce9d..a73aadb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -116,6 +116,7 @@ perfbook-msnt.tex: perfbook.tex
+ perfbook-1csf.tex: perfbook-1c.tex
+ 	sed -e 's/setboolean{sansserif}{false}/setboolean{sansserif}{true}/' \
+ 	    -e 's/usepackage{courier}/usepackage[var0]{inconsolata}/' < $< > $@
++	@echo "## This target requires recent version (>= 1.3i) of mathastext. ##"
 
- \begin{document}
+ # Rules related to perfbook_html are removed as of May, 2016
+
 -- 
 2.7.4
 
