@@ -1,66 +1,64 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45524 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1752282AbcJZPWk (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Wed, 26 Oct 2016 11:22:40 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id u9QFKiAh116996
- for <perfbook@vger.kernel.org>; Wed, 26 Oct 2016 11:22:40 -0400
-Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 26ac6qap3r-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Wed,
- 26 Oct 2016 11:22:39 -0400
-Received: from localhost by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Wed, 26 Oct
- 2016 09:22:38 -0600
-Date: Wed, 26 Oct 2016 08:22:40 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] formal: Replace 'article' with 'section'
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <5879c432-65ed-fc6c-7984-5b322b4bc4b8@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=+iMHv0Uq2WwheCrcE1D6cnezTnUTOL4fEByO8/8rPM4=;
+ b=skubZWu14qWSJZF4Gpa5yKV39HkmogWXHRIFxZPVirwSNYSNqCRF0cH1i7bjYEpLWB
+ v9DfEEipPEfuZ+qkn2osrWvIPtgfQ2Am0XX+PsV6JRBYfsYijuB2B30UpVYdzG+d5WkC
+ VTjCQAktes4yhrH1uPHui90xVBeeNvpAKFkjWhFYyIuZQhI+WY7u/akxKHIcr2ivnUKB
+ 5ywM80rav015q3ce4VdxedfWV4xhxMcJJZoMdFjLmW0qL99qLv4bigiQAphHuge69wWa
+ tmD97HEJpHi+P14KoueGKLGXxm17VQy5tGPI9W0oGkJk/yfKMoDDfMj/61iIasbUygaC
+ XMwg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [Q] url in bibliography
+Message-ID: <8d8bb422-0d2c-f905-4f72-bafe6d702af5@gmail.com>
+Date: Fri, 28 Oct 2016 00:19:36 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5879c432-65ed-fc6c-7984-5b322b4bc4b8@gmail.com>
-Message-Id: <20161026152240.GR3716@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Oct 27, 2016 at 12:07:02AM +0900, Akira Yokosawa wrote:
-> >From 32b72b9fccd06a3ea30cd844e8361a176a9892aa Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sat, 22 Oct 2016 20:35:44 +0900
-> Subject: [PATCH] formal: Replace 'article' with 'section'
-> 
-> This commit removes a remnant of this section's origin in LWN.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Hi Paul,
 
-Good eyes!  Applied and pushed, thank you.
+I have a question regarding your commit 29650119a215 ("Update bibliography").
 
-							Thanx, Paul
+In the 1st hunk,
 
-> ---
->  formal/spinhint.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-> index ec53a7f..906de31 100644
-> --- a/formal/spinhint.tex
-> +++ b/formal/spinhint.tex
-> @@ -51,7 +51,7 @@ book~\cite{Holzmann03a} on Promela and Spin,
->  as well as searchable online references starting at:
->  \url{http://www.spinroot.com/spin/Man/index.html}.
-> 
-> -The remainder of this article describes how to use Promela to debug
-> +The remainder of this section describes how to use Promela to debug
->  parallel algorithms, starting with simple examples and progressing to
->  more complex uses.
-> 
-> -- 
-> 2.7.4
-> 
+> +@unpublished{PaulEMcKennneyToolKitP0232R0
+> +,Author="Paul E. McKenney and Michael Wong and Maged Michael"
+> +,Title="P0232R0: A Concurrency ToolKit for Structured Deferral or Optimistic
+> +Speculation"
+> +,month="February"
+> +,day="12"
+> +,year="2016"
+> +,note="\url{http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0232r0.pdf}"
+> +}
+
+you chose the format 'note="\url{http://...}"'.
+
+In the 2nd hunk,
+
+> +@unpublished{HansBoehm2012seqlockC11
+> +,author="Hans-J. Boehm"
+> +,title="Can Seqlocks Get Along With Programming Language Memory Models?"
+> +,Year="2012"
+> +,Month="June"
+> +,Day="6"
+> +,Note="HPL-2012-68"
+> +,url={http://www.hpl.hp.com/techreports/2012/HPL-2012-68.pdf}
+> +}
+> +
+
+you chose the format 'url={http://...}'.
+
+There are other format such as 'note="Available \url{http://...}
+[Viewed Month Day, Year]"' in the other part of bibliography.
+
+I'm wondering what is the rule which format to choose in expressing urls.
+Could you enlighten me?
+
+                                             Thanks, Akira
 
