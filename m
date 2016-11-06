@@ -1,42 +1,68 @@
-Return-Path: <sj38.park@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=n7gNuINutVDe25tiumz04xDbO1X0Altpxp3DSznlsG0=;
- b=HBZQJuGOd/dfuPm0q+zzMq66Qd4BnPgjGcPuzcxCkCd8BYeCXPU9EmKlzZ3j8ASGL/
- k6XHFjwSxrG5EHHeDAPGs572jPlPjQhDba5J7TlVkslHC36REr6Y6Dhkg+k5JDsoCjv5
- 6wwjaiinLOsygHvUAcrja2EPEuX70nP96HjCAh2dgRTzi0feTSW79EJDAXpUHmMf45hj
- q2kvZiUWqSUDZ2Al8c87ceKKG5yX1rJ41ELbP3WZvaG91V7lq2WdrR/d5rSyg97CodXL
- P3ZftSTZ2Rp9psRRirenaULw2PzrOzWQssvQSKBoPLVP/m2oFly7CsJfdufPr5apZWOr
- k7uw==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 2/2] rt: Fix a typo: soo -> so
-Date: Mon,  7 Nov 2016 02:52:34 +0900
-Message-Id: <20161106175234.13878-2-sj38.park@gmail.com>
-In-Reply-To: <20161106175234.13878-1-sj38.park@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47840 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751167AbcKFX32 (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 6
+ Nov 2016 18:29:28 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id uA6NSfPQ008023
+ for <perfbook@vger.kernel.org>; Sun, 6 Nov 2016 18:28:52 -0500
+Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 26j7r1vbeg-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
+ 06 Nov 2016 18:28:51 -0500
+Received: from localhost by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 6 Nov 2016
+ 16:28:51 -0700
+Date: Sun, 6 Nov 2016 15:28:49 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 1/2] rt: Insert missing NBSPs
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <20161106175234.13878-1-sj38.park@gmail.com>
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20161106175234.13878-1-sj38.park@gmail.com>
+Message-Id: <20161106232849.GK24166@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: SeongJae Park <sj38.park@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- rt/rt.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Nov 07, 2016 at 02:52:33AM +0900, SeongJae Park wrote:
+> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 
-diff --git a/rt/rt.tex b/rt/rt.tex
-index 870bc9af6e0b..6fbc8dde0808 100644
---- a/rt/rt.tex
-+++ b/rt/rt.tex
-@@ -1849,7 +1849,7 @@ on lines~17-35.
- 	the call to \co{malloc()}???
- \QuickQuizAnswer{
- 	In early 2016, situations forbidding runtime memory were
--	also not soo excited with multithreaded computing.
-+	also not so excited with multithreaded computing.
- 	So the runtime memory allocation is not an additional
- 	obstacle to safety criticality.
- } \QuickQuizEnd
--- 
-2.10.0
+Queued, thank you!
+
+							Thanx, Paul
+
+> ---
+>  rt/rt.tex | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/rt/rt.tex b/rt/rt.tex
+> index 21a53a4514b8..870bc9af6e0b 100644
+> --- a/rt/rt.tex
+> +++ b/rt/rt.tex
+> @@ -386,7 +386,7 @@ cylinder contained in the log to the blade,
+>  Each of these six phases of operation might well have its own set of
+>  deadlines and environmental constraints,
+>  for example, one would expect phase~4's deadlines to be much more severe
+> -than those of phase 6, milliseconds instead of seconds.
+> +than those of phase~6, milliseconds instead of seconds.
+>  One might therefore expect that low-priority work would be performed in
+>  phase~6 rather than in phase~4.
+>  That said, careful choices of hardware, drivers, and software configuration
+> @@ -1429,7 +1429,7 @@ only being one runnable task on that CPU is said to be in
+>  \emph{adaptive ticks mode}.
+> 
+>  As an alternative to the \co{nohz_full=} boot parameter, you can build
+> -your kernel with \co{NO_HZ_FULL_ALL}, which will designate CPU 0 as
+> +your kernel with \co{NO_HZ_FULL_ALL}, which will designate CPU~0 as
+>  a housekeeping CPU and all other CPUs as worker CPUs.
+>  Either way, it is important to ensure that you have designated enough
+>  housekeeping CPUs to handle the housekeeping load imposed by the
+> -- 
+> 2.10.0
+> 
 
