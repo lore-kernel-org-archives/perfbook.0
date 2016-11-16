@@ -1,67 +1,81 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47523 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751464AbcKPPKt (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Wed, 16 Nov 2016 10:10:49 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id uAGF8mTB026434
- for <perfbook@vger.kernel.org>; Wed, 16 Nov 2016 10:10:48 -0500
-Received: from e32.co.us.ibm.com (e32.co.us.ibm.com [32.97.110.150]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 26rq3fruw6-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Wed,
- 16 Nov 2016 10:10:48 -0500
-Received: from localhost by e32.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Wed, 16 Nov
- 2016 08:10:48 -0700
-Date: Wed, 16 Nov 2016 07:10:46 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=PVZgRWUHKtqgg3QsVvmpL+3fQ2NBkb3nobf8u6rdagM=;
+ b=n47MNc4XTPLGkpUSpUwc26C2XbIVpw5ATJHNJ9mYXlXJH3zUX7ogYkOkNqIKlrpFpB
+ NfO6HX7+YGe82bQ2KUJTrb2dka9yvPB8zabC8bDQ37/LkKK8Vc762Gp3/2O+60kp1fyj
+ NS0NqeyUmZlEg/6mAbk1hxe5YYrKkI721XNIckBFiREWztUuX0hEOSYnBCi5/B/9cVgx
+ ZUF8NlhbmSWiiYVmLrtgB1bHl1JDWfOhWiQTu30fHBnw5MTVTc49zi573mHy00qMwHS3
+ V+sPkkltLyUqjlBGUyqYTUynu2f1u6D90/PNibtZjTstB+7vVbZ8RP36ZQvUr75vQMG4
+ paBw==
 Subject: Re: [PATCH 0/3] Adjust labeling of chapter and appendix
-Reply-To: paulmck@linux.vnet.ibm.com
 References: <74e04f98-adb1-cd0d-7b6f-bbd550a6ea56@gmail.com>
+ <20161116151046.GG3612@linux.vnet.ibm.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <ebfc7992-2384-6e37-a301-9d519aa1bef7@gmail.com>
+Date: Thu, 17 Nov 2016 07:26:17 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <74e04f98-adb1-cd0d-7b6f-bbd550a6ea56@gmail.com>
-Message-Id: <20161116151046.GG3612@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <20161116151046.GG3612@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Nov 16, 2016 at 09:57:08AM +0900, Akira Yokosawa wrote:
-> >From 08d86c4db893e5b689c4d051b765006ce507c45c Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Wed, 16 Nov 2016 09:43:11 +0900
-> Subject: [PATCH 0/3] Adjust labeling of chapter and appendix
+On 2016/11/16 07:10:46 -0800, Paul E. McKenney wrote:
+> On Wed, Nov 16, 2016 at 09:57:08AM +0900, Akira Yokosawa wrote:
+>> >From 08d86c4db893e5b689c4d051b765006ce507c45c Mon Sep 17 00:00:00 2001
+>> From: Akira Yokosawa <akiyks@gmail.com>
+>> Date: Wed, 16 Nov 2016 09:43:11 +0900
+>> Subject: [PATCH 0/3] Adjust labeling of chapter and appendix
+>>
+>> Hi Paul,
+>>
+>> "bib" cleanups aside, I noticed a few inconsistent labeling of
+>> "formal" and "whymemorybarriers".
+>> This patch set adjusts them.
 > 
-> Hi Paul,
-> 
-> "bib" cleanups aside, I noticed a few inconsistent labeling of
-> "formal" and "whymemorybarriers".
-> This patch set adjusts them.
+> Good catches, applied, thank you!
 
-Good catches, applied, thank you!
+You are welcome!
 
-							Thanx, Paul
+BTW, did you miss the patch "[PATCH] bib: Fix several typos" from Tobias
+dated "Tue,  8 Nov 2016 10:46:10 +0100"?
 
->                                           Thanks, Akira
+I'm asking because you almost always respond within a few days.
+
+You missed the previous patch set from Tobias. Does a spam filter or something
+prevent you from receiving it?
+
+You can see the mail archived at:
+http://www.spinics.net/lists/perfbook/msg00595.html.
+(with mail address obfuscated)
+
+                                                    Thanks, Akira
+
 > 
-> ---
-> Akira Yokosawa (3):
->   formal: Promote \OriginallyPublieshed macro to Chapter
->   appendix/ack: Adjust labeling in 'Reviewers' section
->   treewide: Adjust labeling of 'formal'
+> 							Thanx, Paul
 > 
->  appendix/ack/ack.tex            | 8 ++++----
->  appendix/rcuimpl/rcupreempt.tex | 2 +-
->  debugging/debugging.tex         | 2 +-
->  defer/toyrcu.tex                | 2 +-
->  formal/dyntickrcu.tex           | 2 +-
->  formal/formal.tex               | 2 +-
->  6 files changed, 9 insertions(+), 9 deletions(-)
+>>                                           Thanks, Akira
+>>
+>> ---
+>> Akira Yokosawa (3):
+>>   formal: Promote \OriginallyPublieshed macro to Chapter
+>>   appendix/ack: Adjust labeling in 'Reviewers' section
+>>   treewide: Adjust labeling of 'formal'
+>>
+>>  appendix/ack/ack.tex            | 8 ++++----
+>>  appendix/rcuimpl/rcupreempt.tex | 2 +-
+>>  debugging/debugging.tex         | 2 +-
+>>  defer/toyrcu.tex                | 2 +-
+>>  formal/dyntickrcu.tex           | 2 +-
+>>  formal/formal.tex               | 2 +-
+>>  6 files changed, 9 insertions(+), 9 deletions(-)
+>>
+>> -- 
+>> 2.7.4
+>>
 > 
-> -- 
-> 2.7.4
 > 
 
