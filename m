@@ -1,97 +1,41 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51567 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1752275AbcKQRjC (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Thu, 17 Nov 2016 12:39:02 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id uAHHctn4135998
- for <perfbook@vger.kernel.org>; Thu, 17 Nov 2016 12:39:01 -0500
-Received: from e35.co.us.ibm.com (e35.co.us.ibm.com [32.97.110.153]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 26sfh1d9ru-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Thu,
- 17 Nov 2016 12:39:01 -0500
-Received: from localhost by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 17 Nov
- 2016 10:39:00 -0700
-Date: Thu, 17 Nov 2016 09:38:59 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/3] Adjust labeling of chapter and appendix
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <74e04f98-adb1-cd0d-7b6f-bbd550a6ea56@gmail.com>
- <20161116151046.GG3612@linux.vnet.ibm.com>
- <ebfc7992-2384-6e37-a301-9d519aa1bef7@gmail.com>
+Received: from mail-pf0-f171.google.com ([209.85.192.171]:35033 "EHLO
+ mail-pf0-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1752653AbcKROxB (ORCPT <rfc822;perfbook@vger.kernel.org>); Fri, 18
+ Nov 2016 09:53:01 -0500
+Received: by mail-pf0-f171.google.com with SMTP id i88so55036390pfk.2 for
+ <perfbook@vger.kernel.org>; Fri, 18 Nov 2016 06:53:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;        h=to:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=wFfIqy2cKEBLdwv7jlOQOyxUZ2SNdcQj9mPMGEGdFZ4=;
+ b=puQHwaiVDCb3SYHrSV5C5znUUiXvsGElielid0wdHjh5O/ZvAguo1jXUuoH6XLoi3t
+ z9vs99VLuwKNXTV+dQ5rHDucNRdOaAkrEggB0TmwXB5cqWBGeeDsegkk2X2Vqn/MLlGt
+ z56GhthEJPA36nkXwKwB/O9dxe+3H3FYEeuW+YoqfQgrUgR49qxpqndB37FESkVHRzcK
+ b1JPbcnt+7kbeifXBlA9Ajn3f0Y5lM4TaE6YXgL7IQXKxxAir0rpBCkNRaYMfHmfsGPs
+ 1MZUdBvErsbvQktElp0NnC6vpkHSdVgBUWe0PJQtAh5apAbjXqn5MGf8XtwxyvoeQ+b+
+ OztQ==
+Received: from [192.168.11.4] (KD106167171201.ppp-bb.dion.ne.jp.
+ [106.167.171.201]) by smtp.gmail.com with ESMTPSA id
+ u1sm18706389pfb.96.2016.11.18.06.52.57 for <perfbook@vger.kernel.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Fri, 18 Nov
+ 2016 06:52:58 -0800 (PST)
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [TEST] Test of mail addressed only to perfbook list
+Message-ID: <ccc01ce1-5ce2-cfe4-872b-0c79f2afa49a@gmail.com>
+Date: Fri, 18 Nov 2016 23:52:58 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ebfc7992-2384-6e37-a301-9d519aa1bef7@gmail.com>
-Message-Id: <20161117173859.GF3612@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: perfbook@vger.kernel.org
 
-On Thu, Nov 17, 2016 at 07:26:17AM +0900, Akira Yokosawa wrote:
-> On 2016/11/16 07:10:46 -0800, Paul E. McKenney wrote:
-> > On Wed, Nov 16, 2016 at 09:57:08AM +0900, Akira Yokosawa wrote:
-> >> >From 08d86c4db893e5b689c4d051b765006ce507c45c Mon Sep 17 00:00:00 2001
-> >> From: Akira Yokosawa <akiyks@gmail.com>
-> >> Date: Wed, 16 Nov 2016 09:43:11 +0900
-> >> Subject: [PATCH 0/3] Adjust labeling of chapter and appendix
-> >>
-> >> Hi Paul,
-> >>
-> >> "bib" cleanups aside, I noticed a few inconsistent labeling of
-> >> "formal" and "whymemorybarriers".
-> >> This patch set adjusts them.
-> > 
-> > Good catches, applied, thank you!
-> 
-> You are welcome!
-> 
-> BTW, did you miss the patch "[PATCH] bib: Fix several typos" from Tobias
-> dated "Tue,  8 Nov 2016 10:46:10 +0100"?
-> 
-> I'm asking because you almost always respond within a few days.
-> 
-> You missed the previous patch set from Tobias. Does a spam filter or something
-> prevent you from receiving it?
-> 
-> You can see the mail archived at:
-> http://www.spinics.net/lists/perfbook/msg00595.html.
-> (with mail address obfuscated)
+Hi list subscribers,
 
-I am not getting the emails from Tobias for whatever reason.  Because
-I don't receive them, I have no way of determining why I don't receive
-them.  :-(
+I'm testing a mail addressed only to perfbook list to see what happened
+to Tobias's patch the other day. Sorry for the noise.
 
-							Thanx, Paul
+Paul, can you receive this one?
 
->                                                     Thanks, Akira
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> >>                                           Thanks, Akira
-> >>
-> >> ---
-> >> Akira Yokosawa (3):
-> >>   formal: Promote \OriginallyPublieshed macro to Chapter
-> >>   appendix/ack: Adjust labeling in 'Reviewers' section
-> >>   treewide: Adjust labeling of 'formal'
-> >>
-> >>  appendix/ack/ack.tex            | 8 ++++----
-> >>  appendix/rcuimpl/rcupreempt.tex | 2 +-
-> >>  debugging/debugging.tex         | 2 +-
-> >>  defer/toyrcu.tex                | 2 +-
-> >>  formal/dyntickrcu.tex           | 2 +-
-> >>  formal/formal.tex               | 2 +-
-> >>  6 files changed, 9 insertions(+), 9 deletions(-)
-> >>
-> >> -- 
-> >> 2.7.4
-> >>
-> > 
-> > 
-> 
-
+                                          Thanks, Akira
