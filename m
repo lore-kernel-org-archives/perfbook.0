@@ -1,150 +1,266 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50911 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751180AbcLFOH7 (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Tue, 6 Dec 2016 09:07:59 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id uB6E1Ygl048434
- for <perfbook@vger.kernel.org>; Tue, 6 Dec 2016 09:07:58 -0500
-Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 275unvaysm-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
- 06 Dec 2016 09:07:57 -0500
-Received: from localhost by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 6 Dec 2016
- 07:07:54 -0700
-Date: Tue, 6 Dec 2016 06:07:57 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [RFC PULL] bib: Append DOI fields
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <ed2fcfd1-0a00-8b8a-e106-bd715ee416d0@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20120113;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=Jto+zjdXp3PtZihlztTRokWwr+C/Y/J2WY5vD2idGZs=;
+ b=AQBXo4wUe9VI/22jyZoKsUyxlV1lT1CIgzmMA4jKmWNILAUhTaZpfHFRvQ7RRoUinM
+ jhsC5pJXNkA6mMt9vYgB4rrmAL6Bc5vRCsERHnLcKCdfwJgD0SU22yY4dOe8BZmVffg4
+ MvGwxZX1cj1KV3LIqIRgE2cEZt5bBE3SY5D3KkUbc167cdswlEF0qSMikf3Gw/GHTlHA
+ x24QNxl06gUKJRrwItiPb6TJ8BPvCPssHRlJaHdGQOdCq0r9eE9x1iTE2f/dV/rn6ENE
+ Btp7DDRc51AMAmy0Gv4WaJJa/rkdAzAQ3Vs0SEQ7WVPL0R69badtzW2XHkB9GXhsHGLD
+ SZfg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] Abort build if 'mpost' is present in sources
+Message-ID: <e9e56741-64b8-4030-55a0-c68a0df6676f@gmail.com>
+Date: Mon, 12 Dec 2016 00:31:36 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ed2fcfd1-0a00-8b8a-e106-bd715ee416d0@gmail.com>
-Message-Id: <20161206140757.GF3924@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Dec 03, 2016 at 05:26:15PM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> Seems like you were very busy this couple of weeks at the RCU front.
-> Meanwhile, I did my homework of bibliography cleanups.
-> 
-> This pull request consists of easy patches just appending DOI fields.
-> I thought it would be easier for you to apply them to your private
-> repository if I split them to individual commits.
-> So there are 50 commits of one-liner.
-> 
-> I can squash them if you'd like them to be.
-> 
-> And there is no visual effect in the resulting bibliography output at
-> the moment. They will be embedded as hyperlinks once we switch
-> bibliography style to the url-aware "alphapf".
-> 
-> I'm preparing other branches to append or salvage URLs.
-> Tree-wide format changes can be done later (if I can manage to write
-> a script), but when I update a URL in a note field, I'll remove
-> "Available:" and "[Viewed ...]", then append a "lastchecked" field.
-> 
-> Thoughts?
-> 
->                                               Thanks, Akira
+From 35304561657c417ed2820664fa424feedc461fc2 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sat, 10 Dec 2016 15:38:34 +0900
+Subject: [PATCH] Abort build if 'mpost' is present in sources
 
-They look like great improvements!
+A POC of an arbitrary command execution vulnerability in TeX config
+was disclosed on November 28, 2016.
 
-Having them split up works best for me.  I will incorporate them, but
-it may be a few days before I get to it.
+To avoid the exploitation, this commit adds checks just before latex
+invocations in runfirstlatex.sh, runlatex.sh, and the ".tex -> .eps"
+rule of Makefile.
 
-My process is to pull your changes into a separate branch, apply the
-changes incrementally to my source bibtex archive, use a script to pull
-the changes into perfbook, and "git diff" against the separate branch
-to check each step.
+The added script "mpostcheck.sh" first checks if your config is
+secure. If it is not, then it aborts the build if a word "mpost" is
+found in the sources. (It is not present at the moment.)
 
-If you know of a better way, please don't keep it a secret.  ;-)
+If "mpost" is not found, the build will continue. But mpostcheck.sh
+displays a warning message. To make sure the message can catch eyes,
+the script is also invoked at the end of runlatex.sh.
 
-							Thanx, Paul
+Once you fix your TeX config, the behavior of the build scripts
+will be the same as before.
 
-> ----
-> The following changes since commit 345ba95e4a578614247a7077602026dd7f6b1dd0:
-> 
->   Add Joe Duffy citations to STM discussion (2016-12-02 09:32:16 -0800)
-> 
-> are available in the git repository at:
-> 
->   https://github.com/akiyks/perfbook.git bib-append-doi
-> 
-> for you to fetch changes up to 8b3c3e02533a28e599448051bddf13e5cac615fe:
-> 
->   bib/syncrefs: Append doi to Cai-DongWang1996PrioInherLock (2016-12-03 09:00:31 +0900)
-> 
-> ----------------------------------------------------------------
-> Akira Yokosawa (50):
->       bib/perfmeas: Append doi to Anderson97
->       bib/cyncrefs: Append doi to HagitAttiya2011LawsOfOrder
->       bib/swtools: Append doi to JadeAlglave2013-cav
->       bib/parallelsys: Append doi to GeneAmdahl1967AmdahlsLaw
->       bib/syncrefs: Append doi to Anderson90
->       bib/TM: Append doi to Blundell2006TMdeadlock
->       bib/TM: Append doi to CalinCascaval2008tmtoy
->       bib/syncrefs: Append doi to Courtois71
->       bib/RCU: Append doi to AustinClements2012RCULinux:mmapsem
->       bib/TM: Append doi to AleksandarDragovejic2011STMnotToy
->       bib/swtools: Append doi to VijayDSilva2012-sas
->       bib/syncrefs: Append doi to Dijkstra65a
->       bib/TM: Append doi to DavidDice:2010:SCA:HTM:deque
->       bib/os: Append doi to Cheriton96a
->       bib/RCU: Append doi to DinakarGuniguntala2008IBMSysJ
->       bib/syncrefs: Append doi to Graunke90
->       bib/WFS: Append doi to MauriceHerlihy90a
->       bib/WFS: Append doi to Herlihy91
->       bib/syncrefs: Append doi to AndreasHaas2013CFRelaxedQueues
->       bib/syncrefs: Append doi to AndreasHaas2012FIFOisnt
->       bib/WFS: Append doi to HerlihyLM02
->       bib/TM: Append doi to Herlihy93a
->       bib/RCU: Append doi to ThomasEHart2006a
->       bib/syncrefs: Append doi to WilsonCHsieh92a
->       bib/refs: Append doi to VanJacobson88
->       bib/TM: Append doi to ChristianJacobi2012MainframeTM
->       bib/TM: Append doi to SanjeevKumar2006
->       bib/RCU: Append doi to Kung80
->       bib/syncrefs: Append doi to Lamport74a
->       bib/refs: Append doi to McKenney90
->       bib/perfmeas: Append doi to McKenney95a
->       bib/syncrefs: Append doi to McKenney96a
->       bib/syncrefs: Append doi to MellorCrummey91a
->       bib/os: Append doi to McKenney92b
->       bib/os: Append doi to McKenney92a
->       bib/hw: Append doi to MiloMKMartin2012scale
->       bib/TM: Append doi to PaulEMcKenney2010OSRGrassGreener
->       bib/WFS: Append doi to MichaelScott96
->       bib/os: Append doi to McKenney01e
->       bib/parallelsys: Append doi to Olukotun96
->       bib/TM: Append doi to ChistopherJRossbach2007a
->       bib/hw: Append doi to DanielJSorin2011MemModel
->       bib/syncrefs: Append doi to Segall84
->       bib/parallelsys: Append doi to DuaneSzafron1994PEMPDS
->       bib/TM: Append doi to JMStone93
->       bib/TM: Append doi to Shavit95
->       bib/syncrefs: Append doi to Takada:1995:RSN:527074.828566
->       bib/WFS: Append doi to Valois95a
->       bib/syncrefs: Append doi to Wisniewski94
->       bib/syncrefs: Append doi to Cai-DongWang1996PrioInherLock
-> 
->  bib/RCU.bib         |  4 ++++
->  bib/TM.bib          | 11 +++++++++++
->  bib/WFS.bib         |  5 +++++
->  bib/hw.bib          |  2 ++
->  bib/os.bib          |  4 ++++
->  bib/parallelsys.bib |  3 +++
->  bib/perfmeas.bib    |  2 ++
->  bib/refs.bib        |  2 ++
->  bib/swtools.bib     |  2 ++
->  bib/syncrefs.bib    | 15 +++++++++++++++
->  10 files changed, 50 insertions(+)
-> 
+Refer to the comment in mpostcheck.sh for the circumstances and
+instructions for fixing your TeX config.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Makefile                   |   1 +
+ utilities/mpostcheck.sh    | 149 +++++++++++++++++++++++++++++++++++++++++++++
+ utilities/runfirstlatex.sh |   5 ++
+ utilities/runlatex.sh      |   5 ++
+ 4 files changed, 160 insertions(+)
+ create mode 100644 utilities/mpostcheck.sh
+
+diff --git a/Makefile b/Makefile
+index efd4e1b..e125678 100644
+--- a/Makefile
++++ b/Makefile
+@@ -122,6 +122,7 @@ perfbook-1csf.tex: perfbook-1c.tex
+
+ $(EPSSOURCES_FROM_TEX): %.eps: %.tex
+ 	@echo "$< --> $@"
++	sh utilities/mpostcheck.sh
+ 	@latex -output-directory=$(shell dirname $<) $< > /dev/null 2>&1
+ 	@dvips -Pdownload35 -E $(patsubst %.tex,%.dvi,$<) -o $@ > /dev/null 2>&1
+ 	@sh utilities/fixanepsfonts.sh $@
+diff --git a/utilities/mpostcheck.sh b/utilities/mpostcheck.sh
+new file mode 100644
+index 0000000..0e54923
+--- /dev/null
++++ b/utilities/mpostcheck.sh
+@@ -0,0 +1,149 @@
++#!/bin/sh
++# Check the presence of "mpost" in LaTeX sources
++#
++# A POC of an arbitrary code execution vulnerability in the default
++# configuration of TeX packages was disclosed at
++# https://scumjr.github.io/2016/11/28/pwning-coworkers-thanks-to-latex/.
++# TeX Live 2016 is updated on November 30, 2016 to plug the security hole
++# by removing "mpost" from the "shell_escape_commands" variable of default
++# texmf configuration.
++# However, depending on the customization of a user, he/she can still be
++# affected after the update.
++#
++# To prevent exploitation of the vulnerability, this script checks
++# if "mpost" is present in source files of perfbook.
++# If the vulnerability is fixed in your TeX environment, the check is
++# skipped.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, you can access it online at
++# http://www.gnu.org/licenses/gpl-2.0.html.
++#
++# Copyright (C) Akira Yokosawa, 2016
++#
++# Authors: Akira Yokosawa <akiyks@gmail.com>
++#
++#-------------------------------------------------------------------
++# Instruction to plug the security hole
++# (based on http://d.hatena.ne.jp/zrbabbler/20161206/1481039449 (in Japanese),
++# translated and supplemented by Akira Yokosawa)
++#
++# 1. Test the config of your TeX environment
++#
++# Enter the following in a command shell:
++#
++#   $ kpsewhich -var-value=shell_escape_commands
++#
++# Example output:
++#
++#   bibtex,bibtex8,extractbb,kpsewhich,makeindex,mpost,repstopdf
++#
++# If "mpost" appears in the output, your setting is vulnerable.
++# Following variants of "mpost" are also vulnerable:
++#    pmpost
++#    jmpost
++#    upmpost
++#
++# Note:
++#   "rmpost" and "rpmpost" in the list are known to be safe.
++#
++# 2. Solution
++#
++# 2-1. Update TeX distribution if possible
++#
++#   However, depending on your customization, you may still be vulnerable.
++#   Do Step 1 again after the update.
++#   If you are still vulnerable, proceed to Step 2-2.
++#
++# 2-2. Modify texmf configuration
++#
++# 2-2-1. Using tlmgr
++#
++#   If tlmgr is available, enter the following command in a command shell:
++#
++#   $ tlmgr conf texmf shell_escape_commands [list]
++#
++#   Here, [list] is a command list displayed in Step 1 with "mpost," removed,
++#   e.g.:
++#
++#   $ tlmgr conf texmf shell_escape_commands \
++#   > bibtex,bibtex8,extractbb,kpsewhich,makeindex,repstopdf
++#
++# 2-2-2. Manual fix
++#
++#  If tlmgr is not available, proceed as follows:
++#
++#  o Search effective texmf.cnf
++#
++#   Enter the following command:
++#
++#   $ kpsewhich texmf.cnf
++#
++#   The path displayed is the effective one.
++#
++#  o Edit the texmf.cnf to remove "mpost" from shell_escape_commands
++#
++#   If there is a line beginning with "shell_escape_commands=" in the
++#   texmf.cnf file, edit it to remove "mpost,".
++#
++#   If there is not such a line, add a line of:
++#
++#   shell_escape_commands=[list]
++#
++#   where [list] is again a command list displayed in Step 1 with "mpost,"
++#   removed, e.g.:
++#
++#   shell_escape_commands=bibtex,bibtex8,extractbb,kpsewhich,makeindex,repstopdf
++#
++# Note:
++#   If the effective texmf.cnf has a comment saying not to edit it directly,
++#   follow the instruction given there.
++#-------------------------------------------------------------------
++
++dogrep() {
++	texsrc=`find . -name "*.tex" -print`
++	bibsrc=`find . -name "*.bib" -print`
++	stysrc=`find . -name "*.sty" -print`
++	clssrc=`find . -name "*.cls" -print`
++	bstsrc=`find . -name "*.bst" -print`
++	perfbooksrc="$texsrc $bibsrc $stysrc $clssrc $bstsrc"
++	if grep -w -n "mpost" $perfbooksrc || \
++			grep -w -n "[jp]mpost" $perfbooksrc || \
++			grep -w -n "upmpost" $perfbooksrc
++	then
++		echo "#####################################################"
++		echo "## 'mpost' is found in LaTeX sources. Aborting...  ##"
++		echo "## Refer to comment in utilities/mpostcheck.sh.    ##"
++		echo "#####################################################"
++		exit 1
++	fi
++}
++
++if which kpsewhich >/dev/null
++then
++	command_list=`kpsewhich -var-value=shell_escape_commands`
++	if echo $command_list | grep -w -q "mpost" || \
++			echo $command_list | grep -w -q "[jp]mpost" || \
++			echo $command_list | grep -w -q "upmpost"
++	then
++		echo "kpsewhich -var-value=shell_escape_commands"
++		echo $command_list
++		echo "WARNING: Refer to utilities/mpostcheck.sh for texmf config fix."
++		dogrep
++	else
++		exit 0
++	fi
++else
++	dogrep
++	exit 0
++fi
+diff --git a/utilities/runfirstlatex.sh b/utilities/runfirstlatex.sh
+index ac2edb2..5060725 100644
+--- a/utilities/runfirstlatex.sh
++++ b/utilities/runfirstlatex.sh
+@@ -32,6 +32,11 @@ then
+ 	exit 1
+ fi
+
++if ! sh utilities/mpostcheck.sh
++then
++	exit 1
++fi
++
+ basename=`echo $1 | sed -e 's/\.tex$//'`
+
+ echo "pdflatex 1 for $basename.pdf"
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index dca728c..a577a0c 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -38,6 +38,10 @@ basename=`echo $1 | sed -e 's/\.tex$//'`
+
+ if ! test -r $basename-first.log
+ then
++	if ! sh utilities/mpostcheck.sh
++	then
++		exit 1
++	fi
+ 	echo "pdflatex 1 for $basename.pdf"
+ 	pdflatex $basename > /dev/null 2>&1 < /dev/null || :
+ 	if grep -q '! Emergency stop.' $basename.log
+@@ -129,4 +133,5 @@ then
+ 	echo "## See item 1 in FAQ.txt and FAQ-BUILD.txt to fix the font issue.    ##"
+ 	echo "#######################################################################"
+ fi
++sh utilities/mpostcheck.sh
+ exit 0
+-- 
+2.7.4
+
 
