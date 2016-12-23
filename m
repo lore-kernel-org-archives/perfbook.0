@@ -1,51 +1,78 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=hCrS+GUJ/GQIexImKbSiGwoYbsFgy+JQCAC3Ktt38qY=;
- b=YviFnBS9xt4UvrdE0MVVhljByOmvbQ6TR0iEbcq7FDKLcKmIEj0s7XmRjGTVUqPoBK
- h/h/e8E0ThFrySE3sycci6USqiLWoaECn5K0dFAoYo7BhY0tEvajpdubCXjiAYyTVSAi
- rb/89jAYtUNK0IIITxVPHb/cRq9aIrA6BdZH6HqLR3H+AX0KiQ8Dmdd+18NPWQlPJcQH
- 3q9pUo65gVIjhRy4r/vY6Xz4ucNAnYCeEzof7elT4r+19u8pvKkV++Eu+yjRqP4XinQy
- Gp549J4LMpYl3hIrjZJRFM5v8vMYELzXh/p1e/RpxEhNA1SUXZvkWhglG1Y4UwGG+mEt
- Fklg==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] advsync/memorybarriers: Followup fix of quotation marks
-Message-ID: <e39454aa-08ff-3800-f290-06aad8b662ee@gmail.com>
-Date: Fri, 23 Dec 2016 20:35:24 +0900
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53608 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S941837AbcLWUxb (ORCPT <rfc822;perfbook@vger.kernel.org>); Fri, 23
+ Dec 2016 15:53:31 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id uBNKnNO4053676
+ for <perfbook@vger.kernel.org>; Fri, 23 Dec 2016 15:53:31 -0500
+Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 27h70e0kfv-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Fri,
+ 23 Dec 2016 15:53:30 -0500
+Received: from localhost by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Fri, 23 Dec
+ 2016 13:53:29 -0700
+Date: Fri, 23 Dec 2016 10:58:42 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/3] Patches for recent updates
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <729a5146-a533-0511-d3a0-88ca20a10106@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <729a5146-a533-0511-d3a0-88ca20a10106@gmail.com>
+Message-Id: <20161223185842.GB3742@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 7ad42793dc172ad9d416062f54ea0f68872a52b8 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 23 Dec 2016 20:26:19 +0900
-Subject: [PATCH] advsync/memorybarriers: Followup fix of quotation marks
+On Fri, Dec 23, 2016 at 05:07:17PM +0900, Akira Yokosawa wrote:
+> >From cbb7797d6b307850a280248589bc09b8852e8a68 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Fri, 23 Dec 2016 16:46:06 +0900
+> Subject: [PATCH 0/3] Patches for recent updates
+> 
+> Hi Paul,
+> 
+> This short patch set consists of fixes to recent updates in
+> advsync/memorybarriers.
+> 
+> I'm not sure what is your preference of quotation of short variable
+> names and keywords. In the 1st patch, I chose the form of ~~\co{a}''.
+> If you prefer other one, please let me know.
+> 
+> Ya, I know a variety of styles are mixed-used in perfbook,
+> reflecting various original publications...
 
-This commit fixes remaining literal double quotation marks.
+My current rule is that an identifier can be mistaken for an English
+word or letter of the alphabet, then it should be in double quotation
+marks and under \co{}, consistent with your changes.  However, something
+like "rcu_node" cannot reasonably be mistaken for English, so it only
+needs \co{}.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- advsync/memorybarriers.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thoughts?
 
-diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index e35e04c..4ecee71 100644
---- a/advsync/memorybarriers.tex
-+++ b/advsync/memorybarriers.tex
-@@ -2136,7 +2136,7 @@ The following list of rules summarizes the lessons of this section:
- 	either by preceding both of them with \co{smp_mb()} or by using
- 	\co{smp_store_release()} to carry out the stores.
- 	Please note that it is \emph{not} sufficient to use \co{barrier()}
--	at beginning of each leg of the "if" statement because, as shown
-+	at beginning of each leg of the ``\co{if}'' statement because, as shown
- 	by the example above, optimizing compilers can destroy the control
- 	dependency while respecting the letter of the \co{barrier()} law.
+> But at least within a (sub)section, it would be better to keep
+> consistency.
 
--- 
-2.7.4
+Applied and pushed, thank you!
+
+							Thanx, Paul
+
+>                                                 Thanks, Akira
+> -- 
+> Akira Yokosawa (3):
+>   advsync/memorybarriers: Use consistent quotation marks
+>   advsync/memorybarriers: Fix typo (READ_ONCE -> WRITE_ONCE)
+>   advsync/memorybarriers: Fix trivial typo
+> 
+>  advsync/memorybarriers.tex | 30 +++++++++++++++---------------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
