@@ -2,23 +2,22 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=Wprjb1DJbRHhSrFltNgd7yCyDUrB+LYeklmCVH3tdzc=;
- b=pz8fd75njOkdDOdzOOEf7mHssWBLw5mmHNp5JLX6Uue8B2PQFEqVGaZ8IVbSp4Jp4f
- z7hcPotCMyxlSWZZ6ijJ1qersiX5nenBptLNvTWezc1XhMPN0y88b0G2mKnyGuvj1T6x
- axvg5VE/cfs5RfQz1qDt5pgLD7LQYUYSVWkxPwFZtA+ZIntRu1IHaZjT5a6HQ5nwj9rD
- rs1QzCcFDtexDp0qz8OuooEmAYpAORHIHkM6BhiEXt4lp27G1f4djTGY77DMHv81X05O
- Uu249HhwNJzDHNVHvhDlBvvLIer4TIq0hGGXMpd9jobRuelsFciSE9rFHUAcR2q0FT0e
- LdkA==
-Subject: [PATCH 1/2] Add script to tweak output of 'alphapf' bibliography
- stile
+ bh=yPLzxgRv7qDju7AK3MEeT7BFLNNWY90kljl9hwlOVFg=;
+ b=UxpWwWJKAa0OhdXa+S5iD0owi7k2Rru2MZgPA2TsT+1gSUDtW2ngcsgoerVGdIHSO7
+ UE/lE2BzNXE1f6l9eCFtC919M3DASgyjbYbWAgcxh3vk7UXL/PHkutsuoXqNUhBh9xJF
+ GzjvkrJnDp8M7FDOeXr1ICjepiuhWgWLRdHz4ldQpfg7vvX3Ld7klOcoc2Oi5mtybHwx
+ tm4/Q5D80UjrdEJIKURoPm8EN6JHOW4uHGrpqr4gcQqwoodRQkTALq1s5IhLpWunVALY
+ jMj17UtomFpdQ7JNqi09xAiwAVpMz02hKY458bBdW9EG3IbUQ8Qp0JJLfNH9wtMIF4gR
+ wzEw==
+Subject: [PATCH 2/2] alphapf.bst: Enable 'inlinelinks'
 References: <72375aa0-f2bd-72b0-e39c-69ce8d7ccadc@gmail.com>
  <20161106234719.GL24166@linux.vnet.ibm.com>
  <20161224070505.GA16424@linux.vnet.ibm.com>
  <ac74555d-18c3-9bb1-66cc-e2acb3888dcd@gmail.com>
  <af2c3345-2e60-1582-1f8f-d2adb3413927@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <c24b3bcb-e6d5-eae6-e0da-4cc13c04fafb@gmail.com>
-Date: Sun, 25 Dec 2016 20:45:07 +0900
+Message-ID: <da2ebff3-57a2-ba62-97ab-f9d8abb85b60@gmail.com>
+Date: Sun, 25 Dec 2016 20:46:27 +0900
 MIME-Version: 1.0
 In-Reply-To: <af2c3345-2e60-1582-1f8f-d2adb3413927@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -27,84 +26,29 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 446d9fb1743d3750b06923e32f449469cb1364de Mon Sep 17 00:00:00 2001
+From 651a65ca5cc7c0a1b14a022c8295f43f329affa3 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 25 Dec 2016 19:59:58 +0900
-Subject: [PATCH 1/2] Add script to tweak output of 'alphapf' bibliography stile
-
-"inlinelinks" in alphapf.bst caused PDFTeX to abort.
-This was because href-ed long titles in Bibliography can cross
-page boundaries. The combination of PDFTeX and "hyperref" package
-can't handle such a situation.
-You can avoid the issue by manually adjust page breaks. But in
-perfbook, page boundaries in Bibliography can not be controlled
-precisely.
-This commit adds a script to convert \href related output of BiBTeX
-on the fly. It shortens the href-ed part in title strings to the
-beginning of two characters.
+Date: Sat, 5 Nov 2016 08:40:25 +0900
+Subject: [PATCH 2/2] alphapf.bst: Enable 'inlinelinks'
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile                    |  1 +
- utilities/tweakhrefinbbl.pl | 37 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
- create mode 100644 utilities/tweakhrefinbbl.pl
+ alphapf.bst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index f0944f0..0ace9dc 100644
---- a/Makefile
-+++ b/Makefile
-@@ -70,6 +70,7 @@ $(PDFTARGETS): %.pdf: %.tex %.bbl
+diff --git a/alphapf.bst b/alphapf.bst
+index 498e0ee..6a9ec4d 100644
+--- a/alphapf.bst
++++ b/alphapf.bst
+@@ -69,7 +69,7 @@ FUNCTION {init.urlbst.variables}
+   #1 'adddoiresolver :=     % 0=no DOI resolver; 1=include it
+   #1 'addpubmedresolver :=     % 0=no PUBMED resolver; 1=include it
+   #2 'hrefform :=           % 0=no crossrefs; 1=hypertex xrefs; 2=hyperref refs
+-  #0 'inlinelinks :=        % 0=URLs explicit; 1=URLs attached to titles
++  #1 'inlinelinks :=        % 0=URLs explicit; 1=URLs attached to titles
 
- $(PDFTARGETS:.pdf=.bbl): %.bbl: %.aux
- 	bibtex $(basename $@)
-+	perl utilities/tweakhrefinbbl.pl $@
-
- $(PDFTARGETS:.pdf=.aux): $(LATEXSOURCES) $(LATEXGENERATED) $(BIBSOURCES)
- 	sh utilities/runfirstlatex.sh $(basename $@)
-diff --git a/utilities/tweakhrefinbbl.pl b/utilities/tweakhrefinbbl.pl
-new file mode 100644
-index 0000000..6727a28
---- /dev/null
-+++ b/utilities/tweakhrefinbbl.pl
-@@ -0,0 +1,37 @@
-+#!/usr/bin/perl -pi
-+# Tweak output of BiBTeX with alphapf bibliography style
-+#
-+# This script does the following conversion in .bbl
-+#
-+#  o \newblock \href {http://URL} {Title of the site}.
-+#    ->
-+#    \newblock \href {http://URL} {Ti}{tle of the site}.
-+#  o \newblock \href {http://URL} {{\em Book Title}}.
-+#    ->
-+#    \newblock \href {http://URL} {{\em {Bo}}}{\em {ok Title}}.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program; if not, you can access it online at
-+# http://www.gnu.org/licenses/gpl-2.0.html.
-+#
-+# Copyright (C) Akira Yokosawa, 2016
-+#
-+# Authors: Akira Yokosawa <akiyks@gmail.com>
-+
-+use strict;
-+use warnings;
-+
-+BEGIN {undef $/;}
-+
-+s/\\newblock \\href\s+\{([^}]*)\}\s+\{([^\\\{]{1}\S?)(.*?)\}\.$/\\newblock \\href {$1} {$2}{$3}./smg ;
-+s/\\newblock \\href\s+\{([^}]*)\}\s+\{\{\\em\s+([^\\\{]{1}\S?)(.*?)\}\.$/\\newblock \\href {$1} {{\\em {$2}}}{\\em {$3}./smg ;
+   % String constants, which you _might_ want to tweak.
+   "URL: " 'urlintro := % prefix before URL; typically "Available from:" or "URL":
 -- 
 2.7.4
 
