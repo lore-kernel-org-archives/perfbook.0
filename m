@@ -1,157 +1,134 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20120113;        h=subject:references:cc:to:from:message-id:date:user-agent
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=x8KrZh0yf+z+K2H4IXlGV1YDlX27j62ny4io0r0Jzns=;
- b=Pbjv9zaz2M+0kK9y7nQiNEGHXxIjYPWhQXrw5v7ZNaelqJZbGbJpJ8GRICapx7IGDy
- xN0iQHJli/tFzWntYpTl4T8sN7YFi7AG1ByCzNjjoJVI4mIq/OSr0ZN2G+TxQW/xdKID
- dpO5TnoLFsVdyZtBhvljB1YglDzKWUl4kF3GKuKPkFTBrnLFpZud3KgGzi2H5Jpb/CgF
- 8N5PycRRoLlIE3nzEBQMpLhkF8A/xt4xcC/1O77pA/Gsqh0FSkjyTHPnpkXoH4b4BcLY
- CE4zfJIDC9LqlXSPYKKES1V1kGvCQrH9al3wN07p8RNjWl4Urvdc/G3rQUb3se6fgDW9
- 6XlQ==
-Subject: Re: [RFC PULL] bib: Append DOI fields
-References: <ed2fcfd1-0a00-8b8a-e106-bd715ee416d0@gmail.com>
- <20161206140757.GF3924@linux.vnet.ibm.com>
+ bh=PhzRX7+NtzVbgQ9G+Qf6ycNAgRLb+ldd5pmISBUH0PI=;
+ b=Ny35K6cwajOKuhny0v896hxW3N1O5Yy7lr+x3nJCKKwXjAw/08eRIF/DlTc8MfgEn8
+ mfjhb4/HnRl583KoK8dP2smhgNNFh4/+J17xrnrN4mzAqvueUKULa7EMpLJC75otPMqW
+ MDuM4YTIUjrZTlXZ5PhtrrPCN9MrJqCupBAuzUaoIVLr+ZLxjT9ydA79kYGUkeaeRo8Q
+ 1oe5fgCCHZNoA8GUjB9cwH2ymPxMNuim+KeYNz6C2gUghb0Kp7lkp2LBrZTfTYQdr0OY
+ 6JG4SQfIk4mwyIn7ojGhW20k5QGaklp+/2zc5KIYE1+cOrxS3Dn3L5Tz0xGUdAuyPIoa
+ 107A==
+Subject: [PATCH 0/2] Add script to convert BiBTeX output (was Re: [RFC PULL]
+ Bibliography URL cleanup)
+References: <72375aa0-f2bd-72b0-e39c-69ce8d7ccadc@gmail.com>
+ <20161106234719.GL24166@linux.vnet.ibm.com>
+ <20161224070505.GA16424@linux.vnet.ibm.com>
+ <ac74555d-18c3-9bb1-66cc-e2acb3888dcd@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <37c815a4-9d78-82a0-d811-b97009f67e39@gmail.com>
-Date: Thu, 8 Dec 2016 00:01:06 +0900
+Message-ID: <af2c3345-2e60-1582-1f8f-d2adb3413927@gmail.com>
+Date: Sun, 25 Dec 2016 20:42:18 +0900
 MIME-Version: 1.0
-In-Reply-To: <20161206140757.GF3924@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <ac74555d-18c3-9bb1-66cc-e2acb3888dcd@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2016/12/06 06:07:57 -0800, Paul E. McKenney wrote:
-> On Sat, Dec 03, 2016 at 05:26:15PM +0900, Akira Yokosawa wrote:
->> Hi Paul,
+On 2016/12/24 16:36:32 +0900, Akira Yokosawa wrote:
+> On 2016/12/24 23:05:05 -0800, Paul E. McKenney wrote:
+>> On Sun, Nov 06, 2016 at 03:47:19PM -0800, Paul E. McKenney wrote:
+>>> On Sat, Nov 05, 2016 at 05:16:19PM +0900, Akira Yokosawa wrote:
+>>>> Hi Paul,
+>>>>
+>>>> On 2016/10/28, 11:30:38 -0700, Paul E. McKenney wrote:
+>>>>> On Fri, Oct 28, 2016 at 07:45:16AM +0900, Akira Yokosawa wrote:
+>>>> [snip]
+>>>>>> So, these bib files are an library collected for nearly three decades!!!
+>>>>>> They are invaluable as they are, and I'd appreciate your decision to
+>>>>>> make them public.
+>>>>>
+>>>>> Unfortunately, many of the comments on the early entries reflect my
+>>>>> relative youth and impetuosity, so unless or until I get time to edit
+>>>>> the whole mess so as to avoid offending any number of authors (to say
+>>>>> nothing of their disciples!), I must keep the originals private.
+>>>>
+>>>> I see. I misunderstood the circumstances. So you made only a part of your
+>>>> bib files public.
+>>>>
+>>>>>
+>>>>>> There are two issues in urls in the bib files.
+>>>>>> One is the inconsistency of format discussed here.
+>>>>>> The other is the dead links. There are quite a few urls that end up in
+>>>>>> "not found" now. Maintaining urls would require a great deal of work itself...
+>>>>>>
+>>>>>> To make the format consistent, a script would work. But before beginning
+>>>>>> implementation, we need to clarify what the script would do.
+>>>>>> So I'll make some sample replacement patches to confirm your preference.
+>>>>>
+>>>>> Sounds good, and I look forward to seeing them!
+>>>>
+>>>> I said to make "some sample replacement patches", but it became quite
+>>>> intensive changes. So I'm sending them as a pull request. I don't expect
+>>>> you to actually pull them as it is, but just to pull them on a local
+>>>> branch and see what they look like.
+>>>
+>>> I have pulled thme into akiyks.2016.11.05a, and pushed the first nine
+>>> patches.  I am reflecting those changes in my bib sources as well.
+>>> Looked sane at first glance, but yes, I need to work out how to handle
+>>> the later ones with other documents...
 >>
->> Seems like you were very busy this couple of weeks at the RCU front.
->> Meanwhile, I did my homework of bibliography cleanups.
+>> And the later .bib edits seem compatible with my current tools, even
+>> without the script and .bst changes.  So I have applied them in tandem
+>> to my .bib source and to the perfbook bibliography.  I was able to
+>> find valid URLs for a few of the entries, so used them instead of
+>> \nolinkurl{}, but several do appear to be quite dead.
 >>
->> This pull request consists of easy patches just appending DOI fields.
->> I thought it would be easier for you to apply them to your private
->> repository if I split them to individual commits.
->> So there are 50 commits of one-liner.
+>> I also applied the alphapf.bst changes, but left inlinelinks disabled
+>> for the time being.  (I am concerned about leaving authors off.)
 >>
->> I can squash them if you'd like them to be.
->>
->> And there is no visual effect in the resulting bibliography output at
->> the moment. They will be embedded as hyperlinks once we switch
->> bibliography style to the url-aware "alphapf".
->>
->> I'm preparing other branches to append or salvage URLs.
->> Tree-wide format changes can be done later (if I can manage to write
->> a script), but when I update a URL in a note field, I'll remove
->> "Available:" and "[Viewed ...]", then append a "lastchecked" field.
->>
->> Thoughts?
->>
->>                                               Thanks, Akira
+>> Thank you very much for your work on this!!!
 > 
-> They look like great improvements!
+> You are welcome!
+> 
+> Now, the branch "bib-append-doi" might have some conflicts.
+> I'll rebase it and submit a v2 of the PULL request.
+> 
+> inlinelinks seems to have upper limits of around 13 authors.
+> I've not found any workaround of the issue...
+> Can't you live with a short author field supplemented by a note of
+> full authors list?
 
-Good to know what you feel. ;-)
+Hi Paul,
+
+As you have switched to alphapf.bst, I investigated this issue.
+It turned out that the length of author list is *not* the root cause.
+By changing the length of the list, I unintentionally moved the
+page boundary in Bibliography, and that resolved the build error.
+
+The root cause of the error was an href-ed *long* title which crossed
+a page boundary.
+
+In perfbook, you can't control page breaks in Bibliography by the
+nature of the project. So, I wrote a perl script to convert output of
+BiBTeX on the fly.
+
+Now, you can enable "inlinelins". Note that in appending url info to
+.bib files, we may need to add more conversion patters. 
+
+                                             Thanks, Akira
+
+--
+Akira Yokosawa (2):
+  Add script to tweak output of 'alphapf' bibliography stile
+  alphapf.bst: Enable 'inlinelinks'
+
+ Makefile                    |  1 +
+ alphapf.bst                 |  2 +-
+ utilities/tweakhrefinbbl.pl | 37 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 39 insertions(+), 1 deletion(-)
+ create mode 100644 utilities/tweakhrefinbbl.pl
+
+-- 
+2.7.4
 
 > 
-> Having them split up works best for me.  I will incorporate them, but
-> it may be a few days before I get to it.
-
-I see.
-
-> My process is to pull your changes into a separate branch, apply the
-> changes incrementally to my source bibtex archive, use a script to pull
-> the changes into perfbook, and "git diff" against the separate branch
-> to check each step.
+>                                                    Thanks, Akira
 > 
-> If you know of a better way, please don't keep it a secret.  ;-)
-
-I have no better idea. Actually speaking, I worried a bit that 50 separate
-commits might overwhelm you. But I'm relieved to know you prefer this way.
-
-                                                 Thanks, Akira
-> 
-> 							Thanx, Paul
-> 
->> ----
->> The following changes since commit 345ba95e4a578614247a7077602026dd7f6b1dd0:
 >>
->>   Add Joe Duffy citations to STM discussion (2016-12-02 09:32:16 -0800)
+>> 							Thanx, Paul
 >>
->> are available in the git repository at:
->>
->>   https://github.com/akiyks/perfbook.git bib-append-doi
->>
->> for you to fetch changes up to 8b3c3e02533a28e599448051bddf13e5cac615fe:
->>
->>   bib/syncrefs: Append doi to Cai-DongWang1996PrioInherLock (2016-12-03 09:00:31 +0900)
->>
->> ----------------------------------------------------------------
->> Akira Yokosawa (50):
->>       bib/perfmeas: Append doi to Anderson97
->>       bib/cyncrefs: Append doi to HagitAttiya2011LawsOfOrder
->>       bib/swtools: Append doi to JadeAlglave2013-cav
->>       bib/parallelsys: Append doi to GeneAmdahl1967AmdahlsLaw
->>       bib/syncrefs: Append doi to Anderson90
->>       bib/TM: Append doi to Blundell2006TMdeadlock
->>       bib/TM: Append doi to CalinCascaval2008tmtoy
->>       bib/syncrefs: Append doi to Courtois71
->>       bib/RCU: Append doi to AustinClements2012RCULinux:mmapsem
->>       bib/TM: Append doi to AleksandarDragovejic2011STMnotToy
->>       bib/swtools: Append doi to VijayDSilva2012-sas
->>       bib/syncrefs: Append doi to Dijkstra65a
->>       bib/TM: Append doi to DavidDice:2010:SCA:HTM:deque
->>       bib/os: Append doi to Cheriton96a
->>       bib/RCU: Append doi to DinakarGuniguntala2008IBMSysJ
->>       bib/syncrefs: Append doi to Graunke90
->>       bib/WFS: Append doi to MauriceHerlihy90a
->>       bib/WFS: Append doi to Herlihy91
->>       bib/syncrefs: Append doi to AndreasHaas2013CFRelaxedQueues
->>       bib/syncrefs: Append doi to AndreasHaas2012FIFOisnt
->>       bib/WFS: Append doi to HerlihyLM02
->>       bib/TM: Append doi to Herlihy93a
->>       bib/RCU: Append doi to ThomasEHart2006a
->>       bib/syncrefs: Append doi to WilsonCHsieh92a
->>       bib/refs: Append doi to VanJacobson88
->>       bib/TM: Append doi to ChristianJacobi2012MainframeTM
->>       bib/TM: Append doi to SanjeevKumar2006
->>       bib/RCU: Append doi to Kung80
->>       bib/syncrefs: Append doi to Lamport74a
->>       bib/refs: Append doi to McKenney90
->>       bib/perfmeas: Append doi to McKenney95a
->>       bib/syncrefs: Append doi to McKenney96a
->>       bib/syncrefs: Append doi to MellorCrummey91a
->>       bib/os: Append doi to McKenney92b
->>       bib/os: Append doi to McKenney92a
->>       bib/hw: Append doi to MiloMKMartin2012scale
->>       bib/TM: Append doi to PaulEMcKenney2010OSRGrassGreener
->>       bib/WFS: Append doi to MichaelScott96
->>       bib/os: Append doi to McKenney01e
->>       bib/parallelsys: Append doi to Olukotun96
->>       bib/TM: Append doi to ChistopherJRossbach2007a
->>       bib/hw: Append doi to DanielJSorin2011MemModel
->>       bib/syncrefs: Append doi to Segall84
->>       bib/parallelsys: Append doi to DuaneSzafron1994PEMPDS
->>       bib/TM: Append doi to JMStone93
->>       bib/TM: Append doi to Shavit95
->>       bib/syncrefs: Append doi to Takada:1995:RSN:527074.828566
->>       bib/WFS: Append doi to Valois95a
->>       bib/syncrefs: Append doi to Wisniewski94
->>       bib/syncrefs: Append doi to Cai-DongWang1996PrioInherLock
->>
->>  bib/RCU.bib         |  4 ++++
->>  bib/TM.bib          | 11 +++++++++++
->>  bib/WFS.bib         |  5 +++++
->>  bib/hw.bib          |  2 ++
->>  bib/os.bib          |  4 ++++
->>  bib/parallelsys.bib |  3 +++
->>  bib/perfmeas.bib    |  2 ++
->>  bib/refs.bib        |  2 ++
->>  bib/swtools.bib     |  2 ++
->>  bib/syncrefs.bib    | 15 +++++++++++++++
->>  10 files changed, 50 insertions(+)
->>
-> 
+> [snip]
 > 
 
