@@ -2,133 +2,110 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=PhzRX7+NtzVbgQ9G+Qf6ycNAgRLb+ldd5pmISBUH0PI=;
- b=Ny35K6cwajOKuhny0v896hxW3N1O5Yy7lr+x3nJCKKwXjAw/08eRIF/DlTc8MfgEn8
- mfjhb4/HnRl583KoK8dP2smhgNNFh4/+J17xrnrN4mzAqvueUKULa7EMpLJC75otPMqW
- MDuM4YTIUjrZTlXZ5PhtrrPCN9MrJqCupBAuzUaoIVLr+ZLxjT9ydA79kYGUkeaeRo8Q
- 1oe5fgCCHZNoA8GUjB9cwH2ymPxMNuim+KeYNz6C2gUghb0Kp7lkp2LBrZTfTYQdr0OY
- 6JG4SQfIk4mwyIn7ojGhW20k5QGaklp+/2zc5KIYE1+cOrxS3Dn3L5Tz0xGUdAuyPIoa
- 107A==
-Subject: [PATCH 0/2] Add script to convert BiBTeX output (was Re: [RFC PULL]
- Bibliography URL cleanup)
+ bh=Wprjb1DJbRHhSrFltNgd7yCyDUrB+LYeklmCVH3tdzc=;
+ b=pz8fd75njOkdDOdzOOEf7mHssWBLw5mmHNp5JLX6Uue8B2PQFEqVGaZ8IVbSp4Jp4f
+ z7hcPotCMyxlSWZZ6ijJ1qersiX5nenBptLNvTWezc1XhMPN0y88b0G2mKnyGuvj1T6x
+ axvg5VE/cfs5RfQz1qDt5pgLD7LQYUYSVWkxPwFZtA+ZIntRu1IHaZjT5a6HQ5nwj9rD
+ rs1QzCcFDtexDp0qz8OuooEmAYpAORHIHkM6BhiEXt4lp27G1f4djTGY77DMHv81X05O
+ Uu249HhwNJzDHNVHvhDlBvvLIer4TIq0hGGXMpd9jobRuelsFciSE9rFHUAcR2q0FT0e
+ LdkA==
+Subject: [PATCH 1/2] Add script to tweak output of 'alphapf' bibliography
+ stile
 References: <72375aa0-f2bd-72b0-e39c-69ce8d7ccadc@gmail.com>
  <20161106234719.GL24166@linux.vnet.ibm.com>
  <20161224070505.GA16424@linux.vnet.ibm.com>
  <ac74555d-18c3-9bb1-66cc-e2acb3888dcd@gmail.com>
+ <af2c3345-2e60-1582-1f8f-d2adb3413927@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <af2c3345-2e60-1582-1f8f-d2adb3413927@gmail.com>
-Date: Sun, 25 Dec 2016 20:42:18 +0900
+Message-ID: <c24b3bcb-e6d5-eae6-e0da-4cc13c04fafb@gmail.com>
+Date: Sun, 25 Dec 2016 20:45:07 +0900
 MIME-Version: 1.0
-In-Reply-To: <ac74555d-18c3-9bb1-66cc-e2acb3888dcd@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <af2c3345-2e60-1582-1f8f-d2adb3413927@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2016/12/24 16:36:32 +0900, Akira Yokosawa wrote:
-> On 2016/12/24 23:05:05 -0800, Paul E. McKenney wrote:
->> On Sun, Nov 06, 2016 at 03:47:19PM -0800, Paul E. McKenney wrote:
->>> On Sat, Nov 05, 2016 at 05:16:19PM +0900, Akira Yokosawa wrote:
->>>> Hi Paul,
->>>>
->>>> On 2016/10/28, 11:30:38 -0700, Paul E. McKenney wrote:
->>>>> On Fri, Oct 28, 2016 at 07:45:16AM +0900, Akira Yokosawa wrote:
->>>> [snip]
->>>>>> So, these bib files are an library collected for nearly three decades!!!
->>>>>> They are invaluable as they are, and I'd appreciate your decision to
->>>>>> make them public.
->>>>>
->>>>> Unfortunately, many of the comments on the early entries reflect my
->>>>> relative youth and impetuosity, so unless or until I get time to edit
->>>>> the whole mess so as to avoid offending any number of authors (to say
->>>>> nothing of their disciples!), I must keep the originals private.
->>>>
->>>> I see. I misunderstood the circumstances. So you made only a part of your
->>>> bib files public.
->>>>
->>>>>
->>>>>> There are two issues in urls in the bib files.
->>>>>> One is the inconsistency of format discussed here.
->>>>>> The other is the dead links. There are quite a few urls that end up in
->>>>>> "not found" now. Maintaining urls would require a great deal of work itself...
->>>>>>
->>>>>> To make the format consistent, a script would work. But before beginning
->>>>>> implementation, we need to clarify what the script would do.
->>>>>> So I'll make some sample replacement patches to confirm your preference.
->>>>>
->>>>> Sounds good, and I look forward to seeing them!
->>>>
->>>> I said to make "some sample replacement patches", but it became quite
->>>> intensive changes. So I'm sending them as a pull request. I don't expect
->>>> you to actually pull them as it is, but just to pull them on a local
->>>> branch and see what they look like.
->>>
->>> I have pulled thme into akiyks.2016.11.05a, and pushed the first nine
->>> patches.  I am reflecting those changes in my bib sources as well.
->>> Looked sane at first glance, but yes, I need to work out how to handle
->>> the later ones with other documents...
->>
->> And the later .bib edits seem compatible with my current tools, even
->> without the script and .bst changes.  So I have applied them in tandem
->> to my .bib source and to the perfbook bibliography.  I was able to
->> find valid URLs for a few of the entries, so used them instead of
->> \nolinkurl{}, but several do appear to be quite dead.
->>
->> I also applied the alphapf.bst changes, but left inlinelinks disabled
->> for the time being.  (I am concerned about leaving authors off.)
->>
->> Thank you very much for your work on this!!!
-> 
-> You are welcome!
-> 
-> Now, the branch "bib-append-doi" might have some conflicts.
-> I'll rebase it and submit a v2 of the PULL request.
-> 
-> inlinelinks seems to have upper limits of around 13 authors.
-> I've not found any workaround of the issue...
-> Can't you live with a short author field supplemented by a note of
-> full authors list?
+From 446d9fb1743d3750b06923e32f449469cb1364de Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 25 Dec 2016 19:59:58 +0900
+Subject: [PATCH 1/2] Add script to tweak output of 'alphapf' bibliography stile
 
-Hi Paul,
+"inlinelinks" in alphapf.bst caused PDFTeX to abort.
+This was because href-ed long titles in Bibliography can cross
+page boundaries. The combination of PDFTeX and "hyperref" package
+can't handle such a situation.
+You can avoid the issue by manually adjust page breaks. But in
+perfbook, page boundaries in Bibliography can not be controlled
+precisely.
+This commit adds a script to convert \href related output of BiBTeX
+on the fly. It shortens the href-ed part in title strings to the
+beginning of two characters.
 
-As you have switched to alphapf.bst, I investigated this issue.
-It turned out that the length of author list is *not* the root cause.
-By changing the length of the list, I unintentionally moved the
-page boundary in Bibliography, and that resolved the build error.
-
-The root cause of the error was an href-ed *long* title which crossed
-a page boundary.
-
-In perfbook, you can't control page breaks in Bibliography by the
-nature of the project. So, I wrote a perl script to convert output of
-BiBTeX on the fly.
-
-Now, you can enable "inlinelins". Note that in appending url info to
-.bib files, we may need to add more conversion patters. 
-
-                                             Thanks, Akira
-
---
-Akira Yokosawa (2):
-  Add script to tweak output of 'alphapf' bibliography stile
-  alphapf.bst: Enable 'inlinelinks'
-
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
  Makefile                    |  1 +
- alphapf.bst                 |  2 +-
  utilities/tweakhrefinbbl.pl | 37 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 39 insertions(+), 1 deletion(-)
+ 2 files changed, 38 insertions(+)
  create mode 100644 utilities/tweakhrefinbbl.pl
 
+diff --git a/Makefile b/Makefile
+index f0944f0..0ace9dc 100644
+--- a/Makefile
++++ b/Makefile
+@@ -70,6 +70,7 @@ $(PDFTARGETS): %.pdf: %.tex %.bbl
+
+ $(PDFTARGETS:.pdf=.bbl): %.bbl: %.aux
+ 	bibtex $(basename $@)
++	perl utilities/tweakhrefinbbl.pl $@
+
+ $(PDFTARGETS:.pdf=.aux): $(LATEXSOURCES) $(LATEXGENERATED) $(BIBSOURCES)
+ 	sh utilities/runfirstlatex.sh $(basename $@)
+diff --git a/utilities/tweakhrefinbbl.pl b/utilities/tweakhrefinbbl.pl
+new file mode 100644
+index 0000000..6727a28
+--- /dev/null
++++ b/utilities/tweakhrefinbbl.pl
+@@ -0,0 +1,37 @@
++#!/usr/bin/perl -pi
++# Tweak output of BiBTeX with alphapf bibliography style
++#
++# This script does the following conversion in .bbl
++#
++#  o \newblock \href {http://URL} {Title of the site}.
++#    ->
++#    \newblock \href {http://URL} {Ti}{tle of the site}.
++#  o \newblock \href {http://URL} {{\em Book Title}}.
++#    ->
++#    \newblock \href {http://URL} {{\em {Bo}}}{\em {ok Title}}.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, you can access it online at
++# http://www.gnu.org/licenses/gpl-2.0.html.
++#
++# Copyright (C) Akira Yokosawa, 2016
++#
++# Authors: Akira Yokosawa <akiyks@gmail.com>
++
++use strict;
++use warnings;
++
++BEGIN {undef $/;}
++
++s/\\newblock \\href\s+\{([^}]*)\}\s+\{([^\\\{]{1}\S?)(.*?)\}\.$/\\newblock \\href {$1} {$2}{$3}./smg ;
++s/\\newblock \\href\s+\{([^}]*)\}\s+\{\{\\em\s+([^\\\{]{1}\S?)(.*?)\}\.$/\\newblock \\href {$1} {{\\em {$2}}}{\\em {$3}./smg ;
 -- 
 2.7.4
 
-> 
->                                                    Thanks, Akira
-> 
->>
->> 							Thanx, Paul
->>
-> [snip]
-> 
 
