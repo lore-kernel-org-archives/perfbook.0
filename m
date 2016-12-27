@@ -1,80 +1,76 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=Bs1QszUufkUjnTb0+difG7CE4SPzU9COTUj7x5JVo7A=;
- b=LZQInQXErb4U3vAm2hoq3mHe/A5MoGiXhDNpagQi7ABNn6b9oAY7/xWdrEr5uZ21n+
- j0SPRXGw9FNJXCinBPIRJ23XTLOWBuBPGmPVrvhV5OXHWyoEBXuUzAL9KhEUIK+WTWh2
- 0grLASWeLOY7/ZzGPYd7zNPtAYNPYVQSTNI4mBybPxfUncpU5XSLfoaF2I7YutUqyArX
- jq835EcNn/aKkX6AtVEljup11+MEe8b5KkRjAgvzP+jcyPrceW9ZafCV2tF9k1sDwyn6
- D7jI5hEO1jM0U3WKKj8/blXfivhIu+EGpV+d0UuTq+HEw9s/PFJJV9923fbYrJRZBOS2
- psQg==
-Subject: [PATCH 2/2] Enable 'inlinelinks' option of alphapf.bst for 1c layout
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32949 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1752216AbcL0Uxq (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 27
+ Dec 2016 15:53:46 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id uBRKrjqQ098123
+ for <perfbook@vger.kernel.org>; Tue, 27 Dec 2016 15:53:45 -0500
+Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 27kp3qngr5-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
+ 27 Dec 2016 15:53:45 -0500
+Received: from localhost by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 27 Dec
+ 2016 13:53:43 -0700
+Date: Tue, 27 Dec 2016 12:53:45 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/2] Enable inlinelinks of alphapf.bst for 1c
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <f75680a3-5af7-4c3f-eeb1-f6e13d739f87@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <0b075f22-b247-fe66-f202-e849e39c5f72@gmail.com>
-Date: Wed, 28 Dec 2016 00:30:50 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <f75680a3-5af7-4c3f-eeb1-f6e13d739f87@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20161227205345.GO3742@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 3f4f73d738b77422bd074322f3ac67f644a8d580 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 28 Dec 2016 00:06:04 +0900
-Subject: [PATCH 2/2] Enable 'inlinelinks' option of alphapf.bst for 1c layout
+On Wed, Dec 28, 2016 at 12:25:48AM +0900, Akira Yokosawa wrote:
+> >From 3f4f73d738b77422bd074322f3ac67f644a8d580 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Wed, 28 Dec 2016 00:10:28 +0900
+> Subject: [PATCH 0/2] Enable inlinelinks of alphapf.bst for 1c
+> 
+> Hi Paul,
+> 
+> On 2016/12/26 16:39:52 -0800, Paul E. McKenney wrote:
+> > On Mon, Dec 26, 2016 at 11:52:40PM +0900, Akira Yokosawa wrote:
+> [snip]
+> >> One idea is to use alphapf.bst only for 1c with inlinelinks enabled. 
+> >>
+> >> Thoughts?
+> >
+> > I am good with enabling alphaph.bst inlinelinks only for 1c!
+> 
+> So, this patch set does the change.
+> For 2c, we reverted to the original alpha bibliography style for the
+> moment.
+> And I'll keep polishing the band-aid script to shorten the href-ed part
+> in titles. You might want to try it for 2c when you do a release.
 
-The "hyperref" package has an issue when a link crosses a page
-or column boundary in two column layout.
+Applied and pushed, thank you!
 
-See:
-  http://tex.stackexchange.com/questions/1522/
-  http://tex.stackexchange.com/questions/249579/
+Speaking of releases, for whatever it is worth, I expect to do one
+in a few days.
 
-To avoid this issue, this commit enables "inlinelinks" option only
-for one column layout.
-For two column layout, original alpha style is selected for the
-moment.
+							Thanx, Paul
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- alphapf.bst           | 2 +-
- appendix/appendix.tex | 6 +++++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/alphapf.bst b/alphapf.bst
-index 498e0ee..6a9ec4d 100644
---- a/alphapf.bst
-+++ b/alphapf.bst
-@@ -69,7 +69,7 @@ FUNCTION {init.urlbst.variables}
-   #1 'adddoiresolver :=     % 0=no DOI resolver; 1=include it
-   #1 'addpubmedresolver :=     % 0=no PUBMED resolver; 1=include it
-   #2 'hrefform :=           % 0=no crossrefs; 1=hypertex xrefs; 2=hyperref refs
--  #0 'inlinelinks :=        % 0=URLs explicit; 1=URLs attached to titles
-+  #1 'inlinelinks :=        % 0=URLs explicit; 1=URLs attached to titles
-
-   % String constants, which you _might_ want to tweak.
-   "URL: " 'urlintro := % prefix before URL; typically "Available from:" or "URL":
-diff --git a/appendix/appendix.tex b/appendix/appendix.tex
-index 53abf2b..e94fd28 100644
---- a/appendix/appendix.tex
-+++ b/appendix/appendix.tex
-@@ -5,6 +5,10 @@
- \include{appendix/whymb/whymemorybarriers}
- \QuickQuizAnswers
- \input{glossary.tex}
--\bibliographystyle{alphapf} % use alpha style customized by urlbst with --inlinelinks option
-+\IfTwoColumn{
-+\bibliographystyle{alpha}   % Use genuine alpha style
-+}{
-+\bibliographystyle{alphapf} % Use alpha style customized by urlbst with --inlinelinks option
-+}
- \bibliography{bib/RCU,bib/WFS,bib/hw,bib/os,bib/parallelsys,bib/patterns,bib/perfmeas,bib/refs,bib/syncrefs,bib/search,bib/swtools,bib/realtime,bib/TM,bib/standards,bib/OSS,bib/maze,bib/energy}
- \include{appendix/ack/ack}
--- 
-2.7.4
-
+>                                                   Thanks, Akira
+> --
+> Akira Yokosawa (2):
+>   Makefile: Fix .bbl dependency
+>   Enable 'inlinelinks' option of alphapf.bst for 1c layout
+> 
+>  Makefile              | 4 ++--
+>  alphapf.bst           | 2 +-
+>  appendix/appendix.tex | 6 +++++-
+>  3 files changed, 8 insertions(+), 4 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
