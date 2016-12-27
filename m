@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=rlpezfZUBP00FZ6I610oxfyTbmfiIfNlDe+/SU3s+2s=;
- b=vKxuU+66iOdOE5hBHbJFwn2naOe+Y2/bFfypu3oFcOgh7yQSvF0ZZOyedmaaFeQN0B
- sTQU/3K3pO19AOvcqqAe5gvYFXaoEHMcpJn9PPRgQcowL65OPNTRdn0iS6fL737UQL1p
- ryuCKcsyd05ET6+fyIxCK98sMi/gUI2RoZBQLOYkiC93YIP2njQqq439xZHu/kWNgy5j
- nudi490zvZsmL/vysbqxnGhuq4DQ7aTvvK5XJ/YOuELIozdYKfcux/Y/wSf3PIcE+GTH
- +jALlM+1Agppe4wMEUrV2ZaqvrAFN0No0ZBRPgsZjZL1hTEeDMl63KXWk8DwSq8A5v+9
- ZKEA==
-Subject: [PATCH 1/2] Makefile: Fix .bbl dependency
+ bh=Bs1QszUufkUjnTb0+difG7CE4SPzU9COTUj7x5JVo7A=;
+ b=LZQInQXErb4U3vAm2hoq3mHe/A5MoGiXhDNpagQi7ABNn6b9oAY7/xWdrEr5uZ21n+
+ j0SPRXGw9FNJXCinBPIRJ23XTLOWBuBPGmPVrvhV5OXHWyoEBXuUzAL9KhEUIK+WTWh2
+ 0grLASWeLOY7/ZzGPYd7zNPtAYNPYVQSTNI4mBybPxfUncpU5XSLfoaF2I7YutUqyArX
+ jq835EcNn/aKkX6AtVEljup11+MEe8b5KkRjAgvzP+jcyPrceW9ZafCV2tF9k1sDwyn6
+ D7jI5hEO1jM0U3WKKj8/blXfivhIu+EGpV+d0UuTq+HEw9s/PFJJV9923fbYrJRZBOS2
+ psQg==
+Subject: [PATCH 2/2] Enable 'inlinelinks' option of alphapf.bst for 1c layout
 References: <f75680a3-5af7-4c3f-eeb1-f6e13d739f87@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <799db01c-64d2-ee1f-83a4-aa24c88dc857@gmail.com>
-Date: Wed, 28 Dec 2016 00:27:59 +0900
+Message-ID: <0b075f22-b247-fe66-f202-e849e39c5f72@gmail.com>
+Date: Wed, 28 Dec 2016 00:30:50 +0900
 MIME-Version: 1.0
 In-Reply-To: <f75680a3-5af7-4c3f-eeb1-f6e13d739f87@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,36 +22,58 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 842d6a4951c24e01a905c28babe9b127e197ae19 Mon Sep 17 00:00:00 2001
+From 3f4f73d738b77422bd074322f3ac67f644a8d580 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 28 Dec 2016 00:00:44 +0900
-Subject: [PATCH 1/2] Makefile: Fix .bbl dependency
+Date: Wed, 28 Dec 2016 00:06:04 +0900
+Subject: [PATCH 2/2] Enable 'inlinelinks' option of alphapf.bst for 1c layout
 
-BiBTeX didn't run properly after update of alphapf.bst.
-$(BIBSOURCES) should have been in the dependency of ".bbl".
+The "hyperref" package has an issue when a link crosses a page
+or column boundary in two column layout.
+
+See:
+  http://tex.stackexchange.com/questions/1522/
+  http://tex.stackexchange.com/questions/249579/
+
+To avoid this issue, this commit enables "inlinelinks" option only
+for one column layout.
+For two column layout, original alpha style is selected for the
+moment.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ alphapf.bst           | 2 +-
+ appendix/appendix.tex | 6 +++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index f0944f0..f446a66 100644
---- a/Makefile
-+++ b/Makefile
-@@ -68,10 +68,10 @@ all: $(targ)
- $(PDFTARGETS): %.pdf: %.tex %.bbl
- 	sh utilities/runlatex.sh $(basename $@)
+diff --git a/alphapf.bst b/alphapf.bst
+index 498e0ee..6a9ec4d 100644
+--- a/alphapf.bst
++++ b/alphapf.bst
+@@ -69,7 +69,7 @@ FUNCTION {init.urlbst.variables}
+   #1 'adddoiresolver :=     % 0=no DOI resolver; 1=include it
+   #1 'addpubmedresolver :=     % 0=no PUBMED resolver; 1=include it
+   #2 'hrefform :=           % 0=no crossrefs; 1=hypertex xrefs; 2=hyperref refs
+-  #0 'inlinelinks :=        % 0=URLs explicit; 1=URLs attached to titles
++  #1 'inlinelinks :=        % 0=URLs explicit; 1=URLs attached to titles
 
--$(PDFTARGETS:.pdf=.bbl): %.bbl: %.aux
-+$(PDFTARGETS:.pdf=.bbl): %.bbl: %.aux $(BIBSOURCES)
- 	bibtex $(basename $@)
-
--$(PDFTARGETS:.pdf=.aux): $(LATEXSOURCES) $(LATEXGENERATED) $(BIBSOURCES)
-+$(PDFTARGETS:.pdf=.aux): $(LATEXSOURCES) $(LATEXGENERATED)
- 	sh utilities/runfirstlatex.sh $(basename $@)
-
- perfbook_flat.tex: perfbook.tex $(LATEXSOURCES) $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG)
+   % String constants, which you _might_ want to tweak.
+   "URL: " 'urlintro := % prefix before URL; typically "Available from:" or "URL":
+diff --git a/appendix/appendix.tex b/appendix/appendix.tex
+index 53abf2b..e94fd28 100644
+--- a/appendix/appendix.tex
++++ b/appendix/appendix.tex
+@@ -5,6 +5,10 @@
+ \include{appendix/whymb/whymemorybarriers}
+ \QuickQuizAnswers
+ \input{glossary.tex}
+-\bibliographystyle{alphapf} % use alpha style customized by urlbst with --inlinelinks option
++\IfTwoColumn{
++\bibliographystyle{alpha}   % Use genuine alpha style
++}{
++\bibliographystyle{alphapf} % Use alpha style customized by urlbst with --inlinelinks option
++}
+ \bibliography{bib/RCU,bib/WFS,bib/hw,bib/os,bib/parallelsys,bib/patterns,bib/perfmeas,bib/refs,bib/syncrefs,bib/search,bib/swtools,bib/realtime,bib/TM,bib/standards,bib/OSS,bib/maze,bib/energy}
+ \include{appendix/ack/ack}
 -- 
 2.7.4
 
