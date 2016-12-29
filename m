@@ -1,76 +1,54 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32949 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1752216AbcL0Uxq (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 27
- Dec 2016 15:53:46 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id uBRKrjqQ098123
- for <perfbook@vger.kernel.org>; Tue, 27 Dec 2016 15:53:45 -0500
-Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 27kp3qngr5-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
- 27 Dec 2016 15:53:45 -0500
-Received: from localhost by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 27 Dec
- 2016 13:53:43 -0700
-Date: Tue, 27 Dec 2016 12:53:45 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/2] Enable inlinelinks of alphapf.bst for 1c
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <f75680a3-5af7-4c3f-eeb1-f6e13d739f87@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=c+8Vvt+bdWPCZdHfdc7HYD99vAb6TqH43eWJvq30PYU=;
+ b=HD76JgMd4/EetA6UA052BpltVrP5Qh+pq+ld4NEexlmr9BFDUE5f7qP48gebKj+M+R
+ sYltWTtqiAHczRy6hsWlwHqPQ5JyA+jOpkkagPmjdu2SF2WhVGYmarw10yMPzFXufDj9
+ oocyhCjmnzzv8Xgz+mRKV5z5Cr5CoFRIQYuHM+w4PPpZ2zVnd5ChJ0t2ZL5Z5WgQI+Dr
+ GUIahPQajoewblzJ/I93dhNk7n1LGV8G6cd3rifOWzFT++W2Ow+8/xZwabbqGxIbb8kR
+ Tr/hzV95Q5t1+DktAYwzYHDzHtr9zDr6TpMbFyFT4R3Ym/rCZDR/+qx5QM3GWyEhpf+/
+ vRAg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] toolsoftrade: Fix line order in latex source
+Message-ID: <3f77b38a-3995-e163-8694-cd836d3611f6@gmail.com>
+Date: Thu, 29 Dec 2016 10:23:37 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f75680a3-5af7-4c3f-eeb1-f6e13d739f87@gmail.com>
-Message-Id: <20161227205345.GO3742@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Dec 28, 2016 at 12:25:48AM +0900, Akira Yokosawa wrote:
-> >From 3f4f73d738b77422bd074322f3ac67f644a8d580 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Wed, 28 Dec 2016 00:10:28 +0900
-> Subject: [PATCH 0/2] Enable inlinelinks of alphapf.bst for 1c
-> 
-> Hi Paul,
-> 
-> On 2016/12/26 16:39:52 -0800, Paul E. McKenney wrote:
-> > On Mon, Dec 26, 2016 at 11:52:40PM +0900, Akira Yokosawa wrote:
-> [snip]
-> >> One idea is to use alphapf.bst only for 1c with inlinelinks enabled. 
-> >>
-> >> Thoughts?
-> >
-> > I am good with enabling alphaph.bst inlinelinks only for 1c!
-> 
-> So, this patch set does the change.
-> For 2c, we reverted to the original alpha bibliography style for the
-> moment.
-> And I'll keep polishing the band-aid script to shorten the href-ed part
-> in titles. You might want to try it for 2c when you do a release.
+From bcf7ae453896f6f7fd99bcfd867009c1ad659a19 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Thu, 29 Dec 2016 10:09:25 +0900
+Subject: [PATCH] toolsoftrade: Fix line order in latex source
 
-Applied and pushed, thank you!
+Fix line order error in latex source introduced by commit 7945ae1a06c5
+("Further editing to Tools of Trade").
 
-Speaking of releases, for whatever it is worth, I expect to do one
-in a few days.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ toolsoftrade/toolsoftrade.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-							Thanx, Paul
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 842fd19..b49496c 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -1245,9 +1245,9 @@ Figure~\ref{fig:toolsoftrade:Measuring Reader-Writer Lock Scalability}.
+ In some cases, it is only necessary to ensure that the compiler
+ avoids optimizing away a given memory read, in which case the
+ \co{READ_ONCE()} primitive may be used, as it was on line~17 of
++Figure~\ref{fig:toolsoftrade:Demonstration of Exclusive Locks}.
+ Similarly, the \co{WRITE_ONCE()} primitive may be used to prevent the
+ compiler from optimizing a way a given memory write.
+-Figure~\ref{fig:toolsoftrade:Demonstration of Exclusive Locks}.
+ These last two primitives are not provided directly by gcc,
+ but may be implemented straightforwardly as follows:
 
->                                                   Thanks, Akira
-> --
-> Akira Yokosawa (2):
->   Makefile: Fix .bbl dependency
->   Enable 'inlinelinks' option of alphapf.bst for 1c layout
-> 
->  Makefile              | 4 ++--
->  alphapf.bst           | 2 +-
->  appendix/appendix.tex | 6 +++++-
->  3 files changed, 8 insertions(+), 4 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
+-- 
+2.7.4
 
