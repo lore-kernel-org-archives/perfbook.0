@@ -3,17 +3,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
  h=to:cc:from:subject:message-id:date:user-agent:mime-version
  :content-transfer-encoding;
- bh=c+8Vvt+bdWPCZdHfdc7HYD99vAb6TqH43eWJvq30PYU=;
- b=HD76JgMd4/EetA6UA052BpltVrP5Qh+pq+ld4NEexlmr9BFDUE5f7qP48gebKj+M+R
- sYltWTtqiAHczRy6hsWlwHqPQ5JyA+jOpkkagPmjdu2SF2WhVGYmarw10yMPzFXufDj9
- oocyhCjmnzzv8Xgz+mRKV5z5Cr5CoFRIQYuHM+w4PPpZ2zVnd5ChJ0t2ZL5Z5WgQI+Dr
- GUIahPQajoewblzJ/I93dhNk7n1LGV8G6cd3rifOWzFT++W2Ow+8/xZwabbqGxIbb8kR
- Tr/hzV95Q5t1+DktAYwzYHDzHtr9zDr6TpMbFyFT4R3Ym/rCZDR/+qx5QM3GWyEhpf+/
- vRAg==
+ bh=HG+RKN99xyygiilFePuCKYAdXgouui6+mEHgRDiWayI=;
+ b=JPGfoVDwv7FXvAU49SFsybT65Hdf3UMpizgSBOMtYCDQUuZE2VM9cTWdmhnLEXp5id
+ n31OwUzY6hHmRe32t2bGJs3ai7dPxu+RDhNrLtiX7oPBON13hsx9xM+tNQ+nTI4fA7al
+ 2VL7Xv7nmaqMuosdzRCYotDhAycs00Lam8Xj2L6a72NrDd5xe6n3f+Msq5pDh9KBRvXy
+ c6HVKQhy9PRkvK5AsYW3GNlZWm7Gr9uxLcE1W9cqRIVTf2AWJinS0+Ja3e1KikhfT2Su
+ t600v5pwYt59ae6Bf0GGK2gqaVN+Awm5z3JXXa51jolmAhkhCNjLYoi+6VExEsYR1zkT
+ LFYw==
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] toolsoftrade: Fix line order in latex source
-Message-ID: <3f77b38a-3995-e163-8694-cd836d3611f6@gmail.com>
-Date: Thu, 29 Dec 2016 10:23:37 +0900
+Subject: [PATCH] Prevent line-break of '__' within \co{} macro
+Message-ID: <2f056df6-c1f2-a944-2541-a8bf176b1b85@gmail.com>
+Date: Thu, 29 Dec 2016 10:31:09 +0900
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -21,34 +21,31 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From bcf7ae453896f6f7fd99bcfd867009c1ad659a19 Mon Sep 17 00:00:00 2001
+From d52949f8937a736d7eaa1db4914bccf88fbe2697 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 29 Dec 2016 10:09:25 +0900
-Subject: [PATCH] toolsoftrade: Fix line order in latex source
+Date: Fri, 23 Dec 2016 09:20:53 +0900
+Subject: [PATCH] Prevent line-break of '__' within \co{} macro
 
-Fix line order error in latex source introduced by commit 7945ae1a06c5
-("Further editing to Tools of Trade").
+We don't want "__" to be broken in between. Such line-breaks can
+be prevented by specifying "__" after "_" in \lstset{}.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- toolsoftrade/toolsoftrade.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ perfbook.tex | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index 842fd19..b49496c 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -1245,9 +1245,9 @@ Figure~\ref{fig:toolsoftrade:Measuring Reader-Writer Lock Scalability}.
- In some cases, it is only necessary to ensure that the compiler
- avoids optimizing away a given memory read, in which case the
- \co{READ_ONCE()} primitive may be used, as it was on line~17 of
-+Figure~\ref{fig:toolsoftrade:Demonstration of Exclusive Locks}.
- Similarly, the \co{WRITE_ONCE()} primitive may be used to prevent the
- compiler from optimizing a way a given memory write.
--Figure~\ref{fig:toolsoftrade:Demonstration of Exclusive Locks}.
- These last two primitives are not provided directly by gcc,
- but may be implemented straightforwardly as follows:
-
+diff --git a/perfbook.tex b/perfbook.tex
+index 3dd6c6e..4e6a173 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -73,6 +73,7 @@
+ %%HTMLSKIP
+ \lstset{
+  literate={\_}{}{0\discretionary{\_}{}{\_}}%
++  {\_\_}{}{0\discretionary{\_\_}{}{\_\_}}%
+   {->}{}{0\discretionary{->}{}{->}}%
+ }
+ %%HTMLNOSKIP
 -- 
 2.7.4
 
