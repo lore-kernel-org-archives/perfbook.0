@@ -1,17 +1,20 @@
 Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=from:to:cc:subject:date:message-id;
- bh=U8ESgeCHu4OwkP0xbRY5r7pRTBhINYX3HoA+FhVHa5Q=;
- b=R7Xk/fLkRghqcGijU6FG5IgZBd8jQaLJW9JtBrQZeP/Vxbs44XOEzYMDm7gA60Nqdp
- H675FGpC3FGQIOCnh7dlJZunEIQqpcmiQzKN7VfsBeSuCZuvtQhf8YCxXZe+iLW5WRfR
- ZWWIxG9OvsaaDM3Pyl6A7HPpE+ZkHAFy5YTVfpad9EMvHy5X4kR+BLu0cMKts84ArxRx
- uBYb1TpnuYxEAVSqd1L4rePkVLWDppJhFCTX4QnN8XCOiI3AcKMmP7N4ftPIeUzEbcqh
- LBe0MbynVsHzH2uBXcNowvabqpD0OlDNg/xZ1DE+tUUtA/YDlEMSNuoy2Blyeuzoa7m3
- sSfQ==
+ s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=UK1xkghpvHIFtQUd2FpoNFWp6smDvXPYJTZp/Kdd/Pk=;
+ b=GPTpbAN9MUGMq4H3euJ7T3mzJvQWX0wpDmyBZFmVfxt1w9pNkX0f+9T1uW8gvoBzcC
+ vFaBQCLRmeE3kkEe6W3uwg6Zc3ivARQSCogOCq0SE8osDmXkj4ZOWEi/MHIJYlORAL1V
+ MvwBeFLlOzw3sdALeCq/VGC3djo+rwgpNF4M7GE5QDcVGA5GWl1Ff1RzpkbNfPIduD4O
+ XbV5vnSPgWJWJJgKU0A08L57gUBadNqZojhpyEshvbAge5oJFe7heCNZ7/6cdIM2vIo0
+ Oa5pznWwE1avpZ3vRZ0WKwOpVWIW8/NJTqnZ6EZ2ofhihnXJU16JPcR2ucAkRR/g3amL
+ /TgA==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 1/2] toolsoftrade: Close uncompleted parentheses
-Date: Wed,  4 Jan 2017 03:59:52 +0900
-Message-Id: <20170103185953.3000-1-sj38.park@gmail.com>
+Subject: [PATCH 2/2] toolsoftrade: Add suffix `()` to function name
+Date: Wed,  4 Jan 2017 03:59:53 +0900
+Message-Id: <20170103185953.3000-2-sj38.park@gmail.com>
+In-Reply-To: <20170103185953.3000-1-sj38.park@gmail.com>
+References: <20170103185953.3000-1-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
@@ -22,18 +25,18 @@ Signed-off-by: SeongJae Park <sj38.park@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index 194659949d36..899ef01e6e2a 100644
+index 899ef01e6e2a..bc51437eb141 100644
 --- a/toolsoftrade/toolsoftrade.tex
 +++ b/toolsoftrade/toolsoftrade.tex
-@@ -1320,7 +1320,7 @@ storage, and other less-polite names, are used extremely
- heavily in concurrent code, as will be explored in
- Chapters~\ref{chp:Counting} and~\ref{chp:Data Ownership}.
- POSIX supplies the \co{pthread_key_create()} function to create a
--per-thread variable (and return the corresponding key,
-+per-thread variable (and return the corresponding key),
- \co{pthread_key_delete()} to delete the per-thread variable corresponding
- to key,
- \co{pthread_setspecific()} to set the value of the current thread's
+@@ -1383,7 +1383,7 @@ initialization code.
+
+ The Linux kernel uses
+ \co{struct task_struct} pointers to track kthreads,
+-\co{kthread_create} to create them,
++\co{kthread_create()} to create them,
+ \co{kthread_should_stop()} to externally suggest that they stop
+ (which has no POSIX equivalent),
+ \co{kthread_stop()} to wait for them to stop, and
 -- 
 2.10.0
 
