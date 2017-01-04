@@ -1,23 +1,21 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=Dyjtqb3uc7PBwhB4X1eHWLO9pa/8vhxnrpZMeRs9nuQ=;
- b=SG+S9hgU9VeFgAH8Hh4a1OgDuxCx+oigxhN9pNYI7iQ86H7x3lvCKPNpEjgZ4/ZT4D
- 8U2Ov03Hao89EqSjneS6y/8mdQ/tn3b7Q3gudzXloJam3zKoxTqGe4+yRzyS2M7+oANQ
- ZvEiPy4rDTOKqYQP5pCcJlA9gcu+Ccl5tAz2gGa4wB30K65mkU2fWndIcTTGHin2ThEJ
- JXMtRVimB2emzFzFYnU78azujHnoliMsIiWcz1CFmbXteKxJ2nINxw1FfW2ddpK89HaI
- A//nDwGML0O8uK3v01ZR6SRh3Vb4Cjl1JojNsQEbdnNjIF5j+k+46fYvdKB2Ru+Ceg2n
- f+Zw==
-Subject: [PATCH 13/13] memorybarriers: Add \nf{} command to descriptive words
- in table
-References: <a054d07b-3b69-25ce-aab4-c294dc3b6bcd@gmail.com>
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=IiUskLBJMKIlldvysL7SFV/tSlcgK/KHikos8/9jhBU=;
+ b=dxsO6useyFj5LFOzOu3YxHk5An7bMnAN3qHSFPF4h5gIYgQma8Xj24rJAwwwCkhbI/
+ wIrSu3FABLo079rgs2GdaDK2l4d4cR89B1Q3litPaSeLYnJnpJDY+dZHIeuh66E0hTnw
+ V1Uksm+6c2NkJWAv7EKXsPEFqoTjxFMO3prybAyudgPwrQbG2EVZjtUMoX3DBjHNiFX5
+ 4+otim73l75rlJE/16n1Ty3lsl+N8tssjfLjgBrj7W+/Hofgj1yo4cYvFbABaHUzNZ6C
+ W2qHZoRHYIGRe/FcLPfWjhTaWn0FmtI3A5nVUWIqFharuDSJbXXSSKusVIIvh6kiiE/3
+ TtWw==
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <f5bbe7f5-1fb9-d1d7-4de6-7b0dfa0c0de2@gmail.com>
-Date: Wed, 4 Jan 2017 10:32:56 +0900
+Subject: [PATCH 00/13] Remove \co{} commands in tables
+Message-ID: <a054d07b-3b69-25ce-aab4-c294dc3b6bcd@gmail.com>
+Date: Wed, 4 Jan 2017 10:15:40 +0900
 MIME-Version: 1.0
-In-Reply-To: <a054d07b-3b69-25ce-aab4-c294dc3b6bcd@gmail.com>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
@@ -25,54 +23,48 @@ List-ID: <perfbook.vger.kernel.org>
 
 From d07bf0df57c597c22de9a7c159f10b0247cea8c2 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 1 Jan 2017 14:02:06 +0900
-Subject: [PATCH 13/13] memorybarriers: Add \nf{} command to descriptive words in table
+Date: Wed, 4 Jan 2017 08:51:15 +0900
+Subject: [PATCH 00/13] Remove \co{} commands in tables
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- advsync/memorybarriers.tex | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+\co{} command confuses column width estimation of tabular environment.
+By removing \co{} commands in tables, bogus "~"s for manual width
+adjustment can be removed.
 
-diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index 7f1c3c8..74d4f7b 100644
---- a/advsync/memorybarriers.tex
-+++ b/advsync/memorybarriers.tex
-@@ -2276,8 +2276,8 @@ loads.  Consider the following sequence of events with initial values
- 	B = 2; & \\
- 	<write barrier> & \\
- 	C = \&B; & 	LOAD X\\
--	D = 4;	&	LOAD C (gets \&B) \\
--		&	LOAD *C (reads B) \\
-+	D = 4;	&	LOAD C \nf{(gets \tco{&B})} \\
-+		&	LOAD *C \nf{(reads \tco{B})} \\
- \end{tabular}
- \end{minipage}
- \vspace{5pt}
-@@ -2312,9 +2312,9 @@ values of {\tt \{B = 7, X = 9, Y = 8, C = \&Y\}}:
- 	B = 2; & \\
- 	<write barrier> & \\
- 	C = \&B; & 	LOAD X\\
--	D = 4;	&	LOAD C (gets \&B) \\
-+	D = 4;	&	LOAD C \nf{(gets \tco{&B})} \\
- 		&	<data dependency barrier> \\
--		&	LOAD *C (reads B) \\
-+		&	LOAD *C \nf{(reads \tco{B})} \\
- \end{tabular}
- \end{minipage}
- \vspace{5pt}
-@@ -2408,9 +2408,9 @@ with the same initial values of
- 	<write barrier> & \\
- 	B = 2; & \\
- 		&	LOAD B \\
--		&	LOAD A (1\textsuperscript{st}) \\
-+		&	LOAD A \nf{(1\textsuperscript{st})} \\
- 		&	<read barrier> \\
--		&	LOAD A (2\textsuperscript{nd}) \\
-+		&	LOAD A \nf{(2\textsuperscript{nd})} \\
- \end{tabular}
- \end{minipage}
- \vspace{5pt}
+Patch 1 introduces an alternative command \tco{} to be used in tables.
+Patches 2--8 remove \co{} commands by using \tco{} or removing unnecessary
+commands.
+Patch 9 removes another "~" and uses \vspace{} instead.
+Patches 10--13 do additional font tweaks. It looks better for me if
+headers of tables such as "Thread 1" and "CPU 1" are typeset in normal font
+of the text (Times Roman). Patch 13, which tweaks font of non-code words in
+table, may be an excessive tweak. Whether or not to apply it is up to the
+editor.
+
+--
+Akira Yokosawa (13):
+  Define \tco{} command to be used in table
+  rcufundamental: Rewrite table 'RCU Publish and Subscribe Primitives'
+  rcuapi: Rewrite table 'RCU Wait-to-Finish APIs'
+  rcuapi: Rewrite table 'RCU Publish-Subscribe and Version Maintenance
+    APIs'
+  whichtochoose: Rewrite table 'Which Deferred Technique to Choose?'
+  memorybarriers: Remove \co{} in tabular env
+  memorybarriers: Use \verb in table 'Lock-Based Critical Sections'
+  whymemorybarriers: Remove \co{} in tabular env
+  memorybarriers: Replace nbsp with \vspace
+  Add \nf{} command to go back to normal font
+  memorybarriers: Add \nf{} command to table header
+  whymemorybarriers: Add \nf{} command to table header
+  memorybarriers: Add \nf{} command to descriptive words in table
+
+ advsync/memorybarriers.tex           | 187 +++++++++++++++++------------------
+ appendix/whymb/whymemorybarriers.tex |  70 ++++++-------
+ defer/rcuapi.tex                     | 110 +++++++++------------
+ defer/rcufundamental.tex             |  18 ++--
+ defer/whichtochoose.tex              |  20 ++--
+ perfbook.tex                         |   6 +-
+ 6 files changed, 200 insertions(+), 211 deletions(-)
+
 -- 
 2.7.4
-
 
