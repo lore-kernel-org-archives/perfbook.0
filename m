@@ -2,19 +2,19 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=gLZBNNx0XqRF9Uklu7g1HeiP3qVcCGBMEkGzk28OEvk=;
- b=W8kHjTuR9+X2WJTlNQEbzeFmDY0igaJmc9VXgAZbDLXhU/KifcIvSog5LoOtDUXVqq
- ftDwQEPv7KXn9nZORp0ts2J3j61JAAfF0l+dEztvy+RUyyjE35XFJAaJxfh8/vtQyRh+
- c22zuPU7pcVRvBfHIa0Db4LcrwnQ0N755RIfxXMrDH/4sfy/ZtTGL7h44TBGk8n/8rCH
- vdmr3NxPcUCOJXdY5vCOR9SrykAbyiSKzyUF/RNKsunVvWijg79MzJdcmIdVh3Vx/9Za
- jOzLN33rbkUy6fFPKxCb6BSgLdhflPliwm+BconmMUn0eY1znvVlzLO2R65aODhMESnO
- 4GVw==
-Subject: [PATCH 04/13] rcuapi: Rewrite table 'RCU Publish-Subscribe and
- Version Maintenance APIs'
+ bh=FnNJuBdibOMW66rnTseAFDkAfWScI9zoBDgmhNJGK4A=;
+ b=KTL+tdrskDVpGysKeC8Jq71HzXTgmZrUa1vkk2LWEceyzsBvTPfHXPaMeggOm1E/M8
+ h9ne608N6T0264cGOnfLDDQBO+OVYn90QQ+olbuCXII+b4rY6A4qw8y3AvM5yuD/8ZB3
+ x2Rrxr0gsUrrAXReo4auNUbP8FjlPqsr4KLbISMgyDPBnENOP5Bp8lZbA3C0q05zxaaT
+ bJ4YmROMkGzVycIYWHCeEhNe3OPtExi021k03vqWz6zvr2ml2I+c9wsE03qNCv1ompIZ
+ clhmq5uEK9lJsun88PDJVhrd8d08/da1U5bkjPZptTAW0Qez8782D35zy0AW6nBLSQ5V
+ Yu6w==
+Subject: [PATCH 05/13] whichtochoose: Rewrite table 'Which Deferred Technique
+ to Choose?'
 References: <a054d07b-3b69-25ce-aab4-c294dc3b6bcd@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <0e84d26f-6ea9-af72-8f56-1fdf0083b0d3@gmail.com>
-Date: Wed, 4 Jan 2017 10:21:49 +0900
+Message-ID: <2d758c03-7486-b574-67a5-ce8677c31eaf@gmail.com>
+Date: Wed, 4 Jan 2017 10:23:23 +0900
 MIME-Version: 1.0
 In-Reply-To: <a054d07b-3b69-25ce-aab4-c294dc3b6bcd@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,121 +23,71 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 5c513c2e5b0b9978093475d91cc55c634002aa84 Mon Sep 17 00:00:00 2001
+From 62c8c8b8060cc50f2c17e626723b801def90b29e Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 31 Dec 2016 15:56:01 +0900
-Subject: [PATCH 04/13] rcuapi: Rewrite table 'RCU Publish-Subscribe and Version Maintenance APIs'
+Date: Sat, 31 Dec 2016 15:57:59 +0900
+Subject: [PATCH 05/13] whichtochoose: Rewrite table 'Which Deferred Technique to Choose?'
 
-By using \tco{} command, this table can be easily expressed in
-normal tabular environment.
+By using \tco{} command, this table can be more easily expressed
+in "tabulary" environment. This commit also removes bogus "~"s and
+reduces font size to footnotesize. It also appends short cut command
+of extdash to compound words.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- defer/rcuapi.tex | 43 ++++++++++++++++++++-----------------------
- 1 file changed, 20 insertions(+), 23 deletions(-)
+ defer/whichtochoose.tex | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-index 8a678f6..f2aa3ff 100644
---- a/defer/rcuapi.tex
-+++ b/defer/rcuapi.tex
-@@ -456,8 +456,8 @@ that Linux supports~\cite{Spraul01}.
+diff --git a/defer/whichtochoose.tex b/defer/whichtochoose.tex
+index 11f3b0a..cf21341 100644
+--- a/defer/whichtochoose.tex
++++ b/defer/whichtochoose.tex
+@@ -5,10 +5,10 @@
+ \label{sec:defer:Which to Choose?}
 
- \begin{table*}[tb]
- \footnotesize
--\centering\tymin=1.0in\tymax=1.6in
--\begin{tabulary}{5in}{l|L|l|L}
-+\centering
-+\begin{tabular}{l|l|l|p{1.2in}}
- Category &
- 	Primitives &
- 		Availability &
-@@ -465,69 +465,66 @@ Category &
- \hline
- \hline
- List traversal &
--	\co{list_for_each_entry_rcu()} &
-+	\tco{list_for_each_entry_rcu()} &
- 		2.5.59 &
--			{ \raggedright
--			  Simple instructions (memory barrier on Alpha) } \\
-+			Simple instructions (memory barrier on Alpha) \\
- \hline
- List update &
--	\co{list_add_rcu()} &
-+	\tco{list_add_rcu()} &
- 		2.5.44 &
- 			Memory barrier \\
- &
--	\co{list_add_tail_rcu()} &
-+	\tco{list_add_tail_rcu()} &
- 		2.5.44 &
- 			Memory barrier \\
- &
--	\co{list_del_rcu()} &
-+	\tco{list_del_rcu()} &
- 		2.5.44 &
- 			Simple instructions \\
- &
--	\co{list_replace_rcu()} &
-+	\tco{list_replace_rcu()} &
- 		2.6.9 &
- 			Memory barrier \\
- &
--	\co{list_splice_init_rcu()} &
-+	\tco{list_splice_init_rcu()} &
- 		2.6.21 &
- 			Grace-period latency \\
- \hline
- Hlist traversal &
--	\co{hlist_for_each_entry_rcu()} &
-+	\tco{hlist_for_each_entry_rcu()} &
- 		2.6.8 &
--			{ \raggedright
--			  Simple instructions (memory barrier on Alpha) } \\
-+			Simple instructions (memory barrier on Alpha) \\
- &
--	\co{hlist_add_after_rcu()} &
-+	\tco{hlist_add_after_rcu()} &
- 		2.6.14 &
- 			Memory barrier \\
- &
--	\co{hlist_add_before_rcu()} &
-+	\tco{hlist_add_before_rcu()} &
- 		2.6.14 &
- 			Memory barrier \\
- &
--	\co{hlist_add_head_rcu()} &
-+	\tco{hlist_add_head_rcu()} &
- 		2.5.64 &
- 			Memory barrier \\
- &
--	\co{hlist_del_rcu()} &
-+	\tco{hlist_del_rcu()} &
- 		2.5.64 &
- 			Simple instructions \\
- &
--	\co{hlist_replace_rcu()} &
-+	\tco{hlist_replace_rcu()} &
- 		2.6.15 &
- 			Memory barrier \\
- \hline
- Pointer traversal &
--	\co{rcu_dereference()} &
-+	\tco{rcu_dereference()} &
- 		2.6.9 &
--			{ \raggedright
--			  Simple instructions (memory barrier on Alpha) } \\
-+			Simple instructions (memory barrier on Alpha) \\
- \hline
- Pointer update &
--	\co{rcu_assign_pointer()} &
-+	\tco{rcu_assign_pointer()} &
- 		2.6.10 &
- 			Memory barrier \\
--\end{tabulary}
-+\end{tabular}
- \caption{RCU Publish-Subscribe and Version Maintenance APIs}
- \label{tab:defer:RCU Publish-Subscribe and Version Maintenance APIs}
+ \begin{table*}
+-\small
+-\centering
+-\begin{tabular}{p{1.5in}||p{1.5in}|p{0.8in}|p{0.8in}|p{1.0in}}
+-	~ ~ ~ ~ ~ ~ ~ ~ ~
++\footnotesize
++\centering\tymin=0.4in\tymax=2in
++\begin{tabulary}{5.3in}{L||L|L|L|L}
++
+ 		& Reference Counting
+ 			& Hazard Pointers
+ 				& Sequence Locks
+@@ -34,17 +34,17 @@
+ 				& None
+ 					& None \\
+ 	\hline
+-	Reader Per-Critical-Section Overhead
++	Reader Per\-/Critical\-/Section Overhead
+ 		& N/A
+ 			& N/A
+-				& Two \co{smp_mb()}
++				& Two \tco{smp_mb()}
+ 					& Ranges from none to two
+-					  \co{smp_mb()} \\
++					  \tco{smp_mb()} \\
+ 	\hline
+ 	Reader Per-Object Traversal Overhead
+-		& Read-modify-write atomic operations, memory-barrier
++		& Read-modify-write atomic operations, memory\-/barrier
+ 		  instructions, and cache misses
+-			& \co{smp_mb()}
++			& \tco{smp_mb()}
+ 				& None, but unsafe
+ 					& None (volatile accesses) \\
+ 	\hline
+@@ -83,7 +83,7 @@
+ 			& 79
+ 				& 79
+ 					& 73 \\
+-\end{tabular}
++\end{tabulary}
+ \caption{Which Deferred Technique to Choose?}
+ \label{tab:defer:Which Deferred Technique to Choose?}
  \end{table*}
 -- 
 2.7.4
