@@ -2,18 +2,19 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=r+3x+ZzZ6cgTbi2HwiQGs2PEeXFTWB4C4I1ekWsI8KE=;
- b=PPhzDQk1WTDAFweJSdO+Jb6TUj0zqaae1Wq/mz4q2HaR7HmVI4O5dX7op4hCfAcroF
- JF42TumHHy0qLS+iP18Q0PVryBj3OjuklM+pOPIiOUWQvxznS+SrpD/GvL2y/no5R/jW
- a2Kx0MKboJWtNNBqefAXcj/RSCowW8WZ+CDgFVWu3FvERPw4/p7PcSG+/OuejLC8Rspf
- rxUFiqb8ckfm8cGjgaWG8In/AfGSRu8nW+DX3cFhzWQwbOSr5q2qsNtR2eSLX6LcXnQ0
- PYg0HJYEkKvm+RB0sAkoy2eAAo+X0pLGF9wLdbOjL3MQ5lm8eGLpzgIFDlqajqAADpcW
- 4R3g==
-Subject: [PATCH 03/13] rcuapi: Rewrite table 'RCU Wait-to-Finish APIs'
+ bh=gLZBNNx0XqRF9Uklu7g1HeiP3qVcCGBMEkGzk28OEvk=;
+ b=W8kHjTuR9+X2WJTlNQEbzeFmDY0igaJmc9VXgAZbDLXhU/KifcIvSog5LoOtDUXVqq
+ ftDwQEPv7KXn9nZORp0ts2J3j61JAAfF0l+dEztvy+RUyyjE35XFJAaJxfh8/vtQyRh+
+ c22zuPU7pcVRvBfHIa0Db4LcrwnQ0N755RIfxXMrDH/4sfy/ZtTGL7h44TBGk8n/8rCH
+ vdmr3NxPcUCOJXdY5vCOR9SrykAbyiSKzyUF/RNKsunVvWijg79MzJdcmIdVh3Vx/9Za
+ jOzLN33rbkUy6fFPKxCb6BSgLdhflPliwm+BconmMUn0eY1znvVlzLO2R65aODhMESnO
+ 4GVw==
+Subject: [PATCH 04/13] rcuapi: Rewrite table 'RCU Publish-Subscribe and
+ Version Maintenance APIs'
 References: <a054d07b-3b69-25ce-aab4-c294dc3b6bcd@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <6935eebc-5401-dba2-a355-f14d21a88c4c@gmail.com>
-Date: Wed, 4 Jan 2017 10:20:41 +0900
+Message-ID: <0e84d26f-6ea9-af72-8f56-1fdf0083b0d3@gmail.com>
+Date: Wed, 4 Jan 2017 10:21:49 +0900
 MIME-Version: 1.0
 In-Reply-To: <a054d07b-3b69-25ce-aab4-c294dc3b6bcd@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,139 +23,122 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 3081eb38520f7e9415758f40ec4a26bb17bffbc0 Mon Sep 17 00:00:00 2001
+From 5c513c2e5b0b9978093475d91cc55c634002aa84 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 31 Dec 2016 13:53:15 +0900
-Subject: [PATCH 03/13] rcuapi: Rewrite table 'RCU Wait-to-Finish APIs'
+Date: Sat, 31 Dec 2016 15:56:01 +0900
+Subject: [PATCH 04/13] rcuapi: Rewrite table 'RCU Publish-Subscribe and Version Maintenance APIs'
 
-By using \tco{}, protection by minipages is not necessary anymore.
-Now, features of "tabulary" can be fully utilized. Parameters of
-the environment are tweaked somewhat.
+By using \tco{} command, this table can be easily expressed in
+normal tabular environment.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- defer/rcuapi.tex | 67 +++++++++++++++++++++++---------------------------------
- 1 file changed, 28 insertions(+), 39 deletions(-)
+ defer/rcuapi.tex | 43 ++++++++++++++++++++-----------------------
+ 1 file changed, 20 insertions(+), 23 deletions(-)
 
 diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-index 830019e..8a678f6 100644
+index 8a678f6..f2aa3ff 100644
 --- a/defer/rcuapi.tex
 +++ b/defer/rcuapi.tex
-@@ -18,8 +18,8 @@ presents concluding remarks.
+@@ -456,8 +456,8 @@ that Linux supports~\cite{Spraul01}.
 
- \begin{sidewaystable*}[htbp]
- \centering
--\scriptsize\tymin=1.4in
--\begin{tabulary}{7.8in}{L|L|L|L|L|L}
-+\scriptsize\tymin=1.0in
-+\begin{tabulary}{7.6in}{L|L|L|L|L|L}
- Attribute &
-     RCU Classic &
- 	RCU BH &
-@@ -43,49 +43,38 @@ Availability &
- 		    2.6.19 \\
+ \begin{table*}[tb]
+ \footnotesize
+-\centering\tymin=1.0in\tymax=1.6in
+-\begin{tabulary}{5in}{l|L|l|L}
++\centering
++\begin{tabular}{l|l|l|p{1.2in}}
+ Category &
+ 	Primitives &
+ 		Availability &
+@@ -465,69 +465,66 @@ Category &
  \hline
- Read-side primitives &
--    \begin{minipage}[t]{1.4in}{ \raggedright
--      \co{rcu_read_lock()}~! \\
--      \co{rcu_read_unlock()}~! }\end{minipage} &
--	\begin{minipage}[t]{1.4in}{ \raggedright
--	  \co{rcu_read_lock_bh()} \\
--	  \co{rcu_read_unlock_bh()} }\end{minipage} &
--	    \begin{minipage}[t]{1.4in}{ \raggedright
--	      \co{preempt_disable()} \\
--	      \co{preempt_enable()} \\
--	      (and friends) }\end{minipage} &
--	        \begin{minipage}[t]{1.4in}{ \raggedright
--		  \co{rcu_read_lock()} \\
--		  \co{rcu_read_unlock()} }\end{minipage} &
--		    \begin{minipage}[t]{1.4in}{ \raggedright
--		      \co{srcu_read_lock()} \\
--		      \co{srcu_read_unlock()} }\end{minipage} \\
-+    \tco{rcu_read_lock()}~! \tco{rcu_read_unlock()}~! &
-+	\tco{rcu_read_lock_bh()} \tco{rcu_read_unlock_bh()} &
-+	    \tco{preempt_disable()} \tco{preempt_enable()} (and friends) &
-+	        \tco{rcu_read_lock()} \tco{rcu_read_unlock()} &
-+		    \tco{srcu_read_lock()} \tco{srcu_read_unlock()} \\
  \hline
- { Update-side primitives (synchronous) } &
--    { \co{synchronize_rcu()} \co{synchronize_net()} } &
--	\co{synchronize_rcu_bh()} &
--	    \co{synchronize_sched()} &
--	        { \co{synchronize_rcu()} \co{synchronize_net()} } &
--		    \co{synchronize_srcu()} \\
-+    { \tco{synchronize_rcu()} \tco{synchronize_net()} } &
-+	\tco{synchronize_rcu_bh()} &
-+	    \tco{synchronize_sched()} &
-+	        { \tco{synchronize_rcu()} \tco{synchronize_net()} } &
-+		    \tco{synchronize_srcu()} \\
+ List traversal &
+-	\co{list_for_each_entry_rcu()} &
++	\tco{list_for_each_entry_rcu()} &
+ 		2.5.59 &
+-			{ \raggedright
+-			  Simple instructions (memory barrier on Alpha) } \\
++			Simple instructions (memory barrier on Alpha) \\
  \hline
- { Update-side primitives (asynchronous/callback) } &
--    \co{call_rcu()} ! &
--	\co{call_rcu_bh()} &
--	    \co{call_rcu_sched()} &
--	        \co{call_rcu()} &
--		    \co{call_srcu()} \\
-+    \tco{call_rcu()} ! &
-+	\tco{call_rcu_bh()} &
-+	    \tco{call_rcu_sched()} &
-+	        \tco{call_rcu()} &
-+		    \tco{call_srcu()} \\
+ List update &
+-	\co{list_add_rcu()} &
++	\tco{list_add_rcu()} &
+ 		2.5.44 &
+ 			Memory barrier \\
+ &
+-	\co{list_add_tail_rcu()} &
++	\tco{list_add_tail_rcu()} &
+ 		2.5.44 &
+ 			Memory barrier \\
+ &
+-	\co{list_del_rcu()} &
++	\tco{list_del_rcu()} &
+ 		2.5.44 &
+ 			Simple instructions \\
+ &
+-	\co{list_replace_rcu()} &
++	\tco{list_replace_rcu()} &
+ 		2.6.9 &
+ 			Memory barrier \\
+ &
+-	\co{list_splice_init_rcu()} &
++	\tco{list_splice_init_rcu()} &
+ 		2.6.21 &
+ 			Grace-period latency \\
  \hline
- { Update-side primitives (wait for callbacks) } &
--    \co{rcu_barrier()} &
--	\co{rcu_barrier_bh()} &
--	    \co{rcu_barrier_sched()} &
--	        \co{rcu_barrier()} &
-+    \tco{rcu_barrier()} &
-+	\tco{rcu_barrier_bh()} &
-+	    \tco{rcu_barrier_sched()} &
-+	        \tco{rcu_barrier()} &
- 		    N/A \\
+ Hlist traversal &
+-	\co{hlist_for_each_entry_rcu()} &
++	\tco{hlist_for_each_entry_rcu()} &
+ 		2.6.8 &
+-			{ \raggedright
+-			  Simple instructions (memory barrier on Alpha) } \\
++			Simple instructions (memory barrier on Alpha) \\
+ &
+-	\co{hlist_add_after_rcu()} &
++	\tco{hlist_add_after_rcu()} &
+ 		2.6.14 &
+ 			Memory barrier \\
+ &
+-	\co{hlist_add_before_rcu()} &
++	\tco{hlist_add_before_rcu()} &
+ 		2.6.14 &
+ 			Memory barrier \\
+ &
+-	\co{hlist_add_head_rcu()} &
++	\tco{hlist_add_head_rcu()} &
+ 		2.5.64 &
+ 			Memory barrier \\
+ &
+-	\co{hlist_del_rcu()} &
++	\tco{hlist_del_rcu()} &
+ 		2.5.64 &
+ 			Simple instructions \\
+ &
+-	\co{hlist_replace_rcu()} &
++	\tco{hlist_replace_rcu()} &
+ 		2.6.15 &
+ 			Memory barrier \\
  \hline
- Type-safe memory &
--    \co{SLAB_DESTROY_BY_RCU} &
-+    \tco{SLAB_DESTROY_BY_RCU} &
- 	&
- 	    &
--	        \co{SLAB_DESTROY_BY_RCU} &
-+	        \tco{SLAB_DESTROY_BY_RCU} &
- 		    \\
+ Pointer traversal &
+-	\co{rcu_dereference()} &
++	\tco{rcu_dereference()} &
+ 		2.6.9 &
+-			{ \raggedright
+-			  Simple instructions (memory barrier on Alpha) } \\
++			Simple instructions (memory barrier on Alpha) \\
  \hline
- Read side constraints &
-@@ -93,12 +82,12 @@ Read side constraints &
- 	No bottom-half (BH) enabling &
- 	    No blocking &
- 	        Only preemption and lock acquisition &
--		    No \co{synchronize_srcu()} with same \co{srcu_struct} \\
-+		    No \tco{synchronize_srcu()} with same \tco{srcu_struct} \\
- \hline
- Read side overhead &
--    Preempt disable/enable (free on non-PREEMPT) &
-+    Preempt disable/enable (free on non-\tco{PREEMPT}) &
- 	BH disable/enable &
--	    Preempt disable/enable (free on non-PREEMPT) &
-+	    Preempt disable/enable (free on non-\tco{PREEMPT}) &
- 	        Simple instructions, irq disable/enable &
- 		    Simple instructions, preempt disable/enable, memory barriers \\
- \hline
-@@ -116,14 +105,14 @@ Grace-period latency &
- 	        10s of milliseconds &
- 		    10s of milliseconds \\
- \hline
--Non-\co{PREEMPT_RT} implementation &
-+Non-\tco{PREEMPT_RT} implementation &
-     RCU Classic &
- 	RCU BH &
- 	    RCU Classic &
- 	        Preemptible RCU &
- 		    SRCU \\
- \hline
--\co{PREEMPT_RT} implementation &
-+\tco{PREEMPT_RT} implementation &
-     Preemptible RCU &
- 	Realtime RCU &
- 	    Forced Schedule on all CPUs &
+ Pointer update &
+-	\co{rcu_assign_pointer()} &
++	\tco{rcu_assign_pointer()} &
+ 		2.6.10 &
+ 			Memory barrier \\
+-\end{tabulary}
++\end{tabular}
+ \caption{RCU Publish-Subscribe and Version Maintenance APIs}
+ \label{tab:defer:RCU Publish-Subscribe and Version Maintenance APIs}
+ \end{table*}
 -- 
 2.7.4
 
