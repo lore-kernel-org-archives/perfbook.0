@@ -1,70 +1,61 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=IiUskLBJMKIlldvysL7SFV/tSlcgK/KHikos8/9jhBU=;
- b=dxsO6useyFj5LFOzOu3YxHk5An7bMnAN3qHSFPF4h5gIYgQma8Xj24rJAwwwCkhbI/
- wIrSu3FABLo079rgs2GdaDK2l4d4cR89B1Q3litPaSeLYnJnpJDY+dZHIeuh66E0hTnw
- V1Uksm+6c2NkJWAv7EKXsPEFqoTjxFMO3prybAyudgPwrQbG2EVZjtUMoX3DBjHNiFX5
- 4+otim73l75rlJE/16n1Ty3lsl+N8tssjfLjgBrj7W+/Hofgj1yo4cYvFbABaHUzNZ6C
- W2qHZoRHYIGRe/FcLPfWjhTaWn0FmtI3A5nVUWIqFharuDSJbXXSSKusVIIvh6kiiE/3
- TtWw==
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=pdss4D/IuGOeysZPaiCKFcoUn38M9Y8fUyCQSfsF3Xo=;
+ b=V9HpPOjRGUtrPclA3H9VBcdKu2F4/SAYbRkau55laZ8MgIdQo7O6jwjqoUrpA2U3cr
+ 0endWY2kh/EOdGsGBhmJ/SSdB/xS0ZcEGgZHmCFUPUrmbcY82uz4TXm7/Tpint7HF3pI
+ yPeTCVWTW+myaVDCPHyzv6cG7uX/ru6n8IQXld5ByoQZhNzVvKF+OMP7SW8YanNUUwA8
+ l2LCIk8ASB0h18G5PcJKLaWFcFfGWZEcSrjcPokmHhBof2cjnhx+xPs0fuZcupQGdLx+
+ oBCTYRt4/w8II94/2lgD0CwT49czperyCQ2gqL7E4HoCXFrfTDqo2Yj+mRKXMdG76Dmc
+ 9zzg==
+Subject: [PATCH 01/13] Define \tco{} command to be used in table
+References: <a054d07b-3b69-25ce-aab4-c294dc3b6bcd@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 00/13] Remove \co{} commands in tables
-Message-ID: <a054d07b-3b69-25ce-aab4-c294dc3b6bcd@gmail.com>
-Date: Wed, 4 Jan 2017 10:15:40 +0900
+Message-ID: <9dfd46c3-601d-7278-043b-7b7d4715118f@gmail.com>
+Date: Wed, 4 Jan 2017 10:17:55 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <a054d07b-3b69-25ce-aab4-c294dc3b6bcd@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From d07bf0df57c597c22de9a7c159f10b0247cea8c2 Mon Sep 17 00:00:00 2001
+From 6ccc6c3ca1d324ff09b79fc955eed07b13a4575c Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 4 Jan 2017 08:51:15 +0900
-Subject: [PATCH 00/13] Remove \co{} commands in tables
+Date: Sat, 31 Dec 2016 13:01:28 +0900
+Subject: [PATCH 01/13] Define \tco{} command to be used in table
 
-\co{} command confuses column width estimation of tabular environment.
-By removing \co{} commands in tables, bogus "~"s for manual width
-adjustment can be removed.
+The \co{} command interferes with column width estimation of
+tabular environment. To avoid the issue, this commit defines
+a command "\tco{}" to be used instead. It will still break at white
+spaces, but not at "_".
+This commit also updates the definition of \nbco{} to make sure
+that it won't break at "_".
 
-Patch 1 introduces an alternative command \tco{} to be used in tables.
-Patches 2--8 remove \co{} commands by using \tco{} or removing unnecessary
-commands.
-Patch 9 removes another "~" and uses \vspace{} instead.
-Patches 10--13 do additional font tweaks. It looks better for me if
-headers of tables such as "Thread 1" and "CPU 1" are typeset in normal font
-of the text (Times Roman). Patch 13, which tweaks font of non-code words in
-table, may be an excessive tweak. Whether or not to apply it is up to the
-editor.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ perfbook.tex | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
---
-Akira Yokosawa (13):
-  Define \tco{} command to be used in table
-  rcufundamental: Rewrite table 'RCU Publish and Subscribe Primitives'
-  rcuapi: Rewrite table 'RCU Wait-to-Finish APIs'
-  rcuapi: Rewrite table 'RCU Publish-Subscribe and Version Maintenance
-    APIs'
-  whichtochoose: Rewrite table 'Which Deferred Technique to Choose?'
-  memorybarriers: Remove \co{} in tabular env
-  memorybarriers: Use \verb in table 'Lock-Based Critical Sections'
-  whymemorybarriers: Remove \co{} in tabular env
-  memorybarriers: Replace nbsp with \vspace
-  Add \nf{} command to go back to normal font
-  memorybarriers: Add \nf{} command to table header
-  whymemorybarriers: Add \nf{} command to table header
-  memorybarriers: Add \nf{} command to descriptive words in table
+diff --git a/perfbook.tex b/perfbook.tex
+index 2942a3f..4eaace8 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -94,7 +94,10 @@
+ \makeatother
+ % ---  End of workaround for Fedora 23 Texlive bug
+ \newcommand{\co}[1]{\lstinline[breaklines=true,breakatwhitespace=true]{#1}}
+-\newcommand{\nbco}[1]{\lstinline[breaklines=false,breakatwhitespace=false]{#1}}
++\newcommand{\nbco}[1]{\hbox{\texttt{\detokenize{#1}}}} % no break lines for short snippet
++\newcommand{\tco}[1]{\texttt{\detokenize{#1}}} % for code in tabular environment
++% \tco{} will break at spaces but not at underscores
++
+ \newcommand{\Epigraph}[2]{\epigraphhead[65]{\rmfamily\epigraph{#1}{#2}}}
 
- advsync/memorybarriers.tex           | 187 +++++++++++++++++------------------
- appendix/whymb/whymemorybarriers.tex |  70 ++++++-------
- defer/rcuapi.tex                     | 110 +++++++++------------
- defer/rcufundamental.tex             |  18 ++--
- defer/whichtochoose.tex              |  20 ++--
- perfbook.tex                         |   6 +-
- 6 files changed, 200 insertions(+), 211 deletions(-)
-
+ \title{Is Parallel Programming Hard, And, If So, What Can You Do About It?}
 -- 
 2.7.4
+
 
