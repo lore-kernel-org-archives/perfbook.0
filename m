@@ -1,42 +1,54 @@
-Return-Path: <sj38.park@gmail.com>
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=UK1xkghpvHIFtQUd2FpoNFWp6smDvXPYJTZp/Kdd/Pk=;
- b=GPTpbAN9MUGMq4H3euJ7T3mzJvQWX0wpDmyBZFmVfxt1w9pNkX0f+9T1uW8gvoBzcC
- vFaBQCLRmeE3kkEe6W3uwg6Zc3ivARQSCogOCq0SE8osDmXkj4ZOWEi/MHIJYlORAL1V
- MvwBeFLlOzw3sdALeCq/VGC3djo+rwgpNF4M7GE5QDcVGA5GWl1Ff1RzpkbNfPIduD4O
- XbV5vnSPgWJWJJgKU0A08L57gUBadNqZojhpyEshvbAge5oJFe7heCNZ7/6cdIM2vIo0
- Oa5pznWwE1avpZ3vRZ0WKwOpVWIW8/NJTqnZ6EZ2ofhihnXJU16JPcR2ucAkRR/g3amL
- /TgA==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 2/2] toolsoftrade: Add suffix `()` to function name
-Date: Wed,  4 Jan 2017 03:59:53 +0900
-Message-Id: <20170103185953.3000-2-sj38.park@gmail.com>
-In-Reply-To: <20170103185953.3000-1-sj38.park@gmail.com>
-References: <20170103185953.3000-1-sj38.park@gmail.com>
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=pc6fahDJEeeVpNnUFMXG3QsVgNa6Lbq9s9a1+oqEfq8=;
+ b=I5i5zii80+g7OV7Dn6/JeiipcHumK8zwU6Y43xGhSLWslL7dV4fNXuyVw5NdYfISYN
+ qovOL2yj/6N70Fmm2rK8cRxiRCME2miAEU+88jZ72STQSar/vobeF4NEmmdrwaMcyV6I
+ f4TB2ZdNV+hyMgN1fuG15Mcai7Y6IpwTH90ChSROr6v0RVGTgVtugA7zm43GTvURFW0q
+ +rg9M8+QR+4/miDHb7lUo3zdDogcu6UQ+ovFshvFDCrFmWj6R5jip1UuBGl/j9sRZBfa
+ i/qHZptlRflepg+Z+34ZceRCoedOYtbKEGWTL1kq3VcXwg8NAb1wnRsPW1fKynubn1w0
+ TN2A==
+Subject: [PATCH 10/13] Add \nf{} command to go back to normal font
+References: <a054d07b-3b69-25ce-aab4-c294dc3b6bcd@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <f6b7cd20-8644-54ae-9490-35b2558870e7@gmail.com>
+Date: Wed, 4 Jan 2017 10:29:42 +0900
+MIME-Version: 1.0
+In-Reply-To: <a054d07b-3b69-25ce-aab4-c294dc3b6bcd@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+From aac92885e4b76e4229fedc388e8539bc0f656153 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sat, 31 Dec 2016 19:00:00 +0900
+Subject: [PATCH 10/13] Add \nf{} command to go back to normal font
+
+This command will be used in tables whose base font is typewriter
+font. We should avoid \rm{} command in case sans serif font be
+selected as default.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- toolsoftrade/toolsoftrade.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ perfbook.tex | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index 899ef01e6e2a..bc51437eb141 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -1383,7 +1383,7 @@ initialization code.
+diff --git a/perfbook.tex b/perfbook.tex
+index 4eaace8..bb1e47e 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -97,6 +97,7 @@
+ \newcommand{\nbco}[1]{\hbox{\texttt{\detokenize{#1}}}} % no break lines for short snippet
+ \newcommand{\tco}[1]{\texttt{\detokenize{#1}}} % for code in tabular environment
+ % \tco{} will break at spaces but not at underscores
++\newcommand{\nf}[1]{\textnormal{#1}} % to return to normal font
 
- The Linux kernel uses
- \co{struct task_struct} pointers to track kthreads,
--\co{kthread_create} to create them,
-+\co{kthread_create()} to create them,
- \co{kthread_should_stop()} to externally suggest that they stop
- (which has no POSIX equivalent),
- \co{kthread_stop()} to wait for them to stop, and
+ \newcommand{\Epigraph}[2]{\epigraphhead[65]{\rmfamily\epigraph{#1}{#2}}}
+
 -- 
-2.10.0
+2.7.4
+
 
