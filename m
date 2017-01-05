@@ -2,59 +2,70 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=8cHA0EuvgPBVC+ZWu5MYURfLzd+qIEpw3xfk9+sEv1E=;
- b=Tu8UDKsN8KorVmNA4guKxxaqQeG7JstALT1TQxWttGU3I73tUkDXp+eAOsrn2OyEvw
- 6YULb51kvNzkUx6QN6ag1EuljNcMEBK6nF/5CnG4hJ32tH1IKgZ5jUxtzyX+nSOPeyW+
- jspPU0bAo1S5e+ugLJCQpVFzQPQQmaVD4sclAzoF6DbjNyh+/Rvx2IPZocnPRx92ieGk
- vcWcCXKAnluThGaYfKqpHbk9eLE26AlFWjdIT7s3ngxe4bbPMYt7lxSPb7di6tE40iSG
- N5T3XK7dMhb7ahH8nAuRaXk9r+IMGEIsqiswEgn4cUlFR+/UGXyjjvZB2XIiFqlV627i
- Sxtw==
-Subject: [PATCH 5/5] toolsoftrade: Enclose short verbatim in minipage
+ bh=M0dAIkaN57F9KQ9PAF05EpjCZHefMR+VkMGFIn5Ozyc=;
+ b=vXvKg8sm2qRxfEjxjU8h2PsleY2ySZS3MHHrzCtKmK8mEB9nNSA3CArFs+Dd9YZegF
+ fff+P9NIKAchOGNm9//Ee7z/OXZUpPuE4GWna7FzqeBGQ0G9aSV2bZMvSFwNH4++X0ra
+ CgLYaytkeKGC4Wk+x3QJY2ol29NYbBasWu4f8vHcDM0SAsApeyW+aqwoWoPdJQRpzlRM
+ /TuOBGFHZuclVr51x2919N5EIW/nppRCanAve5i3Yfryp+2QwAjMZQcgFc9+uHtmpXsW
+ 40ZlNzXtU5ygmOV+NuOZuy00UUUgRgliEq1L4DOymqT+Rml3H0xHFyZI7Zy83ThXAV64
+ KyVA==
+Subject: Re: [PATCH 0/5] Promote target 'mss' to default
 References: <f156a2ae-be14-47d5-c0d8-264f2138cf5d@gmail.com>
+ <20170105051835.GA3742@linux.vnet.ibm.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <a658a572-092f-0a7b-fd6b-d3be76d7ae8b@gmail.com>
-Date: Thu, 5 Jan 2017 09:38:05 +0900
+Message-ID: <5d48139a-2eda-54de-63bc-d76c9b0dca37@gmail.com>
+Date: Thu, 5 Jan 2017 20:49:58 +0900
 MIME-Version: 1.0
-In-Reply-To: <f156a2ae-be14-47d5-c0d8-264f2138cf5d@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20170105051835.GA3742@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From a1d64d31f52b7b2f96fb6e15ef30dde7f8d521bf Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 1 Jan 2017 00:59:39 +0900
-Subject: [PATCH 5/5] toolsoftrade: Enclose short verbatim in minipage
+On 2017/01/04 21:18:35 -0800, Paul E. McKenney wrote:
+> On Thu, Jan 05, 2017 at 09:27:57AM +0900, Akira Yokosawa wrote:
+>> Hi, Paul
+>>
+>> As I mentioned, I'm submitting a patch set to switch default
+>> monospace font to "couriers" (courier scaled).
+>>
+>> Patch 1 does the switch.
+>> Patch 2 adds a new target "help" that explains various targets.
+>> Patches 3 and 4 revert manual fontsize tweaks.
+>> Patch 5 encloses a short verbatim definition in a minipage, It was
+>> a bit too wide with non-scaled courier, but now it is safe to
+>> be indented as a paragraph.
+> 
+> Thank you, queued and pushed.  I added a fixup patch for what looked
+> to me to be typos in the Makefile help text (which is a very nice
+> addition, by the way!).  Please let me know if my fixes need fixing.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- toolsoftrade/toolsoftrade.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks for the fixes!
+                                 Akira
 
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index bc51437..0d1bf8c 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -1252,7 +1252,7 @@ These last two primitives are not provided directly by gcc,
- but may be implemented straightforwardly as follows:
-
- \vspace{5pt}
--{
-+\begin{minipage}[t]{\columnwidth}
- \scriptsize
- \begin{verbatim}
- #define ACCESS_ONCE(x) (*(volatile typeof(x) *)&(x))
-@@ -1260,7 +1260,7 @@ but may be implemented straightforwardly as follows:
- #define WRITE_ONCE(x, val) ({ ACCESS_ONCE(x) = (val); })
- #define barrier() __asm__ __volatile__("": : :"memory")
- \end{verbatim}
--}
-+\end{minipage}
- \vspace{5pt}
-
- \QuickQuiz{}
--- 
-2.7.4
-
+> 
+> 						Thanx, Paul
+> 
+>>                                         Thanks, Akira
+>> --
+>> Akira Yokosawa (5):
+>>   Promote target 'mss' to default
+>>   Makefile: Add target 'help'
+>>   Revert "after: Tweak font size of Figure A.2"
+>>   Revert "formal/dyntickrcu: Adjust font size of sample code"
+>>   toolsoftrade: Enclose short verbatim in minipage
+>>
+>>  Makefile                      | 45 ++++++++++++++++++++++++++++++++++---------
+>>  appendix/questions/after.tex  |  2 +-
+>>  formal/dyntickrcu.tex         |  2 +-
+>>  perfbook.tex                  |  2 +-
+>>  toolsoftrade/toolsoftrade.tex |  4 ++--
+>>  5 files changed, 41 insertions(+), 14 deletions(-)
+>>
+>> -- 
+>> 2.7.4
+>>
+> 
+> 
 
