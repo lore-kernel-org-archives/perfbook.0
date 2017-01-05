@@ -2,18 +2,19 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=C+PcDB5C8muDiSgqvaoRCu4XKwfHaWEwUr9/pcBi6nw=;
- b=BW9AejLc9cqj0vqZgnsbHpOVu+OAzms737eLLA6AzT0Q/RzPx8AA2l/dHCqE8jooaH
- BHXZUaa/FsUp1a8bvqCq0UcyFVcCMgzBYRF6+76z/sBF1Y87628U+zO6ANAB+3vUBtuQ
- EiBvPA8DVRQID8myxF9Mgv1qyC6UbkTSu+K62xmlrsxVD8Ftp/SGf2dEW3RJAXdNQxLN
- AvIfmq1YEMmsPABIHBozNlpg2EB9+VJ6XKzv+dh4jQzCpXgJKCWeaIpzq9sNlCQuZbms
- O1O2/MG3K2RdaEZLclFTREjD8kFxO3Ih1ddI6UKtAjps/hG5wwrG1TzccHVSKhkVgFSb
- gCEw==
-Subject: [PATCH 3/5] Revert "after: Tweak font size of Figure A.2"
+ bh=4mgNpbdtCdcJkSG7d6TnZFNTkcfHSz/F13xSMW7kUmo=;
+ b=r8rukgrA+K4AYPGb/Cn7EVScNOA2AMdkz5SbuMl9Sn42IiDubTgKNEhI836hKSewZ5
+ bzFRfqBf//7n/mkDIkCPAJHi0dtw+3xfjudvgM8bs2YSsLbdcz6tdTFLx8DJQkrS7A0a
+ HkYCHhpxnnOac7aCWkPoLbcgbyKeOCeGKIoidHA1rcpEfbnTKng5NyoA7LVfVTynlxz6
+ eq8cO6OjmJqeRuL2kRcZLOwvhWGjvgosSa+PleBzSBy0fea4JSL4vfxSJRKi6JUYjUEr
+ qoADr4sg7/TvgV8/cwEYfZU7J2vMDZR1PW/pvnN8SvTj5A8DkNSOaRmtKj4862NwN6a8
+ v8UA==
+Subject: [PATCH 4/5] Revert "formal/dyntickrcu: Adjust font size of sample
+ code"
 References: <f156a2ae-be14-47d5-c0d8-264f2138cf5d@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <4ef5b3c9-5b1f-eb70-df3e-f6e3adace600@gmail.com>
-Date: Thu, 5 Jan 2017 09:35:39 +0900
+Message-ID: <944afb83-a7e5-13be-6530-3df34bd84222@gmail.com>
+Date: Thu, 5 Jan 2017 09:37:04 +0900
 MIME-Version: 1.0
 In-Reply-To: <f156a2ae-be14-47d5-c0d8-264f2138cf5d@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,31 +23,31 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 8b8635c3158f941fd5ff2d0c3b561c2df52cbc99 Mon Sep 17 00:00:00 2001
+From 36e5015882b9e157e6aa8d66c589398dbca02d86 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 28 Dec 2016 20:30:02 +0900
-Subject: [PATCH 3/5] Revert "after: Tweak font size of Figure A.2"
+Date: Wed, 28 Dec 2016 20:30:25 +0900
+Subject: [PATCH 4/5] Revert "formal/dyntickrcu: Adjust font size of sample code"
 
-This reverts commit bc0fd9d40035c09b22d138cf68c2233fde8ce2b8.
+This reverts commit c7c5e8a1829e60349cc4eace0479e7ac37ec859d.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/questions/after.tex | 2 +-
+ formal/dyntickrcu.tex | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/appendix/questions/after.tex b/appendix/questions/after.tex
-index e1802ba..cbba768 100644
---- a/appendix/questions/after.tex
-+++ b/appendix/questions/after.tex
-@@ -51,7 +51,7 @@ e.g., where time has appeared to go backwards.
- \end{figure}
+diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
+index 75eb93f..50e87d8 100644
+--- a/formal/dyntickrcu.tex
++++ b/formal/dyntickrcu.tex
+@@ -1252,7 +1252,7 @@ and finally lines~32-43 model \co{rcu_irq_exit()}.
 
- \begin{figure}[htbp]
--{ \fontsize{6.5pt}{7.5pt}\selectfont
+ The \co{grace_period()} process then becomes as follows:
+
+-{ \fontsize{6.7pt}{8pt}\selectfont
 +{ \scriptsize
- \begin{verbbox}
-   1 /* WARNING: BUGGY CODE. */
-   2 void *consumer(void *ignored)
+ \begin{verbatim}
+   1 proctype grace_period()
+   2 {
 -- 
 2.7.4
 
