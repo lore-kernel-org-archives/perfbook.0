@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=ERygHKLS75xsRN7STGZ1C6lv/riHtzMkeqQ5Dj9T2qs=;
- b=XCbnlgrbfPIFSavkG6UWl6atPcj4E4pDe+L2w65lHvLHWNzB5sCPyQiHUNCUc33uph
- elYtDafe1JvH/RbwT0y+aD8/tM3BNvlIE2seKSTuVcCFPfWuEXvKvnhl/cn/LgHgZdUe
- 2+z+QMka+bszMYYA3rFOqwkM6BRGt3xHniWZoepZ76BHFMqqhz38yEcK2E5CwMxGusti
- YnqgBI0GKeSsaMha2qSKBNxZ0jmlE1qXnIsu2PYH9ASJEnb4ax9ko6YrGWTTYs/Qxchp
- F3QOJ+64AM6Dy++iuw3Mf7IJMXjXxgnIWpTkuLvBnPpESnSaXzBfDFF8eGoLmVw3ZTN/
- bH1Q==
-Subject: [PATCH 2/5] Makefile: Add target 'help'
+ bh=C+PcDB5C8muDiSgqvaoRCu4XKwfHaWEwUr9/pcBi6nw=;
+ b=BW9AejLc9cqj0vqZgnsbHpOVu+OAzms737eLLA6AzT0Q/RzPx8AA2l/dHCqE8jooaH
+ BHXZUaa/FsUp1a8bvqCq0UcyFVcCMgzBYRF6+76z/sBF1Y87628U+zO6ANAB+3vUBtuQ
+ EiBvPA8DVRQID8myxF9Mgv1qyC6UbkTSu+K62xmlrsxVD8Ftp/SGf2dEW3RJAXdNQxLN
+ AvIfmq1YEMmsPABIHBozNlpg2EB9+VJ6XKzv+dh4jQzCpXgJKCWeaIpzq9sNlCQuZbms
+ O1O2/MG3K2RdaEZLclFTREjD8kFxO3Ih1ddI6UKtAjps/hG5wwrG1TzccHVSKhkVgFSb
+ gCEw==
+Subject: [PATCH 3/5] Revert "after: Tweak font size of Figure A.2"
 References: <f156a2ae-be14-47d5-c0d8-264f2138cf5d@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <7025540d-c1f5-5841-2dec-08b596015a89@gmail.com>
-Date: Thu, 5 Jan 2017 09:34:33 +0900
+Message-ID: <4ef5b3c9-5b1f-eb70-df3e-f6e3adace600@gmail.com>
+Date: Thu, 5 Jan 2017 09:35:39 +0900
 MIME-Version: 1.0
 In-Reply-To: <f156a2ae-be14-47d5-c0d8-264f2138cf5d@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,57 +22,31 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From d159316cc7c866dff5e014b6a466846809884788 Mon Sep 17 00:00:00 2001
+From 8b8635c3158f941fd5ff2d0c3b561c2df52cbc99 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 5 Jan 2017 08:50:00 +0900
-Subject: [PATCH 2/5] Makefile: Add target 'help'
+Date: Wed, 28 Dec 2016 20:30:02 +0900
+Subject: [PATCH 3/5] Revert "after: Tweak font size of Figure A.2"
 
-Add a target for explanation of targets with various layout and font options.
+This reverts commit bc0fd9d40035c09b22d138cf68c2233fde8ce2b8.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ appendix/questions/after.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index 997a4cf..a7b10cf 100644
---- a/Makefile
-+++ b/Makefile
-@@ -60,7 +60,7 @@ else
- 	targ = $(default)
- endif
+diff --git a/appendix/questions/after.tex b/appendix/questions/after.tex
+index e1802ba..cbba768 100644
+--- a/appendix/questions/after.tex
++++ b/appendix/questions/after.tex
+@@ -51,7 +51,7 @@ e.g., where time has appeared to go backwards.
+ \end{figure}
 
--.PHONY: all touchsvg clean distclean neatfreak 2c ls-unused $(ABBREVTARGETS) mss perfbook-mss.pdf mssmsg
-+.PHONY: all touchsvg clean distclean neatfreak 2c ls-unused $(ABBREVTARGETS) mss perfbook-mss.pdf mssmsg help
- all: $(targ)
-
- 2c: perfbook.pdf
-@@ -168,6 +168,25 @@ ifndef INKSCAPE
- endif
- 	@inkscape --export-pdf=$@ $<
-
-+help:
-+	@echo "Official targets:"
-+	@echo "  Full,              Abbr."
-+	@echo "  perfbook.pdf,      2c:   (defalut) 2-column layout"
-+	@echo "  perfbook-1c.pdf,   1c:   1-column layout"
-+	@echo "  perfbook-hb.pdf,   hb:   For hardcover books (2-column)"
-+	@echo
-+	@echo "Experimental targets:"
-+	@echo "  Full,              Abbr."
-+	@echo "  perfbook-msr.pdf,  msr:  2c with regular thickness courier clone"
-+	@echo "  perfbook-msn.pdf,  msn:  2c with narrow courier clone"
-+	@echo "  perfbook-mstx.pdf, mstx: 2c with txtt as monospace"
-+	@echo "  perfbook-msnt.pdf, msnt: 2c with newtxtt as monospace (non-slashed 0)"
-+	@echo "  perfbook-1csf.pdf, 1csf: 1c with sans serif font"
-+	@echo "  perfbook-msns.pdf, msns: 2c with non-scaled courier"
-+	@echo "  \"msr\" and \"msn\" require \"numbus15\"."
-+	@echo "  \"msnt\" requires \"newtxtt\"."
-+	@echo "  \"1csf\" requires recent version (>=1.3i) of \"mathastext\"."
-+
- clean:
- 	find . -name '*.aux' -o -name '*.blg' \
- 		-o -name '*.dvi' -o -name '*.log' \
+ \begin{figure}[htbp]
+-{ \fontsize{6.5pt}{7.5pt}\selectfont
++{ \scriptsize
+ \begin{verbbox}
+   1 /* WARNING: BUGGY CODE. */
+   2 void *consumer(void *ignored)
 -- 
 2.7.4
 
