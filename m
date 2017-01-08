@@ -1,69 +1,66 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=HmU0BkLQM5hCLsrfWTmgdO7AprFsjtZLmgKFLA4ouxI=;
- b=tLgN5b7DGxkrXBIFr50uQPkSSAs2VL2GrNi960r525yKEi9IawkzKtImFnYgzh68J/
- crkYNsF/ArSU1qxteEqeUt9pJZaNe7QKfs62a8nkYdS+kSeveTVgIYn8Gz3trd5c5Yv+
- 2QdjhAQR09LwyUZf/OhB9h8qbpZCHf4CgsonSu+iF92gnDdUKFO46tu7e/doZrD1H9US
- v+dfRJi753JUen5cEEybUy54IoNsFxVlzPYO1s5MpPpFyMsQLnndj2JnK3WKzGDvH6zS
- jdoWVyR6q+TK7sGV6lVRUHEsVm8m2nuu/itCkODmOi212dHyxO63plS6n5mQZeswaUmZ
- gAvA==
-Subject: [PATCH 3/3] qqz.sty: Tweak \vspace{} parameter
-References: <04f10e4e-b325-c5a3-4076-3417a188ece2@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <a31022fb-40d0-f247-dcf1-ebe498fb2e4b@gmail.com>
-Date: Mon, 9 Jan 2017 23:43:22 +0900
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41078 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751620AbdAHVYB (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 8
+ Jan 2017 16:24:01 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id v08LINqO005774
+ for <perfbook@vger.kernel.org>; Sun, 8 Jan 2017 16:24:00 -0500
+Received: from e31.co.us.ibm.com (e31.co.us.ibm.com [32.97.110.149]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 27usd1pq51-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
+ 08 Jan 2017 16:23:59 -0500
+Received: from localhost by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 8 Jan 2017
+ 14:23:59 -0700
+Date: Sun, 8 Jan 2017 13:23:53 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH] appendix/questions: Add missing NBSPs
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <20170108163445.26748-1-sj38.park@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <04f10e4e-b325-c5a3-4076-3417a188ece2@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20170108163445.26748-1-sj38.park@gmail.com>
+Message-Id: <20170108212353.GR3800@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: SeongJae Park <sj38.park@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 6da1b01ee71e53c559a73e20686eabe67ba23935 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 9 Jan 2017 20:29:45 +0900
-Subject: [PATCH 3/3] qqz.sty: Tweak \vspace{} parameter
+On Mon, Jan 09, 2017 at 01:34:45AM +0900, SeongJae Park wrote:
+> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 
-Reduce \vspace{} parameters after black and white boxes in
-Answers to Quick Quizzes for a denser layout.
-Also add glue parameters to permit more flexible typeset.
+Queued and pushed, thank you, SeongJae!
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- qqz.sty | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+							Thanx, Paul
 
-diff --git a/qqz.sty b/qqz.sty
-index dda1c17..317e809 100644
---- a/qqz.sty
-+++ b/qqz.sty
-@@ -13,7 +13,7 @@
- %%
- %% Copyright (C) IBM Corporation, 2008
- %% Copyright (C) Paolo Bonzini, 2015
--%% Copyright (C) Akira Yokosawa, 2016
-+%% Copyright (C) Akira Yokosawa, 2016, 2017
- %%
- %% Authors: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
- %%          Paolo Bonzini <pbonzini@redhat.com> # cross-link questions and answers
-@@ -84,11 +84,11 @@
-
- \newcommand{\QuickA}[1]{%
- 	\hyperref[QQ.\QuickQuizAnswerChapter.\thequickquizctrC]{\rule{7pt}{7pt}}
--	\par\vspace{0.8\baselineskip}
-+	\par\vspace{0.5\baselineskip plus .5ex minus .3ex}
- 	\noindent\textbf{Answer:} \\ }
-
- \newcommand{\QuickE}{%
- 	\hyperref[QQE.\QuickQuizAnswerChapter.\thequickquizctrC]{\ding{113}}
--	\vspace{1.5\baselineskip}
-+	\vspace{1.0\baselineskip plus 2ex minus .5ex}
- }
-
--- 
-2.7.4
-
+> ---
+>  appendix/questions/after.tex | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/appendix/questions/after.tex b/appendix/questions/after.tex
+> index cbba768dd443..e648667614a4 100644
+> --- a/appendix/questions/after.tex
+> +++ b/appendix/questions/after.tex
+> @@ -184,13 +184,13 @@ SMP code?
+>  Simply use SMP primitives as designed.
+> 
+>  In this example, the easiest fix is to use locking, for example,
+> -acquire a lock in the producer before line 10 in
+> +acquire a lock in the producer before line~10 in
+>  Figure~\ref{fig:app:questions:After Producer Function} and in
+>  the consumer before line~13 in
+>  Figure~\ref{fig:app:questions:After Consumer Function}.
+>  This lock must also be released after line~13 in
+>  Figure~\ref{fig:app:questions:After Producer Function} and
+> -after line 17 in
+> +after line~17 in
+>  Figure~\ref{fig:app:questions:After Consumer Function}.
+>  These locks cause the code segments in lines~10-13 of
+>  Figure~\ref{fig:app:questions:After Producer Function} and in lines~13-17 of
+> -- 
+> 2.10.0
+> 
 
