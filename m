@@ -1,66 +1,78 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41078 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751620AbdAHVYB (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 8
- Jan 2017 16:24:01 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id v08LINqO005774
- for <perfbook@vger.kernel.org>; Sun, 8 Jan 2017 16:24:00 -0500
-Received: from e31.co.us.ibm.com (e31.co.us.ibm.com [32.97.110.149]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 27usd1pq51-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
- 08 Jan 2017 16:23:59 -0500
-Received: from localhost by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45303 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S941040AbdAIVBy (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon,
+ 9 Jan 2017 16:01:54 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.17/8.16.0.17) with SMTP id v09Kwg0c089810
+ for <perfbook@vger.kernel.org>; Mon, 9 Jan 2017 16:01:49 -0500
+Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154]) by
+ mx0b-001b2d01.pphosted.com with ESMTP id 27vd62m8xe-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
+ 09 Jan 2017 16:01:48 -0500
+Received: from localhost by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 8 Jan 2017
- 14:23:59 -0700
-Date: Sun, 8 Jan 2017 13:23:53 -0800
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 9 Jan 2017
+ 14:01:47 -0700
+Date: Mon, 9 Jan 2017 13:01:43 -0800
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] appendix/questions: Add missing NBSPs
+Subject: Re: [PATCH 0/3] Quick Quiz layout update
 Reply-To: paulmck@linux.vnet.ibm.com
-References: <20170108163445.26748-1-sj38.park@gmail.com>
+References: <04f10e4e-b325-c5a3-4076-3417a188ece2@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20170108163445.26748-1-sj38.park@gmail.com>
-Message-Id: <20170108212353.GR3800@linux.vnet.ibm.com>
+In-Reply-To: <04f10e4e-b325-c5a3-4076-3417a188ece2@gmail.com>
+Message-Id: <20170109210143.GB3800@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>
 Cc: perfbook@vger.kernel.org
 
-On Mon, Jan 09, 2017 at 01:34:45AM +0900, SeongJae Park wrote:
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+On Mon, Jan 09, 2017 at 11:37:57PM +0900, Akira Yokosawa wrote:
+> >From 6da1b01ee71e53c559a73e20686eabe67ba23935 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Mon, 9 Jan 2017 23:09:24 +0900
+> Subject: [PATCH 0/3] Quick Quiz layout update
+> 
+> Hi Paul,
+> 
+> This patch set improves layout of Appendix "Answers to Quick Quizzes".
+> White boxes at the end of answers sometimes become "orphans".
+> This happens when an answer finishes with an "enumerate" or "figure"
+> environment. As an end of these environments is treated as a page/column
+> break candidate, a white box just after the end of an environment tends to
+> become an orphan (single symbol at the top of next page/column).
+> 
+> To prevent this, white boxes can be moved to just after the final item
+> of "enumerate" environments. Or they can be moved to just after the final
+> paragraph before "figure" environments. 
+> 
+> I wrote a script to do this (Patch 1), and incorporated it into the rule of
+> target "qqz.tex" (Patch 2). Patch 3 tweaks vertical space parameters for
+> a better look of the Appendix
 
-Queued and pushed, thank you, SeongJae!
+I queued this and pushed it, let's see what people think.  It does
+make the answers ending in a list look better, though I am wondering
+whether ending an answer with a list is the right thing for me to
+be doing.  ;-)
 
 							Thanx, Paul
 
-> ---
->  appendix/questions/after.tex | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>                                                  Thanks, Akira
+> --
+> Akira Yokosawa (3):
+>   qqz: Add script to reorder lines in qqz.tex
+>   Makefile: Use qqzreorder.pl in qqz.tex target
+>   qqz.sty: Tweak \vspace{} parameter
 > 
-> diff --git a/appendix/questions/after.tex b/appendix/questions/after.tex
-> index cbba768dd443..e648667614a4 100644
-> --- a/appendix/questions/after.tex
-> +++ b/appendix/questions/after.tex
-> @@ -184,13 +184,13 @@ SMP code?
->  Simply use SMP primitives as designed.
+>  Makefile                |  2 +-
+>  qqz.sty                 |  6 ++--
+>  utilities/qqzreorder.pl | 88 +++++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 92 insertions(+), 4 deletions(-)
+>  create mode 100644 utilities/qqzreorder.pl
 > 
->  In this example, the easiest fix is to use locking, for example,
-> -acquire a lock in the producer before line 10 in
-> +acquire a lock in the producer before line~10 in
->  Figure~\ref{fig:app:questions:After Producer Function} and in
->  the consumer before line~13 in
->  Figure~\ref{fig:app:questions:After Consumer Function}.
->  This lock must also be released after line~13 in
->  Figure~\ref{fig:app:questions:After Producer Function} and
-> -after line 17 in
-> +after line~17 in
->  Figure~\ref{fig:app:questions:After Consumer Function}.
->  These locks cause the code segments in lines~10-13 of
->  Figure~\ref{fig:app:questions:After Producer Function} and in lines~13-17 of
 > -- 
-> 2.10.0
+> 2.7.4
 > 
 
