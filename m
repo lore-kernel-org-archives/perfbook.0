@@ -1,62 +1,53 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=9CGqxErj28B4mpF0WiEf8d9prhfeYsweb/SjAYGhu4Q=;
- b=iRPkVHluEQh10d4NGgF3eCGYMvv/01Nw39q+0yKBZOj1YZZjSb5I4i0Lm8mTF4NIH9
- 3Lo6uEUW8ilPkvFyiB7L1nmG0LLdnYZM+42r9krzwRqBfjUCoLoOxrtyPygEDi6EfRtw
- 9G6hUxasRFUNRmDNQPvqApDM8lBdVF4ky80fsPR5W99ufF/i/NTI0YiCudkjEHmhVBeS
- dsckkcS7lLexjAMX0ZIlKYYqXooQ6c8gk3KxZcx7xWdzMljMBI4y8b63Wz0odqkpAw7U
- hRovIYiS2p2wQmgBTBDt6bkAIxfhs5rMHu6nb9XMXP0er1YfWMf4VAGuuPk8fqW13VJR
- Ojqg==
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=q6uSZZG4weHPbQ35xlUGGSeIkNlSZCce+tG6YqWv8Iw=;
+ b=j1MCHk73VcQGHIOfE/6wHelIVw+FvWpfk9auPb8L+PoPon/AmIiKxR/gvC+L3a7h2C
+ RO2oBK+sC+oke+WTE0mnitOBl8msP9PlcsRx6Hqhw5OB9aaC/LDEYqlJSxwR4guhKE/L
+ lWOxBkQBtjMV7cmeY7bRpqBk89Fg3HWffWXzIO8nd9o9l4olQD4u8wHNx9Kb4v3hTkiu
+ lnW7OwcREkZRvBTrtCLFYt4dVUjbqzBbdOG7sS+8QZYmqpkuk1Qg+ryZz2WR4kriATJw
+ X8NLsRZNT0bVGMBR5y4AxjdM8HQYwL57lOLoL2ma192AhyCg5d/Svi6AxWA83s5fneKz
+ R29w==
+Subject: [PATCH 1/8] count: Use \log in math mode
+References: <2c5427c4-463a-d118-3c30-d2c9f7ffd5a7@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/8] Hyphenation updates
-Message-ID: <2c5427c4-463a-d118-3c30-d2c9f7ffd5a7@gmail.com>
-Date: Mon, 16 Jan 2017 23:55:18 +0900
+Message-ID: <53227da2-4d36-496b-5435-18629c3f2202@gmail.com>
+Date: Mon, 16 Jan 2017 23:56:48 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <2c5427c4-463a-d118-3c30-d2c9f7ffd5a7@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 4e1157502e94beeef363808e627acd2882e0aac0 Mon Sep 17 00:00:00 2001
+From 9c2d2a3fd6e16918431b0a389b542a653d8b64a6 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 16 Jan 2017 23:33:49 +0900
-Subject: [PATCH 0/8] Hyphenation updates
+Date: Sun, 15 Jan 2017 11:57:36 +0900
+Subject: [PATCH 1/8] count: Use \log in math mode
 
-Hi Paul,
+Function "log" should be printed in upright font.
 
-This is a set of fixes and improvements mostly of hyphenation.
-Highlight would be patches 3--5, which import hyphenation exceptions
-for US English and add some exception for perfbook.
-Patch 7 comments out an exception of "process", which prevents hyphenation
-of "pro-cess". I think this hyphenation is acceptable, but you may have
-other ideas.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ count/count.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-                                     Thanks, Akira
---
-Akira Yokosawa (8):
-  count: Use \log in math mode
-  SMPdesign: Add shortcut of extdash to compound words
-  Import exceptions for US English hyphenation from 'hyphenex' package
-  Add hyphenation exceptions file for perfbook
-  perfbook.tex: Include ushyphex.tex and pfhyphex.tex
-  Revert "count: Enclose 'REQACK' in \mbox{}"
-  Comment out 'process' in hyphenation exceptions
-  SMPdesign: Add another shortcut of extdash
-
- SMPdesign/SMPdesign.tex     |    2 +-
- SMPdesign/partexercises.tex |    2 +-
- count/count.tex             |    6 +-
- perfbook.tex                |    3 +
- pfhyphex.tex                |    4 +
- ushyphex.tex                | 1454 +++++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 1466 insertions(+), 5 deletions(-)
- create mode 100644 pfhyphex.tex
- create mode 100644 ushyphex.tex
-
+diff --git a/count/count.tex b/count/count.tex
+index 0ba7af5..1543811 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -414,7 +414,7 @@ avoids the delays inherent in such circulation.
+ 	The hardware could also apply an order to the requests, thus
+ 	returning to each CPU the return value corresponding to its
+ 	particular atomic increment.
+-	This results in instruction latency that varies as $O(log N)$,
++	This results in instruction latency that varies as $O(\log N)$,
+ 	where $N$ is the number of CPUs, as shown in
+ 	Figure~\ref{fig:count:Data Flow For Global Combining-Tree Atomic Increment}.
+ 	And CPUs with this sort of hardware optimization are starting to
 -- 
 2.7.4
+
 
