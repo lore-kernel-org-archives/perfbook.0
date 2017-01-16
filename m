@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=q6uSZZG4weHPbQ35xlUGGSeIkNlSZCce+tG6YqWv8Iw=;
- b=j1MCHk73VcQGHIOfE/6wHelIVw+FvWpfk9auPb8L+PoPon/AmIiKxR/gvC+L3a7h2C
- RO2oBK+sC+oke+WTE0mnitOBl8msP9PlcsRx6Hqhw5OB9aaC/LDEYqlJSxwR4guhKE/L
- lWOxBkQBtjMV7cmeY7bRpqBk89Fg3HWffWXzIO8nd9o9l4olQD4u8wHNx9Kb4v3hTkiu
- lnW7OwcREkZRvBTrtCLFYt4dVUjbqzBbdOG7sS+8QZYmqpkuk1Qg+ryZz2WR4kriATJw
- X8NLsRZNT0bVGMBR5y4AxjdM8HQYwL57lOLoL2ma192AhyCg5d/Svi6AxWA83s5fneKz
- R29w==
-Subject: [PATCH 1/8] count: Use \log in math mode
+ bh=5s5HsljpM4Z8eJhN94HlGVKX/lW4HAvHc8E9MIZdShI=;
+ b=rJDeZICgOZUHIT8boXY9/hGFRtHrk7xCJY7IS5VytvEu9fp4cgvNnkPvTNdTMDpi7W
+ MvkoFJbcfs42EvM378/imIH4NrN5CLnxztlJHPJOKiOgYe9Al1HdzMTPsF/MwFmY0ICC
+ SSzGDg5yDrU2PbHoaHUJmpj5SGc3zyicTGEXws/+B/d1Eh79SiXxJ5Qmg8AgwOQdsOcE
+ uaOLhaAWUi2ePI+2WrzN9msXNJeMIFLTxcfAgm9xg9+gQ0XR2Txw2DUl7DQADq7vFhVY
+ X7xpeGE1iTY7+bQo69m8Wwl9ezqWr1/bhNZZnXNLT2oNTtc9FVuQb+hKKwd/az1OkTTh
+ SClw==
+Subject: [PATCH 2/8] SMPdesign: Add shortcut of extdash to compound words
 References: <2c5427c4-463a-d118-3c30-d2c9f7ffd5a7@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <53227da2-4d36-496b-5435-18629c3f2202@gmail.com>
-Date: Mon, 16 Jan 2017 23:56:48 +0900
+Message-ID: <d9040c86-a187-1003-a6a7-667f3e3559d0@gmail.com>
+Date: Mon, 16 Jan 2017 23:58:01 +0900
 MIME-Version: 1.0
 In-Reply-To: <2c5427c4-463a-d118-3c30-d2c9f7ffd5a7@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,31 +22,31 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 9c2d2a3fd6e16918431b0a389b542a653d8b64a6 Mon Sep 17 00:00:00 2001
+From 221411c625f10ce968a9d0c3d01ed648c6a46a8d Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 15 Jan 2017 11:57:36 +0900
-Subject: [PATCH 1/8] count: Use \log in math mode
+Date: Sun, 15 Jan 2017 12:03:48 +0900
+Subject: [PATCH 2/8] SMPdesign: Add shortcut of extdash to compound words
 
-Function "log" should be printed in upright font.
+This one sticks out in 1c layout.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- count/count.tex | 2 +-
+ SMPdesign/SMPdesign.tex | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/count/count.tex b/count/count.tex
-index 0ba7af5..1543811 100644
---- a/count/count.tex
-+++ b/count/count.tex
-@@ -414,7 +414,7 @@ avoids the delays inherent in such circulation.
- 	The hardware could also apply an order to the requests, thus
- 	returning to each CPU the return value corresponding to its
- 	particular atomic increment.
--	This results in instruction latency that varies as $O(log N)$,
-+	This results in instruction latency that varies as $O(\log N)$,
- 	where $N$ is the number of CPUs, as shown in
- 	Figure~\ref{fig:count:Data Flow For Global Combining-Tree Atomic Increment}.
- 	And CPUs with this sort of hardware optimization are starting to
+diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
+index 81db94d..aa40139 100644
+--- a/SMPdesign/SMPdesign.tex
++++ b/SMPdesign/SMPdesign.tex
+@@ -556,7 +556,7 @@ Chapter~\ref{chp:Data Ownership}.
+ \label{sec:SMPdesign:Locking Granularity and Performance}
+
+ This section looks at locking granularity and performance from
+-a mathematical synchronization-efficiency viewpoint.
++a mathematical synchronization\-/efficiency viewpoint.
+ Readers who are uninspired by mathematics might choose to skip
+ this section.
+
 -- 
 2.7.4
 
