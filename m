@@ -1,59 +1,50 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pg0-f68.google.com ([74.125.83.68]:33142 "EHLO
- mail-pg0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1750865AbdAPPHR (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 16
- Jan 2017 10:07:17 -0500
-Received: by mail-pg0-f68.google.com with SMTP id 194so5571506pgd.0 for
- <perfbook@vger.kernel.org>; Mon, 16 Jan 2017 07:07:17 -0800 (PST)
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=nW8V8HlRTiW2IYWCnCcqO8yNYDLiorihaVP8dxk8ihk=;
- b=fInYWK2BCwzwuhvwb0ZPn4IXrdowrpvSBuD2jT8ZKhG72h+z9tUlWQsPwStOXK9M2x
- 7GlS32WMyiCCaIHJSwb3BjLCrk3Nrqezt68qHSajieRpNzcPD/c4r/A0Gs7ES09sZtXB
- IHpFCfUQ5LW42Rs00LvALnsggtU+e4vq5X4AIcXIBfyLiGcL6q6JFe0JPf7C5MR1WFPb
- znq8EPAKPSmrUo+8U+cIdxM4O6j17QqwngAEhCQqkAMb5QjuO5lAiEcf7gxwy0xt/7q5
- rY2qtASTW/ueeZYvO9HZwG1XUVghEqKhn4/KuOaYh5FWJpHM5cZxs8hJXRIWG3I4DMIW
- qTwA==
-Subject: [PATCH 7/8] Comment out 'process' in hyphenation exceptions
+ bh=viIKBPW57H+64ddXcFcy0p0zLv/VHIlkTOYIRq3ONcg=;
+ b=Qdvmmdj0KDpZypLqwCjaIPRuj2eZIgh1ZcYwjIsaJzvXWwH2nAFR9tJPTIFg2OIlvs
+ 8/ZUCM+Av5jCVnt//AUQKkISeL0/Ask5/gfasVFs/3yO1383hxHA3rrDkfoSJRHFZlhG
+ f1VFm4mMLE7nUhW0JH5gESj/qbYlmeUiC5kWbTRHN3SPBpBDq/TGBrR5zrVEHmN5TCsS
+ cRxrk1DPfzw/kE170xNKgKgtuyY0ahom9SPRBewmWMsu87+oaPkAV0XvPuod2/fiMNKB
+ zhi8PshWgZ4modvnXSWayVLO5i/ZMcv6U9p3cONLAVgWlsexAdqW6xaFkOUva11QaS/e
+ bNyw==
+Subject: [PATCH 8/8] SMPdesign: Add another shortcut of extdash
 References: <2c5427c4-463a-d118-3c30-d2c9f7ffd5a7@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <d30e67f5-fe74-526f-9749-cefadb439146@gmail.com>
-Date: Tue, 17 Jan 2017 00:07:14 +0900
+Message-ID: <5ee54d52-27a8-0f90-9541-343ea9470495@gmail.com>
+Date: Tue, 17 Jan 2017 00:08:28 +0900
 MIME-Version: 1.0
 In-Reply-To: <2c5427c4-463a-d118-3c30-d2c9f7ffd5a7@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+List-ID: <perfbook.vger.kernel.org>
 
-From 4a4f91cb615152b18d07c88887cf2ed95050c1a7 Mon Sep 17 00:00:00 2001
+From 4e1157502e94beeef363808e627acd2882e0aac0 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 15 Jan 2017 19:40:02 +0900
-Subject: [PATCH 7/8] Comment out 'process' in hyphenation exceptions
-
-Hyphenation of "pro-cess" should be acceptable for perfbook.
+Date: Sun, 15 Jan 2017 20:36:28 +0900
+Subject: [PATCH 8/8] SMPdesign: Add another shortcut of extdash
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- ushyphex.tex | 2 +-
+ SMPdesign/partexercises.tex | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/ushyphex.tex b/ushyphex.tex
-index 3f3075c..9a81811 100644
---- a/ushyphex.tex
-+++ b/ushyphex.tex
-@@ -862,7 +862,7 @@
-   pret-ty-prin-ter
-   pret-ty-prin-ting
-   pro-ce-dur-al
--  process
-+%  process       pro-cess is acceptable for perfbook
-   pro-cur-ance
-   prog-e-nies
-   prog-e-ny
+diff --git a/SMPdesign/partexercises.tex b/SMPdesign/partexercises.tex
+index 3431d2a..1c19a8a 100644
+--- a/SMPdesign/partexercises.tex
++++ b/SMPdesign/partexercises.tex
+@@ -440,7 +440,7 @@ shows the implementation of the enqueue and dequeue functions.\footnote{
+ Discussion will focus on the left-hand operations, as the right-hand
+ operations are trivially derived from them.
+
+-Lines~1-13 show \co{pdeq_pop_l()}, which left-dequeues and returns
++Lines~1-13 show \co{pdeq_pop_l()}, which left\-/dequeues and returns
+ an element if possible, returning \co{NULL} otherwise.
+ Line~6 acquires the left-hand spinlock, and line~7 computes the
+ index to be dequeued from.
 -- 
 2.7.4
 
