@@ -1,54 +1,61 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=72ANMoc/BYFrhxwGfSesZV0oPLb5w2zKgAZi2ddnShI=;
- b=uJqADxpt5dyLI1Jah2oPlniC5vHKhZjzOMw1zu5zYjobJ6A7g5gkkjbYyTg7jk8VN/
- pYPNVsGKw/rzRU95+bvla3IHpQuTFV2g8iw5jAWoXUNtlHq3XR8fPuC1MdO1Ic5QsO14
- FzUpfflyfmZepj1Z+nzxB76KGLztQ1iOoJlCN0JMMTG/itvjImHlioQFAHuM6Eb38dDL
- pQJH07Dh3p+jvdkm9bgM+/0536v37RtGABdnpzQpCFbsY+Oc5QZs2xezL1pmP2+rkwyN
- 3JiUrLbAmXb1vIShuaoGhdktlIP1/reDGqE6HOz5CRPQIr2hWWQF57NPcP80YomnnJcF
- YtPg==
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=q0CoS6roPSOL0JrykQ2txNu6qE+USmsExFFmujm0o3s=;
+ b=HwoHRYMjFmPdELkr2mgjDNQUKOR4c80xd/qGa+gXceQ5GwQeMdVEBvWRlIBat2H3K1
+ g0DijjzgWdJkKT72uCalq5Z7O9kaCs2+l6Y7y1jtjCBbBtV5/Hp30aWUo6fiLZVzUr13
+ wkSFIl1J38xcmCdNamTasVHQ/zFGJU4sp1+Bzle5IQv0rszhjYrcnb2B5eSrRSa16/gC
+ nRQtFU3JcGV/Ds0kKNE8kRX5NU1MIV168I9BjiEjSePxqdgG9gllUuQDhzTJ7qsNI4LJ
+ 1ge2r2w3jFv0yLxzvsPBOD871S9/uOtyhaYZu3FOksIYaVdgxZm5ilUM9ySHof7u2TNY
+ 90mg==
+Subject: [PATCH 1/2] bib/hw: Replace UTF-8 encoded single quote with plain
+ ASCII
+References: <2fba7d76-719e-8947-cbc0-ee25040f84f1@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/2] bib: Replace UTF-8 chars with plain ASCII chars
-Message-ID: <2fba7d76-719e-8947-cbc0-ee25040f84f1@gmail.com>
-Date: Wed, 18 Jan 2017 00:21:41 +0900
+Message-ID: <80d5f78b-5abe-ea1c-73c0-dd96af99ff98@gmail.com>
+Date: Wed, 18 Jan 2017 00:23:24 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <2fba7d76-719e-8947-cbc0-ee25040f84f1@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 9818f62d94a501d24bb073a6a2127cfe6f2afc10 Mon Sep 17 00:00:00 2001
+From c7ecda7f94d6297c257220d97311a9524deb3cf6 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 18 Jan 2017 00:08:46 +0900
-Subject: [PATCH 0/2] bib: Replace UTF-8 chars with plain ASCII chars
+Date: Sun, 8 Jan 2017 09:28:40 +0900
+Subject: [PATCH 1/2] bib/hw: Replace UTF-8 encoded single quote with plain ASCII
 
-Hi Paul,
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ bib/hw.bib | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I noticed some .bib files which contain UTF-8 encoded characters.
-Again, these are patches for bibliography, so they will involve your
-manual intervention to apply. Also, as the patches themselves contain
-UTF-8 chars, I'm not sure you can apply them as usual.
-FWIW, this set is sent in UTF-8 encoding.
+diff --git a/bib/hw.bib b/bib/hw.bib
+index 7e4fcd6..b535bdc 100644
+--- a/bib/hw.bib
++++ b/bib/hw.bib
+@@ -424,7 +424,7 @@ Set Reference Manual"
+ }
 
-Anyway, could you please try them?
+ @manual{Intel64IA32v3A2009
+-,title="Intel 64 and IA-32 Architectures Software Developer’s Manual,
++,title="Intel 64 and IA-32 Architectures Software Developer's Manual,
+ Volume 3A: System Programming Guide, Part 1"
+ ,organization="{Intel Corporation}"
+ ,year="2009"
+@@ -435,7 +435,7 @@ Volume 3A: System Programming Guide, Part 1"
+ }
 
-                                         Thanks, Akira
---
-Akira Yokosawa (2):
-  bib/hw: Replace UTF-8 encoded single quote with plain ascii
-  bib: Replace UTF-8 chars with plain ascii latex sequences
-
- bib/RCU.bib      | 2 +-
- bib/TM.bib       | 2 +-
- bib/hw.bib       | 4 ++--
- bib/realtime.bib | 2 +-
- bib/swtools.bib  | 2 +-
- 5 files changed, 6 insertions(+), 6 deletions(-)
-
+ @manual{Intel64IA32v3A2011
+-,title="Intel 64 and IA-32 Architectures Software Developer’s Manual,
++,title="Intel 64 and IA-32 Architectures Software Developer's Manual,
+ Volume 3A: System Programming Guide, Part 1"
+ ,organization="{Intel Corporation}"
+ ,year="2011"
 -- 
 2.7.4
+
 
