@@ -1,93 +1,71 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=RXSpU1qxyvNXYF2/QT6n3CqKxr5n0oMOtznObnZQ+kk=;
- b=FP2AquuGmIhOXB1IN0r2eOaR6KouidWIkE8OWfRpOufsuilffJze6rIJz7ynYXPu/K
- bvscY5wzkei4QH5awKacUpdWDotrgdjh8A3HHhJxPyEskr6qI0KfqsnRnNmxoMJv6sH5
- 2i3d17Nj+X7+yq4E9LkUlrpaBAm/fOZwC5qLJSV8RwH50KDne/8ByJ3wHM1t3NsTXKxP
- rE1D111WT8yy33b9Y5maZQGXbXL3ir0wfRQRM7vBcyFslAKkpFXzcWpTELMpOIeAQCou
- uv2zMgr1CeZZPD6Vt9KCFViSRkQyBsLA/HniHeEKYblA1HLjMfTuEhR1eDKxsW5hxQme
- fXdQ==
-Subject: [PATCH 2/2] bib: Replace UTF-8 chars with plain ASCII latex sequences
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58402 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1750863AbdAQW1Q (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 17
+ Jan 2017 17:27:16 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v0HMJ1Pa008781
+ for <perfbook@vger.kernel.org>; Tue, 17 Jan 2017 17:27:16 -0500
+Received: from e35.co.us.ibm.com (e35.co.us.ibm.com [32.97.110.153]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 281sdxp0g1-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
+ 17 Jan 2017 17:27:16 -0500
+Received: from localhost by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 17 Jan
+ 2017 15:27:15 -0700
+Date: Tue, 17 Jan 2017 14:27:09 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/2] bib: Replace UTF-8 chars with plain ASCII chars
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <2fba7d76-719e-8947-cbc0-ee25040f84f1@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <a8f2d45d-75d5-85e3-fe39-d01cd3205a81@gmail.com>
-Date: Wed, 18 Jan 2017 00:24:41 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <2fba7d76-719e-8947-cbc0-ee25040f84f1@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20170117222709.GG5238@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 9818f62d94a501d24bb073a6a2127cfe6f2afc10 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 8 Jan 2017 11:35:42 +0900
-Subject: [PATCH 2/2] bib: Replace UTF-8 chars with plain ASCII latex sequences
+On Wed, Jan 18, 2017 at 12:21:41AM +0900, Akira Yokosawa wrote:
+> >From 9818f62d94a501d24bb073a6a2127cfe6f2afc10 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Wed, 18 Jan 2017 00:08:46 +0900
+> Subject: [PATCH 0/2] bib: Replace UTF-8 chars with plain ASCII chars
+> 
+> Hi Paul,
+> 
+> I noticed some .bib files which contain UTF-8 encoded characters.
+> Again, these are patches for bibliography, so they will involve your
+> manual intervention to apply. Also, as the patches themselves contain
+> UTF-8 chars, I'm not sure you can apply them as usual.
+> FWIW, this set is sent in UTF-8 encoding.
+> 
+> Anyway, could you please try them?
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- bib/RCU.bib      | 2 +-
- bib/TM.bib       | 2 +-
- bib/realtime.bib | 2 +-
- bib/swtools.bib  | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+They worked fine, and good catches!  You would almost think that I
+was guilty of copying and pasting titles...
 
-diff --git a/bib/RCU.bib b/bib/RCU.bib
-index aed0adf..253cb2b 100644
---- a/bib/RCU.bib
-+++ b/bib/RCU.bib
-@@ -2396,7 +2396,7 @@ annual ACM SIGPLAN conference on Programming Language Design and Implementation"
+Queued and pushed.
 
- @unpublished{PaulEMcKenney2015RCUreqts2
- ,Author="Paul E. McKenney"
--,Title="{RCU} requirements part 2 — parallelism and software engineering"
-+,Title="{RCU} requirements part 2 --- parallelism and software engineering"
- ,month="August"
- ,day="5"
- ,year="2015"
-diff --git a/bib/TM.bib b/bib/TM.bib
-index c08e9ff..f69370f 100644
---- a/bib/TM.bib
-+++ b/bib/TM.bib
-@@ -450,7 +450,7 @@ and Michael Scott}
- ,author="Mark D. Hill and Derek Hower and Kevin E. Moore and Michael M. Swift
- and Haris Volos and David A. Wood"
- ,title="A Case for Deconstructing Hardware Transactional Memory Systems"
--,institution="Department of Computer Sciences, University of Wisconsin–Madison"
-+,institution="Department of Computer Sciences, University of Wisconsin--Madison"
- ,address="Madison, Wisconsin"
- ,year="2007"
- ,number="CS-TR-2007-1594"
-diff --git a/bib/realtime.bib b/bib/realtime.bib
-index c876d55..3e589e6 100644
---- a/bib/realtime.bib
-+++ b/bib/realtime.bib
-@@ -346,7 +346,7 @@
+							Thanx, Paul
 
- @Conference{PaulEMcKenney2008OLS
- ,Author="Paul E. McKenney"
--,Title="‘Real Time’ vs. ‘Real Fast’: How to Choose?"
-+,Title="{`Real Time' vs. `Real Fast': How to Choose?}"
- ,Booktitle="{Ottawa Linux Symposium}"
- ,Month="July"
- ,Year="2008"
-diff --git a/bib/swtools.bib b/bib/swtools.bib
-index f73d900..2877997 100644
---- a/bib/swtools.bib
-+++ b/bib/swtools.bib
-@@ -367,7 +367,7 @@
- }
-
- @inproceedings{NicolasPalix2011CoccinelleTenYears
--,author = "Nicolas Palix and Ga\:el Thomas and Suman Saha and Christophe Calvès and Julia Lawall and Gilles Muller"
-+,author = {Nicolas Palix and Ga\"{e}l Thomas and Suman Saha and Christophe Calv\`{e}s and Julia Lawall and Gilles Muller}
- ,title = "Faults in Linux: Ten Years Later"
- ,booktitle = {Proceedings of the Sixteenth International Conference on
- Architectural Support for Programming Languages and Operating Systems
--- 
-2.7.4
-
+>                                          Thanks, Akira
+> --
+> Akira Yokosawa (2):
+>   bib/hw: Replace UTF-8 encoded single quote with plain ascii
+>   bib: Replace UTF-8 chars with plain ascii latex sequences
+> 
+>  bib/RCU.bib      | 2 +-
+>  bib/TM.bib       | 2 +-
+>  bib/hw.bib       | 4 ++--
+>  bib/realtime.bib | 2 +-
+>  bib/swtools.bib  | 2 +-
+>  5 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
