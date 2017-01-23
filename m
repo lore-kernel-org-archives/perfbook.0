@@ -1,68 +1,73 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=G7DVIsAh9fUbgYe6g53DFwrCC4ATXJps2u/JBWk76ZU=;
- b=eRRw4fHrf/cFqQXLKLio+dFM70esc0wkKuG3pbLui86d1aqZUp+uZCVySlI6Waew9l
- 9OF3+5S3Fhd6M5mt53bpfKqk8uIFYP/YHNEgMl4/t1TOaX8Aq1dulSNry2SNpXkniQL2
- dFNO5ddJXUMTc135fHeOBk0oLP7iVxf6rabai8vfRF/LTwX7GEG/BHCZsikCYNBIZX57
- r0CEYWUoJy+DBhqREr6pam6tlP3HexB3JXBDQniEsCEoKNpNEN5QJr/bzBpsFqDuoHfK
- /o7/x4ugl21cmSoLImjc9mGyRIl7eRcnlvCu2qCaLf8hEtn3cS9g5Ea5crkgNH9tgIvD
- B1Bw==
-Subject: [PATCH 7/7] bib/swtools: Salvage url of RichardBornat2006SheepGoats
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43019 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1750945AbdAWV3N (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 23
+ Jan 2017 16:29:13 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v0NLOAHu022260
+ for <perfbook@vger.kernel.org>; Mon, 23 Jan 2017 16:28:26 -0500
+Received: from e31.co.us.ibm.com (e31.co.us.ibm.com [32.97.110.149]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 285kysyjxr-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
+ 23 Jan 2017 16:28:26 -0500
+Received: from localhost by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 23 Jan
+ 2017 14:28:25 -0700
+Date: Mon, 23 Jan 2017 13:28:23 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/7] Bibliography update round 2
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <57534479-f365-a2ba-a282-dd2b36310a0b@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <73ee2359-9e68-8107-54a7-2344833af336@gmail.com>
-Date: Mon, 23 Jan 2017 00:07:07 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <57534479-f365-a2ba-a282-dd2b36310a0b@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20170123212823.GT28085@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 01ba68ac394333779c7745f249df5f78a500e091 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 28 Nov 2016 10:57:25 +0900
-Subject: [PATCH 7/7] bib/swtools: Salvage url of RichardBornat2006SheepGoats
+On Sun, Jan 22, 2017 at 11:57:22PM +0900, Akira Yokosawa wrote:
+> >From 01ba68ac394333779c7745f249df5f78a500e091 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Sun, 22 Jan 2017 23:31:05 +0900
+> Subject: [PATCH 0/7] Bibliography update round 2
+> 
+> Hi Paul,
+> 
+> This is the 2nd batch of bibliography update.
+> This time, I picked up more aggressive fixes which touch somewhere other
+> than urls in note fields. They may need closer review.
+> Some of the fixes reflect the context of citations in perfbook, so they
+> might cause context mismatches in your other publications.
+> I'm anticipating some feedback from you.
 
-Link to "http://www.cs.kent.ac.uk/news/" is lost.
-This commit instead uses a link to abstract of the seminar.
-It also fixes author and date info.
-It also appends a reference to the retraction by the author.
+They look good -- and most of these are only cited by perfbook anyway.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- bib/swtools.bib | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+Applied and pushed, thank you!
 
-diff --git a/bib/swtools.bib b/bib/swtools.bib
-index 2877997..a970852 100644
---- a/bib/swtools.bib
-+++ b/bib/swtools.bib
-@@ -254,12 +254,16 @@
- }
+							Thanx, Paul
 
- @unpublished{RichardBornat2006SheepGoats
--,Author="Maggie Bowman"
-+,Author="Richard Bornat"
- ,Title="Dividing the Sheep from the Goats"
--,month="February"
--,day="20"
-+,month="January"
-+,day="24"
- ,year="2006"
--,note={\url{http://www.cs.kent.ac.uk/news/2006/RBornat/}}
-+,note={Seminar at School of Computing, Univ. of Kent. Abstract is available at
-+\url{https://www.cs.kent.ac.uk/seminar_archive/2005_06/abs_2006_01_24.html}.
-+Retracted in July 2014:
-+\url{http://www.eis.mdx.ac.uk/staffpages/r_bornat/papers/camel_hump_retraction.pdf}}
-+,lastchecked="November 28, 2016"
- }
-
- @inproceedings{SaeedDehnadi2009SheepGoats
--- 
-2.7.4
-
+>                                                Thanks, Akira
+> 
+> Akira Yokosawa (7):
+>   bib/hw: Update url note of JohnKnickerbocker2008:3DI
+>   bib/syncrefs: Update BengHongLim94
+>   bib/RCU: Salvage url of Spraul01
+>   bib/syncrefs: Salvage url of AdrianSutton2013LCA:Disruptor
+>   bib/RCU: Append followup mail's url to LinusTorvalds2001a
+>   bib/syncrefs: Salvage url of DavidUngar2011unsync
+>   bib/swtools: Salvage url of RichardBornat2006SheepGoats
+> 
+>  bib/RCU.bib      | 13 +++++++------
+>  bib/hw.bib       |  6 ++++--
+>  bib/swtools.bib  | 12 ++++++++----
+>  bib/syncrefs.bib | 26 +++++++++++++++++++-------
+>  4 files changed, 38 insertions(+), 19 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
