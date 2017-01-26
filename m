@@ -1,74 +1,55 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=cBCAc7WBW1IXz1UD77Z4RwqUHZoevIf7rL845PVnt4o=;
- b=K5P/Tq4tP9dScfvr4t7n2dn3F4Op6UchpzPsta2YZ5pDirH7vYJPgk/t5iZferdFkS
- 1nmbaH3rF7J5BQH9WNrNcFlLaHo82peyCoMq4Jp46lXipFV3grWoMB1DszhnDneFqSI/
- +JQT1Kt+7als03jlvjqRkX9ZqutgzdfmCO4gt788eIU8pBJjOO0j+5A0vefvPHQ0a9cV
- vZwB0zkH6sW9agCeS5FDjbf7yhOhZ/k4B2PZBSV67SHwa6lWISKiNbKDGK2vWQjYfa5F
- 0sUz58IYac7OqZ9ydOvCB7wc3PG0bPJsJWyO9ld2/okRxMpcTcPi0zsGTMhDmTEgQKqB
- k4sA==
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=VGZ7Y1SO29SqyVsD/RZNN8Gc3WtkOtw9xPmGqW/EmNk=;
+ b=pHjTaDmR8vfvMGyE8WA1nD1U2jxxkEBMrlTzLI0H9NoT3OwTXAUElriqMVaOLypyTI
+ 87kjdpWDlmE7A35uv6Njp9VUVvf/r54tZkZvt6fjSbz+iBnzNdWKTYBkUReE57Kup4gu
+ wk0LtBgs8H+slMq3bKk9t6IJAeYFWoDkI2FvUY6kyxHxL1sdf3sREilFg0AQqhDXpOQY
+ 56P6bJ3iemMpi+0EitZVcUmOgOtq+MaI5vso9VhDp3e1LS3pCk4GYRRMYv7Qqc4ulL/j
+ ISdHJGc2ueJtVhP9kU27AsfPOJwAA0YxXpjRSsp4dFcIcpI0jj1I4+jo++6FhkzfvlSE
+ 51xA==
+Subject: [PATCH 1/5] Specify line break in title of cover page
+References: <8fc83317-ec1d-da55-526a-fe63d5233df0@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/5] Layout tweaks for 2c layout
-Message-ID: <8fc83317-ec1d-da55-526a-fe63d5233df0@gmail.com>
-Date: Fri, 27 Jan 2017 00:16:51 +0900
+Message-ID: <633d1140-18bb-563d-e006-76cc8ea27b23@gmail.com>
+Date: Fri, 27 Jan 2017 00:18:13 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <8fc83317-ec1d-da55-526a-fe63d5233df0@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 15aea071f9a8ff33b0f97310b2afd4730d33afa1 Mon Sep 17 00:00:00 2001
+From 57ee8a0a075853ce99cdeede7d86f937b13c7817 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 26 Jan 2017 23:25:08 +0900
-Subject: [PATCH 0/5] Layout tweaks for 2c layout
+Date: Sat, 7 Jan 2017 10:38:45 +0900
+Subject: [PATCH 1/5] Specify line break in title of cover page
 
-Hi Paul,
+Breaking before "What" would make the title be more appealing.
 
-This is *not* a bibliography update.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ perfbook.tex | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Because of wide textwidth for two-column layout, the cover page, legal
-section, and TOC, which are one column, looks too wide.
+diff --git a/perfbook.tex b/perfbook.tex
+index 79f26ab..2c13e3f 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -106,7 +106,9 @@
+ \input{ushyphex} % Hyphenation exceptions for US English from hyphenex package
+ \input{pfhyphex} % Hyphenation exceptions for perfbook
 
-Patch 1 adds an explicit line break before "What" in the title. Another
-candidate might be before "And, If So,", but I think this looks better.
-
-Patch 2 narrows effective textwidth of legal section and TOC as the same as
-that of one-column layout by using "changepage" package.
-
-Patches 3 and 4 can be regarded as a workaround of build error in 2c layout
-when "inlinelinks" is enabled. By using one-column layout for bibliography,
-the issue can be avoided. Also, wider column width permits freedom in
-typesetting of "alpha" style bibliography. The effective textwidth for
-bibliography is a little wider than the one-column one considering indent
-of entries. You might want to skip patch 4 which enables inlinelinks, but
-as far as I could test by choosing varieties of monospace fonts, there was
-no build error caused by hyperlinks in bibliography.
-
-Patch 5 tweaks parameters for placement for floating objects. In two-column
-layout, when a not so tall figure occupies a column, it looks imbalanced
-if the neighboring column is flushed from top to bottom. By increasing
-"floatpagefraction", such placements can be prevented.
-
-Please give it a try and let me know what you think.
-
-                                            Thanks, Akira
---
-Akira Yokosawa (5):
-  Specify line break in title of cover page
-  Narrow textwidth of legal and TOB pages in 2c build
-  Change bibliography to one-column layout in 2c build
-  Enable inlinelinks for 2c build
-  Increase floatpagefraction for 2c layout
-
- appendix/appendix.tex |  6 +++++-
- legal.tex             |  4 ----
- perfbook.tex          | 13 ++++++++++++-
- 3 files changed, 17 insertions(+), 6 deletions(-)
-
+-\title{Is Parallel Programming Hard, And, If So, What Can You Do About It?}
++\title{
++  Is Parallel Programming Hard, And, If So, \\
++  What Can You Do About It?}
+ \author{
+ 	Edited by: \\
+ 	\\
 -- 
 2.7.4
+
 
