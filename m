@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=iG4PsoTgDE9ndeeg9MmritaKz8xrYaJXdT1pmutnxvA=;
- b=H3cQs5+SVlMaRVS/UB0yYn+3CYVXRYxoXt4q3R6bu1zjKB1iTLMFBQcUdxr1PWfdF3
- r+wbklKqgbFUbd/eCVL9bQ4rC7Ztb2X1jn8Z3N7xHSx2KF6LqBb20evxHG4a0gJfBdLp
- r7wuKgNOiBz0a7wwxqWvwK/7Wf5YYOXATgWjDjoQuoyBIDazV5ApAh0FmkedWiKsXh1E
- hnsF3YwD9PFFM5fNC+nntkqhHinvB+eQaLoGDAnTElpJrQFsBTXp5JsJvZhOem2EVrfa
- ZL75bYwnPIz9x0ntW49e8r1xIyEuJjxB+AT/273WBwNgczalH5hFM33iI78elZdfW/Cl
- MJ8A==
-Subject: [PATCH 4/5] Enable inlinelinks for 2c build
+ bh=OlEDbEpQ/yV9yb0ejmlbc5o0JKiQwmYD6WUeISOqeJY=;
+ b=cUkS65ufbR+EKZ576/DQxs6qNiJy5cMAPuqmQrPLe139Ly4IlSRDXtQ00IKtQb3+4K
+ 6aIQLM8WoIIjOVzHnn7+8V2JmF52oAGFU8z4wPVDx6hluE6u7snWXvhgCmfS+Dg/+gfT
+ o/NQqcmHoYQt1kAImDJtztkoCFs/Lq/ysG12wrKpdoMFMqI/83rdmZLiGyvsrnKA3BRD
+ GRuXmlcSNKIsgD2qymNAPlYNr2eSDNBQiz7TYhnRfviJToipd7mUepVFRA8z+CZrMFhr
+ c0wwtpdphby8FhmQdoerQfIPBPZ87UyqFtA8HztcbZMPshZNoR0vk8vBJNoK1dAVeTGH
+ IBzQ==
+Subject: [PATCH 5/5] Increase floatpagefraction for 2c layout
 References: <8fc83317-ec1d-da55-526a-fe63d5233df0@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <1b122083-533c-1c56-ae19-cfe1dd72c577@gmail.com>
-Date: Fri, 27 Jan 2017 00:21:18 +0900
+Message-ID: <37a554d4-9962-6bd3-2f1f-bca2083e29f5@gmail.com>
+Date: Fri, 27 Jan 2017 00:23:12 +0900
 MIME-Version: 1.0
 In-Reply-To: <8fc83317-ec1d-da55-526a-fe63d5233df0@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,34 +22,43 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 51586d7d3289e407879416353e05c77d54de3542 Mon Sep 17 00:00:00 2001
+From 15aea071f9a8ff33b0f97310b2afd4730d33afa1 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 8 Jan 2017 08:04:14 +0900
-Subject: [PATCH 4/5] Enable inlinelinks for 2c build
+Date: Thu, 29 Dec 2016 18:27:31 +0900
+Subject: [PATCH 5/5] Increase floatpagefraction for 2c layout
 
-Changing layout of bibliography to one column permits us to enable
-inlinelinks in 2c build. Build failure caused by a link crossing
-a page/column boundary is observed only in two-column layout so far.
+In 2c layout, it sometimes looks imbalanced when a floating
+figure or table with the "[p]" option occupies a column while
+its next column is flushed from top to bottom. This is because
+"floatpagefraction" command is defined as .5 (a figure or a table
+whose height is 50% or more of textheight can occupy a column).
+
+To prevent such occupations from happening in 2c layout, this
+commit sets floatpagefraction as the same as "topfraction" command
+for 2c.
+
+This change will reduce typeset freedom of TeX engine, and might
+cause some floating objects to be placed further from where they
+are referenced in the text. If this causes an undesirable result,
+we might need to reduce the value of floatpagefraction.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/appendix.tex | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ perfbook.tex | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/appendix/appendix.tex b/appendix/appendix.tex
-index e231b28..6385bc2 100644
---- a/appendix/appendix.tex
-+++ b/appendix/appendix.tex
-@@ -7,7 +7,8 @@
- \input{glossary.tex}
- \IfTwoColumn{
- \onecolumn\begin{adjustwidth*}{.8in}{.7in}
--\bibliographystyle{alpha}   % Use genuine alpha style
-+%\bibliographystyle{alpha}   % Use genuine alpha style (In case of build failure, use this instead)
-+\bibliographystyle{alphapf} % Use alpha style customized by urlbst with --inlinelinks option
+diff --git a/perfbook.tex b/perfbook.tex
+index a3b2d84..324c708 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -136,6 +136,7 @@
+ \setlength{\textheight}{8.25in}
+ \setlength{\textwidth}{6.5in}
+ \setlength{\columnsep}{0.25in}
++\renewcommand\floatpagefraction{.75}
  }{
- \bibliographystyle{alphapf} % Use alpha style customized by urlbst with --inlinelinks option
- }
+ \setlength{\textheight}{8.25in}
+ \setlength{\textwidth}{4.75in}
 -- 
 2.7.4
 
