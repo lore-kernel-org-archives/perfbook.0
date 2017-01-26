@@ -1,185 +1,74 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=7Skuf5/k3LQLpu81RutFIo3nky+/mbaG+Be9Ds2hjgk=;
- b=mF4jlKUvj2ghb2VM2QtwxuptTInguCg9JaWvQrQnXb+y5wKmaOldZaCfThUWLz/1T5
- lMJQV8Aifxwgzf69WSWIMOJr5HKxekQXXoujlamOAdbWIxR8GoHLSQ4zbOuEPii3ttkl
- QYdEE3CHkc7S7yb8BxO4WIdqvr95VvYAn4k+kfEWQNmzZQCzwdNOLAlrbFwUC2PVqzOI
- J33p8B5wF9P0fgdqx6sAXBi1R+/UGWd2dHquyZjEWjbuMCnIe+bYsGl7OwLNv8/PMEuS
- GqiBkb69/FNbYEElW4NsQ+ii1EtbDhqYPOM820MWXuaLcGWw8XpkrSn+s9mZnhZhJPgD
- uTiw==
-Content-Type: text/plain;	charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 0/2] bib: Replace UTF-8 chars with plain ASCII chars
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=cBCAc7WBW1IXz1UD77Z4RwqUHZoevIf7rL845PVnt4o=;
+ b=K5P/Tq4tP9dScfvr4t7n2dn3F4Op6UchpzPsta2YZ5pDirH7vYJPgk/t5iZferdFkS
+ 1nmbaH3rF7J5BQH9WNrNcFlLaHo82peyCoMq4Jp46lXipFV3grWoMB1DszhnDneFqSI/
+ +JQT1Kt+7als03jlvjqRkX9ZqutgzdfmCO4gt788eIU8pBJjOO0j+5A0vefvPHQ0a9cV
+ vZwB0zkH6sW9agCeS5FDjbf7yhOhZ/k4B2PZBSV67SHwa6lWISKiNbKDGK2vWQjYfa5F
+ 0sUz58IYac7OqZ9ydOvCB7wc3PG0bPJsJWyO9ld2/okRxMpcTcPi0zsGTMhDmTEgQKqB
+ k4sA==
 From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20170124013720.GB28085@linux.vnet.ibm.com>
-Date: Tue, 24 Jan 2017 11:35:01 +0900
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <48F8DC35-0F9A-4574-8388-7FAD29DB54E6@gmail.com>
-References: <2fba7d76-719e-8947-cbc0-ee25040f84f1@gmail.com>
- <20170117222709.GG5238@linux.vnet.ibm.com>
- <de905c24-73a4-c407-38b9-120b08e0187b@gmail.com>
- <20170124013720.GB28085@linux.vnet.ibm.com>
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org
+Subject: [PATCH 0/5] Layout tweaks for 2c layout
+Message-ID: <8fc83317-ec1d-da55-526a-fe63d5233df0@gmail.com>
+Date: Fri, 27 Jan 2017 00:16:51 +0900
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
+From 15aea071f9a8ff33b0f97310b2afd4730d33afa1 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Thu, 26 Jan 2017 23:25:08 +0900
+Subject: [PATCH 0/5] Layout tweaks for 2c layout
 
-> On Jan 24, 2017, at 10:37, Paul E. McKenney <paulmck@linux.vnet.ibm.com> w=
-rote:
->=20
->> On Wed, Jan 18, 2017 at 07:51:28AM +0900, Akira Yokosawa wrote:
->>> On 2017/01/17 14:27:09 -0800, Paul E. McKenney wrote:
->>> On Wed, Jan 18, 2017 at 12:21:41AM +0900, Akira Yokosawa wrote:
->>>>> =46rom 9818f62d94a501d24bb073a6a2127cfe6f2afc10 Mon Sep 17 00:00:00 20=
-01
->>>> From: Akira Yokosawa <akiyks@gmail.com>
->>>> Date: Wed, 18 Jan 2017 00:08:46 +0900
->>>> Subject: [PATCH 0/2] bib: Replace UTF-8 chars with plain ASCII chars
->>>>=20
->>>> Hi Paul,
->>>>=20
->>>> I noticed some .bib files which contain UTF-8 encoded characters.
->>>> Again, these are patches for bibliography, so they will involve your
->>>> manual intervention to apply. Also, as the patches themselves contain
->>>> UTF-8 chars, I'm not sure you can apply them as usual.
->>>> FWIW, this set is sent in UTF-8 encoding.
->>>>=20
->>>> Anyway, could you please try them?
->>>=20
->>> They worked fine, and good catches!  You would almost think that I
->>> was guilty of copying and pasting titles...
->>>=20
->>> Queued and pushed.
->>=20
->> By the way, I'd like to confirm the status of the RFC PULL request
->> I sent last December titled "[RFC PULL] bib: Append DOI fields"
->=20
-> Good reminder, thank you.
->=20
-> I have pulled this and back-applied it to my bibliography database.
+Hi Paul,
 
-Thanks!
+This is *not* a bibliography update.
 
-Akira=E2=80=82(from mobile, might be QP encoded)
+Because of wide textwidth for two-column layout, the cover page, legal
+section, and TOC, which are one column, looks too wide.
 
->=20
->                            Thanx, Paul
->=20
->>> On 2016/12/03 17:26:15 +0900, Akira Yokosawa wrote:
->>> ----
->>> The following changes since commit 345ba95e4a578614247a7077602026dd7f6b1=
-dd0:
->>>=20
->>>  Add Joe Duffy citations to STM discussion (2016-12-02 09:32:16 -0800)
->>>=20
->>> are available in the git repository at:
->>>=20
->>>  https://github.com/akiyks/perfbook.git bib-append-doi
->>>=20
->>> for you to fetch changes up to 8b3c3e02533a28e599448051bddf13e5cac615fe:=
+Patch 1 adds an explicit line break before "What" in the title. Another
+candidate might be before "And, If So,", but I think this looks better.
 
->>>=20
->>>  bib/syncrefs: Append doi to Cai-DongWang1996PrioInherLock (2016-12-03 0=
-9:00:31 +0900)
->>>=20
->>> ----------------------------------------------------------------
->>> Akira Yokosawa (50):
->>>      bib/perfmeas: Append doi to Anderson97
->>>      bib/cyncrefs: Append doi to HagitAttiya2011LawsOfOrder
->>>      bib/swtools: Append doi to JadeAlglave2013-cav
->>>      bib/parallelsys: Append doi to GeneAmdahl1967AmdahlsLaw
->>>      bib/syncrefs: Append doi to Anderson90
->>>      bib/TM: Append doi to Blundell2006TMdeadlock
->>>      bib/TM: Append doi to CalinCascaval2008tmtoy
->>>      bib/syncrefs: Append doi to Courtois71
->>>      bib/RCU: Append doi to AustinClements2012RCULinux:mmapsem
->>>      bib/TM: Append doi to AleksandarDragovejic2011STMnotToy
->>>      bib/swtools: Append doi to VijayDSilva2012-sas
->>>      bib/syncrefs: Append doi to Dijkstra65a
->>>      bib/TM: Append doi to DavidDice:2010:SCA:HTM:deque
->>>      bib/os: Append doi to Cheriton96a
->>>      bib/RCU: Append doi to DinakarGuniguntala2008IBMSysJ
->>>      bib/syncrefs: Append doi to Graunke90
->>>      bib/WFS: Append doi to MauriceHerlihy90a
->>>      bib/WFS: Append doi to Herlihy91
->>>      bib/syncrefs: Append doi to AndreasHaas2013CFRelaxedQueues
->>>      bib/syncrefs: Append doi to AndreasHaas2012FIFOisnt
->>>      bib/WFS: Append doi to HerlihyLM02
->>>      bib/TM: Append doi to Herlihy93a
->>>      bib/RCU: Append doi to ThomasEHart2006a
->>>      bib/syncrefs: Append doi to WilsonCHsieh92a
->>>      bib/refs: Append doi to VanJacobson88
->>>      bib/TM: Append doi to ChristianJacobi2012MainframeTM
->>>      bib/TM: Append doi to SanjeevKumar2006
->>>      bib/RCU: Append doi to Kung80
->>>      bib/syncrefs: Append doi to Lamport74a
->>>      bib/refs: Append doi to McKenney90
->>>      bib/perfmeas: Append doi to McKenney95a
->>>      bib/syncrefs: Append doi to McKenney96a
->>>      bib/syncrefs: Append doi to MellorCrummey91a
->>>      bib/os: Append doi to McKenney92b
->>>      bib/os: Append doi to McKenney92a
->>>      bib/hw: Append doi to MiloMKMartin2012scale
->>>      bib/TM: Append doi to PaulEMcKenney2010OSRGrassGreener
->>>      bib/WFS: Append doi to MichaelScott96
->>>      bib/os: Append doi to McKenney01e
->>>      bib/parallelsys: Append doi to Olukotun96
->>>      bib/TM: Append doi to ChistopherJRossbach2007a
->>>      bib/hw: Append doi to DanielJSorin2011MemModel
->>>      bib/syncrefs: Append doi to Segall84
->>>      bib/parallelsys: Append doi to DuaneSzafron1994PEMPDS
->>>      bib/TM: Append doi to JMStone93
->>>      bib/TM: Append doi to Shavit95
->>>      bib/syncrefs: Append doi to Takada:1995:RSN:527074.828566
->>>      bib/WFS: Append doi to Valois95a
->>>      bib/syncrefs: Append doi to Wisniewski94
->>>      bib/syncrefs: Append doi to Cai-DongWang1996PrioInherLock
->>>=20
->>> bib/RCU.bib         |  4 ++++
->>> bib/TM.bib          | 11 +++++++++++
->>> bib/WFS.bib         |  5 +++++
->>> bib/hw.bib          |  2 ++
->>> bib/os.bib          |  4 ++++
->>> bib/parallelsys.bib |  3 +++
->>> bib/perfmeas.bib    |  2 ++
->>> bib/refs.bib        |  2 ++
->>> bib/swtools.bib     |  2 ++
->>> bib/syncrefs.bib    | 15 +++++++++++++++
->>> 10 files changed, 50 insertions(+)
->>=20
->> This becomes somewhat outdated now.
->> Do you want them as well as other bibliography update branches I have
->> readied to be rebased and sent as new pull requests?
->>=20
->> It seems you are busy right now preparing for next merge window.
->> Let me know when you are ready to accept those request.
->> (Caution: there are *a lot of* commits.)
->>=20
->>                                          Thanks, Akira
->>=20
->>>=20
->>>                            Thanx, Paul
->>>=20
->>>>                                         Thanks, Akira
->>>> --
->>>> Akira Yokosawa (2):
->>>>  bib/hw: Replace UTF-8 encoded single quote with plain ascii
->>>>  bib: Replace UTF-8 chars with plain ascii latex sequences
->>>>=20
->>>> bib/RCU.bib      | 2 +-
->>>> bib/TM.bib       | 2 +-
->>>> bib/hw.bib       | 4 ++--
->>>> bib/realtime.bib | 2 +-
->>>> bib/swtools.bib  | 2 +-
->>>> 5 files changed, 6 insertions(+), 6 deletions(-)
->>>>=20
->>>> --=20
->>>> 2.7.4
->>>>=20
->>>=20
->>>=20
->>=20
->=20
+Patch 2 narrows effective textwidth of legal section and TOC as the same as
+that of one-column layout by using "changepage" package.
+
+Patches 3 and 4 can be regarded as a workaround of build error in 2c layout
+when "inlinelinks" is enabled. By using one-column layout for bibliography,
+the issue can be avoided. Also, wider column width permits freedom in
+typesetting of "alpha" style bibliography. The effective textwidth for
+bibliography is a little wider than the one-column one considering indent
+of entries. You might want to skip patch 4 which enables inlinelinks, but
+as far as I could test by choosing varieties of monospace fonts, there was
+no build error caused by hyperlinks in bibliography.
+
+Patch 5 tweaks parameters for placement for floating objects. In two-column
+layout, when a not so tall figure occupies a column, it looks imbalanced
+if the neighboring column is flushed from top to bottom. By increasing
+"floatpagefraction", such placements can be prevented.
+
+Please give it a try and let me know what you think.
+
+                                            Thanks, Akira
+--
+Akira Yokosawa (5):
+  Specify line break in title of cover page
+  Narrow textwidth of legal and TOB pages in 2c build
+  Change bibliography to one-column layout in 2c build
+  Enable inlinelinks for 2c build
+  Increase floatpagefraction for 2c layout
+
+ appendix/appendix.tex |  6 +++++-
+ legal.tex             |  4 ----
+ perfbook.tex          | 13 ++++++++++++-
+ 3 files changed, 17 insertions(+), 6 deletions(-)
+
+-- 
+2.7.4
 
