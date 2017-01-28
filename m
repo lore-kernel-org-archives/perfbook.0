@@ -2,19 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=vhu4CwnVsczNkXcSRSLjH7bahkkQERVV1RwMmIz8aE4=;
- b=amN5IZCMFz8C2cW4xyOY0lnXU7hsqhGN4VMRCa/cyApD12ksKNJQMl8HU0QDdWAx5G
- 3vYcAOOoNkKSWpHLJIIS3eBnz+/4pAWKYXKd2LmdD5YoC83mxW3/0qFyqSelFH4OpDZO
- TBNhcb49vXU4ENU7p6E8eLkszr6ysIQNCY9uv83kp5uxcGenonsFFI/8+IzMmdSRrcfH
- lHRSuV1jRZ4LZ/AKWo8+6P6LAtDNqZXZ0nuC1Typ3vCITL+9FtCbrhe6zb6NuV483sr2
- xNpGFJYqyJdCDilC/tYYCzyhyeUTVFlL4qhjWP8AajNKMKR8LPGgKEsM81gzV4KhJRBZ
- sv4w==
-Subject: [PATCH 2/4] advsync/memorybarriers: Use American spelling
- (initialize)
+ bh=YJ7xbRmBTqHurX8h5xafWFUTvsBdGAKHxFUqWFaGuso=;
+ b=XuRvDuZ8cQHigfgXszop1elsdTHGXWeTCytjHLc7C1B/tpaUDCbdMqINR+b3I/sWL9
+ zWpUqNkz6L6YLhf8D5aiGVnNAJUoE1A9wcu0SUpLLFj+eUZxWHi48WQ/3Mb5/coQqDxK
+ fjIWYz3KHh5M2L2Fb4+4y5tAyzMqu/WGxOnnwmAJnfAAO7KLhAcA6plbHGhmyKDBm4Ay
+ 8JzhrhZaV05lWyZOSl58vo5uYGdWL4LMXM4kTkdV7pA7j/UES9qY2mQXwynP0vrEhffn
+ ntCfbNvIUpA4EaAKPob3XqCmqY7+P6PiXRrzp34eawRkrKzW7MlXcZJMqrAFoejw3Svn
+ bjJQ==
+Subject: [PATCH 3/4] together: Typo fix (a RCU ... -> an RCU ...)
 References: <07d5345b-53d6-243c-8ba4-84b865552852@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <ccc88b8e-4252-e1f3-1cec-9b4dfd022b15@gmail.com>
-Date: Sat, 28 Jan 2017 20:11:13 +0900
+Message-ID: <6a65d714-864c-2b54-5632-65d53b04a5a7@gmail.com>
+Date: Sat, 28 Jan 2017 20:12:30 +0900
 MIME-Version: 1.0
 In-Reply-To: <07d5345b-53d6-243c-8ba4-84b865552852@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,29 +22,29 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From edeae13c28aa406ce984c63f91556b4c6595679b Mon Sep 17 00:00:00 2001
+From 5a71dfe6dbac0d358aa2c004a2250279dbd9b1ed Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 1 Jan 2017 18:17:55 +0900
-Subject: [PATCH 2/4] advsync/memorybarriers: Use American spelling (initialize)
+Date: Fri, 6 Jan 2017 00:07:19 +0900
+Subject: [PATCH 3/4] together: Typo fix (a RCU ... -> an RCU ...)
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- advsync/memorybarriers.tex | 2 +-
+ together/applyrcu.tex | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index 721d893..98f7787 100644
---- a/advsync/memorybarriers.tex
-+++ b/advsync/memorybarriers.tex
-@@ -1760,7 +1760,7 @@ RCU system, for example,
- see \co{rcu_dereference()} in \path{include/linux/rcupdate.h}.
- This permits the current
- target of an RCU'd pointer to be replaced with a new modified target, without
--the replacement target appearing to be incompletely initialised.
-+the replacement target appearing to be incompletely initialized.
+diff --git a/together/applyrcu.tex b/together/applyrcu.tex
+index 6334886..dd03c8c 100644
+--- a/together/applyrcu.tex
++++ b/together/applyrcu.tex
+@@ -332,7 +332,7 @@ lock.
+ This section shows how RCU may be used to avoid this overhead.
 
- See also
- Section~\ref{sec:advsync:Cache Coherency}
+ The code for performing an I/O is quite similar to the original, with
+-a RCU read-side critical section being substituted for the reader-writer
++an RCU read-side critical section being substituted for the reader-writer
+ lock read-side critical section in the original:
+
+ \vspace{5pt}
 -- 
 2.7.4
 
