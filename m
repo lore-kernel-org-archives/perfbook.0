@@ -1,88 +1,56 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53181 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1753570AbdAZQWg (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 26
- Jan 2017 11:22:36 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v0QGK3du143435
- for <perfbook@vger.kernel.org>; Thu, 26 Jan 2017 11:22:35 -0500
-Received: from e31.co.us.ibm.com (e31.co.us.ibm.com [32.97.110.149]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 286xt51h6j-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Thu,
- 26 Jan 2017 11:22:35 -0500
-Received: from localhost by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 26 Jan
- 2017 09:22:32 -0700
-Date: Thu, 26 Jan 2017 08:22:30 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/5] Layout tweaks for 2c layout
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <8fc83317-ec1d-da55-526a-fe63d5233df0@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=nrQa7QdSJDg0nQe0JHnKPaEGU2luniZZ8NTPbOVZtGk=;
+ b=DjCIAYPUhcF9h1wc2jjlpZ+PSZRv0LlwauruLbsSMlevke8RWMVzROuQN+JvzGkyIv
+ knqdIkCzpVE6/vB0l/L9G5XqVYXeTwazsjJGtTsmIRgxo6sIQoQKX4cDpa74tXxiLwsf
+ e+1XSsCRZ+KZhwhzwMKCETNemXDYn5xwStWbV2kEgQCoYaRmq+w2ezdt+kLH8MezlRME
+ 85sPFV3Qsl3aAuqRtWq+9Tn0ev+IAQxRuuwN8wabjYFYH1yCFKvAHvKwhIQoPPnT7Vg+
+ ByXCyOsjtnHBCL+sUGR8Iuz2GszUSV9hXaU7At3gOUFmKkhkZ1UeJLBMoxsI9aus0pGE
+ 25JA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/4] Misc updates and fixes
+Message-ID: <07d5345b-53d6-243c-8ba4-84b865552852@gmail.com>
+Date: Sat, 28 Jan 2017 20:06:36 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8fc83317-ec1d-da55-526a-fe63d5233df0@gmail.com>
-Message-Id: <20170126162230.GS3989@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Fri, Jan 27, 2017 at 12:16:51AM +0900, Akira Yokosawa wrote:
-> >From 15aea071f9a8ff33b0f97310b2afd4730d33afa1 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Thu, 26 Jan 2017 23:25:08 +0900
-> Subject: [PATCH 0/5] Layout tweaks for 2c layout
-> 
-> Hi Paul,
-> 
-> This is *not* a bibliography update.
-> 
-> Because of wide textwidth for two-column layout, the cover page, legal
-> section, and TOC, which are one column, looks too wide.
-> 
-> Patch 1 adds an explicit line break before "What" in the title. Another
-> candidate might be before "And, If So,", but I think this looks better.
-> 
-> Patch 2 narrows effective textwidth of legal section and TOC as the same as
-> that of one-column layout by using "changepage" package.
-> 
-> Patches 3 and 4 can be regarded as a workaround of build error in 2c layout
-> when "inlinelinks" is enabled. By using one-column layout for bibliography,
-> the issue can be avoided. Also, wider column width permits freedom in
-> typesetting of "alpha" style bibliography. The effective textwidth for
-> bibliography is a little wider than the one-column one considering indent
-> of entries. You might want to skip patch 4 which enables inlinelinks, but
-> as far as I could test by choosing varieties of monospace fonts, there was
-> no build error caused by hyperlinks in bibliography.
-> 
-> Patch 5 tweaks parameters for placement for floating objects. In two-column
-> layout, when a not so tall figure occupies a column, it looks imbalanced
-> if the neighboring column is flushed from top to bottom. By increasing
-> "floatpagefraction", such placements can be prevented.
-> 
-> Please give it a try and let me know what you think.
+From 11f5734bf4b31fbb51cd6ec603d680a8b3f4f99c Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sat, 28 Jan 2017 20:01:42 +0900
+Subject: [PATCH 0/4] Misc updates and fixes
 
-It does look quite good -- queued and pushed, thank you!
+Hi Paul,
 
-							Thanx, Paul
+This is a collection of random updates and fixes.
 
->                                             Thanks, Akira
-> --
-> Akira Yokosawa (5):
->   Specify line break in title of cover page
->   Narrow textwidth of legal and TOB pages in 2c build
->   Change bibliography to one-column layout in 2c build
->   Enable inlinelinks for 2c build
->   Increase floatpagefraction for 2c layout
-> 
->  appendix/appendix.tex |  6 +++++-
->  legal.tex             |  4 ----
->  perfbook.tex          | 13 ++++++++++++-
->  3 files changed, 17 insertions(+), 6 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
+Patch 4 replaces non-hyphenation dashes with math mode minus signs.
+As you know, I dislike such uses of dashes in LaTeX source. ;-)
+
+                                    Thanks, Akira
+--
+Akira Yokosawa (4):
+  Update hyphen-to-endash scripts
+  advsync/memorybarriers: Use American spelling (initialize)
+  together: Typo fix (a RCU ... -> an RCU ...)
+  Use math mode minus signs for dashes in tables
+
+ advsync/memorybarriers.tex           |  2 +-
+ appendix/whymb/whymemorybarriers.tex | 20 ++++++++++----------
+ together/applyrcu.tex                |  2 +-
+ together/refcnt.tex                  |  8 ++++----
+ utilities/bibhyphen2endash.sh        | 27 +++++++++++++++++++++++++++
+ utilities/dohyphen2endash.sh         | 12 ++++++++++++
+ utilities/hyphen2endash.sh           |  4 +++-
+ 7 files changed, 58 insertions(+), 17 deletions(-)
+ create mode 100644 utilities/bibhyphen2endash.sh
+
+-- 
+2.7.4
 
