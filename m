@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=BkDiDzWJcxHY6kAzkKICK7sK5cRC8btIPqyrnogLpKk=;
- b=O6WgIbaZ6DPwqNe0wovtrAQWmzp5+ezrNF/XsHwObg61yyRoOSOi++J3vq25eIXd2t
- Q62nsnA+r35oOY2tnPjd90nMPen6WdRhUdi9O4k/V14zwQlZsPR/EP3X2Ffu5OY9fPzF
- I9hBha7bdj2LekTW7slLcL9wHY1cK6X7B/xtlMrk02sRmG8i9IKUmpUUNxbnXvspq7nN
- TkhovmJs9LRhCnc/JkvrEzhjAB8F25DtTS6gHBXNPd7JdLcbXC+slbzkwOh5tIyU0jC0
- H6x9JuPk36AUqqzwacmTQGBrvUm+rbO4/lORwO5g2zUz3JaRMvwzRqD7Vjmx6msByQix
- oEmw==
-Subject: [PATCH 2/8] bib/swtools: Fix url of SaeedDehnadi2009SheepGoats
+ bh=4qPqT8s+QHBnZXON6ljZi1JrOFdPBQpl7E4fe+R10YY=;
+ b=AVU+fSzcZfNj5TebM79rzjws0GzPQ2mBsQKbergzqNQFT6ZA23ICkb2Jdhtl/rfgfg
+ 8+Tr/s0vtWeoE9OgZ1NdURfbqU2rokblVZx8xqzLiq0H2qSdtfUq+uLOtBGx+PXsBzf0
+ qhosRLXo7Hu0kdDS3G7Oq25TgU2+vBOocbDkQhNBwD6rc9gVvygOr2Lmn5iXx/QkeRqo
+ e4k8O0l49p7TfjT0FxZ35bTPG/3cJD58GXhRow0/g3+s3goNIuoowLFkr9h4ZcAjX0Ty
+ VRUHxCa49sd4/bo+Ndv/cxSebVQvy1rhKH7etNdfeEv5mUJIqJCMBap160NjIWVOXn3p
+ 4vmw==
+Subject: [PATCH 3/8] bib/WFS: Add doi to Herlihy93
 References: <168e7454-5cde-6d7a-238b-f850648dd819@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <31de3349-5d5a-52f8-2776-c498b5d2a7f3@gmail.com>
-Date: Mon, 30 Jan 2017 00:28:21 +0900
+Message-ID: <14ae42a8-a726-d422-0d3f-9fa75b00af38@gmail.com>
+Date: Mon, 30 Jan 2017 00:29:56 +0900
 MIME-Version: 1.0
 In-Reply-To: <168e7454-5cde-6d7a-238b-f850648dd819@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,30 +22,38 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From b823ed348c5c8f8abb075886c6ac3d30ab06ed48 Mon Sep 17 00:00:00 2001
+From 37c4141719c8771582a7b5c0b072a9493979307c Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 12 Nov 2016 15:39:31 +0900
-Subject: [PATCH 2/8] bib/swtools: Fix url of SaeedDehnadi2009SheepGoats
+Date: Sun, 13 Nov 2016 08:45:11 +0900
+Subject: [PATCH 3/8] bib/WFS: Add doi to Herlihy93
+
+Also fix the title to match the article.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- bib/swtools.bib | 3 ++-
+ bib/WFS.bib | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/bib/swtools.bib b/bib/swtools.bib
-index 7a2241d..cbf0612 100644
---- a/bib/swtools.bib
-+++ b/bib/swtools.bib
-@@ -276,7 +276,8 @@ Retracted in July 2014:
- ,numpages = {13}
- ,publisher = {Psychology of Programming Interest Group}
- ,address = {University of Limerick, Ireland}
--,url={http://www.ppig.org/papers/21st-muller.pdf}
-+,url={http://www.ppig.org/papers/21st-dehnadi.pdf}
-+,lastchecked="November 12, 2016"
+diff --git a/bib/WFS.bib b/bib/WFS.bib
+index 43dfe3d..a6f76b8 100644
+--- a/bib/WFS.bib
++++ b/bib/WFS.bib
+@@ -60,13 +60,14 @@ and Practice of Parallel Programming"
+
+ @article{Herlihy93
+ ,author="Maurice Herlihy"
+-,title="Implementing Highly Concurrent Data Objects"
++,title="A Methodology for Implementing Highly Concurrent Data Objects"
+ ,Year="1993"
+ ,Month="November"
+ ,journal="{ACM} Transactions on Programming Languages and Systems"
+ ,volume="15"
+ ,number="5"
+ ,pages="745-770"
++,doi="10.1145/161468.161469"
  }
 
- @unpublished{RegBraithwaite2007FizzBuzz
+ @techreport{JohnsonLockFreePerf93
 -- 
 2.7.4
 
