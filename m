@@ -1,73 +1,61 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60522 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1754068AbdA3TdK (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 30
- Jan 2017 14:33:10 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v0UJSgoD012589
- for <perfbook@vger.kernel.org>; Mon, 30 Jan 2017 14:32:10 -0500
-Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 289sqxsjc0-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
- 30 Jan 2017 14:32:09 -0500
-Received: from localhost by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 30 Jan
- 2017 12:32:07 -0700
-Date: Mon, 30 Jan 2017 11:32:09 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/4] Misc updates and fixes
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <07d5345b-53d6-243c-8ba4-84b865552852@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=Nk8KOo1YEWBEXw4Y7W6WZI69Md9iqE/J+IEAFtUeBtU=;
+ b=OhpjCzpl6Cod/CL+1ShURuMLX4AmGIhJkGQDzxpHLzjzdVWNzxJUK1Ydda7KKDXFIW
+ DmUpYhCFuJIfC2yT74ZTiNRyU5GaNKFnie2pFvIWnYSXV0ge2DcnR49KYXXA9llOXayE
+ blLcaHkqcNWvJM/22FwJcSTtoZvhU68nB03KapScT+66EI0v8oV0+8yMIB+X5v3IgnOW
+ /lWwMpoTKLt7idjJzvoVnjd7XqeA022qP4c7uAtb22ei+pJjQrkO5UJE749LcNzfS9Bc
+ CpAo364TDfx92o1PxStMW5iOKsDz5fveByZmPf8LOIvZVXX/+dfz58RrF+ajiqJtpj9s
+ ls9g==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/8] Bibliography update round 3
+Message-ID: <168e7454-5cde-6d7a-238b-f850648dd819@gmail.com>
+Date: Mon, 30 Jan 2017 00:26:05 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <07d5345b-53d6-243c-8ba4-84b865552852@gmail.com>
-Message-Id: <20170130193209.GN3989@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Jan 28, 2017 at 08:06:36PM +0900, Akira Yokosawa wrote:
-> >From 11f5734bf4b31fbb51cd6ec603d680a8b3f4f99c Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sat, 28 Jan 2017 20:01:42 +0900
-> Subject: [PATCH 0/4] Misc updates and fixes
-> 
-> Hi Paul,
-> 
-> This is a collection of random updates and fixes.
-> 
-> Patch 4 replaces non-hyphenation dashes with math mode minus signs.
-> As you know, I dislike such uses of dashes in LaTeX source. ;-)
+From f49e93ec4178feeb7b7fdbeb4291051541daf9de Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 29 Jan 2017 19:57:24 +0900
+Subject: [PATCH 0/8] Bibliography update round 3
 
-Applied, thank you!
+Hi Paul,
 
-But I am beginning to think in terms of just not using hyphens to
-indicate inapplicable or missing information.  ;-)
+In this patch set, I picked up updates which contain some fixes
+other than just appending url or doi.
+They seem OK to me, but I want you to check yourself.
 
-							Thanx, Paul
+The "eprint" field appended in patch 1 is a field whose support has been
+added to alphapf style by "urlbst" package. This is the first entry
+it is utilized.
 
->                                     Thanks, Akira
-> --
-> Akira Yokosawa (4):
->   Update hyphen-to-endash scripts
->   advsync/memorybarriers: Use American spelling (initialize)
->   together: Typo fix (a RCU ... -> an RCU ...)
->   Use math mode minus signs for dashes in tables
-> 
->  advsync/memorybarriers.tex           |  2 +-
->  appendix/whymb/whymemorybarriers.tex | 20 ++++++++++----------
->  together/applyrcu.tex                |  2 +-
->  together/refcnt.tex                  |  8 ++++----
->  utilities/bibhyphen2endash.sh        | 27 +++++++++++++++++++++++++++
->  utilities/dohyphen2endash.sh         | 12 ++++++++++++
->  utilities/hyphen2endash.sh           |  4 +++-
->  7 files changed, 58 insertions(+), 17 deletions(-)
->  create mode 100644 utilities/bibhyphen2endash.sh
-> 
-> -- 
-> 2.7.4
-> 
+                                          Thanks, Akira
+--
+Akira Yokosawa (8):
+  bib/WFS: Add 'eprint' field to DanAlitarh2013PracticalProgress
+  bib/swtools: Fix url of SaeedDehnadi2009SheepGoats
+  bib/WFS: Add doi to Herlihy93
+  bib/syncrefs: Add doi to Kontothanassis97a
+  bib/TM: Fix doi of DBLomet1977SIGSOFT
+  bib/TM: Correct url of YujieLiu2011ToxicTransactions
+  bib/hw: Add doi to TrevorMudge2000Power
+  bib/parallelsys: Fix typo of OpenMPI2008's title
+
+ bib/TM.bib          | 12 ++++++++----
+ bib/WFS.bib         |  4 +++-
+ bib/hw.bib          |  5 +++--
+ bib/parallelsys.bib |  2 +-
+ bib/swtools.bib     |  3 ++-
+ bib/syncrefs.bib    |  5 +++--
+ 6 files changed, 20 insertions(+), 11 deletions(-)
+
+-- 
+2.7.4
 
