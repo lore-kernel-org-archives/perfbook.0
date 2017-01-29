@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=zJwll7xDyY/PsGlFN8eeWuzmb+qimMIbluJQ1yfg6X0=;
- b=CUuOOGRO3TClsbVv5MJsIN+D+8dlI9LUmg2EoFXVftV+fNzwV/uG3yy3gB76OrRkqz
- RNSN4x06RnxVbCjZnhccue+TNROQ7yKvkEEXTGwpK3AcMLaekHsEtJZ9vjzxYohwERsd
- ZPKIsScUzrXI84r/SPU/gh0AmL1pSENzIrcikMNo6zSuFrUruwZ/+OShsk4tT0MGgzIg
- gvCGmRcex+2k1G+bna+u6XlUzYp9U/zmbWU5KMSyHdzESMCUegi4SLR/jg7v9nXciDIE
- y0h0uFz1fBJkhPIm9mPKRwHUpHZwUIU18rYXuIE0t3cr6JgyvOcxYcruNV953/bC9vvT
- 1cYw==
-Subject: [PATCH 7/8] bib/hw: Add doi to TrevorMudge2000Power
+ bh=1IZDZq9PY3F2ywNG7WJDXor0gkUyOqTskSBMKy16W74=;
+ b=XdYmSO8IOlxVuj2daljhk+ncFN2fK0yGtIXrDfGntF7ZyORKsUprahaKU4S4ngt/1F
+ B30mSseAFPfhksU1sRkENUiRwqPnvZLFuuGbWbtNDF0VdVZUKy7pMptlqbNhO5Upuv9I
+ uc8J9FzZhpgE1jP2Bh+yEQBDVFYC9ZEkWkAs7JZ+d3swa/mVC6b7O+fPvyN1TXIo0zbJ
+ e4Zri8Wxw99VsLreKTlosN2Qmbm1rPWh6Wahaxu8Ea1mmniQWLzeTUoFqyPsnUQTRuHq
+ +i+vymK2TAzScEC+pNm2WhIMeE6rozPSIopbegsd4CWl1kt0SvSojps3VWneN439AWPs
+ FSuA==
+Subject: [PATCH 8/8] bib/parallelsys: Fix typo of OpenMPI2008's title
 References: <168e7454-5cde-6d7a-238b-f850648dd819@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <8226e725-f978-96a7-251c-9539c30fd07f@gmail.com>
-Date: Mon, 30 Jan 2017 00:35:54 +0900
+Message-ID: <38aebddd-dc69-4077-6ae3-8c457cf8ed6b@gmail.com>
+Date: Mon, 30 Jan 2017 00:37:01 +0900
 MIME-Version: 1.0
 In-Reply-To: <168e7454-5cde-6d7a-238b-f850648dd819@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,38 +22,29 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From b0677c29afc3b790b3452e1606107d458c9f2268 Mon Sep 17 00:00:00 2001
+From f49e93ec4178feeb7b7fdbeb4291051541daf9de Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 14 Nov 2016 09:24:46 +0900
-Subject: [PATCH 7/8] bib/hw: Add doi to TrevorMudge2000Power
-
-Also fix volume no. and year of publication.
+Date: Sat, 19 Nov 2016 14:26:37 +0900
+Subject: [PATCH 8/8] bib/parallelsys: Fix typo in OpenMPI2008's title
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- bib/hw.bib | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ bib/parallelsys.bib | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/bib/hw.bib b/bib/hw.bib
-index f996b35..7ed7381 100644
---- a/bib/hw.bib
-+++ b/bib/hw.bib
-@@ -674,12 +674,13 @@ Luis Stevens and Anoop Gupta and John Hennessy"
- @article{TrevorMudge2000Power
- ,author="Trevor Mudge"
- ,title="{POWER}: A First-Class Architectural Design Constraint"
--,Year="2000"
-+,Year="2001"
- ,journal="IEEE Computer"
--,volume="33"
-+,volume="34"
- ,number="4"
- ,month="April"
- ,pages="52-58"
-+,doi="10.1109/2.917539"
- }
+diff --git a/bib/parallelsys.bib b/bib/parallelsys.bib
+index 3346c9d..1f1b1f2 100644
+--- a/bib/parallelsys.bib
++++ b/bib/parallelsys.bib
+@@ -275,7 +275,7 @@ and Victor Basili"
 
-
+ @unpublished{OpenMPI2008
+ ,author="{The Open MPI Project}"
+-,title="{MySQL Downloads}"
++,title="{Open MPI}"
+ ,Year="2008"
+ ,Month="November"
+ ,Day="26"
 -- 
 2.7.4
 
