@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=4qPqT8s+QHBnZXON6ljZi1JrOFdPBQpl7E4fe+R10YY=;
- b=AVU+fSzcZfNj5TebM79rzjws0GzPQ2mBsQKbergzqNQFT6ZA23ICkb2Jdhtl/rfgfg
- 8+Tr/s0vtWeoE9OgZ1NdURfbqU2rokblVZx8xqzLiq0H2qSdtfUq+uLOtBGx+PXsBzf0
- qhosRLXo7Hu0kdDS3G7Oq25TgU2+vBOocbDkQhNBwD6rc9gVvygOr2Lmn5iXx/QkeRqo
- e4k8O0l49p7TfjT0FxZ35bTPG/3cJD58GXhRow0/g3+s3goNIuoowLFkr9h4ZcAjX0Ty
- VRUHxCa49sd4/bo+Ndv/cxSebVQvy1rhKH7etNdfeEv5mUJIqJCMBap160NjIWVOXn3p
- 4vmw==
-Subject: [PATCH 3/8] bib/WFS: Add doi to Herlihy93
+ bh=2Ebv94h5fqzDcjKF3wBfOHkGrO7ElyCwX0+3j0r1dwI=;
+ b=YueUg1pNXRPlF+gc4FSvEZnWGZWP/jreclEVnh+9qcyTRN/7j2swz0vE74Db72TVaZ
+ xhJTWiEYpOPuukctED6ajTZ3xfgXgwuMub5gaOc9wtiXMtfwGdkYvtosRZa2XJimEDw/
+ JpzPqSSPL2maVzRQ/QAvUKK9DZtjxadw+tf9hNKR+/R79YGw8bo2qDvD3VK/yR99r+2h
+ PYYxf9rG1RkBeRWWjTHV062iT9gB0q/gzhH7jP10hRfyiqfMbwo3+x5KrmzX6f/KMa89
+ s/WDeDtH1bH6yTzaOtqCz0lr5IPocwAT3/LyfmtQXshTVi7xuHLJSBUljT/+ucld1/90
+ FJNA==
+Subject: [PATCH 4/8] bib/syncrefs: Add doi to Kontothanassis97a
 References: <168e7454-5cde-6d7a-238b-f850648dd819@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <14ae42a8-a726-d422-0d3f-9fa75b00af38@gmail.com>
-Date: Mon, 30 Jan 2017 00:29:56 +0900
+Message-ID: <71c01432-ecaa-d43b-269e-b44bd7cdf1ce@gmail.com>
+Date: Mon, 30 Jan 2017 00:30:48 +0900
 MIME-Version: 1.0
 In-Reply-To: <168e7454-5cde-6d7a-238b-f850648dd819@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,38 +22,38 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 37c4141719c8771582a7b5c0b072a9493979307c Mon Sep 17 00:00:00 2001
+From ab76f3f9691060ea7b88561e6027a9ee65857f45 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 13 Nov 2016 08:45:11 +0900
-Subject: [PATCH 3/8] bib/WFS: Add doi to Herlihy93
+Date: Sun, 13 Nov 2016 13:23:45 +0900
+Subject: [PATCH 4/8] bib/syncrefs: Add doi to Kontothanassis97a
 
-Also fix the title to match the article.
+Also fix publication info to match what is found in ACM Digital
+Library.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- bib/WFS.bib | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ bib/syncrefs.bib | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/bib/WFS.bib b/bib/WFS.bib
-index 43dfe3d..a6f76b8 100644
---- a/bib/WFS.bib
-+++ b/bib/WFS.bib
-@@ -60,13 +60,14 @@ and Practice of Parallel Programming"
-
- @article{Herlihy93
- ,author="Maurice Herlihy"
--,title="Implementing Highly Concurrent Data Objects"
-+,title="A Methodology for Implementing Highly Concurrent Data Objects"
- ,Year="1993"
- ,Month="November"
- ,journal="{ACM} Transactions on Programming Languages and Systems"
+diff --git a/bib/syncrefs.bib b/bib/syncrefs.bib
+index aa2baad..073ada8 100644
+--- a/bib/syncrefs.bib
++++ b/bib/syncrefs.bib
+@@ -311,11 +311,12 @@ Symposium on Computer Architecture"
+ ,author="Leonidas Kontothanassis and Robert W. Wisniewski and Michael L. Scott"
+ ,title="Scheduler-Conscious Synchronization"
+ ,Year="1997"
+-,Month="January"
+-,journal="Communications of the {ACM}"
++,Month="Feburuary"
++,journal="{ACM} Transactions on Computer Systems"
  ,volume="15"
- ,number="5"
- ,pages="745-770"
-+,doi="10.1145/161468.161469"
+ ,number="1"
+ ,pages="3--40"
++,doi="10.1145/244764.244765"
  }
 
- @techreport{JohnsonLockFreePerf93
+ @Conference{HubertusFrancke2002Futex
 -- 
 2.7.4
 
