@@ -1,121 +1,73 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=syffIjdbPm67augZpHIxvxTEZCBK8c+SjK7tdx/ofaU=;
- b=G7hotKUaGaL27xPpmG16zMRqu+KYtJgPajjqScN9RddFqPTYeqTzKjUaxqe5ByHqRM
- IWYBx3FNUFRYyHZXf+mzu4jriN9Qn68TnoXoKXrDznnTd3YFOW6llR5AJ3jm/MMm5aj5
- /K/83GGaVy08794tUjWk+AHa/frpdUFMGCoeagSDx7x83Qv6dZcbIoQVjkPJNX6d5ZGQ
- yCIqggFSYVGHXkysuE5B9bi5zZ5tXQFrm8pPu97RV91AE+QI3W9Youtf14HsHUhh7ix7
- 2270LaQ2yULX1BqB5u2qyD5Qgn9frt7ZzokGpb0ut9Rk13Y2vJ71GhVy+TBpePrEcqS5
- zTSg==
-Subject: [PATCH 4/4] Use math mode minus signs for dashes in tables
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60522 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1754068AbdA3TdK (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 30
+ Jan 2017 14:33:10 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v0UJSgoD012589
+ for <perfbook@vger.kernel.org>; Mon, 30 Jan 2017 14:32:10 -0500
+Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 289sqxsjc0-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
+ 30 Jan 2017 14:32:09 -0500
+Received: from localhost by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 30 Jan
+ 2017 12:32:07 -0700
+Date: Mon, 30 Jan 2017 11:32:09 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/4] Misc updates and fixes
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <07d5345b-53d6-243c-8ba4-84b865552852@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <b30e80bd-aa0c-5618-2129-4d54518bc76c@gmail.com>
-Date: Sat, 28 Jan 2017 20:13:40 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <07d5345b-53d6-243c-8ba4-84b865552852@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20170130193209.GN3989@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 11f5734bf4b31fbb51cd6ec603d680a8b3f4f99c Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 5 Jan 2017 20:50:58 +0900
-Subject: [PATCH 4/4] Use math mode minus signs for dashes in tables
+On Sat, Jan 28, 2017 at 08:06:36PM +0900, Akira Yokosawa wrote:
+> >From 11f5734bf4b31fbb51cd6ec603d680a8b3f4f99c Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Sat, 28 Jan 2017 20:01:42 +0900
+> Subject: [PATCH 0/4] Misc updates and fixes
+> 
+> Hi Paul,
+> 
+> This is a collection of random updates and fixes.
+> 
+> Patch 4 replaces non-hyphenation dashes with math mode minus signs.
+> As you know, I dislike such uses of dashes in LaTeX source. ;-)
 
-By using math mode minus, \makebox{} surrounding ``-'' can be
-removed.
+Applied, thank you!
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- appendix/whymb/whymemorybarriers.tex | 20 ++++++++++----------
- together/refcnt.tex                  |  8 ++++----
- 2 files changed, 14 insertions(+), 14 deletions(-)
+But I am beginning to think in terms of just not using hyphens to
+indicate inapplicable or missing information.  ;-)
 
-diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
-index 70e1d30..007d673 100644
---- a/appendix/whymb/whymemorybarriers.tex
-+++ b/appendix/whymb/whymemorybarriers.tex
-@@ -570,24 +570,24 @@ Finally, CPU~1 reads the cache line at address~8, which uses a
- 	\cline{4-7}
- 	Sequence \# & CPU \# & Operation & 0 & 1 & 2 & 3 & 0 & 8 \\
- 	\hline
--%	Seq CPU Operation	--------- CPU --------    - Memory -
--%				   0     1     2     3	    0   8
-+%	Seq CPU Operation	------------- CPU -------------   - Memory -
-+%				   0	   1	   2	   3	    0   8
- 	\hline
--	0 &   & Initial State	& -/I & -/I & -/I & -/I   & V & V \\
-+	0 &   & Initial State	& $-$/I & $-$/I & $-$/I & $-$/I   & V & V \\
- 	\hline
--	1 & 0 & Load		& 0/S & -/I & -/I & -/I   & V & V \\
-+	1 & 0 & Load		& 0/S &   $-$/I & $-$/I & $-$/I   & V & V \\
- 	\hline
--	2 & 3 & Load		& 0/S & -/I & -/I & 0/S   & V & V \\
-+	2 & 3 & Load		& 0/S &   $-$/I & $-$/I & 0/S     & V & V \\
- 	\hline
--	3 & 0 & Invalidation	& 8/S & -/I & -/I & 0/S   & V & V \\
-+	3 & 0 & Invalidation	& 8/S &   $-$/I & $-$/I & 0/S     & V & V \\
- 	\hline
--	4 & 2 & RMW		& 8/S & -/I & 0/E & -/I   & V & V \\
-+	4 & 2 & RMW		& 8/S &   $-$/I & 0/E &   $-$/I   & V & V \\
- 	\hline
--	5 & 2 & Store		& 8/S & -/I & 0/M & -/I   & I & V \\
-+	5 & 2 & Store		& 8/S &   $-$/I & 0/M &   $-$/I   & I & V \\
- 	\hline
--	6 & 1 & Atomic Inc	& 8/S & 0/M & -/I & -/I   & I & V \\
-+	6 & 1 & Atomic Inc	& 8/S &   0/M &   $-$/I & $-$/I   & I & V \\
- 	\hline
--	7 & 1 & Writeback	& 8/S & 8/S & -/I & -/I   & V & V \\
-+	7 & 1 & Writeback	& 8/S &   8/S &   $-$/I & $-$/I   & V & V \\
- \end{tabular}
- \caption{Cache Coherence Example}
- \label{tab:app:whymb:Cache Coherence Example}
-diff --git a/together/refcnt.tex b/together/refcnt.tex
-index cf23ba7..267cd9f 100644
---- a/together/refcnt.tex
-+++ b/together/refcnt.tex
-@@ -74,7 +74,7 @@ locking, and RCU.
- 	Synchronization & Locking & Counting  & RCU \\
- 	\hline
- 	\hline
--	Locking		& -	  & CAM	      & CA  \\
-+	Locking		& $-$	  & CAM	      & CA  \\
- 	\hline
- 	Reference	& A	  & AM	      & A   \\
- 	Counting	&  	  &   	      &     \\
-@@ -94,7 +94,7 @@ This table
- divides reference-counting mechanisms into the following broad categories:
- \begin{enumerate}
- \item	Simple counting with neither atomic operations, memory
--	barriers, nor alignment constraints \makebox{(``-'')}.
-+	barriers, nor alignment constraints (``$-$'').
- \item	Atomic counting without memory barriers (``A'').
- \item	Atomic counting, with memory barriers required only on release
- 	(``AM'').
-@@ -116,7 +116,7 @@ contain memory barriers, and all checked acquisition operations also
- contain memory barriers.
- Therefore, cases ``CA'' and ``MCA'' are equivalent to ``CAM'', so that
- there are sections below for only the first four cases:
--\makebox{``-''}, ``A'', ``AM'', and ``CAM''.
-+``$-$'', ``A'', ``AM'', and ``CAM''.
- The Linux primitives that support reference counting are presented in
- Section~\ref{sec:together:Linux Primitives Supporting Reference Counting}.
- Later sections cite optimizations that can improve performance
-@@ -126,7 +126,7 @@ reference count need be checked for zero only very rarely.
- \subsection{Implementation of Reference-Counting Categories}
- \label{sec:together:Implementation of Reference-Counting Categories}
+							Thanx, Paul
 
--Simple counting protected by locking (\makebox{``-''}) is described in
-+Simple counting protected by locking (``$-$'') is described in
- Section~\ref{sec:together:Simple Counting},
- atomic counting with no memory barriers (``A'') is described in
- Section~\ref{sec:together:Atomic Counting},
--- 
-2.7.4
-
+>                                     Thanks, Akira
+> --
+> Akira Yokosawa (4):
+>   Update hyphen-to-endash scripts
+>   advsync/memorybarriers: Use American spelling (initialize)
+>   together: Typo fix (a RCU ... -> an RCU ...)
+>   Use math mode minus signs for dashes in tables
+> 
+>  advsync/memorybarriers.tex           |  2 +-
+>  appendix/whymb/whymemorybarriers.tex | 20 ++++++++++----------
+>  together/applyrcu.tex                |  2 +-
+>  together/refcnt.tex                  |  8 ++++----
+>  utilities/bibhyphen2endash.sh        | 27 +++++++++++++++++++++++++++
+>  utilities/dohyphen2endash.sh         | 12 ++++++++++++
+>  utilities/hyphen2endash.sh           |  4 +++-
+>  7 files changed, 58 insertions(+), 17 deletions(-)
+>  create mode 100644 utilities/bibhyphen2endash.sh
+> 
+> -- 
+> 2.7.4
+> 
 
