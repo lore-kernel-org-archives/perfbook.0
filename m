@@ -1,56 +1,53 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=1FDoG2wlcaBOsg+RvtpCFdC6jid5gNLeK0BZvABWm6Y=;
- b=aOOzuXw6LRzJ6vFJoQJmI7IJ2hcFFwrgsnC25VjjEdoC0hgpwaixyeruunJHdB8v0f
- vyuisTsD8ar+pahLa9r4agD6JH7h1REcQqMnouknTs0gxn9MDAnA3BnrNdvOYKIlnLTa
- QDUxU47jo2Wo+8vxP11PmS+J5IhkrKCXQDBbVxLj9lZs6bv71rUp614b5jOcE9T6JB6A
- sd/h4jY9m6WZw4oEg+IT2LMsas0hvvyLbeLhMKGd/L9gjAhqchwLtgY4+FNwhnQpb7US
- 0BRsQjgNhC2XzM0Y7e8tE9C0rUrS32HzT8Vr765MSY9nx+ARciejGUZ7zKjKWCUl9IKi
- aGPg==
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=NlT4oTgZwCQL+QP11PnkSK92NCPZsKwlKU+Tj1xoY1Y=;
+ b=J3jMtqhD2EYblrGsBEDCcKuSWij6d5eW0Oh8mkcKk6GgRt7vvdKcGS9XhmBwEn+hie
+ 2fDby2HX1coZBaX7Hf4inFn/Evws4hJXlMHkJTwbItpwfMx9uyb4kheCW6aVNeYHgl3c
+ r9r9Ps2ExrAruOPWWkieooZKsbhWEdFE3DLICU4z9rZJs8yzISjA5sp7NcDbJ3G5GaSI
+ +QHSsLqrNKzQfZqeBdTtz1tbQBeN2GbcxalihchTSn9Fj8R/nl+hK6Yy72t2f0mGCzz0
+ LvYv+iXlE3kh7zMpxRu/C2W9Tvfpp5pKTWH2H0kA00Fafh6cAsBZGANQhMSG/4d6acJ2
+ eFmA==
+Subject: [PATCH 1/5] bib/maze: Mark url of ETHZurich:FS2011maze as broken link
+References: <3aa61663-43c2-6663-278a-2554ee4d5736@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/5] Bibliography update round 5
-Message-ID: <3aa61663-43c2-6663-278a-2554ee4d5736@gmail.com>
-Date: Wed, 8 Feb 2017 23:54:41 +0900
+Message-ID: <6d339acd-0725-39df-7026-96d2325bb0f6@gmail.com>
+Date: Wed, 8 Feb 2017 23:56:12 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <3aa61663-43c2-6663-278a-2554ee4d5736@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 58a0655ab2b5c555bd19a6d7624a9d4413cf1360 Mon Sep 17 00:00:00 2001
+From 615d636a4c71eadb424ea260a1385461e44dec7f Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 8 Feb 2017 23:34:47 +0900
-Subject: [PATCH 0/5] Bibliography update round 5
+Date: Fri, 4 Nov 2016 17:40:59 +0900
+Subject: [PATCH 1/5] bib/maze: Mark url of ETHZurich:FS2011maze as broken link
 
-Hi Paul,
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ bib/maze.bib | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Here is round 5 of bibliography updates.
-Patches 1, 2, and 3 take care of broken urls. Patch 2 contains an
-alternative link to a webpage capture.
-Patch 4 is cosmetic fix of UCB in author fields
-Patch 5 is a different type of update. It adds awareness of "location"
-field in "inproceedings" entry. Please see the commit log for details.
-I think this is a reasonable change for perfbook.
+diff --git a/bib/maze.bib b/bib/maze.bib
+index 98a3453..f19f829 100644
+--- a/bib/maze.bib
++++ b/bib/maze.bib
+@@ -33,7 +33,9 @@ gradient of chemo-attractants"
+ ,month="March"
+ ,year="2011"
+ ,day="17"
+-,note={\url{http://nativesystems.inf.ethz.ch/pub/Main/WebHomeLecturesParallelProgrammingExercises/pp2011hw04.pdf}}
++,note="URL:
++\nolinkurl{http://nativesystems.inf.ethz.ch/pub/Main/WebHomeLecturesParallelProgrammingExercises/pp2011hw04.pdf}
++[broken, November 2016]"
+ }
 
-                                             Thanks, Akira
---
-Akira Yokosawa (5):
-  bib/maze: Mark url of ETHZurich:FS2011maze as broken link
-  bib/syncrefs: Mark url of DougLocke2002a as broken
-  bib/syncrefs: Mark url of Victor2002a as broken
-  bib/parallelsys: Properly format UCB in author field
-  alphapf.bst: Make use of 'location' field in 'inproceedings' entry
-
- alphapf.bst         | 47 +++++++++++++++++++++++++++++++++--------------
- bib/maze.bib        |  4 +++-
- bib/parallelsys.bib |  4 ++--
- bib/syncrefs.bib    | 14 ++++++++------
- 4 files changed, 46 insertions(+), 23 deletions(-)
-
+ @unpublished{MIT:TRMag:MemristorMazes
 -- 
 2.7.4
+
 
