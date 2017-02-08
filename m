@@ -1,74 +1,56 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56397 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1752158AbdBFPDH (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 6
- Feb 2017 10:03:07 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v16EsJfX055073
- for <perfbook@vger.kernel.org>; Mon, 6 Feb 2017 10:03:06 -0500
-Received: from e35.co.us.ibm.com (e35.co.us.ibm.com [32.97.110.153]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 28db52mucw-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
- 06 Feb 2017 10:03:05 -0500
-Received: from localhost by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 6 Feb 2017
- 08:03:03 -0700
-Date: Sun, 5 Feb 2017 19:20:09 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] SMPdesign/beyond: Remove redundant 'although'
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <ab3d990e-b19c-d0cb-6f08-613e990221e9@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=1FDoG2wlcaBOsg+RvtpCFdC6jid5gNLeK0BZvABWm6Y=;
+ b=aOOzuXw6LRzJ6vFJoQJmI7IJ2hcFFwrgsnC25VjjEdoC0hgpwaixyeruunJHdB8v0f
+ vyuisTsD8ar+pahLa9r4agD6JH7h1REcQqMnouknTs0gxn9MDAnA3BnrNdvOYKIlnLTa
+ QDUxU47jo2Wo+8vxP11PmS+J5IhkrKCXQDBbVxLj9lZs6bv71rUp614b5jOcE9T6JB6A
+ sd/h4jY9m6WZw4oEg+IT2LMsas0hvvyLbeLhMKGd/L9gjAhqchwLtgY4+FNwhnQpb7US
+ 0BRsQjgNhC2XzM0Y7e8tE9C0rUrS32HzT8Vr765MSY9nx+ARciejGUZ7zKjKWCUl9IKi
+ aGPg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/5] Bibliography update round 5
+Message-ID: <3aa61663-43c2-6663-278a-2554ee4d5736@gmail.com>
+Date: Wed, 8 Feb 2017 23:54:41 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ab3d990e-b19c-d0cb-6f08-613e990221e9@gmail.com>
-Message-Id: <20170206032009.GI30506@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Feb 05, 2017 at 12:07:48AM +0900, Akira Yokosawa wrote:
-> >From 4c4f3e57a64fc74e312bf24c00174b2db3dbe27f Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sat, 4 Feb 2017 23:49:51 +0900
-> Subject: [PATCH] SMPdesign/beyond: Remove redundant 'although'
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
-> Hi Paul,
-> 
-> This "although" seems redundant, doesn't it?
+From 58a0655ab2b5c555bd19a6d7624a9d4413cf1360 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Wed, 8 Feb 2017 23:34:47 +0900
+Subject: [PATCH 0/5] Bibliography update round 5
 
-Indeed it is, good eyes!  Applied and pushed.
+Hi Paul,
 
-							Thanx, Paul
+Here is round 5 of bibliography updates.
+Patches 1, 2, and 3 take care of broken urls. Patch 2 contains an
+alternative link to a webpage capture.
+Patch 4 is cosmetic fix of UCB in author fields
+Patch 5 is a different type of update. It adds awareness of "location"
+field in "inproceedings" entry. Please see the commit log for details.
+I think this is a reasonable change for perfbook.
 
->                                         Thanks, Akira
-> --
->  SMPdesign/beyond.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/SMPdesign/beyond.tex b/SMPdesign/beyond.tex
-> index 0f86303..ee1a27d 100644
-> --- a/SMPdesign/beyond.tex
-> +++ b/SMPdesign/beyond.tex
-> @@ -626,7 +626,7 @@ to be retrofitted into existing programs.
->  \section{Partitioning, Parallelism, and Optimization}
->  \label{sec:SMPdesign:Partitioning, Parallelism, and Optimization}
-> 
-> -Most important, although this chapter has demonstrated that although applying
-> +Most important, although this chapter has demonstrated that applying
->  parallelism at the design level gives excellent results, this final
->  section shows that this is not enough.
->  For search problems such as maze solution, this section has shown that
-> -- 
-> 2.7.4
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe perfbook" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
+                                             Thanks, Akira
+--
+Akira Yokosawa (5):
+  bib/maze: Mark url of ETHZurich:FS2011maze as broken link
+  bib/syncrefs: Mark url of DougLocke2002a as broken
+  bib/syncrefs: Mark url of Victor2002a as broken
+  bib/parallelsys: Properly format UCB in author field
+  alphapf.bst: Make use of 'location' field in 'inproceedings' entry
+
+ alphapf.bst         | 47 +++++++++++++++++++++++++++++++++--------------
+ bib/maze.bib        |  4 +++-
+ bib/parallelsys.bib |  4 ++--
+ bib/syncrefs.bib    | 14 ++++++++------
+ 4 files changed, 46 insertions(+), 23 deletions(-)
+
+-- 
+2.7.4
 
