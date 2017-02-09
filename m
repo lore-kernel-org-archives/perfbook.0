@@ -1,116 +1,165 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41340 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1753074AbdBIT0K (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Thu, 9 Feb 2017 14:26:10 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v19JP3U4112791
- for <perfbook@vger.kernel.org>; Thu, 9 Feb 2017 14:26:06 -0500
-Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 28gu7ks44d-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Thu,
- 09 Feb 2017 14:26:05 -0500
-Received: from localhost by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 9 Feb 2017
- 12:26:05 -0700
-Date: Thu, 9 Feb 2017 11:26:03 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/5] Bibliography update round 5
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <3aa61663-43c2-6663-278a-2554ee4d5736@gmail.com>
- <20170208163747.GO30506@linux.vnet.ibm.com>
- <78D82D63-A7BA-4F43-B320-679D6EA44FD8@gmail.com>
- <20170208211009.GT30506@linux.vnet.ibm.com>
- <52CB7A57-7BDC-42C7-9AD7-5957F5CBC973@gmail.com>
- <20170208214153.GW30506@linux.vnet.ibm.com>
- <3421a5dd-ab2f-7f47-538b-6f6e7ccbed50@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=zGqZDrvd5uCgMVBGVXezCYn5r2AYSNfHsS5pMCkYteE=;
+ b=VPK1eMvuVFLhC6zHozDcMLEsQwFR5jX8M3xUpswgvUsxJ1F9InYWkxThzKy/aLT91l
+ QwjJG/XDJ/mbhZItGfXWLTqV/d8+IE+cGBfIouJG+Qb8s7S1RB24EfzzysS4+jGHserl
+ icmQKsf+gzHIUQox5bWff6bdOfJDiJIdtN2XH1LB3sHc+vPTj0q+uaHMFbx1dGY27YJF
+ B9hq01PcAGhOVbG+FH+wR8tj2+fMcllQVV6KTW3389Vc9HPaB8YpegKetiPnNxwfKQ1l
+ nW89ThShiaLccq3T0+H9Nl9qEroiEcK6SOjw3wa2penOnbMi80RoHQTAV53Wyulu0iU1
+ bbYQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v2] alphapf.bst: Make use of 'location' field in
+ 'inproceedings' entry
+Message-ID: <054a2a2b-1391-7047-5dcf-b3eb355facb3@gmail.com>
+Date: Thu, 9 Feb 2017 22:36:53 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3421a5dd-ab2f-7f47-538b-6f6e7ccbed50@gmail.com>
-Message-Id: <20170209192603.GH30506@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Feb 09, 2017 at 07:21:06AM +0900, Akira Yokosawa wrote:
-> On 2017/02/08 13:41:53 -0800, Paul E. McKenney wrote:
-> > On Thu, Feb 09, 2017 at 06:36:18AM +0900, Akira Yokosawa wrote:
-> >>
-> >>
-> >> Akira 
-> >> (from mobile, might be QP encoded)
-> >>
-> >>> On Feb 9, 2017, at 6:10, Paul E. McKenney <paulmck@linux.vnet.ibm.com> wrote:
-> >>>
-> >>>> On Thu, Feb 09, 2017 at 05:57:23AM +0900, Akira Yokosawa wrote:
-> >>>>
-> >>>>
-> >>>>> On Feb 9, 2017, at 1:37, Paul E. McKenney <paulmck@linux.vnet.ibm.com> wrote:
-> >>>>>
-> >>>>> On Wed, Feb 08, 2017 at 11:54:41PM +0900, Akira Yokosawa wrote:
-> >>>>>>> From 58a0655ab2b5c555bd19a6d7624a9d4413cf1360 Mon Sep 17 00:00:00 2001
-> >>>>>> From: Akira Yokosawa <akiyks@gmail.com>
-> >>>>>> Date: Wed, 8 Feb 2017 23:34:47 +0900
-> >>>>>> Subject: [PATCH 0/5] Bibliography update round 5
-> >>>>>>
-> >>>>>> Hi Paul,
-> >>>>>>
-> >>>>>> Here is round 5 of bibliography updates.
-> >>>>>> Patches 1, 2, and 3 take care of broken urls. Patch 2 contains an
-> >>>>>> alternative link to a webpage capture.
-> >>>>>> Patch 4 is cosmetic fix of UCB in author fields
-> >>>>>> Patch 5 is a different type of update. It adds awareness of "location"
-> >>>>>> field in "inproceedings" entry. Please see the commit log for details.
-> >>>>>> I think this is a reasonable change for perfbook.
-> >>>>>
-> >>>>> I applied the first four, and might be convinced to apply the fifth.
-> >>>>> But first a question -- how many changes would be required to bring
-> >>>>> my old bib entries in line with current practice?
-> >>>>
-> >>>> No change is required. Because this change has effect
-> >>>> only on entries with both "address" and "location".
-> >>>> I thought I explained this somewhere, but missed to do so.
-> >>>> Can this clarification convince you?
-> >>>
-> >>> Ah, thank you for the clarification!  And on to the next question...
-> >>>
-> >>> Does it really make sense for me to have both "address" and "location"
-> >>> on a given bib entry?  If I am doing something strange (quite likely!),
-> >>> it is probably better for me to fix my strange bib entries than to modify
-> >>> the tools.  Especially given the possibility that others might well
-> >>> harvest bib entries from perfbook.
-> >>
-> >> Well, I don't think your usage of "address" field is strange at all.
-> >> It would be easy to find people who do the same.
-> >>
-> >> The fact that genuine alpha style does not recognize "location" entry would support my observation.
-> > 
-> > Sorry to continue with the questions, but should perfbook be using
-> > some other bibliography style?  The current "alpha" was pretty much an
-> > arbitrary choice.
-> 
-> Hmm...
-> For example, there is a Q&A here:
-> http://tex.stackexchange.com/questions/76566/
-> 
-> This answer recommends to use "venue" field for location.
-> 
-> Another Q&A:
-> http://tex.stackexchange.com/questions/152725/
-> 
-> There seems to be no popular consensus how to handle location of conference
-> in bibliography...
-> 
-> Thoughts?
+From a7c875d0ef8a995a3c119caeb11e576094f89865 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 29 Jan 2017 00:57:29 +0900
+Subject: [PATCH v2] alphapf.bst: Make use of 'location' field in 'inproceedings' entry
 
-Yow!!!  ;-)
+In early "inproceedings" entries, "address" fields are used to
+indicate the location of conferences as is described in BibTeX
+documentation[1].
 
-I will take your updated patch, adding the above two URLs if they are
-not already present.
+However, in recent entries such as those copied from e.g. ACM
+BibTeX templates, "address" fields are used for publisher's
+addresses. In such entries, "location" fields are used instead
+to show where those events were held.
 
-							Thanx, Paul
+The circumstances of how to handle locations of conferences in
+bibliography databases are far from being settled within LaTeX
+community[2][3].
+
+This commit therefore adds awareness of "location" field in
+alphapf.bst for "inproceedings" entry, and lets the field have
+a higher precedence than an "address" field if both fields are
+present. It has no effect on other types of entries or 
+"inproceedings" entries with "address" field only.
+
+This change can be thought of as a compromise to improve the
+consistency presented in Bibliography in a non-intrusive way.
+
+This commit also adds comment in the header describing changes made
+for perfbook.
+
+  [1] Excerpt of BibTeX documentation (shown by "texinfo bibtex"):
+
+    10. The PROCEEDINGS and INPROCEEDINGS entry types now use the
+        address field to tell where a conference was held, rather
+        than to give the address of the publisher or organization.
+        If you want to include the publisher's or organization's
+        address, put it in the publisher or organization field.
+
+  [2] "How to show the location of a conference in BibTeX":
+      http://tex.stackexchange.com/questions/76566/
+
+  [3] "Abuse of address field in BibTeX entries":
+      http://tex.stackexchange.com/questions/152725/
+
+Note: It is easier to see the diff with white-space changes ignored.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
+
+I rewrote the log message to reflect the questions and answers regarding
+the first attempt. I hope you would find this one easier to apply than v1.
+I also replaced hard tabs slipped in v1 with spaces.
+
+                                              Thanks, Akira
+
+ alphapf.bst | 47 +++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 33 insertions(+), 14 deletions(-)
+
+diff --git a/alphapf.bst b/alphapf.bst
+index 6a9ec4d..47b28ea 100644
+--- a/alphapf.bst
++++ b/alphapf.bst
+@@ -6,6 +6,15 @@
+ %%% Added DOI support.
+ %%% Added PUBMED support.
+ %%% Added hyperref support.
++%%%
++%%% Also modified by Akira Yokosawa <akiyks@gmail.com> for perfbook.
++%%% (marked with "% ay")
++%%% Brought date field of unpublished entry in front of note field.
++%%% (In perfbook, note field is mostly used for URL info.)
++%%% Added support of location field in inproceedings entry.
++%%% If "location" is available, it is used instead of "address".
++%%% Copyright (C) 2016, 2017 Akira Yokosawa.
++%%%
+ %%% Original headers follow...
+
+ % BibTeX standard bibliography style `alpha'
+@@ -46,6 +55,7 @@ ENTRY
+     pubmed % urlbst
+     url % urlbst
+     lastchecked % urlbst
++    location %ay
+   }
+   {}
+   { label extra.label sort.label }
+@@ -1022,19 +1032,28 @@ FUNCTION {inproceedings}
+       format.bvolume output
+       format.number.series output
+       format.pages output
+-      address empty$
+-        { organization publisher new.sentence.checkb
+-          organization output
+-          publisher output
+-          format.date "year" output.check
+-        }
+-        { address output.nonnull
+-          format.date "year" output.check
+-          new.sentence
+-          organization output
+-          publisher output
+-        }
+-      if$
++      location empty$        %ay
++        { address empty$     %ay
++          { organization publisher new.sentence.checkb
++            organization output
++            publisher output
++            format.date "year" output.check
++          }
++            { address output.nonnull
++              format.date "year" output.check
++              new.sentence
++              organization output
++              publisher output
++            }
++          if$
++        }                                 % ay
++        { location output.nonnull         % ay
++          format.date "year" output.check % ay
++          new.sentence                    % ay
++          organization output             % ay
++          publisher output                % ay
++        }                                 % ay
++      if$                                 % ay
+     }
+     { format.incoll.inproc.crossref output.nonnull
+       format.pages output
+@@ -1187,7 +1206,7 @@ FUNCTION {unpublished}
+   new.block
+   title empty$ 'skip$ 'possibly.setup.inlinelink if$ % urlbst
+   format.title "title" output.check
+-  format.date output
++  format.date output        % ay
+   new.block
+   note "note" output.check
+   fin.entry
+-- 
+2.7.4
 
