@@ -1,162 +1,177 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40140 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1752285AbdBMTeQ (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 13
- Feb 2017 14:34:16 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v1DJXwx0083705
- for <perfbook@vger.kernel.org>; Mon, 13 Feb 2017 14:34:16 -0500
-Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 28ke4untxm-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
- 13 Feb 2017 14:34:16 -0500
-Received: from localhost by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 13 Feb
- 2017 12:34:14 -0700
-Date: Mon, 13 Feb 2017 11:34:15 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: function smp_read_barrier_depends() confuses me
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <381e5a1a-6550-fedb-5d04-cf6d8fe3fe3b@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=KmIWcD7D84ix2elLNo1uf/djjGO07QbAh1IK7yLhHG8=;
+ b=lnwoBtfQ4Jmr4hIoC0tomlKBmlZYjWyM8tmT2/5+aRw4CQLjy8ZcA7ElOBYGZB77qP
+ SL4hF7h6SRCljqaWsP8SpMPy3QqS3VPBS9tz+Hv/Fn7IiprlYERLVwectmpIp/yVNaWk
+ YXSbEPDHH9Q9E04cN5Ajmx+WzBnCis4jV7RQ6rz1O7TZUn6P+L/0YVCuD9RRxwHeFYAi
+ BeFiQsTpWrcwDI29yWjVu+Rcffday+t+01wVRaV19wmgH7WBh6f2vjbP27SN80V9cNAv
+ 66LIAuNKhPkeksFrJUzkLptvpRGxkifk6O1nu37XjVlyEdcZLRQLhHuT96V+ZJ20Ble7
+ m4NQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] Bibliography updates (append urls -- part 1)
+Message-ID: <ed1ed678-64ba-42eb-7cd8-ddbe26dbe79a@gmail.com>
+Date: Sat, 11 Feb 2017 14:04:23 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <381e5a1a-6550-fedb-5d04-cf6d8fe3fe3b@gmail.com>
-Message-Id: <20170213193415.GM30506@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Yubin Ruan <ablacktshirt@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Feb 13, 2017 at 09:11:26PM +0800, Yubin Ruan wrote:
-> I have just finished Appendix B of perfbook(2017.01.02a), but the
-> function smp_read_barrier_depends() and how it make the code below
-> correct really confused me.
-> 
-> In B.7, paragraph 2, it say:
-> 
-> (1)  "Yes, this does mean that Alpha can in effect fetch the data
-> pointed to before it fetches the pointer itself,..."
-> 
-> and after presenting the code example:
-> 
-> 1  struct el *insert(long key, long data)
-> 2  {
-> 3     struct el *p;
-> 4     p = kmalloc(sizeof(*p), GFP_ATOMIC);
-> 5     spin_lock(&mutex);
-> 6     p->next = head.next;
-> 7     p->key = key;
-> 8     p->data = data;
-> 9     smp_wmb();
-> 10    head.next = p;
-> 11    spin_unlock(&mutex);
-> 12 }
-> 13
-> 14 struct el *search(long key)
-> 15 {
-> 16    struct el *p;
-> 17    p = head.next;
-> 18    while (p != &head) {
-> 19        /* BUG ON ALPHA!!! */
-> 20        if (p->key == key) {
-> 21            return (p);
-> 22        }
-> 23        p = p->next;
-> 24    };
-> 25    return (NULL);
-> 26 }
-> 
-> it says:
-> 
-> (2) "On Alpha, the smp_wmb() will guarantee that the cache
-> invalidates performed by lines 6-8 will reach the interconnect
-> before that of line 10 does, but make absolutely no guarantee about
-> the order in which the new values will reach the reading CPU's core"
-> 
-> My question is, how exactly does this code break on Alpha and how
-> the smp_read_barrier_depends() help make it correct, as follow:
-> 
-> 18    while (p != &head) {
-> 19        smp_read_barrier_depends();
-> 20        if (p->key == key) {
-> 21            return (p);
-> 
-> According to (2), I guess that the code breaks because the "new
-> values" arrive in reading CPU in disorder, even though "cache
-> invalidation messages" arrive in order. That says, in Figure B.10,
-> even though the reading CPU core get invalidation message of
->    p->next
->    p->key
->    p->data
-> before invalidation message of `head.next', it might not get the value of
->    p->next
->    p->key
->    p->data
-> before `head.next', which resulting in code break. Is that correct ?
-> The whole paragraphs do not refer to any exact line of code so I
-> really confusing.
-> 
-> And, if that is correct, can I infer that all other CPUs except
-> Alpha would guarantee that "new values" and "cache invalidation
-> messages" would arrive in reading CPU in order, with proper memory
-> barriers like that at line 9 ?
-> 
-> Frankly, I consider the some narratives in Appendix B pretty
-> confusing(no offense):
-> 
-> 1. At paragraph 4 in page 350 of the two-column
-> perfbook.2017.01.02a, it says:
-> 
->     "Figure B.10 shows how ... Assume that the list header `head'
-> will be processed by cache bank 0, and that the new element will be
-> processed by cache bank 1 ... For example, it is possible that
-> reading CPU's cache bank 1 is very busy, but cache bank 0 is
-> idle..."
-> 
->   As there are bank 0 and bank 1 in both the writing CPU and the
-> reading CPU, it is hard to infer which cache bank 0 is processing
-> the header `head' and which cache bank 1 is processing the new
-> element, and as a result I don't know how that disorder happen.
-> 
-> 2. In figure B.10, both CPU have a "(r)mb Sequencing" and "(r)mb
-> Sequencing", but not all of this are necessary. So, what do those
-> sequencing mean ?
-> 
-> I have read the mail at
->     http://h41379.www4.hpe.com/wizard/wiz_2637.html
-> but cannot find anything directly related to Alpha's weird feature.
-> Can anyone provide any hint?(which paragraph...)
+From 01b8573b84a1cab406c447914694078642f219c7 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sat, 12 Nov 2016 12:32:27 +0900
+Subject: [PATCH] Bibliography updates (append urls -- part 1)
 
-Here you go:
+This commit appends urls to the following entries:
 
-	For instance, your producer must issue a "memory barrier"
-	instruction after writing the data to shared memory and before
-	inserting it on the queue; likewise, your consumer must issue a
-	memory barrier instruction after removing an item from the queue
-	and before reading from its memory.  Otherwise, you risk seeing
-	stale data, since, while the Alpha processor does provide coherent
-	memory, it does not provide implicit ordering of reads and writes.
-	(That is, the write of the producer's data might reach memory
-	after the write of the queue, such that the consumer might read
-	the new item from the queue but get the previous values from
-	the item's memory.
+  o JadeAlglave2013-WeaknessIsVirtue
+  o Craig93
+  o AndrewDBirrell1989Threads
+  o Ellis80
+  o Gamsa99
+  o JustinGottschlich2013TMdebug
+  o HerlihyLM03
+  o ChristophMKirsch2012FIFOisntTR
+  o HMassalinPhD
+  o PaulEdwardMcKenneyPhD
 
-This is not as explicit as would be good, but note the __PAL_INSQ
-and __PAL_REMQ() in the question.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
 
-I had a long discussion with the DEC Alpha architects in the late 1990s.
-It took them an hour to convince me that their hardware actually worked
-in this way.  It then took me two hours to convince them that no one
-reading their documentation would come to that conclusion.  ;-)
+This is round 6 of bibliography updates.
+Each of them is simple addition of a url field, so I squashed
+10 commits into a single patch.
 
-Another reference is Section 5.6.1.7 and surrounding sections of the
-DEC Alpha reference manual:
+                                           Thanks, Akira
+--
+ bib/RCU.bib      | 4 ++++
+ bib/TM.bib       | 2 ++
+ bib/WFS.bib      | 2 ++
+ bib/os.bib       | 2 ++
+ bib/swtools.bib  | 2 ++
+ bib/syncrefs.bib | 9 +++++++++
+ 6 files changed, 21 insertions(+)
 
-	https://archive.org/details/dec-alpha_arch_ref
+diff --git a/bib/RCU.bib b/bib/RCU.bib
+index fb188b9..580b1a1 100644
+--- a/bib/RCU.bib
++++ b/bib/RCU.bib
+@@ -233,6 +233,8 @@ Operating System Design and Implementation}"
+ ,Year="1999"
+ ,pages="87-100"
+ ,Address="New Orleans, LA"
++,url="https://www.usenix.org/legacy/events/osdi99/full_papers/gamsa/gamsa.pdf"
++,lastchecked="November 12, 2016"
+ }
 
-Hey, you asked!!!
+ @unpublished{RustyRussell2000a
+@@ -608,6 +610,8 @@ in Operating System Kernels"
+ ,school="OGI School of Science and Engineering at
+ Oregon Health and Sciences University"
+ ,year="2004"
++,url="http://www.rdrop.com/~paulmck/RCU/RCUdissertation.2004.07.14e1.pdf"
++,lastchecked="November 13, 2016"
+ }
 
-							Thanx, Paul
+ @unpublished{PaulEMcKenney2004rcu:dereference
+diff --git a/bib/TM.bib b/bib/TM.bib
+index 81d7ce2..e8aa11a 100644
+--- a/bib/TM.bib
++++ b/bib/TM.bib
+@@ -908,6 +908,8 @@ on MicroArchitecture, URL: \url{http://www.microarch.org/micro45/talks-posters/3
+ ,Month="June"
+ ,booktitle="5\textsuperscript{th} USENIX Workshop on Hot Topics in Parallelism (HotPar 2013)"
+ ,address="San Jose, CA, USA"
++,url="https://www.usenix.org/system/files/conference/hotpar13/hotpar13-gottschlich.pdf"
++,lastchecked="November 12, 2016"
+ }
+
+ @inproceedings{Yoo:2013:PEI:2503210.2503232
+diff --git a/bib/WFS.bib b/bib/WFS.bib
+index a6f76b8..35713e7 100644
+--- a/bib/WFS.bib
++++ b/bib/WFS.bib
+@@ -210,6 +210,8 @@ Conference on Distributed Computing Systems (ICDCS)}"
+ ,publisher="The Institute of Electrical and Electronics Engineers, Inc."
+ ,pages="73-82"
+ ,address="Providence, RI"
++,url="http://www.cs.brown.edu/people/mph/HerlihyLM03/main.pdf"
++,lastchecked="November 13, 2016"
+ }
+
+ @InProceedings{HerlihyLM02
+diff --git a/bib/os.bib b/bib/os.bib
+index 357b6a4..ff43dca 100644
+--- a/bib/os.bib
++++ b/bib/os.bib
+@@ -275,6 +275,8 @@ System Services"
+ ,school="Columbia University"
+ ,address="New York, NY"
+ ,year="1992"
++,url="http://valerieaurora.org/synthesis/SynthesisOS/index.html"
++,lastchecked="November 13, 2016"
+ }
+
+ @conference{Pu95a
+diff --git a/bib/swtools.bib b/bib/swtools.bib
+index 1a470fa..6ee001a 100644
+--- a/bib/swtools.bib
++++ b/bib/swtools.bib
+@@ -441,6 +441,8 @@ Architectural Support for Programming Languages and Operating Systems
+ International Workshop on Exploiting Concurrency Efficiently and Correctly }
+ ,YEAR={ 2013 }
+ ,PAGES={3}
++,URL={ http://www0.cs.ucl.ac.uk/staff/j.alglave/papers/ec213.pdf }
++,LASTCHECKED={ November 12, 2016 }
+ }
+
+ @inproceedings{JadeAlglave2013-cav
+diff --git a/bib/syncrefs.bib b/bib/syncrefs.bib
+index 717476d..21d2007 100644
+--- a/bib/syncrefs.bib
++++ b/bib/syncrefs.bib
+@@ -46,6 +46,9 @@
+ ,volume="C-29"
+ ,number="9"
+ ,pages="811-817"
++,url="https://www.computer.org/csdl/trans/tc/1980/09/01675680.pdf"
++,lastchecked="November 12, 2016"
++,doi="10.1109/TC.1980.1675680"
+ }
+
+ @article{Pugh90b
+@@ -207,6 +210,8 @@ Brent A Kingsbury"
+ ,number="2012-04"
+ ,month="June"
+ ,pages="19"
++,url="https://arise.or.at/pubpdf/Fast_and_Scalable_k-FIFO_Queues.pdf"
++,lastchecked="November 13, 2016"
+ }
+
+ @InProceedings{AndreasHaas2013CFRelaxedQueues
+@@ -724,6 +729,8 @@ Georgia Institute of Technology"
+ ,month="January"
+ ,day="6"
+ ,number="35"
++,url="http://www.hpl.hp.com/techreports/Compaq-DEC/SRC-RR-35.pdf"
++,lastchecked="November 12, 2016"
+ }
+
+ @book{HerlihyShavit2008Textbook
+@@ -1110,6 +1117,8 @@ Multiprocessors"
+ ,number="93-02-02"
+ ,month="February"
+ ,pages="29"
++,url="ftp://ftp.cs.washington.edu/tr/1993/02/UW-CSE-93-02-02.pdf"
++,lastchecked="November 12, 2016"
+ }
+
+ @article{BengHongLim93
+-- 
+2.7.4
 
