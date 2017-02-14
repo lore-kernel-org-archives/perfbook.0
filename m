@@ -1,83 +1,90 @@
 Return-Path: <ablacktshirt@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ s=20161025;        h=subject:references:to:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=LYteIzX39PI5yFX6NlO5A2NxTjAIGvdj3XwUyadixIA=;
- b=ZYuxIoBfX4tyfAMJaj5dhEVuNFv76y9a72bWntO3gL62wq9sR4xvfyHKdFBHpzzmvE
- 0d0wJ+qvAqN+9yH1JZJAGwTTdc0fRvqFBlzc69ABDDXWmA1QbUeB1sDwf8tjErxY8mz7
- w78XLwAONyCtuJ9RaJBW1Y2eKAF2akpXyCdjgQAdvuOR+l2lySiWMhlC5KV9hl/nMayd
- tpFwkd4544pcIM77keV8v8Xc/hMpu5XKL7+8aB96UawypLHphjozDWxFS1vXM7mwKtg6
- qAnSFoKH2Nyo3JUaQSjQbGjR9cVw3HoGWy4i6YoZ+UovpWZWN836iYkTGhFdMiTOzouv
- CrNg==
-Subject: Re: [Question] different kinds of memory barrier
-References: <881f369d-4e5b-a335-6359-c5d7bf1bc086@gmail.com>
- <20170213190600.GJ30506@linux.vnet.ibm.com>
+ bh=E54GKOFf7Z+tJJBuaA6Zic1b9QRBIxxEYDCe/VgTp9I=;
+ b=SrB/+KK2kzPuVC73xrFoinuq16h3Scu6FYcOuMgeWhqeuDde5Uub25owjTiwCYbdPx
+ Mdq2xFxc55qX9KtPbp2SLhBLp09e/JjkIOojfVWtcj17Z5ucbOXGUdDHX01jGLSeB0wG
+ k/Xb6G6dEcHSwtsLJsM1clfkFqp/JDXG/od98nurlB9IaRwjNQIT/DKukNWJaG+lyQeC
+ Gd0vIZCNhUHEadU/pJT3dqOnpd9LK9uBJq9FgSX1GxgaqQu0uZx2KjqmC21kzynfhlJZ
+ yAGF3pNEUjXihr/SMFvZoKJWkvrfAvTpqtNgJRPaBndbf1swINHrUMvr4dBpCrKtR9H7
+ 6MGw==
+Subject: Re: [Question] Quick Quiz B.13 help
+References: <3fabc59b-f542-a121-3764-c4ac9eedc062@gmail.com>
+ <20170213190034.GI30506@linux.vnet.ibm.com>
 From: Yubin Ruan <ablacktshirt@gmail.com>
-Message-ID: <79ac9a88-3f3a-5b97-940f-35210a7d9405@gmail.com>
-Date: Tue, 14 Feb 2017 18:35:05 +0800
+Message-ID: <1c7f03c4-3c73-4e89-50a6-ad2242e57a41@gmail.com>
+Date: Tue, 14 Feb 2017 18:53:52 +0800
 MIME-Version: 1.0
-In-Reply-To: <20170213190600.GJ30506@linux.vnet.ibm.com>
+In-Reply-To: <20170213190034.GI30506@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-On 2017/2/14 3:06, Paul E. McKenney wrote:
-> On Mon, Feb 13, 2017 at 09:55:50PM +0800, Yubin Ruan wrote:
->> It have been mentioned in the book that there are three kinds of
->> memory barriers: smp_rmb, smp_wmb, smp_mb
+On 2017/2/14 3:00, Paul E. McKenney wrote:
+> On Mon, Feb 13, 2017 at 09:41:46PM +0800, Yubin Ruan wrote:
+>> Quick quiz B.13:
+>>     Suppose that lines 3-5 for CPUs 1 and 2 in Table B.4 are in an
+>> interrupt handler, and that the CPU 2's line 9 is running at process
+>> level. What changes, if any, are required to enable the code to work
+>> correctly, in other words, to prevent the assertion from firing?
 >>
->> I am confused about their actual semantic:
+>> I can not come up with any practical material for this quiz, because
+>> I don't really know the implication of "in an interrupt handler",
+>> and "running in process level".
 >>
->> The book says that(B.5 paragraph 2, perfbook2017.01.02a):
->>
->> for smp_rmb():
->>     "The effect of this is that a read memory barrier orders
->>      only loads on the CPU that executes it, so that all loads
->>      preceding the read memory barrier will appear to have
->>      completed before any load following the read memory
->>      barrier"
->>
->> for smp_wmb():
->>     "so that all stores preceding the write memory barrier will
->>      appear to have completed before any store following the
->>      write memory barrier"
->>
->> I wonder, is there any primitive "X" which can guarantees:
->>     "that all 'loads' preceding the X will appear to have completed
->>      before any *store* following the X "
->>
->> and similarly:
->>     "that all 'store' preceding the X will appear to have completed
->>      before any *load* following the X "
->>
-
-I am reading your the material you provided.
-So, there is no short answer(yes/no) to the questions above?(I mean the 
-primitive X)
-
->> I know I can use the general smp_mb() for that, but that is a little
->> too general.
->>
->> Do I miss/mix anything ?
+>> The answer hints that one would need to ensure that the load of "e"
+>> precedes that of "a" and hint the Linux kernel implementation
+>> "barrier()". But how is that exactly? I am going to invest some time
+>> into the Linux kernel implementation. But I would really appreciate
+>> some hints about this, as I don't have so much kernel development
+>> experience before.
 >
-> Well, the memory-ordering material is a bit dated.  There is some work
-> underway to come up with a better model, and I presented on it a couple
-> weeks ago:
->
-> http://www.rdrop.com/users/paulmck/scalability/paper/LinuxMM.2017.01.19a.LCA.pdf
->
-> This presentation calls out a tarball that includes some .html files
-> that have much better explanations, and this wording will hopefully
-> be reflected in an upcoming version of the book.  Here is a direct
-> URL for the tarball:
->
-> http://www.rdrop.com/users/paulmck/scalability/paper/LCA-LinuxMemoryModel.2017.01.15a.tgz
+> I suggest reading an operating-system textbook.  The ones I have are quite
+> old, but here they are anyway in bibtex format.  There are probably newer
+> editions of some of them.  The short answer on interrupts is that they
+> force process-level processing to pause while the "interrupt handler"
+                                           ~~~~~
+                                           until ?
+> completes.
 >
 > 							Thanx, Paul
 >
 
-regrads,
+Actually I have taken a operating system course and know about interrupt 
+handler. Maybe I don't understand the concepts well. I don't really get 
+your point here. If you have time, maybe you can provide me more 
+information, otherwise I would just have to investigate more on this 
+myself. Thanks.
+
+regards,
 Yubin Ruan
+
+> ------------------------------------------------------------------------
+>
+> @book{CorbetRubiniKroahHartman
+> ,author="Jonathan Corbet and Alessandro Rubini and Greg Kroah-Hartman"
+> ,title="Linux Device Drivers"
+> ,publisher="O'Reilly Media, Inc."
+> ,year="2005"
+> ,edition="Third"
+> }
+>
+> @book{Silberschatz98a
+> ,author="Abraham Silberschatz and Peter Baer Galvin"
+> ,title="Operating System Concepts"
+> ,publisher="Addison-Wesley"
+> ,year="1998"
+> ,edition="Fifth"
+> }
+>
+> @book{Vahalia96
+> ,author="Uresh Vahalia"
+> ,title="{UNIX} Internals: The New Frontiers"
+> ,publisher="Prentice Hall"
+> ,year="1996"
+> }
+>
 
