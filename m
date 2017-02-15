@@ -1,258 +1,178 @@
-Return-Path: <ablacktshirt@gmail.com>
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=pZcIIhWAi4zHk4gNYerb3AIYuy39otWwOzJrTlWUabw=;
- b=UsWzU9LHE0l1C7QLRHLJgUUvZsiXmxAzNLCpyw6/oFPO1g/qPZ39kx7fvswQ7l7hdz
- HM/sIilyXmZULMX0I34k1OD3f1HMXIyc/ZjDyCr4n+KXhu3TJUrQ3B22nLgtLVzFvMeO
- Hd3W/o1v8141moTCSRtNo8oh2p8bysjERhYeavLEDJBNtcgfhDunpFyP2V2+xYNLcylc
- hAKghEYP3ll/iog3olUBMnN7PU+7N0dHXoes7FjEHVGwuF19A65kBQku36/oJw4we2Er
- FdV4ErAk14U/ypEKyNFCyZOij1HZ49ooYLKKHpTyMB1ngABVV4V9bscAMMJ6hOVYXRZ7
- +Qdw==
-Subject: Re: [Question] different kinds of memory barrier
-References: <881f369d-4e5b-a335-6359-c5d7bf1bc086@gmail.com>
- <20170213190600.GJ30506@linux.vnet.ibm.com>
- <79ac9a88-3f3a-5b97-940f-35210a7d9405@gmail.com>
- <20170216185845.GJ30506@linux.vnet.ibm.com>
- <70c1256d-1045-f4df-3423-b326b28ff86d@gmail.com>
- <04e7f34d-4e18-701d-80db-5a57a6e9718b@gmail.com>
- <20170217153517.GS30506@linux.vnet.ibm.com>
- <8d26a6cf-6b84-77c6-31c7-b12d638b68e7@gmail.com>
- <20170217173219.GV30506@linux.vnet.ibm.com>
- <6c79a00e-8edd-30f4-f003-6dcdf9521208@gmail.com>
- <dc86294e-de3c-4c2a-bf75-70dd8dd2cb41@gmail.com>
-From: Yubin Ruan <ablacktshirt@gmail.com>
-Message-ID: <2607e19b-e1f9-8eec-f24a-c223e2545aac@gmail.com>
-Date: Sat, 18 Feb 2017 20:09:30 +0800
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=rzxAXQMXYdXl8gYssWfBfArtcOxD9JocQwaovAfqb4g=;
+ b=vNxG5xomPLHELLO6bU9c4FkxH7Ppbd/nxgC21XlQrAXOIqkXzVVwnrIj48Pgddru2w
+ KiYZbp50wc1J4DDRUqrvl3RQlIJhZo/VeBLewtDY2A0ALL4JjnrpiCDHxA6YxjEpKiER
+ hLEJ5cTJ3WN+0L45RToK3vNqlT37Zlbedpe8voRmqrCNEH8tfR7BpcBSW4/9TZX97epP
+ JOiQEBLweXjaInqD+gaBMN9fZWGBBd6JcjOyGj/DV/k4A5zUd4fvgw99VeEdGb5+ddqs
+ hg+iKfE5knYb+lFCiD8SrvcVwaaniYV03pJryrcx4zpFU4GSuqJWXt9jiE6Te/ThD3Im
+ HIWw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] Bibliography updates (append urls -- part 2)
+Message-ID: <874fe02f-0887-55ad-4611-bc9af7fd5184@gmail.com>
+Date: Thu, 16 Feb 2017 00:14:12 +0900
 MIME-Version: 1.0
-In-Reply-To: <dc86294e-de3c-4c2a-bf75-70dd8dd2cb41@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-To: Akira Yokosawa <akiyks@gmail.com>, paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2017年02月18日 14:58, Akira Yokosawa wrote:
-> On 2017/02/18 13:07:02 +0800, Yubin Ruan wrote:
->> On 2017年02月18日 01:32, Paul E. McKenney wrote:
->>> On Sat, Feb 18, 2017 at 12:22:01AM +0800, Yubin Ruan wrote:
->>>> On 2017年02月17日 23:35, Paul E. McKenney wrote:
->>>>> On Fri, Feb 17, 2017 at 05:20:30PM +0800, Yubin Ruan wrote:
->>>>>>
->>>>>>
->>>>>> On 2017年02月17日 16:45, Yubin Ruan wrote:
->>>>>>>
->>>>>>>
->>>>>>> On 2017年02月17日 02:58, Paul E. McKenney wrote:
->>>>>>>> On Tue, Feb 14, 2017 at 06:35:05PM +0800, Yubin Ruan wrote:
->>>>>>>>> On 2017/2/14 3:06, Paul E. McKenney wrote:
->>>>>>>>>> On Mon, Feb 13, 2017 at 09:55:50PM +0800, Yubin Ruan wrote:
->>>>>>>>>>> It have been mentioned in the book that there are three kinds of
->>>>>>>>>>> memory barriers: smp_rmb, smp_wmb, smp_mb
->>>>>>>>>>>
->>>>>>>>>>> I am confused about their actual semantic:
->>>>>>>>>>>
->>>>>>>>>>> The book says that(B.5 paragraph 2, perfbook2017.01.02a):
->>>>>>>>>>>
->>>>>>>>>>> for smp_rmb():
->>>>>>>>>>>   "The effect of this is that a read memory barrier orders
->>>>>>>>>>>    only loads on the CPU that executes it, so that all loads
->>>>>>>>>>>    preceding the read memory barrier will appear to have
->>>>>>>>>>>    completed before any load following the read memory
->>>>>>>>>>>    barrier"
->>>>>>>>>>>
->>>>>>>>>>> for smp_wmb():
->>>>>>>>>>>   "so that all stores preceding the write memory barrier will
->>>>>>>>>>>    appear to have completed before any store following the
->>>>>>>>>>>    write memory barrier"
->>>>>>>>>>>
->>>>>>>>>>> I wonder, is there any primitive "X" which can guarantees:
->>>>>>>>>>>   "that all 'loads' preceding the X will appear to have completed
->>>>>>>>>>>    before any *store* following the X "
->>>>>>>>>>>
->>>>>>>>>>> and similarly:
->>>>>>>>>>>   "that all 'store' preceding the X will appear to have completed
->>>>>>>>>>>    before any *load* following the X "
->>>>>>>>>
->>>>>>>>> I am reading your the material you provided.
->>>>>>>>> So, there is no short answer(yes/no) to the questions above?(I mean
->>>>>>>>> the primitive X)
->>>>>>>>
->>>>>>>> For smp_mb(), the full memory barrier, things are pretty simple.
->>>>>>>> All CPUs will agree that all accesses by any CPU preceding a given
->>>>>>>> smp_mb() happened before any accesses by that same CPU following that
->>>>>>>> same smp_mb().  Full memory barriers are also transitive, so that you
->>>>>>>> can reason (relatively) easily about situations involving many CPUs.
->>>>>>
->>>>>> One more thing about the full memory barrier. You say *all CPU
->>>>>> agree*. It does not include Alpha, right?
->>>>>
->>>>> It does include Alpha.  Remember that Alpha's peculiarities occur when
->>>>> you -don't- have full memory barriers.  If you have a full memory barrier
->>>>> between each pair of accesses, then everything will be ordered on pretty
->>>>> much every type of CPU.
->>>>>
->>>>
->>>> You mean this change would work for Alpha?
->>>>
->>>>> 1  struct el *insert(long key, long data)
->>>>> 2  {
->>>>> 3     struct el *p;
->>>>> 4     p = kmalloc(sizeof(*p), GFP_ATOMIC);
->>>>> 5     spin_lock(&mutex);
->>>>> 6     p->next = head.next;
->>>>> 7     p->key = key;
->>>>> 8     p->data = data;
->>>>
->>>>> 9     smp_mb();       /* changed `smp_wmb()' to `smp_mb()' */
->>>
->>> No, this would not help.
->>>
->>>>> 10    head.next = p;
->>>>> 11    spin_unlock(&mutex);
->>>>> 12 }
->>>>> 13
->>>>> 14 struct el *search(long key)
->>>>> 15 {
->>>>> 16    struct el *p;
->>>>> 17    p = head.next;
->>>>> 18    while (p != &head) {
->>>>> 19        /* BUG ON ALPHA!!! */
->>>
->>> 		smp_mb();
->>>
->>> This is where you need the additional barrier.  Note that in the Linux
->>> kernel, rcu_dereference() and similar primitives provide this barrier
->>> in Alpha builds.
->>>
->>> 							Thanx, Paul
->>>
->>
->> Got it. So, regarding to memory barrier, I think I was confused with
->> "how one CPU deal with the the memory barriers of another CPU's memory".
->> As you have said, for any CPU, "all accesses by any CPU preceding a
->> given smp_mb() happened before any accesses by that same CPU following
->> that same smp_mb()", and all CPU "agree" with this. But that doesn't
->> mean the other CPUs will regard this access sequence(e.g, Alpha). Right ?
-> 
-> Hi Yubin,
-> 
-> I'd rather rephrase your observation as follows:
-> 
-> For any CPU, "all accesses by any CPU preceding a
-> given smp_mb() happened before any accesses by that same CPU following
-> that same smp_mb()", and all CPU "agree" with this as long as
-> memory ordering is ensured by proper memory barriers or alternative
-> means such as data dependency or control dependency.
-> 
-> Note that Alpha does not respect data dependency, and it requires
-> *expensive* full memory barriers instead.
-> 
-> Does this answer your question?
-> 
->                                 Thanks, Akira
+From 12c6802578e421628b996ee10cef6c3b3df47960 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Tue, 15 Nov 2016 00:01:02 +0900
+Subject: [PATCH] Bibliography updates (append urls -- part 2)
 
-Yes, I think I understand now. Thanks!
+This commit appends urls to the following entries:
 
-regards,
-Yubin Ruan
+  o PanagiotisMetaxas1999PDCS
+  o McKusick88
+  o Magnusson94
+  o MagedMichael95a
+  o McKenney98
+  o McKenney04a
+  o Rajwar01a
+  o Rajwar02a
+  o Soules03a
+  o Sarma04c
 
->  
->> sorry for my annoying obsession with this. Thanks.
->>
->> regards,
->> Yubin Ruan
->>
->>>>> 20        if (p->key == key) {
->>>>> 21            return (p);
->>>>> 22        }
->>>>> 23        p = p->next;
->>>>> 24    };
->>>>> 25    return (NULL);
->>>>> 26 }
->>>>
->>>> regards,
->>>> Yubin Ruan
->>>>
->>>>> The one exception that I am aware of is Itanium, which also requires
->>>>> that the stores be converted to store-release instructions.
->>>>>
->>>>> 							Thanx, Paul
->>>>>
->>>>>> regards,
->>>>>> Yubin Ruan
->>>>>>
->>>>>>>> For smp_rmb() and smp_wmb(), not so much.  The canonical example showing
->>>>>>>> the complexity of smp_wmb() is called "R":
->>>>>>>>
->>>>>>>>    Thread 0        Thread 1
->>>>>>>>    --------        --------
->>>>>>>>    WRITE_ONCE(x, 1);    WRITE_ONCE(y, 2);
->>>>>>>>    smp_wmb();        smp_mb();
->>>>>>>>    WRITE_ONCE(y, 1);    r1 = READ_ONCE(x);
->>>>>>>>
->>>>>>>> One might hope that if the final value of y is 2, then the value of
->>>>>>>> r1 must be 1.  People hoping this would be disappointed, because
->>>>>>>> there really is hardware that will allow the outcome y == 1 && r1 == 0.
->>>>>>>>
->>>>>>>> See the following URL for many more examples of this sort of thing:
->>>>>>>>
->>>>>>>>    https://www.cl.cam.ac.uk/~pes20/ppc-supplemental/test6.pdf
->>>>>>>>
->>>>>>>> For more information, including some explanation of the nomenclature,
->>>>>>>> see:
->>>>>>>>
->>>>>>>>    https://www.cl.cam.ac.uk/~pes20/ppc-supplemental/test7.pdf
->>>>>>>>
->>>>>>>> There are formal memory models that account for this, and in fact this
->>>>>>>> appendix is slated to be rewritten based on some work a group of us have
->>>>>>>> been doing over the past two years or so.  A tarball containing a draft
->>>>>>>> of this work is attached.  I suggested starting with index.html.  If
->>>>>>>> you get a chance to look it over, I would value any suggestions that
->>>>>>>> you might have.
->>>>>>>>
->>>>>>>
->>>>>>> Thanks for your reply. I will take some time to read those materials.
->>>>>>> Discussions with you really help eliminate some of my doubts. Hopefully
->>>>>>> we can have more discussions in the future.
->>>>>>>
->>>>>>> regards,
->>>>>>> Yubin Ruan
->>>>>>>
->>>>>>>>>>> I know I can use the general smp_mb() for that, but that is a little
->>>>>>>>>>> too general.
->>>>>>>>>>>
->>>>>>>>>>> Do I miss/mix anything ?
->>>>>>>>>>
->>>>>>>>>> Well, the memory-ordering material is a bit dated.  There is some work
->>>>>>>>>> underway to come up with a better model, and I presented on it a couple
->>>>>>>>>> weeks ago:
->>>>>>>>>>
->>>>>>>>>> http://www.rdrop.com/users/paulmck/scalability/paper/LinuxMM.2017.01.19a.LCA.pdf
->>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> This presentation calls out a tarball that includes some .html files
->>>>>>>>>> that have much better explanations, and this wording will hopefully
->>>>>>>>>> be reflected in an upcoming version of the book.  Here is a direct
->>>>>>>>>> URL for the tarball:
->>>>>>>>>>
->>>>>>>>>> http://www.rdrop.com/users/paulmck/scalability/paper/LCA-LinuxMemoryModel.2017.01.15a.tgz
->>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>>                            Thanx, Paul
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> regrads,
->>>>>>>>> Yubin Ruan
->>>>>>>>>
->>>>>>
->>>>>
->>>>
->>>
->>
->> --
->> To unsubscribe from this list: send the line "unsubscribe perfbook" in
->> the body of a message to majordomo@vger.kernel.org
->> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
+
+Here is another round of bibliography updates.
+It consists of mostly the same type of updates as the previous one
+(just appending urls).
+The remaining updates will be submitted in 2 or 3 more rounds.
+We are getting closer to the goal of bibliography updates ;-)
+
+                                     Thanks, Akira
+--
+ bib/RCU.bib         | 8 ++++++++
+ bib/TM.bib          | 5 +++++
+ bib/WFS.bib         | 2 ++
+ bib/os.bib          | 2 ++
+ bib/parallelsys.bib | 2 ++
+ bib/syncrefs.bib    | 2 ++
+ 6 files changed, 21 insertions(+)
+
+diff --git a/bib/RCU.bib b/bib/RCU.bib
+index 580b1a1..4614520 100644
+--- a/bib/RCU.bib
++++ b/bib/RCU.bib
+@@ -221,6 +221,8 @@ Problems"
+ ,Year="1998"
+ ,pages="509-518"
+ ,Address="Las Vegas, NV"
++,url="http://www.rdrop.com/users/paulmck/RCU/rclockpdcsproof.pdf"
++,lastchecked="November 14, 2016"
+ }
+
+ @Conference{Gamsa99
+@@ -494,6 +496,8 @@ Michal Ostrowski and Bryan Rosenburg and Jimi Xenidis"
+ ,year="2003"
+ ,month="June"
+ ,pages="141-154"
++,url="https://www.ece.cmu.edu/~ganger/papers/k42Usenix.pdf"
++,lastchecked="November 14, 2016"
+ }
+
+ @article{McKenney03a
+@@ -538,6 +542,8 @@ Michal Ostrowski and Bryan Rosenburg and Jimi Xenidis"
+ ,volume="1"
+ ,number="118"
+ ,pages="38-46"
++,url="http://www.linuxjournal.com/article/7124"
++,lastchecked="November 14, 2016"
+ }
+
+ @Conference{McKenney04b
+@@ -600,6 +606,8 @@ Realtime Applications"
+ ,year="2004"
+ ,month="June"
+ ,pages="182-191"
++,url="http://www.rdrop.com/~paulmck/RCU/realtimeRCU.2004.06.12a.pdf"
++,lastchecked="November 14, 2016"
+ }
+
+ @phdthesis{PaulEdwardMcKenneyPhD
+diff --git a/bib/TM.bib b/bib/TM.bib
+index e8aa11a..04d45ad 100644
+--- a/bib/TM.bib
++++ b/bib/TM.bib
+@@ -103,6 +103,8 @@ Execution"
+ ,year="2001"
+ ,address = "Austin, TX"
+ ,pages = "294-305"
++,url="http://pages.cs.wisc.edu/~rajwar/papers/micro01.pdf"
++,lastchecked="November 14, 2016"
+ }
+
+ @conference{Martinez02a
+@@ -129,6 +131,9 @@ Operating Systems"
+ ,year="2002"
+ ,pages="5-17"
+ ,address = "Austin, TX"
++,doi="10.1145/605397.605399"
++,url="http://pages.cs.wisc.edu/~rajwar/papers/asplos02.pdf"
++,lastchecked="November 14, 2016"
+ }
+
+ @incollection{HerlihyLMS03
+diff --git a/bib/WFS.bib b/bib/WFS.bib
+index 35713e7..d7efdf6 100644
+--- a/bib/WFS.bib
++++ b/bib/WFS.bib
+@@ -118,6 +118,8 @@ Linear or Sublinear Complexity"
+ ,year="1995"
+ ,note="Technical Report TR599"
+ ,organization="Computer Science Department, University of Rochester"
++,url="https://pdfs.semanticscholar.org/cec0/ad7b0fc2d4d6ba45c6212d36217df1ff2bf2.pdf"
++,lastchecked="November 14, 2016"
+ }
+
+ @conference{MichaelScott96
+diff --git a/bib/os.bib b/bib/os.bib
+index b2762c7..7d48633 100644
+--- a/bib/os.bib
++++ b/bib/os.bib
+@@ -155,6 +155,8 @@ Kernel"
+ ,address = "Berkeley CA"
+ ,month="June"
+ ,year="1988"
++,url="https://docs.freebsd.org/44doc/papers/kernmalloc.pdf"
++,lastchecked="November 13, 2016"
+ }
+
+ @article{Lee89
+diff --git a/bib/parallelsys.bib b/bib/parallelsys.bib
+index 2091bcd..e9c4b5b 100644
+--- a/bib/parallelsys.bib
++++ b/bib/parallelsys.bib
+@@ -327,5 +327,7 @@ Parallel and Distributed Computing and Systems"
+ ,pages={570--576}
+ ,publisher={IASTED}
+ ,address={Cambridge, MA, USA}
++,url="http://cs.wellesley.edu/~pmetaxas/pdcs99.pdf"
++,lastchecked="November 13, 2016"
+ }
+
+diff --git a/bib/syncrefs.bib b/bib/syncrefs.bib
+index 21d2007..4a0b1be 100644
+--- a/bib/syncrefs.bib
++++ b/bib/syncrefs.bib
+@@ -1142,6 +1142,8 @@ Multiprocessors"
+ ,number="T94:07"
+ ,month="February"
+ ,pages="32"
++,url="http://dl.acm.org/citation.cfm?id=869729"
++,lastchecked="November 13, 2016"
+ }
+
+ @article{Zhang94
+-- 
+2.7.4
 
