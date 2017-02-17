@@ -1,291 +1,233 @@
 Return-Path: <ablacktshirt@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=4bQGWTr3b6eJS6n3t+uInAdlim2P7ir4aeHLKAz7SRk=;
- b=rLnxEWSttQk0kdqRWCHt9XswzPYpL8xVnuKupQvaABuTVWTsq+VCl1bWp3GH5EDaf8
- IZOSJCyEzbFmbCo408z4wlveHaMP9NJbmV41+kKwcpkRKvwe9IzuwcYnPAnzrrRo9Dxi
- 1m6mMuriNLOFpM6adaj2qjGl9rwE4ZVsiemIW85DlblALnkHuHrB0CYOdXTKTBf0NtkC
- 75yOc0bo+ZK4oHp5tPzgDvWdPXd5gQslk3y559eZ+dO0/nL4yTlGQuG2f5ltni/3u7c2
- AtAX83M8xZBdCJe0oAdme1CwDLVIKqWf93PADcZYLGm5P+NcJbpQO6FWc7H++u4dsjNX
- PCng==
-Subject: Re: function smp_read_barrier_depends() confuses me
-References: <381e5a1a-6550-fedb-5d04-cf6d8fe3fe3b@gmail.com>
- <20170213193415.GM30506@linux.vnet.ibm.com>
- <877c50ab-9315-7a96-7c99-b1c33a1fbb7b@gmail.com>
- <20170216184325.GI30506@linux.vnet.ibm.com>
+ s=20161025; h=cc:to:from:subject:message-id:date:user-agent:mime-version;
+ bh=7z4NZxYIkoYF2iyHPK/qJSCBJ5DIm7ZJeScWnDJ7cNc=;
+ b=o6t/6xIiBYa6g7RqxUejwygz+CZt6mbbVW93I13PgK+w/OGvtZOSR8h75rkeD0sBcd
+ AVQ0c6EZHTbt+GY6h6fn3RrbXQeh6nUPkNdz+lw9D+GYSD8S4RupMnmkkjot22/KZETD
+ 0/7x9f3G5bfBhRCXkJ7Qhy1DW+wHUXanPAJbxUCa3e8om3lwiMsC8vISg85bFVJS6ZiM
+ QUQ50pLdh3Xk5ROrdOBETLAiJHkthpgN+f/DgGBSAU/+8zo253LB5BzkjnVB1G6TaCCG
+ PsivNz5sThfRrb2gn9djAy8RRsnibpRsXnskPVlt36LWhrK1/ZerTSAwfn9K14FprL9i xaCA==
 From: Yubin Ruan <ablacktshirt@gmail.com>
-Message-ID: <a498df9e-0392-657c-f86b-c8829e5689ff@gmail.com>
-Date: Fri, 17 Feb 2017 17:24:45 +0800
+Subject: build fail on ubuntu 16.04 LTS
+Message-ID: <b8c743ec-4415-86d3-a580-def8b4051a5d@gmail.com>
+Date: Fri, 17 Feb 2017 22:45:04 +0800
 MIME-Version: 1.0
-In-Reply-To: <20170216184325.GI30506@linux.vnet.ibm.com>
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="------------B908CBDCC3FAF882D39B9E7D"
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
+This is a multi-part message in MIME format.
+--------------B908CBDCC3FAF882D39B9E7D
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
+The build script fail with
 
-On 2017年02月17日 02:43, Paul E. McKenney wrote:
-> On Tue, Feb 14, 2017 at 06:31:35PM +0800, Yubin Ruan wrote:
->> Thanks for your response,
->>
->> On 2017/2/14 3:34, Paul E. McKenney wrote:
->>> On Mon, Feb 13, 2017 at 09:11:26PM +0800, Yubin Ruan wrote:
->>>> I have just finished Appendix B of perfbook(2017.01.02a), but the
->>>> function smp_read_barrier_depends() and how it make the code below
->>>> correct really confused me.
->>>>
->>>> In B.7, paragraph 2, it say:
->>>>
->>>> (1)  "Yes, this does mean that Alpha can in effect fetch the data
->>>> pointed to before it fetches the pointer itself,..."
->>>>
->>>> and after presenting the code example:
->>>>
->>>> 1  struct el *insert(long key, long data)
->>>> 2  {
->>>> 3     struct el *p;
->>>> 4     p = kmalloc(sizeof(*p), GFP_ATOMIC);
->>>> 5     spin_lock(&mutex);
->>>> 6     p->next = head.next;
->>>> 7     p->key = key;
->>>> 8     p->data = data;
->>>> 9     smp_wmb();
->>>> 10    head.next = p;
->>>> 11    spin_unlock(&mutex);
->>>> 12 }
->>>> 13
->>>> 14 struct el *search(long key)
->>>> 15 {
->>>> 16    struct el *p;
->>>> 17    p = head.next;
->>>> 18    while (p != &head) {
->>>> 19        /* BUG ON ALPHA!!! */
->>>> 20        if (p->key == key) {
->>>> 21            return (p);
->>>> 22        }
->>>> 23        p = p->next;
->>>> 24    };
->>>> 25    return (NULL);
->>>> 26 }
->>>>
->>>> it says:
->>>>
->>>> (2) "On Alpha, the smp_wmb() will guarantee that the cache
->>>> invalidates performed by lines 6-8 will reach the interconnect
->>>> before that of line 10 does, but make absolutely no guarantee about
->>>> the order in which the new values will reach the reading CPU's core"
->>>>
->>>> My question is, how exactly does this code break on Alpha and how
->>>> the smp_read_barrier_depends() help make it correct, as follow:
->>>>
->>>> 18    while (p != &head) {
->>>> 19        smp_read_barrier_depends();
->>>> 20        if (p->key == key) {
->>>> 21            return (p);
->>>>
->>>> According to (2), I guess that the code breaks because the "new
->>>> values" arrive in reading CPU in disorder, even though "cache
->>>> invalidation messages" arrive in order. That says, in Figure B.10,
->>>> even though the reading CPU core get invalidation message of
->>>>   p->next
->>>>   p->key
->>>>   p->data
->>>> before invalidation message of `head.next', it might not get the value of
->>>>   p->next
->>>>   p->key
->>>>   p->data
->>>> before `head.next', which resulting in code break. Is that correct ?
->>
->> So, is this speculation correct or do I miss anything?
->
-> Looks accurate to me!
->
->>>> The whole paragraphs do not refer to any exact line of code so I
->>>> really confusing.
->>>>
->>>> And, if that is correct, can I infer that all other CPUs except
->>>> Alpha would guarantee that "new values" and "cache invalidation
->>>> messages" would arrive in reading CPU in order, with proper memory
->>>> barriers like that at line 9 ?
->>>>
->>>> Frankly, I consider the some narratives in Appendix B pretty
->>>> confusing(no offense):
->>>>
->>>> 1. At paragraph 4 in page 350 of the two-column
->>>> perfbook.2017.01.02a, it says:
->>>>
->>>>    "Figure B.10 shows how ... Assume that the list header `head'
->>>> will be processed by cache bank 0, and that the new element will be
->>>> processed by cache bank 1 ... For example, it is possible that
->>>> reading CPU's cache bank 1 is very busy, but cache bank 0 is
->>>> idle..."
->>>>
->>>>  As there are bank 0 and bank 1 in both the writing CPU and the
->>>> reading CPU, it is hard to infer which cache bank 0 is processing
->>>> the header `head' and which cache bank 1 is processing the new
->>>> element, and as a result I don't know how that disorder happen.
->>>>
->>>> 2. In figure B.10, both CPU have a "(r)mb Sequencing" and "(r)mb
->>>> Sequencing", but not all of this are necessary. So, what do those
->>>> sequencing mean ?
->>>>
->>>> I have read the mail at
->>>>    http://h41379.www4.hpe.com/wizard/wiz_2637.html
->>>> but cannot find anything directly related to Alpha's weird feature.
->>>> Can anyone provide any hint?(which paragraph...)
->>>
->>> Here you go:
->>>
->>> 	For instance, your producer must issue a "memory barrier"
->>> 	instruction after writing the data to shared memory and before
->>> 	inserting it on the queue; likewise, your consumer must issue a
->>> 	memory barrier instruction after removing an item from the queue
->>> 	and before reading from its memory.  Otherwise, you risk seeing
->>> 	stale data, since, while the Alpha processor does provide coherent
->>> 	memory, it does not provide implicit ordering of reads and writes.
->>> 	(That is, the write of the producer's data might reach memory
->>> 	after the write of the queue, such that the consumer might read
->>> 	the new item from the queue but get the previous values from
->>> 	the item's memory.
->>>
->>> This is not as explicit as would be good, but note the __PAL_INSQ
->>> and __PAL_REMQ() in the question.
->>
->> Thanks for your hint. I have noticed that the question said
->>     "use the memory to allocate hardware queue data structures
->> (supported by the __PAL_INSQ... and __PAL_REMQ... built-ins in DEC
->> C++)"
->>
->> So, can I infer that this "hardware queue data structures" is
->> something similar to the "invalidate queue" in Appendix B of the
->> perfbook?
->>
->> I have read those paragraphs in the perfbook and the thread on
->>     http://h41379.www4.hpe.com/wizard/wiz_2637.html
->> several times, and now I think I can conclude:
->>
->>     Although the invalidation messages of `p->key', `p->data' are
->> guaranteed to reach the interconnect(by invalidate queue) before
->> that of `head.next', the new values are not. This way, the reading
->> CPU might see new value of `head.next' but old cached value of
->> `p->key' and `p->data'.
->>
->> Is this correct ?
->>
->> If that is correct, then I would suggest rephrase one paragraph in
->> the perfbook(paragraph 4, p350, perfbook 2017.01.02a, two columns
->> format):
->>
->>     Figure B.10 shows how this can happen on an aggressively parallel
->>     machine with partitioned caches, so that alternating cache lines
->>     are processed by the different partitions of the caches. Assume
->>     that on the reading CPU, the list header head will be processed by
->>     cache bank 0, and that the new element will be processed by cache
->>     bank 1.
->
-> Actually, this would mean that the list header would be processed by
-> cache bank 0 regardless of CPU.
->
->>             On Alpha, the smp_wmb() will guarantee that the cache
->>     invalidates performed by lines 6-8 of Figure B.9 will reach the
->>     interconnect before that of line 10 does, but makes absolutely no
->>     guarantee about the order in which the new values will reach the
->>     reading CPU’s core. For example, it is possible that the reading
->>     CPU’s cache bank 1 is very busy, but cache bank 0 is idle. This
->>     could result in the new values for the new elements(e.g, p->data)
->>     being delayed, so that the reading CPU gets the new value for the
->>     pointer(i.e, head.next), but sees the old cached values for the new
->>     element.
->>
->> For your convenience, I have make a diff and attach it in the
->> attachment (I apologize for its non-standard git patch format
->> because I currently working at Windows and things kind of get messed
->> up)
->
-> However, I believe that I see your point, and reworked this paragraph
-> as follows:
->
-> 	Figure B.10 shows how this can happen on an aggressively parallel
-> 	machine with partitioned caches, so that alternating cache lines
-> 	are processed by the different partitions of the caches. For
-> 	example, the load of head.next on line 17 of Figure B.9 might
-> 	access cache bank 0, and the load of p->key on line 20 and
-> 	of p->next on line 23 might access cache bank 1. On Alpha,
-> 	the smp_wmb() will guarantee that the cache invalidations
-> 	performed by lines 6-8 of Figure B.9 (for p->next , p->key ,
-> 	and p->data ) will reach the interconnect before that of line 10
-> 	(for head.next ), but makes absolutely no guarantee about the
-> 	order of propagation through the reading CPU’s cache banks. For
-> 	example, it is possible that the reading CPU’s cache bank 1 is
-> 	very busy, but cache bank 0 is idle. This could result in the
-> 	cache invalidations for the new element ( p->next , p->key ,
-> 	and p->data ) being delayed, so that the reading CPU loads the
-> 	new value for head.next , but loads the old cached values for
-> 	p->key and p->next . See the documentation [Com01] called out
-> 	earlier for more information, or, again, if you think that I am
-> 	just making all this up.
->
-> Does that help?
+    pdflatex 1 for perfbook.pdf
+    ----- Fatal latex error, see perfbook.log for details. -----
+    Makefile:83: recipe for target 'perfbook.aux' failed
+    make: *** [perfbook.aux] Error 1
 
-Yes. thank you!
+I have attached the `perfbook.log' file.
+
+In addition, it keep complaining like
+  "WARNING: Refer to utilities/mpostcheck.sh for texmf config fix."
+What is going on?
 
 regards,
 Yubin Ruan
 
->
->>> I had a long discussion with the DEC Alpha architects in the late 1990s.
->>> It took them an hour to convince me that their hardware actually worked
->>> in this way.  It then took me two hours to convince them that no one
->>> reading their documentation would come to that conclusion.  ;-)
->>>
->>> Another reference is Section 5.6.1.7 and surrounding sections of the
->>> DEC Alpha reference manual:
->>>
->>> 	https://archive.org/details/dec-alpha_arch_ref
->>>
->>> Hey, you asked!!!
->>>
->>> 							Thanx, Paul
->>>
->>
->> Thank for this reference. It will take some time for me to read it.
->>
->> regards,
->> Yubin Ruan
->
->> Signed-off-by: Yubin Ruan <ablacktshirt@gmail.com>
->> ---
->>
->> diff --git "a/appendix/whymb/whymemorybarriers.tex" "b/appendix/whymb/whymemorybarriers.tex.new"
->> index efeb279..f527500 100644
->> --- "a/appendix/whymb/whymemorybarriers.tex"
->> +++ "b/appendix/whymb/whymemorybarriers.tex.new"
->> @@ -1764,7 +1764,8 @@ shows how this can happen on
->>  an aggressively parallel machine with partitioned caches, so that
->>  alternating cache lines are processed by the different partitions
->>  of the caches.
->> -Assume that the list header {\tt head} will be processed by cache bank~0,
->> +Assume that one the reading CPU, list header {\tt head} will be
->> +processed by cache bank~0,
->>  and that the new element will be processed by cache bank~1.
->>  On Alpha, the \co{smp_wmb()} will guarantee that the cache invalidates performed
->>  by lines~6-8 of
->> @@ -1774,8 +1775,10 @@ makes absolutely no guarantee about the order in which the new values will
->>  reach the reading CPU's core.
->>  For example, it is possible that the reading CPU's cache bank~1 is very
->>  busy, but cache bank~0 is idle.
->> -This could result in the cache invalidates for the new element being
->> -delayed, so that the reading CPU gets the new value for the pointer,
->> +This could result in the cache invalidates for the new value(e.g, {\tt p->data})
->> +being delayed,
->> +so that the reading CPU gets the new value for the
->> +pointer(e.g, {\tt head.next}),
->>  but sees the old cached values for the new element.
->>  See the documentation~\cite{Compaq01} called out earlier for more information,
->>  or, again, if you think that I am just making all this up.\footnote{
->
->
+
+--------------B908CBDCC3FAF882D39B9E7D
+Content-Type: text/x-log;
+ name="perfbook.log"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="perfbook.log"
+
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.2.15)  17 FEB 2017 22:37
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**perfbook
+(./perfbook.tex
+LaTeX2e <2016/02/01>
+Babel <3.9q> and hyphenation patterns for 3 language(s) loaded.
+(./book.cls
+Document Class: book 2014/09/29 v1.4h-pem-ay Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/bk10.clo
+File: bk10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
+Package textcomp Info: Sub-encoding information:
+(textcomp)               5 = only ISO-Adobe without \textcurrency
+(textcomp)               4 = 5 + \texteuro
+(textcomp)               3 = 4 + \textohm
+(textcomp)               2 = 3 + \textestimated + \textcurrency
+(textcomp)               1 = TS1 - \textcircled - \t
+(textcomp)               0 = TS1 (full)
+(textcomp)             Font families with sub-encoding setting implement
+(textcomp)             only a restricted character set as indicated.
+(textcomp)             Family '?' is the default used for unknown fonts.
+(textcomp)             See the documentation for details.
+Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+)
+LaTeX Info: Redefining \oldstylenums on input line 334.
+Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 349.
+Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 350.
+Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 351.
+Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 352.
+Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 353.
+Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 354.
+Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 355.
+Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 356.
+Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 357.
+Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 358.
+Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 359.
+Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 360.
+Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 361.
+Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 362.
+Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 363.
+Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 364.
+Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 365.
+Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 366.
+Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 367.
+Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 368.
+Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 369.
+Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 370.
+Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 371.
+Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 372.
+
+Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 373.
+Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 374.
+Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 375.
+Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 376.
+Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 377.
+Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 378.
+Package textcomp Info: Setting lmr sub-encoding to TS1/0 on input line 379.
+Package textcomp Info: Setting lmdh sub-encoding to TS1/0 on input line 380.
+Package textcomp Info: Setting lmss sub-encoding to TS1/0 on input line 381.
+Package textcomp Info: Setting lmssq sub-encoding to TS1/0 on input line 382.
+Package textcomp Info: Setting lmvtt sub-encoding to TS1/0 on input line 383.
+Package textcomp Info: Setting lmtt sub-encoding to TS1/0 on input line 384.
+Package textcomp Info: Setting qhv sub-encoding to TS1/0 on input line 385.
+Package textcomp Info: Setting qag sub-encoding to TS1/0 on input line 386.
+Package textcomp Info: Setting qbk sub-encoding to TS1/0 on input line 387.
+Package textcomp Info: Setting qcr sub-encoding to TS1/0 on input line 388.
+Package textcomp Info: Setting qcs sub-encoding to TS1/0 on input line 389.
+Package textcomp Info: Setting qpl sub-encoding to TS1/0 on input line 390.
+Package textcomp Info: Setting qtm sub-encoding to TS1/0 on input line 391.
+Package textcomp Info: Setting qzc sub-encoding to TS1/0 on input line 392.
+Package textcomp Info: Setting qhvc sub-encoding to TS1/0 on input line 393.
+Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 394.
+Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 395.
+Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 396.
+Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 397.
+Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 398.
+Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 399.
+Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 400.
+Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 401.
+Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 402.
+Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 403.
+Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 404.
+Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 405.
+Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
+Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
+Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
+Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/mathptmx.sty
+Package: mathptmx 2005/04/12 PSNFSS-v9.2a Times w/ Math, improved (SPQR, WaS) 
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 28.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/ztmcm/m/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/ztmcm/m/n on input line 28.
+LaTeX Font Info:    Redeclaring symbol font `letters' on input line 29.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/ztmcm/m/it on input line 29.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/ztmcm/m/it on input line 29.
+LaTeX Font Info:    Redeclaring symbol font `symbols' on input line 30.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/ztmcm/m/n on input line 30.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/ztmcm/m/n on input line 30.
+LaTeX Font Info:    Redeclaring symbol font `largesymbols' on input line 31.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/ztmcm/m/n on input line 31.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/ztmcm/m/n on input line 31.
+\symbold=\mathgroup4
+\symitalic=\mathgroup5
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 34.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/ptm/m/it on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 35.
+LaTeX Info: Redefining \hbar on input line 50.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty
+Package: helvet 2005/04/12 PSNFSS-v9.2a (WaS) 
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+))
+
+! LaTeX Error: File `couriers.sty' not found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: sty)
+
+Enter file name: 
+! Emergency stop.
+<read *> 
+         
+l.13 ^^M
+        
+End of file on the terminal!
+
+
+Here is how much of TeX's memory you used:
+ 943 strings out of 494953
+ 11147 string characters out of 6180977
+ 52120 words of memory out of 5000000
+ 4295 multiletter control sequences out of 15000+600000
+ 4403 words of font info for 15 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 23i,0n,21p,180b,37s stack positions out of 5000i,500n,10000p,200000b,80000s
+!  ==> Fatal error occurred, no output PDF file produced!
+
+--------------B908CBDCC3FAF882D39B9E7D--
 
