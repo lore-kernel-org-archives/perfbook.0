@@ -2,83 +2,195 @@ Return-Path: <ablacktshirt@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=qpFoMADff9RqIY1ptj2rFTOtNYcbgUyXUdHFdgG9SjM=;
- b=QClAcKEw97nZ1djtTmx0v4bFlNrlt+N3q6CbQcTlPPw4uneW6+Cg3WAsDEqbvUX/9r
- HsUe+9P+rYNAw53LR97djsoRvJvZmpdmlKt6sdStszYjSHOBIbRolaLVvbcSQyWDxzWr
- WlmgoeHvGblStlMkw1FbrTT6AIUkAgZW/HY95MqaF3nZlj8PvQjjlEF4grILC/dAIwP9
- Lwdx8aCYYU49XL7axxOjP76iMJE4wHXPlxyifNnceojwcNlAdm9ideyFs/oKuSmdmLEe
- f1A6spWptKnNrfyJM3K2zJfGy3SKuwbvO5bKc/pWF+gg2aEKc9xuuoKc0jNgCh6fwOM+
- NFvw==
-Subject: Re: build fail on ubuntu 16.04 LTS
-References: <b8c743ec-4415-86d3-a580-def8b4051a5d@gmail.com>
- <6e48f846-88fb-631f-05ba-6d72fcb63ca6@gmail.com>
- <20c285a2-4dd3-2902-42a8-c35836cbc5a2@gmail.com>
- <b6c259aa-a855-bde6-4c0a-826a0cad018a@gmail.com>
+ bh=owsDuavTf+0zuvSTcUXEPiqMIY3PeCIDHHyhEOOtgMU=;
+ b=DbRi9EPIYGm8nTwNHKJklf/utIz8qf73xwlEO5vNuxzPH5U8JjvJoGXgTeauF3lLgs
+ voSjA/4jLH01MwQrr32u6MpbendKOReZAAGIqO3RNfKBz77ZDvlHIEVqJ+IdTHPEL7Nu
+ jrWu8NT/ymqA9ETQ5Aje+1O4ZW/gOfS5xG/3KWuTdcCuUXKf42s4HK8wgpJGGeWvWmsG
+ yfxAL+fv9oWC8a3AHj3jnxkRJ9YaEP8qhfLlAlgq6M7PK9Tty4fG4lcDwFYjaCI2P+s9
+ Vvi+kiBB8mgnJP6j6AZwOyYUwDZf+OHGFuqbFgN3RXsKOOgSlOF6ZuznragUNY9zZNGn
+ Mllg==
+Subject: Re: [Question] different kinds of memory barrier
+References: <881f369d-4e5b-a335-6359-c5d7bf1bc086@gmail.com>
+ <20170213190600.GJ30506@linux.vnet.ibm.com>
+ <79ac9a88-3f3a-5b97-940f-35210a7d9405@gmail.com>
+ <20170216185845.GJ30506@linux.vnet.ibm.com>
+ <70c1256d-1045-f4df-3423-b326b28ff86d@gmail.com>
+ <04e7f34d-4e18-701d-80db-5a57a6e9718b@gmail.com>
+ <20170217153517.GS30506@linux.vnet.ibm.com>
 From: Yubin Ruan <ablacktshirt@gmail.com>
-Message-ID: <2743a1dc-8085-1950-1a71-1f7ad1e72a89@gmail.com>
-Date: Sat, 18 Feb 2017 00:16:32 +0800
+Message-ID: <8d26a6cf-6b84-77c6-31c7-b12d638b68e7@gmail.com>
+Date: Sat, 18 Feb 2017 00:22:01 +0800
 MIME-Version: 1.0
-In-Reply-To: <b6c259aa-a855-bde6-4c0a-826a0cad018a@gmail.com>
+In-Reply-To: <20170217153517.GS30506@linux.vnet.ibm.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: paulmck@linux.vnet.ibm.com, perfbook@vger.kernel.org
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-On 2017年02月17日 23:58, Akira Yokosawa wrote:
-> On 2017/02/17 23:40 +0800, Yubin Ruan wrote:
+On 2017年02月17日 23:35, Paul E. McKenney wrote:
+> On Fri, Feb 17, 2017 at 05:20:30PM +0800, Yubin Ruan wrote:
 >>
 >>
->> On 2017年02月17日 23:13, Akira Yokosawa wrote:
->>> On 2017/02/17 22:45:04 +0800, Yubin Ruan wrote:
->>>> The build script fail with
+>> On 2017年02月17日 16:45, Yubin Ruan wrote:
+>>>
+>>>
+>>> On 2017年02月17日 02:58, Paul E. McKenney wrote:
+>>>> On Tue, Feb 14, 2017 at 06:35:05PM +0800, Yubin Ruan wrote:
+>>>>> On 2017/2/14 3:06, Paul E. McKenney wrote:
+>>>>>> On Mon, Feb 13, 2017 at 09:55:50PM +0800, Yubin Ruan wrote:
+>>>>>>> It have been mentioned in the book that there are three kinds of
+>>>>>>> memory barriers: smp_rmb, smp_wmb, smp_mb
+>>>>>>>
+>>>>>>> I am confused about their actual semantic:
+>>>>>>>
+>>>>>>> The book says that(B.5 paragraph 2, perfbook2017.01.02a):
+>>>>>>>
+>>>>>>> for smp_rmb():
+>>>>>>>   "The effect of this is that a read memory barrier orders
+>>>>>>>    only loads on the CPU that executes it, so that all loads
+>>>>>>>    preceding the read memory barrier will appear to have
+>>>>>>>    completed before any load following the read memory
+>>>>>>>    barrier"
+>>>>>>>
+>>>>>>> for smp_wmb():
+>>>>>>>   "so that all stores preceding the write memory barrier will
+>>>>>>>    appear to have completed before any store following the
+>>>>>>>    write memory barrier"
+>>>>>>>
+>>>>>>> I wonder, is there any primitive "X" which can guarantees:
+>>>>>>>   "that all 'loads' preceding the X will appear to have completed
+>>>>>>>    before any *store* following the X "
+>>>>>>>
+>>>>>>> and similarly:
+>>>>>>>   "that all 'store' preceding the X will appear to have completed
+>>>>>>>    before any *load* following the X "
+>>>>>
+>>>>> I am reading your the material you provided.
+>>>>> So, there is no short answer(yes/no) to the questions above?(I mean
+>>>>> the primitive X)
 >>>>
->>>>     pdflatex 1 for perfbook.pdf
->>>>     ----- Fatal latex error, see perfbook.log for details. -----
->>>>     Makefile:83: recipe for target 'perfbook.aux' failed
->>>>     make: *** [perfbook.aux] Error 1
->>>>
->>>> I have attached the `perfbook.log' file.
->>>
->>> Hi Rubin,
->>>
->>> The build failed because LaTeX style file "couriers.sty" is not found
->>> in your TeX Live environment. It is logged near the end of the log file.
->>>
->>>> ! LaTeX Error: File `couriers.sty' not found.
->>>
->>> Please refer to item 5 in FAQ-BUILD.txt for necessary packages on Ubuntu.
->>> It mentions Trusty, but the same packages will do on Xenial.
->>>
->>>>
->>>> In addition, it keep complaining like
->>>>   "WARNING: Refer to utilities/mpostcheck.sh for texmf config fix."
->>>> What is going on?
->>>
->>> Well, as the message says, instruction to plug the potential vulnerability
->>> in TeX configuration can be found in the header of utilities/mpostcheck.sh.
->>>
->>> Hope this would help you.
->>>
->>>                                Thanks, Akira
->>>>
+>>>> For smp_mb(), the full memory barrier, things are pretty simple.
+>>>> All CPUs will agree that all accesses by any CPU preceding a given
+>>>> smp_mb() happened before any accesses by that same CPU following that
+>>>> same smp_mb().  Full memory barriers are also transitive, so that you
+>>>> can reason (relatively) easily about situations involving many CPUs.
 >>
->> I have install all the packages mentioned at item 5 of FAQ-BUILD.txt
->> But there are still build errors. I have attached the log file
->>
+>> One more thing about the full memory barrier. You say *all CPU
+>> agree*. It does not include Alpha, right?
 > 
-> Well, I've never seen this error:
-> 
->> ! LaTeX Error: Something's wrong--perhaps a missing \item.
-> 
-> What happens if you do "make clean; make"?
-> 
->                                   Thanks, Akira
+> It does include Alpha.  Remember that Alpha's peculiarities occur when
+> you -don't- have full memory barriers.  If you have a full memory barrier
+> between each pair of accesses, then everything will be ordered on pretty
+> much every type of CPU.
 > 
 
-Yes, `make clean' works. And I have fix that warning according to
-Akira's suggestion
+You mean this change would work for Alpha?
+
+>1  struct el *insert(long key, long data)
+>2  {
+>3     struct el *p;
+>4     p = kmalloc(sizeof(*p), GFP_ATOMIC);
+>5     spin_lock(&mutex);
+>6     p->next = head.next;
+>7     p->key = key;
+>8     p->data = data;
+
+>9     smp_mb();       /* changed `smp_wmb()' to `smp_mb()' */
+
+
+>10    head.next = p;
+>11    spin_unlock(&mutex);
+>12 }
+>13
+>14 struct el *search(long key)
+>15 {
+>16    struct el *p;
+>17    p = head.next;
+>18    while (p != &head) {
+>19        /* BUG ON ALPHA!!! */
+>20        if (p->key == key) {
+>21            return (p);
+>22        }
+>23        p = p->next;
+>24    };
+>25    return (NULL);
+>26 }
 
 regards,
 Yubin Ruan
+
+> The one exception that I am aware of is Itanium, which also requires
+> that the stores be converted to store-release instructions.
+> 
+> 							Thanx, Paul
+> 
+>> regards,
+>> Yubin Ruan
+>>
+>>>> For smp_rmb() and smp_wmb(), not so much.  The canonical example showing
+>>>> the complexity of smp_wmb() is called "R":
+>>>>
+>>>>    Thread 0        Thread 1
+>>>>    --------        --------
+>>>>    WRITE_ONCE(x, 1);    WRITE_ONCE(y, 2);
+>>>>    smp_wmb();        smp_mb();
+>>>>    WRITE_ONCE(y, 1);    r1 = READ_ONCE(x);
+>>>>
+>>>> One might hope that if the final value of y is 2, then the value of
+>>>> r1 must be 1.  People hoping this would be disappointed, because
+>>>> there really is hardware that will allow the outcome y == 1 && r1 == 0.
+>>>>
+>>>> See the following URL for many more examples of this sort of thing:
+>>>>
+>>>>    https://www.cl.cam.ac.uk/~pes20/ppc-supplemental/test6.pdf
+>>>>
+>>>> For more information, including some explanation of the nomenclature,
+>>>> see:
+>>>>
+>>>>    https://www.cl.cam.ac.uk/~pes20/ppc-supplemental/test7.pdf
+>>>>
+>>>> There are formal memory models that account for this, and in fact this
+>>>> appendix is slated to be rewritten based on some work a group of us have
+>>>> been doing over the past two years or so.  A tarball containing a draft
+>>>> of this work is attached.  I suggested starting with index.html.  If
+>>>> you get a chance to look it over, I would value any suggestions that
+>>>> you might have.
+>>>>
+>>>
+>>> Thanks for your reply. I will take some time to read those materials.
+>>> Discussions with you really help eliminate some of my doubts. Hopefully
+>>> we can have more discussions in the future.
+>>>
+>>> regards,
+>>> Yubin Ruan
+>>>
+>>>>>>> I know I can use the general smp_mb() for that, but that is a little
+>>>>>>> too general.
+>>>>>>>
+>>>>>>> Do I miss/mix anything ?
+>>>>>>
+>>>>>> Well, the memory-ordering material is a bit dated.  There is some work
+>>>>>> underway to come up with a better model, and I presented on it a couple
+>>>>>> weeks ago:
+>>>>>>
+>>>>>> http://www.rdrop.com/users/paulmck/scalability/paper/LinuxMM.2017.01.19a.LCA.pdf
+>>>>>>
+>>>>>>
+>>>>>> This presentation calls out a tarball that includes some .html files
+>>>>>> that have much better explanations, and this wording will hopefully
+>>>>>> be reflected in an upcoming version of the book.  Here is a direct
+>>>>>> URL for the tarball:
+>>>>>>
+>>>>>> http://www.rdrop.com/users/paulmck/scalability/paper/LCA-LinuxMemoryModel.2017.01.15a.tgz
+>>>>>>
+>>>>>>
+>>>>>>                            Thanx, Paul
+>>>>>>
+>>>>>
+>>>>> regrads,
+>>>>> Yubin Ruan
+>>>>>
+>>
+> 
 
