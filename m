@@ -1,178 +1,46 @@
-Return-Path: <akiyks@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mail-pg0-f66.google.com ([74.125.83.66]:36565 "EHLO
+ mail-pg0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1754904AbdBQByj (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 16
+ Feb 2017 20:54:39 -0500
+Received: by mail-pg0-f66.google.com with SMTP id a123so660050pgc.3 for
+ <perfbook@vger.kernel.org>; Thu, 16 Feb 2017 17:54:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=rzxAXQMXYdXl8gYssWfBfArtcOxD9JocQwaovAfqb4g=;
- b=vNxG5xomPLHELLO6bU9c4FkxH7Ppbd/nxgC21XlQrAXOIqkXzVVwnrIj48Pgddru2w
- KiYZbp50wc1J4DDRUqrvl3RQlIJhZo/VeBLewtDY2A0ALL4JjnrpiCDHxA6YxjEpKiER
- hLEJ5cTJ3WN+0L45RToK3vNqlT37Zlbedpe8voRmqrCNEH8tfR7BpcBSW4/9TZX97epP
- JOiQEBLweXjaInqD+gaBMN9fZWGBBd6JcjOyGj/DV/k4A5zUd4fvgw99VeEdGb5+ddqs
- hg+iKfE5knYb+lFCiD8SrvcVwaaniYV03pJryrcx4zpFU4GSuqJWXt9jiE6Te/ThD3Im
- HIWw==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] Bibliography updates (append urls -- part 2)
-Message-ID: <874fe02f-0887-55ad-4611-bc9af7fd5184@gmail.com>
-Date: Thu, 16 Feb 2017 00:14:12 +0900
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+ s=20161025;        h=from:to:cc:subject:date:message-id;
+ bh=t+6SNyVFFhdWTOLhD002iJiMmfTom250L59SAThVj0I=;
+ b=h/YJrv/EXZVVK19DVakDbeq2YPo+b1VPJ69AEprBWmEqT50ZTEHm+VMuBNzbu4wP4c
+ Q6O5Y5FnLt+pMwRj+P59TqoLOrWvliKcv5ulI+1awJRmAKlG79vwZU64YAuZ7sX4Uxs4
+ kZitBAw2Uaczkqyyn7FXKVTQHBvIuEoxpEzUA8gvr57k0sakyN8PPb3OTJpudYmWn9jX
+ pZt859jqko/Yw1vUR4pPkHg5kVhg2/94ze0HXn/H9jzdYoLf+QFpsSmNzbYuy9iYjjxk
+ q+6vATqHSq0nrxNZy9eXJuNM3xvgsEaWcmkfUwTl/gxJk629kyPw+oxNrC4Z+/D8zQlk
+ e7bw==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH] appendix/whymb: Fix a typo, smb_wmb into smp_wmb
+Date: Fri, 17 Feb 2017 10:54:15 +0900
+Message-Id: <20170217015415.32519-1-sj38.park@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 
-From 12c6802578e421628b996ee10cef6c3b3df47960 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 15 Nov 2016 00:01:02 +0900
-Subject: [PATCH] Bibliography updates (append urls -- part 2)
-
-This commit appends urls to the following entries:
-
-  o PanagiotisMetaxas1999PDCS
-  o McKusick88
-  o Magnusson94
-  o MagedMichael95a
-  o McKenney98
-  o McKenney04a
-  o Rajwar01a
-  o Rajwar02a
-  o Soules03a
-  o Sarma04c
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
-Hi Paul,
+ appendix/whymb/whymemorybarriers.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Here is another round of bibliography updates.
-It consists of mostly the same type of updates as the previous one
-(just appending urls).
-The remaining updates will be submitted in 2 or 3 more rounds.
-We are getting closer to the goal of bibliography updates ;-)
+diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
+index 9002047a9878..3a22e46beb0c 100644
+--- a/appendix/whymb/whymemorybarriers.tex
++++ b/appendix/whymb/whymemorybarriers.tex
+@@ -2265,7 +2265,7 @@ a write to a given MMIO register affects the value that will next be
+ read from {\em some other} MMIO register.
 
-                                     Thanks, Akira
---
- bib/RCU.bib         | 8 ++++++++
- bib/TM.bib          | 5 +++++
- bib/WFS.bib         | 2 ++
- bib/os.bib          | 2 ++
- bib/parallelsys.bib | 2 ++
- bib/syncrefs.bib    | 2 ++
- 6 files changed, 21 insertions(+)
-
-diff --git a/bib/RCU.bib b/bib/RCU.bib
-index 580b1a1..4614520 100644
---- a/bib/RCU.bib
-+++ b/bib/RCU.bib
-@@ -221,6 +221,8 @@ Problems"
- ,Year="1998"
- ,pages="509-518"
- ,Address="Las Vegas, NV"
-+,url="http://www.rdrop.com/users/paulmck/RCU/rclockpdcsproof.pdf"
-+,lastchecked="November 14, 2016"
- }
-
- @Conference{Gamsa99
-@@ -494,6 +496,8 @@ Michal Ostrowski and Bryan Rosenburg and Jimi Xenidis"
- ,year="2003"
- ,month="June"
- ,pages="141-154"
-+,url="https://www.ece.cmu.edu/~ganger/papers/k42Usenix.pdf"
-+,lastchecked="November 14, 2016"
- }
-
- @article{McKenney03a
-@@ -538,6 +542,8 @@ Michal Ostrowski and Bryan Rosenburg and Jimi Xenidis"
- ,volume="1"
- ,number="118"
- ,pages="38-46"
-+,url="http://www.linuxjournal.com/article/7124"
-+,lastchecked="November 14, 2016"
- }
-
- @Conference{McKenney04b
-@@ -600,6 +606,8 @@ Realtime Applications"
- ,year="2004"
- ,month="June"
- ,pages="182-191"
-+,url="http://www.rdrop.com/~paulmck/RCU/realtimeRCU.2004.06.12a.pdf"
-+,lastchecked="November 14, 2016"
- }
-
- @phdthesis{PaulEdwardMcKenneyPhD
-diff --git a/bib/TM.bib b/bib/TM.bib
-index e8aa11a..04d45ad 100644
---- a/bib/TM.bib
-+++ b/bib/TM.bib
-@@ -103,6 +103,8 @@ Execution"
- ,year="2001"
- ,address = "Austin, TX"
- ,pages = "294-305"
-+,url="http://pages.cs.wisc.edu/~rajwar/papers/micro01.pdf"
-+,lastchecked="November 14, 2016"
- }
-
- @conference{Martinez02a
-@@ -129,6 +131,9 @@ Operating Systems"
- ,year="2002"
- ,pages="5-17"
- ,address = "Austin, TX"
-+,doi="10.1145/605397.605399"
-+,url="http://pages.cs.wisc.edu/~rajwar/papers/asplos02.pdf"
-+,lastchecked="November 14, 2016"
- }
-
- @incollection{HerlihyLMS03
-diff --git a/bib/WFS.bib b/bib/WFS.bib
-index 35713e7..d7efdf6 100644
---- a/bib/WFS.bib
-+++ b/bib/WFS.bib
-@@ -118,6 +118,8 @@ Linear or Sublinear Complexity"
- ,year="1995"
- ,note="Technical Report TR599"
- ,organization="Computer Science Department, University of Rochester"
-+,url="https://pdfs.semanticscholar.org/cec0/ad7b0fc2d4d6ba45c6212d36217df1ff2bf2.pdf"
-+,lastchecked="November 14, 2016"
- }
-
- @conference{MichaelScott96
-diff --git a/bib/os.bib b/bib/os.bib
-index b2762c7..7d48633 100644
---- a/bib/os.bib
-+++ b/bib/os.bib
-@@ -155,6 +155,8 @@ Kernel"
- ,address = "Berkeley CA"
- ,month="June"
- ,year="1988"
-+,url="https://docs.freebsd.org/44doc/papers/kernmalloc.pdf"
-+,lastchecked="November 13, 2016"
- }
-
- @article{Lee89
-diff --git a/bib/parallelsys.bib b/bib/parallelsys.bib
-index 2091bcd..e9c4b5b 100644
---- a/bib/parallelsys.bib
-+++ b/bib/parallelsys.bib
-@@ -327,5 +327,7 @@ Parallel and Distributed Computing and Systems"
- ,pages={570--576}
- ,publisher={IASTED}
- ,address={Cambridge, MA, USA}
-+,url="http://cs.wellesley.edu/~pmetaxas/pdcs99.pdf"
-+,lastchecked="November 13, 2016"
- }
-
-diff --git a/bib/syncrefs.bib b/bib/syncrefs.bib
-index 21d2007..4a0b1be 100644
---- a/bib/syncrefs.bib
-+++ b/bib/syncrefs.bib
-@@ -1142,6 +1142,8 @@ Multiprocessors"
- ,number="T94:07"
- ,month="February"
- ,pages="32"
-+,url="http://dl.acm.org/citation.cfm?id=869729"
-+,lastchecked="November 13, 2016"
- }
-
- @article{Zhang94
+ It is not clear why SPARC does not define \co{wmb()} to be
+-\co{membar #MemIssue} and \co{smb_wmb()} to be
++\co{membar #MemIssue} and \co{smp_wmb()} to be
+ \co{membar #StoreStore},
+ as the current definitions seem vulnerable to bugs in some drivers.
+ It is quite possible that all the SPARC CPUs that Linux runs on
 -- 
-2.7.4
+2.10.0
 
