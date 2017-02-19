@@ -1,211 +1,193 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=iOM7wWLf3VY/rk8MNEcDKAH1mam28ZZRU40j9WK+kPo=;
- b=lraOnDChpEVoOu9jtUc2UaktauRyHWzeFwhnLQTAx6+K616ETavgwu2H4piRMWdI3J
- 6Jt8WSDdEso3YKmVwzUimmVHS3LHUB25ra5/+z+nu/a8PrPugi9g8iYWSQJjZIyAO4P3
- YrbYCwVtIUcEKPD+YjtzOCVrorVwVYyVYYXU7uQ8VGMBM2jSvpiHWr7kpm8cdfEnsTbu
- mErqe8PUP8Pk3YBSgp+/a0LFJiiMdyfxo6PZri1Emv+U+xO7m5qTOS4AAP9F1lbztwUR
- aCyf+EfPtPGu90x8bAQcsfsmh1DwRdQEI3Dd6cDUXSnV7LNXx/q0DyiMpKfKGJ2cFnkZ
- gDmg==
-Subject: Re: [Question] Quick Quiz B.13 help
-References: <3fabc59b-f542-a121-3764-c4ac9eedc062@gmail.com>
- <20170213190034.GI30506@linux.vnet.ibm.com>
- <1c7f03c4-3c73-4e89-50a6-ad2242e57a41@gmail.com>
- <5f483446-30e0-fb3c-5814-f191e379c5e6@gmail.com>
- <20170216191308.GK30506@linux.vnet.ibm.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <fb76c9db-ac69-15da-f358-3416e5cee75a@gmail.com>
-Date: Fri, 17 Feb 2017 07:47:05 +0900
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37790 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751307AbdBSWLr (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 19
+ Feb 2017 17:11:47 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v1JM8g8e024634
+ for <perfbook@vger.kernel.org>; Sun, 19 Feb 2017 17:11:46 -0500
+Received: from e35.co.us.ibm.com (e35.co.us.ibm.com [32.97.110.153]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 28pphuhduw-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
+ 19 Feb 2017 17:11:46 -0500
+Received: from localhost by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 19 Feb
+ 2017 15:11:46 -0700
+Date: Sun, 19 Feb 2017 14:11:42 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH] Bibliography updates (append urls -- part 2)
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <874fe02f-0887-55ad-4611-bc9af7fd5184@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20170216191308.GK30506@linux.vnet.ibm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-To: paulmck@linux.vnet.ibm.com
-Cc: Yubin Ruan <ablacktshirt@gmail.com>, perfbook@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <874fe02f-0887-55ad-4611-bc9af7fd5184@gmail.com>
+Message-Id: <20170219221142.GK30506@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-On 2017/02/16 11:13:08 -0800, Paul E. McKenney wrote:
-> On Wed, Feb 15, 2017 at 12:36:52AM +0900, Akira Yokosawa wrote:
->> On 2017/02/14 18:53:52 +0800, Yubin Ruan wrote:
->>> On 2017/2/14 3:00, Paul E. McKenney wrote:
->>>> On Mon, Feb 13, 2017 at 09:41:46PM +0800, Yubin Ruan wrote:
->>>>> Quick quiz B.13:
->>>>>     Suppose that lines 3-5 for CPUs 1 and 2 in Table B.4 are in an
->>>>> interrupt handler, and that the CPU 2's line 9 is running at process
->>>>> level. What changes, if any, are required to enable the code to work
->>>>> correctly, in other words, to prevent the assertion from firing?
->>>>>
->>>>> I can not come up with any practical material for this quiz, because
->>>>> I don't really know the implication of "in an interrupt handler",
->>>>> and "running in process level".
->>>>>
->>>>> The answer hints that one would need to ensure that the load of "e"
->>>>> precedes that of "a" and hint the Linux kernel implementation
->>>>> "barrier()". But how is that exactly? I am going to invest some time
->>>>> into the Linux kernel implementation. But I would really appreciate
->>>>> some hints about this, as I don't have so much kernel development
->>>>> experience before.
->>>>
->>>> I suggest reading an operating-system textbook.  The ones I have are quite
->>>> old, but here they are anyway in bibtex format.  There are probably newer
->>>> editions of some of them.  The short answer on interrupts is that they
->>>> force process-level processing to pause while the "interrupt handler"
->>>                                           ~~~~~
->>>                                           until ?
->>>> completes.
->>>>
->>>>                             Thanx, Paul
->>>>
->>>
->>> Actually I have taken a operating system course and know about interrupt handler. Maybe I don't understand the concepts well. I don't really get your point here. If you have time, maybe you can provide me more information, otherwise I would just have to investigate more on this myself. Thanks.
->>
->> Hi Paul,
->>
->> Prompted by Yubin's question, I looked into the Quick Quiz.
->> And I have a theory what you wanted to say.
->>
->> First of all, the "assert()" has a line number of 9, but the execution
->> order of lines 3-5 and the assertion on CPU 2 does not matter in
->> Table B.4, doesn't it?
->>
->> Your point here looks like that lines 3-5 for CPU 2 can interrupt
->> the assert().
+On Thu, Feb 16, 2017 at 12:14:12AM +0900, Akira Yokosawa wrote:
+> >From 12c6802578e421628b996ee10cef6c3b3df47960 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Tue, 15 Nov 2016 00:01:02 +0900
+> Subject: [PATCH] Bibliography updates (append urls -- part 2)
 > 
-> Yes.
+> This commit appends urls to the following entries:
 > 
->> If this is the case, whether lines 3-5 for CPU 1 are in an interrupt
->> handler or not does not matter, I suppose.
+>   o PanagiotisMetaxas1999PDCS
+>   o McKusick88
+>   o Magnusson94
+>   o MagedMichael95a
+>   o McKenney98
+>   o McKenney04a
+>   o Rajwar01a
+>   o Rajwar02a
+>   o Soules03a
+>   o Sarma04c
 > 
-> True, up to a point.  If CPU 1's lines 3-5 are in an interrupt handler,
-> then the assert()'s condition only needs a compiler directive such
-> as barrier() to keep things straight.  If these are separate CPUs,
-> then real memory barriers are required.
-> 
->> And the first sentence of Answer of the Quick Quiz should read:
->>
->>     The assertion will need to be written so that the load of ``e''
->>     is assured to precede that of ``a''.
-> 
-> This doesn't change the meaning, but I take it that it is easier to
-> read.  But how about the following?
-> 
-> 	The assertion must ensure that the load of ``e'' precedes that of
-> 	``a''.
-> 
->> The second sentence mentions the barrier() primitive. It is effective
->> because interrupts should see the sequence of instructions in order
->> even if they are executed out-of-order. 
->>
->> Am I missing something?
-> 
-> And I should also call out that in the context of the quick quiz,
-> there is only one CPU.  How about the following?
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-Hmm, I thought there were still three CPUs involved in the quick quiz...
-If all the code runs on the same CPU, we don't need memory barriers,
-do we?
+Applied and pushed, thank you!
 
-I thought what matter is (as said in the previous mail) lines 3-5 of
-CPU 2 can interrupt the assertion. Codes in columns 1 and 2 can still
-run on CPU 0 and 1 respectively.
+							Thanx, Paul
 
+> ---
+> Hi Paul,
 > 
-> 	Quick Quiz B.13:
-> 	Suppose that lines 3-5 for CPUs 1 and 2 in Table B.4 are in an
-> 	interrupt handler, and that the CPU 2’s line 9 runs at process
-> 	level. In other words, the code in all three columns of the
-> 	table runs on the same CPU, but the first two columns run in an
-> 	interrupt handler, and the third column runs at process level,
-> 	so that the code in third column can be interrupted by the code
-> 	in the first two columns. What changes, if any, are required to
-> 	enable the code to work correctly, in other words, to prevent
-> 	the assertion from firing?
+> Here is another round of bibliography updates.
+> It consists of mostly the same type of updates as the previous one
+> (just appending urls).
+> The remaining updates will be submitted in 2 or 3 more rounds.
+> We are getting closer to the goal of bibliography updates ;-)
 > 
-> 	Answer:
-> 	The assertion must ensure that the load of “e” precedes that
-> 	of “a”. In the Linux kernel, the barrier() primitive may be
-> 	used to accomplish this in much the same way that the memory
-> 	barrier was used in the assertions in the previous examples,
-> 	for example, as follows:
+>                                      Thanks, Akira
+> --
+>  bib/RCU.bib         | 8 ++++++++
+>  bib/TM.bib          | 5 +++++
+>  bib/WFS.bib         | 2 ++
+>  bib/os.bib          | 2 ++
+>  bib/parallelsys.bib | 2 ++
+>  bib/syncrefs.bib    | 2 ++
+>  6 files changed, 21 insertions(+)
 > 
-> 		while (b == 0) ;
-> 		smp_mb();
-> 		d = 1;
-> 		r1 = e;
-> 		barrier();
-> 		assert(r1 == 0 || a == 1);
+> diff --git a/bib/RCU.bib b/bib/RCU.bib
+> index 580b1a1..4614520 100644
+> --- a/bib/RCU.bib
+> +++ b/bib/RCU.bib
+> @@ -221,6 +221,8 @@ Problems"
+>  ,Year="1998"
+>  ,pages="509-518"
+>  ,Address="Las Vegas, NV"
+> +,url="http://www.rdrop.com/users/paulmck/RCU/rclockpdcsproof.pdf"
+> +,lastchecked="November 14, 2016"
+>  }
 > 
-> 	No changes are needed to the code in the first two columns,
-> 	because interrupt handlers run atomically from the perspective
-> 	of the interrupted code.
->
-
-Here is my version of the quiz and answer:
-
-	Quick Quiz B.13:
-	Suppose that lines 3-5 for CPU 2 in Table B.4 are in an
-	interrupt handler, and that the CPU 2’s line 9 runs at process
-	level. In other words, lines 3-5 for CPU 2 can interrupt the
-	assertion of line 9. What changes, if any, are required to
-	enable the code to work correctly, in other words, to prevent
-	the assertion from firing?
-
-	Answer:
-	The assertion must ensure that the load of “e” precedes that
-	of “a”. In the Linux kernel, the barrier() primitive may be
-	used to accomplish this in much the same way that the memory
-	barrier was used in the previous examples, for example,
-	the assertion can be modified as follows:
-
-		r1 = e;
-		barrier();
-		assert(r1 == 0 || a == 1);
-
-Thoughts?
-
-                                              Thanks, Akira
-
-> 							Thanx, Paul
+>  @Conference{Gamsa99
+> @@ -494,6 +496,8 @@ Michal Ostrowski and Bryan Rosenburg and Jimi Xenidis"
+>  ,year="2003"
+>  ,month="June"
+>  ,pages="141-154"
+> +,url="https://www.ece.cmu.edu/~ganger/papers/k42Usenix.pdf"
+> +,lastchecked="November 14, 2016"
+>  }
 > 
->>
->>>
->>> regards,
->>> Yubin Ruan
->>>
->>>> ------------------------------------------------------------------------
->>>>
->>>> @book{CorbetRubiniKroahHartman
->>>> ,author="Jonathan Corbet and Alessandro Rubini and Greg Kroah-Hartman"
->>>> ,title="Linux Device Drivers"
->>>> ,publisher="O'Reilly Media, Inc."
->>>> ,year="2005"
->>>> ,edition="Third"
->>>> }
->>>>
->>>> @book{Silberschatz98a
->>>> ,author="Abraham Silberschatz and Peter Baer Galvin"
->>>> ,title="Operating System Concepts"
->>>> ,publisher="Addison-Wesley"
->>>> ,year="1998"
->>>> ,edition="Fifth"
->>>> }
->>>>
->>>> @book{Vahalia96
->>>> ,author="Uresh Vahalia"
->>>> ,title="{UNIX} Internals: The New Frontiers"
->>>> ,publisher="Prentice Hall"
->>>> ,year="1996"
->>>> }
->>>>
->>>
->>> -- 
->>> To unsubscribe from this list: send the line "unsubscribe perfbook" in
->>> the body of a message to majordomo@vger.kernel.org
->>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->>>
->>
+>  @article{McKenney03a
+> @@ -538,6 +542,8 @@ Michal Ostrowski and Bryan Rosenburg and Jimi Xenidis"
+>  ,volume="1"
+>  ,number="118"
+>  ,pages="38-46"
+> +,url="http://www.linuxjournal.com/article/7124"
+> +,lastchecked="November 14, 2016"
+>  }
 > 
+>  @Conference{McKenney04b
+> @@ -600,6 +606,8 @@ Realtime Applications"
+>  ,year="2004"
+>  ,month="June"
+>  ,pages="182-191"
+> +,url="http://www.rdrop.com/~paulmck/RCU/realtimeRCU.2004.06.12a.pdf"
+> +,lastchecked="November 14, 2016"
+>  }
+> 
+>  @phdthesis{PaulEdwardMcKenneyPhD
+> diff --git a/bib/TM.bib b/bib/TM.bib
+> index e8aa11a..04d45ad 100644
+> --- a/bib/TM.bib
+> +++ b/bib/TM.bib
+> @@ -103,6 +103,8 @@ Execution"
+>  ,year="2001"
+>  ,address = "Austin, TX"
+>  ,pages = "294-305"
+> +,url="http://pages.cs.wisc.edu/~rajwar/papers/micro01.pdf"
+> +,lastchecked="November 14, 2016"
+>  }
+> 
+>  @conference{Martinez02a
+> @@ -129,6 +131,9 @@ Operating Systems"
+>  ,year="2002"
+>  ,pages="5-17"
+>  ,address = "Austin, TX"
+> +,doi="10.1145/605397.605399"
+> +,url="http://pages.cs.wisc.edu/~rajwar/papers/asplos02.pdf"
+> +,lastchecked="November 14, 2016"
+>  }
+> 
+>  @incollection{HerlihyLMS03
+> diff --git a/bib/WFS.bib b/bib/WFS.bib
+> index 35713e7..d7efdf6 100644
+> --- a/bib/WFS.bib
+> +++ b/bib/WFS.bib
+> @@ -118,6 +118,8 @@ Linear or Sublinear Complexity"
+>  ,year="1995"
+>  ,note="Technical Report TR599"
+>  ,organization="Computer Science Department, University of Rochester"
+> +,url="https://pdfs.semanticscholar.org/cec0/ad7b0fc2d4d6ba45c6212d36217df1ff2bf2.pdf"
+> +,lastchecked="November 14, 2016"
+>  }
+> 
+>  @conference{MichaelScott96
+> diff --git a/bib/os.bib b/bib/os.bib
+> index b2762c7..7d48633 100644
+> --- a/bib/os.bib
+> +++ b/bib/os.bib
+> @@ -155,6 +155,8 @@ Kernel"
+>  ,address = "Berkeley CA"
+>  ,month="June"
+>  ,year="1988"
+> +,url="https://docs.freebsd.org/44doc/papers/kernmalloc.pdf"
+> +,lastchecked="November 13, 2016"
+>  }
+> 
+>  @article{Lee89
+> diff --git a/bib/parallelsys.bib b/bib/parallelsys.bib
+> index 2091bcd..e9c4b5b 100644
+> --- a/bib/parallelsys.bib
+> +++ b/bib/parallelsys.bib
+> @@ -327,5 +327,7 @@ Parallel and Distributed Computing and Systems"
+>  ,pages={570--576}
+>  ,publisher={IASTED}
+>  ,address={Cambridge, MA, USA}
+> +,url="http://cs.wellesley.edu/~pmetaxas/pdcs99.pdf"
+> +,lastchecked="November 13, 2016"
+>  }
+> 
+> diff --git a/bib/syncrefs.bib b/bib/syncrefs.bib
+> index 21d2007..4a0b1be 100644
+> --- a/bib/syncrefs.bib
+> +++ b/bib/syncrefs.bib
+> @@ -1142,6 +1142,8 @@ Multiprocessors"
+>  ,number="T94:07"
+>  ,month="February"
+>  ,pages="32"
+> +,url="http://dl.acm.org/citation.cfm?id=869729"
+> +,lastchecked="November 13, 2016"
+>  }
+> 
+>  @article{Zhang94
+> -- 
+> 2.7.4
 > 
 
