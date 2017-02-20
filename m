@@ -1,15 +1,23 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=Nnelg+mALKMiuLm9zrAEx4wNkgB8FlxrBXbY8uynLgM=;
- b=iwW+cRM/iGbOsCDH6/enE8IIUwHleoZ+vYlZiDHZMGvtOcQHRkYyX9taBBBWKFArNm
- vJWsGPmgpzO0ogRWjbmjDp0h2s4RiVLjS6e/RmSnD4t4iziEo4g1WCRf3OC7azOSZJuQ
- 4qG+E6hy8kXA7/I1td8RBbGOYb1F+xf9XhMfAVye7Ov67Fr1M/3yZewy8UQZj7qorvHY
- 6stIqGSPI5aoRH3ObPADmg41BGUD0VbeGGwRiTOaWOlf7iIXtRnX49nOyCNyB9R1JzAj
- +oHzdtlF4PGkG5rdaW/grnPu4IdzGNczb+lgOp8g4zXmdHmRfxOzbTCL/kSSVFfAiMqq
- WoxA==
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33535 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1751307AbdBTAvl (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Sun, 19 Feb 2017 19:51:41 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v1K0mpVr107158
+ for <perfbook@vger.kernel.org>; Sun, 19 Feb 2017 19:51:40 -0500
+Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 28q6rfkvdk-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
+ 19 Feb 2017 19:51:39 -0500
+Received: from localhost by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 19 Feb
+ 2017 17:51:39 -0700
+Date: Sun, 19 Feb 2017 16:51:31 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Subject: Re: [Question] Quick Quiz B.13 help
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <3fabc59b-f542-a121-3764-c4ac9eedc062@gmail.com>
  <20170213190034.GI30506@linux.vnet.ibm.com>
  <1c7f03c4-3c73-4e89-50a6-ad2242e57a41@gmail.com>
@@ -17,257 +25,271 @@ References: <3fabc59b-f542-a121-3764-c4ac9eedc062@gmail.com>
  <20170216191308.GK30506@linux.vnet.ibm.com>
  <fb76c9db-ac69-15da-f358-3416e5cee75a@gmail.com>
  <20170219222206.GM30506@linux.vnet.ibm.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <04001052-3d90-867d-a3eb-2a8b41d0d8f7@gmail.com>
-Date: Mon, 20 Feb 2017 08:47:46 +0900
+ <04001052-3d90-867d-a3eb-2a8b41d0d8f7@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20170219222206.GM30506@linux.vnet.ibm.com>
 Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-To: paulmck@linux.vnet.ibm.com
-Cc: Yubin Ruan <ablacktshirt@gmail.com>, perfbook@vger.kernel.org
+In-Reply-To: <04001052-3d90-867d-a3eb-2a8b41d0d8f7@gmail.com>
+Message-Id: <20170220005131.GN30506@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Yubin Ruan <ablacktshirt@gmail.com>, perfbook@vger.kernel.org
 
-On 2017/02/19 14:22:06 -0800, Paul E. McKenney wrote:
-> On Fri, Feb 17, 2017 at 07:47:05AM +0900, Akira Yokosawa wrote:
->> On 2017/02/16 11:13:08 -0800, Paul E. McKenney wrote:
->>> On Wed, Feb 15, 2017 at 12:36:52AM +0900, Akira Yokosawa wrote:
->>>> On 2017/02/14 18:53:52 +0800, Yubin Ruan wrote:
->>>>> On 2017/2/14 3:00, Paul E. McKenney wrote:
->>>>>> On Mon, Feb 13, 2017 at 09:41:46PM +0800, Yubin Ruan wrote:
->>>>>>> Quick quiz B.13:
->>>>>>>     Suppose that lines 3-5 for CPUs 1 and 2 in Table B.4 are in an
->>>>>>> interrupt handler, and that the CPU 2's line 9 is running at process
->>>>>>> level. What changes, if any, are required to enable the code to work
->>>>>>> correctly, in other words, to prevent the assertion from firing?
->>>>>>>
->>>>>>> I can not come up with any practical material for this quiz, because
->>>>>>> I don't really know the implication of "in an interrupt handler",
->>>>>>> and "running in process level".
->>>>>>>
->>>>>>> The answer hints that one would need to ensure that the load of "e"
->>>>>>> precedes that of "a" and hint the Linux kernel implementation
->>>>>>> "barrier()". But how is that exactly? I am going to invest some time
->>>>>>> into the Linux kernel implementation. But I would really appreciate
->>>>>>> some hints about this, as I don't have so much kernel development
->>>>>>> experience before.
->>>>>>
->>>>>> I suggest reading an operating-system textbook.  The ones I have are quite
->>>>>> old, but here they are anyway in bibtex format.  There are probably newer
->>>>>> editions of some of them.  The short answer on interrupts is that they
->>>>>> force process-level processing to pause while the "interrupt handler"
->>>>>                                           ~~~~~
->>>>>                                           until ?
->>>>>> completes.
->>>>>>
->>>>>>                             Thanx, Paul
->>>>>>
->>>>>
->>>>> Actually I have taken a operating system course and know about interrupt handler. Maybe I don't understand the concepts well. I don't really get your point here. If you have time, maybe you can provide me more information, otherwise I would just have to investigate more on this myself. Thanks.
->>>>
->>>> Hi Paul,
->>>>
->>>> Prompted by Yubin's question, I looked into the Quick Quiz.
->>>> And I have a theory what you wanted to say.
->>>>
->>>> First of all, the "assert()" has a line number of 9, but the execution
->>>> order of lines 3-5 and the assertion on CPU 2 does not matter in
->>>> Table B.4, doesn't it?
->>>>
->>>> Your point here looks like that lines 3-5 for CPU 2 can interrupt
->>>> the assert().
->>>
->>> Yes.
->>>
->>>> If this is the case, whether lines 3-5 for CPU 1 are in an interrupt
->>>> handler or not does not matter, I suppose.
->>>
->>> True, up to a point.  If CPU 1's lines 3-5 are in an interrupt handler,
->>> then the assert()'s condition only needs a compiler directive such
->>> as barrier() to keep things straight.  If these are separate CPUs,
->>> then real memory barriers are required.
->>>
->>>> And the first sentence of Answer of the Quick Quiz should read:
->>>>
->>>>     The assertion will need to be written so that the load of ``e''
->>>>     is assured to precede that of ``a''.
->>>
->>> This doesn't change the meaning, but I take it that it is easier to
->>> read.  But how about the following?
->>>
->>> 	The assertion must ensure that the load of ``e'' precedes that of
->>> 	``a''.
->>>
->>>> The second sentence mentions the barrier() primitive. It is effective
->>>> because interrupts should see the sequence of instructions in order
->>>> even if they are executed out-of-order. 
->>>>
->>>> Am I missing something?
->>>
->>> And I should also call out that in the context of the quick quiz,
->>> there is only one CPU.  How about the following?
->>
->> Hmm, I thought there were still three CPUs involved in the quick quiz...
->> If all the code runs on the same CPU, we don't need memory barriers,
->> do we?
->>
->> I thought what matter is (as said in the previous mail) lines 3-5 of
->> CPU 2 can interrupt the assertion. Codes in columns 1 and 2 can still
->> run on CPU 0 and 1 respectively.
->>
->>>
->>> 	Quick Quiz B.13:
->>> 	Suppose that lines 3-5 for CPUs 1 and 2 in Table B.4 are in an
->>> 	interrupt handler, and that the CPU 2’s line 9 runs at process
->>> 	level. In other words, the code in all three columns of the
->>> 	table runs on the same CPU, but the first two columns run in an
->>> 	interrupt handler, and the third column runs at process level,
->>> 	so that the code in third column can be interrupted by the code
->>> 	in the first two columns. What changes, if any, are required to
->>> 	enable the code to work correctly, in other words, to prevent
->>> 	the assertion from firing?
->>>
->>> 	Answer:
->>> 	The assertion must ensure that the load of “e” precedes that
->>> 	of “a”. In the Linux kernel, the barrier() primitive may be
->>> 	used to accomplish this in much the same way that the memory
->>> 	barrier was used in the assertions in the previous examples,
->>> 	for example, as follows:
->>>
->>> 		while (b == 0) ;
->>> 		smp_mb();
->>> 		d = 1;
->>> 		r1 = e;
->>> 		barrier();
->>> 		assert(r1 == 0 || a == 1);
->>>
->>> 	No changes are needed to the code in the first two columns,
->>> 	because interrupt handlers run atomically from the perspective
->>> 	of the interrupted code.
->>>
->>
->> Here is my version of the quiz and answer:
->>
->> 	Quick Quiz B.13:
->> 	Suppose that lines 3-5 for CPU 2 in Table B.4 are in an
->> 	interrupt handler, and that the CPU 2’s line 9 runs at process
->> 	level. In other words, lines 3-5 for CPU 2 can interrupt the
->> 	assertion of line 9. What changes, if any, are required to
->> 	enable the code to work correctly, in other words, to prevent
->> 	the assertion from firing?
+On Mon, Feb 20, 2017 at 08:47:46AM +0900, Akira Yokosawa wrote:
+> On 2017/02/19 14:22:06 -0800, Paul E. McKenney wrote:
+> > On Fri, Feb 17, 2017 at 07:47:05AM +0900, Akira Yokosawa wrote:
+> >> On 2017/02/16 11:13:08 -0800, Paul E. McKenney wrote:
+> >>> On Wed, Feb 15, 2017 at 12:36:52AM +0900, Akira Yokosawa wrote:
+> >>>> On 2017/02/14 18:53:52 +0800, Yubin Ruan wrote:
+> >>>>> On 2017/2/14 3:00, Paul E. McKenney wrote:
+> >>>>>> On Mon, Feb 13, 2017 at 09:41:46PM +0800, Yubin Ruan wrote:
+> >>>>>>> Quick quiz B.13:
+> >>>>>>>     Suppose that lines 3-5 for CPUs 1 and 2 in Table B.4 are in an
+> >>>>>>> interrupt handler, and that the CPU 2's line 9 is running at process
+> >>>>>>> level. What changes, if any, are required to enable the code to work
+> >>>>>>> correctly, in other words, to prevent the assertion from firing?
+> >>>>>>>
+> >>>>>>> I can not come up with any practical material for this quiz, because
+> >>>>>>> I don't really know the implication of "in an interrupt handler",
+> >>>>>>> and "running in process level".
+> >>>>>>>
+> >>>>>>> The answer hints that one would need to ensure that the load of "e"
+> >>>>>>> precedes that of "a" and hint the Linux kernel implementation
+> >>>>>>> "barrier()". But how is that exactly? I am going to invest some time
+> >>>>>>> into the Linux kernel implementation. But I would really appreciate
+> >>>>>>> some hints about this, as I don't have so much kernel development
+> >>>>>>> experience before.
+> >>>>>>
+> >>>>>> I suggest reading an operating-system textbook.  The ones I have are quite
+> >>>>>> old, but here they are anyway in bibtex format.  There are probably newer
+> >>>>>> editions of some of them.  The short answer on interrupts is that they
+> >>>>>> force process-level processing to pause while the "interrupt handler"
+> >>>>>                                           ~~~~~
+> >>>>>                                           until ?
+> >>>>>> completes.
+> >>>>>>
+> >>>>>>                             Thanx, Paul
+> >>>>>>
+> >>>>>
+> >>>>> Actually I have taken a operating system course and know about interrupt handler. Maybe I don't understand the concepts well. I don't really get your point here. If you have time, maybe you can provide me more information, otherwise I would just have to investigate more on this myself. Thanks.
+> >>>>
+> >>>> Hi Paul,
+> >>>>
+> >>>> Prompted by Yubin's question, I looked into the Quick Quiz.
+> >>>> And I have a theory what you wanted to say.
+> >>>>
+> >>>> First of all, the "assert()" has a line number of 9, but the execution
+> >>>> order of lines 3-5 and the assertion on CPU 2 does not matter in
+> >>>> Table B.4, doesn't it?
+> >>>>
+> >>>> Your point here looks like that lines 3-5 for CPU 2 can interrupt
+> >>>> the assert().
+> >>>
+> >>> Yes.
+> >>>
+> >>>> If this is the case, whether lines 3-5 for CPU 1 are in an interrupt
+> >>>> handler or not does not matter, I suppose.
+> >>>
+> >>> True, up to a point.  If CPU 1's lines 3-5 are in an interrupt handler,
+> >>> then the assert()'s condition only needs a compiler directive such
+> >>> as barrier() to keep things straight.  If these are separate CPUs,
+> >>> then real memory barriers are required.
+> >>>
+> >>>> And the first sentence of Answer of the Quick Quiz should read:
+> >>>>
+> >>>>     The assertion will need to be written so that the load of ``e''
+> >>>>     is assured to precede that of ``a''.
+> >>>
+> >>> This doesn't change the meaning, but I take it that it is easier to
+> >>> read.  But how about the following?
+> >>>
+> >>> 	The assertion must ensure that the load of ``e'' precedes that of
+> >>> 	``a''.
+> >>>
+> >>>> The second sentence mentions the barrier() primitive. It is effective
+> >>>> because interrupts should see the sequence of instructions in order
+> >>>> even if they are executed out-of-order. 
+> >>>>
+> >>>> Am I missing something?
+> >>>
+> >>> And I should also call out that in the context of the quick quiz,
+> >>> there is only one CPU.  How about the following?
+> >>
+> >> Hmm, I thought there were still three CPUs involved in the quick quiz...
+> >> If all the code runs on the same CPU, we don't need memory barriers,
+> >> do we?
+> >>
+> >> I thought what matter is (as said in the previous mail) lines 3-5 of
+> >> CPU 2 can interrupt the assertion. Codes in columns 1 and 2 can still
+> >> run on CPU 0 and 1 respectively.
+> >>
+> >>>
+> >>> 	Quick Quiz B.13:
+> >>> 	Suppose that lines 3-5 for CPUs 1 and 2 in Table B.4 are in an
+> >>> 	interrupt handler, and that the CPU 2’s line 9 runs at process
+> >>> 	level. In other words, the code in all three columns of the
+> >>> 	table runs on the same CPU, but the first two columns run in an
+> >>> 	interrupt handler, and the third column runs at process level,
+> >>> 	so that the code in third column can be interrupted by the code
+> >>> 	in the first two columns. What changes, if any, are required to
+> >>> 	enable the code to work correctly, in other words, to prevent
+> >>> 	the assertion from firing?
+> >>>
+> >>> 	Answer:
+> >>> 	The assertion must ensure that the load of “e” precedes that
+> >>> 	of “a”. In the Linux kernel, the barrier() primitive may be
+> >>> 	used to accomplish this in much the same way that the memory
+> >>> 	barrier was used in the assertions in the previous examples,
+> >>> 	for example, as follows:
+> >>>
+> >>> 		while (b == 0) ;
+> >>> 		smp_mb();
+> >>> 		d = 1;
+> >>> 		r1 = e;
+> >>> 		barrier();
+> >>> 		assert(r1 == 0 || a == 1);
+> >>>
+> >>> 	No changes are needed to the code in the first two columns,
+> >>> 	because interrupt handlers run atomically from the perspective
+> >>> 	of the interrupted code.
+> >>>
+> >>
+> >> Here is my version of the quiz and answer:
+> >>
+> >> 	Quick Quiz B.13:
+> >> 	Suppose that lines 3-5 for CPU 2 in Table B.4 are in an
+> >> 	interrupt handler, and that the CPU 2’s line 9 runs at process
+> >> 	level. In other words, lines 3-5 for CPU 2 can interrupt the
+> >> 	assertion of line 9. What changes, if any, are required to
+> >> 	enable the code to work correctly, in other words, to prevent
+> >> 	the assertion from firing?
+> > 
+> > Given the discussion earlier in this thread, I believe that we do need
+> > to explicitly state that all of the code is running on a single CPU.
 > 
-> Given the discussion earlier in this thread, I believe that we do need
-> to explicitly state that all of the code is running on a single CPU.
-
-Well, I'm afraid I still can't see your point.
-Maybe I'm missing something important.
-Let me ask a few questions regarding your version of the Quiz
-
->>> 	Suppose that lines 3-5 for CPUs 1 and 2 in Table B.4 are in an
->>> 	interrupt handler, and that the CPU 2’s line 9 runs at process
->>> 	level.
-
-In this part, you are saying lines 3-5 for CPUs 1 and 2 are in an
-interrupt handler.
-
->>>             In other words, the code in all three columns of the
->>> 	table runs on the same CPU, but the first two columns run in an
->>> 	interrupt handler, and the third column runs at process level,
-
-In this part, you are saying code for CPUs 0 and 1 runs in an interrupt
-handler, and lines 3-5 for CPU 2 as well as the assertion runs at process
-level.
-
-I'm confused...
-
-And again, I want to know what I said previously is correct or not:
-
->> If all the code runs on the same CPU, we don't need memory barriers,
->> do we?
-
-Am I missing something?
-
-BTW, it seems you have not pushed your update.
-
-                                    Thanks, Akira
-
+> Well, I'm afraid I still can't see your point.
+> Maybe I'm missing something important.
+> Let me ask a few questions regarding your version of the Quiz
 > 
->> 	Answer:
->> 	The assertion must ensure that the load of “e” precedes that
->> 	of “a”. In the Linux kernel, the barrier() primitive may be
->> 	used to accomplish this in much the same way that the memory
->> 	barrier was used in the previous examples, for example,
->> 	the assertion can be modified as follows:
->>
->> 		r1 = e;
->> 		barrier();
->> 		assert(r1 == 0 || a == 1);
+> >>> 	Suppose that lines 3-5 for CPUs 1 and 2 in Table B.4 are in an
+> >>> 	interrupt handler, and that the CPU 2’s line 9 runs at process
+> >>> 	level.
 > 
-> I did do something very much like this with your Reported-by:
+> In this part, you are saying lines 3-5 for CPUs 1 and 2 are in an
+> interrupt handler.
 > 
-> 	Answer:
-> 	The assertion must ensure that the load of “e” precedes that
-> 	of “a”. In the Linux kernel, the barrier() primitive may
-> 	be used to accomplish this in much the same way that the memory
-> 	barrier was used in the assertions in the previous examples. For
-> 	example, the assertion can be modified as follows:
+> >>>             In other words, the code in all three columns of the
+> >>> 	table runs on the same CPU, but the first two columns run in an
+> >>> 	interrupt handler, and the third column runs at process level,
 > 
-> 		r1 = e;
-> 		barrier();
-> 		assert(r1 == 0 || a == 1);
+> In this part, you are saying code for CPUs 0 and 1 runs in an interrupt
+> handler, and lines 3-5 for CPU 2 as well as the assertion runs at process
+> level.
+
+The code in the CPUs 0 and 1 columns of the table not only runs in an
+interrupt handler, it also runs on CPU 2.
+
+> I'm confused...
 > 
-> 	No changes are needed to the code in the first two columns,
-> 	because interrupt handlers run atomically from the perspective
-> 	of the interrupted code.
+> And again, I want to know what I said previously is correct or not:
 > 
-> 							Thanx, Paul
+> >> If all the code runs on the same CPU, we don't need memory barriers,
+> >> do we?
+
+No memory-barrier instructions, correct, give or take Itanium and
+SPARC RMO.  Compiler directives (such as barrier() from the Linux
+kernel) are still needed.
+
+> Am I missing something?
 > 
->> Thoughts?
->>
->>                                               Thanks, Akira
->>
->>> 							Thanx, Paul
->>>
->>>>
->>>>>
->>>>> regards,
->>>>> Yubin Ruan
->>>>>
->>>>>> ------------------------------------------------------------------------
->>>>>>
->>>>>> @book{CorbetRubiniKroahHartman
->>>>>> ,author="Jonathan Corbet and Alessandro Rubini and Greg Kroah-Hartman"
->>>>>> ,title="Linux Device Drivers"
->>>>>> ,publisher="O'Reilly Media, Inc."
->>>>>> ,year="2005"
->>>>>> ,edition="Third"
->>>>>> }
->>>>>>
->>>>>> @book{Silberschatz98a
->>>>>> ,author="Abraham Silberschatz and Peter Baer Galvin"
->>>>>> ,title="Operating System Concepts"
->>>>>> ,publisher="Addison-Wesley"
->>>>>> ,year="1998"
->>>>>> ,edition="Fifth"
->>>>>> }
->>>>>>
->>>>>> @book{Vahalia96
->>>>>> ,author="Uresh Vahalia"
->>>>>> ,title="{UNIX} Internals: The New Frontiers"
->>>>>> ,publisher="Prentice Hall"
->>>>>> ,year="1996"
->>>>>> }
->>>>>>
->>>>>
->>>>> -- 
->>>>> To unsubscribe from this list: send the line "unsubscribe perfbook" in
->>>>> the body of a message to majordomo@vger.kernel.org
->>>>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->>>>>
->>>>
->>>
->>>
->>
+> BTW, it seems you have not pushed your update.
+
+You are right!  I just now pushed it.
+
+							Thanx, Paul
+
+>                                     Thanks, Akira
 > 
+> > 
+> >> 	Answer:
+> >> 	The assertion must ensure that the load of “e” precedes that
+> >> 	of “a”. In the Linux kernel, the barrier() primitive may be
+> >> 	used to accomplish this in much the same way that the memory
+> >> 	barrier was used in the previous examples, for example,
+> >> 	the assertion can be modified as follows:
+> >>
+> >> 		r1 = e;
+> >> 		barrier();
+> >> 		assert(r1 == 0 || a == 1);
+> > 
+> > I did do something very much like this with your Reported-by:
+> > 
+> > 	Answer:
+> > 	The assertion must ensure that the load of “e” precedes that
+> > 	of “a”. In the Linux kernel, the barrier() primitive may
+> > 	be used to accomplish this in much the same way that the memory
+> > 	barrier was used in the assertions in the previous examples. For
+> > 	example, the assertion can be modified as follows:
+> > 
+> > 		r1 = e;
+> > 		barrier();
+> > 		assert(r1 == 0 || a == 1);
+> > 
+> > 	No changes are needed to the code in the first two columns,
+> > 	because interrupt handlers run atomically from the perspective
+> > 	of the interrupted code.
+> > 
+> > 							Thanx, Paul
+> > 
+> >> Thoughts?
+> >>
+> >>                                               Thanks, Akira
+> >>
+> >>> 							Thanx, Paul
+> >>>
+> >>>>
+> >>>>>
+> >>>>> regards,
+> >>>>> Yubin Ruan
+> >>>>>
+> >>>>>> ------------------------------------------------------------------------
+> >>>>>>
+> >>>>>> @book{CorbetRubiniKroahHartman
+> >>>>>> ,author="Jonathan Corbet and Alessandro Rubini and Greg Kroah-Hartman"
+> >>>>>> ,title="Linux Device Drivers"
+> >>>>>> ,publisher="O'Reilly Media, Inc."
+> >>>>>> ,year="2005"
+> >>>>>> ,edition="Third"
+> >>>>>> }
+> >>>>>>
+> >>>>>> @book{Silberschatz98a
+> >>>>>> ,author="Abraham Silberschatz and Peter Baer Galvin"
+> >>>>>> ,title="Operating System Concepts"
+> >>>>>> ,publisher="Addison-Wesley"
+> >>>>>> ,year="1998"
+> >>>>>> ,edition="Fifth"
+> >>>>>> }
+> >>>>>>
+> >>>>>> @book{Vahalia96
+> >>>>>> ,author="Uresh Vahalia"
+> >>>>>> ,title="{UNIX} Internals: The New Frontiers"
+> >>>>>> ,publisher="Prentice Hall"
+> >>>>>> ,year="1996"
+> >>>>>> }
+> >>>>>>
+> >>>>>
+> >>>>> -- 
+> >>>>> To unsubscribe from this list: send the line "unsubscribe perfbook" in
+> >>>>> the body of a message to majordomo@vger.kernel.org
+> >>>>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> >>>>>
+> >>>>
+> >>>
+> >>>
+> >>
+> > 
+> > 
 > 
 
