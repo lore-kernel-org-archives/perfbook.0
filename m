@@ -1,91 +1,62 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=FR9d2vT3U5XkbNYJ7KNShP7jVLyNz9Rd1XY5A/qSEVQ=;
- b=Imxn9JV7p2QGXWZjoKPiocRYFbZ9ip5M5eXP54mW2+lATvPpXAOQnFaLoG2FlX+nsv
- 1FfxwJ7+9rDbTtzkNuMt/aXWT7LlqY5UXe9WlozIB8uiB4ZIGm6z+d/Nyob01PzSQ9bW
- FgSRdMSCapYj157hW1Ux9/eNtuKz0/UUrCpnIXIsHtoiibxLbmPhKABvggalgAz8RsBR
- SMRlq+rSRndh4yT0ACBiCEoFa1MRZLnv/nA1MynOon+KVjlD4fIAwaitH1iz/XEX0nM8
- 1XuFACBpm+vLJyY/nB6zaKbGGNSiST/wU61fnh2TbkgUsBJJbRZ34Lfkb4XIGBNYENc+
- x0dA==
-Subject: [PATCH 2/2] Bibliography updates (append urls -- part 4)
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59548 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751271AbdBUVkf (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 21
+ Feb 2017 16:40:35 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v1LLdVNR097295
+ for <perfbook@vger.kernel.org>; Tue, 21 Feb 2017 16:40:35 -0500
+Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 28rq81tgug-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
+ 21 Feb 2017 16:40:34 -0500
+Received: from localhost by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 21 Feb
+ 2017 14:40:33 -0700
+Date: Tue, 21 Feb 2017 13:40:28 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/2] Bibliography updates
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <a3c6603e-ad1d-4fac-436a-66bfc7f04f41@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <34cf8c2f-ac97-791b-3dd2-efb8753b515a@gmail.com>
-Date: Wed, 22 Feb 2017 00:34:22 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <a3c6603e-ad1d-4fac-436a-66bfc7f04f41@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20170221214028.GK30506@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 2c92330c2d7283b75da814c04dd3b668af461ec2 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 7 Dec 2016 23:35:51 +0900
-Subject: [PATCH 2/2] Bibliography updates (append urls -- part 4)
+On Wed, Feb 22, 2017 at 12:29:53AM +0900, Akira Yokosawa wrote:
+> >From 2c92330c2d7283b75da814c04dd3b668af461ec2 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Wed, 22 Feb 2017 00:19:51 +0900
+> Subject: [PATCH 0/2] Bibliography updates
+> 
+> Hi Paul,
+> 
+> This is round 8 (IIRC) of bibliography updates.
+> Patch 1 is simple addition of urls to 3 entries.
+> Patch 2 involves modification of fields as well as addition of urls
+> for 3 patent entries.
 
-This commit appends urls to the following patent entries:
+Applied, thank you!  Good catch on fixing the bogus number, as well!
 
-  o LukeBrowning2005SimpleLockNUMAAware
-  o BenJackson02
-  o McKenney02d
+							Thanx, Paul
 
-Urls are those of Google Patent.
-"number" fields are divided into "type" and "number" fields to
-avoid redundant output of "Technical Report".
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- bib/syncrefs.bib | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/bib/syncrefs.bib b/bib/syncrefs.bib
-index 04c405f..c702ac5 100644
---- a/bib/syncrefs.bib
-+++ b/bib/syncrefs.bib
-@@ -1207,8 +1207,11 @@ Ramakrishnan Rajamony and Ronald Lynn Rockhold"
- ,institution="US Patent and Trademark Office"
- ,address="Washington, DC"
- ,year="2002"
--,number="US Patent 6,473,819"
-+,type="US Patent"
-+,number="6,473,819"
- ,month="October"
-+,url="https://www.google.com/patents/US6473819"
-+,lastchecked="December 7, 2016"
- }
-
- @techreport{McKenney02d
-@@ -1217,8 +1220,11 @@ Ramakrishnan Rajamony and Ronald Lynn Rockhold"
- ,institution="US Patent and Trademark Office"
- ,address="Washington, DC"
- ,year="2002"
--,number="US Patent 6,480,918"
-+,type="US Patent"
-+,number="6,480,918"
- ,month="November"
-+,url="https://www.google.com/patents/US6480918"
-+,lastchecked="December 7, 2016"
- }
-
- @inproceedings{McKenney02e
-@@ -1265,8 +1271,11 @@ Simple Locks in a Multiprocessor System"
- ,institution="US Patent and Trademark Office"
- ,address="Washington, DC"
- ,year="2005"
--,number="US Patent 6,842,809"
-+,type="US Patent"
-+,number="6,842,809"
- ,month="January"
-+,url="https://www.google.com/patents/US6842809"
-+,lastchecked="December 07, 2016"
- }
-
- @inproceedings{YossiLev2009SNZIrwlock
--- 
-2.7.4
-
+>                                Thanks, Akira
+> 
+> Akira Yokosawa (2):
+>   Bibliography updates (append urls -- part 3)
+>   Bibliography updates (append urls -- part 4)
+> 
+>  bib/os.bib       |  2 ++
+>  bib/syncrefs.bib | 19 ++++++++++++++++---
+>  2 files changed, 18 insertions(+), 3 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
