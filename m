@@ -1,48 +1,83 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=KEP5GdVOI1yUWIZOKIc46pSLj9IgI7KvPZPx56M979k=;
- b=m3/39+hL2vSsu6JBtVUT0cdBRokwlQJXPyvIRoIq6tWUpnf0vL/RAlBuFGUpMJZKO6
- Py/x9w1SEN8aWRQ2DdrnVI9Fc8GMtDuwbuQFHuT0U371HtN/2Ev/IPn3y7edrr29Y4du
- K0UQ3I+JiP9+5u0CNzmDLl0N1v7AatvqkpAEM2B05rMtLQRyBHYvCU0hCKzvoomV8xMC
- e0w0oga+S/6rSWJyER1Wo3bUbd61LU1iosL5u5R+ef7ZV4RGOdwca3a3YykZ2hQ90XnA
- Ic25f2q3N458RkVMyGxZ8X6hCvZNnI5I5TT5XXvA1WvFB2nshnMs5oPUxbG6vNfaCE2F
- wn4w==
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=UVoKF73LTiDt0aOI8rj5wQWDkXrHIlvTj2O7DjI5ufc=;
+ b=pVKAhPQI0qgmIM/qMIGyV2/VrI0SYTjdP/Km+U/YDNDh0vQji61ngKTruIWK1TsvNP
+ 8vm80SoVoaa5qpPpAndpDL5rwNU+vzWFidSGTROyJm1BRMUFHmUPPmASU17dybBZiimj
+ wCzejkrabvqLvVosacsnNl5ab6cF+FjQ6nzy8UwF5Sq+Z2jdMjH1XynOapcNrFdP+72Q
+ NuZh+jJkfLgj3WIswwIBvyElZsvCpt3wypm+gRkT0spZ878msg84x+ZRRv3rMlwnpKxO
+ 6/QjhTH+My9FC8+33QDkDY2xBU4bV0MzJQuaaT19Bbw99rLZbSo5W+rWWUEPfxf+Ssav
+ rb+g==
+Subject: [PATCH 1/2] Bibliography updates (append urls -- part 3)
+References: <a3c6603e-ad1d-4fac-436a-66bfc7f04f41@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/2] Bibliography updates
-Message-ID: <a3c6603e-ad1d-4fac-436a-66bfc7f04f41@gmail.com>
-Date: Wed, 22 Feb 2017 00:29:53 +0900
+Message-ID: <bccd562c-7f1e-a980-2eb8-026d2371902f@gmail.com>
+Date: Wed, 22 Feb 2017 00:31:37 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <a3c6603e-ad1d-4fac-436a-66bfc7f04f41@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 2c92330c2d7283b75da814c04dd3b668af461ec2 Mon Sep 17 00:00:00 2001
+From 36ff4bafb3066f408202d6d825c817ecf0cc332e Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 22 Feb 2017 00:19:51 +0900
-Subject: [PATCH 0/2] Bibliography updates
+Date: Fri, 25 Nov 2016 00:24:56 +0900
+Subject: [PATCH 1/2] Bibliography updates (append urls -- part 3)
 
-Hi Paul,
+This commit appends urls to the following entries:
 
-This is round 8 (IIRC) of bibliography updates.
-Patch 1 is simple addition of urls to 3 entries.
-Patch 2 involves modification of fields as well as addition of urls
-for 3 patent entries.
+  o McKenney02e
+  o Takada93
+  o Bonwick01slab
 
-                               Thanks, Akira
+McKenney02e's URL at https://www.researchgate.net/ was contributed
+by Paul himself, so I assume it should be safe to be appended here.
 
-Akira Yokosawa (2):
-  Bibliography updates (append urls -- part 3)
-  Bibliography updates (append urls -- part 4)
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ bib/os.bib       | 2 ++
+ bib/syncrefs.bib | 4 ++++
+ 2 files changed, 6 insertions(+)
 
- bib/os.bib       |  2 ++
- bib/syncrefs.bib | 19 ++++++++++++++++---
- 2 files changed, 18 insertions(+), 3 deletions(-)
+diff --git a/bib/os.bib b/bib/os.bib
+index 7d48633..19c3455 100644
+--- a/bib/os.bib
++++ b/bib/os.bib
+@@ -1168,6 +1168,8 @@ and Arbitrary Resources"
+ ,booktitle = "{USENIX} Annual Technical Conference, General Track 2001"
+ ,pages = "15-33"
+ ,year = "2001"
++,url="https://www.usenix.org/legacy/event/usenix01/full_papers/bonwick/bonwick.pdf"
++,lastchecked="November 25, 2016"
+ }
 
+ @phdthesis{JanEdlerPhD
+diff --git a/bib/syncrefs.bib b/bib/syncrefs.bib
+index 4a0b1be..04c405f 100644
+--- a/bib/syncrefs.bib
++++ b/bib/syncrefs.bib
+@@ -1106,6 +1106,8 @@ Multiprocessors"
+ ,address="Tokyo, Japan"
+ ,year="1993"
+ ,number="93-02"
++,url="http://www.is.s.u-tokyo.ac.jp/library/tech-reports/TR93-02.ps.gz"
++,lastchecked="November 23, 2016"
+ }
+
+ @techreport{Craig93
+@@ -1228,6 +1230,8 @@ Conference on Parallel and Distributed Computing and Systems"
+ ,year=2002
+ ,address="Cambridge, MA, USA"
+ ,month="November"
++,url="https://www.researchgate.net/publication/221569047_Fairlocks_A_High_Performance_Fair_Locking_Scheme"
++,lastchecked="November 16, 2016"
+ }
+
+ @inproceedings{radovic02efficient
 -- 
 2.7.4
+
 
