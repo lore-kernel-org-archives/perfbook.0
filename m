@@ -1,48 +1,61 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=BM9z3QlhgiHuVDLdsftj3s8noSbee7HMXP2JmVDCD4U=;
- b=m6vHKFhclriprtEpbNonvXG1WhW6JK05ek+enyQit9dRxXMCfoVoiY5mJTGUI4+QUn
- 0qq4tqfpYoYwV39qB37FC0wBc7MCYyVCsOqtx/DfOs4Zz4rTfS92pHHxRxqWCO+c7X+F
- O5rGy9MbmPA7i7Tcs8Hu5ay+kleH0BBc1asybBxyeGUJxXnVMpB/ctoj+NUDc5hJtW1i
- vSZuIv+eOfB7rZAlHSVON/hl0+xM97Q81K6K7xqGOltuIIQt+1iIHugalQD+lisLmx1m
- awp3JBN8tTa47dAkcjYqw3s73Xkxcb0Tm+wX61M+MGGq8ajvBqmVf5qdIlIr4HdOxdrW
- sYvA==
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=L9lMiMpnaiEAQQkWiZncyQQ3o1uEZIFjOyi9I93haa0=;
+ b=RXJssKU2+Azz72TINgw6/WJv5zvOh8230I0XIeHBuePi6wIQTAIAk/W17JLchRCKKs
+ 0xUkWpLgZzauIMsWb5h2uMDl4p3qh0mlM1ldpNV4NozDtqrHKTLRmSbYIHl6sbIDs+u7
+ Nb2fJPN3zP6eYCZZK2h24WCUIx8/zvvx2/nGqdoog9V0nwoOEZk6CMa9vTiYOOdJMat6
+ RoE1rrhuGHRCkT0dDPB7kzd1v3BUNW+5sJ/eukykCrLPCqpPFUK7fnNmxFzWjDVhGZfH
+ JAGYh8cdaif7NunB3NhxyyxUSzdLglWakt96+fSrLngn5T+B9Qu4JXqyhNg+gDyYYLwo
+ 7kvQ==
+Subject: [PATCH 1/3] bib/WFS.bib: Update info in Valois95a
+References: <f6da3408-03f7-a4d4-4910-0181e1df7172@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/3] Bibliography updates (misc fixes)
-Message-ID: <f6da3408-03f7-a4d4-4910-0181e1df7172@gmail.com>
-Date: Wed, 22 Feb 2017 23:27:00 +0900
+Message-ID: <09a46fb0-f7a9-a1b0-3b62-3551eb74727b@gmail.com>
+Date: Wed, 22 Feb 2017 23:28:43 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <f6da3408-03f7-a4d4-4910-0181e1df7172@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From cd89aaf41ef91a1f7210243b883e8ef111ae08ef Mon Sep 17 00:00:00 2001
+From cd3298034ccf5b92e6e2ce8a689077280562a980 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 22 Feb 2017 23:16:27 +0900
-Subject: [PATCH 0/3] Bibliography updates (misc fixes)
+Date: Sun, 12 Feb 2017 12:17:02 +0900
+Subject: [PATCH 1/3] bib/WFS.bib: Update info in Valois95a
 
-Hi Paul,
+Update and append info from what is available at ACM digital
+library.
 
-This is the final round of bibliography updates I have prepared.
-I will submit patches to append location fields when I notice.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ bib/WFS.bib | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-                                Thanks, Akira
---
-Akira Yokosawa (3):
-  bib/WFS.bib: Update info in Valois95a
-  bib/TM: Append location to Volos2008TRANSACT
-  bib/syncrefs: Fix booktitle and append location
+diff --git a/bib/WFS.bib b/bib/WFS.bib
+index d7efdf6..1337a7f 100644
+--- a/bib/WFS.bib
++++ b/bib/WFS.bib
+@@ -106,9 +106,13 @@ Linear or Sublinear Complexity"
+ ,author="John D. Valois"
+ ,title="Lock-Free Linked Lists Using Compare-and-Swap"
+ ,Year="1995"
+-,booktitle="Symposium on Principles of Distributed Computing"
+-,pages="165--172"
++,location="Ottowa, Ontario, Canada"
++,booktitle="Proceedings of the Fourteenth Annual ACM Symposium on Principles of Distributed Computing"
++,series="PODC '95"
++,pages="214--222"
+ ,doi="10.1145/224964.224988"
++,publisher="ACM"
++,address="New York, NY, USA"
+ }
 
- bib/TM.bib       | 1 +
- bib/WFS.bib      | 8 ++++++--
- bib/syncrefs.bib | 8 +++++---
- 3 files changed, 12 insertions(+), 5 deletions(-)
-
+ @unpublished{MagedMichael95a
 -- 
 2.7.4
+
 
