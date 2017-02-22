@@ -1,60 +1,56 @@
-Return-Path: <akiyks@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mail-pg0-f67.google.com ([74.125.83.67]:34171 "EHLO
+ mail-pg0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S932444AbdBVOaC (ORCPT <rfc822;perfbook@vger.kernel.org>); Wed, 22
+ Feb 2017 09:30:02 -0500
+Received: by mail-pg0-f67.google.com with SMTP id s67so640345pgb.1 for
+ <perfbook@vger.kernel.org>; Wed, 22 Feb 2017 06:30:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=L9lMiMpnaiEAQQkWiZncyQQ3o1uEZIFjOyi9I93haa0=;
- b=RXJssKU2+Azz72TINgw6/WJv5zvOh8230I0XIeHBuePi6wIQTAIAk/W17JLchRCKKs
- 0xUkWpLgZzauIMsWb5h2uMDl4p3qh0mlM1ldpNV4NozDtqrHKTLRmSbYIHl6sbIDs+u7
- Nb2fJPN3zP6eYCZZK2h24WCUIx8/zvvx2/nGqdoog9V0nwoOEZk6CMa9vTiYOOdJMat6
- RoE1rrhuGHRCkT0dDPB7kzd1v3BUNW+5sJ/eukykCrLPCqpPFUK7fnNmxFzWjDVhGZfH
- JAGYh8cdaif7NunB3NhxyyxUSzdLglWakt96+fSrLngn5T+B9Qu4JXqyhNg+gDyYYLwo
- 7kvQ==
-Subject: [PATCH 1/3] bib/WFS.bib: Update info in Valois95a
+ bh=mEHzyoMJEI41kYn1csC3Qio0gTbcPHhwmWpPweIggL4=;
+ b=glskYHKTWWIpqpZO+tdsn7IfZZHJoaE9yodqKqdM7UgWDt0zLkcqlrJ5izND7nwgxM
+ yP1wIWGY3Bv/xZiv+M/Ba9L3ZZMIrqpOyXvpsLmkrbvTK8OKdfap38EWXSmuemMgrVn/
+ v3Y1WDnFtTKxMBp55lpumiXQ396pxoiNkqvRCnMsPDCrD7gM3ZlTy7p2CP/B1f6T1JP1
+ W4cuW1TV7p74XiaP2OmxDAByzG4/uOrpbhh3SLDPcF025hpWCQApYvMgbfJjChkvNN2d
+ FyMLarde3HAXyyYVIsXZgXr5P3aSpi81XS3AmOeAs1tHmcTz1Siw7wDw4UYyPpegVYK8
+ adVw==
+Subject: [PATCH 2/3] bib/TM: Append location to Volos2008TRANSACT
 References: <f6da3408-03f7-a4d4-4910-0181e1df7172@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <09a46fb0-f7a9-a1b0-3b62-3551eb74727b@gmail.com>
-Date: Wed, 22 Feb 2017 23:28:43 +0900
+Message-ID: <dc1ce03f-84dd-3a10-cf03-b17d8d51a2ed@gmail.com>
+Date: Wed, 22 Feb 2017 23:29:58 +0900
 MIME-Version: 1.0
 In-Reply-To: <f6da3408-03f7-a4d4-4910-0181e1df7172@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
+Sender: perfbook-owner@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-List-ID: <perfbook.vger.kernel.org>
 
-From cd3298034ccf5b92e6e2ce8a689077280562a980 Mon Sep 17 00:00:00 2001
+From a1b4a9d66ca9a256e3c4b4519e499300f35fddfa Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 12 Feb 2017 12:17:02 +0900
-Subject: [PATCH 1/3] bib/WFS.bib: Update info in Valois95a
-
-Update and append info from what is available at ACM digital
-library.
+Date: Sun, 12 Feb 2017 13:13:57 +0900
+Subject: [PATCH 2/3] bib/TM: Append location to Volos2008TRANSACT
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- bib/WFS.bib | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ bib/TM.bib | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/bib/WFS.bib b/bib/WFS.bib
-index d7efdf6..1337a7f 100644
---- a/bib/WFS.bib
-+++ b/bib/WFS.bib
-@@ -106,9 +106,13 @@ Linear or Sublinear Complexity"
- ,author="John D. Valois"
- ,title="Lock-Free Linked Lists Using Compare-and-Swap"
- ,Year="1995"
--,booktitle="Symposium on Principles of Distributed Computing"
--,pages="165--172"
-+,location="Ottowa, Ontario, Canada"
-+,booktitle="Proceedings of the Fourteenth Annual ACM Symposium on Principles of Distributed Computing"
-+,series="PODC '95"
-+,pages="214--222"
- ,doi="10.1145/224964.224988"
-+,publisher="ACM"
-+,address="New York, NY, USA"
- }
-
- @unpublished{MagedMichael95a
+diff --git a/bib/TM.bib b/bib/TM.bib
+index 04d45ad..8afec90 100644
+--- a/bib/TM.bib
++++ b/bib/TM.bib
+@@ -491,6 +491,7 @@ and Haris Volos and David A. Wood"
+ ,booktitle = {3rd ACM SIGPLAN Workshop on Transactional Computing}
+ ,month = "February"
+ ,year = {2008}
++,location = {Salt Lake City, Utah, USA}
+ ,publisher = {ACM}
+ ,address = {New York, NY, USA}
+ ,note="Available:
 -- 
 2.7.4
 
