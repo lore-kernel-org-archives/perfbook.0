@@ -1,50 +1,48 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=gyJn2HG7ag0yKB6YA1nL7rB8RuQ9TYS3PaUnRvsnzOM=;
- b=LFgKjEO5buID07tbxqW0hhhlJX3IXd/7raLT9nSjPb8p/ocqzDCnEFutn4RWHQV4Vd
- qzMbqFqTRcJXvU1A4mcgy9yF2Eb2XFH+Xn33XiRZXkETD4u+AeUL4OTaFfIsHQui1bh9
- 5YUMN4pNsiSCQamdIkiPYD3OK8tX+iF/vgcWg+6A3js7pAOXuQAOew6WsauumqW+7BqU
- uv5i/aPhJ2SlHweeOc2PQ1mkxnGAPb+eOiPuHRJjARl86KbEn+i8U3HNnybn6pZpIjbs
- D0k7ZZL+WzGkoOeOE5CyZWh34EU1/OzAQ8C4JwWFiWdatp1gLynsJkp0kKX5cAd89aD1
- fLHA==
-Subject: Re: [PATCH] bib/syncrefs: Use consistent date format
-References: <20170222152806.2313-1-sj38.park@gmail.com>
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=BM9z3QlhgiHuVDLdsftj3s8noSbee7HMXP2JmVDCD4U=;
+ b=m6vHKFhclriprtEpbNonvXG1WhW6JK05ek+enyQit9dRxXMCfoVoiY5mJTGUI4+QUn
+ 0qq4tqfpYoYwV39qB37FC0wBc7MCYyVCsOqtx/DfOs4Zz4rTfS92pHHxRxqWCO+c7X+F
+ O5rGy9MbmPA7i7Tcs8Hu5ay+kleH0BBc1asybBxyeGUJxXnVMpB/ctoj+NUDc5hJtW1i
+ vSZuIv+eOfB7rZAlHSVON/hl0+xM97Q81K6K7xqGOltuIIQt+1iIHugalQD+lisLmx1m
+ awp3JBN8tTa47dAkcjYqw3s73Xkxcb0Tm+wX61M+MGGq8ajvBqmVf5qdIlIr4HdOxdrW
+ sYvA==
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <984d694b-b448-e7e6-b67a-33668de5a5ba@gmail.com>
-Date: Thu, 23 Feb 2017 21:49:50 +0900
+Subject: [PATCH 0/3] Bibliography updates (misc fixes)
+Message-ID: <f6da3408-03f7-a4d4-4910-0181e1df7172@gmail.com>
+Date: Wed, 22 Feb 2017 23:27:00 +0900
 MIME-Version: 1.0
-In-Reply-To: <20170222152806.2313-1-sj38.park@gmail.com>
-Content-Type: text/plain; charset=iso-2022-jp
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-To: SeongJae Park <sj38.park@gmail.com>, paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2017/02/23 00:28:06 +0900 SeongJae Park wrote:
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> ---
->  bib/syncrefs.bib | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
+From cd89aaf41ef91a1f7210243b883e8ef111ae08ef Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Wed, 22 Feb 2017 23:16:27 +0900
+Subject: [PATCH 0/3] Bibliography updates (misc fixes)
 
-Thanks!
+Hi Paul,
 
-Acked-by: Akira Yokosawa <akiyks@gmail.com>
+This is the final round of bibliography updates I have prepared.
+I will submit patches to append location fields when I notice.
 
-> diff --git a/bib/syncrefs.bib b/bib/syncrefs.bib
-> index c702ac577774..f3495e1bc5d1 100644
-> --- a/bib/syncrefs.bib
-> +++ b/bib/syncrefs.bib
-> @@ -1275,7 +1275,7 @@ Simple Locks in a Multiprocessor System"
->  ,number="6,842,809"
->  ,month="January"
->  ,url="https://www.google.com/patents/US6842809"
-> -,lastchecked="December 07, 2016"
-> +,lastchecked="December 7, 2016"
->  }
->  
->  @inproceedings{YossiLev2009SNZIrwlock
-> 
+                                Thanks, Akira
+--
+Akira Yokosawa (3):
+  bib/WFS.bib: Update info in Valois95a
+  bib/TM: Append location to Volos2008TRANSACT
+  bib/syncrefs: Fix booktitle and append location
+
+ bib/TM.bib       | 1 +
+ bib/WFS.bib      | 8 ++++++--
+ bib/syncrefs.bib | 8 +++++---
+ 3 files changed, 12 insertions(+), 5 deletions(-)
+
+-- 
+2.7.4
 
