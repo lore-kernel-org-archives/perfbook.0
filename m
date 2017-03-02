@@ -1,76 +1,69 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=Ma1B2uOYmDB8LB18xbCuhvvcxIhjBIvbc/SUrU2D55E=;
- b=Vn77mljMWzsaUGl57i46Ih1mXnd1wTYD4MaVylDTkww+Em2n38sugPCBPFFjv5YkKS
- Zp+OJiVngAqcv7Azb/BbmWimw0IzJ7M5jHo7KkyPMAMVkM6GYwsBFj6QTeHxMvyPKi7T
- 3/g/sVZo05pDJiGnqC7Jz0FhEaOV86vobD1DUrdzGf7rQ36LRtbzSn62TL7wh9j7pLY2
- fNPVu/8GKRWVbRNNhExpnnwScAu/KthADjXuvaQCZP+BgGNAjGbwroSRqsS4vcCRVZ/J
- 0geNhcMMORSmUN6yKtAmWBvCz5X7FTG0Ts/VFbIQ/mW1YjOCL0e52ZY8pmhYYxhOsUjE
- x2+g==
-Subject: [PATCH 2/2] appendix: Draw hyperlink border in bibliography for 1c
- layout
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36559 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751323AbdCCDjz (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 2
+ Mar 2017 22:39:55 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v233VlR4101667
+ for <perfbook@vger.kernel.org>; Thu, 2 Mar 2017 22:38:05 -0500
+Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 28xs8e1rhw-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Thu,
+ 02 Mar 2017 22:38:05 -0500
+Received: from localhost by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 2 Mar 2017
+ 20:38:04 -0700
+Date: Wed, 1 Mar 2017 17:17:10 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/2] Bibliography updates
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <b42f2dde-a53b-99dd-ee36-f8d417460695@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <fd1e2b63-a3d5-a9a6-18ff-1418bc6e548d@gmail.com>
-Date: Thu, 2 Mar 2017 07:13:21 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <b42f2dde-a53b-99dd-ee36-f8d417460695@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20170302011710.GR30506@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From f7c3656241243faf11d23bf17fea9da765c260f3 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 2 Mar 2017 00:03:34 +0900
-Subject: [PATCH 2/2] appendix: Draw hyperlink border in bibliography for 1c layout
+On Thu, Mar 02, 2017 at 07:10:01AM +0900, Akira Yokosawa wrote:
+> >From f7c3656241243faf11d23bf17fea9da765c260f3 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Thu, 2 Mar 2017 06:52:36 +0900
+> Subject: [PATCH 0/2] Bibliography updates
+> 
+> Hi Paul,
+> 
+> This is another round of bibliography updates.
+> Patch 2 enables "pdfborder" of links in bibliography for 1c layout.
+> Please try it and see if it is not too distracting. If you think
+> it is good for 2c layout, please let me know.
 
-Reflecting recent addition of URLs and DOIs in bibliography,
-"pdfborder" would be helpful to find embedded links.
+Applied, thanks!  The 1c borders look fine.  Given that the 2c bibliography
+is now single-column, we should avoid the bug, so making 2c have the
+borders sounds good -- especially good to flag the known broken URLs.
 
-As an experiment, this commit enables it for 1c layout.
-The color of the border is tuned to "light blue" to be nice for
-reader's eyes.
+							Thanx, Paul
 
-Note: This commit involves indent changes. diff is easier to see
-by ignoring white space changes.
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- appendix/appendix.tex | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/appendix/appendix.tex b/appendix/appendix.tex
-index 6385bc2..e17c5e1 100644
---- a/appendix/appendix.tex
-+++ b/appendix/appendix.tex
-@@ -6,13 +6,17 @@
- \QuickQuizAnswers
- \input{glossary.tex}
- \IfTwoColumn{
--\onecolumn\begin{adjustwidth*}{.8in}{.7in}
--%\bibliographystyle{alpha}   % Use genuine alpha style (In case of build failure, use this instead)
--\bibliographystyle{alphapf} % Use alpha style customized by urlbst with --inlinelinks option
-+  \onecolumn\begin{adjustwidth*}{.8in}{.7in}
-+  %\bibliographystyle{alpha}   % Use genuine alpha style (In case of build failure, use this instead)
-+  \bibliographystyle{alphapf} % Use alpha style customized by urlbst with --inlinelinks option
- }{
--\bibliographystyle{alphapf} % Use alpha style customized by urlbst with --inlinelinks option
-+  \bibliographystyle{alphapf} % Use alpha style customized by urlbst with --inlinelinks option
-+  \hypersetup{pdfborder=0 0 1,urlbordercolor=0.4 1 1}
- }
- \bibliography{bib/RCU,bib/WFS,bib/hw,bib/os,bib/parallelsys,bib/patterns,bib/perfmeas,bib/refs,bib/syncrefs,bib/search,bib/swtools,bib/realtime,bib/TM,bib/standards,bib/OSS,bib/maze,bib/energy}
- \IfTwoColumn{
--\end{adjustwidth*}\twocolumn}{}
-+  \end{adjustwidth*}\twocolumn
-+}{
-+  \hypersetup{pdfborder=0 0 0}
-+}
- \include{appendix/ack/ack}
--- 
-2.7.4
-
+>                                 Thanks, Akira
+> 
+> Akira Yokosawa (2):
+>   Bibliography updates
+>   appendix: Draw hyperlink border in bibliography for 1c layout
+> 
+>  appendix/appendix.tex | 14 +++++++++-----
+>  bib/RCU.bib           | 10 ++++++++--
+>  bib/TM.bib            |  5 +++--
+>  bib/WFS.bib           |  2 ++
+>  bib/os.bib            |  3 +++
+>  bib/parallelsys.bib   |  5 +++++
+>  bib/syncrefs.bib      |  1 +
+>  7 files changed, 31 insertions(+), 9 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
