@@ -1,66 +1,60 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37768 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751921AbdCFGUG (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 6
- Mar 2017 01:20:06 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v266E4aE038796
- for <perfbook@vger.kernel.org>; Mon, 6 Mar 2017 01:18:37 -0500
-Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 28yuy1m8hr-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
- 06 Mar 2017 01:18:37 -0500
-Received: from localhost by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 5 Mar 2017
- 23:18:36 -0700
-Date: Sun, 5 Mar 2017 13:24:10 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 2/2] bib/syncrefs: Add doi to Hoare74
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <b194a26a-355b-94f5-2bba-57269769d58e@gmail.com>
- <9ce3ae6a-d341-7ec2-5e27-2c2ba9fc2d7c@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=eFujAOynVrDJK26LjojG9YBidOS8S/B/H9GlhH91zgM=;
+ b=CBMD9p58xc/scIZRcG0m8Y1QTZ9vQS+s5dZHXt2SvyrNILMjIZC0NZYigysL4MrjXu
+ tQxgILdPIMK5VAyFRVtLInlGObBD+6fB05DZ3DeRvzvoW5I+n7+OYtD6TFf4Liqxzge/
+ nDSJ5niulPktS9wSibp80X/dY4NbAZqMMFBdX9O+1UEWjWfbSDBdRy9PV8UgjgralQ+p
+ Yj/q9tOdIOuV2DsZ9UpE729l9cn5y+fY3lAvfHPddkcm019V0tVb7g3nTzkGJjYtNE/j
+ w6y/pxGR99ozCRE7YXudglCZfdn/GEdTnrlbtagYwmzfwp5FpFe3nXlqzJFf3mkC6i3c
+ rQQw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/3] Use \tco{} macro within caption and section header
+Message-ID: <288315d7-4311-6734-b7d3-446deca6a727@gmail.com>
+Date: Tue, 7 Mar 2017 23:59:34 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ce3ae6a-d341-7ec2-5e27-2c2ba9fc2d7c@gmail.com>
-Message-Id: <20170305212410.GH30506@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Fri, Mar 03, 2017 at 09:29:46PM +0900, Akira Yokosawa wrote:
-> >From 5a3db5ddd9458a1787bdf9bd554146079501df18 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Fri, 3 Mar 2017 21:20:05 +0900
-> Subject: [PATCH 2/2] bib/syncrefs: Add doi to Hoare74
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+From a51c44bef0dbc05bd95391ac3f8f0f2d26becbf5 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Tue, 7 Mar 2017 23:35:32 +0900
+Subject: [PATCH 0/3] Use \tco{} macro within caption and section header
 
-Applied, thank you!  I will push this as soon as I get to decent
-internet connectivity.
+Hi Paul,
 
-							Thanx, Paul
+This is the 1st patch set I have tested locally for a while.
+The objectives of this and the following patch sets are as follows:
 
-> ---
->  bib/syncrefs.bib | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/bib/syncrefs.bib b/bib/syncrefs.bib
-> index 0a946d4..c5d7372 100644
-> --- a/bib/syncrefs.bib
-> +++ b/bib/syncrefs.bib
-> @@ -268,6 +268,7 @@ Brent A Kingsbury"
->  ,volume="17"
->  ,number="10"
->  ,pages="549-557"
-> +,doi="10.1145/355620.361161"
->  }
-> 
->  @article{Lamport74a
-> -- 
-> 2.7.4
-> 
-> 
+  o Use \tco{} macro within caption and section header
+  o Use modern packages such as enumitem
+  o Convert itemize or enumerate lists to description lists
+  o Add another alternative monospace font target
+
+This set corresponds to the 1st one.
+Patch 1 is an independent change to manage "microtype".
+
+                                    Thanks, Akira.
+--
+Akira Yokosawa (3):
+  perfbook.tex: Disable 'microtype' for typewriter font
+  treewide: Use \tco{} for api name in caption
+  treewide: Use \tco{} for api name in subsubsection title
+
+ appendix/whymb/whymemorybarriers.tex |  2 +-
+ debugging/debugging.tex              |  2 +-
+ future/tm.tex                        |  2 +-
+ locking/locking.tex                  |  8 ++++----
+ perfbook.tex                         |  4 +---
+ together/refcnt.tex                  |  6 +++---
+ toolsoftrade/toolsoftrade.tex        | 38 ++++++++++++++++++------------------
+ 7 files changed, 30 insertions(+), 32 deletions(-)
+
+-- 
+2.7.4
 
