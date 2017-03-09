@@ -1,75 +1,65 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39900 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S932639AbdCGUX5 (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 7
- Mar 2017 15:23:57 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v27JNdTx134144
- for <perfbook@vger.kernel.org>; Tue, 7 Mar 2017 14:28:01 -0500
-Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2921kac03m-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
- 07 Mar 2017 14:28:01 -0500
-Received: from localhost by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 7 Mar 2017
- 14:28:00 -0500
-Date: Tue, 7 Mar 2017 11:27:57 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/3] Use \tco{} macro within caption and section header
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <288315d7-4311-6734-b7d3-446deca6a727@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=/+ISZfLAmxe61/ni0gxrWWWew1kMLE2tgGq7MbkYFFQ=;
+ b=vdMlAeqoz1trkmCRCH3ZnDLwTOhgrUus0Qf2rYO2aTg7czJSt9t0Y8VgosABCRBPHn
+ Jkbl0ib4f2vp+D9PJ0CkeBXNNvCpZ17FZBzB/jMVC5AYabeAe5Z1zDwpbxTADSkfTqmp
+ /6Hx/thO2/9QrTu9LGBeqtxPS9Tzh3RW8mAi1iZjrzYQVlZtOzRfeYOSIsvV8+EpTyEc
+ tb7b5IEUSGZYle8goPy6bgOToJMaKcMMu3XKiSZNMd0969wSONQU8JzreM2w60GEIQ5o
+ MIpX1Oo66Sy22l2NUg/puQ6xiAk1tCVxDMvkOVYSltU5rp75gm0KeVkyG587JA/1inDN
+ l8Kw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/5] Convert to "description" list
+Message-ID: <97daedea-d454-cdf6-0111-8089ef0678c8@gmail.com>
+Date: Fri, 10 Mar 2017 00:18:19 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <288315d7-4311-6734-b7d3-446deca6a727@gmail.com>
-Message-Id: <20170307192757.GU30506@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Mar 07, 2017 at 11:59:34PM +0900, Akira Yokosawa wrote:
-> >From a51c44bef0dbc05bd95391ac3f8f0f2d26becbf5 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Tue, 7 Mar 2017 23:35:32 +0900
-> Subject: [PATCH 0/3] Use \tco{} macro within caption and section header
-> 
-> Hi Paul,
-> 
-> This is the 1st patch set I have tested locally for a while.
-> The objectives of this and the following patch sets are as follows:
-> 
->   o Use \tco{} macro within caption and section header
->   o Use modern packages such as enumitem
->   o Convert itemize or enumerate lists to description lists
->   o Add another alternative monospace font target
-> 
-> This set corresponds to the 1st one.
-> Patch 1 is an independent change to manage "microtype".
+From e4a223315e3db9ffe303a95e15ee662935baaea9 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Thu, 9 Mar 2017 23:57:00 +0900
+Subject: [PATCH 0/5] Convert to "description" list
 
-Much nicer!  Also makes it easier to search the .tex files for
-symbol names containing underscore.  Queued and pushed, thank you!
+Hi Paul,
 
-						Thanx, Paul
+This is the follow-up set of patches. It includes:
 
->                                     Thanks, Akira.
-> --
-> Akira Yokosawa (3):
->   perfbook.tex: Disable 'microtype' for typewriter font
->   treewide: Use \tco{} for api name in caption
->   treewide: Use \tco{} for api name in subsubsection title
-> 
->  appendix/whymb/whymemorybarriers.tex |  2 +-
->  debugging/debugging.tex              |  2 +-
->  future/tm.tex                        |  2 +-
->  locking/locking.tex                  |  8 ++++----
->  perfbook.tex                         |  4 +---
->  together/refcnt.tex                  |  6 +++---
->  toolsoftrade/toolsoftrade.tex        | 38 ++++++++++++++++++------------------
->  7 files changed, 30 insertions(+), 32 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
+  o Use "enumitem" instead of "enumerate"
+  o Convert to "description"
+
+Conversion to "description" looks reasonable changes for me.
+Let me know what you think.
+
+There are other candidates of similar conversions in Appendix B,
+But as you mentioned earlier that the appendix needs update
+(or replacement by a newer article you posted the other day),
+I'm not sure if it is worthwhile to do changes there, and stopped
+short of posting patches for the appendix.
+
+                                   Thanks, Akira
+-- 
+Akira Yokosawa (5):
+  Use 'enumitem' package instead of 'enumerate'
+  intro: Move ':' to tail of 'description' label
+  debugging: Convert to 'description'
+  formal: Convert to 'description'
+  together: Covert to 'description'
+
+ debugging/debugging.tex | 10 +++++-----
+ formal/dyntickrcu.tex   | 14 +++++++-------
+ formal/spinhint.tex     | 12 ++++++------
+ howto/howto.tex         |  2 +-
+ intro/intro.tex         | 10 +++++-----
+ perfbook.tex            |  4 +++-
+ together/refcnt.tex     | 30 +++++++++++++++---------------
+ 7 files changed, 42 insertions(+), 40 deletions(-)
+
+-- 
+2.7.4
 
