@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=LqmmhYnflBrdLUjn0Q7XovRVN0ijoEHAzKabn3FiE5g=;
- b=E+vrFUdXa5XLVgH3nOIFM1mI9IJdOWk7YpWlwmQtMdKC+pw7cEg9y6rl58Y6bBfFlq
- 70vCXVgtGKohqC2XQGA/r2NxJU3t0+TixHpw/b29KoHNkGgcMdG6kDSCZKSCF6ANJ+4o
- dNyod9W292lr6GGY4TAFpsfA5E7ayanjKibtpSYHmRELo0j7htr7n1graoRSdFzEUpfN
- Q7FZC3gQkDcseeGtmgp5DfuuYBLNb9Yu+XZG0zgOYkEMDNHcM68yLWTgqA/I0QrgvSh/
- aqnIsMwPPJt7hMtgGSDlDey7/ZHlsF7qFLg0EkcATx4wWR1rUEDiPWjcd+Hiil51010g
- OMBQ==
-Subject: [PATCH 2/5] intro: Move ':' to tail of 'description' label
+ bh=4OBnLr10qQ2ZuoI4fimwCsJMlNhKG/I0ccGuALulwlM=;
+ b=EnbXK3aMKvjhvRKPTDtEmiixtDy2D/6Itg4VlGlD+tyhifb2edZzs5okCDvrgXQyNf
+ dXrY+/H4WtlbhSudWJtJlCnB74zyIs058lqfhuQyUw9BBk39WSzNPqUXzsqL8dVWO1Id
+ SLaLpx5wkpoDpopa5H4pZVZliG6XoEeB+7g853ugGopBQwmNXotHY66I5woqRQ7ijMYz
+ JVoMsTPmPSi2S1gNp/UKj4V9EcFoP97EuaKb3bvEbCoL1tDPRlOLgC+/zNQYJtsRJPWK
+ Rs49FYwHHYeKvkAGdOJIGOoh+6DiTRFRZwUUaUWUxpc3nw09iKXbmynw3yddFjYq9hfK
+ YuaQ==
+Subject: [PATCH 3/5] debugging: Convert to 'description'
 References: <97daedea-d454-cdf6-0111-8089ef0678c8@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <5bfa6eda-1047-333b-b69e-3bb1169fc1c3@gmail.com>
-Date: Fri, 10 Mar 2017 00:23:31 +0900
+Message-ID: <fb944df1-6bc2-d029-3789-4be81422d069@gmail.com>
+Date: Fri, 10 Mar 2017 00:24:56 +0900
 MIME-Version: 1.0
 In-Reply-To: <97daedea-d454-cdf6-0111-8089ef0678c8@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,58 +22,55 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From de0da3d0e4ae3ee76c56672295b9cfefc0c61a2c Mon Sep 17 00:00:00 2001
+From 138b82d8fee707c43874095711887e912a9a92a7 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 9 Mar 2017 23:51:37 +0900
-Subject: [PATCH 2/5] intro: Move ':' to tail of 'description' label
+Date: Thu, 9 Mar 2017 23:52:35 +0900
+Subject: [PATCH 3/5] debugging: Convert to 'description'
+
+This list looks better in "description" environment.
+Again, \tco{} is safer than \co{} for option names in labels.
+Note that ":" at the end of each label is enclosed by \nf{} to
+avoid confusing impression that the ":" belongs to the option.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- intro/intro.tex | 10 +++++-----
+ debugging/debugging.tex | 10 +++++-----
  1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/intro/intro.tex b/intro/intro.tex
-index 413525b..0b8659e 100644
---- a/intro/intro.tex
-+++ b/intro/intro.tex
-@@ -524,32 +524,32 @@ To see this more generally, consider the following popular parallel
- programming environments:
+diff --git a/debugging/debugging.tex b/debugging/debugging.tex
+index 86b1118..6797c2f 100644
+--- a/debugging/debugging.tex
++++ b/debugging/debugging.tex
+@@ -2191,16 +2191,16 @@ and output consists of one line for each input line, with fields as follows:
 
- \begin{description}
--\item[C/C++ ``Locking Plus Threads'']: This category, which includes
-+\item[C/C++ ``Locking Plus Threads'':] This category, which includes
- 	POSIX Threads (pthreads)~\cite{OpenGroup1997pthreads},
- 	Windows Threads, and numerous
- 	operating-system kernel environments, offers excellent performance
- 	(at least within the confines of a single SMP system)
- 	and also offers good generality.
- 	Pity about the relatively low productivity.
--\item[Java]: This general purpose and inherently multithreaded
-+\item[Java:] This general purpose and inherently multithreaded
- 	programming environment	is widely believed to offer much higher
- 	productivity than C or C++, courtesy of the automatic garbage collector
- 	and the rich set of class libraries.
- 	However, its performance, though greatly improved in the early
- 	2000s, lags that of C and C++.
--\item[MPI]: This Message Passing Interface~\cite{MPIForum2008} powers
-+\item[MPI:] This Message Passing Interface~\cite{MPIForum2008} powers
- 	the largest scientific and technical computing clusters in
- 	the world and offers unparalleled performance and scalability.
- 	In theory, it is general purpose, but it is mainly used
- 	for scientific and technical computing.
- 	Its productivity is believed by many to be even lower than that
- 	of C/C++ ``locking plus threads'' environments.
--\item[OpenMP]: This set of compiler directives can be used
-+\item[OpenMP:] This set of compiler directives can be used
- 	to parallelize loops.  It is thus quite specific to this
- 	task, and this specificity often limits its performance.
- 	It is, however, much easier to use than MPI or C/C++
- 	``locking plus threads.''
--\item[SQL]: Structured Query Language~\cite{DIS9075SQL92} is
-+\item[SQL:] Structured Query Language~\cite{DIS9075SQL92} is
- 	specific to relational database queries.
- 	However, its performance is quite good as measured by the
- 	Transaction Processing Performance Council (TPC)
+ This script takes three optional arguments as follows:
+
+-\begin{itemize}
+-\item	\co{--divisor}: Number of segments to divide the list into,
++\begin{description}
++\item	[\tco{--divisor}\nf{:}] Number of segments to divide the list into,
+ 	for example, a divisor of four means that the first quarter
+ 	of the data elements will be assumed to be good.
+ 	This defaults to three.
+-\item	\co{--relerr}: Relative measurement error.  The script assumes
++\item	[\tco{--relerr}\nf{:}] Relative measurement error.  The script assumes
+ 	that values that differ by less than this error are for all
+ 	intents and purposes equal.
+ 	This defaults to 0.01, which is equivalent to 1\%.
+-\item	\co{--trendbreak}: Ratio of inter-element spacing constituting
++\item	[\tco{--trendbreak}\nf{:}] Ratio of inter-element spacing constituting
+ 	a break in the trend of the data.
+ 	For example, if the average spacing in the data accepted so far
+ 	is 1.5, then if the trend-break ratio is 2.0, then if the next
+@@ -2208,7 +2208,7 @@ This script takes three optional arguments as follows:
+ 	constitutes a break in the trend.
+ 	(Unless of course, the relative error is greater than 3.0, in
+ 	which case the ``break'' will be ignored.)
+-\end{itemize}
++\end{description}
+
+ Lines~1-3 of
+ Figure~\ref{fig:count:Statistical Elimination of Interference}
 -- 
 2.7.4
 
