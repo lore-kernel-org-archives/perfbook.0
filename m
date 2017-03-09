@@ -1,129 +1,79 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=PxCK7LHW/CYE7h6NATv7zt2pE+kvTCXr83nS2VEYv8o=;
- b=Pu6Xys3+gWBWQf0WLRObIfuv0bXUy6ZY+PbtbVZCEV+3WhxAFOH7K/a55re5ZLGDWf
- Z08yBzAplG7apXrriOlVXKKvuOvJBDMw5iRso9F5kr4InkfG/kpCtaYNwVppZnILVNjd
- fbO4Vjb4veucKkl1TFPTNO0wtXabrfoHt34Gdws2OcBwDUzdvGr06g85+0o0hRpKEOSE
- H5OUt01hIHikYCD4G8I9DQRGjrGFsrFYfab4AmDJhTw37PFznCEgnu96rj1yONLxsJmJ
- aupUjqGfmmSNRCnbWGT0fGmO+E/72xd9zcD4KUYD7z+2ld8s0hQsYei8jTxNCsZB8dvu
- IT+A==
-Subject: [PATCH 5/5] together: Covert to 'description'
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37001 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1754691AbdCIRSQ (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Thu, 9 Mar 2017 12:18:16 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v29H8lP3013849
+ for <perfbook@vger.kernel.org>; Thu, 9 Mar 2017 12:18:15 -0500
+Received: from e18.ny.us.ibm.com (e18.ny.us.ibm.com [129.33.205.208]) by
+ mx0b-001b2d01.pphosted.com with ESMTP id 292mrm54ng-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Thu,
+ 09 Mar 2017 12:18:14 -0500
+Received: from localhost by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 9 Mar 2017
+ 12:18:13 -0500
+Date: Thu, 9 Mar 2017 09:18:10 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/5] Convert to "description" list
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <97daedea-d454-cdf6-0111-8089ef0678c8@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <bedf396d-4b1d-f510-5d16-6c7bf90af8bf@gmail.com>
-Date: Fri, 10 Mar 2017 00:28:37 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <97daedea-d454-cdf6-0111-8089ef0678c8@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20170309171810.GW30506@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From e4a223315e3db9ffe303a95e15ee662935baaea9 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 9 Mar 2017 23:55:30 +0900
-Subject: [PATCH 5/5] together: Covert to 'description'
+On Fri, Mar 10, 2017 at 12:18:19AM +0900, Akira Yokosawa wrote:
+> >From e4a223315e3db9ffe303a95e15ee662935baaea9 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Thu, 9 Mar 2017 23:57:00 +0900
+> Subject: [PATCH 0/5] Convert to "description" list
+> 
+> Hi Paul,
+> 
+> This is the follow-up set of patches. It includes:
+> 
+>   o Use "enumitem" instead of "enumerate"
+>   o Convert to "description"
+> 
+> Conversion to "description" looks reasonable changes for me.
+> Let me know what you think.
 
-This list looks better in "description" environment with
-"nextline" style.
-The long label is properly line broken by the help of
-"enumitem" package.
-Note that ";" is preserved in the labels.
+Nice improvements, thank you!  Queued and pushed.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- together/refcnt.tex | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+							Thanx, Paul
 
-diff --git a/together/refcnt.tex b/together/refcnt.tex
-index e7884a4..626c375 100644
---- a/together/refcnt.tex
-+++ b/together/refcnt.tex
-@@ -563,40 +563,40 @@ summarized in the following list.
- 	    so a brief overview with citations is included in
- 	    Section~\ref{sec:together:Background on RCU}.}
-
--\begin{itemize}
--\item	\co{atomic_t}
-+\begin{description}[style=nextline]
-+\item	[\tco{atomic_t}]
- 	Type definition for 32-bit quantity to be manipulated atomically.
--\item	\co{void atomic_dec(atomic_t *var);}
-+\item	[\tco{void atomic_dec(atomic_t *var);}]
- 	Atomically decrements the referenced variable without necessarily
- 	issuing a memory barrier or disabling compiler optimizations.
--\item	\co{int atomic_dec_and_test(atomic_t *var);}
-+\item	[\tco{int atomic_dec_and_test(atomic_t *var);}]
- 	Atomically decrements the referenced variable, returning
- 	\co{true} (non-zero) if the result is zero.
- 	Issues a memory barrier and disables compiler optimizations that
- 	might otherwise move memory references across this primitive.
--\item	\co{void atomic_inc(atomic_t *var);}
-+\item	[\tco{void atomic_inc(atomic_t *var);}]
- 	Atomically increments the referenced variable without necessarily
- 	issuing a memory barrier or disabling compiler optimizations.
--\item	\co{int atomic_inc_not_zero(atomic_t *var);}
-+\item	[\tco{int atomic_inc_not_zero(atomic_t *var);}]
- 	Atomically increments the referenced variable, but only if the
- 	value is non-zero, and returning \co{true} (non-zero) if the
- 	increment occurred.
- 	Issues a memory barrier and disables compiler optimizations that
- 	might otherwise move memory references across this primitive.
--\item	\co{int atomic_read(atomic_t *var);}
-+\item	[\tco{int atomic_read(atomic_t *var);}]
- 	Returns the integer value of the referenced variable.
- 	This need not be an atomic operation, and it need not issue any
- 	memory-barrier instructions.
- 	Instead of thinking of as ``an atomic read'', think of it as
- 	``a normal read from an atomic variable''.
--\item	\co{void atomic_set(atomic_t *var, int val);}
-+\item	[\tco{void atomic_set(atomic_t *var, int val);}]
- 	Sets the value of the referenced atomic variable to ``val''.
- 	This need not be an atomic operation, and it is not required
- 	to either issue memory
- 	barriers or disable compiler optimizations.
- 	Instead of thinking of as ``an atomic set'', think of it as
- 	``a normal set of an atomic variable''.
--\item	\co{void call_rcu(struct rcu_head *head, void (*func)(struct rcu_head *head));}
-+\item	[\tco{void call_rcu(struct rcu_head *head, void (*func)(struct rcu_head *head));}]
- 	Invokes \co{func(head)} some time after all currently executing RCU
- 	read-side critical sections complete, however, the \co{call_rcu()}
- 	primitive returns immediately.
-@@ -607,24 +607,24 @@ summarized in the following list.
- 	the invocation of \co{func} is termed a ``grace period''.
- 	Any interval of time containing a grace period is itself a
- 	grace period.
--\item	\co{type *container_of(p, type, f);}
-+\item	[\tco{type *container_of(p, type, f);}]
- 	Given a pointer \co{p} to a field \co{f} within a structure
- 	of the specified type, return a pointer to the structure.
--\item	\co{void rcu_read_lock(void);}
-+\item	[\tco{void rcu_read_lock(void);}]
- 	Marks the beginning of an RCU read-side critical section.
--\item	\co{void rcu_read_unlock(void);}
-+\item	[\tco{void rcu_read_unlock(void);}]
- 	Marks the end of an RCU read-side critical section.
- 	RCU read-side critical sections may be nested.
--\item	\co{void smp_mb__before_atomic_dec(void);}
-+\item	[\tco{void smp_mb__before_atomic_dec(void);}]
- 	Issues a memory barrier and disables code-motion compiler
- 	optimizations only if the platform's \co{atomic_dec()}
- 	primitive does not already do so.
--\item	\co{struct rcu_head}
-+\item	[\tco{struct rcu_head}]
- 	A data structure used by the RCU infrastructure to track
- 	objects awaiting a grace period.
- 	This is normally included as a field within an RCU-protected
- 	data structure.
--\end{itemize}
-+\end{description}
-
- \QuickQuiz{}
- 	An \co{atomic_read()} and an \co{atomic_set()} that are
--- 
-2.7.4
-
+> There are other candidates of similar conversions in Appendix B,
+> But as you mentioned earlier that the appendix needs update
+> (or replacement by a newer article you posted the other day),
+> I'm not sure if it is worthwhile to do changes there, and stopped
+> short of posting patches for the appendix.
+> 
+>                                    Thanks, Akira
+> -- 
+> Akira Yokosawa (5):
+>   Use 'enumitem' package instead of 'enumerate'
+>   intro: Move ':' to tail of 'description' label
+>   debugging: Convert to 'description'
+>   formal: Convert to 'description'
+>   together: Covert to 'description'
+> 
+>  debugging/debugging.tex | 10 +++++-----
+>  formal/dyntickrcu.tex   | 14 +++++++-------
+>  formal/spinhint.tex     | 12 ++++++------
+>  howto/howto.tex         |  2 +-
+>  intro/intro.tex         | 10 +++++-----
+>  perfbook.tex            |  4 +++-
+>  together/refcnt.tex     | 30 +++++++++++++++---------------
+>  7 files changed, 42 insertions(+), 40 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
