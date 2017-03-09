@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=kFuspK1F0g1Ix9fBNiNJ3zcsb7oCuefBG72QiDeY1EA=;
- b=AfJUv49Y5DOdePO4mtFtq3RaPkp/wrCq2YYezXYKKozFjw4aB6kmM+4I0MKt9hPLsE
- EVqbAVzszadXG4ql/1/OUN2nB9E2UGqpVdvyp8GuC/iwOV+u0y3HuBRbKz1+lBvJoQJg
- J8v+wYp5YCil7nFOBay8O22q76wGxT7uAB/lxKdosA12N5WbfjCCFyWS0RAIiesVzb2y
- LoyWm9X+AiNfOwE8TOgG88Rv3TXfSiRAtysXv/+aWPkhFSLxFIhLGqdiL/rHLqBP5KNN
- 7//hbEYJkGpYJdSjOQKtGr1JcV6pT23aP7Uwy0C6Ox0bfIZfkp9gL7hZ+GAWRrVI/Idn
- PTqw==
-Subject: [PATCH 4/5] formal: Convert to 'description'
+ bh=PxCK7LHW/CYE7h6NATv7zt2pE+kvTCXr83nS2VEYv8o=;
+ b=Pu6Xys3+gWBWQf0WLRObIfuv0bXUy6ZY+PbtbVZCEV+3WhxAFOH7K/a55re5ZLGDWf
+ Z08yBzAplG7apXrriOlVXKKvuOvJBDMw5iRso9F5kr4InkfG/kpCtaYNwVppZnILVNjd
+ fbO4Vjb4veucKkl1TFPTNO0wtXabrfoHt34Gdws2OcBwDUzdvGr06g85+0o0hRpKEOSE
+ H5OUt01hIHikYCD4G8I9DQRGjrGFsrFYfab4AmDJhTw37PFznCEgnu96rj1yONLxsJmJ
+ aupUjqGfmmSNRCnbWGT0fGmO+E/72xd9zcD4KUYD7z+2ld8s0hQsYei8jTxNCsZB8dvu
+ IT+A==
+Subject: [PATCH 5/5] together: Covert to 'description'
 References: <97daedea-d454-cdf6-0111-8089ef0678c8@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <0945bab3-3f56-7420-7c69-b634e1a361d7@gmail.com>
-Date: Fri, 10 Mar 2017 00:27:07 +0900
+Message-ID: <bedf396d-4b1d-f510-5d16-6c7bf90af8bf@gmail.com>
+Date: Fri, 10 Mar 2017 00:28:37 +0900
 MIME-Version: 1.0
 In-Reply-To: <97daedea-d454-cdf6-0111-8089ef0678c8@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,109 +22,107 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 040963d9bd65a17500a5ccff5603505decc1e513 Mon Sep 17 00:00:00 2001
+From e4a223315e3db9ffe303a95e15ee662935baaea9 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 9 Mar 2017 23:54:32 +0900
-Subject: [PATCH 4/5] formal: Convert to 'description'
+Date: Thu, 9 Mar 2017 23:55:30 +0900
+Subject: [PATCH 5/5] together: Covert to 'description'
 
-These lists look better in "description" environment with
-"nextline" style. The style is good because of variation of
-label lengths. Note that colons at the tails of labels are removed.
+This list looks better in "description" environment with
+"nextline" style.
+The long label is properly line broken by the help of
+"enumitem" package.
+Note that ";" is preserved in the labels.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- formal/dyntickrcu.tex | 14 +++++++-------
- formal/spinhint.tex   | 12 ++++++------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ together/refcnt.tex | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
-index 50e87d8..16d1f73 100644
---- a/formal/dyntickrcu.tex
-+++ b/formal/dyntickrcu.tex
-@@ -1890,33 +1890,33 @@ the NMI code path will also reference (but not modify) the
- \co{dynticks_nesting} variable.
- These variables are used as follows:
+diff --git a/together/refcnt.tex b/together/refcnt.tex
+index e7884a4..626c375 100644
+--- a/together/refcnt.tex
++++ b/together/refcnt.tex
+@@ -563,40 +563,40 @@ summarized in the following list.
+ 	    so a brief overview with citations is included in
+ 	    Section~\ref{sec:together:Background on RCU}.}
 
 -\begin{itemize}
--\item	\co{dynticks_nesting}:
+-\item	\co{atomic_t}
 +\begin{description}[style=nextline]
-+\item	[\tco{dynticks_nesting}]
- 	This counts the number of reasons that the corresponding
- 	CPU should be monitored for RCU read-side critical sections.
- 	If the CPU is in dynticks-idle mode, then this counts the
- 	irq nesting level, otherwise it is one greater than the
- 	irq nesting level.
--\item	\co{dynticks}:
-+\item	[\tco{dynticks}]
- 	This counter's value is even if the corresponding CPU is
- 	in dynticks-idle mode and there are no irq handlers currently
- 	running on that CPU, otherwise the counter's value is odd.
- 	In other words, if this counter's value is odd, then the
- 	corresponding CPU might be in an RCU read-side critical section.
--\item	\co{dynticks_nmi}:
-+\item	[\tco{dynticks_nmi}]
- 	This counter's value is odd if the corresponding CPU is
- 	in an NMI handler, but only if the NMI arrived while this
- 	CPU was in dyntick-idle mode with no irq handlers running.
- 	Otherwise, the counter's value will be even.
--\item	\co{dynticks_snap}:
-+\item	[\tco{dynticks_snap}]
- 	This will be a snapshot of the \co{dynticks} counter, but
- 	only if the current RCU grace period has extended for too
- 	long a duration.
--\item	\co{dynticks_nmi_snap}:
-+\item	[\tco{dynticks_nmi_snap}]
- 	This will be a snapshot of the \co{dynticks_nmi} counter, but
- 	again only if the current RCU grace period has extended for too
- 	long a duration.
++\item	[\tco{atomic_t}]
+ 	Type definition for 32-bit quantity to be manipulated atomically.
+-\item	\co{void atomic_dec(atomic_t *var);}
++\item	[\tco{void atomic_dec(atomic_t *var);}]
+ 	Atomically decrements the referenced variable without necessarily
+ 	issuing a memory barrier or disabling compiler optimizations.
+-\item	\co{int atomic_dec_and_test(atomic_t *var);}
++\item	[\tco{int atomic_dec_and_test(atomic_t *var);}]
+ 	Atomically decrements the referenced variable, returning
+ 	\co{true} (non-zero) if the result is zero.
+ 	Issues a memory barrier and disables compiler optimizations that
+ 	might otherwise move memory references across this primitive.
+-\item	\co{void atomic_inc(atomic_t *var);}
++\item	[\tco{void atomic_inc(atomic_t *var);}]
+ 	Atomically increments the referenced variable without necessarily
+ 	issuing a memory barrier or disabling compiler optimizations.
+-\item	\co{int atomic_inc_not_zero(atomic_t *var);}
++\item	[\tco{int atomic_inc_not_zero(atomic_t *var);}]
+ 	Atomically increments the referenced variable, but only if the
+ 	value is non-zero, and returning \co{true} (non-zero) if the
+ 	increment occurred.
+ 	Issues a memory barrier and disables compiler optimizations that
+ 	might otherwise move memory references across this primitive.
+-\item	\co{int atomic_read(atomic_t *var);}
++\item	[\tco{int atomic_read(atomic_t *var);}]
+ 	Returns the integer value of the referenced variable.
+ 	This need not be an atomic operation, and it need not issue any
+ 	memory-barrier instructions.
+ 	Instead of thinking of as ``an atomic read'', think of it as
+ 	``a normal read from an atomic variable''.
+-\item	\co{void atomic_set(atomic_t *var, int val);}
++\item	[\tco{void atomic_set(atomic_t *var, int val);}]
+ 	Sets the value of the referenced atomic variable to ``val''.
+ 	This need not be an atomic operation, and it is not required
+ 	to either issue memory
+ 	barriers or disable compiler optimizations.
+ 	Instead of thinking of as ``an atomic set'', think of it as
+ 	``a normal set of an atomic variable''.
+-\item	\co{void call_rcu(struct rcu_head *head, void (*func)(struct rcu_head *head));}
++\item	[\tco{void call_rcu(struct rcu_head *head, void (*func)(struct rcu_head *head));}]
+ 	Invokes \co{func(head)} some time after all currently executing RCU
+ 	read-side critical sections complete, however, the \co{call_rcu()}
+ 	primitive returns immediately.
+@@ -607,24 +607,24 @@ summarized in the following list.
+ 	the invocation of \co{func} is termed a ``grace period''.
+ 	Any interval of time containing a grace period is itself a
+ 	grace period.
+-\item	\co{type *container_of(p, type, f);}
++\item	[\tco{type *container_of(p, type, f);}]
+ 	Given a pointer \co{p} to a field \co{f} within a structure
+ 	of the specified type, return a pointer to the structure.
+-\item	\co{void rcu_read_lock(void);}
++\item	[\tco{void rcu_read_lock(void);}]
+ 	Marks the beginning of an RCU read-side critical section.
+-\item	\co{void rcu_read_unlock(void);}
++\item	[\tco{void rcu_read_unlock(void);}]
+ 	Marks the end of an RCU read-side critical section.
+ 	RCU read-side critical sections may be nested.
+-\item	\co{void smp_mb__before_atomic_dec(void);}
++\item	[\tco{void smp_mb__before_atomic_dec(void);}]
+ 	Issues a memory barrier and disables code-motion compiler
+ 	optimizations only if the platform's \co{atomic_dec()}
+ 	primitive does not already do so.
+-\item	\co{struct rcu_head}
++\item	[\tco{struct rcu_head}]
+ 	A data structure used by the RCU infrastructure to track
+ 	objects awaiting a grace period.
+ 	This is normally included as a field within an RCU-protected
+ 	data structure.
 -\end{itemize}
 +\end{description}
 
- If both \co{dynticks} and \co{dynticks_nmi} have taken on an even
- value during a given time interval, then the corresponding CPU has
-diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-index 906de31..eb029ca 100644
---- a/formal/spinhint.tex
-+++ b/formal/spinhint.tex
-@@ -389,10 +389,10 @@ elaborate examples.
-
- Given a source file \path{qrcu.spin}, one can use the following commands:
-
--\begin{itemize}
--\item	\co{spin -a qrcu.spin}
-+\begin{description}[style=nextline]
-+\item	[\tco{spin -a qrcu.spin}]
- 	Create a file \path{pan.c} that fully searches the state machine.
--\item	\co{cc -DSAFETY -o pan pan.c}
-+\item	[\tco{cc -DSAFETY -o pan pan.c}]
- 	Compile the generated state-machine search.  The \co{-DSAFETY}
- 	generates optimizations that are appropriate if you have only
- 	assertions (and perhaps \co{never} statements).  If you have
-@@ -405,7 +405,7 @@ Given a source file \path{qrcu.spin}, one can use the following commands:
- 	An example situation where you cannot use \co{-DSAFETY} is
- 	when checking for livelocks (AKA ``non-progress cycles'')
- 	via \co{-DNP}.
--\item	\co{./pan}
-+\item	[\tco{./pan}]
- 	This actually searches the state space.  The number of states
- 	can reach into the tens of millions with very small state
- 	machines, so you will need a machine with large memory.
-@@ -431,13 +431,13 @@ Given a source file \path{qrcu.spin}, one can use the following commands:
- 	you will also need the \co{-a} argument.
- 	% forward reference to model: formal.2009.02.19a in
- 	% /home/linux/git/userspace-rcu/formal-model.
--\item	\co{spin -t -p qrcu.spin}
-+\item	[\tco{spin -t -p qrcu.spin}]
- 	Given \co{trail} file output by a run that encountered an
- 	error, output the sequence of steps leading to that error.
- 	The \co{-g} flag will also include the values of changed
- 	global variables, and the  \co{-l} flag will also include
- 	the values of changed local variables.
--\end{itemize}
-+\end{description}
-
- \subsubsection{Promela Peculiarities}
- \label{sec:formal:Promela Peculiarities}
+ \QuickQuiz{}
+ 	An \co{atomic_read()} and an \co{atomic_set()} that are
 -- 
 2.7.4
 
