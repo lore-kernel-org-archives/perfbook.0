@@ -1,65 +1,73 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=/+ISZfLAmxe61/ni0gxrWWWew1kMLE2tgGq7MbkYFFQ=;
- b=vdMlAeqoz1trkmCRCH3ZnDLwTOhgrUus0Qf2rYO2aTg7czJSt9t0Y8VgosABCRBPHn
- Jkbl0ib4f2vp+D9PJ0CkeBXNNvCpZ17FZBzB/jMVC5AYabeAe5Z1zDwpbxTADSkfTqmp
- /6Hx/thO2/9QrTu9LGBeqtxPS9Tzh3RW8mAi1iZjrzYQVlZtOzRfeYOSIsvV8+EpTyEc
- tb7b5IEUSGZYle8goPy6bgOToJMaKcMMu3XKiSZNMd0969wSONQU8JzreM2w60GEIQ5o
- MIpX1Oo66Sy22l2NUg/puQ6xiAk1tCVxDMvkOVYSltU5rp75gm0KeVkyG587JA/1inDN
- l8Kw==
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=9yLLBa+aXukTMc2KvS7Sxr7RjE0c/s4gUr1GO+zaah0=;
+ b=ZkDzw9NaLp0QTxO09CGUdqq46RY0/olhZS+fB97FBdE/skaOWZF5GL2DrcuhM19wrR
+ 1rh5fhPbdmgjVA+XGyFfZQgKILWIlXZF589WRNauAakOK5DZumP+c6DaezGAKc9SHyzW
+ h78VZyWlh8SiqRWXsm8Js1Yprp3Sz3ZgieP/l8KRi+bY/XwDz5erl+982goU7bZDqVhe
+ HRPT12VRZUfu7gTjwqghKOYQqmqp8DTCP5YtMmd1fvP5uS/PXa+uONqAzKCsK6QSvWez
+ Pflynxs5scZjgKvc8Fk+4RQtFlHEsZlzS+rN2mhC/hwMHp6SjK9dDM75wKGeOW84pwpn
+ 1l2w==
+Subject: [PATCH 1/5] Use 'enumitem' package instead of 'enumerate'
+References: <97daedea-d454-cdf6-0111-8089ef0678c8@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/5] Convert to "description" list
-Message-ID: <97daedea-d454-cdf6-0111-8089ef0678c8@gmail.com>
-Date: Fri, 10 Mar 2017 00:18:19 +0900
+Message-ID: <e0332f7e-a3d8-86e6-d458-ace2c0bd5b78@gmail.com>
+Date: Fri, 10 Mar 2017 00:20:51 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <97daedea-d454-cdf6-0111-8089ef0678c8@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From e4a223315e3db9ffe303a95e15ee662935baaea9 Mon Sep 17 00:00:00 2001
+From 477bc66e66a08506ca04c456348d04dff877ea37 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 9 Mar 2017 23:57:00 +0900
-Subject: [PATCH 0/5] Convert to "description" list
+Date: Thu, 9 Mar 2017 23:50:51 +0900
+Subject: [PATCH 1/5] Use 'enumitem' package instead of 'enumerate'
 
-Hi Paul,
+For more flexibility of list environment customization, use
+"enumitem" package instead of "enumerate".
+We need to modify enumeration header style specification added
+in commit 4dd83b8e1aca ("howto: Specify style of enumerate header")
+to work with "enumitem".
 
-This is the follow-up set of patches. It includes:
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ howto/howto.tex | 2 +-
+ perfbook.tex    | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-  o Use "enumitem" instead of "enumerate"
-  o Convert to "description"
+diff --git a/howto/howto.tex b/howto/howto.tex
+index 2f1b0fc..91a8563 100644
+--- a/howto/howto.tex
++++ b/howto/howto.tex
+@@ -453,7 +453,7 @@ patch containing a \co{Signed-off-by:} line.
+ It is important to note that the \co{Signed-off-by:} line has
+ a very specific meaning, namely that you are certifying that:
 
-Conversion to "description" looks reasonable changes for me.
-Let me know what you think.
-
-There are other candidates of similar conversions in Appendix B,
-But as you mentioned earlier that the appendix needs update
-(or replacement by a newer article you posted the other day),
-I'm not sure if it is worthwhile to do changes there, and stopped
-short of posting patches for the appendix.
-
-                                   Thanks, Akira
--- 
-Akira Yokosawa (5):
-  Use 'enumitem' package instead of 'enumerate'
-  intro: Move ':' to tail of 'description' label
-  debugging: Convert to 'description'
-  formal: Convert to 'description'
-  together: Covert to 'description'
-
- debugging/debugging.tex | 10 +++++-----
- formal/dyntickrcu.tex   | 14 +++++++-------
- formal/spinhint.tex     | 12 ++++++------
- howto/howto.tex         |  2 +-
- intro/intro.tex         | 10 +++++-----
- perfbook.tex            |  4 +++-
- together/refcnt.tex     | 30 +++++++++++++++---------------
- 7 files changed, 42 insertions(+), 40 deletions(-)
-
+-\begin{enumerate}[(a)]
++\begin{enumerate}[label={(\alph*)}]
+ \item	The contribution was created in whole or in part
+ 	by me and I have the right to submit it under
+ 	the open source license indicated in the file; or
+diff --git a/perfbook.tex b/perfbook.tex
+index d532e65..a999705 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -21,7 +21,9 @@
+ % \usepackage{breakurl}
+ \usepackage{graphicx}
+ \usepackage{rotating}
+-\usepackage{enumerate}
++\usepackage{enumitem}
++\setlist[description]{style=unboxed}
++%\usepackage{enumerate}
+ \usepackage{ifthen}
+ \usepackage{xcolor}
+ \usepackage[shortcuts]{extdash}
 -- 
 2.7.4
+
 
