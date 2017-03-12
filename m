@@ -1,91 +1,122 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pg0-f65.google.com ([74.125.83.65]:34883 "EHLO
- mail-pg0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1755675AbdCLPkg (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 12
- Mar 2017 11:40:36 -0400
-Received: by mail-pg0-f65.google.com with SMTP id g2so11039800pge.2 for
- <perfbook@vger.kernel.org>; Sun, 12 Mar 2017 08:40:35 -0700 (PDT)
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=KK2cki//MpBsQVI+h2iKM6gJMH6Zp1Wb+ZLaq59OQ4Q=;
- b=P6S1AKmtwjmXbFljvxiqkGN1H6uZ4SYS7N7uo+9bb6UGJpkKJLH5Fhyg2DLUdWtsE7
- abtBCKrWBsWXMNLhyuhgh/VMYnM26QcV9WrqPWvi0/gnjo4BrSVbcJqSuxgH6Ya6ENa/
- GKGHef6VcBFj1ETVsDFOsVcORX0YR2tEXVWDvUutlCBprk9V7c746yK+5boq1mBag0IS
- S+qgE33NMo/5VEnLI1gyNCzbu0jlTEd6d9Y5hxOSzNjdJk9hhCKoyeOGtlpdNbOpsLZh
- Wwwmf7zIMpdiXrHM5HhHhIVOV9ZIfLDjd2KUuAiarNtSkQ4UGP7dGsnzwcdhGPNShQQK
- Gcpw==
-Subject: [PATCH 3/4] runlatex.sh: Add more lines of grep output around
- warning/error log
+ bh=kT3ZApQzYaC2ObcHxY62mrncW9HiV8jkthNatxJAKc0=;
+ b=J+WEdh5AI2u2wxSxuLvtRZ8BZTWE54DdrSE/FlZWcMJ3ZKhMSyYfyqiXBlka8g+8ni
+ OXeremq5gDQTroqrcr3dOjIei9xuHtGAOOzHrtsrTZL1cEKub2x8ZtDWuOwW+qt0Ibhg
+ qTNsNfbdj9smM5QY/xZA9jAlGLPF4AljwqGzNi0Gk4Riv3jmlZRHV/ErEhovaKh4rOk9
+ JEi4EWUgvN/Q8uyWD9YhMHOyimfNpB4T4kIZxbPxPLZwu1wHX8sPKUtM0wekdDqUbsg6
+ oyFykHN0KFDbI4xiopiztZEXrdlgX8Jw6im6kMxtuyxgwZI0lHqD1F4Ty1gw2oneqMaw
+ nzZw==
+Subject: [PATCH 4/4] Add target 'mslm' for 'Latin Modern Typewriter' font
 References: <09b2c966-ea73-1ef9-cf84-2e2eefbf7517@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <e0424a38-c20e-37d2-4f88-6674041b9f80@gmail.com>
-Date: Mon, 13 Mar 2017 00:40:29 +0900
+Message-ID: <866f9e4e-150c-3f3d-3936-74839206fedf@gmail.com>
+Date: Mon, 13 Mar 2017 00:43:28 +0900
 MIME-Version: 1.0
 In-Reply-To: <09b2c966-ea73-1ef9-cf84-2e2eefbf7517@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+List-ID: <perfbook.vger.kernel.org>
 
-From b3f6e0806f0d4ea46bb9885df572c0c31433a17f Mon Sep 17 00:00:00 2001
+From 2f6614cdf5e1b0f7da9a5c05833dbc4a251eaa9c Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 12 Mar 2017 20:42:10 +0900
-Subject: [PATCH 3/4] runlatex.sh: Add more lines of grep output around warning/error log
+Date: Sun, 12 Mar 2017 23:28:39 +0900
+Subject: [PATCH 4/4] Add target 'mslm' for 'Latin Modern Typewriter' font
 
-This change will make it mostly unnecessary to look up log file
-when build error occurred.
+"Latin Modern" family font[1] is an enhanced version of Computer
+Modern font.
 
-Also fix an iteration status message to match that in the log file.
+Although perfbook uses Times Roman clone for main text, "cmtt"
+(Computer Modern Typewriter font) is a reasonable option for
+monospace font despite its x-height is shorter than Times Roman.
+As cmtt doesn't cover bold face, use "Latin Modern Typewriter" font
+instead. By loading "lmodern" package first and "mathptmx", etc.,
+later, only monospace font can be switched.
+
+To do this, a comment of the form "%\usepackage{lmodern}" is added
+in perfbook.tex. This comment will be substituted on the fly.
+
+Also add a comment in help message on target "msn" to mention that
+the monospace font (nimbusmononarrow) does not cover bold face.
+
+Also add explicit version requirements of "mathastext" and
+"inconsolata" packages in perfbook.tex and substituting string in
+Makefile for target "1csf".
+
+  [1] http://ctan.org/pkg/lm
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/runfirstlatex.sh | 1 +
- utilities/runlatex.sh      | 7 +++++--
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ Makefile     | 11 +++++++++--
+ perfbook.tex |  3 ++-
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/utilities/runfirstlatex.sh b/utilities/runfirstlatex.sh
-index dc55cb7..8261238 100644
---- a/utilities/runfirstlatex.sh
-+++ b/utilities/runfirstlatex.sh
-@@ -43,6 +43,7 @@ echo "pdflatex 1 for $basename.pdf"
- pdflatex $basename > /dev/null 2>&1 < /dev/null || :
- if grep -q '! Emergency stop.' $basename.log
- then
-+	grep -B 15 -A 5 '! Emergency stop.' $basename.log
- 	echo "----- Fatal latex error, see $basename.log for details. -----"
- 	exit 1
- fi
-diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
-index da9e82d..e6b3938 100644
---- a/utilities/runlatex.sh
-+++ b/utilities/runlatex.sh
-@@ -43,6 +43,7 @@ iterate_latex () {
- 	pdflatex $basename > /dev/null 2>&1 < /dev/null || :
- 	if grep -q '! Emergency stop.' $basename.log
- 	then
-+		grep -B 15 -A 5 '! Emergency stop.' $basename.log
- 		echo "----- Fatal latex error, see $basename.log for details. -----"
- 		exit 1
- 	fi
-@@ -98,11 +99,13 @@ do
- 		fi
- 	fi
- 	iter=`expr $iter + 1`
--	echo "pdflatex $iter for $basename.pdf # label(s) may have been changed"
-+	echo "pdflatex $iter for $basename.pdf # label(s) may have changed"
- 	iterate_latex
- done
--if grep "LaTeX Warning:" $basename.log
-+if grep -q "LaTeX Warning:" $basename.log
- then
-+	echo "----- Excerpt around remaining warning messages -----"
-+	grep -B 8 -A 5 "LaTeX Warning:" $basename.log | tee $basename-warning.log
- 	echo "----- You can see $basename-warning.log for the warnings above. -----"
- 	echo "----- If you need to, see $basename.log for details. -----"
- 	rm -f $basename-warning-prev.log
+diff --git a/Makefile b/Makefile
+index e953842..2c88e6c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -9,7 +9,7 @@ LATEXSOURCES = \
+
+ LATEXGENERATED = autodate.tex qqz.tex contrib.tex origpub.tex
+
+-ABBREVTARGETS := 1c hb msns mstx msr msn msnt 1csf
++ABBREVTARGETS := 1c hb msns mstx msr msn msnt mslm 1csf
+
+ PDFTARGETS := perfbook.pdf $(foreach v,$(ABBREVTARGETS),perfbook-$(v).pdf)
+
+@@ -124,9 +124,13 @@ perfbook-msnt.tex: perfbook.tex
+ 	sed -e 's/\[scaled=\.94\]{couriers}/[zerostyle=a]{newtxtt}/' < $< > $@
+ 	@echo "## This target requires font package newtxtt. ##"
+
++perfbook-mslm.tex: perfbook.tex
++	sed -e 's/%\\usepackage{lmodern}/\\usepackage{lmodern}/' \
++	    -e 's/\\usepackage\[scaled=\.94\]{couriers}/%\\usepackage[scaled=.94]{couriers}/' < $< > $@
++
+ perfbook-1csf.tex: perfbook-1c.tex
+ 	sed -e 's/setboolean{sansserif}{false}/setboolean{sansserif}{true}/' \
+-	    -e 's/\[scaled=\.94\]{couriers}/[var0]{inconsolata}/' < $< > $@
++	    -e 's/\[scaled=\.94\]{couriers}/[var0]{inconsolata}[2013\/07\/17]/' < $< > $@
+ 	@echo "## This target requires recent version (>= 1.3i) of mathastext. ##"
+
+ # Rules related to perfbook_html are removed as of May, 2016
+@@ -181,9 +185,12 @@ help:
+ 	@echo "  perfbook-msn.pdf,  msn:  2c with narrow courier clone"
+ 	@echo "  perfbook-mstx.pdf, mstx: 2c with txtt as monospace"
+ 	@echo "  perfbook-msnt.pdf, msnt: 2c with newtxtt as monospace (non-slashed 0)"
++	@echo "  perfbook-mslm.pdf, mslm: 2c with lmtt (Latin Modern Typewriter) as monospace"
++	@echo "       (Latin Modern is a clone of Computer Modern with additional type faces)"
+ 	@echo "  perfbook-1csf.pdf, 1csf: 1c with sans serif font"
+ 	@echo "  perfbook-msns.pdf, msns: 2c with non-scaled courier"
+ 	@echo "  \"msr\" and \"msn\" require \"nimbus15\"."
++	@echo "  \"msn\" doesn't cover bold face for monospace."
+ 	@echo "  \"msnt\" requires \"newtxtt\"."
+ 	@echo "  \"1csf\" requires recent version (>=1.3i) of \"mathastext\"."
+
+diff --git a/perfbook.tex b/perfbook.tex
+index a999705..e8234c4 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -5,6 +5,7 @@
+ % standard packages
+
+ % A more pleasant font
++%\usepackage{lmodern}
+ \usepackage[T1]{fontenc} % use postscript type 1 fonts
+ \usepackage{textcomp} % use symbols in TS1 encoding
+ \usepackage{mathptmx} % use nice, standard fonts for roman,
+@@ -69,7 +70,7 @@
+ \IfSansSerif{
+ \renewcommand{\familydefault}{\sfdefault}
+ \normalfont
+-\usepackage[italic]{mathastext}
++\usepackage[italic]{mathastext}[2016/01/06]
+ \renewcommand{\path}[1]{\nolinkurl{#1}} % workaround of interference with mathastext
+ }{}
+
 -- 
 2.7.4
 
