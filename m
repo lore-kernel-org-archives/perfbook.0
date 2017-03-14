@@ -2,19 +2,19 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=zjZknr5oxazsYFYKqamV2+fDytzDQGrAGtWnRoj1J+Q=;
- b=euc33yXbjmUfrcVZ5R+twoUDR+wpvqKBiU7FYHdT9Y4stU343NsKRjz0ghj4SMAfbO
- L2TFw0+m0VuxgxBgAjS7Cri0/ymKvGQzRsKJUFWPkS/UU6KsqgIwwQVtnBVBfnDGckrP
- ynM2JMpdTH03QRePUQxmGFx9rB0mHEvNpsQ3x9/RcRHv8vGdyZMMnaPm3oJERIg9NRJJ
- essFzhF1ZO0KVNi7ECLaAsuPoZGeg3u2A6XLisNJ6BaaIjc0fU8+irExDQkWdZZMIi5z
- ZWzKWbc0B0jSWKbvm5JB1XiCGBSmVbZqbdWgAxoK05eAsUBFGxDcbIVoZr0K+tndCxqk
- L2pw==
-Subject: [PATCH v2 1/6] runlatex.sh: Refactor further
+ bh=8BOSeG9HlHMDi+/IvL7Nr/ev+TnL0spkIkJpuizddYY=;
+ b=R9FvOii2A0G09V7RV6qESWVu4yRkkiIrcIjVpRo77lLK5QnWw7w588AKtontO4jzA8
+ Ug6Wso2PzaoSXdltNty1tcL5gjU7qxN2DCn6T/hSEFd4nfQSkuRYXLtXjwwLRsFwbF9h
+ 5WXcJBcAnghMlyoHaUJrsJ/xCaILKLZAsITU7nUYZwradZZG9gE6jdE/mLTqqXcImZq+
+ RP6Gq/XUSLZMyleSxePJrt0oX8THKmYYU89/mIb0OGHmTtw9C7B6PYqX4eWxBLsNHpaa
+ +ApnovU2ZVeZ3d5/QLbu5fn7e4LsGH2sVHFKf01aBA1wAtkd9+Vy2seL5Jqxa1JtsLRU
+ 4jiQ==
+Subject: [PATCH v2 2/6] formal/spinhint: Fix typo
 References: <b0933155-7c2b-d271-c2a4-8cf78b133193@gmail.com>
  <c00849e8-cff8-2db0-d14a-d46593766761@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <eed95c0b-befe-4514-55d2-a64b03ab6f28@gmail.com>
-Date: Tue, 14 Mar 2017 21:38:31 +0900
+Message-ID: <4cb95d9b-1604-fedb-d430-42aebf37b0f0@gmail.com>
+Date: Tue, 14 Mar 2017 21:39:54 +0900
 MIME-Version: 1.0
 In-Reply-To: <c00849e8-cff8-2db0-d14a-d46593766761@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,74 +23,31 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From a87bed749d870ce45fd7b328f4099a58271dfa20 Mon Sep 17 00:00:00 2001
+From 32cf4c216eb3b0c8395ecff9ffa2e53e1e415c89 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 13 Mar 2017 20:42:39 +0900
-Subject: [PATCH v2 1/6] runlatex.sh: Refactor further
-
-This won't result in reducing line count, but is worth doing.
+Date: Mon, 13 Mar 2017 20:47:29 +0900
+Subject: [PATCH v2 2/6] formal/spinhint: Fix typo
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/runlatex.sh | 27 +++++++++++++++++----------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+ formal/spinhint.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
-index e6b3938..cece545 100644
---- a/utilities/runlatex.sh
-+++ b/utilities/runlatex.sh
-@@ -39,6 +39,17 @@ diff_warning () {
- 	fi
- }
+diff --git a/formal/spinhint.tex b/formal/spinhint.tex
+index 87a7040..a10b57b 100644
+--- a/formal/spinhint.tex
++++ b/formal/spinhint.tex
+@@ -854,8 +854,8 @@ latencies of most other RCU implementations.
+ \item	There are \co{qrcu_read_lock()} and \co{qrcu_read_unlock()}
+ 	primitives that delimit QRCU read-side critical sections.
+ 	The corresponding \co{qrcu_struct} must be passed into
+-	these primitives, and the return value from \co{rcu_read_lock()}
+-	must be passed to \co{rcu_read_unlock()}.
++	these primitives, and the return value from \co{qrcu_read_lock()}
++	must be passed to \co{qrcu_read_unlock()}.
 
-+identical_warnings () {
-+	if test -r $basename-warning-prev.log
-+	then
-+		if test "$iter" -gt "$min_iter" && diff_warning
-+		then
-+			return 0 ;
-+		fi
-+	fi
-+	return 1 ;
-+}
-+
- iterate_latex () {
- 	pdflatex $basename > /dev/null 2>&1 < /dev/null || :
- 	if grep -q '! Emergency stop.' $basename.log
-@@ -76,27 +87,23 @@ rm -f $basename-first.log
- iter=2
- echo "pdflatex 2 for $basename.pdf # for possible bib update"
- iterate_latex
-+min_iter=2
- while grep -q 'LaTeX Warning: There were undefined references' $basename.log
- do
--	if test -r $basename-warning-prev.log
-+	if identical_warnings
- 	then
--		if test "$iter" -gt 2 && diff_warning
--		then
--			break
--		fi
-+		break
- 	fi
- 	iter=`expr $iter + 1`
- 	echo "pdflatex $iter for $basename.pdf # remaining undefined refs"
- 	iterate_latex
- done
-+min_iter=3
- while grep -q 'LaTeX Warning: Label(s) may have changed' $basename.log
- do
--	if test -r $basename-warning-prev.log
-+	if identical_warnings
- 	then
--		if test "$iter" -gt 3 && diff_warning
--		then
--			break
--		fi
-+		break
- 	fi
- 	iter=`expr $iter + 1`
- 	echo "pdflatex $iter for $basename.pdf # label(s) may have changed"
+ 	For example:
+
 -- 
 2.7.4
 
