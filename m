@@ -1,82 +1,111 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=mOmwSOLDpf0udY0pgywos9ZKjnOXUPLy000VK7FY31Y=;
- b=DUzzU8l08wTrnu33KY0MSAtAVHAEdXnsjZW1bGqDmOkz4SA4rzpheiSnI1orqUO73I
- EP+sIOR5Zl2VZmQ8lyEPhkFz8v7DhvCnsYy9JUpUQEnaY4E28lD3D/np1gPIW252vv5C
- gczSyabA5KmSWrZ6phOCtaiBA1Tc3e9HLlgbvuTMkoZu+Yg9Exhuy00mTmorIZQSQelu
- TEY3vIklq5Bldd5BAlhbZQ/T5KqPFUehZ9VP8aSWB1LDAuz9/vSElwJhxrF+/eRcjd8d
- WMNCGn3Tu7YluQchtFBNqM7krWD3ybUdljlp2ZoyugU3jHEBMM9FZuGGIT4ZJSRHDAUK
- noqg==
-Subject: [PATCH v2 6/6] advsync/memorybarriers: Distinguish 'CPU family' from
- 'CPU'
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44902 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1751128AbdCNQax (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Tue, 14 Mar 2017 12:30:53 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v2EGNn19140930
+ for <perfbook@vger.kernel.org>; Tue, 14 Mar 2017 12:30:52 -0400
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 295xm4c8p6-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
+ 14 Mar 2017 12:30:52 -0400
+Received: from localhost by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 14 Mar
+ 2017 12:30:51 -0400
+Date: Tue, 14 Mar 2017 09:30:48 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH v2 1/6] runlatex.sh: Refactor further
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <b0933155-7c2b-d271-c2a4-8cf78b133193@gmail.com>
  <c00849e8-cff8-2db0-d14a-d46593766761@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <0756e203-7bfa-0d50-0d50-439b8e607bcf@gmail.com>
-Date: Tue, 14 Mar 2017 21:43:19 +0900
+ <eed95c0b-befe-4514-55d2-a64b03ab6f28@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <c00849e8-cff8-2db0-d14a-d46593766761@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eed95c0b-befe-4514-55d2-a64b03ab6f28@gmail.com>
+Message-Id: <20170314163048.GD3637@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From ad3fca471bd3a6178f7988bbe5c9ab903f86722a Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 13 Mar 2017 20:50:56 +0900
-Subject: [PATCH v2 6/6] advsync/memorybarriers: Distinguish 'CPU family' from 'CPU'
+On Tue, Mar 14, 2017 at 09:38:31PM +0900, Akira Yokosawa wrote:
+> >From a87bed749d870ce45fd7b328f4099a58271dfa20 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Mon, 13 Mar 2017 20:42:39 +0900
+> Subject: [PATCH v2 1/6] runlatex.sh: Refactor further
+> 
+> This won't result in reducing line count, but is worth doing.
 
-In these paragraphs, "CPU" stands for either "CPU core" or
-"CPU family".  Explicitly use "CPU family" for the latter.
+I applied and pushed this v2 series, thank you!
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- advsync/memorybarriers.tex | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+							Thanx, Paul
 
-diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index 85e9162..15ed1f6 100644
---- a/advsync/memorybarriers.tex
-+++ b/advsync/memorybarriers.tex
-@@ -415,11 +415,11 @@ If you just want to be told what the rules are rather than suffering
- through the actual derivation,
- please feel free to skip to Section~\ref{sec:advsync:A Few Simple Rules}.
-
--The exact semantics of memory barriers vary wildly from one CPU to
-+The exact semantics of memory barriers vary wildly from one CPU family to
- another, so portable code must rely only on the least-common-denominator
- semantics of memory barriers.
-
--Fortunately, all CPUs impose the following rules:
-+Fortunately, all CPU families impose the following rules:
- \begin{enumerate}
- \item	All accesses by a given CPU will appear to that CPU to have
- 	occurred in program order.
-@@ -442,9 +442,9 @@ Each of these properties is described in the following sections.
- A given CPU will see its own accesses as occurring in ``program order'',
- as if the CPU was executing only one instruction at a time with no
- reordering or speculation.
--For older CPUs, this restriction is necessary for binary compatibility,
-+For older CPU families, this restriction is necessary for binary compatibility,
- and only secondarily for the sanity of us software types.
--There have been a few CPUs that violate this rule to a limited extent,
-+There have been a few CPU families that violate this rule to a limited extent,
- but in those cases, the compiler has been responsible
- for ensuring that ordering is explicitly enforced as needed.
-
-@@ -511,7 +511,7 @@ of an external logic analyzer
- However, if CPU~2's access to B sees the result of CPU~1's access
- to B, then CPU~2's access to A is guaranteed to see the result of
- CPU~1's access to A.
--Although some CPUs' memory barriers do in fact provide stronger,
-+Although some CPU families' memory barriers do in fact provide stronger,
- unconditional ordering guarantees, portable code may rely only
- on this weaker if-then conditional ordering guarantee.
-
--- 
-2.7.4
-
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> ---
+>  utilities/runlatex.sh | 27 +++++++++++++++++----------
+>  1 file changed, 17 insertions(+), 10 deletions(-)
+> 
+> diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+> index e6b3938..cece545 100644
+> --- a/utilities/runlatex.sh
+> +++ b/utilities/runlatex.sh
+> @@ -39,6 +39,17 @@ diff_warning () {
+>  	fi
+>  }
+> 
+> +identical_warnings () {
+> +	if test -r $basename-warning-prev.log
+> +	then
+> +		if test "$iter" -gt "$min_iter" && diff_warning
+> +		then
+> +			return 0 ;
+> +		fi
+> +	fi
+> +	return 1 ;
+> +}
+> +
+>  iterate_latex () {
+>  	pdflatex $basename > /dev/null 2>&1 < /dev/null || :
+>  	if grep -q '! Emergency stop.' $basename.log
+> @@ -76,27 +87,23 @@ rm -f $basename-first.log
+>  iter=2
+>  echo "pdflatex 2 for $basename.pdf # for possible bib update"
+>  iterate_latex
+> +min_iter=2
+>  while grep -q 'LaTeX Warning: There were undefined references' $basename.log
+>  do
+> -	if test -r $basename-warning-prev.log
+> +	if identical_warnings
+>  	then
+> -		if test "$iter" -gt 2 && diff_warning
+> -		then
+> -			break
+> -		fi
+> +		break
+>  	fi
+>  	iter=`expr $iter + 1`
+>  	echo "pdflatex $iter for $basename.pdf # remaining undefined refs"
+>  	iterate_latex
+>  done
+> +min_iter=3
+>  while grep -q 'LaTeX Warning: Label(s) may have changed' $basename.log
+>  do
+> -	if test -r $basename-warning-prev.log
+> +	if identical_warnings
+>  	then
+> -		if test "$iter" -gt 3 && diff_warning
+> -		then
+> -			break
+> -		fi
+> +		break
+>  	fi
+>  	iter=`expr $iter + 1`
+>  	echo "pdflatex $iter for $basename.pdf # label(s) may have changed"
+> -- 
+> 2.7.4
+> 
+> 
 
