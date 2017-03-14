@@ -2,19 +2,19 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=okvuMFFLVxooHFbWFRlhqg4iFCQ8gSrDVK+3oJbbRho=;
- b=IRb+9oe0YaY/36uQjDM9z0T7ew8oRyZLjBCqPQvTITNYjZWUazd3NcQbPKnMcaH1AS
- lILLKpwup/MhmM0eMlM39mq1+Ck2k1oZMhgyUN5fxaJnSZ4SHeCnwJp2QCTfEku6/u/q
- Oi5onjavbvuor9rVAAWo7QWasB0cnQZLmuiURv8+5TgfIe2CzGBpLZOoTYmzhQEPSqHh
- rF8R4BmlIvGLYRYB2Zv+XYLf5GAoPmGh10vHjWbTiDn8p2wxyMvsgxxD0m/gjgl/0bT9
- CRpvJldAwW1LshzyQeMrtFaa+2TSBlr+EfwI7no0k8RDcsWQIuyqNLU5VhgDnQ8SI1uf
- tD5A==
-Subject: [PATCH v2 3/6] formal/spinhint: Adjust option of enumerate list
+ bh=uwbC34wJ9FPXKYS6J+t4NRKMw400ORNPsKgp1p6Ykuo=;
+ b=ns3+IIspJPvbPPlbfQkeYs8nqDP5QS56NliWRoHl2klrG41KRiGc/fSZ5SOKlW7TWB
+ PFYMYPMkSmTLnsgh+DJL07zQ1kuaTnuvWhs8BVuDO3MI6nJQP7dYhIuaxBgIYpsJGE2E
+ Q/79506esgozJRHPECsnupaHpD8nnKkn6NIOZUqOGNDisoJdLKnBC3EF/1bj1NACuDxa
+ a7snr614CcRerufb5zPNOthKK86ZDZHuQ7V464pFxqeqwd4P0dq15g69Q1LvhcbiF6CS
+ Qc4D5MfzVeaoa/kCzorE3/En9UuW/6Eykt57WkITbzZk2M+X5MAvvxD/vzJ79fufZbn8
+ C65Q==
+Subject: [PATCH v2 4/6] formal/spinhint: Reference by Figure labels
 References: <b0933155-7c2b-d271-c2a4-8cf78b133193@gmail.com>
  <c00849e8-cff8-2db0-d14a-d46593766761@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <512193a8-a968-f61d-b170-25fed14955e8@gmail.com>
-Date: Tue, 14 Mar 2017 21:40:45 +0900
+Message-ID: <b686b4af-0331-d4d2-02a4-2e35bd161b2e@gmail.com>
+Date: Tue, 14 Mar 2017 21:41:31 +0900
 MIME-Version: 1.0
 In-Reply-To: <c00849e8-cff8-2db0-d14a-d46593766761@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,39 +23,33 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From fe01252839978d67b611eafca1c49e8772582fd2 Mon Sep 17 00:00:00 2001
+From 267bc5727f8f50d389818c22c81ea9a6e1d810e4 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 13 Mar 2017 20:47:56 +0900
-Subject: [PATCH v2 3/6] formal/spinhint: Adjust option of enumerate list
+Date: Mon, 13 Mar 2017 20:48:23 +0900
+Subject: [PATCH v2 4/6] formal/spinhint: Reference by Figure labels
 
-This enumeration list can be optimized by specifying starting
-count and label format. It is also better to use a narrower
-item separation.
+Reference to floating figures should be done by labels.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- formal/spinhint.tex | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ formal/spinhint.tex | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-index a10b57b..d6acef1 100644
+index d6acef1..a18ae23 100644
 --- a/formal/spinhint.tex
 +++ b/formal/spinhint.tex
-@@ -924,10 +924,10 @@ sections).
- The \co{readerprogress} array elements have values as follows,
- indicating the state of the corresponding reader:
+@@ -742,7 +742,9 @@ Lines~30 and~31 initialize the control variables,
+ lines~32-40 atomically sum the havelock array entries,
+ line~41 is the assertion, and line~42 exits the loop.
 
--\begin{enumerate}
--\item	0: not yet started.
--\item	1: within QRCU read-side critical section.
--\item	2: finished with QRCU read-side critical section.
-+\begin{enumerate}[label={\arabic*}:,start=0,itemsep=0pt]
-+\item	not yet started.
-+\item	within QRCU read-side critical section.
-+\item	finished with QRCU read-side critical section.
- \end{enumerate}
+-We can run this model by placing the above two code fragments into
++We can run this model by placing the two code fragments of
++Figures~\ref{fig:analysis:Promela Code for Spinlock}
++and~\ref{fig:analysis:Promela Code to Test Spinlocks} into
+ files named \path{lock.h} and \path{lock.spin}, respectively, and then running
+ the following commands:
 
- Finally, the \co{mutex} variable is used to serialize updaters' slowpaths.
 -- 
 2.7.4
 
