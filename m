@@ -2,77 +2,90 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=rwimIiEdW/PjjpBIhaxSuCMJC9vxtZZ7nMX0ngPxQdc=;
- b=bWN1Vy87TEzU7lm326lRysTghgsRVeiVNAsD6yueV1wVcJ9KvYT1wN6Wc3jXZueSRA
- ZOlwlTGg8fj5bgTMd0Szf9I2e/w3hOKaFWZ/tweEQnSO0zmOpthIDBir2Jy1LiveEqOp
- kaLDr02dk4igsN1lqrH4/0KOgZZdn3uAA4OcjHfBuq+KUouNuEbpNLvj1+khMcLApkik
- PAncD+kclflsRHa6VbsxlGlQ4LMwvKWXKpBrG8CQ4tvk/qmqEUCkKEZCtBgln2Xu+jtg
- SnRi/jwPP0N/b7u6mQuevpWAbqd3lJX07hPmAAe20NeCemxhRsOqu2J4171iysSif8IN
- dB7w==
-Subject: [PATCH 6/6] whymb: Convert to 'description' (part 5)
-References: <ad161e9f-b7f1-9e60-bed1-bad4a226e418@gmail.com>
+ bh=l3IvzmMM6g3v9GO5oNv8Wu5NkoIsmZy7uSSABPY3jzI=;
+ b=BE/IdxkmN28TR+fzIO/kzXnBV1qJDa11CZewe8wvAwLGahwdCZA22sn/bPob7KUI6I
+ 5Jbet18YYtsWFq3w1I5u4h9S/bkw7rR8xXa8607l0YhBbrPxic074xEcBgJqMwgBa4ov
+ 3EO6B1OozddLkxWTkeDYaHySyhwp2ODM32/oG8l3UVBy2u6K9ZEo1JRQRgLLLQOJN0FR
+ uSYUzFLXYrO+wSE/Y2fP3a06NoOVYka+URkd97eXjfk/lizKWw+27uQYe9WIA6hk1vE6
+ BI9Mra9vWHOxmPnpK5TPb7MUp2TqKqwV04hKIrVAh4S5H52Wy4UEp5/PK5bg2DifQXsY
+ cn3A==
+Subject: Re: [PATCH 0/4] Add target for "Latin Modern Typewriter" font
+References: <09b2c966-ea73-1ef9-cf84-2e2eefbf7517@gmail.com>
+ <20170313011203.GV30506@linux.vnet.ibm.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <9ee2c8c1-b60b-fc0b-4769-614da9700bfb@gmail.com>
-Date: Mon, 20 Mar 2017 00:55:54 +0900
+Message-ID: <1f9afad1-2c95-2d81-aa43-810355eed544@gmail.com>
+Date: Mon, 20 Mar 2017 01:14:59 +0900
 MIME-Version: 1.0
-In-Reply-To: <ad161e9f-b7f1-9e60-bed1-bad4a226e418@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20170313011203.GV30506@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From e29e397c3eab7359cdd866d5a59a0af56dfd22c4 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 19 Mar 2017 23:33:50 +0900
-Subject: [PATCH 6/6] whymb: Convert to 'description' (part 5)
+On 2017/03/12 18:12:03 -0700, Paul E. McKenney wrote:
+> On Mon, Mar 13, 2017 at 12:36:56AM +0900, Akira Yokosawa wrote:
+>> >From 2f6614cdf5e1b0f7da9a5c05833dbc4a251eaa9c Mon Sep 17 00:00:00 2001
+>> From: Akira Yokosawa <akiyks@gmail.com>
+>> Date: Mon, 13 Mar 2017 00:10:31 +0900
+>> Subject: [PATCH 0/4] Add target for "Latin Modern Typewriter" font
+>>
+>> So, this is a patch set to add yet another target for alternative monospace font.
+>> While preparing this set, I found a (not serious) bug in runlatex.sh.
+>> In fixing it, I refactored the script so that redundant code can be removed.
+>>
+>> Latin Modern Typewriter font is based on "cmtt" (Computer Modern Typewrite) font.
+>> I see that some of your articles cited in Bibliography use it as monospace font,
+>> and they look quite good. cmtt is said to be not suited to Times Roman font
+>> because of its short x-height, but as we are using scaled courier font,
+>> it should not be a big deal.
+>>
+>> Please try the target "mslm" and let me know what you think.
+> 
+> I do like the better display of error messages -- especially now with
+> the list of undefined references being printed, much nicer than editing
+> perfbook.log and searching for them!
+> 
+> I very like the more narrow fixed-width font.  I -think- I like the mslm
+> variant even better, but let's see what others think.
 
-This list is also a candidate for conversion to "description".
-Also adjust conjugation of verbs that follow labels.
+As I've using mslm for a week, I think it is nicer than mstx or msnt
+in verbatim code snippets.
+Howerver, when mixed used with Times Roman (clone) font in the main text,
+I prefer the look of newtxtt font because of it is slightly thicker, and
+it has mostly the same degree of serif as Times Roman.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- appendix/whymb/whymemorybarriers.tex | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+One idea is to use cmtt (or lmtt) for code snippet, and use newtxtt (or
+txtt as a fallback on older LaTeX environment). I'll try this direction
+and prepare an RFC patch for you to try.
 
-diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
-index d6dd15f..6c6b28a 100644
---- a/appendix/whymb/whymemorybarriers.tex
-+++ b/appendix/whymb/whymemorybarriers.tex
-@@ -2221,22 +2221,23 @@ worry about memory barriers.
+If it looks good for you, we might want to modify font selection for default
+targets 2c, 1c and hb. Otherwise, we can expect few feedback if any.
+When we do the change, current defaults' behaviors should be provided in
+alternative targets for people to compare.
 
- SPARC has a very flexible memory-barrier instruction~\cite{SPARC94}
- that permits fine-grained control of ordering:
--\begin{itemize}
--\item	{\tt StoreStore}: order preceding stores before subsequent stores.
-+\begin{description}
-+\item	[\tco{StoreStore}] orders preceding stores before subsequent stores.
- 	(This option is used by the Linux \co{smp_wmb()} primitive.)
--\item	{\tt LoadStore}: order preceding loads before subsequent stores.
--\item	{\tt StoreLoad}: order preceding stores before subsequent loads.
--\item	{\tt LoadLoad}: order preceding loads before subsequent loads.
-+\item	[\tco{LoadStore}] orders preceding loads before subsequent stores.
-+\item	[\tco{StoreLoad}] orders preceding stores before subsequent loads.
-+\item	[\tco{LoadLoad}] orders preceding loads before subsequent loads.
- 	(This option is used by the Linux \co{smp_rmb()} primitive.)
--\item	{\tt Sync}: fully complete all preceding operations before starting
-+\item	[\tco{Sync}] fully completes all preceding operations before starting
- 	any subsequent operations.
--\item	{\tt MemIssue}: complete preceding memory operations before subsequent
-+\item	[\tco{MemIssue}] completes preceding memory operations before subsequent
- 	memory operations, important for some instances of memory-mapped
- 	I/O.
--\item	{\tt Lookaside}: same as MemIssue, but only applies to preceding stores
-+\item	[\tco{Lookaside}] does the same as MemIssue,
-+	but only applies to preceding stores
- 	and subsequent loads, and even then only for stores and loads that
- 	access the same memory location.
--\end{itemize}
-+\end{description}
+                                 Thanks, Akira
 
- The Linux \co{smp_mb()} primitive uses the first four options together,
- as in
--- 
-2.7.4
-
+> 
+> 							Thanx, Paul
+> 
+>>                                 Thanks, Akira
+>> -- 
+>> Akira Yokosawa (4):
+>>   runlatex.sh: Refactor by defining functions
+>>   runlatex.sh: Fix typo in grep pattern
+>>   runlatex.sh: Add more lines of grep output around warning/error log
+>>   Add target 'mslm' for 'Latin Modern Typewriter' font
+>>
+>>  Makefile                   | 11 ++++--
+>>  perfbook.tex               |  3 +-
+>>  utilities/runfirstlatex.sh |  3 +-
+>>  utilities/runlatex.sh      | 87 +++++++++++++++++++++-------------------------
+>>  4 files changed, 52 insertions(+), 52 deletions(-)
+>>
+>> -- 
+>> 2.7.4
+>>
+> 
+> 
 
