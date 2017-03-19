@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=NZ0OWJ0P0zwufgMlY5NghRpnfo3RWXoMp6gfi+IGO+s=;
- b=iphsL8HppNMJm0kFR7BqMUbQlnKzJJtNSG+lShPzNLuk0lfn69blveoUhBpxeK59DL
- 6okcB4J2uXr18WHMymIAc8sugsZXU05JPnd8r68aMXHvfxIEHlHi5XxWMv8Ov9OGFVt2
- 1oXdte+F0AAoM+BCK2LzUB8+lh5h+SUzVxaPiKWzCw5whHf1ULIBBwu2PLgdBFh43RC6
- 06N5oaRK+4z8j8RdZ3qEDViu2ooamu0ROEGXHpYAgbadsz4EupFJRMl+CheX5pxOmwXu
- 0OLyMx4BdxzvBq179jYJhHZhAejTWn9P/QJB32vFJaf5Y0cU0XK4kzBc2OQo+8hlnRpD
- ayBg==
-Subject: [PATCH 3/6] whymb: Convert to 'description' (part 3)
+ bh=uhDz7BAaAweXybMiniF6ioniPH1a++UwbgUV/CmrZXs=;
+ b=jZH4zUVc+ygw8x/RYvH5g5zdrtAzvwowPoL9y8xc9shjWEskj2Dx1rI/p9Hdt4Optd
+ ssmom8JxrkXk+S5sXFGWQGxdVrUbA5frbERBNRqsZ9lEKc68YpurhqQHYcR5mRJxIcY2
+ 2Yb3t6VGggZIMTR1dg30+UExjw8UVPDt6IvTOgobRvogi1bJ8ixMSZmuCZPByHGfmEFI
+ r0s1A7pYGrJFBQSgX+n+88jsDbHgbaEFlDGrItqU6B79b1Z0KPg22dWygFuHmKNQkXYi
+ Q7GMSYyKoByv7FgyFmjh4Em0zu5smgxpTxXfuZc8dLU7NVJqALSpnmlitKZD1YcCSe3H
+ 8Rxw==
+Subject: [PATCH 4/6] whymb: Use 'nextline' style for 'description'
 References: <ad161e9f-b7f1-9e60-bed1-bad4a226e418@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <5156f730-9859-fc78-e4b6-4282eecfcb64@gmail.com>
-Date: Mon, 20 Mar 2017 00:51:12 +0900
+Message-ID: <61fd9f5f-3d64-cc85-8257-d0e0906e7a8b@gmail.com>
+Date: Mon, 20 Mar 2017 00:53:00 +0900
 MIME-Version: 1.0
 In-Reply-To: <ad161e9f-b7f1-9e60-bed1-bad4a226e418@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,58 +22,57 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 80cfeef3af82ce22777ed075206f5015d071095d Mon Sep 17 00:00:00 2001
+From 26833e78b20ac0e7ebf5276fc1e45c9875b067c7 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 19 Mar 2017 23:28:44 +0900
-Subject: [PATCH 3/6] whymb: Convert to 'description' (part 3)
+Date: Sun, 19 Mar 2017 23:29:37 +0900
+Subject: [PATCH 4/6] whymb: Use 'nextline' style for 'description'
 
-This list is also a good candidate to convert to "description".
-\tco{} is safer than \co{} in labels.
+This list looks better in "nextline" style.
+Also use \tco{} macro in labels and remove escapes of underscore.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/whymb/whymemorybarriers.tex | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ appendix/whymb/whymemorybarriers.tex | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
-index 49d29ba..90da0df 100644
+index 90da0df..9015a85 100644
 --- a/appendix/whymb/whymemorybarriers.tex
 +++ b/appendix/whymb/whymemorybarriers.tex
-@@ -1969,8 +1969,8 @@ Its memory model is similar to that of Power
- (see Section~\ref{sec:app:whymb:POWER / PowerPC}, but ARM uses a
- different set of memory-barrier instructions~\cite{ARMv7A:2010}:
+@@ -2092,26 +2092,26 @@ not to hardware considerations, but rather to the use cases provided
+ by the Linux kernel and the C++11 standard~\cite{RichardSmith2015N4527}
+ in a manner similar to the ARM64 additions:
 
--\begin{enumerate}
--\item	\co{DMB} (data memory barrier) causes the specified type of
-+\begin{description}
-+\item	[\tco{DMB}] (data memory barrier) causes the specified type of
- 	operations to \emph{appear} to have completed before any
- 	subsequent operations of the same type.
- 	The ``type'' of operations can be all operations or can be
-@@ -1979,20 +1979,20 @@ different set of memory-barrier instructions~\cite{ARMv7A:2010}:
- 	In addition, ARM allows cache coherence to have one of three
- 	scopes: single processor, a subset of the processors
- 	(``inner'') and global (``outer'').
--\item	\co{DSB} (data synchronization barrier) causes the specified
-+\item	[\tco{DSB}] (data synchronization barrier) causes the specified
- 	type of operations to actually complete before any subsequent
- 	operations (of any type) are executed.
- 	The ``type'' of operations is the same as that of \co{DMB}.
- 	The \co{DSB} instruction was called \co{DWB} (drain write buffer
- 	or data write barrier, your choice) in early versions of the
- 	ARM architecture.
--\item	\co{ISB} (instruction synchronization barrier) flushes the CPU
-+\item	[\tco{ISB}] (instruction synchronization barrier) flushes the CPU
- 	pipeline, so that all instructions following the \co{ISB}
- 	are fetched only after the \co{ISB} completes.
- 	For example, if you are writing a self-modifying program
- 	(such as a JIT), you should execute an \co{ISB} between
- 	generating the code and executing it.
--\end{enumerate}
-+\end{description}
-
- None of these instructions exactly match the semantics of Linux's
- \co{rmb()} primitive, which must therefore be implemented as a full
+-\begin{description}
+-\item[SYNC]
++\begin{description}[style=nextline]
++\item[\tco{SYNC}]
+ 	Full barrier for a number of hardware operations in addition
+ 	to memory references.
+-\item[SYNC\_WMB]
++\item[\tco{SYNC_WMB}]
+ 	Write memory barrier, which can be used to implement the
+ 	\co{smp_wmb()} primitive in the Linux kernel.
+-\item[SYNC\_MB]
++\item[\tco{SYNC_MB}]
+ 	Full memory barrier, but only for memory operations.
+ 	This may be used to implement the Linux-kernel \co{smp_mb()}
+ 	and the C++ \co{atomic_thread_fence(memory_order_seq_cst)}.
+-\item[SYNC\_ACQUIRE]
++\item[\tco{SYNC_ACQUIRE}]
+ 	Acquire memory barrier, which may be used to implement the
+ 	Linux-kernel \co{smp_load_acquire()} and the C++
+ 	\co{atomic_load_explicit(..., memory_order_acquire)}.
+-\item[SYNC\_RELEASE]
++\item[\tco{SYNC_RELEASE}]
+ 	Release memory barrier, which may be used to implement the
+ 	Linux-kernel \co{smp_store_release()} and the C++
+ 	\co{atomic_store_explicit(..., memory_order_release)}.
+-\item[SYNC\_RMB]
++\item[\tco{SYNC_RMB}]
+ 	Read memory barrier, which can be used to implement the
+ 	\co{smp_rmb()} primitive in the Linux kernel.
+ \end{description}
 -- 
 2.7.4
 
