@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=ErYr/lgyEmxh27FFQtdPGif9mMggWuEbkVQNueqyEPE=;
- b=Tl8DgcKa0dN3AD7JNScW1wO4dB1l92C7g/Dk7MbXBprcH6WeGbjXGVdk/SIDoc5OAd
- xTknqOgS7hPUOrUOrilHJFGIJhg1p6g1CLrENx4ybEgECvv74fjG0zjQl3edttDjsB9T
- EZmKvlAYFXr4qeZsJQcXmpgtrCiNcKhGCEy+rUpogh6hCfkVmzORsSaV530nEjLxZr8m
- lLmU66tjDO+XKLkxR6xhRIpKdcOGaJGtuABqeMDVuM5icKZoulQhfgPZcEEptNF8GDAH
- HMYRkqJLQRhpg2w4Y6YoI2ohjE9U7/RVxql6j/spjDXp2fBg3lswCjypkRm7sy3/0tHo
- ALBQ==
-Subject: [PATCH 5/6] whymb: Convert to 'description' (part 4)
+ bh=rwimIiEdW/PjjpBIhaxSuCMJC9vxtZZ7nMX0ngPxQdc=;
+ b=bWN1Vy87TEzU7lm326lRysTghgsRVeiVNAsD6yueV1wVcJ9KvYT1wN6Wc3jXZueSRA
+ ZOlwlTGg8fj5bgTMd0Szf9I2e/w3hOKaFWZ/tweEQnSO0zmOpthIDBir2Jy1LiveEqOp
+ kaLDr02dk4igsN1lqrH4/0KOgZZdn3uAA4OcjHfBuq+KUouNuEbpNLvj1+khMcLApkik
+ PAncD+kclflsRHa6VbsxlGlQ4LMwvKWXKpBrG8CQ4tvk/qmqEUCkKEZCtBgln2Xu+jtg
+ SnRi/jwPP0N/b7u6mQuevpWAbqd3lJX07hPmAAe20NeCemxhRsOqu2J4171iysSif8IN
+ dB7w==
+Subject: [PATCH 6/6] whymb: Convert to 'description' (part 5)
 References: <ad161e9f-b7f1-9e60-bed1-bad4a226e418@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <6d993155-7422-f408-bf31-35a384735a63@gmail.com>
-Date: Mon, 20 Mar 2017 00:54:22 +0900
+Message-ID: <9ee2c8c1-b60b-fc0b-4769-614da9700bfb@gmail.com>
+Date: Mon, 20 Mar 2017 00:55:54 +0900
 MIME-Version: 1.0
 In-Reply-To: <ad161e9f-b7f1-9e60-bed1-bad4a226e418@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,63 +22,56 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 101cacb83ff135f713afecd1edefbc8b5df7b8bc Mon Sep 17 00:00:00 2001
+From e29e397c3eab7359cdd866d5a59a0af56dfd22c4 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 19 Mar 2017 23:32:24 +0900
-Subject: [PATCH 5/6] whymb: Convert to 'description' (part 4)
+Date: Sun, 19 Mar 2017 23:33:50 +0900
+Subject: [PATCH 6/6] whymb: Convert to 'description' (part 5)
 
-This list is not necessarily to be enumerated and suited to
-"description". Using \tco{} in labels enables them to be
-in bold face. (Note: "\tt" specifies "normal" typewriter text.)
+This list is also a candidate for conversion to "description".
+Also adjust conjugation of verbs that follow labels.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/whymb/whymemorybarriers.tex | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ appendix/whymb/whymemorybarriers.tex | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
-index 9015a85..d6dd15f 100644
+index d6dd15f..6c6b28a 100644
 --- a/appendix/whymb/whymemorybarriers.tex
 +++ b/appendix/whymb/whymemorybarriers.tex
-@@ -2138,11 +2138,11 @@ barrier.
- The POWER and PowerPC\textsuperscript{\textregistered}
- CPU families have a wide variety of memory-barrier
- instructions~\cite{PowerPC94,MichaelLyons05a}:
--\begin{enumerate}
--\item	{\tt sync} causes all preceding operations to {\em appear to have}
+@@ -2221,22 +2221,23 @@ worry about memory barriers.
+
+ SPARC has a very flexible memory-barrier instruction~\cite{SPARC94}
+ that permits fine-grained control of ordering:
+-\begin{itemize}
+-\item	{\tt StoreStore}: order preceding stores before subsequent stores.
 +\begin{description}
-+\item	[\tco{sync}] causes all preceding operations to {\em appear to have}
- 	completed before any subsequent operations are started.
- 	This instruction is therefore quite expensive.
--\item	{\tt lwsync} (light-weight sync) orders loads with respect to
-+\item	[\tco{lwsync}] (light-weight sync) orders loads with respect to
- 	subsequent loads and stores, and also orders stores.
- 	However, it does {\em not} order stores with respect to subsequent
- 	loads.
-@@ -2151,20 +2151,20 @@ instructions~\cite{PowerPC94,MichaelLyons05a}:
- 	SPARC TSO.
- 	The \co{lwsync} instruction may be used to implement
- 	load-acquire and store-release operations.
--\item	{\tt eieio} (enforce in-order execution of I/O, in case you
-+\item	[\tco{eieio}] (enforce in-order execution of I/O, in case you
- 	were wondering) causes all preceding cacheable stores to appear
- 	to have completed before all subsequent stores.
- 	However, stores to cacheable memory are ordered separately from
- 	stores to non-cacheable memory, which means that {\tt eieio}
- 	will not force an MMIO store to precede a spinlock release.
--\item	{\tt isync} forces all preceding instructions to appear to have
-+\item	[\tco{isync}] forces all preceding instructions to appear to have
- 	completed before any subsequent instructions start execution.
- 	This means that the preceding instructions must have progressed
- 	far enough that any traps they might generate have either happened
- 	or are guaranteed not to happen, and that any side-effects of
- 	these instructions (for example, page-table changes) are seen by the
- 	subsequent instructions.
--\end{enumerate}
++\item	[\tco{StoreStore}] orders preceding stores before subsequent stores.
+ 	(This option is used by the Linux \co{smp_wmb()} primitive.)
+-\item	{\tt LoadStore}: order preceding loads before subsequent stores.
+-\item	{\tt StoreLoad}: order preceding stores before subsequent loads.
+-\item	{\tt LoadLoad}: order preceding loads before subsequent loads.
++\item	[\tco{LoadStore}] orders preceding loads before subsequent stores.
++\item	[\tco{StoreLoad}] orders preceding stores before subsequent loads.
++\item	[\tco{LoadLoad}] orders preceding loads before subsequent loads.
+ 	(This option is used by the Linux \co{smp_rmb()} primitive.)
+-\item	{\tt Sync}: fully complete all preceding operations before starting
++\item	[\tco{Sync}] fully completes all preceding operations before starting
+ 	any subsequent operations.
+-\item	{\tt MemIssue}: complete preceding memory operations before subsequent
++\item	[\tco{MemIssue}] completes preceding memory operations before subsequent
+ 	memory operations, important for some instances of memory-mapped
+ 	I/O.
+-\item	{\tt Lookaside}: same as MemIssue, but only applies to preceding stores
++\item	[\tco{Lookaside}] does the same as MemIssue,
++	but only applies to preceding stores
+ 	and subsequent loads, and even then only for stores and loads that
+ 	access the same memory location.
+-\end{itemize}
 +\end{description}
 
- Unfortunately, none of these instructions line up exactly with Linux's
- {\tt wmb()} primitive, which requires {\em all} stores to be ordered,
+ The Linux \co{smp_mb()} primitive uses the first four options together,
+ as in
 -- 
 2.7.4
 
