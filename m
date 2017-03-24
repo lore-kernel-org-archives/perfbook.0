@@ -2,52 +2,76 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=BWhwWDrhSbcLNnFimDR2hXHyZEuToHXhNA9akLzIauk=;
- b=G5gptF3iMhwZGqvmgSbYQJRonRWoPREa2rH+3rXbHovIdIBf34yTCTVGE9LRwl1mCB
- 3HyPz34DduC7cozlezgsUvI2/vHY2YuUSv5MYyvocD3yyq5CFokNYoz2SyhfYxrmOrcQ
- u/p8TBwpAfBIzUgOD06T8QJA+UPPYNOR9nLmDAbYiqWUZqNhmG1I82y1mkSCYZLGlAxq
- IGYbNZahxIih+0CjnQk9sM8d1Pbb5BnQafPs0n7n/+QJska3nYBnLU3avr88tubii5yD
- xcd0FMNP3SaL/xGE+IOLKaRf3LCxZ7pg46c+BkueZ64l2kviFok7k7uv2p/CNUzIeNvA
- 0QRA==
-Subject: [PATCH 1/2] FAQ-BUILD.txt: Typo fix
+ bh=32mraS4SlPhq6ULjgmNFbRLatry6EhYd3tSlQEFLUJk=;
+ b=ei2wC2dSQFRmEjME8b1ZSux3TWtHVUlabK6BXQzj/URctvMnqhNLTdyjeMbEtncgLv
+ cITTQX5xK6OEM+sjjii/TF5FNRjmST9hmvxbfhnsnv2lVMhK8eOdnVH+GW8p6WGLSpWL
+ 8eZyotpyTVgigMni8HDMFMTjZAE3IAmjZnof8C1bSWEMrsHDmS/rDwSW31ji2DZ1afwu
+ za+tgZ+Q+j7sOEm3JsZcsRSOXjIu//3A1+dQg04jFQ2SGdeVUu9paWF2yeGurqn+a4nZ
+ 7VDFVbuOKbfEFO3zJpvwG7BTHWZ3O7TpmiVfbgOmrvmicvQ/RnAIConrEAc9Jrr0ItoV
+ ClFA==
+Subject: [PATCH 2/2] Add another build error check
 References: <d4e3f6ba-bdc9-fa85-7404-f189adfb6436@gmail.com>
  <20170323153558.GD3637@linux.vnet.ibm.com>
  <c7a6f457-3914-9e5e-a42a-29e9b8f67b77@gmail.com>
- <d0f3c29f-3607-9175-f357-d9b546437745@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <e7d8b68f-ce3f-ecd2-d39c-1e76003a6513@gmail.com>
-Date: Fri, 24 Mar 2017 22:19:46 +0900
+Message-ID: <ea09f761-b22a-66a5-d955-5480524be109@gmail.com>
+Date: Fri, 24 Mar 2017 22:20:56 +0900
 MIME-Version: 1.0
-In-Reply-To: <d0f3c29f-3607-9175-f357-d9b546437745@gmail.com>
+In-Reply-To: <c7a6f457-3914-9e5e-a42a-29e9b8f67b77@gmail.com>
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 29f2c51a3a0f1a970a8665df15961d3c9a400a57 Mon Sep 17 00:00:00 2001
+From dd65cd3918b33e9bd267661ea697b39755be72a1 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 24 Mar 2017 20:36:40 +0900
-Subject: [PATCH 1/2] FAQ-BUILD.txt: Typo fix
+Date: Fri, 24 Mar 2017 20:37:26 +0900
+Subject: [PATCH 2/2] Add another build error check
+
+This check catches build error to happen when font-map database
+is not updated after manual install of a font package.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- FAQ-BUILD.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ utilities/runfirstlatex.sh | 6 ++++++
+ utilities/runlatex.sh      | 6 ++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index a47eef6..85a79f7 100644
---- a/FAQ-BUILD.txt
-+++ b/FAQ-BUILD.txt
-@@ -107,7 +107,7 @@
- 		Note: If available, you can use the <package>.tds.zip,
- 		which will automatically put the files in the relatively
- 		right place. Note that font packages should be copied to
--		the TEXMFLOCAL directory rather than to the TEXFMHOME
-+		the TEXMFLOCAL directory rather than to the TEXMFHOME
- 		directory.
-
- 		Following is a list of links to optional packages as of
+diff --git a/utilities/runfirstlatex.sh b/utilities/runfirstlatex.sh
+index 8261238..1a2a7a5 100644
+--- a/utilities/runfirstlatex.sh
++++ b/utilities/runfirstlatex.sh
+@@ -47,6 +47,12 @@ then
+ 	echo "----- Fatal latex error, see $basename.log for details. -----"
+ 	exit 1
+ fi
++if grep -q '!pdfTeX error:' $basename.log
++then
++	grep -A 2 '!pdfTeX error:' $basename.log
++	echo "----- Fatal latex error, see $basename.log for details. -----"
++	exit 1
++fi
+ grep 'LaTeX Warning:' $basename.log > $basename-warning.log
+ touch $basename-first.log
+ exit 0
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index cece545..81800db 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -58,6 +58,12 @@ iterate_latex () {
+ 		echo "----- Fatal latex error, see $basename.log for details. -----"
+ 		exit 1
+ 	fi
++	if grep -q '!pdfTeX error:' $basename.log
++	then
++		grep -A 2 '!pdfTeX error:' $basename.log
++		echo "----- Fatal latex error, see $basename.log for details. -----"
++		exit 1
++	fi
+ 	if test -r $basename-warning.log
+ 	then
+ 		mv -f $basename-warning.log $basename-warning-prev.log
 -- 
 2.7.4
 
