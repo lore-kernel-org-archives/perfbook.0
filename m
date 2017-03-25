@@ -1,243 +1,78 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46569 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751462AbdCYSnk (ORCPT <rfc822;perfbook@vger.kernel.org>); Sat, 25
- Mar 2017 14:43:40 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v2PIhcaS068615
- for <perfbook@vger.kernel.org>; Sat, 25 Mar 2017 14:43:39 -0400
-Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 29dn2cemhf-1 (version=TLSv1.2
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37073 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1751462AbdCYSn4 (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Sat, 25 Mar 2017 14:43:56 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v2PIhsef100357
+ for <perfbook@vger.kernel.org>; Sat, 25 Mar 2017 14:43:55 -0400
+Received: from e18.ny.us.ibm.com (e18.ny.us.ibm.com [129.33.205.208]) by
+ mx0b-001b2d01.pphosted.com with ESMTP id 29dn2s6pw4-1 (version=TLSv1.2
  cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sat,
- 25 Mar 2017 14:43:38 -0400
-Received: from localhost by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ 25 Mar 2017 14:43:55 -0400
+Received: from localhost by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted for
  <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 25 Mar
- 2017 14:43:33 -0400
-Date: Sat, 25 Mar 2017 11:43:31 -0700
+ 2017 14:43:54 -0400
+Date: Sat, 25 Mar 2017 11:43:51 -0700
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [RFC PATCH] Promote 'mslm' to default target
+Subject: Re: [RFC PATCH 0/7] Import 'TRANSITIVITY' section
 Reply-To: paulmck@linux.vnet.ibm.com
-References: <7f3ed34f-f3f7-c90a-ae8d-7aae10d58e44@gmail.com>
+References: <ef9bafef-1f79-ebb1-18b1-8c0adc695b4b@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7f3ed34f-f3f7-c90a-ae8d-7aae10d58e44@gmail.com>
-Message-Id: <20170325184331.GQ3637@linux.vnet.ibm.com>
+In-Reply-To: <ef9bafef-1f79-ebb1-18b1-8c0adc695b4b@gmail.com>
+Message-Id: <20170325184351.GR3637@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 To: Akira Yokosawa <akiyks@gmail.com>
 Cc: perfbook@vger.kernel.org
 
-On Sat, Mar 25, 2017 at 11:20:23AM +0900, Akira Yokosawa wrote:
-> >From 446208435ff6ec1f8c2b55cfa2f6838376cf62cd Mon Sep 17 00:00:00 2001
+On Sat, Mar 25, 2017 at 06:33:55PM +0900, Akira Yokosawa wrote:
+> >From 461f7d8b71f955c17ce30585b301834c3ad4026b Mon Sep 17 00:00:00 2001
 > From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sat, 25 Mar 2017 00:54:29 +0900
-> Subject: [RFC PATCH] Promote 'mslm' to default target
+> Date: Sat, 25 Mar 2017 17:54:01 +0900
+> Subject: [RFC PATCH 0/7] Import 'TRANSITIVITY' section
 > 
-> Targets "1c" and "hb" also use Latin Modern Typewriter ("lmtt")
-> font as monospace font.
+> Hi Paul,
 > 
-> Old defaults are preserved as targets "msns" and "mss".
+> As has been being discussed off the list, I'm attempting to update
+> "Memory Barriers" section to catch up memory-barriers.txt.
 > 
-> All the targets except for "msns" and "mss" use "lmtt" font for
-> code snippets.
+> This patch set imports "TRANSITIVITY" section and do some tweaks
+> for better LaTeX typesetting.
 > 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Patch 1 imports the section mostly as is.
+> Patch 5 diverts from current memory-barriers.txt in the way to
+> present code snippets.
+> Patches 2 and 7 are updates for issues in previous sections I noticed
+> while doing this work.
+> 
+> Although we need further updates, especially to replace "LOCK/UNLOCK"
+> with "ACQUIRE/RELEASE" to go along with changes in memory-barriers.txt,
+> this patch set seems worthy on its own.
 
-Queued and pushed, thank you!  If this change looks bad to others,
-please do not suffer in silence!
+Queued and pushed, thank you!
 
 							Thanx, Paul
 
-> ---
-> Hi Paul,
-> 
-> So, this RFC patch promotes "mslm" to default.
-> Also, for other targets, "Latin Modern Typewriter" font ("lmtt")
-> is used in code snippets. Original idea was to use "Computer Modern
-> Teletype" font ("cmtt") for them, but "lmtt" gives you better result
-> than "cmtt" when you look closely by zooming in.
-> Old defaults "msns" and "mss" use their respective monospace font
-> for them to preserve their behavior.
-> 
-> I hope this change would invite people's opinion on font choice.
-> 
->                                Thank, Akira
+> Thoughts?
+>                                   Thanks, Akira
 > --
->  Makefile     | 46 +++++++++++++++++++++++-----------------------
->  perfbook.tex | 28 ++++++++++++++--------------
->  2 files changed, 37 insertions(+), 37 deletions(-)
 > 
-> diff --git a/Makefile b/Makefile
-> index e5f620c..88a23e2 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -9,7 +9,7 @@ LATEXSOURCES = \
+> Akira Yokosawa (7):
+>   advsync: Import 'TRANSITIVITY' section from memory-barriers.txt
+>   advsync: Permit p (page) placement for consecutive wide figures
+>   advsync: Make code snippet in deference to Herman Hollerith float
+>   advsync: Add footnote on transitivity
+>   advsync: Make code snippets more asm like
+>   advsync: Properly use nbsp in initial values
+>   advsync: Avoid indent after minipage
 > 
->  LATEXGENERATED = autodate.tex qqz.tex contrib.tex origpub.tex
+>  advsync/memorybarriers.tex | 207 ++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 195 insertions(+), 12 deletions(-)
 > 
-> -ABBREVTARGETS := 1c hb msns mstx msr msn msnt mslm 1csf
-> +ABBREVTARGETS := 1c hb msns mss mstx msr msn msnt 1csf
-> 
->  PDFTARGETS := perfbook.pdf $(foreach v,$(ABBREVTARGETS),perfbook-$(v).pdf)
-> 
-> @@ -60,17 +60,17 @@ else
->  	targ = $(default)
->  endif
-> 
-> -.PHONY: all touchsvg clean distclean neatfreak 2c ls-unused $(ABBREVTARGETS) mss perfbook-mss.pdf mssmsg help
-> +.PHONY: all touchsvg clean distclean neatfreak 2c ls-unused $(ABBREVTARGETS) mslm perfbook-mslm.pdf mslmmsg help
->  all: $(targ)
-> 
->  2c: perfbook.pdf
-> 
-> -mss: perfbook-mss.pdf
-> +mslm: perfbook-mslm.pdf
-> 
-> -perfbook-mss.pdf: perfbook.pdf mssmsg
-> +perfbook-mslm.pdf: perfbook.pdf mslmmsg
-> 
-> -mssmsg:
-> -	@echo "perfbook-mss.pdf is promoted to default target,"
-> +mslmmsg:
-> +	@echo "perfbook-mslm.pdf is promoted to default target,"
->  	@echo "built as perfbook.pdf."
-> 
->  $(PDFTARGETS): %.pdf: %.tex %.bbl
-> @@ -107,33 +107,32 @@ perfbook-hb.tex: perfbook.tex
->  	sed -e 's/,twocolumn/&,letterpaperhb/' -e 's/setboolean{hardcover}{false}/setboolean{hardcover}{true}/' < $< > $@
-> 
->  perfbook-msns.tex: perfbook.tex
-> -	sed -e 's/\[scaled=\.94\]{couriers}/{courier}/' < $< > $@
-> +	sed -e 's/%msfontstub/\\usepackage{courier}/' \
-> +	    -e 's/{lmttforcode}{true}/{lmttforcode}{false}/' < $< > $@
-> +
-> +perfbook-mss.tex: perfbook.tex
-> +	sed -e 's/%msfontstub/\\usepackage[scaled=.94]{couriers}/' \
-> +	    -e 's/{lmttforcode}{true}/{lmttforcode}{false}/' < $< > $@
-> 
->  perfbook-mstx.tex: perfbook.tex
-> -	sed -e 's/usepackage\[scaled=\.94\]{couriers}/renewcommand*\\ttdefault{txtt}/' \
-> -	    -e 's/setboolean{cmttforcode}{false}/setboolean{cmttforcode}{true}/' < $< > $@
-> +	sed -e 's/%msfontstub/\\renewcommand*\\ttdefault{txtt}/' < $< > $@
-> 
->  perfbook-msr.tex: perfbook.tex
-> -	sed -e 's/\[scaled=\.94\]{couriers}/[scaled=.94]{nimbusmono}/' < $< > $@
-> +	sed -e 's/%msfontstub/\\usepackage[scaled=.94]{nimbusmono}/' < $< > $@
->  	@echo "## This target requires font package nimbus15. ##"
-> 
->  perfbook-msn.tex: perfbook.tex
-> -	sed -e 's/\[scaled=\.94\]{couriers}/{nimbusmononarrow}/' < $< > $@
-> +	sed -e 's/%msfontstub/\\usepackage{nimbusmononarrow}/' < $< > $@
->  	@echo "## This target requires font package nimbus15. ##"
-> 
->  perfbook-msnt.tex: perfbook.tex
-> -	sed -e 's/\[scaled=\.94\]{couriers}/[zerostyle=a]{newtxtt}/' \
-> -	    -e 's/setboolean{cmttforcode}{false}/setboolean{cmttforcode}{true}/' < $< > $@
-> +	sed -e 's/%msfontstub/\\usepackage[zerostyle=a]{newtxtt}/' < $< > $@
->  	@echo "## This target requires font package newtxtt. ##"
->  	@echo "## If build fails, try target 'mstx' instead. ##"
-> 
-> -perfbook-mslm.tex: perfbook.tex
-> -	sed -e 's/%\\usepackage{lmodern}/\\usepackage{lmodern}/' \
-> -	    -e 's/\\usepackage\[scaled=\.94\]{couriers}/%\\usepackage[scaled=.94]{couriers}/' < $< > $@
-> -
->  perfbook-1csf.tex: perfbook-1c.tex
->  	sed -e 's/setboolean{sansserif}{false}/setboolean{sansserif}{true}/' \
-> -	    -e 's/\[scaled=\.94\]{couriers}/[var0]{inconsolata}[2013\/07\/17]/' < $< > $@
-> +	    -e 's/%msfontstub/\\usepackage[var0]{inconsolata}[2013\/07\/17]/' < $< > $@
->  	@echo "## This target requires recent version (>= 1.3i) of mathastext. ##"
-> 
->  # Rules related to perfbook_html are removed as of May, 2016
-> @@ -176,7 +175,7 @@ endif
->  	@inkscape --export-pdf=$@ $<
-> 
->  help:
-> -	@echo "Official targets:"
-> +	@echo "Official targets (Latin Modern Typewriter for monospace font):"
->  	@echo "  Full,              Abbr."
->  	@echo "  perfbook.pdf,      2c:   (default) 2-column layout"
->  	@echo "  perfbook-1c.pdf,   1c:   1-column layout"
-> @@ -186,18 +185,19 @@ help:
->  	@echo "  Full,              Abbr."
->  	@echo "  perfbook-msnt.pdf, msnt: 2c with newtxtt as monospace (non-slashed 0)"
->  	@echo "  perfbook-mstx.pdf, mstx: 2c with txtt as monospace"
-> -	@echo "  perfbook-mslm.pdf, mslm: 2c with lmtt (Latin Modern Typewriter) as monospace"
-> -	@echo "       (Latin Modern is a clone of Computer Modern with additional type faces)"
->  	@echo "  perfbook-msr.pdf,  msr:  2c with regular thickness courier clone"
->  	@echo "  perfbook-msn.pdf,  msn:  2c with narrow courier clone"
-> 
->  	@echo "  perfbook-1csf.pdf, 1csf: 1c with sans serif font"
-> -	@echo "  perfbook-msns.pdf, msns: 2c with non-scaled courier"
-> +	@echo "  perfbook-msns.pdf, msns: 2c with non-scaled courier (orig default)"
-> +	@echo "  perfbook-mss.pdf,  mss:  2c with scaled courier (prev default)"
->  	@echo "  \"msnt\" requires \"newtxtt\". \"mstx\" is fallback target for older TeX env."
-> -	@echo "  \"msnt\" and \"mstx\" use \"cmtt\" font for code snippet."
->  	@echo "  \"msr\" and \"msn\" require \"nimbus15\"."
->  	@echo "  \"msn\" doesn't cover bold face for monospace."
->  	@echo "  \"1csf\" requires recent version (>=1.3i) of \"mathastext\"."
-> +	@echo
-> +	@echo "All targets except for \"msns\" and \"mss\" use \"Latin Modern Typewriter font"
-> +	@echo "for code snippets."
-> 
->  clean:
->  	find . -name '*.aux' -o -name '*.blg' \
-> diff --git a/perfbook.tex b/perfbook.tex
-> index 1f0916e..58b0cd2 100644
-> --- a/perfbook.tex
-> +++ b/perfbook.tex
-> @@ -5,12 +5,12 @@
->  % standard packages
-> 
->  % A more pleasant font
-> -%\usepackage{lmodern}
-> +\usepackage{lmodern}
->  \usepackage[T1]{fontenc} % use postscript type 1 fonts
->  \usepackage{textcomp} % use symbols in TS1 encoding
-> -\usepackage{mathptmx} % use nice, standard fonts for roman,
-> -\usepackage[scaled=.92]{helvet}   % sans serif,
-> -\usepackage[scaled=.94]{couriers}  % and monospace respectively
-> +\usepackage{mathptmx} % use nice, standard fonts for roman
-> +\usepackage[scaled=.92]{helvet} % and sans serif
-> +%msfontstub
-> 
->  % Improves the text layout
->  \usepackage{microtype}
-> @@ -65,9 +65,9 @@
->  \newboolean{sansserif}
->  \setboolean{sansserif}{false}
->  \newcommand{\IfSansSerif}[2]{\ifthenelse{\boolean{sansserif}}{#1}{#2}}
-> -\newboolean{cmttforcode}
-> -\setboolean{cmttforcode}{false}
-> -\newcommand{\IfCmttForCode}[2]{\ifthenelse{\boolean{cmttforcode}}{#1}{#2}}
-> +\newboolean{lmttforcode}
-> +\setboolean{lmttforcode}{true}
-> +\newcommand{\IfLmttForCode}[2]{\ifthenelse{\boolean{lmttforcode}}{#1}{#2}}
-> 
->  \newcommand{\OneColumnHSpace}[1]{\IfTwoColumn{}{\hspace*{#1}}}
-> 
-> @@ -78,13 +78,13 @@
->  \renewcommand{\path}[1]{\nolinkurl{#1}} % workaround of interference with mathastext
->  }{}
-> 
-> -\IfCmttForCode{
-> -\AtBeginEnvironment{verbatim}{\renewcommand{\ttdefault}{cmtt}}
-> -\AtBeginEnvironment{verbbox}{\renewcommand{\ttdefault}{cmtt}}
-> -\AtBeginEnvironment{table}{\renewcommand{\ttdefault}{cmtt}}
-> -\AtBeginEnvironment{tabular}{\renewcommand{\ttdefault}{cmtt}}
-> -\AtBeginEnvironment{tabulary}{\renewcommand{\ttdefault}{cmtt}}
-> -\AtBeginEnvironment{minipage}{\renewcommand{\ttdefault}{cmtt}}
-> +\IfLmttForCode{
-> +\AtBeginEnvironment{verbatim}{\renewcommand{\ttdefault}{lmtt}}
-> +\AtBeginEnvironment{verbbox}{\renewcommand{\ttdefault}{lmtt}}
-> +\AtBeginEnvironment{table}{\renewcommand{\ttdefault}{lmtt}}
-> +\AtBeginEnvironment{tabular}{\renewcommand{\ttdefault}{lmtt}}
-> +\AtBeginEnvironment{tabulary}{\renewcommand{\ttdefault}{lmtt}}
-> +\AtBeginEnvironment{minipage}{\renewcommand{\ttdefault}{lmtt}}
->  }{}
-> 
->  \begin{document}
 > -- 
 > 2.7.4
 > 
