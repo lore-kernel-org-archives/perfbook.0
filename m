@@ -1,63 +1,93 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pg0-f66.google.com ([74.125.83.66]:33415 "EHLO
- mail-pg0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1750816AbdDACXu (ORCPT <rfc822;perfbook@vger.kernel.org>); Fri, 31
- Mar 2017 22:23:50 -0400
-Received: by mail-pg0-f66.google.com with SMTP id 79so20891463pgf.0 for
- <perfbook@vger.kernel.org>; Fri, 31 Mar 2017 19:23:50 -0700 (PDT)
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding;
- bh=nDrB8fkGNht/CcRDKLgYnBexZgLlWGN1TpL2pnk8gIo=;
- b=FCCJnG7jOqUOEg0RG/RnUGkKpH3xlYGj81cqyJT6tF+Te0okllkikQDAu8gyCREHL7
- WuvVtn/oNMWgqZMz/dG5ocmR5ho3KCi6C9Bkpf2fOcX/Xc0gNeRqgM2rwXsFsq1HiZbY
- YS8w1MvM9Q4IvdyOyxpp5q3Eq85qrrFuZcM/sXyF8zZghXTXH60zeTByLE19Qxm7Okj3
- WFLtZfgCkcu2SXYFA1JPLIXm+LgEbLfSuPVhNK9ktx6G8pGxbo/TPum5YDL1gyLnHawK
- r70HrEBRVcXBj1Om0NlDc/fjr4nKcFweva0w5o48j7Y3Rlo+ylz0kOuCC+TReDaj1tJx
- PCtw==
-Subject: [RFC PATCH 12/12] advsync: Avoid indent after minipage
-References: <b00db59a-a0b0-42d6-7546-01872ad3e404@gmail.com>
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=DRdU1wZtf4GoY+uAnYX7S/Zsnv+6SVfvTnGZdjzpM4k=;
+ b=SOtgi0SAy22qvh5NtGZZj/jvfgHWmlIExYlACCb9YJdEaHUrflvyjtsZJgtLGdI/zd
+ BtFiOq4UOGD20mR/WRDcA2uy8v3U9t63IrJj2b0Yjj1McmMOP2KLzUyPJJkPO8jvbtl/
+ FcM2MVsRp+Mn4F2JWWJN4ykk/Hzmq11OWjMD5MvMC+GUNO+pxoNPU2tUVRto8c1IknNl
+ kDcoPpsPN71kuCBCO0wWBEQbEjzkSTgQiWM+QUQ2fv370cMcU3KTNH1A9lFCAXyWGt6s
+ ynKm+KbgBEmrm/231KEVu/PaIckHT3mQbuuYeDKeUvnMVzaURLYDktJEfFtaLwrBb/bN
+ gCsA==
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <6d3bfdb1-8896-544e-1077-2a6470dd725a@gmail.com>
-Date: Sat, 1 Apr 2017 11:23:46 +0900
+Subject: [PATCH] bib/QC: Replace UTF-8 encoded chars with escaped codes in
+ ASCII
+Message-ID: <c7ea071a-a2cb-8279-762a-ec75bd9fe3d1@gmail.com>
+Date: Sun, 26 Mar 2017 18:21:59 +0900
 MIME-Version: 1.0
-In-Reply-To: <b00db59a-a0b0-42d6-7546-01872ad3e404@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-From 8aa4157fbed720fd3e8a259de620184003bf09da Mon Sep 17 00:00:00 2001
+From bb2058728b0b9d979b93cc0e0b3ff65a7906d450 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 1 Apr 2017 09:06:05 +0900
-Subject: [RFC PATCH 12/12] advsync: Avoid indent after minipage
-
-Also reduce \vspace{} param for even spacing in the result.
+Date: Sun, 26 Mar 2017 17:44:22 +0900
+Subject: [PATCH] bib/QC: Replace UTF-8 encoded chars with escaped codes in ASCII
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- advsync/memorybarriers.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi Paul,
 
-diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index d2ad7b8..5f8ea7f 100644
---- a/advsync/memorybarriers.tex
-+++ b/advsync/memorybarriers.tex
-@@ -2787,9 +2787,9 @@ For example, the following:
-   3 RELEASE
-   4 *B = b;
- \end{verbatim}
-+\vspace{1pt}
- \end{minipage}
--\vspace{5pt}
--
-+%
- might well execute in the following order:
+In yet to be cited bibliography database recently added, I found
+several entries with UTF-8 encoded characters.
+This patch is to replace them with escaped codes of LaTeX.
 
- \vspace{5pt}
+Another option is to enable UTF-8 awareness by using "inputenc" package
+with "utf8" option. The problem is BibTeX does not support UTF-8.
+It is said that combination of "biblatex" and "biber" can bridge
+the gap. I'll see if it is feasible for perfbook, but with a lower
+priority.
+
+Any help in this respect from someone on the list is welcome!
+
+                                    Thanks, Akira
+--
+ bib/QC.bib | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/bib/QC.bib b/bib/QC.bib
+index 551bdbb..d51ecb1 100644
+--- a/bib/QC.bib
++++ b/bib/QC.bib
+@@ -277,7 +277,7 @@
+ }
+
+ @article{LeonidDubrovinsky2012640GPaDiamondAnvilCell
+-,title = "Implementation of micro-ball nanodiamond anvils for high-pressure studies above 6 {Mbar}"
++,title = "Implementation of micro-ball nanodiamond anvils for high-pressure studies above 6\,{Mbar}"
+ ,author = "Leonid Dubrovinsky and Natalia Dubrovinskaia and Vitali B. Prakapenka and Artem M Abakumov"
+ ,journal = {Nat. Commun.}
+ ,volume = {3}
+@@ -425,7 +425,7 @@
+
+ @article{TroelsFRonnow2014QC-D-WaveNoSpeedup
+ ,title = "Defining and detecting quantum speedup"
+-,author = "Troels F. Rønnow and Zhihui Wang and Joshua Job and Sergio Boixo and Sergei V. Isakov and David Wecker and John M. Martinis and Daniel A. Lidar and Matthias Troyer"
++,author = "Troels F. R{\o}nnow and Zhihui Wang and Joshua Job and Sergio Boixo and Sergei V. Isakov and David Wecker and John M. Martinis and Daniel A. Lidar and Matthias Troyer"
+ ,journal = "Science"
+ ,volume = {345}
+ ,issue = {6195}
+@@ -725,7 +725,7 @@
+
+ @unpublished{BradJones2017IBM-QC-Crowder
+ ,Author="Brad Jones"
+-,Title="It’s the 1940s again: {IBM's} Scott Crowder on the infancy of quantum computers"
++,Title="It's the 1940s again: {IBM's} Scott Crowder on the infancy of quantum computers"
+ ,month="March"
+ ,day="13"
+ ,year="2017"
+@@ -734,7 +734,7 @@
+
+ @unpublished{TomSimonite2017QC-MS-Chemistry
+ ,Author="Tom Simonite"
+-,Title="Chemists Are First in Line for Quantum Computing’s Benefits"
++,Title="Chemists Are First in Line for Quantum Computing's Benefits"
+ ,month="March"
+ ,day="17"
+ ,year="2017"
 -- 
 2.7.4
-
 
