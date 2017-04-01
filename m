@@ -1,79 +1,72 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37073 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751462AbdCYSn4 (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Sat, 25 Mar 2017 14:43:56 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v2PIhsef100357
- for <perfbook@vger.kernel.org>; Sat, 25 Mar 2017 14:43:55 -0400
-Received: from e18.ny.us.ibm.com (e18.ny.us.ibm.com [129.33.205.208]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 29dn2s6pw4-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sat,
- 25 Mar 2017 14:43:55 -0400
-Received: from localhost by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 25 Mar
- 2017 14:43:54 -0400
-Date: Sat, 25 Mar 2017 11:43:51 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [RFC PATCH 0/7] Import 'TRANSITIVITY' section
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <ef9bafef-1f79-ebb1-18b1-8c0adc695b4b@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=Ui01qcrV9RP0nq6bg+OiE+gU7V0QqQ5jGa3uS1lg1Y4=;
+ b=J1/nNGptRvt65y4fKLz62fYc77dAJT7Y5l7yWqBl00hZa/d0CwIh/qZt0AU7QsPGwX
+ oHKjVQDqHznLwgkIv8ZMtBhmIYeX/X7dd/PL/ivIyzKDN/dPRPwJSf+f8T3AlSEG4pbh
+ 3bqg8lRwEzXvJHJUrJM3+ieAG+Y8vog/3LmCaOFLrvRslXawnbS18IfBx7sRl2b0KUbE
+ ja8FwfFH2/GaupeT1jUN4acScxkGCP9aOi//dhayYeSrN0V6wH0Ko2EKPZmJXUxkwd5d
+ lDwoX9ZvJAi944AHDKJs6U06BMCGMGPxmJSnMsjdWnmt/gI5bvUw+QnXCMtSlq18T716
+ i4nA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [RFC PATCH 00/12] advsync: Rename LOCK/UNLOCK to ACQUIRE/RELEASE
+Message-ID: <b00db59a-a0b0-42d6-7546-01872ad3e404@gmail.com>
+Date: Sat, 1 Apr 2017 11:09:27 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ef9bafef-1f79-ebb1-18b1-8c0adc695b4b@gmail.com>
-Message-Id: <20170325184351.GR3637@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Mar 25, 2017 at 06:33:55PM +0900, Akira Yokosawa wrote:
-> >From 461f7d8b71f955c17ce30585b301834c3ad4026b Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sat, 25 Mar 2017 17:54:01 +0900
-> Subject: [RFC PATCH 0/7] Import 'TRANSITIVITY' section
-> 
-> Hi Paul,
-> 
-> As has been being discussed off the list, I'm attempting to update
-> "Memory Barriers" section to catch up memory-barriers.txt.
-> 
-> This patch set imports "TRANSITIVITY" section and do some tweaks
-> for better LaTeX typesetting.
-> 
-> Patch 1 imports the section mostly as is.
-> Patch 5 diverts from current memory-barriers.txt in the way to
-> present code snippets.
-> Patches 2 and 7 are updates for issues in previous sections I noticed
-> while doing this work.
-> 
-> Although we need further updates, especially to replace "LOCK/UNLOCK"
-> with "ACQUIRE/RELEASE" to go along with changes in memory-barriers.txt,
-> this patch set seems worthy on its own.
+From 8aa4157fbed720fd3e8a259de620184003bf09da Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sat, 1 Apr 2017 10:48:45 +0900
+Subject: [RFC PATCH 00/12] advsync: Rename LOCK/UNLOCK to ACQUIRE/RELEASE
 
-Queued and pushed, thank you!
+Hi Paul,
 
-							Thanx, Paul
+This series mostly corresponds to commit 2e4f5382d12a ("locking/doc:
+Rename LOCK/UNLOCK to ACQUIRE/RELEASE") in Linux kernel repository.
+Although Documentation/memory-barriers.txt has a lot of updated
+contents after the import to perfbook, this series basically
+does substitution of existing "LOCK/UNLOCK".
 
-> Thoughts?
->                                   Thanks, Akira
-> --
-> 
-> Akira Yokosawa (7):
->   advsync: Import 'TRANSITIVITY' section from memory-barriers.txt
->   advsync: Permit p (page) placement for consecutive wide figures
->   advsync: Make code snippet in deference to Herman Hollerith float
->   advsync: Add footnote on transitivity
->   advsync: Make code snippets more asm like
->   advsync: Properly use nbsp in initial values
->   advsync: Avoid indent after minipage
-> 
->  advsync/memorybarriers.tex | 207 ++++++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 195 insertions(+), 12 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
+Patches 1--3 do simple substitutions.
+Patch 4 does another replacement not included in the original commit.
+Patch 5 is an attempt to add a footnote on "LOCK/UNLOCK" wording. You
+may want to rewrite the text of the footnote.
+Patch 6 replaces some of "the" with "a/an". I think they are reasonable,
+but this is from an non-native POV. I might missing something.
+Patch 7 is to go along with current wording in memory-barriers.txt.
+Patch 8 is a big patch in line count, but it just adds proper nbsps
+(in LaTeX sense).
+Patch 9 adjusts the position of a footnote appended in the previous
+patch set.
+Patch 10 is an independent trivial typo fix.
+Patches 11 and 12 are tweaks for a better layout.
+
+                                      Thanks, Akira
+--
+Akira Yokosawa (12):
+  advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 1)
+  advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 2)
+  advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 3)
+  advsync: More replacement to ACQUIRE
+  advsync: Add footnote mentioning LOCK/UNLOCK wording
+  advsync: Modify usage of definite article
+  advsync: Substitute 'guarantee' with 'implication'
+  advsync: Properly use nbsp
+  advsync: Move footnote on transitivity forward
+  advsync: Fix line number called out
+  advsync: Add extdash shortcut
+  advsync: Avoid indent after minipage
+
+ advsync/memorybarriers.tex | 504 +++++++++++++++++++++++----------------------
+ 1 file changed, 254 insertions(+), 250 deletions(-)
+
+-- 
+2.7.4
 
