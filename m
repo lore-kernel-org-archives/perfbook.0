@@ -1,50 +1,64 @@
-Return-Path: <akiyks@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mail-pf0-f196.google.com ([209.85.192.196]:36617 "EHLO
+ mail-pf0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1750859AbdDACO4 (ORCPT <rfc822;perfbook@vger.kernel.org>); Fri, 31
+ Mar 2017 22:14:56 -0400
+Received: by mail-pf0-f196.google.com with SMTP id r137so2884366pfr.3 for
+ <perfbook@vger.kernel.org>; Fri, 31 Mar 2017 19:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=0eU/2Ts/Zkt2vmaWh2GIdN0AlMNFXBNpvmVo3e6btSk=;
- b=Lu8DuN1e49vU9h6A3LnoWSEYL8N/X9SM3Vi5olXEmtGEMQ3qgr30gmc0vUj5hSWmsy
- 4uXwlK/mOp3/XRRYv28HC1CheBzxO/SLMU7lwQzrF19ozNiv6GXf178FwzGd13rLICpu
- jTc6rfwleSA6pVWMquyE+6MzJ74ohG72sJha47RPXBfdXfkD677pTddDftaBWIl19Rku
- 37sOkrae+ty7ao3tsCEXHFmRxYj1EfzTicwP8LdDPr2uaR1jh2p941mCNESyt5PIdKF5
- flpC78seX+QA9n5KrgymAGjv+8Qek8D/5szFDM8lYFm50vNqwuCC1YgmLd1Mfth7FJno
- /BDg==
-Subject: [RFC PATCH 04/12] advsync: More replacement to ACQUIRE
+ bh=E2KscVPT0CmnGkdb3TgIarWn80EesbxrNihGU28V2gU=;
+ b=Znx+f51D+zpxR6NOIUhnNTyfWXNij7311GcmjVj63yTei8mq2odACB3wAieoQ8F5Jw
+ h3ro3PR741zLZ1oE2VWs2IVWJsUoQ9wBIPsBlg4tCsUTFwlb/B3WfooUCZKmM0nRTq/y
+ tEp3RPfAOKKbxe5OSnEK3YgRfyknJODU5nVyUUPohEzMCL8/tF+DP1OqGjCDZsjEFVRL
+ FcWYxF2C4fHIw96GdFzicY51WDtfXbD5iuLbBhK27CkNwONWRGu3lK2BH0D8cJ/jgbPK
+ 0iU8iqKAMCdi++nUB+FkLtZpxBnoCwOfmXOLqf1gxSxQuXtAzdnWWQy6r65tc2IxgJXx
+ PYLQ==
+Subject: [RFC PATCH 05/12] advsync: Add footnote mentioning LOCK/UNLOCK
+ wording
 References: <b00db59a-a0b0-42d6-7546-01872ad3e404@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <2727c988-db7b-5f2c-0c2b-62703c6ad0b3@gmail.com>
-Date: Sat, 1 Apr 2017 11:13:53 +0900
+Message-ID: <de7e4cc8-c7bd-5d35-d6d2-3287a477990f@gmail.com>
+Date: Sat, 1 Apr 2017 11:14:52 +0900
 MIME-Version: 1.0
 In-Reply-To: <b00db59a-a0b0-42d6-7546-01872ad3e404@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
+Sender: perfbook-owner@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-List-ID: <perfbook.vger.kernel.org>
 
-From d2a400201e3f0379be01a296ebefee74ae106410 Mon Sep 17 00:00:00 2001
+From 41b970ba205df9069ce9921211e6214a4c138354 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 30 Mar 2017 00:03:50 +0900
-Subject: [RFC PATCH 04/12] advsync: More replacement to ACQUIRE
+Date: Sun, 26 Mar 2017 00:16:07 +0900
+Subject: [RFC PATCH 05/12] advsync: Add footnote mentioning LOCK/UNLOCK wording
+
+The text of the footnote should be regarded as a stub.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- advsync/memorybarriers.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ advsync/memorybarriers.tex | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index 8471f0a..ae6ca9f 100644
+index ae6ca9f..60d32b0 100644
 --- a/advsync/memorybarriers.tex
 +++ b/advsync/memorybarriers.tex
-@@ -2757,7 +2757,7 @@ These implicit memory barriers provide the following guarantees:
- 		due to being unable to get the lock immediately, or due
- 		to receiving an unblocked signal or exception
- 		whilst asleep waiting
--		for the lock to become available.  Failed locks do not
-+		for the lock to become available.  Failed ACQUIREs do not
- 		imply any sort of barrier.
- 	\end{itemize}
+@@ -1556,7 +1556,11 @@ because they are embedded into locking primitives:
+
+ \begin{enumerate}
+ \item	ACQUIRE operations and
+-\item	RELEASE operations.
++\item	RELEASE operations.\footnote{
++		Note that there were times when ACQUIRE/RELEASE operations
++		were called as ``LOCK/UNLOCK'' operations in the Linux
++		kernel community. ``ACQUIRE/RELEASE'' is preferred in
++		discussing lockless techniques.}
  \end{enumerate}
+
+ \paragraph{ACQUIRE Operations}
 -- 
 2.7.4
 
