@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding;
- bh=BVL3LPzA7HGJacYGB06rn4p6cj7v7FgtbUyvCfIkrkc=;
- b=lSztQV6CYIPAUSmX1xRDPBvP+i0Kngk7Sm5/QpOcaQbSJdDXYYrnXtAMeQlv9VFtqb
- nlIeNn+YiT8Mhyea/unaBa2FRJsI90cEe+s22K0JhWm6K5Uuabry558P0EEuMxy9hXrq
- fr+Kpwn3cbyAandbExuJJAlCeqQWMQVPMwEj71r5EaWdUjmlpy6hCROdAqbOtIj7co+L
- s8lO8rQMmTTleGd9kIud2OwMZzhHoq/XLdwmvOk5Dglu99jweBaFwDTS0ysRN4PGPtkI
- eHIzt6EhNwIZjqIWD0svO1S/+0z/20dhJvFG1ehu2C49fg8kCM/YpA/cPq6U4Nz7iaWf
- 9rHA==
-Subject: [RFC PATCH 01/12] advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 1)
+ bh=4WQpTv2+sPvnD9lwlrqLm5ORbj6oo6ZmTl1MbfuLixk=;
+ b=RDAjB0haTQvNZViXq/sQoVuzWh3Ag2Se/jtKVwRR/EsYjc/nOb79H/rWwKSjSQ5cql
+ w5Do3JWmNgBVVwzmdVXKlaNPEAMDhIXK15hB9BUFcMtg9dSXIaF+fxMvq80RNjeH7Bpl
+ lNqomazDYaxqLHzGq5WrbovFD4UM6PDJOriynlwWPp+/odbh2E9AtHTVz+GE62/ATsd9
+ MzYbAQjyPJbty32raiEZpzvNfF1hfMzaMiiL2JcwgLo/qHDnK/RR8MM+mkWawYXXrN89
+ 0K8nGbC6v88ATnPJ7bX5XIkAbEI6EoyFwkF/3WxaTE9GHsUV2U9wt1AIompDDyKR2LWE
+ wDaA==
+Subject: [RFC PATCH 02/12] advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 2)
 References: <b00db59a-a0b0-42d6-7546-01872ad3e404@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <507f8523-3128-fab1-f047-b70716765376@gmail.com>
-Date: Sat, 1 Apr 2017 11:10:52 +0900
+Message-ID: <9dfd7ddc-6aab-da4c-d259-b364aa97c81e@gmail.com>
+Date: Sat, 1 Apr 2017 11:11:54 +0900
 MIME-Version: 1.0
 In-Reply-To: <b00db59a-a0b0-42d6-7546-01872ad3e404@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -22,80 +22,82 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From c8b05232a7665495892fd11ec02e34b1b36b55ac Mon Sep 17 00:00:00 2001
+From 7e4a90f569e7ddfa68e5c71b9bf9edd88446d5c4 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 25 Mar 2017 23:58:48 +0900
-Subject: [RFC PATCH 01/12] advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 1)
+Date: Sun, 26 Mar 2017 00:27:40 +0900
+Subject: [RFC PATCH 02/12] advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 2)
 
-This mostly corresponds to the former half of commit 2e4f5382d12a
-("locking/doc: Rename LOCK/UNLOCK to ACQUIRE/RELEASE")[1] in Linux
-kernel repository, but only replaces what is present in perfbook
-now.
-
-Note:"memory-barriers.txt" has more details not included here.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2e4f5382d12a
+This mostly corresponds to the middle part of commit 2e4f5382d12a
+("locking/doc: Rename LOCK/UNLOCK to ACQUIRE/RELEASE") in Linux
+kernel repository. Although current memory-barriers.txt uses
+some different wording (such as "LOCK operation implication"),
+this commit does simple renames.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- advsync/memorybarriers.tex | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ advsync/memorybarriers.tex | 40 ++++++++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
 diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index 165b5cb..29d3af1 100644
+index 29d3af1..322ffbc 100644
 --- a/advsync/memorybarriers.tex
 +++ b/advsync/memorybarriers.tex
-@@ -1555,36 +1555,36 @@ There are a couple of types of implicit memory barriers, so called
- because they are embedded into locking primitives:
-
+@@ -2725,35 +2725,35 @@ barriers throughout.
+ As noted earlier, locking primitives contain implicit memory barriers.
+ These implicit memory barriers provide the following guarantees:
  \begin{enumerate}
--\item	LOCK operations and
--\item	UNLOCK operations.
-+\item	ACQUIRE operations and
-+\item	RELEASE operations.
- \end{enumerate}
-
--\paragraph{LOCK Operations}
-+\paragraph{ACQUIRE Operations}
-
--A lock operation acts as a one-way permeable barrier.
-+An acuire operation acts as a one-way permeable barrier.
- It guarantees that all memory
--operations after the LOCK operation will appear to happen after the LOCK
-+operations after the ACQUIRE operation will appear to happen after the ACQUIRE
- operation with respect to the other components of the system.
-
--Memory operations that occur before a LOCK operation may appear to happen
-+Memory operations that occur before an ACQUIRE operation may appear to happen
- after it completes.
-
--A LOCK operation should almost always be paired with an UNLOCK operation.
-+An ACQUIRE operation should almost always be paired with a RELEASE operation.
-
--\paragraph{UNLOCK Operations}
-+\paragraph{RELEASE Operations}
-
--Unlock operations also act as a one-way permeable barrier.
-+Release operations also act as a one-way permeable barrier.
- It guarantees that all
--memory operations before the UNLOCK operation will appear to happen before
--the UNLOCK operation with respect to the other components of the system.
-+memory operations before the RELEASE operation will appear to happen before
-+the RELEASE operation with respect to the other components of the system.
-
--Memory operations that occur after an UNLOCK operation may appear to
-+Memory operations that occur after a RELEASE operation may appear to
- happen before it completes.
-
--LOCK and UNLOCK operations are guaranteed to appear with respect to each
-+ACQUIRE and RELEASE operations are guaranteed to appear with respect to each
- other strictly in the order specified.
-
--The use of LOCK and UNLOCK operations generally precludes the need for
-+The use of ACQUIRE and RELEASE operations generally precludes the need for
- other sorts of memory barrier (but note the exceptions mentioned in the
- Section~\ref{sec:advsync:Device Operations}).
-
+-\item	LOCK operation guarantee:
++\item	ACQUIRE operation guarantee:
+ 	\begin{itemize}
+-	\item	Memory operations issued after the LOCK will be completed
+-		after the LOCK operation has completed.
+-	\item	Memory operations issued before the LOCK may be completed
+-		after the LOCK operation has completed.
++	\item	Memory operations issued after the ACQUIRE will be completed
++		after the ACQUIRE operation has completed.
++	\item	Memory operations issued before the ACQUIRE may be completed
++		after the ACQUIRE operation has completed.
+ 	\end{itemize}
+-\item	UNLOCK operation guarantee:
++\item	RELEASE operation guarantee:
+ 	\begin{itemize}
+-	\item	Memory operations issued before the UNLOCK will be
+-		completed before the UNLOCK operation has completed.
+-	\item	Memory operations issued after the UNLOCK may be completed
+-		before the UNLOCK operation has completed.
++	\item	Memory operations issued before the RELEASE will be
++		completed before the RELEASE operation has completed.
++	\item	Memory operations issued after the RELEASE may be completed
++		before the RELEASE operation has completed.
+ 	\end{itemize}
+-\item	LOCK vs LOCK guarantee:
++\item	ACQUIRE vs ACQUIRE guarantee:
+ 	\begin{itemize}
+-	\item	All LOCK operations issued before another LOCK operation
+-		will be completed before that LOCK operation.
++	\item	All ACQUIRE operations issued before another ACQUIRE operation
++		will be completed before that ACQUIRE operation.
+ 	\end{itemize}
+-\item	LOCK vs UNLOCK guarantee:
++\item	ACQUIRE vs RELEASE guarantee:
+ 	\begin{itemize}
+-	\item	All LOCK operations issued before an UNLOCK operation
+-		will be completed before the UNLOCK operation.
+-	\item	All UNLOCK operations issued before a LOCK operation
+-		will be completed before the LOCK operation.
++	\item	All ACQUIRE operations issued before a RELEASE operation
++		will be completed before the RELEASE operation.
++	\item	All RELEASE operations issued before an ACQUIRE operation
++		will be completed before the ACQUIRE operation.
+ 	\end{itemize}
+-\item	Failed conditional LOCK guarantee:
++\item	Failed conditional ACQUIRE guarantee:
+ 	\begin{itemize}
+-	\item	Certain variants of the LOCK operation may fail, either
++	\item	Certain variants of the ACQUIRE operation may fail, either
+ 		due to being unable to get the lock immediately, or due
+ 		to receiving an unblocked signal or exception
+ 		whilst asleep waiting
 -- 
 2.7.4
 
