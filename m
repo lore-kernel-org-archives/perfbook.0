@@ -1,72 +1,102 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=Ui01qcrV9RP0nq6bg+OiE+gU7V0QqQ5jGa3uS1lg1Y4=;
- b=J1/nNGptRvt65y4fKLz62fYc77dAJT7Y5l7yWqBl00hZa/d0CwIh/qZt0AU7QsPGwX
- oHKjVQDqHznLwgkIv8ZMtBhmIYeX/X7dd/PL/ivIyzKDN/dPRPwJSf+f8T3AlSEG4pbh
- 3bqg8lRwEzXvJHJUrJM3+ieAG+Y8vog/3LmCaOFLrvRslXawnbS18IfBx7sRl2b0KUbE
- ja8FwfFH2/GaupeT1jUN4acScxkGCP9aOi//dhayYeSrN0V6wH0Ko2EKPZmJXUxkwd5d
- lDwoX9ZvJAi944AHDKJs6U06BMCGMGPxmJSnMsjdWnmt/gI5bvUw+QnXCMtSlq18T716
- i4nA==
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding;
+ bh=BVL3LPzA7HGJacYGB06rn4p6cj7v7FgtbUyvCfIkrkc=;
+ b=lSztQV6CYIPAUSmX1xRDPBvP+i0Kngk7Sm5/QpOcaQbSJdDXYYrnXtAMeQlv9VFtqb
+ nlIeNn+YiT8Mhyea/unaBa2FRJsI90cEe+s22K0JhWm6K5Uuabry558P0EEuMxy9hXrq
+ fr+Kpwn3cbyAandbExuJJAlCeqQWMQVPMwEj71r5EaWdUjmlpy6hCROdAqbOtIj7co+L
+ s8lO8rQMmTTleGd9kIud2OwMZzhHoq/XLdwmvOk5Dglu99jweBaFwDTS0ysRN4PGPtkI
+ eHIzt6EhNwIZjqIWD0svO1S/+0z/20dhJvFG1ehu2C49fg8kCM/YpA/cPq6U4Nz7iaWf
+ 9rHA==
+Subject: [RFC PATCH 01/12] advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 1)
+References: <b00db59a-a0b0-42d6-7546-01872ad3e404@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [RFC PATCH 00/12] advsync: Rename LOCK/UNLOCK to ACQUIRE/RELEASE
-Message-ID: <b00db59a-a0b0-42d6-7546-01872ad3e404@gmail.com>
-Date: Sat, 1 Apr 2017 11:09:27 +0900
+Message-ID: <507f8523-3128-fab1-f047-b70716765376@gmail.com>
+Date: Sat, 1 Apr 2017 11:10:52 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <b00db59a-a0b0-42d6-7546-01872ad3e404@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 8aa4157fbed720fd3e8a259de620184003bf09da Mon Sep 17 00:00:00 2001
+From c8b05232a7665495892fd11ec02e34b1b36b55ac Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 1 Apr 2017 10:48:45 +0900
-Subject: [RFC PATCH 00/12] advsync: Rename LOCK/UNLOCK to ACQUIRE/RELEASE
+Date: Sat, 25 Mar 2017 23:58:48 +0900
+Subject: [RFC PATCH 01/12] advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 1)
 
-Hi Paul,
+This mostly corresponds to the former half of commit 2e4f5382d12a
+("locking/doc: Rename LOCK/UNLOCK to ACQUIRE/RELEASE")[1] in Linux
+kernel repository, but only replaces what is present in perfbook
+now.
 
-This series mostly corresponds to commit 2e4f5382d12a ("locking/doc:
-Rename LOCK/UNLOCK to ACQUIRE/RELEASE") in Linux kernel repository.
-Although Documentation/memory-barriers.txt has a lot of updated
-contents after the import to perfbook, this series basically
-does substitution of existing "LOCK/UNLOCK".
+Note:"memory-barriers.txt" has more details not included here.
 
-Patches 1--3 do simple substitutions.
-Patch 4 does another replacement not included in the original commit.
-Patch 5 is an attempt to add a footnote on "LOCK/UNLOCK" wording. You
-may want to rewrite the text of the footnote.
-Patch 6 replaces some of "the" with "a/an". I think they are reasonable,
-but this is from an non-native POV. I might missing something.
-Patch 7 is to go along with current wording in memory-barriers.txt.
-Patch 8 is a big patch in line count, but it just adds proper nbsps
-(in LaTeX sense).
-Patch 9 adjusts the position of a footnote appended in the previous
-patch set.
-Patch 10 is an independent trivial typo fix.
-Patches 11 and 12 are tweaks for a better layout.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2e4f5382d12a
 
-                                      Thanks, Akira
---
-Akira Yokosawa (12):
-  advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 1)
-  advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 2)
-  advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 3)
-  advsync: More replacement to ACQUIRE
-  advsync: Add footnote mentioning LOCK/UNLOCK wording
-  advsync: Modify usage of definite article
-  advsync: Substitute 'guarantee' with 'implication'
-  advsync: Properly use nbsp
-  advsync: Move footnote on transitivity forward
-  advsync: Fix line number called out
-  advsync: Add extdash shortcut
-  advsync: Avoid indent after minipage
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ advsync/memorybarriers.tex | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
- advsync/memorybarriers.tex | 504 +++++++++++++++++++++++----------------------
- 1 file changed, 254 insertions(+), 250 deletions(-)
+diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
+index 165b5cb..29d3af1 100644
+--- a/advsync/memorybarriers.tex
++++ b/advsync/memorybarriers.tex
+@@ -1555,36 +1555,36 @@ There are a couple of types of implicit memory barriers, so called
+ because they are embedded into locking primitives:
+
+ \begin{enumerate}
+-\item	LOCK operations and
+-\item	UNLOCK operations.
++\item	ACQUIRE operations and
++\item	RELEASE operations.
+ \end{enumerate}
+
+-\paragraph{LOCK Operations}
++\paragraph{ACQUIRE Operations}
+
+-A lock operation acts as a one-way permeable barrier.
++An acuire operation acts as a one-way permeable barrier.
+ It guarantees that all memory
+-operations after the LOCK operation will appear to happen after the LOCK
++operations after the ACQUIRE operation will appear to happen after the ACQUIRE
+ operation with respect to the other components of the system.
+
+-Memory operations that occur before a LOCK operation may appear to happen
++Memory operations that occur before an ACQUIRE operation may appear to happen
+ after it completes.
+
+-A LOCK operation should almost always be paired with an UNLOCK operation.
++An ACQUIRE operation should almost always be paired with a RELEASE operation.
+
+-\paragraph{UNLOCK Operations}
++\paragraph{RELEASE Operations}
+
+-Unlock operations also act as a one-way permeable barrier.
++Release operations also act as a one-way permeable barrier.
+ It guarantees that all
+-memory operations before the UNLOCK operation will appear to happen before
+-the UNLOCK operation with respect to the other components of the system.
++memory operations before the RELEASE operation will appear to happen before
++the RELEASE operation with respect to the other components of the system.
+
+-Memory operations that occur after an UNLOCK operation may appear to
++Memory operations that occur after a RELEASE operation may appear to
+ happen before it completes.
+
+-LOCK and UNLOCK operations are guaranteed to appear with respect to each
++ACQUIRE and RELEASE operations are guaranteed to appear with respect to each
+ other strictly in the order specified.
+
+-The use of LOCK and UNLOCK operations generally precludes the need for
++The use of ACQUIRE and RELEASE operations generally precludes the need for
+ other sorts of memory barrier (but note the exceptions mentioned in the
+ Section~\ref{sec:advsync:Device Operations}).
 
 -- 
 2.7.4
+
 
