@@ -1,93 +1,86 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=DRdU1wZtf4GoY+uAnYX7S/Zsnv+6SVfvTnGZdjzpM4k=;
- b=SOtgi0SAy22qvh5NtGZZj/jvfgHWmlIExYlACCb9YJdEaHUrflvyjtsZJgtLGdI/zd
- BtFiOq4UOGD20mR/WRDcA2uy8v3U9t63IrJj2b0Yjj1McmMOP2KLzUyPJJkPO8jvbtl/
- FcM2MVsRp+Mn4F2JWWJN4ykk/Hzmq11OWjMD5MvMC+GUNO+pxoNPU2tUVRto8c1IknNl
- kDcoPpsPN71kuCBCO0wWBEQbEjzkSTgQiWM+QUQ2fv370cMcU3KTNH1A9lFCAXyWGt6s
- ynKm+KbgBEmrm/231KEVu/PaIckHT3mQbuuYeDKeUvnMVzaURLYDktJEfFtaLwrBb/bN
- gCsA==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] bib/QC: Replace UTF-8 encoded chars with escaped codes in
- ASCII
-Message-ID: <c7ea071a-a2cb-8279-762a-ec75bd9fe3d1@gmail.com>
-Date: Sun, 26 Mar 2017 18:21:59 +0900
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42545 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1754349AbdDDQCe (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 4
+ Apr 2017 12:02:34 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v34Frfot053377
+ for <perfbook@vger.kernel.org>; Tue, 4 Apr 2017 12:02:33 -0400
+Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 29kydgmstg-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
+ 04 Apr 2017 12:02:33 -0400
+Received: from localhost by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 4 Apr 2017
+ 12:02:32 -0400
+Date: Tue, 4 Apr 2017 09:02:29 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [RFC PATCH 00/12] advsync: Rename LOCK/UNLOCK to ACQUIRE/RELEASE
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <b00db59a-a0b0-42d6-7546-01872ad3e404@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b00db59a-a0b0-42d6-7546-01872ad3e404@gmail.com>
+Message-Id: <20170404160229.GW3637@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From bb2058728b0b9d979b93cc0e0b3ff65a7906d450 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 26 Mar 2017 17:44:22 +0900
-Subject: [PATCH] bib/QC: Replace UTF-8 encoded chars with escaped codes in ASCII
+On Sat, Apr 01, 2017 at 11:09:27AM +0900, Akira Yokosawa wrote:
+> >From 8aa4157fbed720fd3e8a259de620184003bf09da Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Sat, 1 Apr 2017 10:48:45 +0900
+> Subject: [RFC PATCH 00/12] advsync: Rename LOCK/UNLOCK to ACQUIRE/RELEASE
+> 
+> Hi Paul,
+> 
+> This series mostly corresponds to commit 2e4f5382d12a ("locking/doc:
+> Rename LOCK/UNLOCK to ACQUIRE/RELEASE") in Linux kernel repository.
+> Although Documentation/memory-barriers.txt has a lot of updated
+> contents after the import to perfbook, this series basically
+> does substitution of existing "LOCK/UNLOCK".
+> 
+> Patches 1--3 do simple substitutions.
+> Patch 4 does another replacement not included in the original commit.
+> Patch 5 is an attempt to add a footnote on "LOCK/UNLOCK" wording. You
+> may want to rewrite the text of the footnote.
+> Patch 6 replaces some of "the" with "a/an". I think they are reasonable,
+> but this is from an non-native POV. I might missing something.
+> Patch 7 is to go along with current wording in memory-barriers.txt.
+> Patch 8 is a big patch in line count, but it just adds proper nbsps
+> (in LaTeX sense).
+> Patch 9 adjusts the position of a footnote appended in the previous
+> patch set.
+> Patch 10 is an independent trivial typo fix.
+> Patches 11 and 12 are tweaks for a better layout.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-Hi Paul,
+Queued and pushed, thank you!
 
-In yet to be cited bibliography database recently added, I found
-several entries with UTF-8 encoded characters.
-This patch is to replace them with escaped codes of LaTeX.
+							Thanx, Paul
 
-Another option is to enable UTF-8 awareness by using "inputenc" package
-with "utf8" option. The problem is BibTeX does not support UTF-8.
-It is said that combination of "biblatex" and "biber" can bridge
-the gap. I'll see if it is feasible for perfbook, but with a lower
-priority.
-
-Any help in this respect from someone on the list is welcome!
-
-                                    Thanks, Akira
---
- bib/QC.bib | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/bib/QC.bib b/bib/QC.bib
-index 551bdbb..d51ecb1 100644
---- a/bib/QC.bib
-+++ b/bib/QC.bib
-@@ -277,7 +277,7 @@
- }
-
- @article{LeonidDubrovinsky2012640GPaDiamondAnvilCell
--,title = "Implementation of micro-ball nanodiamond anvils for high-pressure studies above 6 {Mbar}"
-+,title = "Implementation of micro-ball nanodiamond anvils for high-pressure studies above 6\,{Mbar}"
- ,author = "Leonid Dubrovinsky and Natalia Dubrovinskaia and Vitali B. Prakapenka and Artem M Abakumov"
- ,journal = {Nat. Commun.}
- ,volume = {3}
-@@ -425,7 +425,7 @@
-
- @article{TroelsFRonnow2014QC-D-WaveNoSpeedup
- ,title = "Defining and detecting quantum speedup"
--,author = "Troels F. Rønnow and Zhihui Wang and Joshua Job and Sergio Boixo and Sergei V. Isakov and David Wecker and John M. Martinis and Daniel A. Lidar and Matthias Troyer"
-+,author = "Troels F. R{\o}nnow and Zhihui Wang and Joshua Job and Sergio Boixo and Sergei V. Isakov and David Wecker and John M. Martinis and Daniel A. Lidar and Matthias Troyer"
- ,journal = "Science"
- ,volume = {345}
- ,issue = {6195}
-@@ -725,7 +725,7 @@
-
- @unpublished{BradJones2017IBM-QC-Crowder
- ,Author="Brad Jones"
--,Title="It’s the 1940s again: {IBM's} Scott Crowder on the infancy of quantum computers"
-+,Title="It's the 1940s again: {IBM's} Scott Crowder on the infancy of quantum computers"
- ,month="March"
- ,day="13"
- ,year="2017"
-@@ -734,7 +734,7 @@
-
- @unpublished{TomSimonite2017QC-MS-Chemistry
- ,Author="Tom Simonite"
--,Title="Chemists Are First in Line for Quantum Computing’s Benefits"
-+,Title="Chemists Are First in Line for Quantum Computing's Benefits"
- ,month="March"
- ,day="17"
- ,year="2017"
--- 
-2.7.4
+>                                       Thanks, Akira
+> --
+> Akira Yokosawa (12):
+>   advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 1)
+>   advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 2)
+>   advsync: LOCK/UNLOCK -> ACQUIRE/RELEASE (part 3)
+>   advsync: More replacement to ACQUIRE
+>   advsync: Add footnote mentioning LOCK/UNLOCK wording
+>   advsync: Modify usage of definite article
+>   advsync: Substitute 'guarantee' with 'implication'
+>   advsync: Properly use nbsp
+>   advsync: Move footnote on transitivity forward
+>   advsync: Fix line number called out
+>   advsync: Add extdash shortcut
+>   advsync: Avoid indent after minipage
+> 
+>  advsync/memorybarriers.tex | 504 +++++++++++++++++++++++----------------------
+>  1 file changed, 254 insertions(+), 250 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
