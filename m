@@ -2,19 +2,19 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QWZd+DHp+Fzorb5gSE4fpexI78FFnq1IA0T1ErVgYU8=;
- b=JHvpLXxsSqMWF+huyWgJW6wCxpj6+b2WNROFW7rT++bE0JNHUDRSjgeeCJaUfcTfjS
- FI/IUsSqERBM3NfDpONNUQKyTr/ftJcSR5dXvih4aRqI+QpCeMzhpJRUTcOy0KKOXV92
- GW+IOyXReqyMFxW2q1qNRm4xnOGFLM6PmD6xHoAI54/QwTWUt8XFNt8Uv/75eT3hqviT
- W8N8be24EgJHb+u68tPzmV93YsJkADq3WjTXNyVawGFqSKEoBmLCw5JTOfcryf6S5N/1
- /IwZU7aC0ap0c3PS/x/QJ1dOG1FLOxTszvIul4ELcK6d/NrsFaSnyGqoAvsKJ8rSjA9S
- dyFg==
-Subject: [PATCH 02/14] advsync: Substitute READ_ONCE()/WRITE_ONCE() for
- ACCESS_ONCE()
+ bh=1R3WfUn5N5LUcLlASYspLu9roLiyDnpCIIatsoi5ls8=;
+ b=nP6hZFGp/aBeTIqFEPlfZnLqlu53y92A26JcAaw/QHajPIFI1yvXHGGN6aPZvq7irg
+ g66jbb3RMhahDgct1JrLfAef+Q8uzCugOjclT4wdFLvQaLuaRzKg8iKrHI/lhG42vDwi
+ 3AVM3SOn9WfRuPnJ1UfSwTCWsk1g7J5qaQD0hgS09liOtQMUiOGwJ47zOSXB4+89RtQP
+ A/dOIqMGuunrUCBqTsXUWMTKdWvLX86YTlYJfKMzg1z7YOZEDwRPuHpkDLbHLPxQXYu9
+ IilDfR6wa2LFbi3CYmclri2gPbEo+3JLKf/MipMr6aZaKSZDHr75cYEhcJZcXuq/e68w
+ M7Zw==
+Subject: [PATCH 03/14] advsync: Use pseudo asm in sequence in 'Review of
+ Locking Impl'
 References: <be8c3cb5-9ee2-9f60-bfcd-e729389304f9@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <4da119c2-982d-7e25-7ef5-34371976a237@gmail.com>
-Date: Mon, 17 Apr 2017 07:14:18 +0900
+Message-ID: <afbee5b5-6f8a-257a-273c-988bb79f0c88@gmail.com>
+Date: Mon, 17 Apr 2017 07:15:47 +0900
 MIME-Version: 1.0
 In-Reply-To: <be8c3cb5-9ee2-9f60-bfcd-e729389304f9@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,29 +24,46 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From ca4c666a7c30440610ce148f73960c2e21030a56 Mon Sep 17 00:00:00 2001
+From 81c2ce55ce99ede156f407c869b18289366917e4 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 15 Apr 2017 23:41:35 +0900
-Subject: [PATCH 02/14] advsync: Substitute READ_ONCE()/WRITE_ONCE() for ACCESS_ONCE()
+Date: Sun, 16 Apr 2017 00:01:10 +0900
+Subject: [PATCH 03/14] advsync: Use pseudo asm in sequence in 'Review of Locking Impl'
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- advsync/memorybarriers.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ advsync/memorybarriers.tex | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index d82a968..173380a 100644
+index 173380a..299c436 100644
 --- a/advsync/memorybarriers.tex
 +++ b/advsync/memorybarriers.tex
-@@ -490,7 +490,7 @@ CPUs' accesses are to one single variable.
- In this single-variable case, cache coherence guarantees the
- global ordering, at least assuming that some of the more aggressive
- compiler optimizations are disabled via the Linux kernel's
--\co{ACCESS_ONCE()} directive or C++11's relaxed
-+\co{READ_ONCE()} and \co{WRITE_ONCE()} directives or C++11's relaxed
- atomics~\cite{PeteBecker2011N3242}.
- In contrast, if there are multiple variables, memory barriers are
- required for the CPUs to consistently agree on the order for current
+@@ -1060,16 +1060,16 @@ the sequence of operations might be as follows:
+ \begin{minipage}[t]{\columnwidth}
+ \tt \scriptsize
+ \begin{tabular}{l|l}
+-	\nf{CPU 1} &		\nf{CPU 2} \\
++	\nf{CPU 1}		& \nf{CPU 2} \\
+ 	\hline
+-	(critical section) &	\tco{atomic_xchg(&lck->a, 1)->1} \\
+-	\tco{smp_mb();}    &	lck->a->1 \\
+-	lck->a=0;	   &	lck->a->1 \\
+-	&			lck->a->0 \\
+-	&			(implicit \tco{smp_mb()} 1) \\
+-	&			\tco{atomic_xchg(&lck->a, 1)->0} \\
+-	&			(implicit \tco{smp_mb()} 2) \\
+-	&			(critical section) \\
++	(critical section)	& \tco{atomic_xchg(&lck->a, 1)} $\rightarrow$1 \\
++	<memory barrier>	& LOAD lck->a $\rightarrow$1 \\
++	STORE lck->a = 0	& LOAD lck->a $\rightarrow$1 \\
++				& LOAD lck->a $\rightarrow$0 \\
++				& (implicit memory barrier \#1) \\
++				& \tco{atomic_xchg(&lck->a, 1)} $\rightarrow$0 \\
++				& (implicit memory barrier \#2) \\
++				& (critical section) \\
+ \end{tabular}
+ \end{minipage}
+ \vspace{5pt}
 -- 
 2.7.4
 
