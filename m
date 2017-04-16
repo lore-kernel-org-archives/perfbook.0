@@ -2,19 +2,19 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bRbJX442shyykubqMAJ+sRWOA3WlNwMr8Ti/bQ33SRs=;
- b=JOZ2TEe46bDNoQd9zI2qEAtawYBA/Ae6gXu0kxYihI8Nv40EiGA4NllFzDfohH7MvW
- Zwe1wrrKn061p6BEdUknC8Tp7joV65gyRQuzOC90zldNO3rxl2QGZFSZ/MlzCXYXxrOj
- B+HD+FdJEAZRNDsg0qEhjXGj91noUPb5LsmKI4VAwxRks2voHC/+x/ZdxlV8LRzDTkW1
- ucbhtNZRAe1mMDDmUDAtc/nkmFUjCh6UHGKRgeHyB3TmTmu2I5Sj7nVt9l9zaLuB55PG
- XJIkymD1A52ITqEO/TFEjbInnE7R1meGPwzLhdRDY7Rw0uKhWV0MDQx/3ZAu/5toGaQ3
- qE0g==
-Subject: [PATCH 13/14] advsync: Use pseudo asm in sequence in 'Data Dependency
- Barriers'
+ bh=kLnxkVWhNbT67RRIGz6eUkGP0IIj6UBfmMvKAuCBiMg=;
+ b=b5PHU8fGAGrdbVKhcokl3AukBZbWhXQtISSG5ljViqh+xjvPqDwfSsVAViXd9L7goX
+ x4DF+OT8mOAdWZyjVCwZ61LDJeWz5Ak+1E39JuoWKASqCBhsjAnoSSKrcmyVecS9U1hm
+ ROzWyaczV/HGWqXRi19INCZu8DSVetg9C8gGVR5BCWqqBg3Z5c/90R/cRd4mR9TqRPxu
+ Gkuz24aFV0CLzQguI07KlBvrWbaaZkrI7aJxDBxoBE0QyKx8Nz//+q609TSgFWOI4aof
+ eENXrJWW5ww8f5SOASyv8ik5xsjeMMKq+YCdAxsRmHEn/a42te0350DyL1dX9CMej7sS
+ NNiA==
+Subject: [PATCH 14/14] advsync: Use pseudo asm in sequence in 'SMP Barrier
+ Pairing'
 References: <be8c3cb5-9ee2-9f60-bfcd-e729389304f9@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <edadfa20-ea24-0c3c-cce0-9e85a01caf96@gmail.com>
-Date: Mon, 17 Apr 2017 07:26:43 +0900
+Message-ID: <fbc7e1ab-3afe-4f9c-99ed-6f03029f33e0@gmail.com>
+Date: Mon, 17 Apr 2017 07:27:39 +0900
 MIME-Version: 1.0
 In-Reply-To: <be8c3cb5-9ee2-9f60-bfcd-e729389304f9@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,80 +24,173 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 2b779ea16b0185b121063faa0ca534a75d67fc8d Mon Sep 17 00:00:00 2001
+From 6efc224d8e6d2b64bf7a86b52d03de01ccea7032 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 16 Apr 2017 16:14:24 +0900
-Subject: [PATCH 13/14] advsync: Use pseudo asm in sequence in 'Data Dependency Barriers'
+Date: Sun, 16 Apr 2017 17:07:46 +0900
+Subject: [PATCH 14/14] advsync: Use pseudo asm in sequence in 'SMP Barrier Pairing'
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- advsync/memorybarriers.tex | 33 +++++++++++++++++----------------
- 1 file changed, 17 insertions(+), 16 deletions(-)
+ advsync/memorybarriers.tex | 100 ++++++++++++++++++++++-----------------------
+ 1 file changed, 50 insertions(+), 50 deletions(-)
 
 diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index 2b36214..9b878f3 100644
+index 9b878f3..f36994e 100644
 --- a/advsync/memorybarriers.tex
 +++ b/advsync/memorybarriers.tex
-@@ -1622,8 +1622,8 @@ Section~\ref{sec:advsync:Device Operations}).
- 	\begin{minipage}[t]{\columnwidth}
- 	\small
- 	\begin{verbatim}
--	a = 1;
--	b = 1;
-+	STORE a = 1
-+	STORE b = 1
- 	<write barrier>
- 	\end{verbatim}
- 	\end{minipage}
-@@ -1673,7 +1673,8 @@ of the confines of a given architecture:
-
- The usage requirements of data dependency barriers are a little subtle, and
- it's not always obvious that they're needed.  To illustrate, consider the
--following sequence of events, with initial values
-+following sequence of events (in pseudo asm), with initial values of shared
-+variables
- {\tt \{A~=~1, B~=~2, C~=~3, P~=~\&A, Q~=~\&C\}}:
-
- \vspace{5pt}
-@@ -1681,13 +1682,13 @@ following sequence of events, with initial values
- \tt
- \scriptsize
- \begin{tabular}{l|l}
--	\nf{CPU 1} &	\nf{CPU 2} \\
-+	\nf{CPU 1}	& \nf{CPU 2} \\
- 	\hline
--	B = 4; & \\
--	<write barrier> & \\
--	P = \&B; &	\\
--		&	Q = P; \\
--		&	D = *Q; \\
-+	STORE B = 4	& \\
-+	<write barrier>	& \\
-+	STORE P = \&B	& \\
-+			& Q = LOAD P \\
-+			& D = LOAD *Q \\
- \end{tabular}
- \end{minipage}
- \vspace{5pt}
-@@ -1734,14 +1735,14 @@ address load and the data load (again with initial values of
+@@ -2211,14 +2211,14 @@ write barrier, though, again, a general barrier is viable:
  \tt
  \scriptsize
  \begin{tabular}{l|p{1.5in}}
 -	\nf{CPU 1} &	\nf{CPU 2} \\
 +	\nf{CPU 1}	& \nf{CPU 2} \\
  	\hline
--	B = 4; & \\
+-	A = 1; & \\
 -	<write barrier> & \\
--	P = \&B; &	\\
--		&	Q = P; \\
--		&	<data dependency barrier> \\
--		&	D = *Q; \\
-+	STORE B = 4	& \\
+-	B = 2;	&	\\
+-		&	X = B; \\
+-		&	<read barrier> \\
+-		&	Y = A; \\
++	STORE A = 1	& \\
 +	<write barrier>	& \\
-+	STORE P = \&B	& \\
-+			& Q = LOAD P \\
++	STORE B = 2	& \\
++			& X = LOAD B \\
++			& <read barrier> \\
++			& Y = LOAD A \\
+ \end{tabular}
+ \end{minipage}
+ \vspace{5pt}
+@@ -2230,14 +2230,14 @@ Or:
+ \tt
+ \scriptsize
+ \begin{tabular}{l|p{1.5in}}
+-	\nf{CPU 1} &	\nf{CPU 2} \\
++	\nf{CPU 1}	& \nf{CPU 2} \\
+ 	\hline
+-	A = 1; & \\
+-	<write barrier> & \\
+-	B = \&A; &	\\
+-		&	X = B; \\
+-		&	<data dependency barrier> \\
+-		&	Y = *X; \\
++	STORE A = 1	& \\
++	<write barrier>	& \\
++	STORE B = \&A	& \\
++			& X = LOAD B \\
 +			& <data dependency barrier> \\
-+			& D = LOAD *Q \\
++			& Y = LOAD *X \\
+ \end{tabular}
+ \end{minipage}
+ \vspace{5pt}
+@@ -2300,14 +2300,14 @@ loads.  Consider the following sequence of events with initial values
+ \tt
+ \scriptsize
+ \begin{tabular}{l|p{1.5in}}
+-	\nf{CPU 1} &	\nf{CPU 2} \\
++	\nf{CPU 1}	& \nf{CPU 2} \\
+ 	\hline
+-	A = 1; & \\
+-	B = 2; & \\
+-	<write barrier> & \\
+-	C = \&B; & 	LOAD X\\
+-	D = 4;	&	LOAD C \nf{(gets \tco{&B})} \\
+-		&	LOAD *C \nf{(reads \tco{B})} \\
++	STORE A = 1	& \\
++	STORE B = 2	& \\
++	<write barrier>	& \\
++	STORE C = \&B	& LOAD X\\
++	STORE D = 4	& LOAD C \nf{(gets \tco{&B})} \\
++			& LOAD *C \nf{(reads \tco{B})} \\
+ \end{tabular}
+ \end{minipage}
+ \vspace{5pt}
+@@ -2336,15 +2336,15 @@ values of {\tt \{B~=~7, X~=~9, Y~=~8, C~=~\&Y\}}:
+ \tt
+ \scriptsize
+ \begin{tabular}{l|p{1.5in}}
+-	\nf{CPU 1} &	\nf{CPU 2} \\
++	\nf{CPU 1}	& \nf{CPU 2} \\
+ 	\hline
+-	A = 1; & \\
+-	B = 2; & \\
+-	<write barrier> & \\
+-	C = \&B; & 	LOAD X\\
+-	D = 4;	&	LOAD C \nf{(gets \tco{&B})} \\
+-		&	<data dependency barrier> \\
+-		&	LOAD *C \nf{(reads \tco{B})} \\
++	STORE A = 1	& \\
++	STORE B = 2	& \\
++	<write barrier>	& \\
++	STORE C = \&B	& LOAD X\\
++	STORE D = 4	& LOAD C \nf{(gets \tco{&B})} \\
++			& <data dependency barrier> \\
++			& LOAD *C \nf{(reads \tco{B})} \\
+ \end{tabular}
+ \end{minipage}
+ \vspace{5pt}
+@@ -2368,13 +2368,13 @@ following sequence of events, with initial values
+ \tt
+ \scriptsize
+ \begin{tabular}{l|p{1.5in}}
+-	\nf{CPU 1} &	\nf{CPU 2} \\
++	\nf{CPU 1}	& \nf{CPU 2} \\
+ 	\hline
+-	A = 1; & \\
+-	<write barrier> & \\
+-	B = 2; & \\
+-		&	LOAD B \\
+-		&	LOAD A \\
++	STORE A = 1	& \\
++	<write barrier>	& \\
++	STORE B = 2	& \\
++			& LOAD B \\
++			& LOAD A \\
+ \end{tabular}
+ \end{minipage}
+ \vspace{5pt}
+@@ -2399,14 +2399,14 @@ and the load of~\co{A} on CPU~2, again with initial values of
+ \tt
+ \scriptsize
+ \begin{tabular}{l|p{1.5in}}
+-	\nf{CPU 1} &	\nf{CPU 2} \\
++	\nf{CPU 1}	& \nf{CPU 2} \\
+ 	\hline
+-	A = 1; & \\
+-	<write barrier> & \\
+-	B = 2; & \\
+-		&	LOAD B \\
+-		&	<read barrier> \\
+-		&	LOAD A \\
++	STORE A = 1	& \\
++	<write barrier>	& \\
++	STORE B = 2	& \\
++			& LOAD B \\
++			& <read barrier> \\
++			& LOAD A \\
+ \end{tabular}
+ \end{minipage}
+ \vspace{5pt}
+@@ -2432,15 +2432,15 @@ with the same initial values of
+ \tt
+ \scriptsize
+ \begin{tabular}{l|p{1.5in}}
+-	\nf{CPU 1} &	\nf{CPU 2} \\
++	\nf{CPU 1}	& \nf{CPU 2} \\
+ 	\hline
+-	A = 1; & \\
+-	<write barrier> & \\
+-	B = 2; & \\
+-		&	LOAD B \\
+-		&	LOAD A \nf{(1\textsuperscript{st})} \\
+-		&	<read barrier> \\
+-		&	LOAD A \nf{(2\textsuperscript{nd})} \\
++	STORE A = 1	& \\
++	<write barrier>	& \\
++	STORE B = 2	& \\
++			& LOAD B \\
++			& LOAD A \nf{(1\textsuperscript{st})} \\
++			& <read barrier> \\
++			& LOAD A \nf{(2\textsuperscript{nd})} \\
  \end{tabular}
  \end{minipage}
  \vspace{5pt}
