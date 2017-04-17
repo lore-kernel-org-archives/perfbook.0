@@ -1,200 +1,90 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kLnxkVWhNbT67RRIGz6eUkGP0IIj6UBfmMvKAuCBiMg=;
- b=b5PHU8fGAGrdbVKhcokl3AukBZbWhXQtISSG5ljViqh+xjvPqDwfSsVAViXd9L7goX
- x4DF+OT8mOAdWZyjVCwZ61LDJeWz5Ak+1E39JuoWKASqCBhsjAnoSSKrcmyVecS9U1hm
- ROzWyaczV/HGWqXRi19INCZu8DSVetg9C8gGVR5BCWqqBg3Z5c/90R/cRd4mR9TqRPxu
- Gkuz24aFV0CLzQguI07KlBvrWbaaZkrI7aJxDBxoBE0QyKx8Nz//+q609TSgFWOI4aof
- eENXrJWW5ww8f5SOASyv8ik5xsjeMMKq+YCdAxsRmHEn/a42te0350DyL1dX9CMej7sS
- NNiA==
-Subject: [PATCH 14/14] advsync: Use pseudo asm in sequence in 'SMP Barrier
- Pairing'
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49410 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1756737AbdDQPjV (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Mon, 17 Apr 2017 11:39:21 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v3HFdDd6081897
+ for <perfbook@vger.kernel.org>; Mon, 17 Apr 2017 11:39:20 -0400
+Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 29vvwvsebj-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
+ 17 Apr 2017 11:39:20 -0400
+Received: from localhost by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 17 Apr
+ 2017 11:39:19 -0400
+Date: Mon, 17 Apr 2017 08:39:18 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 00/14] advsync: Use pseudo asm in code sequence
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <be8c3cb5-9ee2-9f60-bfcd-e729389304f9@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <fbc7e1ab-3afe-4f9c-99ed-6f03029f33e0@gmail.com>
-Date: Mon, 17 Apr 2017 07:27:39 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <be8c3cb5-9ee2-9f60-bfcd-e729389304f9@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20170417153918.GO3956@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 6efc224d8e6d2b64bf7a86b52d03de01ccea7032 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 16 Apr 2017 17:07:46 +0900
-Subject: [PATCH 14/14] advsync: Use pseudo asm in sequence in 'SMP Barrier Pairing'
+On Mon, Apr 17, 2017 at 07:11:37AM +0900, Akira Yokosawa wrote:
+> >From 6efc224d8e6d2b64bf7a86b52d03de01ccea7032 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Mon, 17 Apr 2017 06:53:11 +0900
+> Subject: [PATCH 00/14] advsync: Use pseudo asm in code sequence
+> 
+> Hi Paul,
+> 
+> This series substitutes pseudo-asm codes for C style statements
+> in code sequences in 'Memory Barrier' section.
+> 
+> Other than the substitution, Patch 2 replaces ACCESS_ONCE(),
+> Patch 4 is a backport of the changes made in memory-barriers.txt,
+> Patches 8 and 12 add footnotes to imply the necessity of data
+> dependency barrier, and Patch 11 renames Section "Guarantee"
+> to "Minimal Guarantee".
+> 
+> My guess is that the original intention of the "Guarantee"
+> section was to present minimal guarantees free of memory barriers.
+> When the necessity of read dependency barrier was recognized,
+> the barrier sneaked into this section.
+> 
+> In LaTeX, as footnotes can prevent readers' misunderstanding,
+> We can preserve the original intention.
+> 
+> Thoughts?
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- advsync/memorybarriers.tex | 100 ++++++++++++++++++++++-----------------------
- 1 file changed, 50 insertions(+), 50 deletions(-)
+Good changes, queued, thank you!  Of course, please feel free to
+submit clarifying and style patches against memory-barriers.txt if
+needed.
 
-diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index 9b878f3..f36994e 100644
---- a/advsync/memorybarriers.tex
-+++ b/advsync/memorybarriers.tex
-@@ -2211,14 +2211,14 @@ write barrier, though, again, a general barrier is viable:
- \tt
- \scriptsize
- \begin{tabular}{l|p{1.5in}}
--	\nf{CPU 1} &	\nf{CPU 2} \\
-+	\nf{CPU 1}	& \nf{CPU 2} \\
- 	\hline
--	A = 1; & \\
--	<write barrier> & \\
--	B = 2;	&	\\
--		&	X = B; \\
--		&	<read barrier> \\
--		&	Y = A; \\
-+	STORE A = 1	& \\
-+	<write barrier>	& \\
-+	STORE B = 2	& \\
-+			& X = LOAD B \\
-+			& <read barrier> \\
-+			& Y = LOAD A \\
- \end{tabular}
- \end{minipage}
- \vspace{5pt}
-@@ -2230,14 +2230,14 @@ Or:
- \tt
- \scriptsize
- \begin{tabular}{l|p{1.5in}}
--	\nf{CPU 1} &	\nf{CPU 2} \\
-+	\nf{CPU 1}	& \nf{CPU 2} \\
- 	\hline
--	A = 1; & \\
--	<write barrier> & \\
--	B = \&A; &	\\
--		&	X = B; \\
--		&	<data dependency barrier> \\
--		&	Y = *X; \\
-+	STORE A = 1	& \\
-+	<write barrier>	& \\
-+	STORE B = \&A	& \\
-+			& X = LOAD B \\
-+			& <data dependency barrier> \\
-+			& Y = LOAD *X \\
- \end{tabular}
- \end{minipage}
- \vspace{5pt}
-@@ -2300,14 +2300,14 @@ loads.  Consider the following sequence of events with initial values
- \tt
- \scriptsize
- \begin{tabular}{l|p{1.5in}}
--	\nf{CPU 1} &	\nf{CPU 2} \\
-+	\nf{CPU 1}	& \nf{CPU 2} \\
- 	\hline
--	A = 1; & \\
--	B = 2; & \\
--	<write barrier> & \\
--	C = \&B; & 	LOAD X\\
--	D = 4;	&	LOAD C \nf{(gets \tco{&B})} \\
--		&	LOAD *C \nf{(reads \tco{B})} \\
-+	STORE A = 1	& \\
-+	STORE B = 2	& \\
-+	<write barrier>	& \\
-+	STORE C = \&B	& LOAD X\\
-+	STORE D = 4	& LOAD C \nf{(gets \tco{&B})} \\
-+			& LOAD *C \nf{(reads \tco{B})} \\
- \end{tabular}
- \end{minipage}
- \vspace{5pt}
-@@ -2336,15 +2336,15 @@ values of {\tt \{B~=~7, X~=~9, Y~=~8, C~=~\&Y\}}:
- \tt
- \scriptsize
- \begin{tabular}{l|p{1.5in}}
--	\nf{CPU 1} &	\nf{CPU 2} \\
-+	\nf{CPU 1}	& \nf{CPU 2} \\
- 	\hline
--	A = 1; & \\
--	B = 2; & \\
--	<write barrier> & \\
--	C = \&B; & 	LOAD X\\
--	D = 4;	&	LOAD C \nf{(gets \tco{&B})} \\
--		&	<data dependency barrier> \\
--		&	LOAD *C \nf{(reads \tco{B})} \\
-+	STORE A = 1	& \\
-+	STORE B = 2	& \\
-+	<write barrier>	& \\
-+	STORE C = \&B	& LOAD X\\
-+	STORE D = 4	& LOAD C \nf{(gets \tco{&B})} \\
-+			& <data dependency barrier> \\
-+			& LOAD *C \nf{(reads \tco{B})} \\
- \end{tabular}
- \end{minipage}
- \vspace{5pt}
-@@ -2368,13 +2368,13 @@ following sequence of events, with initial values
- \tt
- \scriptsize
- \begin{tabular}{l|p{1.5in}}
--	\nf{CPU 1} &	\nf{CPU 2} \\
-+	\nf{CPU 1}	& \nf{CPU 2} \\
- 	\hline
--	A = 1; & \\
--	<write barrier> & \\
--	B = 2; & \\
--		&	LOAD B \\
--		&	LOAD A \\
-+	STORE A = 1	& \\
-+	<write barrier>	& \\
-+	STORE B = 2	& \\
-+			& LOAD B \\
-+			& LOAD A \\
- \end{tabular}
- \end{minipage}
- \vspace{5pt}
-@@ -2399,14 +2399,14 @@ and the load of~\co{A} on CPU~2, again with initial values of
- \tt
- \scriptsize
- \begin{tabular}{l|p{1.5in}}
--	\nf{CPU 1} &	\nf{CPU 2} \\
-+	\nf{CPU 1}	& \nf{CPU 2} \\
- 	\hline
--	A = 1; & \\
--	<write barrier> & \\
--	B = 2; & \\
--		&	LOAD B \\
--		&	<read barrier> \\
--		&	LOAD A \\
-+	STORE A = 1	& \\
-+	<write barrier>	& \\
-+	STORE B = 2	& \\
-+			& LOAD B \\
-+			& <read barrier> \\
-+			& LOAD A \\
- \end{tabular}
- \end{minipage}
- \vspace{5pt}
-@@ -2432,15 +2432,15 @@ with the same initial values of
- \tt
- \scriptsize
- \begin{tabular}{l|p{1.5in}}
--	\nf{CPU 1} &	\nf{CPU 2} \\
-+	\nf{CPU 1}	& \nf{CPU 2} \\
- 	\hline
--	A = 1; & \\
--	<write barrier> & \\
--	B = 2; & \\
--		&	LOAD B \\
--		&	LOAD A \nf{(1\textsuperscript{st})} \\
--		&	<read barrier> \\
--		&	LOAD A \nf{(2\textsuperscript{nd})} \\
-+	STORE A = 1	& \\
-+	<write barrier>	& \\
-+	STORE B = 2	& \\
-+			& LOAD B \\
-+			& LOAD A \nf{(1\textsuperscript{st})} \\
-+			& <read barrier> \\
-+			& LOAD A \nf{(2\textsuperscript{nd})} \\
- \end{tabular}
- \end{minipage}
- \vspace{5pt}
--- 
-2.7.4
+							Thanx, Paul
 
+>                                   Thanks Akira
+> --
+> Akira Yokosawa (14):
+>   advsync: Use pseudo asm in sequence in 'Paring' section
+>   advsync: Substitute READ_ONCE()/WRITE_ONCE() for ACCESS_ONCE()
+>   advsync: Use pseudo asm in sequence in 'Review of Locking Impl'
+>   advsync: Backport upstream commits regarding reordering example
+>   advsync: Use pseudo asm in reordering example
+>   advsync: Use pseudo asm in another reordering example
+>   advsync: Avoid indent after minipages
+>   advsync: Add footnote to imply necessity of data dependency barrier
+>   advsync: Use READ_ONCE()/WRITE_ONCE() in sequence of 'Device
+>     Operations'
+>   advsync: Use READ_ONCE()/WRITE_ONCE() in sequence in 'Guarantees'
+>   advsync: Rename Section 'Guarantee' to 'Minimal Guarantee'
+>   advsync: Add another footnote implying data dependency barrier
+>   advsync: Use pseudo asm in sequence in 'Data Dependency Barriers'
+>   advsync: Use pseudo asm in sequence in 'SMP Barrier Pairing'
+> 
+>  advsync/memorybarriers.tex | 321 ++++++++++++++++++++++++---------------------
+>  1 file changed, 172 insertions(+), 149 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
