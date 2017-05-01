@@ -1,94 +1,214 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41955 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1758420AbdEAP6U (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 1
- May 2017 11:58:20 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v41Frjl9073090
- for <perfbook@vger.kernel.org>; Mon, 1 May 2017 11:58:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58116 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1750807AbdEAUqx (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Mon, 1 May 2017 16:46:53 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v41KXhSK099561
+ for <perfbook@vger.kernel.org>; Mon, 1 May 2017 16:46:53 -0400
 Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2a663a54jj-1 (version=TLSv1.2
+ mx0b-001b2d01.pphosted.com with ESMTP id 2a6afv49a4-1 (version=TLSv1.2
  cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
- 01 May 2017 11:58:16 -0400
+ 01 May 2017 16:46:52 -0400
 Received: from localhost by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted for
  <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 1 May 2017
- 11:58:15 -0400
-Date: Mon, 1 May 2017 08:58:16 -0700
+ 16:46:52 -0400
+Date: Mon, 1 May 2017 13:46:53 -0700
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: The weird re-ordering issue of the Alpha arch'
+Subject: Re: Some question about memory model(consistency)
 Reply-To: paulmck@linux.vnet.ibm.com
-References: <20170429142605.GC2536@master>
+References: <20170425130222.GA21476@master>
+ <b95b7fe7-e8c0-465c-d9a2-7d94b15e68ab@gmail.com>
+ <0cfad406-340d-7c92-095e-f9d2eaa9f167@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20170429142605.GC2536@master>
-Message-Id: <20170501155816.GB3956@linux.vnet.ibm.com>
+In-Reply-To: <0cfad406-340d-7c92-095e-f9d2eaa9f167@gmail.com>
+Message-Id: <20170501204653.GN3956@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
 To: Yubin Ruan <ablacktshirt@gmail.com>
-Cc: perfbook@vger.kernel.org
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 
-On Sat, Apr 29, 2017 at 10:26:05PM +0800, Yubin Ruan wrote:
-> Hi, 
-> Remember a few weeks ago we discussed about the weird re-ordering issue of the
-> Alpha arch', which is mentioned in Appendix.B in the perfbook? I got really
-> confused at that moment. Paul gave me a reference to a SGI webpage(an email
-> discussion actually), but that wasn't so understandable. Today I found a few
-> words from Kourosh Gharachorloo[1], which are very instructional for me:
-> 
->     For Alpha processors, the anomalous behavior is currently only possible on a
->     21264-based system. And obviously you have to be using one of our
->     multiprocessor servers. Finally, the chances that you actually see it are very
->     low, yet it is possible.
->     
->     Here is what has to happen for this behavior to show up. Assume T1 runs on P1
->     and T2 on P2. P2 has to be caching location y with value 0. P1 does y=1 which
->     causes an "invalidate y" to be sent to P2. This invalidate goes into the
->     incoming "probe queue" of P2; as you will see, the problem arises because
->     this invalidate could theoretically sit in the probe queue without doing an
->     MB on P2. The invalidate is acknowledged right away at this point (i.e., you
->     don't wait for it to actually invalidate the copy in P2's cache before
->     sending the acknowledgment). Therefore, P1 can go through its MB. And it
->     proceeds to do the write to p. Now P2 proceeds to read p. The reply for read
->     p is allowed to bypass the probe queue on P2 on its incoming path (this allow
->     s replies/data to get back to the 21264 quickly without needing to wait for
->     previous incoming probes to be serviced). Now, P2 can derefence P to read the
->     old value of y that is sitting in its cache (the inval y in P2's probe queue
->     is still sitting there).
->     
->     How does an MB on P2 fix this? The 21264 flushes its incoming probe queue
->     (i.e., services any pending messages in there) at every MB. Hence, after the
->     read of P, you do an MB which pulls in the inval to y for sure. And you can
->     no longer see the old cached value for y.
->     
->     Even though the above scenario is theoretically possible, the chances of
->     observing a problem due to it are extremely minute. The reason is that even
->     if you setup the caching properly, P2 will likely have ample opportunity to
->     service the messages (i.e., inval) in its probe queue before it receives the
->     data reply for "read p". Nonetheless, if you get into a situation where you
->     have placed many things in P2's probe queue ahead of the inval to y, then it
->     is possible that the reply to p comes back and bypasses this inval. It would
->     be difficult for you to set up the scenario though and actually observe the
->     anomaly.
->     
->     The above addresses how current Alpha's may violate what you have shown.
->     Future Alpha's can violate it due to other optimizations. One interesting
->     optimization is value prediction.
-> 
-> What I want to say is that next time you update the perfbook, you can take a few
-> words from it. I mean, you can adopt the same schema like "Assume T1 runs on P1
-> and T2 on P2. P2 has to be caching location y with value 0....". That would make
-> the perfbook more understandable :)
+On Wed, Apr 26, 2017 at 11:49:33AM +0800, Yubin Ruan wrote:
+> On 2017=E5=B9=B404=E6=9C=8825=E6=97=A5 23:19, Akira Yokosawa wrote:
+> >On 2017/04/25 21:02:22 +0800, Yubin Ruan wrote:
+> >>Hi,
+> >>long time no see :)
+> >
+> >Hi Yubin,
+> >
+> >I'm afraid this is not a direct answer to your question.
+> >But I'll try.
+> >
+> >>
+> >>This email relates to some confusion about computer system memory mod=
+el.
+> >>Recently I spent sometime reading stuff about momery model and finall=
+y I get
+> >>to the subject of safety properties of concurrent data structure. Whe=
+n
+> >>discussing concurrent data structures, three important properties are=
+ proposed:
+> >>    1. quiescent consistency
 
-Thank you -very- much, Yubin!  I was not aware of this, and you are quite
-correct, it is -much- better than the current citation.
+This can be thought of a a weaker form of eventual consistency, which
+is described here: http://queue.acm.org/detail.cfm?id=3D1466448
+
+A rough description is that if everything goes quiet for some time,
+everyone has a consistent view of the data.
+
+> >>    2. sequential consistency
+
+All CPUs agree on the order of all memory operations.
+
+> >>    3. linearizability
+
+Roughly similar to sequential consistency, but at a higher level.
+Sequential consistency applies to memory accesses, but linearizability
+applies to API calls for a given data structure.
+
+However, there is -no- guarantee that data structure accessed on a
+sequentially consistent system will be linearizable.
+
+> >>But...hmm...I don't fully understand them. sad :(
+> >>I know there might be someone in this lists to discuss these question=
+s with, so
+> >>I try to post them here. Any feedback is welcome.
+> >>
+> >>Let's start with some simple concepts to make this communication vali=
+d.
+> >>
+> >>1. what exactly counts as a "Quiescence"?
+> >>-------
+> >>I understand the concept of quiescent consistency: An execution of a
+> >>concurrent program is quiescently consistent if the method calls can =
+be
+> >>correctly arranged while still retaining the mutual order of calls
+> >>separated by quiescence, a period of time where no method is being
+> >>called in any thread
+> >>
+> >>Basically it can be illustrated very vividedly by the following figur=
+es:
+> >>
+> >>    Program order specified:
+> >>        <--A--> <--B--> <--C-->   <--D--> <--E--> <--F-->
+> >>                              ~~~~~~~
+> >>                          (quiescence point)
+> >>
+> >>    Real execution order:
+> >>        <--A--> <--C--> <--B-->   <--E--> <--D--> <--F-->
+> >>                              ~~~~~~~
+> >>                          (quiescence point)
+> >>
+> >>The above model is quiescent consistent because there is no execution
+> >>reordering across the quiescence point. But this one is not:
+> >>
+> >>    Program order specified:
+> >>        <--A--> <--B--> <--C-->   <--D--> <--E--> <--F-->
+> >>                              ~~~~~~~
+> >>                          (quiescence point)
+> >>
+> >>    Real execution order:
+> >>        <--A--> <--B--> <--D-->   <--C--> <--E--> <--F-->
+> >>                              ~~~~~~~
+> >>                          (quiescence point)
+> >>
+> >>This one is NOT quiescent consistent because the reordering of D and =
+E
+> >>across the quiescent point.
+> >>
+> >>But, in real world program, how can we identify those quiescent point=
+s?
+> >>I mean, in a program like this:
+> >>
+> >>  1: q.enqueue(something)
+> >>  2:
+> >>  3: q.enqueue(something)
+> >>  4:
+> >>  5: k.enqueue(something)
+> >>  6:
+> >>  7: k.dequeue(something)
+> >>
+> >>which is a quiescent point/period? Is it 2 or 4 or 6?
+> >
+> >It depends on which set of API you use to enqueue and dequeue.
+> >
+> >Have you read through Section 9.5 "Read-Copy Update" in perfbook?
+> >Especially, Figure 9.19 "RCU QSBR: Waiting for Pre-Existing Readers"
+> >depicts "quiescent state based reclamation (QSBR)".
+> >
+> >Also, Section 9.5.5.9 "RCU Based on Quiescent States" explains its toy
+> >implementation.
+> >
+> >On thing you might be missing here is that a quiescent state is *not*
+> >necessarily a global state but can be a state local to an object to
+> >be updated.
+> >
+> >Hope this could be a starting point for you.
+
+Akira has it right.  And the definition of quiescence gets much more
+tricky when you have multiple threads all accessing the same data
+structure.  When only a single thread is accessing a given data structure=
+,
+it is almost always the case that the time periods between consecutive
+pairs of API calls will all be quiscent states.
+
+With multiple threads, things get much fuzzier because of the time
+required for state changes to propagate through the system.  Yes, today's
+computers are small and fast, but their size is not zero and the speed
+of light is still finite.  ;-)
+
+> Thanks for replying.
+>=20
+> I think I mix these concepts with real world implementation. From what =
+I
+> have read so far, these properties are only constraints that may or may
+> *not* be respected by CPUs and compilers. CPUs/compilers are free to
+> reorder instructions for optimization reasons, thus violating those
+> consistency constraints. But in real world implementation, we have
+> special techniques that we can use to "implement" those consistency
+> constraints(e.g memory barriers, locks, etc).
+
+That we do!
+
+> Back to the question above, those quiescent point/period can be defined
+> by ourselves, as long as we can carry out some implementations that
+> respect the consistency constraints we want.
+
+We can define them pretty much however we want.  But getting a -useful-
+definition, now that is the trick!
+
+> Hmm...maybe that is the so-called "consequence of knowing too much"...
+> And I'd better go read more :)
+
+If a little knowledge is a very dangerous thing, just imagine what you
+could do with a lot of knowledge!  ;-)
 
 							Thanx, Paul
 
-> Regards,
+> Thanks,
 > Yubin
-> 
-> [1]: https://www.cs.umd.edu/~pugh/java/memoryModel/AlphaReordering.html
-> 
+>=20
+> >>
+> >>I am not so a hardware guy and I don't have so much experience with m=
+emory
+> >>model. But I am really interested in these models because I think it
+> >>provides foundation for concurrent programming and distributed system
+> >>building, which is what I interested in.
+> >>
+> >>Any feedback is welcome :)
+> >>
+> >>Thanks
+> >>Yubin
+> >>--
+> >>To unsubscribe from this list: send the line "unsubscribe perfbook" i=
+n
+> >>the body of a message to majordomo@vger.kernel.org
+> >>More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> >>
+> >
+>=20
 
