@@ -1,120 +1,164 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-oi0-f41.google.com ([209.85.218.41]:35268 "EHLO
- mail-oi0-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1752676AbdEIP2j (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 9
- May 2017 11:28:39 -0400
-Received: by mail-oi0-f41.google.com with SMTP id l18so3808121oig.2 for
- <perfbook@vger.kernel.org>; Tue, 09 May 2017 08:28:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=mime-version:from:date:message-id:subject:to;
- bh=VhMkC7B43C5XLNfvbeWjjdUDgviZd+UiFKmJnXqg9/4=;
- b=Ay37RWNb9kZ/EvdQKzBrHhErCfwM67u8+JL6JW4WDrMH5TZfxB2qIY8WZ6qZcyqEmz
- 8GTbtYdCBN2cQzD8xTLbvZOI3Eq+KLdSryUZRe5bpvei8yDKXiFrjnv4/SfkQsaK9jEV
- CibfUpIO7hJr1yu1O5rKIQNvJKxSVaTbv6GXMOA8XRYA1UpXiTA0iFg2xrF5TBPT89sE
- 5gXHEWVGiaz57Py7IslacKfm6u72f+oIBlNp4dZYXCOFXJeysbm/VRA1nfNsCgtuzpxJ
- rj9KFp5WIEdWwEaO9r7ku5SV1KGfVzm2C3HJOv9dd5j6Alt80jiVdCZUvhOF9BJ9Rsmu
- cGqA==
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39203 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1754054AbdEIPkx (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Tue, 9 May 2017 11:40:53 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v49FSl6T109597
+ for <perfbook@vger.kernel.org>; Tue, 9 May 2017 11:40:52 -0400
+Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205]) by
+ mx0b-001b2d01.pphosted.com with ESMTP id 2ab91fdvfa-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
+ 09 May 2017 11:40:52 -0400
+Received: from localhost by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 9 May 2017
+ 11:40:52 -0400
+Date: Tue, 9 May 2017 08:40:49 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 2/2] Remove unnecessary memory fence
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <1494306511-9022-1-git-send-email-junchangwang@gmail.com>
+ <1494306511-9022-3-git-send-email-junchangwang@gmail.com>
+ <20170509144730.GL3956@linux.vnet.ibm.com>
+ <CABoNC80ZDZKjMWkT7HHnDGikMpYf5M7sMnM2E_-8gftGKRFHtQ@mail.gmail.com>
 MIME-Version: 1.0
-From: Junchang Wang <junchangwang@gmail.com>
-Date: Tue, 9 May 2017 23:28:37 +0800
-Message-ID: 
- <CABoNC82ctHF6rJPRUg_R_g4kw3poik+tnX4V8K=0_UtBjKfszA@mail.gmail.com>
-Subject: Question on Answer to Quick Quiz 5.16 (Absolute error of summing up
- per-thread counters)
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: 
+ <CABoNC80ZDZKjMWkT7HHnDGikMpYf5M7sMnM2E_-8gftGKRFHtQ@mail.gmail.com>
+Message-Id: <20170509154049.GQ3956@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
+To: Junchang Wang <junchangwang@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Hi list,
+On Tue, May 09, 2017 at 11:20:01PM +0800, Junchang Wang wrote:
+> Hi Paul,
+> 
+> Thanks a lot for the correction. Thanks's right; we need to care about
+> other achitectures :-)
+> 
+> So barrier() is basically empty: define barrier() __asm__
+> __volatile__("": : :"memory") . I'm curious about what on the earth it
+> does? We do really use it in counttorture.h. Any reference to
+> resources is welcome!
+> 
+> Even if we agree with smp_mb(), count_stat_eventual.c seems not 100%
+> correct for me. Please check the following patch. It seems to me the
+> barrier instruction (smp_mb) in function count_cleanup is to make RAW
+> correct. So it should be inserted between the write and read
+> instructions. Is that right?
 
-I'm reading the Answer to Quick Quiz 5.16, which is different to what
-I expected. I embedded my puzzles and my solutions. Please help
-verify.
+Well, part of your change is in the right direction.  Either stopflag
+needs to be volatile or the accesses to stopflag need to use READ_ONCE()
+or WRITE_ONCE(), with the latter preferred.
 
->        In the worst case, the read operation completes immediately,
->        but is then delayed for $\Delta$ time units before returning,
->        in which case the worst-case error is simply $r \Delta$.
->
->        This worst-case behavior is rather unlikely, so let us instead
->        consider the case where the reads from each of the $N$
->        counters is spaced equally over the time period $\Delta$.
->        There will be $N+1$ intervals of duration $\frac{\Delta}{N+1}$
->        between the $N$ reads.
+I suggest looking at this Linux Weekly News (LWN) series:
 
-I don't understand why the number of intervals is $N+1$. My answer is
-$N$. I used the following figure to try to understand:
+	https://lwn.net/Articles/718628/
+	https://lwn.net/Articles/720550/
 
-In the figure, time clock increases from left to right.
-Symbol "|" indicates the moment the reader starts reading a per-thread
-counter, and subsequent spaces "_" indicate time slots the reader has
-to wait to get the value of this counter, due to for example cache
-miss. The last symbol "$" means the reader gets the value of the last
-counter and will return accumulated sum immediately. So when we talk
-about absolute error, we are talking about the miscounts happened in
-between the first read ("|") and getting the value of last counter
-("$"). In an extreme case (not real) where the reads run super fast
-and the first read "|" and last "$" move together, then there is no
-miscount anymore.
+This LWN article talks about use of ACCESS_ONCE(), which is the
+predecessor to READ_ONCE() and WRITE_ONCE():
 
-For each read operation, an interval follows. So the number of
-intervals would be equal to the number of counters ($N$), which is
-different to the answer in the book, $N+1$.
+	http://lwn.net/Articles/508991/
 
-  |_______|________|________|________$
-  (Assume the system has 4 counters, and
-  each counter takes the reader 8 time slots (space) to get the value)
+So I would welcome a patch that applied READ_ONCE() and WRITE_ONCE()
+to the stopflag variable.  Given that some of this code was written
+before ACCESS_ONCE(), let alone READ_ONCE() and WRITE_ONCE(), there
+might be more code needing this change, so please feel free to take
+a look around.
 
+							Thanx, Paul
 
+> index 75a0ca9..32f7e80 100644
+> --- a/CodeSamples/count/count_stat_eventual.c
+> +++ b/CodeSamples/count/count_stat_eventual.c
+> @@ -67,9 +67,9 @@ void count_init(void)
+>  void count_cleanup(void)
+>  {
+>         stopflag = 1;
+> +       smp_mb();
+>         while (stopflag < 3)
+>                 poll(NULL, 0, 1);
+> -       smp_mb();
+>  }
+> 
+>  #include "counttorture.h"
+> -- 
+> 2.7.4
+> 
+> 
+> Thanks,
+> --Jason
+> 
+> On Tue, May 9, 2017 at 10:47 PM, Paul E. McKenney
+> <paulmck@linux.vnet.ibm.com> wrote:
+> > On Tue, May 09, 2017 at 01:08:31PM +0800, Junchang Wang wrote:
+> >> count_stat_eventual.c uses a single global variable (stopflag) to synchronize
+> >> two separate threads (main and eventual) probably running on two different CPU
+> >> cores. My understanding is that for this model, memory fence instruction
+> >> (mfence) which typically are expensive can be avoided, only if we make sure (1)
+> >> that compiler neither reorder the code around nor cache the variable, and (2)
+> >> that the CPU core running code precedes in program order.
+> >>
+> >> We use keyword ``volatile'' to prevent compilers from reordering the code and
+> >> caching the variable, and instruction barrier() to force CPU core running the
+> >> code to obey program order.
+> >
+> > Please take another look at the barrier() macro.  It does not emit any
+> > instructions, so cannot force the CPU to do much of anything.  Keep in
+> > mind that this code needs to run on weakly ordered systems, not just x86.
+> >
+> >                                                         Thanx, Paul
+> >
+> >> Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+> >> ---
+> >>  CodeSamples/count/count_stat_eventual.c | 6 +++---
+> >>  1 file changed, 3 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/CodeSamples/count/count_stat_eventual.c b/CodeSamples/count/count_stat_eventual.c
+> >> index 059ab8b..5ffc4aa 100644
+> >> --- a/CodeSamples/count/count_stat_eventual.c
+> >> +++ b/CodeSamples/count/count_stat_eventual.c
+> >> @@ -23,7 +23,7 @@
+> >>
+> >>  DEFINE_PER_THREAD(unsigned long, counter);
+> >>  unsigned long global_count;
+> >> -int stopflag;
+> >> +volatile int stopflag;
+> >>
+> >>  void inc_count(void)
+> >>  {
+> >> @@ -47,7 +47,7 @@ void *eventual(void *arg)
+> >>               ACCESS_ONCE(global_count) = sum;
+> >>               poll(NULL, 0, 1);
+> >>               if (stopflag) {
+> >> -                     smp_mb();
+> >> +                     barrier();
+> >>                       stopflag++;
+> >>               }
+> >>       }
+> >> @@ -67,9 +67,9 @@ void count_init(void)
+> >>  void count_cleanup(void)
+> >>  {
+> >>       stopflag = 1;
+> >> +     barrier();
+> >>       while (stopflag < 3)
+> >>               poll(NULL, 0, 1);
+> >> -     smp_mb();
+> >>  }
+> >>
+> >>  #include "counttorture.h"
+> >> --
+> >> 2.7.4
+> >>
+> >> --
+> >> To unsubscribe from this list: send the line "unsubscribe perfbook" in
+> >> the body of a message to majordomo@vger.kernel.org
+> >> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> >>
+> >
+> 
 
->        It is important to remember that error continues accumulating
->        as the caller executes code making use of the count returned
->        by the read operation.
->        For example, if the caller spends time $t$ executing some
->        computation based on the result of the returned count, the
->        worst-case error will have increased to $r \left(\Delta + t\right)$.
->
->        The expected error will have similarly increased to:
->
->        \begin{equation}
->                r \left( \frac{\Delta}{2} + t \right)
->        \end{equation}
-
-It's hard for me to understand this part. Use my example figure again:
-
-  |_______|________|________|________$ _ _ _ t _ _ _
-  (Assume the system has 4 counters, and
-  each counter takes the reader 8 time slots (space) to get the value)
-
-The only difference compared to previous figure is the time slots of
-$t$ appeared at the tail.
-"The caller spends time $t$ executing some computation based on the
-result of the returned count"
-In other words, the reader returned at time slot "$", the same as the
-previous figure, so does the absolute error. So the error would be
-constant, no matter how long $t$ is.
-
-
->        All that aside, in most uses of statistical counters, the
->        error in the value returned by \co{read_count()} is
->        irrelevant.
->        This irrelevance is due to the fact that the time required
->        for \co{read_count()} to execute is normally extremely
->        small compared to the time interval between successive
->        calls to \co{read_count()}.
-
-Can we use word "negligible" to replace "irrelevant"? :-) I think the
-accuracy is not the stuff we don't want; it is something we have to
-tradeoff against.
-BTW, I'm still concerning about the absolute error may become too
-large to be acceptable. For example, for some networks, packets arrive
-for each 100 nanoseconds. In this scenario, counting error will happen
-all the time.
-The arguments in the book are convincing and I understand we can
-ignore the counting error because it is in small ratio. I just curious
-about are there any solutions or efforts to tackle this problem?
-Thanks.
-
-
-Regards,
---Jason
