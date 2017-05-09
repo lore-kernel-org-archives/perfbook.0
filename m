@@ -1,80 +1,94 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pf0-f194.google.com ([209.85.192.194]:35602 "EHLO
- mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751563AbdEIFJh (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 9
- May 2017 01:09:37 -0400
-Received: by mail-pf0-f194.google.com with SMTP id u26so12369023pfd.2 for
- <perfbook@vger.kernel.org>; Mon, 08 May 2017 22:09:37 -0700 (PDT)
+Return-Path: <ablacktshirt@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=P7cttd/JBKHKaepkMb7SbOJ49WlU8b7QpY1mITFCC0Y=;
- b=aVnjXVk8Cha81j2DExrCyxDH+jMYkWCJhexYoMQn6f1Rb7cp+8S2Vkjh+Gn9qGNyz1
- Gn/DmbeA+VtOSS1SSOdLAzpe9tDjMIQ4ITMmE5MP85sdAciGm6P/vgdd+gHAQa3W4MZE
- eshyZCtTx2ZqgKxtA/jASVDbVbQCmFsiftJvlESKwkYY2ZGtDSIXjW8v/g3FLqEKxFRy
- o8YSyVTcVARplDHYhe8vx8/lkWTdCwSoe6HCf/ggfzpr8tdCdFhjoZa0jEJUiOwP/rJw
- Z2qUfOB96ZNvYkfsiuWRvN9u68zZEWNICZkQTFSKfRQhsw9dwKsOlqWWkmUn2SaTM8fp
- wKPA==
-From: Junchang Wang <junchangwang@gmail.com>
-Subject: [PATCH 2/2] Remove unnecessary memory fence
-Date: Tue,  9 May 2017 13:08:31 +0800
-Message-Id: <1494306511-9022-3-git-send-email-junchangwang@gmail.com>
-In-Reply-To: <1494306511-9022-1-git-send-email-junchangwang@gmail.com>
-References: <1494306511-9022-1-git-send-email-junchangwang@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=33MrjzZgtT6OFjy1ErLYTcqqBa+0BYJ4Uj1/gg9WXUc=;
+ b=SSBQc+3J/Gg0+/IPPkIIB68tUBxxayU+/pp/BFRrOeab+bvKeEtDg3nIQ5roztRvhI
+ THWUXlfXYA8yFPtBQjQklXoDEgTmDCLMg42BRaPwpE4nrLhLppkGBxpOCd2kZiTIgQse
+ GlQLnSuOVNNXCqqwEimdi5Ou9j25P7Rd0h70EbsHzw5QxT2VlDw+BE/C42Srsk/bYqle
+ QfRyj9jXNOSvu5WYFBZJUEmK0Fp1D88OFfNTHq/OdowBEBQwMTnLdmPjhhKv+wo+KVfV
+ PatMj05QtfmpZDhupE18NKpdVMjDeEre6VkVs5+jsw53cW3gEWNKpHCfPxoM+Zk+OpxO
+ UIbA==
+Date: Tue, 9 May 2017 23:58:21 +0800
+From: Yubin Ruan <ablacktshirt@gmail.com>
+Subject: Re: The weird re-ordering issue of the Alpha arch'
+Message-ID: <20170509155818.GA4123@HP>
+References: <20170429142605.GC2536@master>
+ <20170501155816.GB3956@linux.vnet.ibm.com> <20170508132523.GA7570@HP>
+ <20170508155052.GA3956@linux.vnet.ibm.com> <20170509110758.GA5835@HP>
+ <20170509042132.GJ3956@linux.vnet.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20170509042132.GJ3956@linux.vnet.ibm.com>
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
-Cc: Junchang Wang <junchangwang@gmail.com>
 
-count_stat_eventual.c uses a single global variable (stopflag) to synchronize
-two separate threads (main and eventual) probably running on two different CPU
-cores. My understanding is that for this model, memory fence instruction
-(mfence) which typically are expensive can be avoided, only if we make sure (1)
-that compiler neither reorder the code around nor cache the variable, and (2)
-that the CPU core running code precedes in program order.
+On Mon, May 08, 2017 at 09:21:32PM -0700, Paul E. McKenney wrote:
+> On Tue, May 09, 2017 at 07:08:01PM +0800, Yubin Ruan wrote:
+> > On Mon, May 08, 2017 at 08:50:52AM -0700, Paul E. McKenney wrote:
+> > > On Mon, May 08, 2017 at 09:25:28PM +0800, Yubin Ruan wrote:
+> > > > On Mon, May 01, 2017 at 08:58:16AM -0700, Paul E. McKenney wrote:
+> > > > > On Sat, Apr 29, 2017 at 10:26:05PM +0800, Yubin Ruan wrote:
+> > > 
+> > > [ . . . ]
+> > > 
+> > > > Hmm...that reminds me of some words in the perfbook. In the answer of quick quiz 4.17,
+> > > > you state that:
+> > > > 
+> > > >     Memory barrier only enforce ordering among multiple memory references: They do
+> > > >     absolutely nothing to expedite the propogation of data from one part of the system
+> > > >     to another. This leads to a quick rule of thumb:  You do not need memory barriers
+> > > >     unless you are using more than one variable to communicate between multiple threads.
+> > > > 
+> > > > Is that only true for the Alpha processor? I mean, on platforms other than
+> > > > Alpha (e.g x86), memory barrier *do* expedite the propogation of data from one
+> > > > processor/core to other processor/core, even though that is not officially documented.
+> > > 
+> > > Can you point me at any unofficial documentation of this, for example,
+> > > any performance measurements indicating that (for example) the mfence
+> > > instruction speeds up the propagation of previous writes to other CPUs?
+> > 
+> > Hmm...I might had had too much drug at that moment. What I mean is that, on platform
+> > like x86, memory barrier instructions(e.g sfence) enforce that the order of some memory
+> > references are preserved as the same as in the origin processor by another processors.
+> > However, any speedup is not guaranteed.
+> 
+> Hey, I was hoping!  ;-)
 
-We use keyword ``volatile'' to prevent compilers from reordering the code and
-caching the variable, and instruction barrier() to force CPU core running the
-code to obey program order.
+Ah...sorry to dispoint you. :)
+Maybe some memory barrier instructions do have some speedup side effect to
+"expedite" the propogation of previous writes. Maybe try to consult some Intel
+engineer about this...?
+It would be good to have some experiments to measure this. But currently I don't
+know how to carry out the experiment myself. Do you have any plan or idea?
 
-Signed-off-by: Junchang Wang <junchangwang@gmail.com>
----
- CodeSamples/count/count_stat_eventual.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thanks,
+Yubin
 
-diff --git a/CodeSamples/count/count_stat_eventual.c b/CodeSamples/count/count_stat_eventual.c
-index 059ab8b..5ffc4aa 100644
---- a/CodeSamples/count/count_stat_eventual.c
-+++ b/CodeSamples/count/count_stat_eventual.c
-@@ -23,7 +23,7 @@
-
- DEFINE_PER_THREAD(unsigned long, counter);
- unsigned long global_count;
--int stopflag;
-+volatile int stopflag;
-
- void inc_count(void)
- {
-@@ -47,7 +47,7 @@ void *eventual(void *arg)
- 		ACCESS_ONCE(global_count) = sum;
- 		poll(NULL, 0, 1);
- 		if (stopflag) {
--			smp_mb();
-+			barrier();
- 			stopflag++;
- 		}
- 	}
-@@ -67,9 +67,9 @@ void count_init(void)
- void count_cleanup(void)
- {
- 	stopflag = 1;
-+	barrier();
- 	while (stopflag < 3)
- 		poll(NULL, 0, 1);
--	smp_mb();
- }
-
- #include "counttorture.h"
--- 
-2.7.4
+> 
+> 							Thanx, Paul
+> 
+> > Regards,
+> > Yubin
+> > 
+> > > In the absence of such documentation, all I can really do is change
+> > > "They do absolutely nothing to expedite..." to something like "They are
+> > > not guaranteed to do anything to expedite..."
+> > > 
+> > > 							Thanx, Paul
+> > > 
+> > > > ---
+> > > > Yubin
+> > > > 
+> > > > > > 
+> > > > > > [1]: https://www.cs.umd.edu/~pugh/java/memoryModel/AlphaReordering.html
+> > > > > > 
+> > > > > 
+> > > > 
+> > > 
+> > 
+> 
 
