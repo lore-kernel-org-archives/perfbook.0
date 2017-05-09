@@ -2,131 +2,109 @@ Return-Path: <junchangwang@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
  h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc;        bh=d40+INtXHit3eO2YPUgmkgaetOjYD5UUgxszocqby7E=;
- b=TFoAifNvJ6UDrTfTdUg3RqXsgeMP05MCRQyVeunPV1wwpJmEadIvRhXvIHUMMRv05H
- w5C2MRQCfck3OJxPgjTDn6+e6eBK5UcmmlCqQOBMWZ4Nc0wPgIlbDfmrW5Am1Xe0ElF+
- ABl5MMgV60BcTzbd25dBJhdoFz79Xv1zEyVF7RLA3FGcJeB4ScghEmH2rgFDiSi6mNrN
- 1ZQXx1TuC+29nia05UrKpYH0Zb6jtzbUPmB2P83jO3AYNuyPW4hyMb7PTBgceJ+6W/HT
- x+pEpR/IINzTmThf593673hkErxP+jI8Z9fMmlaJ5IzpqNS4OTY75b5Vlxnz5aFHR8yv
- bZlw==
+ :cc;        bh=tN1xRu7Dlh31wDhZyhqOQRzklb0n72ZGyTCSrLq7NVo=;
+ b=T70QvbUE+UxAZS++XrPCNc6hrHt8y4/BwKnwoGQgbyiWQ5Ustk7zxMROuDQlmoHkmi
+ QF1WMMaGectZszd0J5UyUojE4UsxUYOavlgaFLlSeXXXKRI9ImLqafPeZ+mZngYPYRHp
+ WmMRxtnvYO1dON4I6Qv6RclpndwP/q6GuyMBcJv0ZfjKWtXTCl2UGgJ+OEevTQPnwWyd
+ RmfpywyFl+uX3UsQgMPP0dhUQdNgN3JJ/am/CzVusSUTf0o/FS9d7sq4ofy/23FN38Yg
+ lyB3L/DJcSf8yND/vZq2s2tMn//AOJ06yZOboqcZoOUcY5OjyTeh2zssKzcIFkTRzbHS
+ gKoQ==
 MIME-Version: 1.0
-In-Reply-To: <20170509144730.GL3956@linux.vnet.ibm.com>
-References: <1494306511-9022-1-git-send-email-junchangwang@gmail.com>
- <1494306511-9022-3-git-send-email-junchangwang@gmail.com>
- <20170509144730.GL3956@linux.vnet.ibm.com>
+In-Reply-To: <07cd658e-d71b-496e-5583-e204ae1c3ebf@gmail.com>
+References: <1494319692-4252-1-git-send-email-junchangwang@gmail.com>
+ <07cd658e-d71b-496e-5583-e204ae1c3ebf@gmail.com>
 From: Junchang Wang <junchangwang@gmail.com>
-Date: Tue, 9 May 2017 23:20:01 +0800
+Date: Tue, 9 May 2017 23:21:33 +0800
 Message-ID: 
- <CABoNC80ZDZKjMWkT7HHnDGikMpYf5M7sMnM2E_-8gftGKRFHtQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Remove unnecessary memory fence
+ <CABoNC81561Cdif7=LnT0z3xdkM++Ldznnd5uGNzMuyVv_XU56g@mail.gmail.com>
+Subject: Re: [PATCH] Update Answer to Quick Quiz 5.27
 Content-Type: text/plain; charset=UTF-8
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+Hi Akira,
 
-Thanks a lot for the correction. Thanks's right; we need to care about
-other achitectures :-)
-
-So barrier() is basically empty: define barrier() __asm__
-__volatile__("": : :"memory") . I'm curious about what on the earth it
-does? We do really use it in counttorture.h. Any reference to
-resources is welcome!
-
-Even if we agree with smp_mb(), count_stat_eventual.c seems not 100%
-correct for me. Please check the following patch. It seems to me the
-barrier instruction (smp_mb) in function count_cleanup is to make RAW
-correct. So it should be inserted between the write and read
-instructions. Is that right?
-
-
-index 75a0ca9..32f7e80 100644
---- a/CodeSamples/count/count_stat_eventual.c
-+++ b/CodeSamples/count/count_stat_eventual.c
-@@ -67,9 +67,9 @@ void count_init(void)
- void count_cleanup(void)
- {
-        stopflag = 1;
-+       smp_mb();
-        while (stopflag < 3)
-                poll(NULL, 0, 1);
--       smp_mb();
- }
-
- #include "counttorture.h"
--- 
-2.7.4
+That's the major point. Fair enough :-)
 
 
 Thanks,
 --Jason
 
-On Tue, May 9, 2017 at 10:47 PM, Paul E. McKenney
-<paulmck@linux.vnet.ibm.com> wrote:
-> On Tue, May 09, 2017 at 01:08:31PM +0800, Junchang Wang wrote:
->> count_stat_eventual.c uses a single global variable (stopflag) to synchronize
->> two separate threads (main and eventual) probably running on two different CPU
->> cores. My understanding is that for this model, memory fence instruction
->> (mfence) which typically are expensive can be avoided, only if we make sure (1)
->> that compiler neither reorder the code around nor cache the variable, and (2)
->> that the CPU core running code precedes in program order.
+
+On Tue, May 9, 2017 at 10:56 PM, Akira Yokosawa <akiyks@gmail.com> wrote:
+> On 2017/05/09 16:48:12 +0800, Junchang Wang wrote:
+>> Oops. Forgot the summary in previous email. Resend the patch.
 >>
->> We use keyword ``volatile'' to prevent compilers from reordering the code and
->> caching the variable, and instruction barrier() to force CPU core running the
->> code to obey program order.
->
-> Please take another look at the barrier() macro.  It does not emit any
-> instructions, so cannot force the CPU to do much of anything.  Keep in
-> mind that this code needs to run on weakly ordered systems, not just x86.
->
->                                                         Thanx, Paul
->
+>>
+>> The Answer to Quick Quiz 5.27 is a bit hard to follow. Rewrite it.
+>>
 >> Signed-off-by: Junchang Wang <junchangwang@gmail.com>
 >> ---
->>  CodeSamples/count/count_stat_eventual.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>  count/count.tex | 14 +++++++-------
+>>  1 file changed, 7 insertions(+), 7 deletions(-)
 >>
->> diff --git a/CodeSamples/count/count_stat_eventual.c b/CodeSamples/count/count_stat_eventual.c
->> index 059ab8b..5ffc4aa 100644
->> --- a/CodeSamples/count/count_stat_eventual.c
->> +++ b/CodeSamples/count/count_stat_eventual.c
->> @@ -23,7 +23,7 @@
+>> diff --git a/count/count.tex b/count/count.tex
+>> index cc47554..6dfc7a6 100644
+>> --- a/count/count.tex
+>> +++ b/count/count.tex
+>> @@ -1258,13 +1258,13 @@ machine.
+>>       fast and scalable while allowing readers to also enjoy
+>>       reasonable performance and scalability?
+>>  \QuickQuizAnswer{
+>> -     One approach would be to maintain a global approximation
+>> -     to the value.
+>> -     Readers would increment their per-thread variable, but when it
+>> -     reached some predefined limit, atomically add it to a global
+>> -     variable, then zero their per-thread variable.
+>> -     This would permit a tradeoff between average increment overhead
+>> -     and accuracy of the value read out.
+>> +     One approach would be to add a global variable maintaining a
+>> +     approximation to the exact value. An updater would increment its
+>> +     per-thread variable, and when its value reaches predefined limit,
+>> +     atomically add the value to the global variable, then zero its
+>> +     per-thread variable. Readers simply return the value of global variable,
+>> +     enjoying reasonable performance.  This would permit a tradeoff between
+>> +     average increment overhead and accuracy of the value read out.
 >>
->>  DEFINE_PER_THREAD(unsigned long, counter);
->>  unsigned long global_count;
->> -int stopflag;
->> +volatile int stopflag;
+>>       The reader is encouraged to think up and try out other approaches,
+>>       for example, using a combining tree.
 >>
->>  void inc_count(void)
->>  {
->> @@ -47,7 +47,7 @@ void *eventual(void *arg)
->>               ACCESS_ONCE(global_count) = sum;
->>               poll(NULL, 0, 1);
->>               if (stopflag) {
->> -                     smp_mb();
->> +                     barrier();
->>                       stopflag++;
->>               }
->>       }
->> @@ -67,9 +67,9 @@ void count_init(void)
->>  void count_cleanup(void)
->>  {
->>       stopflag = 1;
->> +     barrier();
->>       while (stopflag < 3)
->>               poll(NULL, 0, 1);
->> -     smp_mb();
->>  }
->>
->>  #include "counttorture.h"
->> --
->> 2.7.4
->>
->> --
->> To unsubscribe from this list: send the line "unsubscribe perfbook" in
->> the body of a message to majordomo@vger.kernel.org
->> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->>
+>
+> Hi Junchang,
+>
+> What confused you seems to be a simple typo.
+> Isn't the following one-liner sufficient for you?
+>
+>                 Thanks, Akira
+>
+> --8<---->8--
+> From 725b32938e0cbc245e5a528fd475951bb8be1de5 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Tue, 9 May 2017 23:39:57 +0900
+> Subject: [PATCH] count: Fix typo in Answer to Quick Quiz 5.27
+>
+> Reported-by: Junchang Wang <junchangwang@gmail.com>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> ---
+>  count/count.tex | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/count/count.tex b/count/count.tex
+> index cc47554..096b53d 100644
+> --- a/count/count.tex
+> +++ b/count/count.tex
+> @@ -1260,7 +1260,7 @@ machine.
+>  \QuickQuizAnswer{
+>         One approach would be to maintain a global approximation
+>         to the value.
+> -       Readers would increment their per-thread variable, but when it
+> +       Updaters would increment their per-thread variable, but when it
+>         reached some predefined limit, atomically add it to a global
+>         variable, then zero their per-thread variable.
+>         This would permit a tradeoff between average increment overhead
+> --
+> 2.7.4
+>
 >
 
