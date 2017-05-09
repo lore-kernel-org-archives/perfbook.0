@@ -1,70 +1,99 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58033 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751306AbdEIOrw (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Tue, 9 May 2017 10:47:52 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v49EcmeB095001
- for <perfbook@vger.kernel.org>; Tue, 9 May 2017 10:47:52 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2aavrtse29-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
- 09 May 2017 10:47:51 -0400
-Received: from localhost by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 9 May 2017
- 10:47:51 -0400
-Date: Tue, 9 May 2017 07:47:47 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 1/2] Replace definition of variable sum from int to
- unsigned long
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <1494306511-9022-1-git-send-email-junchangwang@gmail.com>
- <1494306511-9022-2-git-send-email-junchangwang@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=JlXLD5Ju7Hvh5TNJHcY79p5hD2YZimO68IfUNBzczo8=;
+ b=hLhX4GlaeIPU6VCmq6GXYlywV7tfwEFG9UGD/H5RyRpZPyUobVYMhHi7uJn6AhZXnU
+ d7iD0EACObKpnlmReRMdt39NlCLZpkeeVda70q6TSmvxcb+VundwqwUMvfFl8q9NEsCj
+ W+xqM2mC/gvZfEBN5jQ2IL5c4IQIKPlum4R2CDzMetDtVPNxvsetvPILAde2rALcr3LG
+ IQAYj00V0QjvbNkCpC1/vAXOv8yJAjdjceEgUIQEzw7tR49MS/oGvsdXvl/5hSzOUEhh
+ XWvRvoaR44CrPrCdHwwMati83K1MiOoDdNkDQ1CYSVK3DgK7yREfk4biftx5C1wYihw5
+ zPxg==
+Subject: Re: [PATCH] Update Answer to Quick Quiz 5.27
+References: <1494319692-4252-1-git-send-email-junchangwang@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <07cd658e-d71b-496e-5583-e204ae1c3ebf@gmail.com>
+Date: Tue, 9 May 2017 23:56:25 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1494306511-9022-2-git-send-email-junchangwang@gmail.com>
-Message-Id: <20170509144747.GM3956@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
+In-Reply-To: <1494319692-4252-1-git-send-email-junchangwang@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 To: Junchang Wang <junchangwang@gmail.com>
-Cc: perfbook@vger.kernel.org
+Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, Akira Yokosawa <akiyks@gmail.com>
+List-ID: <perfbook.vger.kernel.org>
 
-On Tue, May 09, 2017 at 01:08:30PM +0800, Junchang Wang wrote:
->  The maximum size of integer variable on 64bit machines is 2^31. Suppose the
->  writer takes 5 nanosecond to increase the counter by one, the result wraps
->  around in about 10 seconds.
+On 2017/05/09 16:48:12 +0800, Junchang Wang wrote:
+> Oops. Forgot the summary in previous email. Resend the patch.
+> 
+> 
+> The Answer to Quick Quiz 5.27 is a bit hard to follow. Rewrite it.
 > 
 > Signed-off-by: Junchang Wang <junchangwang@gmail.com>
-
-Good catch, queued!
-
-							Thanx, Paul
-
 > ---
->  CodeSamples/count/count_stat_eventual.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  count/count.tex | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 > 
-> diff --git a/CodeSamples/count/count_stat_eventual.c b/CodeSamples/count/count_stat_eventual.c
-> index 75a0ca9..059ab8b 100644
-> --- a/CodeSamples/count/count_stat_eventual.c
-> +++ b/CodeSamples/count/count_stat_eventual.c
-> @@ -38,7 +38,7 @@ unsigned long read_count(void)
->  void *eventual(void *arg)
->  {
->  	int t;
-> -	int sum;
-> +	unsigned long sum;
+> diff --git a/count/count.tex b/count/count.tex
+> index cc47554..6dfc7a6 100644
+> --- a/count/count.tex
+> +++ b/count/count.tex
+> @@ -1258,13 +1258,13 @@ machine.
+>  	fast and scalable while allowing readers to also enjoy
+>  	reasonable performance and scalability?
+>  \QuickQuizAnswer{
+> -	One approach would be to maintain a global approximation
+> -	to the value.
+> -	Readers would increment their per-thread variable, but when it
+> -	reached some predefined limit, atomically add it to a global
+> -	variable, then zero their per-thread variable.
+> -	This would permit a tradeoff between average increment overhead
+> -	and accuracy of the value read out.
+> +	One approach would be to add a global variable maintaining a
+> +	approximation to the exact value. An updater would increment its
+> +	per-thread variable, and when its value reaches predefined limit,
+> +	atomically add the value to the global variable, then zero its
+> +	per-thread variable. Readers simply return the value of global variable,
+> +	enjoying reasonable performance.  This would permit a tradeoff between
+> +	average increment overhead and accuracy of the value read out.
+>  
+>  	The reader is encouraged to think up and try out other approaches,
+>  	for example, using a combining tree.
 > 
->  	while (stopflag < 3) {
->  		sum = 0;
-> -- 
-> 2.7.4
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe perfbook" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
+
+Hi Junchang,
+
+What confused you seems to be a simple typo.
+Isn't the following one-liner sufficient for you?
+
+                Thanks, Akira
+
+--8<---->8--
+From 725b32938e0cbc245e5a528fd475951bb8be1de5 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Tue, 9 May 2017 23:39:57 +0900
+Subject: [PATCH] count: Fix typo in Answer to Quick Quiz 5.27
+
+Reported-by: Junchang Wang <junchangwang@gmail.com>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ count/count.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/count/count.tex b/count/count.tex
+index cc47554..096b53d 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -1260,7 +1260,7 @@ machine.
+ \QuickQuizAnswer{
+ 	One approach would be to maintain a global approximation
+ 	to the value.
+-	Readers would increment their per-thread variable, but when it
++	Updaters would increment their per-thread variable, but when it
+ 	reached some predefined limit, atomically add it to a global
+ 	variable, then zero their per-thread variable.
+ 	This would permit a tradeoff between average increment overhead
+-- 
+2.7.4
+
 
