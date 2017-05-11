@@ -1,49 +1,67 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pg0-f66.google.com ([74.125.83.66]:35830 "EHLO
- mail-pg0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1756230AbdEKPEH (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 11
- May 2017 11:04:07 -0400
-Received: by mail-pg0-f66.google.com with SMTP id i63so3872689pgd.2 for
- <perfbook@vger.kernel.org>; Thu, 11 May 2017 08:04:07 -0700 (PDT)
+Received: from mail-pg0-f65.google.com ([74.125.83.65]:33825 "EHLO
+ mail-pg0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1756260AbdEKPEL (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 11
+ May 2017 11:04:11 -0400
+Received: by mail-pg0-f65.google.com with SMTP id u187so3880927pgb.1 for
+ <perfbook@vger.kernel.org>; Thu, 11 May 2017 08:04:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=from:to:cc:subject:date:message-id;
- bh=XVsNuyu4LYGzpep6oETxbwk+3A5PUa+4BbowVFa2G/U=;
- b=IGBENIOLbEHAhLLGsnf1RD23iwCEmWPvCNswnypf2Pho6r1Grdf0bT7inlXFvpm+1X
- Lh63nkE9Le4oiITW4MmFNYulxYBPeSjb2BjQBAZTJARFoJtSaxEkndDl4g8CntVeytH7
- 8XNdbAsHl4MUd9Rd4ikr3aM1z7Pf3+f4IF2gm/O1Qs8/8nK4j37YlCW2JimtPE3b32MT
- qQfJKCzep8dAP5jM3xmSV9GkAOQkz1BFu4BiOYNIwVHp690B2Zqf/IS5jAEYkbPHIGaF
- KEipl6ZGJfFHGm18OCDSoHplwipygyHAY9g1C4DXe1en4juridyWtImX8b3tF7TkYd8H
- pMfQ==
+ s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=BOJGPggRE7DTWQP1Z8VzwmhjbuNZGnzjccnEIzlAd3c=;
+ b=Qyqc1EEnwIvRvFlVkXf0Fi2Clc7gF7ANIAwRVpSLVn1DEZIvy8jWjTRDIDEi0gBPLG
+ p6GzqKMmFiF9MVt4fOzPpfXjaTGWfx93rTnTxDdSNiJbbxtUEIS0HFkB4I9CVuKpNEIV
+ jkGEscyGeeCbW7aEWzsqjivviJFe7hDiL5u/SC35+8xq7LAb+JA3H5SFD7mT2NNbD4wN
+ 645d7GYD6NRaELovReHMLKrKe61s/X3wRpFWVIOe/oDLe3I84NghwcLqcXCsfgtA09D+
+ H+VnvrDBinMyRsnp8i1t/DM5S8kdwV8mol4MlEY79DmOLhTNdVqwlg65kTmQ1FmOKV7r
+ 0vlQ==
 From: Junchang Wang <junchangwang@gmail.com>
-Subject: [PATCH 0/2] Use READ_ONCE() and WRITE_ONCE in count_stat_eventual.c
-Date: Thu, 11 May 2017 23:03:40 +0800
-Message-Id: <1494515022-30278-1-git-send-email-junchangwang@gmail.com>
+Subject: [PATCH 1/2] count_stat_eventual: Switch from ACCESS_ONCE() to
+ READ_ONCE()/WRITE_ONCE()
+Date: Thu, 11 May 2017 23:03:41 +0800
+Message-Id: <1494515022-30278-2-git-send-email-junchangwang@gmail.com>
+In-Reply-To: <1494515022-30278-1-git-send-email-junchangwang@gmail.com>
+References: <1494515022-30278-1-git-send-email-junchangwang@gmail.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 To: perfbook@vger.kernel.org
 Cc: Junchang Wang <junchangwang@gmail.com>
 
-Hi Paul,
+Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+---
+ CodeSamples/count/count_stat_eventual.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Please check the updated patch. The first patch is to replace existing
-ACCESS_ONCE to new READ/WRITE_ONCE primitives, and the second to protect global
-share variable stopflag.
+diff --git a/CodeSamples/count/count_stat_eventual.c b/CodeSamples/count/count_stat_eventual.c
+index 059ab8b..cbde4aa 100644
+--- a/CodeSamples/count/count_stat_eventual.c
++++ b/CodeSamples/count/count_stat_eventual.c
+@@ -27,12 +27,12 @@ int stopflag;
 
-BTW, I didn't see any performance differences between versions using volatile
-and READ/WRITE_ONCE primitives on my 16 cores Intel machine. I guess the major
-reason is that the sample code is simple such that registers are enough even if
-keyword volatile is used.
+ void inc_count(void)
+ {
+-	ACCESS_ONCE(__get_thread_var(counter))++;
++	READ_ONCE(__get_thread_var(counter))++;
+ }
 
+ unsigned long read_count(void)
+ {
+-	return ACCESS_ONCE(global_count);
++	return READ_ONCE(global_count);
+ }
 
-Junchang Wang (2):
-  count_stat_eventual: Switch from ACCESS_ONCE() to
-    READ_ONCE()/WRITE_ONCE()
-  count_stat_eventual: Add READ_ONCE() to protect global shared variable
-    stopflag
-
- CodeSamples/count/count_stat_eventual.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
-
+ void *eventual(void *arg)
+@@ -43,8 +43,8 @@ void *eventual(void *arg)
+ 	while (stopflag < 3) {
+ 		sum = 0;
+ 		for_each_thread(t)
+-			sum += ACCESS_ONCE(per_thread(counter, t));
+-		ACCESS_ONCE(global_count) = sum;
++			sum += READ_ONCE(per_thread(counter, t));
++		WRITE_ONCE(global_count, sum);
+ 		poll(NULL, 0, 1);
+ 		if (stopflag) {
+ 			smp_mb();
 -- 
 2.7.4
 
