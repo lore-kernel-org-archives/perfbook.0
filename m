@@ -1,32 +1,31 @@
-Return-Path: <junchangwang@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mail-pf0-f195.google.com ([209.85.192.195]:36342 "EHLO
+ mail-pf0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751291AbdEPNlv (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 16
+ May 2017 09:41:51 -0400
+Received: by mail-pf0-f195.google.com with SMTP id n23so18888046pfb.3 for
+ <perfbook@vger.kernel.org>; Tue, 16 May 2017 06:41:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=from:to:cc:subject:date:message-id;
- bh=6fFWqkJHvNTSum9Pp4/31rSL3jzDQp64HzKlOysNdSI=;
- b=ib3anQhp63pk9yaBqe+RpPlFXOQ4lkp8reJ/ipichP2xE79LspqpajNPV3yQuhYJzm
- YwfCBSUAg00XyiTT78O6oooc8yJQpbkPYIhNbACxCPz7VdCliIi1tQhlzgXERHk6e7+A
- r+7Kns2A5SLFGT+skzyVqf9Od/xpv5ilbg4F2gl238ka0/GZ2/MHg/s8lp1f2aaC1PUG
- lqbVZ7KYhB2uDOmzMJPWG8NQlDANKIt+WC61+QCwM3Gmf0Xso3SfUmdTM8xs84PvD14v
- 3USqKZOrYt0EZjxWDK43lULHni/9bf0Tl/Ln7Pfw72nTX9mgm61aUTIBX3o4knfUF+Xo
- DvEg==
+ bh=qOeSvbU7ZVQPCjOsvfOGtcwcrQ+e+dB2+zzSXdhhrNs=;
+ b=uxPElwPi4cOZrEp5lpSW3epQqL1euUDNWCwvM/th3SfaJf1zUvfY6BwOkcEazUmhkv
+ TgghkKWqaFQeCLEeS3TRhrjpLk+VgoeNshksWUEMeVNXtfQEyFuPiqOGJn1WtrEvx1SE
+ /Erzeeja6Tar+wO6A6i/yUudoVcSeG7WCOZFm0bKSXbN7vVgRbhRggiCNkzyAP7fFv4w
+ K+o5skgmxQ2C7PTA52dLS6iEnUud/EwVpP1xz1rXaBcKPvLrBWCFaRrh0EVHqgAt8Z7u
+ ueaesuwJE0MLHnTSo0WN7zYAmXh1U1bZHAJVK5VPsbzerCT7H3nIp4vIssmkKyEbZ04I
+ PChg==
 From: Junchang Wang <junchangwang@gmail.com>
-Subject: [PATCH v2] count_stat_eventual: Remove unnecessary READ_ONCE() and
+Subject: [PATCH] count_stat_eventual: Remove unnecessary READ_ONCE() and
  smp_mb()
-Date: Tue, 16 May 2017 23:44:12 +0800
-Message-Id: <1494949452-12455-1-git-send-email-junchangwang@gmail.com>
-To: perfbook@vger.kernel.org, akiyks@gmail.com, paulmck@linux.vnet.ibm.com
-Cc: Junchang Wang <junchangwang@gmail.com>
+Date: Tue, 16 May 2017 21:40:26 +0800
+Message-Id: <1494942026-6736-1-git-send-email-junchangwang@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: perfbook@vger.kernel.org
+Cc: Junchang Wang <junchangwang@gmail.com>, Akira Yokosawa <akiyks@gmail.com>
 
-In function eventual(), if the value of stopflag become larger than zero (the
-''if'' branch is taken), then only the "eventual( )" thread updates stopflag.
-So, the READ_ONCE() within the WRITE_ONCE() is not necessary. Remove it.
-
-In function count_cleanup(), there is no need to run smp_mb( ) in between
-statement writing to and statement reading from the same variable, stopflag.
-Remove smp_mb().
-
-Suggested-by: Akira Yokosawa <akiyks@gmail.com>
 Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
  CodeSamples/count/count_stat_eventual.c | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
