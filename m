@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Sz3TBSGOxcoWMABVzol/Ema+1X5/uWE6rVy9/YLmnxs=;
- b=q4ZRxJJCcQbR/zLm4kaKjOxFS/MYcG6P7iW+HmsZmrgkfXJXBwuuup6LW4MnEYNZDN
- NfLMcTpfFGqWl9Dp8zwmg7XR/LUZoXE7MifnCSecZn42go0+18SktREinX2nJrgAT/uB
- zGK6B+acA45NgSusy9A0xoUl1pm3A+qWKTB83EleiYvzsXBUhdlvEA7rJbJ3pa+XJyn9
- Ji21Fmv8KnTSsjZKdDFwndOPwj99RPhIqvXOoikjqKbQESJsaQlBmH3C0F3Ihx1myRH5
- DlNvN4nNlE1uWN9wxgc/RKWseU0y6SADNMbzYq39b0mtsLqjXV+fAxyS8JQS1GyT9Gbf
- m5+g==
-Subject: [PATCH 1/2] toolsoftrade: Update definition of READ_ONCE()
+ bh=+nIULDlaaKi/P4ik8YAVZkuG7W2ds3yIG8PbjpkAjhE=;
+ b=WX1GfAOzsenI6CPLJ0odbvYyvRDfMD1lyzgeCyr/4xpnvF2ZF3bwQ6/dIQHs0qZ73O
+ 2O66P+cQpZk8Bee7m4jHbEQrkuul+Xhr6QdzAGgRB5YnGfcnoZIDmddMx46FVXCPdECM
+ PxAip+ncE/yvOI3K+rolImXQmmXTVCauc7Co3lgh0No0YMk1MIkD6/qAy+uLrZDsJAwV
+ D40PdmDbn9ElUbueXqaKJVUCm6jTcUM+wCIHIk/ZeQOH1VcoGuTv77lMKEQIxYIcG0Kz
+ N+Fw/0CA64Ne0VZE1Kxscyj0wTFw1H2rbgZ6+embOCr6REprGP5Rxb/mPDm0i2tUqcKn
+ OqgA==
+Subject: [PATCH 2/2] count: Remove unnecessary smp_mb() in code snippet
 References: <ee37ed49-8952-0e35-1cb8-e9261e274cf3@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <b08d7dbc-c3f3-8686-3b70-f5a792312d73@gmail.com>
-Date: Tue, 23 May 2017 00:11:45 +0900
+Message-ID: <6860092f-dfbf-cae6-8d89-f0e62057b373@gmail.com>
+Date: Tue, 23 May 2017 00:13:28 +0900
 MIME-Version: 1.0
 In-Reply-To: <ee37ed49-8952-0e35-1cb8-e9261e274cf3@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,33 +23,48 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From e61f1ef20186fe24d7cec92b43f41a5efda524cb Mon Sep 17 00:00:00 2001
+From edbd0adf8aafef3704b9059ae484ee44f2aa308e Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 22 May 2017 23:42:06 +0900
-Subject: [PATCH 1/2] toolsoftrade: Update definition of READ_ONCE()
+Date: Mon, 22 May 2017 23:46:27 +0900
+Subject: [PATCH 2/2] count: Remove unnecessary smp_mb() in code snippet
 
-Reflect the change in commit 85747990ec80 ("count: Don't in-place
-increment a READ_ONCE()").
+Reflect the fix made in commit 853027876a8c ("count_stat_eventual:
+Remove unnecessary smp_mb()").
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- toolsoftrade/toolsoftrade.tex | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ count/count.tex | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index cecb2d3..9ccd4bc 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -1258,7 +1258,8 @@ but may be implemented straightforwardly as follows:
- \scriptsize
- \begin{verbatim}
- #define ACCESS_ONCE(x) (*(volatile typeof(x) *)&(x))
--#define READ_ONCE(x) ACCESS_ONCE(x)
-+#define READ_ONCE(x) \
-+            ({ typeof(x) ___x = ACCESS_ONCE(x); ___x; })
- #define WRITE_ONCE(x, val) ({ ACCESS_ONCE(x) = (val); })
- #define barrier() __asm__ __volatile__("": : :"memory")
- \end{verbatim}
+diff --git a/count/count.tex b/count/count.tex
+index ae624c6..1b5b030 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -793,11 +793,10 @@ eventually consistent.
+ 45 void count_cleanup(void)
+ 46 {
+ 47   WRITE_ONCE(stopflag, 1);
+-48   smp_mb();
+-49   while (READ_ONCE(stopflag) < 3)
+-50     poll(NULL, 0, 1);
+-51   smp_mb();
+-52 }
++48   while (READ_ONCE(stopflag) < 3)
++49     poll(NULL, 0, 1);
++50   smp_mb();
++51 }
+ \end{verbbox}
+ }
+ \centering
+@@ -826,7 +825,7 @@ summing the per-thread local \co{counter} and storing the
+ sum to the \co{global_count} variable.
+ The \co{eventual()} thread waits an arbitrarily chosen one millisecond
+ between passes.
+-The \co{count_cleanup()} function on lines~45-52 coordinates termination.
++The \co{count_cleanup()} function on lines~45-51 coordinates termination.
+
+ This approach gives extremely fast counter read-out while still
+ supporting linear counter-update performance.
 -- 
 2.7.4
 
