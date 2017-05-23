@@ -1,71 +1,60 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+nIULDlaaKi/P4ik8YAVZkuG7W2ds3yIG8PbjpkAjhE=;
- b=WX1GfAOzsenI6CPLJ0odbvYyvRDfMD1lyzgeCyr/4xpnvF2ZF3bwQ6/dIQHs0qZ73O
- 2O66P+cQpZk8Bee7m4jHbEQrkuul+Xhr6QdzAGgRB5YnGfcnoZIDmddMx46FVXCPdECM
- PxAip+ncE/yvOI3K+rolImXQmmXTVCauc7Co3lgh0No0YMk1MIkD6/qAy+uLrZDsJAwV
- D40PdmDbn9ElUbueXqaKJVUCm6jTcUM+wCIHIk/ZeQOH1VcoGuTv77lMKEQIxYIcG0Kz
- N+Fw/0CA64Ne0VZE1Kxscyj0wTFw1H2rbgZ6+embOCr6REprGP5Rxb/mPDm0i2tUqcKn
- OqgA==
-Subject: [PATCH 2/2] count: Remove unnecessary smp_mb() in code snippet
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60772 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S934067AbdEWAjx (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 22
+ May 2017 20:39:53 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v4N0dc9C088283
+ for <perfbook@vger.kernel.org>; Mon, 22 May 2017 20:39:53 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2am8pckm80-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
+ 22 May 2017 20:39:53 -0400
+Received: from localhost by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 22 May
+ 2017 20:39:52 -0400
+Date: Mon, 22 May 2017 17:39:49 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/2] Update code snippets
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <ee37ed49-8952-0e35-1cb8-e9261e274cf3@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <6860092f-dfbf-cae6-8d89-f0e62057b373@gmail.com>
-Date: Tue, 23 May 2017 00:13:28 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <ee37ed49-8952-0e35-1cb8-e9261e274cf3@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20170523003949.GT3956@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From edbd0adf8aafef3704b9059ae484ee44f2aa308e Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 22 May 2017 23:46:27 +0900
-Subject: [PATCH 2/2] count: Remove unnecessary smp_mb() in code snippet
+On Tue, May 23, 2017 at 12:10:07AM +0900, Akira Yokosawa wrote:
+> >From edbd0adf8aafef3704b9059ae484ee44f2aa308e Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Tue, 23 May 2017 00:01:27 +0900
+> Subject: [PATCH 0/2] Update code snippets
+> 
+> Hi Paul,
+> 
+> These are follow-up patches regarding recent updates in
+> CodeSamples/count/count_stat_eventual.c.
 
-Reflect the fix made in commit 853027876a8c ("count_stat_eventual:
-Remove unnecessary smp_mb()").
+Applied and pushed, thank you!
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- count/count.tex | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+							Thanx, Paul
 
-diff --git a/count/count.tex b/count/count.tex
-index ae624c6..1b5b030 100644
---- a/count/count.tex
-+++ b/count/count.tex
-@@ -793,11 +793,10 @@ eventually consistent.
- 45 void count_cleanup(void)
- 46 {
- 47   WRITE_ONCE(stopflag, 1);
--48   smp_mb();
--49   while (READ_ONCE(stopflag) < 3)
--50     poll(NULL, 0, 1);
--51   smp_mb();
--52 }
-+48   while (READ_ONCE(stopflag) < 3)
-+49     poll(NULL, 0, 1);
-+50   smp_mb();
-+51 }
- \end{verbbox}
- }
- \centering
-@@ -826,7 +825,7 @@ summing the per-thread local \co{counter} and storing the
- sum to the \co{global_count} variable.
- The \co{eventual()} thread waits an arbitrarily chosen one millisecond
- between passes.
--The \co{count_cleanup()} function on lines~45-52 coordinates termination.
-+The \co{count_cleanup()} function on lines~45-51 coordinates termination.
-
- This approach gives extremely fast counter read-out while still
- supporting linear counter-update performance.
--- 
-2.7.4
-
+>             Thanks, Akira
+> --
+> Akira Yokosawa (2):
+>   toolsoftrade: Update definition of READ_ONCE()
+>   count: Remove unnecessay smp_mb() in code snippet
+> 
+>  count/count.tex               | 11 +++++------
+>  toolsoftrade/toolsoftrade.tex |  3 ++-
+>  2 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
