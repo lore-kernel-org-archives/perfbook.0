@@ -1,64 +1,102 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OlMTotnz3akCqdxxvnCEFRJjkKU3PW+T9KgpbDO2g74=;
- b=I4HzFOFy1gpvwD8cdtKUy7BYEcbaqrI4t2bf+dKxmRCYfByz5T5Q8XQHVQOURmtAlL
- 6o+7t8edP+OVqviWonlJfvRJ2t0f1i007OMGdOamk4MzbpUCOTSOLaiKqZ3+q0P7odwC
- 9t5Jx6j8lXj04EFYue+CHKJIntScDpwQqqgIyB4FoYyFOfQ2n91LPETKVAI06N2bvbEf
- oNrxDunf5DSn0oCrNWLWbQNu6TBBk3rn+HBb9IcnHVSPa35TXQnE+qMnxuiOfkgeCYNh
- q9ZZJR5AuWF31Gm+LFgyV/HHkYEReV4fm31SsvU+VHi660Ehn3X8/QuyMg4lnZZdd4I2
- zAQA==
-Subject: [RFC PATCH 4/4] CodeSamples/defer: Add compiler barriers in
- gettimestampmp.c
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50656 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1750844AbdE3AC4 (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Mon, 29 May 2017 20:02:56 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v4TNwZCv035636
+ for <perfbook@vger.kernel.org>; Mon, 29 May 2017 20:02:56 -0400
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202]) by
+ mx0b-001b2d01.pphosted.com with ESMTP id 2arvera994-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
+ 29 May 2017 20:02:55 -0400
+Received: from localhost by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 29 May
+ 2017 20:02:55 -0400
+Date: Mon, 29 May 2017 17:02:55 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [RFC PATCH 0/4] CodeSamples: Cleanups and fixes
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <f9df1cc9-32af-951c-1f89-b89331c9dce9@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <7422a673-c911-4916-b626-348f693f1180@gmail.com>
-Date: Tue, 30 May 2017 07:18:51 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <f9df1cc9-32af-951c-1f89-b89331c9dce9@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20170530000255.GQ3956@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From fd5fb9afb6b99b15370a9823b42fa2a92342b92a Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 28 May 2017 15:42:45 +0900
-Subject: [RFC PATCH 4/4] CodeSamples/defer: Add compiler barriers in gettimestampmp.c
+On Tue, May 30, 2017 at 07:13:23AM +0900, Akira Yokosawa wrote:
+> >From fd5fb9afb6b99b15370a9823b42fa2a92342b92a Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Tue, 30 May 2017 06:52:40 +0900
+> Subject: [RFC PATCH 0/4] CodeSamples: Cleanups and fixes
+> 
+> Hi Paul,
+> 
+> While I was looking around CodeSamples, I encountered several
+> warnings in build and an infinite loop in one of sample codes.
+> Also, I found that CodeSamples/api.h and CodeSamples/Makefile.arch
+> can be removed from repository if their recipe are properly
+> written in Makefiles.
+> 
+> Patch 1 adds rules to generate Makefile.arch and api.h that
+> suit the architecture of you host. As I don't have ppc64 or
+> arm host environment, I tested it only on x86_32 and x86_64.
+> I'd like to know if it works on ppc64 and arm.
+> 
+> Patch 2 removes the redundant files.
 
-They ensure curtimestamp is read and written once in every
-iteration.
+I took the first two, and it is nice to just be able to type "make"
+in the CodeSamples directory!  ;-)
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- CodeSamples/defer/gettimestampmp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> Patch 3 and 4 are fixes of warnings and infinite loops.
 
-diff --git a/CodeSamples/defer/gettimestampmp.c b/CodeSamples/defer/gettimestampmp.c
-index e794e82..7012caa 100644
---- a/CodeSamples/defer/gettimestampmp.c
-+++ b/CodeSamples/defer/gettimestampmp.c
-@@ -32,7 +32,7 @@ void *collect_timestamps(void *mask_in)
- 	intptr_t mask = (intptr_t)mask_in;
+I have some concerns here, and will reply to the patches.
 
- 	while (curtimestamp < MAX_TIMESTAMPS) {
--		while ((curtimestamp & CURTIMESTAMP_MASK) != mask)
-+		while ((READ_ONCE(curtimestamp) & CURTIMESTAMP_MASK) != mask)
- 			continue;
- 		if (curtimestamp >= MAX_TIMESTAMPS)
- 			break;
-@@ -40,6 +40,7 @@ void *collect_timestamps(void *mask_in)
- 		/* Don't need memory barrier -- no other shared vars!!! */
+								Thanx, Paul
 
- 		ts[curtimestamp++] = get_timestamp();
-+		barrier();
- 	}
- 	smp_mb();
- 	return (NULL);
--- 
-2.7.4
-
+> Thoughts?
+> 
+>                  Thanks, Akira
+> -- 
+> Akira Yokosawa (4):
+>   CodeSamples: Add rule to generate Makefile.arch and api.h
+>   CodeSamples: Remove generated files from repository
+>   CodeSamples: Use 'intptr_t' to be compatible with 'void *'
+>   CodeSamples/defer: Add compiler barriers in gettimestampmp.c
+> 
+>  CodeSamples/.gitignore                         |   4 +-
+>  CodeSamples/Makefile                           |  18 +
+>  CodeSamples/Makefile.arch                      |   6 -
+>  CodeSamples/SMPdesign/Makefile                 |   3 +
+>  CodeSamples/SMPdesign/matmul.c                 |  13 +-
+>  CodeSamples/SMPdesign/smpalloc.c               |  11 +-
+>  CodeSamples/advsync/Makefile                   |   3 +
+>  CodeSamples/api.h                              | 808 -------------------------
+>  CodeSamples/count/Makefile                     |   3 +
+>  CodeSamples/datastruct/Issaquah/Makefile       |   3 +
+>  CodeSamples/datastruct/Issaquah/existence_test | Bin 26359 -> 0 bytes
+>  CodeSamples/datastruct/hash/Makefile           |   3 +
+>  CodeSamples/datastruct/log/Makefile            |   3 +
+>  CodeSamples/datastruct/skiplist/Makefile       |   3 +
+>  CodeSamples/defer/Makefile                     |   3 +
+>  CodeSamples/defer/gettimestampmp.c             |   5 +-
+>  CodeSamples/depends.mk                         |  43 ++
+>  CodeSamples/intro/Makefile                     |   3 +
+>  CodeSamples/intro/threadcreate.c               |   7 +-
+>  CodeSamples/locking/Makefile                   |   3 +
+>  CodeSamples/toolsoftrade/Makefile              |   3 +
+>  21 files changed, 117 insertions(+), 831 deletions(-)
+>  delete mode 100644 CodeSamples/Makefile.arch
+>  delete mode 100644 CodeSamples/api.h
+>  delete mode 100755 CodeSamples/datastruct/Issaquah/existence_test
+>  create mode 100644 CodeSamples/depends.mk
+> 
+> -- 
+> 2.7.4
+> 
 
