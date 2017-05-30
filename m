@@ -1,112 +1,59 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=OtlDkUuNuvXtwAqGeizUfGmGPetLZkEnMEAsF/HGsKI=;
- b=ahFg9kS5qcbJfMXJwSCBiaNwuF7ZPxi2QYD65D479zD3nR75+5dSSEXX8ZSxJrNTsU
- Z4JkvR5X2ZaIJIonz+ViQGS/D8GVaGpsR4HLd0tHt5B1gt27n0XO0uGHgsYDsenwu+Hu
- dq5Bo0FdIYeFXuj/7X9GRLuuKQH6WZwWbw64ELuRQCF0OtBdaUPzM+rHs83fUPT2Zzar
- s3G2T/fDhxXyswioUn0K/TUUQZe5EYP4MnnTcT+cHBThtzVjNMm9VOGAQ+GkOYRRuHG7
- A+0X12PYU36OQmOtUtQKmS8gL1MUPJ7AcJdJ6kStn+4BUr7DdlUldbctP/BsmtVc2mUx
- tFQA==
-Content-Type: text/plain;	charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [RFC PATCH 0/4] CodeSamples: Cleanups and fixes
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20170530000255.GQ3956@linux.vnet.ibm.com>
-Date: Tue, 30 May 2017 10:44:09 +0900
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <98FADA60-C3DC-4C64-BC5D-496570B98413@gmail.com>
+ s=20161025;        h=to:cc:references:from:subject:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1BOVLt12ZpAlbkTUJ9Xupy5SIBcsEQWa5LIhg0uIwBQ=;
+ b=hhYGph7fvgST8wjhIHo/Ltcn1BqtYiPFegwTG0J7weQeG7zx1plpEoLlKE/Iihwtgo
+ lwuR7mUEKwwJTbbb4j1cdq8577WnsVOvV0xAqoP3ZSlw0PYD4oyqPHBOIHjjutBDFNwL
+ IMIOlzFmH/cIWyj3hSxl8Wo4JDmK6GVYan1GKV21avc4IYR3MivNrLRf1wON9tYUc7Fg
+ Pz5xJTi3Q/hp+rBekJJB6Vdra9Xbm2rkBAHqZEsPAI1GleboT03dzrWPEfS0/VuAR1Z9
+ sh6ECRFasVrDpImK3a9ebbEtavZ55RjcqjjzUlA7ETFR9z8vl7ltsNUyFiUM1iVyQVJf
+ 2gBA==
 References: <f9df1cc9-32af-951c-1f89-b89331c9dce9@gmail.com>
- <20170530000255.GQ3956@linux.vnet.ibm.com>
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [RFC PATCH v2 0/2] CodeSamples: Cleanups and fixes
+Message-ID: <8e20cd05-59f8-f651-d0e0-1db2a7105d33@gmail.com>
+Date: Tue, 30 May 2017 21:05:15 +0900
+MIME-Version: 1.0
+In-Reply-To: <f9df1cc9-32af-951c-1f89-b89331c9dce9@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-2017/05/30 9:02=E3=80=81Paul E. McKenney <paulmck@linux.vnet.ibm.com> =E3=81=
-=AE=E3=83=A1=E3=83=83=E3=82=BB=E3=83=BC=E3=82=B8:
+From 489b5e3bdeba2f9b733dbe3d85390368dd159174 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Tue, 30 May 2017 20:44:52 +0900
+Subject: [RFC PATCH v2 0/2] CodeSamples: Cleanups and fixes
 
-> On Tue, May 30, 2017 at 07:13:23AM +0900, Akira Yokosawa wrote:
->>> =46rom fd5fb9afb6b99b15370a9823b42fa2a92342b92a Mon Sep 17 00:00:00 2001=
+Hi Paul,
 
->> From: Akira Yokosawa <akiyks@gmail.com>
->> Date: Tue, 30 May 2017 06:52:40 +0900
->> Subject: [RFC PATCH 0/4] CodeSamples: Cleanups and fixes
->>=20
->> Hi Paul,
->>=20
->> While I was looking around CodeSamples, I encountered several
->> warnings in build and an infinite loop in one of sample codes.
->> Also, I found that CodeSamples/api.h and CodeSamples/Makefile.arch
->> can be removed from repository if their recipe are properly
->> written in Makefiles.
->>=20
->> Patch 1 adds rules to generate Makefile.arch and api.h that
->> suit the architecture of you host. As I don't have ppc64 or
->> arm host environment, I tested it only on x86_32 and x86_64.
->> I'd like to know if it works on ppc64 and arm.
->>=20
->> Patch 2 removes the redundant files.
->=20
-> I took the first two, and it is nice to just be able to type "make"
-> in the CodeSamples directory!  ;-)
+This is the respin of the latter two patches of v1. I'm keeping RFC
+because of some questions.
 
-Does this work on ppc64 and arm (whatever arm
-platform you have access to)?
+"long" -> "intptr_t" changes in Patch 1 have no effect on a platform
+where "long" and "intptr_t" have the same width, but I think they
+are good in portability POV.
 
->=20
->> Patch 3 and 4 are fixes of warnings and infinite loops.
->=20
-> I have some concerns here, and will reply to the patches.
->=20
+WRITE_ONCE() in Patch 2 is placed under the assignment to the array
+because I could not translate post increment in any other way.
+Does the WRITE_ONCE() ensure the outer "while" capture the value?
 
-I see your points. I'll respin.
+              Thanks, Akira
+-- 
+Akira Yokosawa (2):
+  CodeSamples: Use 'intptr_t' to be compatible with 'void *'
+  CodeSamples/defer: Add compiler barriers in gettimestampmp.c
 
-Thanks, Akira=E2=80=82
-(from mobile, might be QP encoded)
+ CodeSamples/SMPdesign/matmul.c     | 4 ++--
+ CodeSamples/SMPdesign/smpalloc.c   | 4 ++--
+ CodeSamples/defer/gettimestampmp.c | 7 ++++---
+ CodeSamples/intro/threadcreate.c   | 4 ++--
+ 4 files changed, 10 insertions(+), 9 deletions(-)
 
->                                Thanx, Paul
->=20
->> Thoughts?
->>=20
->>                 Thanks, Akira
->> --=20
->> Akira Yokosawa (4):
->>  CodeSamples: Add rule to generate Makefile.arch and api.h
->>  CodeSamples: Remove generated files from repository
->>  CodeSamples: Use 'intptr_t' to be compatible with 'void *'
->>  CodeSamples/defer: Add compiler barriers in gettimestampmp.c
->>=20
->> CodeSamples/.gitignore                         |   4 +-
->> CodeSamples/Makefile                           |  18 +
->> CodeSamples/Makefile.arch                      |   6 -
->> CodeSamples/SMPdesign/Makefile                 |   3 +
->> CodeSamples/SMPdesign/matmul.c                 |  13 +-
->> CodeSamples/SMPdesign/smpalloc.c               |  11 +-
->> CodeSamples/advsync/Makefile                   |   3 +
->> CodeSamples/api.h                              | 808 --------------------=
------
->> CodeSamples/count/Makefile                     |   3 +
->> CodeSamples/datastruct/Issaquah/Makefile       |   3 +
->> CodeSamples/datastruct/Issaquah/existence_test | Bin 26359 -> 0 bytes
->> CodeSamples/datastruct/hash/Makefile           |   3 +
->> CodeSamples/datastruct/log/Makefile            |   3 +
->> CodeSamples/datastruct/skiplist/Makefile       |   3 +
->> CodeSamples/defer/Makefile |   3 +
->> CodeSamples/defer/gettimestampmp.c             |   5 +-
->> CodeSamples/depends.mk                         |  43 ++
->> CodeSamples/intro/Makefile                     |   3 +
->> CodeSamples/intro/threadcreate.c               |   7 +-
->> CodeSamples/locking/Makefile                   |   3 +
->> CodeSamples/toolsoftrade/Makefile              |   3 +
->> 21 files changed, 117 insertions(+), 831 deletions(-)
->> delete mode 100644 CodeSamples/Makefile.arch
->> delete mode 100644 CodeSamples/api.h
->> delete mode 100755 CodeSamples/datastruct/Issaquah/existence_test
->> create mode 100644 CodeSamples/depends.mk
->>=20
->> --=20
->> 2.7.4
->>=20
->=20
+-- 
+2.7.4
+
 
