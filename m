@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=b/lf0gwZnfM5xeWiQV3T/j6QRqApL85OboLuUCseqD0=;
- b=EWAR6hlGesfrCZ3OnSixdyUtZXvHYeQZugLCWxDLLp2QwWmXkB5HBdvDWk9s9FVMcI
- ARYwVA7PP2WldzvEV6ybRvrkYeasoHy09k9MEOvHvvVF56F9CCR+6Z3VT7oTw0m8hV6h
- WNOpTJHHe86HVR8RB/tBkx3V+/+AE5Xv71SzAOiSLqn4iEJNGATPpnjF6bPmz8AbhTZn
- FW2wKIwBoegNvg/YxQrQzE+vBBM0/3nOU30MKF6dnoWA+bCzJXg9FnqomUi3d8Kht+50
- ZLtoR2mK5hY8ae+OpfM/2wMGnO2cgbj7BDtv3fXI6tdIDq8Ppy2AmEesPUNwBxik1+Vu
- Dp7g==
-Subject: [PATCH 1/2] CodeSamples: Fixes for build on ppc64le
+ bh=2LpLSQEw9rorRp1sLKOPZZf9q/GTpz/BvrFOvu2oHIg=;
+ b=BVVpM2+hvyOzQ2pudU0d9/FnkzzAZRg/ed6N19yZb2N+g5eCH3iZddzyQ9ZhBW5bDl
+ tRLFkdZC7vvGUJjU8YNlIhSqvK6QYb9NKrCqKrTNuj/oE+fQUS0KGl0+iQfwIhlneek7
+ GyCpJ0qVXCU4CRQP7IS0GPOcHaAGkLqZZoD5FwZ3XHrvw2gq0ZI3YRNnNpNS5UqY10wf
+ aeF1Isd+Ruw1BMWaTyzMwAoye2T3nWdnuYc3VIW2v7HyJpoWaJa3NC4Ge/foNpPEHTIf
+ EIpd5bPwqy1NODV7zOxpG4UaStWX5NgGA5LTFscbEkSy/mUxkKVv6esUijNsNjeoS+rS
+ 5BiQ==
+Subject: [PATCH 2/2] CodeSamples: Remove cpu specific flag for ppc64
 References: <ad29f159-eb20-4493-d1f7-90bd4b3f17ae@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <5cac4c07-08de-e157-fd9c-c9036f5cc206@gmail.com>
-Date: Sat, 3 Jun 2017 16:03:04 +0900
+Message-ID: <72a3c163-cc41-aae5-d139-9b487aa81b70@gmail.com>
+Date: Sat, 3 Jun 2017 16:04:13 +0900
 MIME-Version: 1.0
 In-Reply-To: <ad29f159-eb20-4493-d1f7-90bd4b3f17ae@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,43 +23,30 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 9fdd8f22bc417c53b4467ccd997b9d2fb833832a Mon Sep 17 00:00:00 2001
+From 7c151a100ef7d6c30259a966c68c45421edd7707 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 3 Jun 2017 02:23:20 +0000
-Subject: [PATCH 1/2] CodeSamples: Fixes for build on ppc64le
+Date: Sat, 3 Jun 2017 12:42:38 +0900
+Subject: [PATCH 2/2] CodeSamples: Remove cpu specific flag for ppc64
+
+Also update links to tuning options for POWER.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/Makefile   | 2 ++
- CodeSamples/depends.mk | 2 ++
- 2 files changed, 4 insertions(+)
+ CodeSamples/arch-ppc64/Makefile.arch | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/CodeSamples/Makefile b/CodeSamples/Makefile
-index 4168220..e1593a7 100644
---- a/CodeSamples/Makefile
-+++ b/CodeSamples/Makefile
-@@ -92,6 +92,8 @@ pthreads-ppc64:
- 	echo "" >> api.h
- 	cat api-pthreads/api-pthreads.h >> api.h
- 	echo "" >> api.h
-+	cat api-pthreads/api-gcc.h >> api.h
-+	echo "" >> api.h
- 	if test -f /usr/include/urcu-call-rcu.h -o -f /usr/local/include/urcu-call-rcu.h ; \
- 	then \
- 		echo "#define _LGPL_SOURCE" >> api.h; \
-diff --git a/CodeSamples/depends.mk b/CodeSamples/depends.mk
-index 409eeee..f3a325d 100644
---- a/CodeSamples/depends.mk
-+++ b/CodeSamples/depends.mk
-@@ -8,6 +8,8 @@ else ifeq ($(arch),x86_64)
- target := x86
- else ifeq ($(arch),ppc64)
- target := ppc64
-+else ifeq ($(arch),ppc64le)
-+target := ppc64
- else ifneq (,$(findstring arm,$(arch)))
- target := arm
- else
+diff --git a/CodeSamples/arch-ppc64/Makefile.arch b/CodeSamples/arch-ppc64/Makefile.arch
+index 90a8ecf..cae45e3 100644
+--- a/CodeSamples/arch-ppc64/Makefile.arch
++++ b/CodeSamples/arch-ppc64/Makefile.arch
+@@ -1,2 +1,5 @@
+-# http://www.ibm.com/developerworks/wikis/display/hpccentral/Tuning+options+to+consider+with+gcc#Tuningoptionstoconsiderwithgcc-mcpuandmtune
+-GCC_ARGS=-g -Wall -O3 -m64 -mcpu=power5 -mtune=power5
++# You might want to add a flag such as -mcpu=power8.
++# See e.g.:
++# https://www.ibm.com/developerworks/community/wikis/form/anonymous/api/wiki/366c0058-50f7-4c6d-9505-9d8af81d40f1/page/56044ce1-e853-47f2-a038-c7c8ea8bef23/media?convertTo=html (power5 & power6 era)
++# https://www.ibm.com/developerworks/community/wikis/home?lang=en#!/wiki/W51a7ffcf4dfd_4b40_9d82_446ebc23c550/page/New%20to%20PowerLinux%20tuning%20and%20optimizations?section=gcc (not so up to date)
++GCC_ARGS=-g -Wall -O3 -m64
 -- 
 2.7.4
 
