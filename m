@@ -2,177 +2,102 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7Kcd50pF7ZCGY/49doajuL1r9rUiEJXfCS/MWtUzcmU=;
- b=bVZYv96W9vkjbzx5eXVy2a55Q9wpX1gCdH3Un883uvHTBMJu6vjnHH1leYVYMjEr/7
- 6mEW5YylVaEZM/UUi3VU0jHE4MMjGvR4CcAahT2qzinRYwUNg97dvS15dHLiEehtIPVM
- n28gUkrs3pCsexPnYcVZNvWe5glFrSCSirbdBI+2A5pDtj08jjw58PgJVE2Ll9l6PXnt
- BxVnv7HcC/d1rR9wqs74qgakTPLzYn8ZoDTnw23riv3K0FgHdWzSWDhhrqKgmfuOrBgd
- 2OqxJhppMCKTPglYWMjfDKL/3e9WsiyshY7ns/GPdZ5rthwzB1Gz8FwGiJwCaGBIH6DD
- k0dQ==
-Subject: [PATCH 1/5] CodeSamples: Remove gprof-helper.c
+ bh=qHB9MYWcSdG+9MGsKMdE/8kvmCylzifCBFnWMxefkoU=;
+ b=pt79bO5Os+rfuIAoCzg2Rh+8Xrz7cwV8TAhZspmI3updcpSKhJs0MmGkjg3sByA/RM
+ zR5OdawoyKt1NaAtWPWbYo34eQYmRyuT36S2kmn1Ci4XGNBc/CyzXzNWDTdtnPUOm4Rj
+ /nGJBxrkldpEDAbPTr6Psdh1ERcRXIpa7ukRHa9B4ElP+b0+PRPrXbkj0Ja8UFNUX7lE
+ 8S6vb6pPl3+bP7dvWEAzuGCADTXGBPuil38MXszoNaP0eH1Sq/eqR3S8Wo2eHXOpwK+6
+ sfqzLZDkXZ/RqCROxQpKO9h9ItiHHefatbTYeo7nOAEt/7Z3WB8QBDNOTjnVxoJBxAqw
+ LHig==
+Subject: [PATCH 2/5] CodeSamples: Use $(MAKE) for recursive make
 References: <39761e77-17b7-7e05-d47b-07b89ff9b4b4@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <e890e900-77f7-8d5f-99ae-97a579f3c338@gmail.com>
-Date: Sat, 10 Jun 2017 00:24:15 +0900
+Message-ID: <89d52e83-835a-c5e8-b09e-77183c6e3e57@gmail.com>
+Date: Sat, 10 Jun 2017 00:25:43 +0900
 MIME-Version: 1.0
 In-Reply-To: <39761e77-17b7-7e05-d47b-07b89ff9b4b4@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 5d81fb381768463ac02881edb5e8caf3896e9c48 Mon Sep 17 00:00:00 2001
+From e227572a57eaa6c14636c1d197a6d40254bcfa5c Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 6 Jun 2017 00:06:44 +0900
-Subject: [PATCH 1/5] CodeSamples: Remove gprof-helper.c
+Date: Tue, 6 Jun 2017 00:24:15 +0900
+Subject: [PATCH 2/5] CodeSamples: Use $(MAKE) for recursive make
 
-Paul confirmed that he no longer needs this.
-Also remove its entry in .gitignore.
+For recursive make, "$(MAKE)" is recommended.[1]
+By this change, options such as "-j4" can be transferred to builds
+under subdirectories.
+
+Also convert the list of recursive "make"s to a "for" loop by
+defining a variable "subdirs".
+
+[1] https://www.gnu.org/software/make/manual/html_node/Recursion.html
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/.gitignore     |   1 -
- CodeSamples/gprof-helper.c | 118 ---------------------------------------=
-------
- 2 files changed, 119 deletions(-)
- delete mode 100644 CodeSamples/gprof-helper.c
+ CodeSamples/Makefile   | 16 ++++++++--------
+ CodeSamples/depends.mk |  4 ++--
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/CodeSamples/.gitignore b/CodeSamples/.gitignore
-index e116055..042e44d 100644
---- a/CodeSamples/.gitignore
-+++ b/CodeSamples/.gitignore
-@@ -1,3 +1,2 @@
--/gprof-helper.c
- /Makefile.arch
- /api.h
-diff --git a/CodeSamples/gprof-helper.c b/CodeSamples/gprof-helper.c
-deleted file mode 100644
-index e413b17..0000000
---- a/CodeSamples/gprof-helper.c
-+++ /dev/null
-@@ -1,118 +0,0 @@
--/* gprof-helper.c -- preload library to profile pthread-enabled programs=
-=20
-- *=20
-- * Authors: Sam Hocevar <sam at zoy dot org>=20
-- *          Daniel J=C3=B6nsson <danieljo at fagotten dot org>=20
-- *=20
-- *  This program is free software; you can redistribute it and/or=20
-- *  modify it under the terms of the Do What The Fuck You Want To=20
-- *  Public License as published by Banlu Kemiyatorn. See=20
-- *  http://sam.zoy.org/projects/COPYING.WTFPL for more details.=20
-- *=20
-- * Compilation example:=20
-- * gcc -shared -fPIC gprof-helper.c -o gprof-helper.so -lpthread -ldl=20
-- *=20
-- * Usage example:=20
-- * LD_PRELOAD=3D./gprof-helper.so your_program=20
-- */=20
--=20
--#define _GNU_SOURCE=20
--#include <sys/time.h>=20
--#include <stdio.h>=20
--#include <stdlib.h>=20
--#include <dlfcn.h>=20
--#include <pthread.h>=20
--=20
--static void * wrapper_routine(void *);=20
--=20
--/* Original pthread function */=20
--static int (*pthread_create_orig)(pthread_t *__restrict,
--				  __const pthread_attr_t *__restrict,
--				  void *(*)(void *), void *__restrict) =3D NULL;=20
--=20
--/* Library initialization function */=20
--void wooinit(void) __attribute__((constructor));=20
--=20
--void wooinit(void)=20
--{=20
--	pthread_create_orig =3D dlsym(RTLD_NEXT, "pthread_create");=20
--	fprintf(stderr, "pthreads: using profiling hooks for gprof\n");=20
--	if(pthread_create_orig =3D=3D NULL) {=20
--		char *error =3D dlerror();=20
--		if(error =3D=3D NULL) {=20
--			error =3D "pthread_create is NULL";=20
--		}=20
--		fprintf(stderr, "%s\n", error);=20
--		exit(EXIT_FAILURE);=20
--	}=20
--}=20
--=20
--/* Our data structure passed to the wrapper */=20
--typedef struct wrapper_s=20
--{=20
--	void * (*start_routine)(void *);=20
--	void * arg;=20
--
--	pthread_mutex_t lock;=20
--	pthread_cond_t  wait;=20
--
--	struct itimerval itimer;=20
--
--} wrapper_t;=20
--=20
--/* The wrapper function in charge for setting the itimer value */=20
--static void * wrapper_routine(void * data)=20
--{=20
--	/* Put user data in thread-local variables */=20
--	void * (*start_routine)(void *) =3D ((wrapper_t*)data)->start_routine;=20
--	void * arg =3D ((wrapper_t*)data)->arg;=20
--
--	/* Set the profile timer value */=20
--	setitimer(ITIMER_PROF, &((wrapper_t*)data)->itimer, NULL);=20
--
--	/* Tell the calling thread that we don't need its data anymore */=20
--	pthread_mutex_lock(&((wrapper_t*)data)->lock);=20
--	pthread_cond_signal(&((wrapper_t*)data)->wait);=20
--	pthread_mutex_unlock(&((wrapper_t*)data)->lock);=20
--
--	/* Call the real function */=20
--	return start_routine(arg);=20
--}=20
--=20
--/* Our wrapper function for the real pthread_create() */=20
--int pthread_create(pthread_t *__restrict thread,
--		   __const pthread_attr_t *__restrict attr,
--		   void * (*start_routine)(void *),
--		   void *__restrict arg)=20
--{
--	wrapper_t wrapper_data;=20
--	int i_return;=20
--
--	/* Initialize the wrapper structure */=20
--	wrapper_data.start_routine =3D start_routine;=20
--	wrapper_data.arg =3D arg;=20
--	getitimer(ITIMER_PROF, &wrapper_data.itimer);=20
--	pthread_cond_init(&wrapper_data.wait, NULL);=20
--	pthread_mutex_init(&wrapper_data.lock, NULL);=20
--	pthread_mutex_lock(&wrapper_data.lock);=20
--
--	/* The real pthread_create call */=20
--	i_return =3D pthread_create_orig(thread,
--				       attr,
--				       &wrapper_routine,
--				       &wrapper_data);=20
--
--	/*
--	 * If the thread was successfully spawned, wait for the data
--	 * to be released
--	 */=20
--
--	if(i_return =3D=3D 0) {=20
--		pthread_cond_wait(&wrapper_data.wait, &wrapper_data.lock);=20
--	}=20
--
--	pthread_mutex_unlock(&wrapper_data.lock);=20
--	pthread_mutex_destroy(&wrapper_data.lock);=20
--	pthread_cond_destroy(&wrapper_data.wait);=20
--
--	return i_return;=20
--}=20
---=20
+diff --git a/CodeSamples/Makefile b/CodeSamples/Makefile
+index e1593a7..ec9e9a6 100644
+--- a/CodeSamples/Makefile
++++ b/CodeSamples/Makefile
+@@ -1,24 +1,24 @@
++subdirs = SMPdesign advsync count defer intro toolsoftrade
++
+ .PHONY: all clean pthreads pthreads-x86 pthreads-ppc64 pthreads-arm
+
+ top := .
+
+ all:
+-	(cd SMPdesign; make)
+-	(cd advsync; make)
+-	(cd count; make)
+-	(cd defer; make)
+-	(cd intro; make)
+-	(cd toolsoftrade; make)
++	for d in $(subdirs); \
++	do \
++		$(MAKE) -C $$d; \
++	done
+
+ include depends.mk
+
+ api.h Makefile.arch:
+ ifeq ($(strip $(target)),)
+-	make pthreads
++	$(MAKE) pthreads
+ 	$(warning "Could not figure out which target to use (arch:$(arch)).\
+ 		   Used 'make pthreads' in CodeSamples/Makefile.")
+ else
+-	make pthreads-$(target)
++	$(MAKE) pthreads-$(target)
+ endif
+
+ pthreads:
+diff --git a/CodeSamples/depends.mk b/CodeSamples/depends.mk
+index f3a325d..9d2691b 100644
+--- a/CodeSamples/depends.mk
++++ b/CodeSamples/depends.mk
+@@ -35,10 +35,10 @@ endif
+
+ ifneq ($(top),.)
+ $(top)/api.h: $(api_depend) $(api_depend_common)
+-	make -C $(top) api.h
++	$(MAKE) -C $(top) api.h
+
+ $(top)/Makefile.arch: $(arch_depend)
+-	make -C $(top) Makefile.arch
++	$(MAKE) -C $(top) Makefile.arch
+ else
+ $(top)/api.h: $(api_depend) $(api_depend_common)
+ $(top)/Makefile.arch: $(arch_depend)
+-- 
 2.7.4
 
 
