@@ -1,99 +1,103 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44133 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751554AbdFIWVU (ORCPT <rfc822;perfbook@vger.kernel.org>); Fri, 9
- Jun 2017 18:21:20 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v59MJGPR037443
- for <perfbook@vger.kernel.org>; Fri, 9 Jun 2017 18:21:20 -0400
-Received: from e18.ny.us.ibm.com (e18.ny.us.ibm.com [129.33.205.208]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2aywws75ss-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Fri,
- 09 Jun 2017 18:21:19 -0400
-Received: from localhost by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Fri, 9 Jun 2017
- 18:21:18 -0400
-Date: Fri, 9 Jun 2017 15:21:15 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/5] CodeSamples: Cleanups and Makefile updates
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <39761e77-17b7-7e05-d47b-07b89ff9b4b4@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <39761e77-17b7-7e05-d47b-07b89ff9b4b4@gmail.com>
-Message-Id: <20170609222115.GO3721@linux.vnet.ibm.com>
+Received: from mail-pf0-f194.google.com ([209.85.192.194]:32963 "EHLO
+ mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751519AbdFIIGH (ORCPT <rfc822;perfbook@vger.kernel.org>); Fri, 9
+ Jun 2017 04:06:07 -0400
+Received: by mail-pf0-f194.google.com with SMTP id f27so7860736pfe.0 for
+ <perfbook@vger.kernel.org>; Fri, 09 Jun 2017 01:06:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=from:to:cc:subject:date:message-id;
+ bh=kY0CEMukGj59nTXOrLt4DX8EgDh66nuZcxkn2KgNtow=;
+ b=rNaMNFyRsF8qO+bD50YhI9VxajkPfR1sz2zxcwNJGiAgCqFqRWkuTQhaIZP2JOZktQ
+ Xp0j9Pr7NEIwMIdsytqcbq5SBW6w/elC4Wg+9BaRjZGjzEOQsDXKuYmXummJfo1k4HGU
+ 4lOd/gCc8JZFb9ybXfXlMfl1uJEVeoXaOHSnRj7OSP9y/KYsBPovYS3TKR4PV84n20/O
+ nf2DDuCUPUTlaFeF/QHifHGwXefovtHprw1kPRsxnI2pA6csUUyFBF+iHvFjbKUL+4kS
+ 6YrbYqz6BV4Ot+HfpxPYxkTywkDm7nStNSt7yj9G0Ev1UMfbN/FVGdbyT+x/ODrq/iB6
+ b8Qw==
+From: Junchang Wang <junchangwang@gmail.com>
+Subject: [PATCH] route_refcnt: Switch from ACCESS_ONCE() to
+ READ_ONCE()/WRITE_ONCE()
+Date: Fri,  9 Jun 2017 16:05:51 +0800
+Message-Id: <1496995551-4976-1-git-send-email-junchangwang@gmail.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: perfbook@vger.kernel.org
+Cc: Junchang Wang <junchangwang@gmail.com>
 
-On Sat, Jun 10, 2017 at 12:22:53AM +0900, Akira Yokosawa wrote:
-> >From b31141981b13d40fbbe5d20fa339d714ecba084c Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Fri, 9 Jun 2017 23:59:11 +0900
-> Subject: [PATCH 0/5] CodeSamples: Cleanups and Makefile updates
-> 
-> Hi Paul,
-> 
-> Removal of gprof-helper.c and linux/list.h has become a fairly large
-> patch set.
-> 
-> Patch 1 is simple removal.
-> Patch 2 is an improvement to make the "-jN" option to propagate to
-> subdirectories.
-> Patch 3 removes linux/list.h, with refactoring of recipes.
-> Patch 4 adds subdirectories that can be built by "make" in the
-> CodeSamples/ directory.
-> Patch 5 improves build behavior for unsupported architectures.
-> You can test the behavior by overriding "arch" variable by defining
-> it as an environment variable, e.g.:
->     $ export arch=unsupported
->     $ make clean; make
-> After the test,
->     $ unset arch
-> will restore the normal behavior.
-> 
-> Thoughts?
+Switch from ACCESS_ONCE() to READ_ONCE()/WRITE_ONCE(), and updated corresponding
+latex file.
 
-Seems to work, applied and pushed, thank you!
+Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+---
+ CodeSamples/defer/route_refcnt.c | 8 ++++----
+ defer/refcnt.tex                 | 6 +++---
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-							Thanx, Paul
+diff --git a/CodeSamples/defer/route_refcnt.c b/CodeSamples/defer/route_refcnt.c
+index 6f8ae65..8a48faf 100644
+--- a/CodeSamples/defer/route_refcnt.c
++++ b/CodeSamples/defer/route_refcnt.c
+@@ -35,7 +35,7 @@ DEFINE_SPINLOCK(routelock);
 
->             Thanks, Akira
-> --
-> 
-> Akira Yokosawa (5):
->   CodeSamples: Remove gprof-helper.c
->   CodeSamples: Use $(MAKE) for recursive make
->   CodeSamples: Makefile: Remove linux/list.h
->   CodeSamples: Makefile: Add subdirectories
->   CodeSamples: Makefile: Distinguish arch-independent targets
-> 
->  CodeSamples/.gitignore                   |   1 -
->  CodeSamples/Makefile                     | 125 +-----
->  CodeSamples/SMPdesign/Makefile           |  19 +-
->  CodeSamples/advsync/Makefile             |  11 +-
->  CodeSamples/count/Makefile               |  11 +-
->  CodeSamples/datastruct/Issaquah/Makefile |  11 +-
->  CodeSamples/datastruct/hash/Makefile     |  11 +-
->  CodeSamples/datastruct/log/Makefile      |  11 +-
->  CodeSamples/datastruct/skiplist/Makefile |  11 +-
->  CodeSamples/defer/Makefile               |  18 +-
->  CodeSamples/depends.mk                   |  14 +-
->  CodeSamples/gprof-helper.c               | 118 ------
->  CodeSamples/intro/Makefile               |  15 +-
->  CodeSamples/linux/list.h                 | 700 -------------------------------
->  CodeSamples/locking/Makefile             |  15 +-
->  CodeSamples/recipes.mk                   |  10 +
->  CodeSamples/toolsoftrade/Makefile        |   1 +
->  17 files changed, 139 insertions(+), 963 deletions(-)
->  delete mode 100644 CodeSamples/gprof-helper.c
->  delete mode 100644 CodeSamples/linux/list.h
->  create mode 100644 CodeSamples/recipes.mk
-> 
-> -- 
-> 2.7.4
-> 
+ static void re_free(struct route_entry *rep)
+ {
+-	ACCESS_ONCE(rep->re_freed) = 1;
++	WRITE_ONCE(rep->re_freed, 1);
+ 	free(rep);
+ }
+
+@@ -56,13 +56,13 @@ retry:
+ 	do {
+ 		if (rep && atomic_dec_and_test(&rep->re_refcnt))
+ 			re_free(rep);
+-		rep = ACCESS_ONCE(*repp);
++		rep = READ_ONCE(*repp);
+ 		if (rep == NULL)
+ 			return ULONG_MAX;
+
+ 		/* Acquire a reference if the count is non-zero. */
+ 		do {
+-			if (ACCESS_ONCE(rep->re_freed))
++			if (READ_ONCE(rep->re_freed))
+ 				abort();
+ 			old = atomic_read(&rep->re_refcnt);
+ 			if (old <= 0)
+@@ -137,7 +137,7 @@ void route_clear(void)
+
+ 	spin_lock(&routelock);
+ 	rep = route_list.re_next;
+-	ACCESS_ONCE(route_list.re_next) = NULL;
++	WRITE_ONCE(route_list.re_next, NULL);
+ 	while (rep != NULL) {
+ 		rep1 = rep->re_next;
+ 		if (atomic_dec_and_test(&rep->re_refcnt))
+diff --git a/defer/refcnt.tex b/defer/refcnt.tex
+index c46fa48..c231961 100644
+--- a/defer/refcnt.tex
++++ b/defer/refcnt.tex
+@@ -18,7 +18,7 @@
+ 10
+ 11 static void re_free(struct route_entry *rep)
+ 12 {
+-13   ACCESS_ONCE(rep->re_freed) = 1;
++13   WRITE_ONCE(rep->re_freed, 1);
+ 14   free(rep);
+ 15 }
+ 16
+@@ -37,11 +37,11 @@
+ 29     if (rep &&
+ 30         atomic_dec_and_test(&rep->re_refcnt))
+ 31       re_free(rep);
+-32     rep = ACCESS_ONCE(*repp);
++32     rep = READ_ONCE(*repp);
+ 33     if (rep == NULL)
+ 34       return ULONG_MAX;
+ 35     do {
+-36       if (ACCESS_ONCE(rep->re_freed))
++36       if (READ_ONCE(rep->re_freed))
+ 37         abort();
+ 38       old = atomic_read(&rep->re_refcnt);
+ 39       if (old <= 0)
+-- 
+2.7.4
 
