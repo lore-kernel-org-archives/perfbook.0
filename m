@@ -2,18 +2,18 @@ Return-Path: <junchangwang@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=wrBRj26PYUJ8PXmVktAqRIEmowrmGNv3ei/vPvNPk6Y=;
- b=m/Ei4FLPkMeRHV3iHMPeP6HAGy4AwzQRG46gznI60M9Gs6DBN3DcOBwSGKCpctCXso
- wnVcXUYxwvIEG6nXoBJF3Chgf0QwdBxMJvWkUZrJRt1eWIyKbiQmHyiHuEHv+D2JFp/0
- kpqRnU/e4+JTr5jaXW6TgiQ9wTl3UA91q6iD3Ndl/uuNUCg2/VkOQQDrNBtMdI4iyvio
- TzQ+9q2iW+Go5U73DxN5KSwuc2wlj7AdKBb0oPk4QWuTqBp/bkQrVWReAs95V86WGgSG
- Zn3jCDswVvhhoqoUjp/+jKZv5U44VYRAe20t/s3tLiZkjDnaieFQJsV52SuAWkHB1wdJ
- GY9w==
+ bh=0iFSXqkT5Vvnawtsj7TZQ8fkDw6XEuNAoOtfM47es0g=;
+ b=EfKBmrUa00cRJ//Mxpu+i/wL+9xHCwHWXXnTBV7i7cYHu68QOg0MYClif7kfqnP5TH
+ ZOyZ6hp83/rWbojkQrx6emaZpMsaDWQY4PsoD12/LUcbvdnDqdb6NxtRGUeiXR1uldvL
+ ONeJ+t7TeJ4g8rESFp/yotsUpppPB5tExd+Vsx+rdoPfjPq3RTHfy+JZ3EBbSTquyCxk
+ 7jBqd6eHyNPpu+aOy2f4Oe5eh5DkfN1x8wlFR/deLW0rHc6MgM9EkhhOC9qBhLq3W2lG
+ GEdg1diMU5Ed+QY/4jMTk5hVsmWDHaNxODLjIn1K9NqUszZ/HcNQTqASVMOuTZcZ/0zp
+ rRTA==
 From: Junchang Wang <junchangwang@gmail.com>
-Subject: [PATCH 2/4] route_hazptr: Switch from ACCESS_ONCE() to
+Subject: [PATCH 3/4] route_seqlock: Switch from ACCESS_ONCE() to
  READ_ONCE()/WRITE_ONCE()
-Date: Sat, 10 Jun 2017 22:28:29 +0800
-Message-Id: <1497104910-4596-3-git-send-email-junchangwang@gmail.com>
+Date: Sat, 10 Jun 2017 22:28:30 +0800
+Message-Id: <1497104910-4596-4-git-send-email-junchangwang@gmail.com>
 In-Reply-To: <1497104910-4596-1-git-send-email-junchangwang@gmail.com>
 References: <1497104910-4596-1-git-send-email-junchangwang@gmail.com>
 To: perfbook@vger.kernel.org, paulmck@linux.vnet.ibm.com
@@ -22,84 +22,118 @@ List-ID: <perfbook.vger.kernel.org>
 
 Signed-off-by: Junchang Wang <junchangwang@gmail.com>
 ---
- CodeSamples/defer/route_hazptr.c | 10 +++++-----
- defer/hazptr.tex                 |  6 +++---
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ CodeSamples/defer/route_seqlock.c |  6 +++---
+ CodeSamples/defer/seqlock.h       |  4 ++--
+ defer/seqlock.tex                 | 12 ++++++------
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/CodeSamples/defer/route_hazptr.c b/CodeSamples/defer/route_hazptr.c
-index 590ba4d..49e6e4a 100644
---- a/CodeSamples/defer/route_hazptr.c
-+++ b/CodeSamples/defer/route_hazptr.c
-@@ -49,7 +49,7 @@ unsigned long route_lookup(unsigned long addr)
- retry:
+diff --git a/CodeSamples/defer/route_seqlock.c b/CodeSamples/defer/route_seqlock.c
+index 633cf05..8224682 100644
+--- a/CodeSamples/defer/route_seqlock.c
++++ b/CodeSamples/defer/route_seqlock.c
+@@ -47,7 +47,7 @@ retry:
+ 	s = read_seqbegin(&sl);
  	repp = &route_list.re_next;
  	do {
 -		rep = ACCESS_ONCE(*repp);
 +		rep = READ_ONCE(*repp);
- 		if (rep == NULL)
- 			return ULONG_MAX;
- 		if (rep == (struct route_entry *)HAZPTR_POISON)
-@@ -61,13 +61,13 @@ retry:
- 		smp_mb(); /* Force pointer loads in order. */
-
- 		/* Recheck the hazard pointer against the original. */
--		if (ACCESS_ONCE(*repp) != rep)
-+		if (READ_ONCE(*repp) != rep)
- 			goto retry;
-
+ 		if (rep == NULL) {
+ 			if (read_seqretry(&sl, s))
+ 				goto retry;
+@@ -57,7 +57,7 @@ retry:
  		/* Advance to next. */
  		repp = &rep->re_next;
  	} while (rep->addr != addr);
 -	if (ACCESS_ONCE(rep->re_freed))
 +	if (READ_ONCE(rep->re_freed))
  		abort();
- 	return rep->iface;
- }
-@@ -129,7 +129,7 @@ void route_clear(void)
+ 	ret = rep->iface;
+ 	if (read_seqretry(&sl, s))
+@@ -123,7 +123,7 @@ void route_clear(void)
 
- 	spin_lock(&routelock);
+ 	write_seqlock(&sl);
  	rep = route_list.re_next;
 -	ACCESS_ONCE(route_list.re_next) = NULL;
 +	WRITE_ONCE(route_list.re_next, NULL);
  	while (rep != NULL) {
  		rep1 = rep->re_next;
- 		rep->re_next = (struct route_entry *)HAZPTR_POISON;
-@@ -157,7 +157,7 @@ void hazptr_free(void *p)
+ 		free(rep);
+diff --git a/CodeSamples/defer/seqlock.h b/CodeSamples/defer/seqlock.h
+index b210944..c994285 100644
+--- a/CodeSamples/defer/seqlock.h
++++ b/CodeSamples/defer/seqlock.h
+@@ -38,7 +38,7 @@ static inline unsigned long read_seqbegin(seqlock_t *slp)
  {
- 	struct route_entry *rep = p;
+ 	unsigned long s;
 
--	ACCESS_ONCE(rep->re_freed) = 1;
-+	WRITE_ONCE(rep->re_freed, 1);
- 	free(p);
+-	s = ACCESS_ONCE(slp->seq);
++	s = READ_ONCE(slp->seq);
+ 	smp_mb();
+ 	return s & ~0x1UL;
+ }
+@@ -48,7 +48,7 @@ static inline int read_seqretry(seqlock_t *slp, unsigned long oldseq)
+ 	unsigned long s;
+
+ 	smp_mb();
+-	s = ACCESS_ONCE(slp->seq);
++	s = READ_ONCE(slp->seq);
+ 	return s != oldseq;
  }
 
-diff --git a/defer/hazptr.tex b/defer/hazptr.tex
-index 10ae7a1..b45f5b6 100644
---- a/defer/hazptr.tex
-+++ b/defer/hazptr.tex
-@@ -201,7 +201,7 @@ and in other publications~\cite{ThomasEHart2007a,McKenney:2013:SDS:2483852.24838
- 18 retry:
+diff --git a/defer/seqlock.tex b/defer/seqlock.tex
+index ba8abfe..cb5e4e6 100644
+--- a/defer/seqlock.tex
++++ b/defer/seqlock.tex
+@@ -116,7 +116,7 @@ It is also used in pathname traversal to detect concurrent rename operations.
+ 13  {
+ 14    unsigned long s;
+ 15
+-16    s = ACCESS_ONCE(slp->seq);
++16    s = READ_ONCE(slp->seq);
+ 17    smp_mb();
+ 18    return s & ~0x1UL;
+ 19  }
+@@ -127,7 +127,7 @@ It is also used in pathname traversal to detect concurrent rename operations.
+ 24    unsigned long s;
+ 25
+ 26    smp_mb();
+-27    s = ACCESS_ONCE(slp->seq);
++27    s = READ_ONCE(slp->seq);
+ 28    return s != oldseq;
+ 29  }
+ 30
+@@ -211,11 +211,11 @@ in other words, that there has been no writer, and returns true if so.
+ 	In older versions of the Linux kernel, no.
+
+ 	In very new versions of the Linux kernel, line~16 could use
+-	\co{smp_load_acquire()} instead of \co{ACCESS_ONCE()}, which
++	\co{smp_load_acquire()} instead of \co{READ_ONCE()}, which
+ 	in turn would allow the \co{smp_mb()} on line~17 to be dropped.
+ 	Similarly, line~41 could use an \co{smp_store_release()}, for
+ 	example, as follows: \\
+-	\co{smp_store_release(&slp->seq, ACCESS_ONCE(slp->seq) + 1);} \\
++	\co{smp_store_release(&slp->seq, READ_ONCE(slp->seq) + 1);} \\
+ 	This would allow the \co{smp_mb()} on line~40 to be dropped.
+ } \QuickQuizEnd
+
+@@ -310,7 +310,7 @@ increment of the sequence number on line~44, then releases the lock.
+ 18   s = read_seqbegin(&sl);
  19   repp = &route_list.re_next;
  20   do {
 -21     rep = ACCESS_ONCE(*repp);
 +21     rep = READ_ONCE(*repp);
- 22     if (rep == NULL)
- 23       return ULONG_MAX;
- 24     if (rep == (struct route_entry *)HAZPTR_POISON)
-@@ -209,11 +209,11 @@ and in other publications~\cite{ThomasEHart2007a,McKenney:2013:SDS:2483852.24838
- 26     my_hazptr[offset].p = &rep->hh;
- 27     offset = !offset;
- 28     smp_mb();
--29     if (ACCESS_ONCE(*repp) != rep)
-+29     if (READ_ONCE(*repp) != rep)
- 30       goto retry;
- 31     repp = &rep->re_next;
- 32   } while (rep->addr != addr);
--33   if (ACCESS_ONCE(rep->re_freed))
-+33   if (READ_ONCE(rep->re_freed))
- 34     abort();
- 35   return rep->iface;
- 36 }
+ 22     if (rep == NULL) {
+ 23       if (read_seqretry(&sl, s))
+ 24         goto retry;
+@@ -318,7 +318,7 @@ increment of the sequence number on line~44, then releases the lock.
+ 26     }
+ 27     repp = &rep->re_next;
+ 28   } while (rep->addr != addr);
+-29   if (ACCESS_ONCE(rep->re_freed))
++29   if (READ_ONCE(rep->re_freed))
+ 30     abort();
+ 31   ret = rep->iface;
+ 32   if (read_seqretry(&sl, s))
 -- 
 2.7.4
 
