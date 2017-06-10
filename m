@@ -2,18 +2,18 @@ Return-Path: <junchangwang@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=vSnDLCcxnFD4G8gXW9kSncQpXsKr/Eeeji0cAofHrGo=;
- b=Pppsah9IrCRV7L9OlkaKXTVFtoR6KV2EY1pe66HJsi4BUOos/oF04PsFakDV6DR/+2
- GFXHXGhK24xUHf1cPPeS65WEAjYJvNTfIVr2VYMcuHndgx3ww2qNQCNUYHJvV2W+DULj
- 41aDbx7iW7tAXkZLzU260X7n8Bxq+2cJ+uojBxQTKSLjb+zKE+A7aeyX4AylW59JczC7
- CMZLgw0u/2hcsNjD+fLq/qPacHzLifwbHNtVV034hZwFjrNKjzowkeCTzsD2XIsIXBPQ
- wAMh9MUNZ2UGY5efEaVBSQExLgHqXuLiHltfzbN+/dz/GI6ijt/gyVl66UJR1oj6yVYf
- IxaA==
+ bh=wrBRj26PYUJ8PXmVktAqRIEmowrmGNv3ei/vPvNPk6Y=;
+ b=m/Ei4FLPkMeRHV3iHMPeP6HAGy4AwzQRG46gznI60M9Gs6DBN3DcOBwSGKCpctCXso
+ wnVcXUYxwvIEG6nXoBJF3Chgf0QwdBxMJvWkUZrJRt1eWIyKbiQmHyiHuEHv+D2JFp/0
+ kpqRnU/e4+JTr5jaXW6TgiQ9wTl3UA91q6iD3Ndl/uuNUCg2/VkOQQDrNBtMdI4iyvio
+ TzQ+9q2iW+Go5U73DxN5KSwuc2wlj7AdKBb0oPk4QWuTqBp/bkQrVWReAs95V86WGgSG
+ Zn3jCDswVvhhoqoUjp/+jKZv5U44VYRAe20t/s3tLiZkjDnaieFQJsV52SuAWkHB1wdJ
+ GY9w==
 From: Junchang Wang <junchangwang@gmail.com>
-Subject: [PATCH 1/4] Figure Storage Hazard-Pointer Storage and Erasure: Switch
- from ACCESS_ONCE() to READ_ONCE()/WRITE_ONCE()
-Date: Sat, 10 Jun 2017 22:28:28 +0800
-Message-Id: <1497104910-4596-2-git-send-email-junchangwang@gmail.com>
+Subject: [PATCH 2/4] route_hazptr: Switch from ACCESS_ONCE() to
+ READ_ONCE()/WRITE_ONCE()
+Date: Sat, 10 Jun 2017 22:28:29 +0800
+Message-Id: <1497104910-4596-3-git-send-email-junchangwang@gmail.com>
 In-Reply-To: <1497104910-4596-1-git-send-email-junchangwang@gmail.com>
 References: <1497104910-4596-1-git-send-email-junchangwang@gmail.com>
 To: perfbook@vger.kernel.org, paulmck@linux.vnet.ibm.com
@@ -22,39 +22,84 @@ List-ID: <perfbook.vger.kernel.org>
 
 Signed-off-by: Junchang Wang <junchangwang@gmail.com>
 ---
- defer/hazptr.tex | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ CodeSamples/defer/route_hazptr.c | 10 +++++-----
+ defer/hazptr.tex                 |  6 +++---
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/CodeSamples/defer/route_hazptr.c b/CodeSamples/defer/route_hazptr.c
+index 590ba4d..49e6e4a 100644
+--- a/CodeSamples/defer/route_hazptr.c
++++ b/CodeSamples/defer/route_hazptr.c
+@@ -49,7 +49,7 @@ unsigned long route_lookup(unsigned long addr)
+ retry:
+ 	repp = &route_list.re_next;
+ 	do {
+-		rep = ACCESS_ONCE(*repp);
++		rep = READ_ONCE(*repp);
+ 		if (rep == NULL)
+ 			return ULONG_MAX;
+ 		if (rep == (struct route_entry *)HAZPTR_POISON)
+@@ -61,13 +61,13 @@ retry:
+ 		smp_mb(); /* Force pointer loads in order. */
+
+ 		/* Recheck the hazard pointer against the original. */
+-		if (ACCESS_ONCE(*repp) != rep)
++		if (READ_ONCE(*repp) != rep)
+ 			goto retry;
+
+ 		/* Advance to next. */
+ 		repp = &rep->re_next;
+ 	} while (rep->addr != addr);
+-	if (ACCESS_ONCE(rep->re_freed))
++	if (READ_ONCE(rep->re_freed))
+ 		abort();
+ 	return rep->iface;
+ }
+@@ -129,7 +129,7 @@ void route_clear(void)
+
+ 	spin_lock(&routelock);
+ 	rep = route_list.re_next;
+-	ACCESS_ONCE(route_list.re_next) = NULL;
++	WRITE_ONCE(route_list.re_next, NULL);
+ 	while (rep != NULL) {
+ 		rep1 = rep->re_next;
+ 		rep->re_next = (struct route_entry *)HAZPTR_POISON;
+@@ -157,7 +157,7 @@ void hazptr_free(void *p)
+ {
+ 	struct route_entry *rep = p;
+
+-	ACCESS_ONCE(rep->re_freed) = 1;
++	WRITE_ONCE(rep->re_freed, 1);
+ 	free(p);
+ }
 
 diff --git a/defer/hazptr.tex b/defer/hazptr.tex
-index cdde323..10ae7a1 100644
+index 10ae7a1..b45f5b6 100644
 --- a/defer/hazptr.tex
 +++ b/defer/hazptr.tex
-@@ -26,12 +26,12 @@ may safely be freed.
-  2 {
-  3   void *tmp;
-  4 
-- 5   tmp = ACCESS_ONCE(*p);
-- 6   ACCESS_ONCE(*hp) = tmp;
-+ 5   tmp = READ_ONCE(*p);
-+ 6   WRITE_ONCE(*hp, tmp);
-  7   smp_mb();
-- 8   if (tmp != ACCESS_ONCE(*p) ||
-+ 8   if (tmp != READ_ONCE(*p) ||
-  9       tmp == HAZPTR_POISON) {
--10     ACCESS_ONCE(*hp) = NULL;
-+10     WRITE_ONCE(*hp, NULL);
- 11     return 0;
- 12   }
- 13   return 1;
-@@ -40,7 +40,7 @@ may safely be freed.
- 16 void hp_erase(void **hp)
- 17 {
- 18   smp_mb();
--19   ACCESS_ONCE(*hp) = NULL;
-+19   WRITE_ONCE(*hp, NULL);
- 20   hp_free(hp);
- 21 }
- \end{verbbox}
+@@ -201,7 +201,7 @@ and in other publications~\cite{ThomasEHart2007a,McKenney:2013:SDS:2483852.24838
+ 18 retry:
+ 19   repp = &route_list.re_next;
+ 20   do {
+-21     rep = ACCESS_ONCE(*repp);
++21     rep = READ_ONCE(*repp);
+ 22     if (rep == NULL)
+ 23       return ULONG_MAX;
+ 24     if (rep == (struct route_entry *)HAZPTR_POISON)
+@@ -209,11 +209,11 @@ and in other publications~\cite{ThomasEHart2007a,McKenney:2013:SDS:2483852.24838
+ 26     my_hazptr[offset].p = &rep->hh;
+ 27     offset = !offset;
+ 28     smp_mb();
+-29     if (ACCESS_ONCE(*repp) != rep)
++29     if (READ_ONCE(*repp) != rep)
+ 30       goto retry;
+ 31     repp = &rep->re_next;
+ 32   } while (rep->addr != addr);
+-33   if (ACCESS_ONCE(rep->re_freed))
++33   if (READ_ONCE(rep->re_freed))
+ 34     abort();
+ 35   return rep->iface;
+ 36 }
 -- 
 2.7.4
 
