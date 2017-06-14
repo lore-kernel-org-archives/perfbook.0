@@ -1,82 +1,48 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60611 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751943AbdFJRIT (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Sat, 10 Jun 2017 13:08:19 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v5AH3vDj024015
- for <perfbook@vger.kernel.org>; Sat, 10 Jun 2017 13:08:19 -0400
-Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 2b0c7tgjvn-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sat,
- 10 Jun 2017 13:08:18 -0400
-Received: from localhost by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 10 Jun
- 2017 13:08:18 -0400
-Date: Sat, 10 Jun 2017 10:08:15 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/4] Update on Chapter Deferred Processing
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <1497104910-4596-1-git-send-email-junchangwang@gmail.com>
- <CABoNC8005C3wF7vv_y_6mnkTUwAKZ+hr9cgL1-RjJfXo9VHZDg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: 
- <CABoNC8005C3wF7vv_y_6mnkTUwAKZ+hr9cgL1-RjJfXo9VHZDg@mail.gmail.com>
-Message-Id: <20170610170815.GT3721@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Return-Path: <junchangwang@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=from:to:cc:subject:date:message-id;
+ bh=Cxgk5vgQ6ns63bcMJd5Cl5gg140ZkQMpGRD6HXbV6P0=;
+ b=Vh631GDauI2eNTrvUM1UlTqEaoprfJcnIMZ68ep7D2ic3sKfak8j51TmD59DlBSEMk
+ WRNGMMt/vM0gjm0/rMSdN7YCa0M95bR44fvg6TuUInukNmwzljqZPLqBomxlsP6tAloi
+ 8rj0LpyvmO8w0VTIZ4hzeSoefW1dk+JIi7mOm8nDWqAR7mfXOMdL8fZpR4lGGDmKar9p
+ PQyQHKbf7nswENkJDMW8D50DyZfK4sbQd7ODvCVd0kGckiKIa4/3JYlDJHYjkbx7SoyF
+ ay3YbFgRQ6Xffe5s/EvupLtixxcCmmQrlCMcIpAZuWvhDrGkSBimOI6dvlmzyFpJkK2j
+ 0Huw==
+From: Junchang Wang <junchangwang@gmail.com>
+Subject: [PATCH 0/5] Updating Section Deferred Processing
+Date: Wed, 14 Jun 2017 23:44:59 +0800
+Message-Id: <1497455104-14102-1-git-send-email-junchangwang@gmail.com>
+To: perfbook@vger.kernel.org, paulmck@linux.vnet.ibm.com
+Cc: Junchang Wang <junchangwang@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Junchang Wang <junchangwang@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Jun 10, 2017 at 10:35:25PM +0800, Junchang Wang wrote:
->  Hi Paul,
-> 
-> The fourth patch is a false alarm. So I won't send it out. Please
-> review and apply patches 1 - 3. Thanks.
+Hi Paul,
 
-Applied and pushed, thank you!
+Most of the following patches switch from ACCESS_ONCE to READ_ONCE/WRITE_ONCE in
+Section Deferred Processing. Please take a look.
 
-Please see note below.
 
-> --Jason
-> 
-> On Sat, Jun 10, 2017 at 10:28 PM, Junchang Wang <junchangwang@gmail.com> wrote:
-> > Hi Paul,
-> >
-> > I'm reading Chapter Deferred Processing, and following are some patches. Please
-> > take a look.
-> >
-> > --Jason
-> >
-> > Junchang Wang (4):
-> >   Figure Storage Hazard-Pointer Storage and Erasure: Switch from
-> >     ACCESS_ONCE() to READ_ONCE()/WRITE_ONCE()
+Thanks,
+--Jason
 
-When changing text, it suffices to give the chapter's top-level
-directory name, so I changed this to:
+Junchang Wang (5):
+  hazptr: Switch from ACCESS_ONCE() to READ_ONCE()/WRITE_ONCE()
+  route_rcu: Switch from ACCESS_ONCE() to READ_ONCE()/WRITE_ONCE()
+  route_rcu: Remove redundant assignment statement to rep->re_freed
+  seqlocktorture: Switch from ACCESS_ONCE() to READ_ONCE()/WRITE_ONCE()
+  rcu_rcpls: Switch from ACCESS_ONCE() to READ_ONCE()/WRITE_ONCE()
 
-	defer: Switch from ACCESS_ONCE() to READ_ONCE()/WRITE_ONCE()
+ CodeSamples/defer/hazptr.h         |  8 ++++----
+ CodeSamples/defer/hazptrtorture.h  |  6 +++---
+ CodeSamples/defer/rcu_rcpls.c      |  6 +++---
+ CodeSamples/defer/rcu_rcpls.h      |  2 +-
+ CodeSamples/defer/rcutorture.h     |  2 +-
+ CodeSamples/defer/route_rcu.c      |  5 ++---
+ CodeSamples/defer/seqlocktorture.c |  8 ++++----
+ appendix/toyrcu/toyrcu.tex         | 14 +++++++-------
+ defer/rcuusage.tex                 |  4 ++--
+ 9 files changed, 27 insertions(+), 28 deletions(-)
 
-> >   route_hazptr: Switch from ACCESS_ONCE() to READ_ONCE()/WRITE_ONCE()
-> >   route_seqlock: Switch from ACCESS_ONCE() to READ_ONCE()/WRITE_ONCE()
-
-These are fine, giving the name of the executable for changes to a
-given code sample is quite good, thank you!
-
-							Thanx, Paul
-
-> >  CodeSamples/defer/route_hazptr.c  | 10 +++++-----
-> >  CodeSamples/defer/route_seqlock.c |  6 +++---
-> >  CodeSamples/defer/seqlock.h       |  4 ++--
-> >  defer/hazptr.tex                  | 16 ++++++++--------
-> >  defer/seqlock.tex                 | 12 ++++++------
-> >  5 files changed, 26 insertions(+), 26 deletions(-)
-> >
-> > --
-> > 2.7.4
-> >
-> 
+-- 
+2.7.4
 
