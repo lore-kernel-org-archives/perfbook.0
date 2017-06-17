@@ -1,132 +1,138 @@
-Return-Path: <akiyks@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mail-pg0-f68.google.com ([74.125.83.68]:32805 "EHLO
+ mail-pg0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1750708AbdFQEAl (ORCPT <rfc822;perfbook@vger.kernel.org>); Sat, 17
+ Jun 2017 00:00:41 -0400
+Received: by mail-pg0-f68.google.com with SMTP id u62so3129638pgb.0 for
+ <perfbook@vger.kernel.org>; Fri, 16 Jun 2017 21:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=erTKDfFwAFLcpsBvPpC4M7rvbvODPAerxuG869klUAk=;
- b=VP/6c+VYNK9UJIr5XU7rk/2NrfolFlbRCyiT7k2icByT9/VhViqN66uca7dU4Ayp2u
- DZ92BVLws07+1AJWSvM4Ilioiqxm7jEuZYOO6/VWoWVM8V9hSkgeaZjtLUU02004x9s2
- UuJqaCygr1sp2bk63hUxZ72hWtBfPamglXSJb6y0tsjExE4OKfVPjaYiWxw7OFSRZaAu
- hvp3TKonPJQ8iqZbf3VGnsltMkS4zs44oY/Mi3EF2JZyjBtsbj/NBAj2PWSXFTS8g0Ox
- bjnCQOLCO0On6quZkEriB/GcfctrdycVLZVRJL1/z/E+FBaj3NeUZTnGyZ9eyJYNlY1q
- K3Wg==
-Subject: [PATCH 4/8] future/QC: Add narrow space before unit symbol
+ bh=FXdihpGSjOlTtgH+C7ip7d5bh15G1jAVOX1oZeTBwaU=;
+ b=ugIw5fKUcs7ygp52YePiE1Bvc13Zw8pYO8g+g2pr+AojBzeUKH59dfd4lkyszuA+ZT
+ ZVq8xSGZRFMnmwL9uerW9xt5ZA6henSany85fVrWxMQJqDWpQWMAy456ZbuWmV5jHaBa
+ QDEfYFE5sRuMP7yWbn1opmNGi+3rRITS96ELstmA3bzTQiHn8xUGjKAUAcsjyKXK6dxB
+ uFTvMyc7ZMS4UTVFT1wlxcj/LlTaSaXOr2RnjKN/V/xP6zP2/bGjA9R5SxJE70jxOMKg
+ iWxPUMa6mKMWsS9BLG6mVgPS9VcEYcNdlM4bPulDypUDlHD1Pkqv09GSEH2+e3CHwGgT
+ ufPA==
+Subject: [PATCH 5/8] future/QC: Use consistent axis names
 References: <8919b898-9e43-8f72-39ce-5d31dc84f45d@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <0ad36acf-8bd5-b608-fab8-fe4d37877811@gmail.com>
-Date: Sat, 17 Jun 2017 12:59:40 +0900
+Message-ID: <530756ff-82e4-9eb4-2432-f477c6472149@gmail.com>
+Date: Sat, 17 Jun 2017 13:00:38 +0900
 MIME-Version: 1.0
 In-Reply-To: <8919b898-9e43-8f72-39ce-5d31dc84f45d@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+Sender: perfbook-owner@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-List-ID: <perfbook.vger.kernel.org>
 
-From 6f1c49625d34b4a2bd3e80a7170c3d66c6fbd707 Mon Sep 17 00:00:00 2001
+From 3dc3bf3eddf4e368aa6fec38dab13798b9471638 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 17 Jun 2017 00:40:34 +0900
-Subject: [PATCH 4/8] future/QC: Add narrow space before unit symbol
+Date: Fri, 2 Jun 2017 00:08:55 +0900
+Subject: [PATCH 5/8] future/QC: Use consistent axis names
 
-This section should follow the style guide of NIST [1]. Section 7.2
-recommends to place a white space before a unit symbol.
+Consistently use the names of "X-axis", "Y-axis", and "Z-axis" in
+these lists.
+Also properly use math mode minus signs for minus degrees.
 
-[1] https://www.nist.gov/pml/nist-guide-si-chapter-7-rules-and-style-conventions-expressing-values-quantities
+By employing "gensymb" package, we can use \degree macro instead
+of \textdegree. As \degree can be used in both text and math modes,
+we can simplify things.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- future/QC.tex | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ future/QC.tex | 38 +++++++++++++++++++-------------------
+ perfbook.tex  |  1 +
+ 2 files changed, 20 insertions(+), 19 deletions(-)
 
 diff --git a/future/QC.tex b/future/QC.tex
-index 8727212..feb7851 100644
+index feb7851..cbcbef3 100644
 --- a/future/QC.tex
 +++ b/future/QC.tex
-@@ -238,7 +238,7 @@ As Scott Crowder of IBM put it,
- For purposes of comparison, the oldest intact computer, the
- University of Melbourne's 1949
- CSIRAC~\cite{CSIRACMuseumVictoria,CSIRACUniversityMelbourne},
--ran at a core clock frequency of 1kHz, consumed 30kW of power,
-+ran at a core clock frequency of 1\,kHz, consumed 30\,kW of power,
- weighs three metric tons,
- is constructed of 2,000 vacuum tubes, and has 768 words of RAM
- implemented with acoustic mercury delay lines.
-@@ -536,7 +536,7 @@ times of more than
- Unfortunately, the quantum states used by this work involve atomic nuclei,
- which in turn require bulky nuclear magnetic resonance (NMR) machinery
- to read and write state, and the reading and the writing takes place
--at 4K, that is, at the temperature of liquid helium.
-+at 4\,K, that is, at the temperature of liquid helium.
- However, between reading and writing, the temperature of the sample may
- be raised to room temperature for extended periods without affecting
- the quantum state.
-@@ -598,9 +598,9 @@ This means that in theory, quantum computers can avoid the
- Landauer limit~\cite{Landauer:1961:IHG:1661184.1661186}
- of $kT \ln 2$, where $k$ is the Boltzmann constant and $T$ is the
- temperature in degrees Kelvin.
--Given that the Boltzmann constant is $1.38 \times 10^{-23}$J/K,
--and given the 0.015K operating temperatures that IBM's Quantum Experience
--hardware runs at, this limit is indeed low: $1.43 \times 10^{-25}$J.
-+Given that the Boltzmann constant is $1.38 \times 10^{-23}$\,J/K,
-+and given the 0.015\,K operating temperatures that IBM's Quantum Experience
-+hardware runs at, this limit is indeed low: $1.43 \times 10^{-25}$\,J.
+@@ -308,7 +308,7 @@ A qubit is said to:
+ 	Figure~\ref{fig:future:Qubit as Bloch Sphere}.
+ \item	Collapse to a zero (\co{|0>}) or a one (\co{|1>}) if measured,
+ 	with probability being a function of the relative distance from
+-	\co{|0>} and \co{|1>}, but projected onto the z-axis.
++	\co{|0>} and \co{|1>}, but projected onto the Z-axis.
+ 	Thus, a qubit on the equator of the Bloch sphere has a 50\%
+ 	probability of being measured as a one or as a zero, while
+ 	a qubit on the 45\textdegree-north latitude would have
+@@ -329,40 +329,40 @@ are as follows:
 
- However, because of its thermodynamic reversibiltiy,
- QC is governed by an even lower limit:
-@@ -611,9 +611,9 @@ QC is governed by an even lower limit:
+ \begin{description}
+ \item[H:]
+-	Rotate 180{\textdegree} ($\pi$ radians) about the Bloch-sphere
+-	X-Z axis, that is, about the {45\textdegree} line on the
++	Rotate 180\degree{} ($\pi$ radians) about the Bloch-sphere
++	X-Z axis, that is, about the 45\degree{} line on the
+ 	X-Z plane.  This rotates \co{|0>} to the point at which the
+-	positive x-axis intersects the Bloch sphere, and rotates \co{|1>}
+-	to the point at which the negative x-axis intersects the Bloch
++	positive X-axis intersects the Bloch sphere, and rotates \co{|1>}
++	to the point at which the negative X-axis intersects the Bloch
+ 	sphere.
+ 	Either way, we get a qubit that is 50\% one and 50\% zero.
+ \item[S:]
+-	Rotate {90\textdegree} ($\frac{\pi}{2}$ radians) about the
+-	Bloch-sphere \co{Z} axis, which no effect on qubits in the
++	Rotate 90\degree{} ($\frac{\pi}{2}$ radians) about the
++	Bloch-sphere Z-axis, which no effect on qubits in the
+ 	\co{|0>} or \co{|1>} states.
+ \item[S\textsuperscript{$\dagger$}:]
+-	Rotate {-90\textdegree} ($-\frac{\pi}{2}$ radians) about the
+-	Bloch-sphere \co{Z} axis, which no effect on qubits in the
++	Rotate $-90\degree$ ($-\frac{\pi}{2}$ radians) about the
++	Bloch-sphere Z-axis, which no effect on qubits in the
+ 	\co{|0>} or \co{|1>} states.
+ 	This operator is the inverse of \co{S}.
+ \item[T:]
+-	Rotate {45\textdegree} ($\frac{\pi}{4}$ radians) about the
+-	Bloch-sphere \co{Z} axis, which no effect on qubits in the
++	Rotate 45\degree{} ($\frac{\pi}{4}$ radians) about the
++	Bloch-sphere Z-axis, which no effect on qubits in the
+ 	\co{|0>} or \co{|1>} states.
+ \item[T\textsuperscript{$\dagger$}:]
+-	Rotate {-45\textdegree} ($-\frac{\pi}{4}$ radians) about the
+-	Bloch-sphere \co{Z} axis, which no effect on qubits in the
++	Rotate $-45\degree$ ($-\frac{\pi}{4}$ radians) about the
++	Bloch-sphere Z-axis, which no effect on qubits in the
+ 	\co{|0>} or \co{|1>} states.
+ 	This operator is the inverse of \co{T}.
+ \item[X:]
+-	Rotate {180\textdegree} ($\pi$ radians) about the Bloch-sphere
+-	\co{X} axis, which takes \co{|0>} to \co{|1>} and vice versa.
++	Rotate 180\degree{} ($\pi$ radians) about the Bloch-sphere
++	X-axis, which takes \co{|0>} to \co{|1>} and vice versa.
+ \item[Y:]
+-	Rotate {180\textdegree} ($\pi$ radians) about the Bloch-sphere
+-	\co{Y} axis, which also takes \co{|0>} to \co{|1>} and vice versa.
++	Rotate 180\degree{} ($\pi$ radians) about the Bloch-sphere
++	Y-axis, which also takes \co{|0>} to \co{|1>} and vice versa.
+ \item[Z:]
+-	Rotate 180\textdegree ($\pi$ radians) about the Bloch-sphere
+-	\co{Z} axis, which has no effect on qubits in the \co{|0>} or
++	Rotate 180\degree{} ($\pi$ radians) about the Bloch-sphere
++	Z-axis, which has no effect on qubits in the \co{|0>} or
+ 	\co{|1>} states.
+ \end{description}
 
- Here $\Delta E$ is the energy required to change the qubit in Joules,
- $\Delta t$ is the time taken to change the qubit in seconds, and
--$\hbar$ is Planck's constant, which is $6.62 \times 10^{-34}$J$\cdot$s.
-+$\hbar$ is Planck's constant, which is $6.62 \times 10^{-34}$\,J$\cdot$s.
- For the 50-nanosecond switching times of IBM's Quantum Experience
--hardware, this limit is $5.52 \times 10^{-27}$J, more than an order
-+hardware, this limit is $5.52 \times 10^{-27}$\,J, more than an order
- of magnitude less than the Landauer limit.
-
- Both of these limits are incredibly small, which holds out the promise
-@@ -665,12 +665,12 @@ Table~\ref{tab:future:The Three Laws of Thermodynamics}.
-
- The nominal temperature for IBM~Q is 15~millikelvins, which certainly
- qualifies as a low $T_L$.
--Let's assume $T_H$ is 293K (room temperature),
-+Let's assume $T_H$ is 293\,K (room temperature),
- in which case $C_P$ is $0.000051$.
- This in turn means that it requires \emph{at least} one watt of
- power into the refrigeration unit to transport $0.000051$~watts
- of waste heat from the 15~millikelvin IBM~Q out to room temperature.
--Put another way, 19.5kW is required to remove one watt of waste heat.
-+Put another way, 19.5\,kW is required to remove one watt of waste heat.
- Thus, ``very little waste heat'' can nevertheless generate a significant
- power bill for refrigeration, albeit less than two-thirds of the power
- consumption of the CSIRAC machine discussed in
-@@ -738,7 +738,7 @@ energy-hungry refrigeration systems, which means that QC
- systems need a high-value killer app.
-
- Of course, if the value of the killer app is sufficiently high,
--19.5kW might be considered cheap.
-+19.5\,kW might be considered cheap.
- In this case, in the spirit of
- ``plenty of room at the bottom''~\cite{RichardPFeynman1959RoomAtBottom},
- we might want even lower temperatures.
-@@ -747,7 +747,7 @@ For example, Bose-Einstein condensates
- form in the sub-microkelvin range, exhibiting interesting
- macro-scale quantum effects.
- It is not clear how one would construct any sort of computer from
--these condensates, nor how one would go about providing the 1.6~GW
-+these condensates, nor how one would go about providing the 1.6\,GW
- required to remove one watt of waste heat from a BEC---after all,
- even Emmett Brown's fictional flux capacitor required only 1.21 gigawatts.
- However, much remains to be explored in this realm
-@@ -756,7 +756,7 @@ nothing of new materials, for but one example,
- perovskite~\cite{ZhengChen2016PerovskiteQDMOFthinFilm}.
- Other avenues include increased pressure, given that diamond anvil
- cells~\cite{Weir1959DiamondAnvilCell} can now reach
--640~GPa~\cite{LeonidDubrovinsky2012640GPaDiamondAnvilCell},
-+640\,GPa~\cite{LeonidDubrovinsky2012640GPaDiamondAnvilCell},
- which is almost double the estimated pressure at the center of the earth.
- Such exploration is of course pure research, but if QC is at 1940s levels
- of development, pure research should have a significant role to play.
+diff --git a/perfbook.tex b/perfbook.tex
+index 2de83f0..b4458f2 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -35,6 +35,7 @@
+ % \usepackage[strings]{underscore}
+ % \usepackage{underscore}
+ \usepackage{pifont} % special character for qqz reference point
++\usepackage{gensymb} % symbols for both text and math modes such as \degree and \micro
+ \usepackage{verbatimbox} % for centering verbatim listing in figure environment
+ \usepackage[bottom]{footmisc} % place footnotes under floating figures/tables
+ \usepackage{tabulary}
 -- 
 2.7.4
 
