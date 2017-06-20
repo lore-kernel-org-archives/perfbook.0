@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4lwwW7oV0vlGTr3dWM8NKq5n8NZQRqJY4cjPmF1QCd4=;
- b=Wq97w/GlPGzNKo6msDwt8Iq7wUxRDphWJgTx5ZXzA4OVHdWUMP0gF7i8hG7GtuG3E2
- 26e9ltvqNsyIKBmENINBVCWb0Ql9GBkjS30MFyNfGP12mEBW1zXeR8Q4j46wAstyyc9Z
- voELtn6zikFryct9MSGW7ybgLmnBEEcYjmdt+2AIOHTZWqYJ82oAcitMTnC9JDrRRRYy
- 9/1dIp+TxdU4sYJ+/LtoLcu2p+1qGhdJXXboTphwQoVwsBGjtBtW6zmuV1cEvuyQe12i
- vopsAzx3tVQ6ePQoc1W7/QPDPZOUFTcuV1K0wQ4upuAF1wVTXGiaRmi1UOm4835tGbXM
- xBAw==
-Subject: [PATCH 1/3] toyrcu: Adjust reference to prerequisite chapters
+ bh=lnFEww56xowR/PhOc67y8LFto9brltP8T9uc2qohMbo=;
+ b=rJ7qiTZ3OPtXrqtJjvM7nfu1Kl7lVYVHmx+1fTEaXBvrarfCHpb1b0n8N91q5OrBJe
+ F24ZwhCTiVE++PG7GqpI38QR+Q8s8NjQTBc2Yd3hmYG2fhgI/7oYhFVfJplPO59qXkeD
+ OqziQEYNs6tHY0vozzjbPXEFKhJwXJ1xGMXNdYxfMkI6zu4LoHbctVeZPD9wKgfQnxzL
+ 6tiVEQDEzF1nQNM5bc7ztZFsRirV5wS5dHt4ZsUUTnkbL8CLnpazv65NggHW/bFb73lE
+ YsB9D+l48R35tenSv93/71Z9msAtmXhhTLhGIwZRldJElKt5VeMG7zviIPOlnLIffPO1
+ irNg==
+Subject: [PATCH 2/3] toyrcu: Trivial typo fixes (rcu_idx -> rcu_refcnt)
 References: <17af992e-b78b-25c0-0b77-d18fbfd75895@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <054c50ee-ea43-5f25-8b85-9c89b8a5e3eb@gmail.com>
-Date: Tue, 20 Jun 2017 23:27:53 +0900
+Message-ID: <1d238a3f-1c64-e731-f344-5c4b86455bd0@gmail.com>
+Date: Tue, 20 Jun 2017 23:28:52 +0900
 MIME-Version: 1.0
 In-Reply-To: <17af992e-b78b-25c0-0b77-d18fbfd75895@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,36 +23,49 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From ac7a508e515ec6aba4f0f45405b50440304864c6 Mon Sep 17 00:00:00 2001
+From db0fd6b383b551eabecb12dfa21e42093f338b2f Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 17 Jun 2017 17:11:53 +0900
-Subject: [PATCH 1/3] toyrcu: Adjust reference to prerequisite chapters
-
-This reverts the 1st hunk of commit afff91238e3d ("Fix Toy RCU
-section references") with an nbsp change.
+Date: Mon, 19 Jun 2017 23:55:31 +0900
+Subject: [PATCH 2/3] toyrcu: Trivial typo fixes (rcu_idx -> rcu_refcnt)
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/toyrcu/toyrcu.tex | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ appendix/toyrcu/toyrcu.tex | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
-index 5e74afa..79fbe33 100644
+index 79fbe33..a7bf6ca 100644
 --- a/appendix/toyrcu/toyrcu.tex
 +++ b/appendix/toyrcu/toyrcu.tex
-@@ -10,10 +10,9 @@ but rather for clarity.
- Nevertheless, you will need a thorough understanding of
- Chapters~\ref{chp:Introduction},
- \ref{chp:Hardware and its Habits},
--\ref{chp:Tools of the Trade}, and
-+\ref{chp:Tools of the Trade},
- \ref{cha:Partitioning and Synchronization Design},
--as well as the previous portions of
--Chapter~\ref{chp:Deferred Processing}
-+and~\ref{chp:Deferred Processing}
- for even these toy RCU implementations to be easily understandable.
-
- This section provides a series of RCU implementations in order of
+@@ -524,10 +524,10 @@ by complementing the value of \co{rcu_idx}, as in \co{rcu_idx = !rcu_idx}.
+ Suppose that the old value of \co{rcu_idx} was zero, so that the new
+ value is one.
+ New readers that arrive after the complement operation will increment
+-\co{rcu_idx[1]}, while the old readers that previously incremented
+-\co{rcu_idx[0]} will decrement \co{rcu_idx[0]} when they exit their
++\co{rcu_refcnt[1]}, while the old readers that previously incremented
++\co{rcu_refcnt[0]} will decrement \co{rcu_refcnt[0]} when they exit their
+ RCU read-side critical sections.
+-This means that the value of \co{rcu_idx[0]} will no longer be incremented,
++This means that the value of \co{rcu_refcnt[0]} will no longer be incremented,
+ and thus will be monotonically decreasing.\footnote{
+ 	There is a race condition that this ``monotonically decreasing''
+ 	statement ignores.
+@@ -616,11 +616,11 @@ Lines~6 and 19 acquire and release \co{rcu_gp_lock} in order to
+ prevent more than one concurrent instance of \co{synchronize_rcu()}.
+ Lines~7-8 pick up the value of \co{rcu_idx} and complement it,
+ respectively, so that subsequent instances of \co{rcu_read_lock()}
+-will use a different element of \co{rcu_idx} that did preceding
++will use a different element of \co{rcu_refcnt} that did preceding
+ instances.
+-Lines~10-12 then wait for the prior element of \co{rcu_idx} to
++Lines~10-12 then wait for the prior element of \co{rcu_refcnt} to
+ reach zero, with the memory barrier on line~9 ensuring that the check
+-of \co{rcu_idx} is not reordered to precede the complementing of
++of \co{rcu_refcnt} is not reordered to precede the complementing of
+ \co{rcu_idx}.
+ Lines~13-18 repeat this process, and line~20 ensures that any
+ subsequent reclamation operations are not reordered to precede the
 -- 
 2.7.4
 
