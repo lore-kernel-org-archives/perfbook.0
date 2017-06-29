@@ -1,131 +1,59 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60055 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751381AbdFZWjd (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Mon, 26 Jun 2017 18:39:33 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id v5QMd9xI084652
- for <perfbook@vger.kernel.org>; Mon, 26 Jun 2017 18:39:32 -0400
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 2baw9w59jn-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
- 26 Jun 2017 18:39:32 -0400
-Received: from localhost by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 26 Jun
- 2017 18:39:31 -0400
-Date: Mon, 26 Jun 2017 15:39:30 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] advsync: Adjust context to herd7 litmus test
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <2e39d17d-bb28-db5b-b8e1-f65b8fa1caa4@gmail.com>
- <20170626165042.GR3721@linux.vnet.ibm.com>
- <b206671c-78ce-5f62-3cc9-eeb4d17ffebe@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=/YVc/d/OV3+yjeHGqQZ5AVqaq8cPPIIAy/XPfkRFmCM=;
+ b=jaOuTP1PQcqk6kfM4oKCHbKcJZklQuF88/oWUv4DA1fRtMmcmJz4/pTwQzRW6Y4uqr
+ Huj7Md9LFZDAlwb2V2mYUTbiJrfg96M/j252eTU4YcV59ZhLcAfsf40hg7o77pTl2YcZ
+ Pk7/yHB1Xz8THymqg9OGvc/vXJEYAlW8OBDzKsQU3rJ1Icy1eLUyIdW42rmIIKg/O06F
+ Jkyd7Qeps3/gOFL4i1uCV8X6DBRUFrkgNK9FoWgNrX0LAVwy74yWu9FcmgzR+q+/jx7c
+ dwy4IGacCLApTxMwBcQKX7BOfDhQhsKtqJbMQFxfQmVBYHQlm+D1hbDRwvysCkGrYSXK
+ 3amA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] advsync: Trivial typo fixes
+Message-ID: <58a4e2f1-3296-f9a7-5d50-2f7896783341@gmail.com>
+Date: Fri, 30 Jun 2017 00:20:20 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b206671c-78ce-5f62-3cc9-eeb4d17ffebe@gmail.com>
-Message-Id: <20170626223930.GV3721@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Jun 27, 2017 at 07:18:12AM +0900, Akira Yokosawa wrote:
-> On 2017/06/26 09:50:42 -0700, Paul E. McKenney wrote:
-> > On Tue, Jun 27, 2017 at 12:04:14AM +0900, Akira Yokosawa wrote:
-> >> >From 3db6dc5ae7f71c42f91742064ec38db750f3f25d Mon Sep 17 00:00:00 2001
-> >> From: Akira Yokosawa <akiyks@gmail.com>
-> >> Date: Mon, 26 Jun 2017 22:33:30 +0900
-> >> Subject: [PATCH] advsync: Adjust context to herd7 litmus test
-> >>
-> >> Commit 96ab6febd94c ("advsync: Convert memory-misordering table to
-> >> herd7 litmus test") needs further adjustment.
-> >>
-> >> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> > 
-> > Queued and pushed, thank you!
-> > 
-> > Proofreading the surrounding paragraphs showed some room for improvement,
-> > so I have queued the following patch.  Thoughts?
-> 
-> Now, they are clear and easy enough for me to see the point.
-> 
-> If you'd like,
-> 
-> Acked-by: Akira Yokosawa <akiyks@gmail.com>
+From 309126f6728e3b2b9abf98f77fc97788afb527ea Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Fri, 30 Jun 2017 00:10:01 +0900
+Subject: [PATCH] advsync: Trivial typo fixes
 
-Applied and pushed, thank you!
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ advsync/memorybarriers.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-							Thanx, Paul
+diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
+index dfa7681..03ad184 100644
+--- a/advsync/memorybarriers.tex
++++ b/advsync/memorybarriers.tex
+@@ -136,7 +136,7 @@ from multiple CPUs to a set of shared variables.
+ In cache-coherent systems, if the caches hold multiple copies of a given
+ variable, all the copies of that variable must have the same value.
+ This works extremely well for concurrent reads, but not so well for
+-concurrent writes:  Each write musd do something about all
++concurrent writes:  Each write must do something about all
+ copies of the old value (another cache miss!), which, given the finite
+ speed of light and the atomic nature of matter, will be slower
+ than impatient software hackers would like.
+@@ -163,7 +163,7 @@ of order, which can in turn cause serious confusion, as illustrated in
+ Figure~\ref{fig:advsync:CPUs Can Do Things Out of Order}.
+ In particular, these store buffers can cause the memory misordering
+ shown in the store-buffering litmus test in
+-Figure~\ref{fig:advsync:Memory Misordering: Store-Buffering Litmus Test}
++Figure~\ref{fig:advsync:Memory Misordering: Store-Buffering Litmus Test}.
 
->            Thanks, Akira
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> > ------------------------------------------------------------------------
-> > 
-> > commit fb481305ecb2185749586b85dddf38bff3ebd494
-> > Author: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> > Date:   Mon Jun 26 09:49:21 2017 -0700
-> > 
-> >     advsync: Wordsmith memory-barriers intro
-> >     
-> >     Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> > 
-> > diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-> > index 4a2c334728d3..d758cfb70a8c 100644
-> > --- a/advsync/memorybarriers.tex
-> > +++ b/advsync/memorybarriers.tex
-> > @@ -46,27 +46,24 @@ RCU.
-> >  \end{figure}
-> >  
-> >  Unfortunately, these intuitions break down completely in face of
-> > -code that makes direct use of explicit memory barriers for data structures
-> > -in shared memory.
-> > -For example, the litmus test in
-> > +code that fails to use standard mechanisms.
-> > +For example, the trivial-seeming litmus test in
-> >  Figure~\ref{fig:advsync:Memory Misordering: Store-Buffering Litmus Test}
-> > -appears to guarantee that the \co{exists} clause is never validated.
-> > -After all, if \nbco{0:r2=0},\footnote{
-> > +appears to guarantee that the \co{exists} clause is never satisfied.
-> > +After all, if \nbco{0:r2=0}\footnote{
-> >  	That is, Thread~\co{P0()}'s instance of local variable \co{r2}
-> >  	equals zero.
-> >  	See Section~\ref{sec:formal:Anatomy of a Litmus Test}
-> > -	for documention of litmus-test structure.}
-> > +	for documention of litmus-test nomenclature.}
-> >  as shown in the \co{exists} clause, we might hope that Thread~\co{P0()}'s
-> >  load from~\co{x1} must have happened before Thread~\co{P1()}'s store to~\co{x1},
-> >  which might raise
-> >  further hopes that Thread~\co{P1()}'s load from~\co{x0} must happen after
-> >  Thread~\co{P0()}'s store to~\co{x0}, so that \nbco{1:r2=2},
-> > -which should negate the \co{exits} clause.
-> > -The example is symmetric, so similar hopeful reasoning might lead
-> > +thus not satisfying the \co{exists} clause.
-> > +The example is symmetric, so similar reasoning might lead
-> >  us to hope that \nbco{1:r2=0} guarantees that \nbco{0:r2=2}.
-> > -Unfortunately, the lack of memory barriers in
-> > -Figure~\ref{fig:advsync:Memory Misordering: Store-Buffering Litmus Test}
-> > -dashes these hopes.
-> > +Unfortunately, the lack of memory barriers dashes these hopes.
-> >  Both the compiler and the CPU are within their rights to reorder
-> >  the statements within both Thread~\co{P0()} and Thread~\co{P1()},
-> >  even on relatively strongly ordered systems such as x86.
-> > @@ -77,8 +74,8 @@ which found that the counter-intuitive ordering happened
-> >  314 times out of 100,000,000 trials on my x86 laptop.
-> >  Oddly enough, the perfectly legal outcome where both loads return the
-> >  value 2 occurred less frequently, in this case, only 167 times.
-> > -The lesson here is clear: Counterintuitivity does not necessarily
-> > -imply lower probability!
-> > +The lesson here is clear: Increased counterintuitivity does not necessarily
-> > +imply decreased probability!
-> >  % Run on June 23, 2017:
-> >  % litmus7 -r 1000 -carch X86 C-SB+o-o+o-o.litmus
-> >  % Test C-SB+o-o+o-o Allowed
-> > 
-> > 
-> 
+ % @@@ More here.  Some sort of illustration of store-buffering misordering
+
+-- 
+2.7.4
 
