@@ -1,18 +1,21 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025; h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=ZXrIB55cnL7WUziQi16BZaFByQ7PfAsP3WZDx5X8Mr8=;
- b=Vp9D9KnlRm+tDugGv8FMXS7CIKQDzNiEGFZe07Xl2NFxP31rwECx6aayxxXw/Vb0AG
- b+Zb8p7/rr/EgoZtwVs3/hM0wHMRHcDutPW3O1iNzXZiS4Ess/oAw2sbkvDVwyBh+9Uo
- DyCRtVYZlgBFSOP/A2fqUNLI1JQu3ZEcKMeXeA9YtLdQIho3nJW4WSiiN45SVoPje7tS
- AQtI/DHAjtZ8hJOd5WV/AadAagxUi884X1SZAt9Lj0T4hN3Qm+QC68voT4Kr0MalAcA0
- GG4pcX2o8sZTiNVhhV0C7ngDHpYzVHavco4qr1mBkuvWl8FPXiHnb7RHkCrvIE+wM4Ov 01jg==
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=h0P+5jkAJqNRMoReL5T6Dz/aq+j03Cwk748Lcjr74II=;
+ b=sO6TY/an3d8p+n6+EQ/ElovFo06gmvFgmdonWXSEW1Qq8bVnqhTfl5PzEfle+TbCc4
+ 5zwUsPbWGmOuu5XfLd1NxIwQ9+yNnvuILR8MBmzMS+mtTR7iwT2mTZkzI42YsCC0xjit
+ +LIs7nsELRDdHmlBuvJY/2UtCnEDc/xlc1lDuWi4BlXJ9xEcJM7xx8Jl7d5rNP1jIL5L
+ bRupl7iM2eveFo9xiiByAZPHU8FqkptOvQZSvBLVBcrBUEfUV/K3VKwD+/dHtL7/RDt6
+ jUZPA4/h5iidrpvVTfuS0leQgVfcQVqM4LMG43mpiygR0o00WkoTaXR9GMhL4x6tSX6W
+ XMqg==
+Subject: [PATCH 1/2] advsync: Use '#include "api.h"' in litmus tests
+References: <0f7d5b71-c960-6462-fc45-a83f757d88ee@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/2] litmus test updates
-Message-ID: <0f7d5b71-c960-6462-fc45-a83f757d88ee@gmail.com>
-Date: Sun, 9 Jul 2017 10:39:46 +0900
+Message-ID: <788721d8-eab0-e712-0cfb-5640e5a433ff@gmail.com>
+Date: Sun, 9 Jul 2017 10:40:48 +0900
 MIME-Version: 1.0
+In-Reply-To: <0f7d5b71-c960-6462-fc45-a83f757d88ee@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -20,90 +23,85 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 955eefe8ad5a64fddd2e33b343ac3a1e171dd089 Mon Sep 17 00:00:00 2001
+From 408b798755475f18285178c9a1f9f0c6bb2bd9ed Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 9 Jul 2017 09:53:28 +0900
-Subject: [PATCH 0/2] litmus test updates
+Date: Fri, 7 Jul 2017 21:13:01 +0900
+Subject: [PATCH 1/2] advsync: Use '#include "api.h"' in litmus tests
 
-Hi Paul,
-
-I thought that embedding kernel API definitions in each litmus test is
-redundant. We can use #include instead. In this case, we need to
-specify a -I option for gcc as the compilation is done in a temporally
-directory. We can do so by using -ccopts option of litmus7.
-
-Patch 1 does this change.
-
-However, in native run on x86_64, I'm seeing a significant difference
-in the resulting statistics.
-Before the change, a typical result is:
-
-    Test C-SB+o-o+o-o Allowed
-    Histogram (4 states)
-    54    *>0:r2=0; 1:r2=0;
-    49999628:>0:r2=2; 1:r2=0;
-    49999697:>0:r2=0; 1:r2=2;
-    621   :>0:r2=2; 1:r2=2;
-    Ok
-
-After the change, the result is something like:
-
-    Test C-SB+o-o+o-o Allowed
-    Histogram (4 states)
-    26    *>0:r2=0; 1:r2=0;
-    49999782:>0:r2=2; 1:r2=0;
-    49999818:>0:r2=0; 1:r2=2;
-    374   :>0:r2=2; 1:r2=2;
-    Ok
-
-In cross compilation mode, the result is similar and consistent
-with the native run after the change.
-So I suspect litmus7's behavior of native run is affected by the
-"-ccopts" option. Again, this might depend on the platform variation.
-
-Patch 2 adds targets for cross compilation mode of litmus7.
-Because we need to copy the custom header file "api.h" into the target
-directory, I made the recipe to do so.
-
-I stopped short of adding recipes to make an archive and scp it to
-remote host and to do remote compilation and execution via ssh.
-They can be added later.
-
-On PPC, the result of C-SB+o-o+o-o.litmus looks interesting.
-(Of course, you are familiar with PPC, but...)
-
-    Test C-SB+o-o+o-o Allowed
-    Histogram (4 states)
-    988335*>0:r2=0; 1:r2=0;
-    49516879:>0:r2=2; 1:r2=0;
-    49494779:>0:r2=0; 1:r2=2;
-    7     :>0:r2=2; 1:r2=2;
-    Ok
-    
-    Witnesses
-    Positive: 988335, Negative: 99011665
-    Condition exists (1:r2=0 /\ 0:r2=0) is validated
-    Hash=9bb70a6ed845b4be5f335c7eeb134f3f
-
-Note that I've not tested the result of "cross-arm" target actually
-builds and runs on ARM hosts.
-
-How does this approach look like?
-
-        Thanks, Akira
--- 
-Akira Yokosawa (2):
-  advsync: Use '#include "api.h"' in litmus tests
-  advsync: Add cross compilation targets
-
- CodeSamples/advsync/herd/.gitignore                |  5 ++++
- CodeSamples/advsync/herd/C-SB+o-mb-o+o-mb-o.litmus |  4 +--
- CodeSamples/advsync/herd/C-SB+o-o+o-o.litmus       |  3 +-
- CodeSamples/advsync/herd/Makefile                  | 34 ++++++++++++++++++++--
- CodeSamples/advsync/herd/api.h                     |  8 +++++
- 5 files changed, 47 insertions(+), 7 deletions(-)
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ CodeSamples/advsync/herd/C-SB+o-mb-o+o-mb-o.litmus |  4 +---
+ CodeSamples/advsync/herd/C-SB+o-o+o-o.litmus       |  3 +--
+ CodeSamples/advsync/herd/Makefile                  | 14 ++++++++++++--
+ CodeSamples/advsync/herd/api.h                     |  8 ++++++++
+ 4 files changed, 22 insertions(+), 7 deletions(-)
  create mode 100644 CodeSamples/advsync/herd/api.h
 
+diff --git a/CodeSamples/advsync/herd/C-SB+o-mb-o+o-mb-o.litmus b/CodeSamples/advsync/herd/C-SB+o-mb-o+o-mb-o.litmus
+index c04e82f..1093329 100644
+--- a/CodeSamples/advsync/herd/C-SB+o-mb-o+o-mb-o.litmus
++++ b/CodeSamples/advsync/herd/C-SB+o-mb-o+o-mb-o.litmus
+@@ -3,9 +3,7 @@ C C-SB+o-mb-o+o-mb-o
+ }
+
+ {
+-#define READ_ONCE(x) __atomic_load_n(&(x), __ATOMIC_RELAXED)
+-#define WRITE_ONCE(x, v) __atomic_store_n(&(x), (v), __ATOMIC_RELAXED)
+-#define smp_mb() __atomic_thread_fence(__ATOMIC_SEQ_CST)
++#include "api.h"
+ }
+
+ P0(int *x0, int *x1)
+diff --git a/CodeSamples/advsync/herd/C-SB+o-o+o-o.litmus b/CodeSamples/advsync/herd/C-SB+o-o+o-o.litmus
+index 47cc6dd..2e45ee6 100644
+--- a/CodeSamples/advsync/herd/C-SB+o-o+o-o.litmus
++++ b/CodeSamples/advsync/herd/C-SB+o-o+o-o.litmus
+@@ -3,8 +3,7 @@ C C-SB+o-o+o-o
+ }
+
+ {
+-#define READ_ONCE(x) __atomic_load_n(&(x), __ATOMIC_RELAXED)
+-#define WRITE_ONCE(x, v) __atomic_store_n(&(x), (v), __ATOMIC_RELAXED)
++#include "api.h"
+ }
+
+ P0(int *x0, int *x1)
+diff --git a/CodeSamples/advsync/herd/Makefile b/CodeSamples/advsync/herd/Makefile
+index 92986cd..7959063 100644
+--- a/CodeSamples/advsync/herd/Makefile
++++ b/CodeSamples/advsync/herd/Makefile
+@@ -1,4 +1,14 @@
+-all: C-SB+o-o+o-o.litmus.out C-SB+o-mb-o+o-mb-o.litmus.out
++LITMUS := $(wildcard *.litmus)
++LITMUS_OUT = $(addsuffix .out,$(LITMUS))
++CCOPTS = -fomit-frame-pointer -O2
++CCOPTS += -I$(shell pwd)
++
++.PHONY: all clean
++
++all: $(LITMUS_OUT)
+
+ %.litmus.out: %.litmus
+-	litmus7 -r 1000 -carch X86 $< > $@ 2>&1
++	litmus7 -r 1000 -carch X86 -ccopts "$(CCOPTS)" $< > $@ 2>&1
++
++clean:
++	rm -f *.out
+diff --git a/CodeSamples/advsync/herd/api.h b/CodeSamples/advsync/herd/api.h
+new file mode 100644
+index 0000000..8326835
+--- /dev/null
++++ b/CodeSamples/advsync/herd/api.h
+@@ -0,0 +1,8 @@
++#ifndef __API_H__
++#define __API_H__
++#ifndef READ_ONCE
++#define READ_ONCE(x) __atomic_load_n(&(x), __ATOMIC_RELAXED)
++#define WRITE_ONCE(x, v) __atomic_store_n(&(x), (v), __ATOMIC_RELAXED)
++#define smp_mb() __atomic_thread_fence(__ATOMIC_SEQ_CST)
++#endif
++#endif
 -- 
 2.7.4
+
 
