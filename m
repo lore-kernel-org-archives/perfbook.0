@@ -1,20 +1,21 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=u+HXpeU8c9fDhJHpBFUUMC/fXpPhlZ3VIi+wcodQtIg=;
- b=IM41YZIduGgbpNzvVxaMHUg9VR/Xopp/fPRkzFOi+tGbF3ErbyGPbV2f1dAaSCX+/w
- f3Fjy5w8e0ZXcFYMy4HrgQE7uQ2yVoodUpI31Zz2ZXhoYNr5urTuo5bDOhe/F6UJgQx1
- SUiTKm+wYyrX8gSP1WC2SQGGSgs7EksYZtbVBxdD06oOx7SfItJv+IbPZ2ejame8bD1l
- 1OPcEF9ish7M0OfN61dXJ2+SNeqtx4qZIjek2bP+zHX7hKUz4s4k/L6igixbcvEAe9q3
- Dn3Fyn4kmkPBF+83bo7taQCB/e0CYCdxk2H7u5RZhLDQbiq0c+c6fCyn9mxtQQLfLqvX
- JOkg==
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=oxH/+/B4hyuAMfZQSIUktY/Z9d17QwlOL96UZ1Qc/dE=;
+ b=LL0iBisKoozchcMDcoCn8VjlGwU6eALld+TvSZ7ucfkQIq0HXx8B13id2Zd/5Rxcjz
+ QUHHWPzttLqEId7gA5mVD+Wom+ZI9kQCYy0KTqNh/rYeDe+Tlj58hA+MKZBmoXsoYcxL
+ lTT/HCTArEYEEt2RHOtxk31v28vIUowpwrBJw9n08yel250f+G7um/h0WXgFy4XbMEHD
+ IOf7XE8pPQxC3AVFBeBoyPxlVREosITz8XcFirVfl2I8lgRQwTqK89B25XcAbWCDOUkH
+ cO8f6ORo7YB5PZifMgmS0I+WMI6XLqjA8EygB/R3awa9hJYwyt7QXgdY8LpNfHV3vM90
+ VsWQ==
+Subject: [PATCH 1/2] advsync: Add dependency to $(CUSTOM_HEADER)
+References: <a8d7f96a-d284-2f44-847b-859981f4b395@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/2] CodeSamples: Add arm64 support
-Message-ID: <a8d7f96a-d284-2f44-847b-859981f4b395@gmail.com>
-Date: Wed, 12 Jul 2017 00:30:04 +0900
+Message-ID: <53e917f7-0f6b-75de-7841-f56cbf4e7494@gmail.com>
+Date: Wed, 12 Jul 2017 00:31:07 +0900
 MIME-Version: 1.0
+In-Reply-To: <a8d7f96a-d284-2f44-847b-859981f4b395@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,43 +23,30 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 1908602500df34619ec496c787546d5584d01221 Mon Sep 17 00:00:00 2001
+From 69493e126b70589656c3331d34865d2a57b5cf36 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 12 Jul 2017 00:01:30 +0900
-Subject: [PATCH 0/2] CodeSamples: Add arm64 support
+Date: Sun, 9 Jul 2017 12:18:19 +0900
+Subject: [PATCH 1/2] advsync: Add dependency to $(CUSTOM_HEADER)
 
-Hi Paul,
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ CodeSamples/advsync/herd/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-So, this patch set adds arm64 support for CodeSamples.
+diff --git a/CodeSamples/advsync/herd/Makefile b/CodeSamples/advsync/herd/Makefile
+index 056f5f9..96c4495 100644
+--- a/CodeSamples/advsync/herd/Makefile
++++ b/CodeSamples/advsync/herd/Makefile
+@@ -8,7 +8,7 @@ CUSTOM_HEADER := $(wildcard *.h)
 
-Patch 1 is a followup of the previous patch set. I missed the dependency
-to the custom header file.
-Patch 2 is the addition of arm64 support. It is based on arm support files.
-I appended an "ish" operand to "dmb" in the definition of smp_mp().
-Looks like the same change is necessary in arch-arm/arch-arm.h, but this
-patch doesn't touch it.
-Also, I rewrote the definition of get_timestamp() by using clock_gettime()
-instead of gettimeofday(). For arm64 host, we can expect clock_gettime()
-is supported.
-In Makefile.arch, I chose the flags -mcpu=native and -mtune=native, since
-this Makefile is intended for native build.
-This is compile tested on an ARMv8 host. I didn't have enough time to
-run all the programs. I tested a few under count/ and defer/ sub-directories.
+ all: $(LITMUS_OUT)
 
-        Thanks. Akira
---
-Akira Yokosawa (2):
-  advsync: Add dependency to $(CUSTOM_HEADER)
-  CodeSamples: Add arm64 support
+-%.litmus.out: %.litmus
++%.litmus.out: %.litmus $(CUSTOM_HEADER)
+ 	litmus7 -r 1000 -carch X86 -ccopts "$(CCOPTS)" $< > $@ 2>&1
 
- CodeSamples/advsync/herd/Makefile    |  2 +-
- CodeSamples/arch-arm64/Makefile.arch |  2 ++
- CodeSamples/arch-arm64/arch-arm64.h  | 61 ++++++++++++++++++++++++++++++++++++
- CodeSamples/depends.mk               |  5 +++
- 4 files changed, 69 insertions(+), 1 deletion(-)
- create mode 100644 CodeSamples/arch-arm64/Makefile.arch
- create mode 100644 CodeSamples/arch-arm64/arch-arm64.h
-
+ cross-x86: TARGET = X86
 -- 
 2.7.4
+
 
