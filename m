@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MqJLX3AwbD99iH7R0F7/VAsJ2HsLNYg+dBTEg1qZJcw=;
- b=qUv4unrr/MgsGqd65GgCYYtiDF/pHxDMa7pV9I4HTPTbhv3MhrQs6YeSRyxx47bdt+
- SUOBMT/1CmjjCpL9UQsqw2V0kBS3fzzSWgppFnZ4SWfiGYU13g8qQ50rPb6TA+mgWnqG
- 2knuBgaVDxpx07d1jyVFxS666BF+AK4I7YxVDreRXLel+dLyN/Tre6aWY1AJsEb1I8qc
- LKPnZSR1PuZXZ1tDf2FPh57TOvlh75Xvnz/QcudIrEkT57jAwiO+xdiDj8uZG+mgN9/O
- E+tWI0KDCcgvZCGlS9jyXdTz+X56O9nE/TcJWtPwWRa1C5Ywrjrf1bqdJFmpkHeRu7jW
- FW4Q==
-Subject: [PATCH 3/6] advsync: Fix remaining typo in exists condition
+ bh=PJmsrrcK767aQmq+QKZMxsDzKPzzIkKNNJJm3Le/xG0=;
+ b=FHlJPRojeD++hJN/BRZUWUqslQBP/cKWDM4QCJAHTKz2VRdnYyIxV7h7EIdY7nARWs
+ IUys3LFkF1AEhXpc1+WRnOwPTJ7kWOuPzyi13oX8ABNHEbtbZ5OUUv01Y5N1sJOsbytV
+ Bx6FaoJYxKE1crCQ45Tu1Q0jHSjymB1sgZnCCg2xQCpe9nakMOkgcRaUkuvjb4iSga+B
+ HD50q5kvl0w3NAd8tEcBDoSogjQZAZrVQ1ppGESi1r/yhfmfG/desHAlHn1nmehvDe1F
+ 4jE5LbA/3XYl10yXZ4yWTi2CXWaG5UQDGHI6bKn4WjEnIUBrQuCxjkTQ5H7raOVMtHsP
+ RMzQ==
+Subject: [PATCH 4/6] advsync: Trivial typo fixes
 References: <1dd8bb1c-ce48-1de0-0032-fdab3bd68b46@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <b888a815-3644-95db-7993-0a13ae2cb275@gmail.com>
-Date: Thu, 13 Jul 2017 00:10:56 +0900
+Message-ID: <4826ee68-d905-1a29-d966-0d6c44b8503a@gmail.com>
+Date: Thu, 13 Jul 2017 00:11:40 +0900
 MIME-Version: 1.0
 In-Reply-To: <1dd8bb1c-ce48-1de0-0032-fdab3bd68b46@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,29 +23,38 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 2dd610086d6a4599dab6287b8e1180bbc3f92f88 Mon Sep 17 00:00:00 2001
+From 4e13865babb05ec6bd0521ae74d523fd562af6ce Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 12 Jul 2017 21:20:14 +0900
-Subject: [PATCH 3/6] advsync: Fix remaining typo in exists condition
+Date: Wed, 12 Jul 2017 22:49:00 +0900
+Subject: [PATCH 4/6] advsync: Trivial typo fixes
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- advsync/memorybarriers.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ advsync/memorybarriers.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index 936b95e..10d28f0 100644
+index 10d28f0..b085443 100644
 --- a/advsync/memorybarriers.tex
 +++ b/advsync/memorybarriers.tex
-@@ -613,7 +613,7 @@ loads and stores.
- 22
- 23 }
- 24
--25 exists (1:r2=1 /\ 1:r3=0)
-+25 exists (1:r2=2 /\ 1:r3=0)
- \end{verbbox}
- }
- \centering
+@@ -670,7 +670,7 @@ this~\cite{JadeAlglave2011ppcmem}.
+ \end{figure}
+
+ Therefore, portable code relying on ordering in this case should
+-add explicit ordering, for example, the \co{smp_rmb(} shown on
++add explicit ordering, for example, the \co{smp_rmb()} shown on
+ line~20 of
+ Figure~\ref{fig:advsync:Enforcing Order of Message-Passing Litmus Test}.
+
+@@ -956,7 +956,7 @@ Figure~\ref{fig:advsync:S Address-Dependency Litmus Test}?
+ Because no production-quality architecture speculated writes,
+ it is not possible for the \co{WRITE_ONCE()} on line~10 to overwrite
+ the \co{WRITE_ONCE()} on line~21, meaning that the \co{exists}
+-clause on line`25 cannot be satisfied, even on DEC Alpha, even
++clause on line~25 cannot be satisfied, even on DEC Alpha, even
+ without the \co{lockless_dereference()} that is required in the
+ dependent-read case.
+
 -- 
 2.7.4
 
