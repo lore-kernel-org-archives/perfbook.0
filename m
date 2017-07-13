@@ -1,48 +1,42 @@
 Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=from:to:cc:subject:date:message-id;
- bh=6p69QRW8uBpg9wCU7EIdRiLRdp3uKUVdsaivDn7S/4Y=;
- b=k3LxyHMh93E9umwo1GImRu5jp93wBOh8I7LcStWGnM61NS27x8U6UTknYPDYw6JdkM
- o6Qagdd0h9Q/5fOz+yiyeC5TUhkOXLavLw1PPOwHkw/VTJGtGIRhqZ30QiaZtKzU/tq6
- 8T0XE1u9o7EQUtLk44tyl6o+dbjyjLe6WdSxJPSPWGIZRrOEtjdKGgNWehxt4hfssbfI
- maPSTNibB2rV0kF0AOonNRGkSiXsuDzpVJDNhA3H1LmAxXwLsmR3tUkeyLedQ914yyy6
- OX7au8uvZUQbTqxGaJnUWbbVIu1LtNC0qb534NQrbjbCW8eBo++y32H9A2SWJlt59Ttd
- 1r4w==
+ s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=ExYlnA1eo9kFvabwUuv0pTxQMf/u6msAc+dWr3FbXys=;
+ b=VGAKGN/N8wd7xP0SkClRkJ9vvVzL3oXeH4AZlCQ3Teqv6tAJdnjrhl7AX0PPvW78k7
+ gfme34fkDruyU7e8Gt6fhlhNgcV1PE02LwnWuNA6889baDf2kSO91KBo7Z74isal2CaB
+ Ne2SEElsS5qqCchGescKoFbvs48rN2Qp1MF6C+nCPaGZ58dBG36cL3TGZ4noVCio9Cc9
+ XH9F/w57b8IbRc13jbW+GEsMhcaT7pU67htvbDLFgzF0JFAiRYMgG2UNPFsopuJHo6I+
+ 9lwuIoTvMECsEv6KyhK1aUPkykhc2MyS5isUwaoSVp6TBaLYYFfGmfr5jzNhMXWAyDm9
+ GF+Q==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 1/2] future/QC: Fix typos
-Date: Fri, 14 Jul 2017 08:19:22 +0900
-Message-Id: <20170713231923.4929-1-sj38.park@gmail.com>
+Subject: [PATCH 2/2] future/QC: Add space before citation
+Date: Fri, 14 Jul 2017 08:19:23 +0900
+Message-Id: <20170713231923.4929-2-sj38.park@gmail.com>
+In-Reply-To: <20170713231923.4929-1-sj38.park@gmail.com>
+References: <20170713231923.4929-1-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- future/QC.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ future/QC.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/future/QC.tex b/future/QC.tex
-index d16c080..f985437 100644
+index f985437..f873cd7 100644
 --- a/future/QC.tex
 +++ b/future/QC.tex
-@@ -411,7 +411,7 @@ ten digits of precision.
- If this was all that QC provided, QC would be a rather slow and very
- low-quality analog computer.
- Given that digital computers obsoleted analog computers some decades back,
--This analogy might lead many developers to ignore QC and to
-+this analogy might lead many developers to ignore QC and to
- use classic-computing floating point instead.
- However, QC provides a powerful capability covered in the next section.
-
-@@ -798,7 +798,7 @@ For example, perhaps machine-learning techniques will allow difficult
- cases to be detected so that alternative solution methods can be applied
- as needed.
-
--Of course, much of this work has been heuristic and/or probabalistic,
-+Of course, much of this work has been heuristic and/or probabilistic,
- so it might at first glance seem unfair to compare them to
- QC algorithms.
- However, QC algorithms are inherently probabilistic due to error rates
+@@ -1058,7 +1058,7 @@ of logistics, but current classic heuristics can find near-optimal
+ solutions for hundreds of cities~\cite{Martin:1992:LMC:2307953.2308141}
+ and polynomial-time algorithms that are guaranteed to find routes
+ that are no more than 40\% longer than optimal for arbitrarily
+-large numbers of cities\cite{Sebo:2014:STN:2688265.2688281},
++large numbers of cities~\cite{Sebo:2014:STN:2688265.2688281},
+ improving on the 50\% bound located a few decades
+ earlier~\cite{NicosChristofides1976TSP-FiftyPercent}.
+ As of 2006 TSP solvers were finding optimal solutions to
 -- 
 2.10.0
 
