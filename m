@@ -1,96 +1,71 @@
-Return-Path: <junchangwang@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mail-pf0-f193.google.com ([209.85.192.193]:34191 "EHLO
+ mail-pf0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751017AbdGMW2s (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 13
+ Jul 2017 18:28:48 -0400
+Received: by mail-pf0-f193.google.com with SMTP id c24so8660229pfe.1 for
+ <perfbook@vger.kernel.org>; Thu, 13 Jul 2017 15:28:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc;        bh=iNxSxkzoItkAqlLMDdU4YFhhXngqzwMJ7YNLWPbH4pE=;
- b=iwcCA4HfWyctaelmA/Duup9tjCPmv907YmIPXJDc5RZO8tGYw5Sxq4Xpeq8tFfy8Cs
- fRZVFlnoLJKXJjIvDFIjdxudkY7rWDcl2+XVHkhxRGvlBprWjaPY/j4EerC3Zrw/ke0J
- YEpzWp7kW/etxSxbnIbXU9iV9XRo2fGpCLQYuE/LhZ1Nvh5pXQL++msVslhw/NmT1QJ0
- HWpZpTd+O0p4sITnBHRb1b58qzjyek+vrT99MOn1jKESl1m0kHlgYFgmPPP8+O4zouYF
- 5Bv7KXLhFUZmAxL0xX1BvUVO3EzaXvo+z71Lx8wxxOqMrJsnvncBifrnCs+vRsDFTheE
- gN4Q==
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=BgkJ9sbc0FkwVTsOH7z2P3fn20qOAo7PPm0BZzNVXmk=;
+ b=gbgfMo08EZCAZA4a2exbFK4tpofoxDcEldjkhUhMNlI9ZWUNB2U39Ga20FyWdHP10g
+ /7Ra9BFStiBTR7ImooulSuRAiitK3ZDGNW1G9YaVicLuP9xckAg4vLhDuGPQKu+VGDoI
+ kYKYkPUhBkyzJ0USqy68xsXfc6YmwxF0GaXS07Hisp1xaNOvQef+DzVuwyr6IZoeokuC
+ 6xzs8JtLoQXLrUmRIG4f5p6PNhqv5j7irBVYdsFGMU7f1z6+2wAdsccTptSdRbOjsvSv
+ ZU+05st9QAR5LjNRkk3JmTDg00eRML20SejQd94C+qR1dTCitEzkc7bBDhODGNFw18WI
+ Herg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] advsync: Readjust spacing for one-column layout
+Message-ID: <7b4d4adf-c186-554f-9d14-58267cc29715@gmail.com>
+Date: Fri, 14 Jul 2017 07:28:44 +0900
 MIME-Version: 1.0
-In-Reply-To: <95b9a42a-9da0-69c8-2e13-2e4a7facf3be@gmail.com>
-References: <1500090706-6325-1-git-send-email-junchangwang@gmail.com>
- <95b9a42a-9da0-69c8-2e13-2e4a7facf3be@gmail.com>
-From: Junchang Wang <junchangwang@gmail.com>
-Date: Sat, 15 Jul 2017 15:18:04 +0800
-Message-ID: 
- <CABoNC80kBwTxa-Tx4YO07y676=PttY=QAvYecMH6Nt1wVuTftw@mail.gmail.com>
-Subject: Re: [PATCH] Advsync: fix typos
-Content-Type: text/plain; charset="UTF-8"
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 
-Hi Akira,
+From 451df962a4cd6a0138714f1ddde5bc82e0fb04a9 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Fri, 14 Jul 2017 07:18:09 +0900
+Subject: [PATCH] advsync: Readjust spacing for one-column layout
 
+The spacing parameters in commit 360582b94cb2 ("advsync: Adjust
+spacing in Tables 14.1 and 14.2, consistent indirection") was
+chosen for different changes of the tables in mind. Readjust them
+to match the now narrower tables.
 
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ advsync/memorybarriers.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Sat, Jul 15, 2017 at 1:20 PM, Akira Yokosawa <akiyks@gmail.com> wrote:
-> Hi Jason,
->
-> On 2017/07/15 11:51:46 +0800, Junchang Wang wrote:
->> Hi Paul,
->>
->> I have read through Chapter Advance Synchronization, and following are two
->> typos. Please take a look. Thanks for this excellent book!
->>
->> Signed-off-by: Junchang Wang <junchangwang@gmail.com>
->> ---
->>  advsync/memorybarriers.tex | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
->> index c9c975c..009dc6e 100644
->> --- a/advsync/memorybarriers.tex
->> +++ b/advsync/memorybarriers.tex
->> @@ -950,7 +950,7 @@ thereby forcing the required ordering on all platforms.
->>  \label{fig:advsync:S Address-Dependency Litmus Test}
->>  \end{figure}
->>
->> -But suppose that the dependent operation is a write rather than
->> +But what happens if the dependent operation is a write rather than
->>  a read, for example, in the \emph{S}
->>  litmus test~\cite{JadeAlglave2011ppcmem} shown in
->>  Figure~\ref{fig:advsync:S Address-Dependency Litmus Test}?
->> @@ -2511,7 +2511,7 @@ Failure to follow this rule can have serious side effects:
->>       In theory, yes, you could load an integer, perhaps to use
->>       it as an array index.
->>       In practice, the compiler knows too much about integers,
->> -     and thus has way too many opportunities to break your
->> +     and thus has too many opportunities to break your
->
-> This "way" is an adverb for emphasizing. It might sound colloquial
-> but it's the tone in perfbook. So I would NAK this hunk.
->
+diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
+index c9c975c..0fd0b87 100644
+--- a/advsync/memorybarriers.tex
++++ b/advsync/memorybarriers.tex
+@@ -179,7 +179,7 @@ Figure~\ref{fig:advsync:Memory Misordering: Store-Buffering Litmus Test}.
 
-Thanks a lot for the explanation!
+ \begin{table*}
+ \small
+-\centering\OneColumnHSpace{-.2in}
++\centering\OneColumnHSpace{-0.1in}
+ \begin{tabular}{r||l|l|l||l|l|l}
+ 	& \multicolumn{3}{c||}{CPU 0} & \multicolumn{3}{c}{CPU 1} \\
+ 	\cline{2-7}
+@@ -343,7 +343,7 @@ Figure~\ref{fig:advsync:Memory Misordering: Store-Buffering Litmus Test}.
 
-> Also, the format of this message would result in your greetings being
-> included in the commit log if it were applied as is.
-> It would be better if you put the greetings between "---" and diff stat.
->
-> For the 1st hunk, I would suggest a commit title something like:
->
->     advsync: Rephrase question as such
->
-> Can you try a respin with the following tag?
->
-
-Sure. I can resend a new patch soon.
-
-
-Thanks,
---Jason
-
-> Suggested-by: Akira Yokosawa <akiyks@gmail.com>
->
->       Thanks, Akira
->
->>       dependency chain.
->>  \end{enumerate}
->>
->>
->
+ \begin{table*}
+ \small
+-\centering\OneColumnHSpace{-0.2in}
++\centering\OneColumnHSpace{-0.1in}
+ \begin{tabular}{r||l|l|l||l|l|l}
+ 	& \multicolumn{3}{c||}{CPU 0} & \multicolumn{3}{c}{CPU 1} \\
+ 	\cline{2-7}
+-- 
+2.7.4
 
