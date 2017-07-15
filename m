@@ -1,60 +1,80 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pf0-f196.google.com ([209.85.192.196]:33995 "EHLO
- mail-pf0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751029AbdGODwK (ORCPT <rfc822;perfbook@vger.kernel.org>); Fri, 14
- Jul 2017 23:52:10 -0400
-Received: by mail-pf0-f196.google.com with SMTP id c24so12940019pfe.1 for
- <perfbook@vger.kernel.org>; Fri, 14 Jul 2017 20:52:09 -0700 (PDT)
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=from:to:cc:subject:date:message-id;
- bh=z2QZ+j0mgX7oDWBfXjd0m7dvRLGu8COXUQai5xHfoOA=;
- b=TXJvvcFx8UfQCw+Of8BTZSRS1D83l9ulubkwA43xNXsmPvsBUt7l0eoCZgVTsgmHNX
- 6vp/9xf9tjDM/bvrgmBQdkk0pgsHuyGJ9Hu2KPZN1y8barSl9Q2Nc8hZDw+mH07V3FVG
- pq8Df4O6doV4zietilc0RIVbZ9+1jtofYOwqMXTic6Fhim/5ac2JDjVj56exX3oyBquQ
- h9iKpz8oKgP9Q+VuzWlnkScXo8DnPjDxiVzD4yuQFmti1UW591xkNfVUSnEX6YKRC1dn
- 8VhRi0NfqceuQViGfVaQCh2E5vHAPJm/uWvX9225wAdxeubZKlJwLxsiakmtUJaXF44Z
- hXhQ==
-From: Junchang Wang <junchangwang@gmail.com>
-Subject: [PATCH] Advsync: fix typos
-Date: Sat, 15 Jul 2017 11:51:46 +0800
-Message-Id: <1500090706-6325-1-git-send-email-junchangwang@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+ s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=DuQgUe6xlCa4hEH2ayi222Zro1s8yGp3dExiL/8yyT0=;
+ b=kalG0mzFK5Z8FYmF6fKyot71MSbXp80L145YpmiKtmTZ9EJ/0xVITOHJhVMaW1wGgT
+ RxyQEK9OKFu6DQrSqwLVQUSMlsEGwEqiwFUR9//KVn56rhV3GOGStDztfK7aSfRqCkzq
+ W3JAaanQ1lPrcK2fB4F55nvz8Bqo84dQmbcMtPoNPJwKeNRZCB3l52ZLOBI8lyy5M+fV
+ GcgEj4/W/U3aA4GDY/RBGWFp6ZfrdxQ85ULaCXhRPQF9wfPG0Co3OTIFPVYIfc3FBxji
+ XOZyppZDx48oU6XF6q2ekugjBn/jo3J/Obpw2kB7E/Hz0Mra3XurKwk5WSCPVuPNsC3Z
+ zYmg==
+Subject: Re: [PATCH] Advsync: fix typos
+References: <1500090706-6325-1-git-send-email-junchangwang@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <95b9a42a-9da0-69c8-2e13-2e4a7facf3be@gmail.com>
+Date: Sat, 15 Jul 2017 14:20:10 +0900
+MIME-Version: 1.0
+In-Reply-To: <1500090706-6325-1-git-send-email-junchangwang@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: Junchang Wang <junchangwang@gmail.com>
+Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org, paulmck@linux.vnet.ibm.com
-Cc: Junchang Wang <junchangwang@gmail.com>
 
-Hi Paul,
+Hi Jason,
 
-I have read through Chapter Advance Synchronization, and following are two
-typos. Please take a look. Thanks for this excellent book!
+On 2017/07/15 11:51:46 +0800, Junchang Wang wrote:
+> Hi Paul,
+> 
+> I have read through Chapter Advance Synchronization, and following are two
+> typos. Please take a look. Thanks for this excellent book!
+> 
+> Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+> ---
+>  advsync/memorybarriers.tex | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
+> index c9c975c..009dc6e 100644
+> --- a/advsync/memorybarriers.tex
+> +++ b/advsync/memorybarriers.tex
+> @@ -950,7 +950,7 @@ thereby forcing the required ordering on all platforms.
+>  \label{fig:advsync:S Address-Dependency Litmus Test}
+>  \end{figure}
+>  
+> -But suppose that the dependent operation is a write rather than
+> +But what happens if the dependent operation is a write rather than
+>  a read, for example, in the \emph{S}
+>  litmus test~\cite{JadeAlglave2011ppcmem} shown in
+>  Figure~\ref{fig:advsync:S Address-Dependency Litmus Test}?
+> @@ -2511,7 +2511,7 @@ Failure to follow this rule can have serious side effects:
+>  	In theory, yes, you could load an integer, perhaps to use
+>  	it as an array index.
+>  	In practice, the compiler knows too much about integers,
+> -	and thus has way too many opportunities to break your
+> +	and thus has too many opportunities to break your
 
-Signed-off-by: Junchang Wang <junchangwang@gmail.com>
----
- advsync/memorybarriers.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This "way" is an adverb for emphasizing. It might sound colloquial
+but it's the tone in perfbook. So I would NAK this hunk.
 
-diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index c9c975c..009dc6e 100644
---- a/advsync/memorybarriers.tex
-+++ b/advsync/memorybarriers.tex
-@@ -950,7 +950,7 @@ thereby forcing the required ordering on all platforms.
- \label{fig:advsync:S Address-Dependency Litmus Test}
- \end{figure}
+Also, the format of this message would result in your greetings being
+included in the commit log if it were applied as is.
+It would be better if you put the greetings between "---" and diff stat.
 
--But suppose that the dependent operation is a write rather than
-+But what happens if the dependent operation is a write rather than
- a read, for example, in the \emph{S}
- litmus test~\cite{JadeAlglave2011ppcmem} shown in
- Figure~\ref{fig:advsync:S Address-Dependency Litmus Test}?
-@@ -2511,7 +2511,7 @@ Failure to follow this rule can have serious side effects:
- 	In theory, yes, you could load an integer, perhaps to use
- 	it as an array index.
- 	In practice, the compiler knows too much about integers,
--	and thus has way too many opportunities to break your
-+	and thus has too many opportunities to break your
- 	dependency chain.
- \end{enumerate}
+For the 1st hunk, I would suggest a commit title something like:
 
--- 
-2.7.4
+    advsync: Rephrase question as such
+
+Can you try a respin with the following tag?
+
+Suggested-by: Akira Yokosawa <akiyks@gmail.com>
+
+      Thanks, Akira
+
+>  	dependency chain.
+>  \end{enumerate}
+>  
+> 
 
