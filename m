@@ -1,20 +1,21 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=SBPLxtFYZ3ZdYGyXepeUwtSsjg8x9fxyLowYi3A6lkw=;
- b=Jj/CDY85LAkKTZTac7KqDMjRIFlO8k3OznwO/58NTKHDA+r+pHPbmdd7q+g4EVLRXX
- qqhHnxxCF4rKJW8mocuTuEgscGgdDhnce8tuWNyXp3xVg3nnlBBtwIiPSP7PK8E7OFGS
- TWB0sLvIC5HZsxe9DaZZUnem8ZXNqxyt0rwW/sstykcrmvUzTInjRahfuFnFJj1i+wcy
- FKGBZ+EKKv7bexF7FKcdJ/oX8ww0F2dWWmI9hgRP24ssO1wiDz3f6OaoUQqofwVPX7zD
- 0GbEbKQxZaRszLYzTpd1okJQ1LJ9EY4hRujPGVArf12qOZnku19Ur0Nbp80Et9HbQ/bv
- K4fg==
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=u9IJLU02VwnbYXffzcdFMDKDfZfG+HAoybVomhBZSH4=;
+ b=TLDXVfc0WuvSHc2PyWcRk4Opw+xFGxhBH63fIHKW+BR9MUcqN25qDWIcWAF3eAqdC4
+ gnpni3aOD5tayoNPH5S7HAbkYniS+NezpLkGGjGq+G2s5uvuTpgwiY2bsB6GiAMRlrqp
+ EfAxfOKJz8n+6xwWYgdPbVwbaL348Y7xAqPfBoAxT66Qtd3eVqaOgfQvGlIDJMjsw0ru
+ lmzGBnxXlHlcMEsHbW98wyfsOf+5eHF2mThAvO0T81Y4+tNu0JPYNslEJhr9qOGXUwwy
+ cIm4Sn1n2NB5/9Kc1FDG+ULB6z29jJ/izOf1rtM8P9H5JNz4KyYb0o1uZ4QfoVUy6IIy
+ WDww==
+Subject: [PATCH] advsync: Fix two-CPU control-dependency example
+References: <165340ca-3acd-a8be-43ad-ccf64582aa21@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] advsync: Fix control-dependency no-transitivity example
-Message-ID: <165340ca-3acd-a8be-43ad-ccf64582aa21@gmail.com>
-Date: Fri, 14 Jul 2017 23:34:45 +0900
+Message-ID: <2caf7648-6f8a-f679-2d02-b215d45d3718@gmail.com>
+Date: Sun, 16 Jul 2017 23:27:58 +0900
 MIME-Version: 1.0
+In-Reply-To: <165340ca-3acd-a8be-43ad-ccf64582aa21@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,38 +23,58 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 8740c546fbb6988c2fcf4a88c4314df972d0b9b7 Mon Sep 17 00:00:00 2001
+From 8996357b6bd21245ef6545fca0c282fb4a31349e Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 14 Jul 2017 22:48:37 +0900
-Subject: [PATCH] advsync: Fix control-dependency no-transitivity example
+Date: Sun, 16 Jul 2017 20:33:14 +0900
+Subject: [PATCH] advsync: Fix two-CPU control-dependency example
 
-The corresponding assert condition in memory-barriers.txt was
-fixed in commit 5646f7acc95f ("memory-barriers: Fix control-
-ordering no-transitivity example") of Linux kernel repository.
-Somehow it was imported to perfbook in a wrong form and has
-survived since.
+The two-CPU example always results in r1==0 && r2==0 when the
+operator ">" is used in the "if" statement.
+The point of this example is to use control dependency for ordering,
+and the WRITE_ONCE() should always be executed.
+
+So the corresponding example in memory-barriers.txt was correct
+before commit 5646f7acc95f in Linux kernel repository.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
+Hi Paul,
+
+So sounds like you didn't like the previous patch in this thread.
+I tried to convert the examples to litmus test format,
+and found out the two-CPU example results in a single outcome.
+
+If you prefer these examples to be converted to litmus test format,
+I can respin these patches and add the tests to CodeSamples.
+But I need to know what names to use for the tests.
+Do "C-SB+o-c-o+o-c-o" and "C-WWC+o-c-o+o-c-o+o" work?
+
+Or if these changes conflict with your ongoing work, I'll back off.
+
+FWIW I've not seen the three-CPU litmus test results in "sometimes",
+even on PPC. 
+
+      Thanks, Akira
+--
  advsync/memorybarriers.tex | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index c9c975c..25a90b2 100644
+index 894de6d..f0ca79d 100644
 --- a/advsync/memorybarriers.tex
 +++ b/advsync/memorybarriers.tex
-@@ -3036,9 +3036,9 @@ not), then adding the following CPU would guarantee a related assertion:
- \begin{tabular}{l}
- 	\nf{CPU 2} \\
+@@ -3015,8 +3015,8 @@ of~\co{x} and~\co{y} both being zero:
  	\hline
--	\tco{WRITE_ONCE(y, 1);} \\
-+	\tco{WRITE_ONCE(x, 2);} \\
- 	\multicolumn{1}{l}{~} \\
--	\multicolumn{1}{l}{\tco{assert(!(r1 == 1 && r2 == 1 && x == 1));}} \\
-+	\multicolumn{1}{l}{\tco{assert(!(r1 == 2 && r2 == 1 && x == 2));}} \\
- \end{tabular}
- \end{minipage}
- \vspace{5pt}
+ 	\tco{r1 = READ_ONCE(x);} &
+ 		\tco{r2 = READ_ONCE(y);} \\
+-	if (r1 > 0) &
+-		if (r2 > 0) \\
++	if (r1 >= 0) &
++		if (r2 >= 0) \\
+ 	~~~\tco{WRITE_ONCE(y, 1);} &
+ 		~~~\tco{WRITE_ONCE(x, 1);} \\
+ 	\multicolumn{2}{l}{~} \\
 -- 
 2.7.4
+
 
