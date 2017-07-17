@@ -1,138 +1,124 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pg0-f67.google.com ([74.125.83.67]:36448 "EHLO
- mail-pg0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751221AbdGQApc (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 16
- Jul 2017 20:45:32 -0400
-Received: by mail-pg0-f67.google.com with SMTP id y129so17459583pgy.3 for
- <perfbook@vger.kernel.org>; Sun, 16 Jul 2017 17:45:32 -0700 (PDT)
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XAT+Jvw01reWlCCDolCryXlnFXRkAScNwK0vgZcYS/o=;
- b=RWne5Edfnt3lYXxGqiuhkLmP0feYuQj6DkGE+auYMhrngsSckLtwIYFdXRxn6I6lMe
- QezJxFltuIgD11fysrRJ7b+/eAxPAUyna7QiJ6MCO0DWFqRNhLyeAc/UmquaWuFJvTU8
- WIe2bpVv8hn+8ObmVeCTL9DmZJ0B1wEd0e4TeXpcJCCAK5RNL3dLhAOgmwc3iz/7d/nE
- aLXnExc4HztYG6PXGqxKB7dHT3o2I4HmNqSLMPD2bnow0DctjmRBmCCPmYhEDt809ew/
- 6X3nZgIe6kPm/ceclOAQaiNvlUrzZOn5gjkQu9XmYlp3RC+SHsP4gsZH1SvCJnMoTfeo
- TdIA==
-Subject: Re: [PATCH] advsync: Fix two-CPU control-dependency example
-References: <165340ca-3acd-a8be-43ad-ccf64582aa21@gmail.com>
- <2caf7648-6f8a-f679-2d02-b215d45d3718@gmail.com>
- <20170716234028.GN2393@linux.vnet.ibm.com>
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=Tgcji3yEF0zFeGcLa4eXVn7Vj5EGq+Pr0pxpcHKz+ac=;
+ b=LvFHf+7GmAxDU4I21+roxuEQV8yof0RQpZAsTmSoeDGMsjIuqvBWoQP9rWVKjNfaYW
+ XyXIho4T5XcCBNlv/z5zkypV2m5N5Yg/9KC/ztX+COWoPkAie+N/sCPgqUPoh1yYnU1R
+ +V42JGT+hKUHSn+LHBeXaXhqLjLz3op33klQAYtuHErQjPajpBvsawgxWZoLIMMBSZKU
+ v3U5kEWKCGtmQS87mZRrNitZHQ1hwsvY9asqmuApcGTUq/jSYaOgZCZbBqIBbbALzH89
+ VJvu/L5pavJ8/6c/KvNj0mPvkyqn3gV+rJYI6uwDBNMfTCsPlc7RZ9qQtfoGnAFvPksf
+ 6UhA==
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <158186a8-f58c-0d73-0b79-b8edfc94d367@gmail.com>
-Date: Mon, 17 Jul 2017 09:45:26 +0900
+Subject: [RFC PATCH] advsync: Add litmus tests of control dependency
+Message-ID: <491b2704-0d61-aebc-0787-94cd0da74694@gmail.com>
+Date: Mon, 17 Jul 2017 23:28:09 +0900
 MIME-Version: 1.0
-In-Reply-To: <20170716234028.GN2393@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+List-ID: <perfbook.vger.kernel.org>
 
-On 2017/07/16 16:40:28 -0700, Paul E. McKenney wrote:
-> On Sun, Jul 16, 2017 at 11:27:58PM +0900, Akira Yokosawa wrote:
->> >From 8996357b6bd21245ef6545fca0c282fb4a31349e Mon Sep 17 00:00:00 2001
->> From: Akira Yokosawa <akiyks@gmail.com>
->> Date: Sun, 16 Jul 2017 20:33:14 +0900
->> Subject: [PATCH] advsync: Fix two-CPU control-dependency example
->>
->> The two-CPU example always results in r1==0 && r2==0 when the
->> operator ">" is used in the "if" statement.
->> The point of this example is to use control dependency for ordering,
->> and the WRITE_ONCE() should always be executed.
->>
->> So the corresponding example in memory-barriers.txt was correct
->> before commit 5646f7acc95f in Linux kernel repository.
->>
->> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->> ---
->> Hi Paul,
->>
->> So sounds like you didn't like the previous patch in this thread.
->> I tried to convert the examples to litmus test format,
->> and found out the two-CPU example results in a single outcome.
->>
->> If you prefer these examples to be converted to litmus test format,
->> I can respin these patches and add the tests to CodeSamples.
->> But I need to know what names to use for the tests.
->> Do "C-SB+o-c-o+o-c-o" and "C-WWC+o-c-o+o-c-o+o" work?
->>
->> Or if these changes conflict with your ongoing work, I'll back off.
->>
->> FWIW I've not seen the three-CPU litmus test results in "sometimes",
->> even on PPC. 
-> 
-> Sorry, I was distracted with C++ standards-committee work, and got
-> behind on my email.  No opinion at all on them yet.
+From 892d8e1014c5bca1c83fbc35bcc1951c6c497b7f Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 17 Jul 2017 20:56:19 +0900
+Subject: [RFC PATCH] advsync: Add litmus tests of control dependency
 
-I see.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
 
-> 
-> If these two patches are either-or, I would take the one that matches
-> memory-barriers.txt.  Please advise.  ;-)
+So I converted the 2 examples of control dependency to litmus tests.
+I mentioned the name "C-SB+o-c-o+o-c-o", but it should have been
+"C-LB+o-c-o+o-c-o".
 
-The 1st one ("advsync: Fix control-dependency no-transitivity example")
-is the catchup to memroy-barriers.txt.
+They correspond to the example after the partial revert to the
+two-CPU example I submitted earlier.
 
-As for the 2nd one, would it be better to fix memory-barriers.txt first
-if the two-CPU example actually neesd the partial revert? 
+Do they make sense?
 
-> 
-> This part of the file is likely to be overwritten at some point, but
-> it would be good to remove confusion in the meantime.
-> 
-> On the PPC end of things, the hardware often has stronger ordering
-> than does the architecture.  For example, Power hardware is reluctant
-> to reorder later writes wiht earlier reads, despite the fact that
-> the architecture allows this.  So it would be good to get some
-> tests that actually show reordering on PPC.
-> 
-> Your names look good, and I would welcome help in converting things
-> to litmus tests.  To that end, I have a github archive with lots
-> of litmus tests, some manually generated and some automatically
-> generated:
-> 
-> 	https://github.com/paulmckrcu/litmus
-> 
-> Which reminds me...  Do you have access to a Linux system on which
-> you can install kernel modules?
+          Thanks, Akira
+--
+ CodeSamples/advsync/herd/C-LB+o-c-o+o-c-o.litmus   | 27 ++++++++++++++++++
+ .../advsync/herd/C-WWC+o-c-o+o-c-o+o.litmus        | 32 ++++++++++++++++++++++
+ 2 files changed, 59 insertions(+)
+ create mode 100644 CodeSamples/advsync/herd/C-LB+o-c-o+o-c-o.litmus
+ create mode 100644 CodeSamples/advsync/herd/C-WWC+o-c-o+o-c-o+o.litmus
 
-If a virtual guest machine on x86, I should be able to. Does that
-suffice?
-
-           Thanks, Akira
-
->                                 There is a klitmus7 that does that.
-> 
-> 							Thanx, Paul
-> 
->>       Thanks, Akira
->> --
->>  advsync/memorybarriers.tex | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
->> index 894de6d..f0ca79d 100644
->> --- a/advsync/memorybarriers.tex
->> +++ b/advsync/memorybarriers.tex
->> @@ -3015,8 +3015,8 @@ of~\co{x} and~\co{y} both being zero:
->>  	\hline
->>  	\tco{r1 = READ_ONCE(x);} &
->>  		\tco{r2 = READ_ONCE(y);} \\
->> -	if (r1 > 0) &
->> -		if (r2 > 0) \\
->> +	if (r1 >= 0) &
->> +		if (r2 >= 0) \\
->>  	~~~\tco{WRITE_ONCE(y, 1);} &
->>  		~~~\tco{WRITE_ONCE(x, 1);} \\
->>  	\multicolumn{2}{l}{~} \\
->> -- 
->> 2.7.4
->>
->>
-> 
-> 
+diff --git a/CodeSamples/advsync/herd/C-LB+o-c-o+o-c-o.litmus b/CodeSamples/advsync/herd/C-LB+o-c-o+o-c-o.litmus
+new file mode 100644
+index 0000000..023af2e
+--- /dev/null
++++ b/CodeSamples/advsync/herd/C-LB+o-c-o+o-c-o.litmus
+@@ -0,0 +1,27 @@
++C C-LB+o-c-o+o-c-o
++{
++}
++
++{
++#include "api.h"
++}
++
++P0(int *x, int *y)
++{
++	int r1;
++
++	r1 = READ_ONCE(*x);
++	if (r1 >= 0)
++		WRITE_ONCE(*y, 1);
++}
++
++P1(int *x, int *y)
++{
++	int r2;
++
++	r2 = READ_ONCE(*y);
++	if (r2 >= 0)
++		WRITE_ONCE(*x, 1);
++}
++
++exists (0:r1=1 /\ 1:r2=1)
+diff --git a/CodeSamples/advsync/herd/C-WWC+o-c-o+o-c-o+o.litmus b/CodeSamples/advsync/herd/C-WWC+o-c-o+o-c-o+o.litmus
+new file mode 100644
+index 0000000..80dc2f6
+--- /dev/null
++++ b/CodeSamples/advsync/herd/C-WWC+o-c-o+o-c-o+o.litmus
+@@ -0,0 +1,32 @@
++C C-WWC+o-c-o+o-c-o+o
++{
++}
++
++{
++#include "api.h"
++}
++
++P0(int *x, int *y)
++{
++	int r1;
++
++	r1 = READ_ONCE(*x);
++	if (r1 >= 0)
++		WRITE_ONCE(*y, 1);
++}
++
++P1(int *x, int *y)
++{
++	int r2;
++
++	r2 = READ_ONCE(*y);
++	if (r2 >= 0)
++		WRITE_ONCE(*x, 1);
++}
++
++P2(int *x)
++{
++	WRITE_ONCE(*x, 2);
++}
++
++exists (0:r1=2 /\ 1:r2=1 /\ x=2)
+-- 
+2.7.4
 
