@@ -1,124 +1,77 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=Tgcji3yEF0zFeGcLa4eXVn7Vj5EGq+Pr0pxpcHKz+ac=;
- b=LvFHf+7GmAxDU4I21+roxuEQV8yof0RQpZAsTmSoeDGMsjIuqvBWoQP9rWVKjNfaYW
- XyXIho4T5XcCBNlv/z5zkypV2m5N5Yg/9KC/ztX+COWoPkAie+N/sCPgqUPoh1yYnU1R
- +V42JGT+hKUHSn+LHBeXaXhqLjLz3op33klQAYtuHErQjPajpBvsawgxWZoLIMMBSZKU
- v3U5kEWKCGtmQS87mZRrNitZHQ1hwsvY9asqmuApcGTUq/jSYaOgZCZbBqIBbbALzH89
- VJvu/L5pavJ8/6c/KvNj0mPvkyqn3gV+rJYI6uwDBNMfTCsPlc7RZ9qQtfoGnAFvPksf
- 6UhA==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [RFC PATCH] advsync: Add litmus tests of control dependency
-Message-ID: <491b2704-0d61-aebc-0787-94cd0da74694@gmail.com>
-Date: Mon, 17 Jul 2017 23:28:09 +0900
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51796 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1752811AbdGSRa3 (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Wed, 19 Jul 2017 13:30:29 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v6JHSla1070912
+ for <perfbook@vger.kernel.org>; Wed, 19 Jul 2017 13:30:29 -0400
+Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205]) by
+ mx0b-001b2d01.pphosted.com with ESMTP id 2bt75m627q-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Wed,
+ 19 Jul 2017 13:30:29 -0400
+Received: from localhost by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Wed, 19 Jul
+ 2017 13:30:28 -0400
+Date: Wed, 19 Jul 2017 10:30:26 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH] advsync: Fix control-dependency no-transitivity example
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <165340ca-3acd-a8be-43ad-ccf64582aa21@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <165340ca-3acd-a8be-43ad-ccf64582aa21@gmail.com>
+Message-Id: <20170719173026.GF3730@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 892d8e1014c5bca1c83fbc35bcc1951c6c497b7f Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 17 Jul 2017 20:56:19 +0900
-Subject: [RFC PATCH] advsync: Add litmus tests of control dependency
+On Fri, Jul 14, 2017 at 11:34:45PM +0900, Akira Yokosawa wrote:
+> >From 8740c546fbb6988c2fcf4a88c4314df972d0b9b7 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Fri, 14 Jul 2017 22:48:37 +0900
+> Subject: [PATCH] advsync: Fix control-dependency no-transitivity example
+> 
+> The corresponding assert condition in memory-barriers.txt was
+> fixed in commit 5646f7acc95f ("memory-barriers: Fix control-
+> ordering no-transitivity example") of Linux kernel repository.
+> Somehow it was imported to perfbook in a wrong form and has
+> survived since.
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-Hi Paul,
+And I did take this, thank you very much, and please accept my apologies
+for the delay.
 
-So I converted the 2 examples of control dependency to litmus tests.
-I mentioned the name "C-SB+o-c-o+o-c-o", but it should have been
-"C-LB+o-c-o+o-c-o".
+If I understand correctly, I should leave your second patch alone.
+If I am confused, please let me know!
 
-They correspond to the example after the partial revert to the
-two-CPU example I submitted earlier.
+							Thanx, Paul
 
-Do they make sense?
-
-          Thanks, Akira
---
- CodeSamples/advsync/herd/C-LB+o-c-o+o-c-o.litmus   | 27 ++++++++++++++++++
- .../advsync/herd/C-WWC+o-c-o+o-c-o+o.litmus        | 32 ++++++++++++++++++++++
- 2 files changed, 59 insertions(+)
- create mode 100644 CodeSamples/advsync/herd/C-LB+o-c-o+o-c-o.litmus
- create mode 100644 CodeSamples/advsync/herd/C-WWC+o-c-o+o-c-o+o.litmus
-
-diff --git a/CodeSamples/advsync/herd/C-LB+o-c-o+o-c-o.litmus b/CodeSamples/advsync/herd/C-LB+o-c-o+o-c-o.litmus
-new file mode 100644
-index 0000000..023af2e
---- /dev/null
-+++ b/CodeSamples/advsync/herd/C-LB+o-c-o+o-c-o.litmus
-@@ -0,0 +1,27 @@
-+C C-LB+o-c-o+o-c-o
-+{
-+}
-+
-+{
-+#include "api.h"
-+}
-+
-+P0(int *x, int *y)
-+{
-+	int r1;
-+
-+	r1 = READ_ONCE(*x);
-+	if (r1 >= 0)
-+		WRITE_ONCE(*y, 1);
-+}
-+
-+P1(int *x, int *y)
-+{
-+	int r2;
-+
-+	r2 = READ_ONCE(*y);
-+	if (r2 >= 0)
-+		WRITE_ONCE(*x, 1);
-+}
-+
-+exists (0:r1=1 /\ 1:r2=1)
-diff --git a/CodeSamples/advsync/herd/C-WWC+o-c-o+o-c-o+o.litmus b/CodeSamples/advsync/herd/C-WWC+o-c-o+o-c-o+o.litmus
-new file mode 100644
-index 0000000..80dc2f6
---- /dev/null
-+++ b/CodeSamples/advsync/herd/C-WWC+o-c-o+o-c-o+o.litmus
-@@ -0,0 +1,32 @@
-+C C-WWC+o-c-o+o-c-o+o
-+{
-+}
-+
-+{
-+#include "api.h"
-+}
-+
-+P0(int *x, int *y)
-+{
-+	int r1;
-+
-+	r1 = READ_ONCE(*x);
-+	if (r1 >= 0)
-+		WRITE_ONCE(*y, 1);
-+}
-+
-+P1(int *x, int *y)
-+{
-+	int r2;
-+
-+	r2 = READ_ONCE(*y);
-+	if (r2 >= 0)
-+		WRITE_ONCE(*x, 1);
-+}
-+
-+P2(int *x)
-+{
-+	WRITE_ONCE(*x, 2);
-+}
-+
-+exists (0:r1=2 /\ 1:r2=1 /\ x=2)
--- 
-2.7.4
+> ---
+>  advsync/memorybarriers.tex | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
+> index c9c975c..25a90b2 100644
+> --- a/advsync/memorybarriers.tex
+> +++ b/advsync/memorybarriers.tex
+> @@ -3036,9 +3036,9 @@ not), then adding the following CPU would guarantee a related assertion:
+>  \begin{tabular}{l}
+>  	\nf{CPU 2} \\
+>  	\hline
+> -	\tco{WRITE_ONCE(y, 1);} \\
+> +	\tco{WRITE_ONCE(x, 2);} \\
+>  	\multicolumn{1}{l}{~} \\
+> -	\multicolumn{1}{l}{\tco{assert(!(r1 == 1 && r2 == 1 && x == 1));}} \\
+> +	\multicolumn{1}{l}{\tco{assert(!(r1 == 2 && r2 == 1 && x == 2));}} \\
+>  \end{tabular}
+>  \end{minipage}
+>  \vspace{5pt}
+> -- 
+> 2.7.4
+> 
 
