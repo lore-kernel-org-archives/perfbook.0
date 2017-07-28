@@ -1,52 +1,69 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=M8VzOT7Xcu+IpUFBpKv+KemOpvXIvCq+YS59W8OD6K4=;
- b=YDSkED2wiG9zx6lfEkULDiYKjwewgCfhEXFYne6A8setbmPUnWYZfn2GGhSM4Nf7qe
- +Lug1aqbr1pGRXb8wZ/U1Bjyuz0wKfzC4jL2sn7YTePqQtctkAXrHAVgE2/e4eX8r0dn
- sYdUf0hvi3z+BiwyC2CR8c3KqnX7YGC7kdS9MH7IX/ZuZVqrCoeDkV73fr0NBG5/JCC8
- N+6BhJLBMcEc087Zun0auFrNkFZiqpNKQT/blK1w3C3OdkvuoYQDz9uTflSSggBBnIAu
- 35HVmf3oU0507+irWUqd/2/nUnJWk8r+DK85DN5XnDBhM/zUpB7WnSEkE6Z5PcQE9nFX
- pppQ==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] advsync: Fix typo in MP litmus test
-Message-ID: <8ac841a3-b0d5-de98-6956-9914cfbe28e9@gmail.com>
-Date: Fri, 28 Jul 2017 06:50:38 +0900
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40976 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751667AbdG1CVl (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 27
+ Jul 2017 22:21:41 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v6S2Is9d011545
+ for <perfbook@vger.kernel.org>; Thu, 27 Jul 2017 22:21:41 -0400
+Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2byu1sjwxv-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Thu,
+ 27 Jul 2017 22:21:41 -0400
+Received: from localhost by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 27 Jul
+ 2017 22:21:40 -0400
+Date: Thu, 27 Jul 2017 18:00:05 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH] advsync: Fix typo in MP litmus test
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <8ac841a3-b0d5-de98-6956-9914cfbe28e9@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8ac841a3-b0d5-de98-6956-9914cfbe28e9@gmail.com>
+Message-Id: <20170728010005.GV3730@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 467d89c42ab562e73f891830976ccc0c8726eeed Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 27 Jul 2017 21:51:56 +0900
-Subject: [PATCH] advsync: Fix typo in MP litmus test
+On Fri, Jul 28, 2017 at 06:50:38AM +0900, Akira Yokosawa wrote:
+> >From 467d89c42ab562e73f891830976ccc0c8726eeed Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Thu, 27 Jul 2017 21:51:56 +0900
+> Subject: [PATCH] advsync: Fix typo in MP litmus test
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- advsync/memorybarriers.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Good catch, queued and pushed, thank you!
 
-diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
-index 894de6d..6754ba5 100644
---- a/advsync/memorybarriers.tex
-+++ b/advsync/memorybarriers.tex
-@@ -609,8 +609,8 @@ loads and stores.
- 17   int r2;
- 18   int r3;
- 19
--20   r2 = READ_ONCE(*x0);
--21   r3 = READ_ONCE(*x1);
-+20   r2 = READ_ONCE(*x1);
-+21   r3 = READ_ONCE(*x0);
- 22
- 23 }
- 24
--- 
-2.7.4
+Not sure how I managed to mess this one up, but good job on spotting
+it and fixing it!
+
+							Thanx, Paul
+
+> ---
+>  advsync/memorybarriers.tex | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/advsync/memorybarriers.tex b/advsync/memorybarriers.tex
+> index 894de6d..6754ba5 100644
+> --- a/advsync/memorybarriers.tex
+> +++ b/advsync/memorybarriers.tex
+> @@ -609,8 +609,8 @@ loads and stores.
+>  17   int r2;
+>  18   int r3;
+>  19
+> -20   r2 = READ_ONCE(*x0);
+> -21   r3 = READ_ONCE(*x1);
+> +20   r2 = READ_ONCE(*x1);
+> +21   r3 = READ_ONCE(*x0);
+>  22
+>  23 }
+>  24
+> -- 
+> 2.7.4
+> 
 
