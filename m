@@ -1,71 +1,50 @@
-Return-Path: <akiyks@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mail-pf0-f194.google.com ([209.85.192.194]:35712 "EHLO
+ mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1750933AbdGaFuM (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 31
+ Jul 2017 01:50:12 -0400
+Received: by mail-pf0-f194.google.com with SMTP id q85so25180014pfq.2 for
+ <perfbook@vger.kernel.org>; Sun, 30 Jul 2017 22:50:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KGQC0Va1js2+i/2ZJEfoxbPVnDuGcSAc/JhIct6lgC8=;
- b=TzXGWSqQZY3omktCOsM3FG8qaDmuNWRl7s6+3rYSpFbvnR4wy9CCnfJMhh+m0b5uG2
- yQeRcrx5mBCx/uS+tJt9qyPv2q4xG1gGe21AOe0CTy4TJzt9dmUcsP58/TLC94gAV/cw
- FNm2gQL1J/R1OI0ZP0l+gd1a6E26ahuzq7lfkSuNG+f56hLizvrPw/iekJlH6grajBcm
- CtAP9ddMyl6WeVTIIFadnAah8O2prtUFCd3gGb2VA8kbxotZX+0QEUDgR7jeow+7JhSy
- P8roLLqU0Lci9dD1SVn4/kZX+5NZLmEyJ9nJi1S1hh6ZK+TrvZXVDmjHqRX8q1vlhuJY
- wgpg==
-Subject: [PATCH 10/10] styleguide: Tweak layout of 'Limitation' table
-References: <26a47dec-a9a0-87e6-88c8-b9ba82c477d5@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <32b16a54-7071-0bc0-87b5-3381bb39e080@gmail.com>
-Date: Fri, 28 Jul 2017 19:06:36 +0900
-MIME-Version: 1.0
-In-Reply-To: <26a47dec-a9a0-87e6-88c8-b9ba82c477d5@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+ s=20161025;        h=from:to:cc:subject:date:message-id;
+ bh=w4erMm2Jp8h/az0CAS9XGz7iRpsWhvS2h7+4V41PCzM=;
+ b=HfJu4arSxozkfzlYtIMwTGN2vtICVqXRxXpYKjQfAFfnd5hA2vXkG5ZJxiZ8QC4t68
+ nAf2vzekPvjnbLadXY0rrUanArPktdCWtplSpkmdnuKdoS0glAGyo/D2km7jXEE8O2Xi
+ aVndifRkWxbi7IjlAgOcK0psI1oRBHZSqVZS0vFQ8jQ46ovm9cxi7Ln9oYAza8IRYQfK
+ RUel/yHJv+Z2oUrnQsetCIzq5RDBPp4Ls1MRFwnuWe85lWsa1W56DpBpB0e8z+ajbHon
+ zNNQjPDjU6tB57OWt9Uac8CeNJayCM0+5Tm65VQn29CUnnoSVZG16V2CDn9I0KCewIYk
+ l1AA==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH] howto: Add unbreakable space for volume number
+Date: Mon, 31 Jul 2017 14:50:05 +0900
+Message-Id: <20170731055005.18716-1-sj38.park@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 
-From cdfca8b81a7d4ee194272359d1775c0c343e0fbe Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 28 Jul 2017 16:46:48 +0900
-Subject: [PATCH 10/10] styleguide: Tweak layout of 'Limitation' table
-
-Move caption to top, and use nice ruled lines of "booktabs".
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- appendix/styleguide/styleguide.tex | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ howto/howto.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
-index 17a74d7..3e5746b 100644
---- a/appendix/styleguide/styleguide.tex
-+++ b/appendix/styleguide/styleguide.tex
-@@ -389,15 +389,20 @@ Table~\ref{tab:app:styleguide:Limitation of Monospace Macro}
- lists such limitations.
-
- \begin{table}[tbh]
--\centering\footnotesize
--\begin{tabular}{lll}
-+  \renewcommand*{\arraystretch}{1.2}
-+  \begin{floatrow}[1]
-+    \ttabbox[\columnwidth]{
-+\footnotesize
-+\begin{tabular}{@{}lll@{}}\toprule
-   Macro &  Need Escape & Should Avoid \\
--  \hline
-+  \midrule
-   \co{\\co}, \co{\\nbco} & \co{\\}, \%, \{, \} & \\
-   \co{\\tco}  & \# & \%, \{, \}, \co{\\} \\
-+\bottomrule
- \end{tabular}
--\caption{Limitation of Monospace Macro}
--\label{tab:app:styleguide:Limitation of Monospace Macro}
-+}{\caption{Limitation of Monospace Macro}
-+    \label{tab:app:styleguide:Limitation of Monospace Macro}}
-+  \end{floatrow}
- \end{table}
-
- While \verb|\co{}| requires some characters to be escaped,
+diff --git a/howto/howto.tex b/howto/howto.tex
+index 323f95f..90abb14 100644
+--- a/howto/howto.tex
++++ b/howto/howto.tex
+@@ -276,10 +276,10 @@ Fortunately, there are many alternatives available to you:
+ 	on programming-language pragmatics.
+ \item	If you are interested in an object-oriented patternist
+ 	treatment of parallel programming focussing on C++,
+-	you might try Volumes~2 and 4 of Schmidt's POSA
++	you might try Volumes~2 and~4 of Schmidt's POSA
+ 	series~\cite{SchmidtStalRohnertBuschmann2000v2Textbook,
+ 	BuschmannHenneySchmidt2007v4Textbook}.
+-	Volume 4 in particular has some interesting chapters
++	Volume~4 in particular has some interesting chapters
+ 	applying this work to a warehouse application.
+ 	The realism of this example is attested to by
+ 	the section entitled ``Partitioning the Big Ball of Mud'',
 -- 
-2.7.4
-
+2.10.0
 
