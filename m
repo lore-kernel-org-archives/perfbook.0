@@ -1,27 +1,26 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pg0-f65.google.com ([74.125.83.65]:37681 "EHLO
- mail-pg0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751951AbdGaOwJ (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 31
- Jul 2017 10:52:09 -0400
-Received: by mail-pg0-f65.google.com with SMTP id k190so15382899pgk.4 for
- <perfbook@vger.kernel.org>; Mon, 31 Jul 2017 07:52:09 -0700 (PDT)
+Received: from mail-pf0-f194.google.com ([209.85.192.194]:35954 "EHLO
+ mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1750987AbdGaOxB (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 31
+ Jul 2017 10:53:01 -0400
+Received: by mail-pf0-f194.google.com with SMTP id t83so1750815pfj.3 for
+ <perfbook@vger.kernel.org>; Mon, 31 Jul 2017 07:53:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ay1yq+uoW4Cxx7UE0m0TwLevI0vhF01sw+HltMDi8n8=;
- b=hWAd1hJd88xaNxi6dMnkKbrm0wAVONo+Q71qJNNuBV1vT0xS9t/NKuEuRpUUsSyU7h
- 2l+g/UsMU/3K4pjS/J96KilNt9nCe1V8U2p2KUKU2bUoSXDaLstXQpZssZuEQ97pbr0I
- PzY9fhbVTNn9V0t/HfLiUnaV+87MWVGqGxDbN2QahjF77KNuVVkjYzX/V/L+EW3JPiAm
- ASAODG559Zu7wk2MFrm+0iC3HVa8fKlzWsAxeK5BU6jZOXDkl2ljV5YbWy8zYy4I396D
- 0uvmFxcnJOb3c0GLFB0RiwRNKflfp0ZTiL358udHjvVMKHg+yVctnCExYcN3HVuF7Ylr
- q8Yg==
-Subject: [PATCH v2 7/8] styleguide: Add example of preferred table layout
- using 'booktabs'
+ bh=pYP2bXKLyJnoeElVRUmWxdZR/sHnjgRMqkAsH65csss=;
+ b=IQwL0eLJjfgEKGoX2P663O/B15Gqt/pKuejQ5nelBxSFGlKQmnfHjcUte3a8Lr7Zs0
+ IKku2jObALE1y1Mi9oBre7r9ymacPWlNTrhGQHfjdnK/VfcPnNEs9L0aU/fkOt1Taaq2
+ LWFRerfch8QAMP+vdb0nGaApIRLpIJpQcUprGfeka5PtJ7K7Zk/S/0ZUqMYbctMBFgf+
+ EL06Slh7yDKpRjhQCCa7UuJwdOezh6yTbDP37MYBuBFS6nz9yi84vAicSJWmCEBbgs/k
+ 6mLJsG1gwUrAJh3x8lgmriDPK7epnZKCwjuq/5qHqSmQ8KSdrWEIkLh9B8w6wqrQqdkF
+ ppFA==
+Subject: [PATCH v2 8/8] styleguide: Tweak layout of 'Limitation' table
 References: <26a47dec-a9a0-87e6-88c8-b9ba82c477d5@gmail.com>
  <11d41e53-5367-1149-8064-8808696a2c33@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <8b44aa0e-d0ee-be67-28fd-0fb9b6aa79ca@gmail.com>
-Date: Mon, 31 Jul 2017 23:52:04 +0900
+Message-ID: <0be0e561-fb12-011b-14e4-13c6e76b8502@gmail.com>
+Date: Mon, 31 Jul 2017 23:52:58 +0900
 MIME-Version: 1.0
 In-Reply-To: <11d41e53-5367-1149-8064-8808696a2c33@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -32,75 +31,48 @@ List-ID: <perfbook.vger.kernel.org>
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 
-From 5845c0f3d977aa65f167bba16ceace693e47764a Mon Sep 17 00:00:00 2001
+From e35b5bc0c56f255caee91054f05a5dd7b824b5fa Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 21 Jul 2017 22:31:43 +0900
-Subject: [PATCH v2 7/8] styleguide: Add example of preferred table layout using 'booktabs'
+Date: Fri, 28 Jul 2017 16:46:48 +0900
+Subject: [PATCH v2 8/8] styleguide: Tweak layout of 'Limitation' table
+
+Move caption to top, and use nice ruled lines of "booktabs".
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/styleguide/styleguide.tex | 35 ++++++++++++++++++++++++++++++++++-
- perfbook.tex                       |  1 +
- 2 files changed, 35 insertions(+), 1 deletion(-)
+ appendix/styleguide/styleguide.tex | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
-index f84ade8..ac95364 100644
+index ac95364..6f5236f 100644
 --- a/appendix/styleguide/styleguide.tex
 +++ b/appendix/styleguide/styleguide.tex
-@@ -758,7 +758,40 @@ look ugly.\footnote{
- Vertical lines should be avoided and horizontal lines should be
- used sparingly, especially in tables of simple structure.
+@@ -389,15 +389,20 @@ Table~\ref{tab:app:styleguide:Limitation of Monospace Macro}
+ lists such limitations.
 
--% TODO: Add example
-+For example,
-+Table~\ref{tab:cpu:Performance of Synchronization Mechanisms on 4-CPU 1.8GHz AMD Opteron 844 System}
-+can be tweaked by the help of ``booktabs'' package as is shown in
-+Table~\ref{tab:app:styleguide:Performance of Synchronization Mechanisms of 4-CPU 1.8GHz AMD Opteron 844 System},
-+with the caption at the top.
-+
-+\begin{table}[htb]\RawFloats
-+\renewcommand*{\arraystretch}{1.2}
-+\begin{floatrow}[1]\ttabbox[]{
-+\small
-+\begin{tabular}{@{}lrr@{}}\toprule
-+				& 	 	& Ratio \\
-+	Operation		& Cost (ns) 	& (cost/clock) \\
-+	\midrule
-+	Clock period		&           0.6	&           1.0 \\
-+	Best-case CAS		&          37.9	&          63.2 \\
-+	Best-case lock		&          65.6	&         109.3 \\
-+	Single cache miss	&         139.5	&         232.5 \\
-+	CAS cache miss		&         306.0	&         510.0 \\
-+	Comms Fabric		&       5,000\textcolor{white}{.0}
-+						&       8,330\textcolor{white}{.0}
-+								\\
-+	Global Comms		& 195,000,000\textcolor{white}{.0}
-+						& 325,000,000\textcolor{white}{.0} \\
+ \begin{table}[tbh]
+-\centering\footnotesize
+-\begin{tabular}{lll}
++  \renewcommand*{\arraystretch}{1.2}
++  \begin{floatrow}[1]
++    \ttabbox[\columnwidth]{
++\footnotesize
++\begin{tabular}{@{}lll@{}}\toprule
+   Macro &  Need Escape & Should Avoid \\
+-  \hline
++  \midrule
+   \co{\\co}, \co{\\nbco} & \co{\\}, \%, \{, \} & \\
+   \co{\\tco}  & \# & \%, \{, \}, \co{\\} \\
 +\bottomrule
-+\end{tabular}}{
-+\caption{Performance of Synchronization Mechanisms of 4-CPU 1.8\,GHz AMD Opteron 844 System}
-+\label{tab:app:styleguide:Performance of Synchronization Mechanisms of 4-CPU 1.8GHz AMD Opteron 844 System}
-+}
-+\end{floatrow}
-+\end{table}
-+
-+Note that ruled lines of booktabs can not be mixed with
-+vertical lines in a table.
+ \end{tabular}
+-\caption{Limitation of Monospace Macro}
+-\label{tab:app:styleguide:Limitation of Monospace Macro}
++}{\caption{Limitation of Monospace Macro}
++    \label{tab:app:styleguide:Limitation of Monospace Macro}}
++  \end{floatrow}
+ \end{table}
 
- \subsubsection{Miscellaneous Candidates}
- \label{sec:app:styleguide:Miscellaneous Candidates}
-diff --git a/perfbook.tex b/perfbook.tex
-index 629ecea..16d30dd 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -82,6 +82,7 @@
-
- \usepackage{floatrowpf} % Use customized floatrow
- \DeclareNewFloatType{listing}{placement=htbp,name=Listing,within=chapter,fileext=lst}
-+\usepackage{booktabs} % For better looking tables
-
- \usepackage{bm} % for bold math mode fonts --- should be after math mode font choice
-
+ While \verb|\co{}| requires some characters to be escaped,
 -- 
 2.7.4
 
