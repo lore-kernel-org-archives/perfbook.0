@@ -1,50 +1,71 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pf0-f194.google.com ([209.85.192.194]:35712 "EHLO
- mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1750933AbdGaFuM (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 31
- Jul 2017 01:50:12 -0400
-Received: by mail-pf0-f194.google.com with SMTP id q85so25180014pfq.2 for
- <perfbook@vger.kernel.org>; Sun, 30 Jul 2017 22:50:12 -0700 (PDT)
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=from:to:cc:subject:date:message-id;
- bh=w4erMm2Jp8h/az0CAS9XGz7iRpsWhvS2h7+4V41PCzM=;
- b=HfJu4arSxozkfzlYtIMwTGN2vtICVqXRxXpYKjQfAFfnd5hA2vXkG5ZJxiZ8QC4t68
- nAf2vzekPvjnbLadXY0rrUanArPktdCWtplSpkmdnuKdoS0glAGyo/D2km7jXEE8O2Xi
- aVndifRkWxbi7IjlAgOcK0psI1oRBHZSqVZS0vFQ8jQ46ovm9cxi7Ln9oYAza8IRYQfK
- RUel/yHJv+Z2oUrnQsetCIzq5RDBPp4Ls1MRFwnuWe85lWsa1W56DpBpB0e8z+ajbHon
- zNNQjPDjU6tB57OWt9Uac8CeNJayCM0+5Tm65VQn29CUnnoSVZG16V2CDn9I0KCewIYk
- l1AA==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH] howto: Add unbreakable space for volume number
-Date: Mon, 31 Jul 2017 14:50:05 +0900
-Message-Id: <20170731055005.18716-1-sj38.park@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=m2dkhuO6G2udF/ODl70cZGmANBrQsQtyW35NGtxIxkk=;
+ b=oB2Zap8s031RcOr3aMd6sk0pvpKyTXPag5oQpzBu67ioWONFmDyU+VEwAenFukAJ6/
+ SbyRBmrfK+37shPiak4qtSFYJ3K+xu/wjuVu5eLV8vZYxrybu8TmRk2NR7Z9mbjDKI6x
+ b+akuAdsw15GeQiaN5tuJThMEPS/FZTzjrD4Bt+Arr7SpqRKJhb+0k/S4/qo446IyoEq
+ 4JpRWAHCLWqaP9XVJ+cf5ZMrpJphpH/0liqrGUx/aI//JoO8AXimzSxhyqzFiYX7GCz2
+ UJ0fLXqK7+Sr6U4/JuaNjrpTBFdrYazwWXI2/HTGlFOlUJrcGNpdJS1dbFD16qpYhpOB
+ 59eg==
+Subject: Re: [PATCH v2 0/8] Add style guide
+References: <26a47dec-a9a0-87e6-88c8-b9ba82c477d5@gmail.com>
+ <11d41e53-5367-1149-8064-8808696a2c33@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <0d257106-5a41-536b-addb-96075babbefc@gmail.com>
+Date: Tue, 1 Aug 2017 00:24:48 +0900
+MIME-Version: 1.0
+In-Reply-To: <11d41e53-5367-1149-8064-8808696a2c33@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- howto/howto.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 2017/07/31 23:43, Akira Yokosawa wrote:
+>>From e35b5bc0c56f255caee91054f05a5dd7b824b5fa Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Mon, 31 Jul 2017 23:20:57 +0900
+> Subject: [PATCH v2 0/8] Add style guide
+> 
+> Hi Paul,
+> 
+> This is the respin I mentioned earlier.
+> Patch #2 has a few more changes from v1 to modify strings of package name.
+> Other than that, the end result should be the same as v1.
+> 
+> Note on the status of the floatrow package:
+> 
+> Current version v0.3b was revised 2009/08/02.
+> There has been no update since.
+> I'm not sure if upstreaming is possible.
 
-diff --git a/howto/howto.tex b/howto/howto.tex
-index 323f95f..90abb14 100644
---- a/howto/howto.tex
-+++ b/howto/howto.tex
-@@ -276,10 +276,10 @@ Fortunately, there are many alternatives available to you:
- 	on programming-language pragmatics.
- \item	If you are interested in an object-oriented patternist
- 	treatment of parallel programming focussing on C++,
--	you might try Volumes~2 and 4 of Schmidt's POSA
-+	you might try Volumes~2 and~4 of Schmidt's POSA
- 	series~\cite{SchmidtStalRohnertBuschmann2000v2Textbook,
- 	BuschmannHenneySchmidt2007v4Textbook}.
--	Volume 4 in particular has some interesting chapters
-+	Volume~4 in particular has some interesting chapters
- 	applying this work to a warehouse application.
- 	The realism of this example is attested to by
- 	the section entitled ``Partitioning the Big Ball of Mud'',
--- 
-2.10.0
+And I tried to send a message to the author's email address given in
+the documentation of the package. It resulted in "User unknown".
+
+> 
+>         Thanks, Akira
+> --
+> Akira Yokosawa (8):
+>   Localize floatrow.sty as floatrowpf.sty
+>   Apply workaround to floatrowpf.sty
+>   Define 'listing' environment for style guide
+>   styleguide: Add listing environment examples
+>   Disable 'floatrow' layout in manually aligned code snippets
+>   styleguide: Add example of grouping code snippets
+>   styleguide: Add example of preferred table layout using 'booktabs'
+>   styleguide: Tweak layout of 'Limitation' table
+> 
+>  appendix/styleguide/hello.c        |    9 +
+>  appendix/styleguide/styleguide.tex |  177 ++++-
+>  defer/rcuusage.tex                 |    6 +-
+>  floatrowpf.sty                     | 1482 ++++++++++++++++++++++++++++++++++++
+>  howto/howto.tex                    |    4 +-
+>  perfbook.tex                       |    4 +
+>  6 files changed, 1668 insertions(+), 14 deletions(-)
+>  create mode 100644 appendix/styleguide/hello.c
+>  create mode 100644 floatrowpf.sty
+> 
 
