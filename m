@@ -2,19 +2,20 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TLH81YiBzMqocTEKE1AtJYSyzafJdF0OwQHdWKKw7Ws=;
- b=ovL2/nhER89a6aNmu1goMD59VtOYO8bzy2e37z0eFf7ydU+o6nciUAwiWfsZbMNnc/
- QHEDDr9t9BNqCM/HIw1YJkDd2QY3TiCBtJtH3QKlEOFYqJTlexhaCvM6RzkkyHsdSmB/
- GdNZBBpF+I0e9Fg/gEri2YvINhYD8irT59kP38EsqGNhUP/XdTjPwhd12Ef5W8oxMv+5
- HE5WnVcmrKIfCppxpY+edA6RbiNGlBFToqQLaePBhfqGo2xvjjlkt/kI8glT5TIwCRrl
- LrpB/e3RiLmGzTM316T9dC1dyP5WcW4Oj0kmNHIxLlcE5+jKhfvREMczewjJ/fVK+CNz
- YyGQ==
-Subject: [PATCH v2 4/8] styleguide: Add listing environment examples
+ bh=Jk6eQ3EThaeMqNdE5YjvMHUZRWsx1PUmGg28qiwpe9g=;
+ b=XDrdtF9ScKS3V9VF/BibRGQA1uHD6vfsPDGe8GYnDFVdO/UWGbuOBXhTf0400HQurU
+ V83W2fqCFIDq1jo85izCBeefNOu/EuqfvfcICOtdRZPpemS/uz05bF3oVOjo9NEk86NG
+ bUeFtFS7YuOuo3X6XTyPRanWDWbCk5FyZ2WTV1SWbljep8mkh8A9OtCgiM/W8nY5gPX3
+ w1zqBkjZPFP6j/9sYEbAAisyJ5G5ZLjVDH0Ce98cgZGT3rqgwU7NXfFDp11hZNWUDfEI
+ E6JeDhP/cZFEgqRY2H5+9hkoacnle/dUWwLbms7gJ7h8CMoSnthxJfQBLw0fkwxs46bU
+ 2N4A==
+Subject: [PATCH v2 5/8] Disable 'floatrow' layout in manually aligned code
+ snippets
 References: <26a47dec-a9a0-87e6-88c8-b9ba82c477d5@gmail.com>
  <11d41e53-5367-1149-8064-8808696a2c33@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <17ee2f1d-b185-14bd-4857-253de2317be7@gmail.com>
-Date: Mon, 31 Jul 2017 23:49:06 +0900
+Message-ID: <03775301-1fba-5876-0fa4-d698e624180c@gmail.com>
+Date: Mon, 31 Jul 2017 23:50:22 +0900
 MIME-Version: 1.0
 In-Reply-To: <11d41e53-5367-1149-8064-8808696a2c33@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,110 +25,79 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 33da9b7a0ee4c525b7cd7079722d5a40d5079f37 Mon Sep 17 00:00:00 2001
+From b6806967d9ffbac1c992769e62e67c86134e2630 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 20 Jul 2017 23:50:12 +0900
-Subject: [PATCH v2 4/8] styleguide: Add listing environment examples
+Date: Fri, 21 Jul 2017 00:02:37 +0900
+Subject: [PATCH v2 5/8] Disable 'floatrow' layout in manually aligned code snippets
 
-Add three examples:
+floatrow's default horizontal margin setting is "centering".
+It conflicts with manually aligned code snippets in "figure*"
+environments.
 
-  1) Caption at the bottom
-  2) Caption at the top
-  3) "Ruled" style
+Disable the layout by \RawFloats macro for now.
 
-Example 2) and 3) change their looks by the floatrow's
-"\thisfloatsetup{}" macro.
+These listings should be grouped into combined floating objects,
+if we decide to employ the floatrow's feature.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/styleguide/hello.c        |  9 +++++++
- appendix/styleguide/styleguide.tex | 48 ++++++++++++++++++++++++++++++++++++--
- 2 files changed, 55 insertions(+), 2 deletions(-)
- create mode 100644 appendix/styleguide/hello.c
+ defer/rcuusage.tex | 6 +++---
+ howto/howto.tex    | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/appendix/styleguide/hello.c b/appendix/styleguide/hello.c
-new file mode 100644
-index 0000000..d35d93f
---- /dev/null
-+++ b/appendix/styleguide/hello.c
-@@ -0,0 +1,9 @@
-+/*
-+ * Sample Code Snippet
-+ */
-+#include <stdio.h>
-+int main(void)
-+{
-+  printf("Hello world!\n");
-+  return 0;
-+}
-diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
-index 72b8ca0..b04b62b 100644
---- a/appendix/styleguide/styleguide.tex
-+++ b/appendix/styleguide/styleguide.tex
-@@ -589,8 +589,21 @@ This section lists up such candidates.
- Strictly speaking, code snippets are \emph{not} figures.
- They deserve their own floating environment.
- The ``floatrow'' package would be of help.
-+Figure~\ref{fig:app:styleguide:Sample Code Snippet}
-+can be typeset as in
-+Listing~\ref{lst:app:styleguide:Sample Code Snippet}
-+using an experimental environment ``listing''.
+diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
+index af4faff..f3174f3 100644
+--- a/defer/rcuusage.tex
++++ b/defer/rcuusage.tex
+@@ -603,7 +603,7 @@ and
+ all taken from
+ Wikipedia~\cite{WikipediaRCU}.
 
--% TODO: Add example
-+\begin{listing}
-+{ \scriptsize
-+\verbfilebox[{\makebox[5ex][r]{\arabic{VerbboxLineNo}\hspace{2ex}}}]
-+	{appendix/styleguide/hello.c}
-+}
-+\centering
-+\theverbbox
-+\caption{Sample Code Snippet}
-+\label{lst:app:styleguide:Sample Code Snippet}
-+\end{listing}
+-\begin{figure*}[htbp]
++\begin{figure*}[htbp]\RawFloats
+ { \scriptsize
+ \begin{verbbox}
+  1 struct el {                           1 struct el {
+@@ -623,7 +623,7 @@ Wikipedia~\cite{WikipediaRCU}.
+ \label{fig:defer:Converting Reader-Writer Locking to RCU: Data}
+ \end{figure*}
 
- \subsubsection{Position of Caption}
- \label{sec:app:styleguide:Position of Caption}
-@@ -604,8 +617,39 @@ The same can be said of code snippets, which are read from
- top to bottom.
- The floatrow package mentioned above also has the capability
- to adjust layout of caption.
-+For example,
-+Listing~\ref{lst:app:styleguide:Sample Code Snippet (Top)}
-+has the option \qco{cappostion=top} in its preamble.
+-\begin{figure*}[htbp]
++\begin{figure*}[htbp]\RawFloats
+ { \scriptsize
+ \begin{verbbox}
+  1 int search(long key, int *result)     1 int search(long key, int *result)
+@@ -649,7 +649,7 @@ Wikipedia~\cite{WikipediaRCU}.
+ \label{fig:defer:Converting Reader-Writer Locking to RCU: Search}
+ \end{figure*}
 
--% TODO: Add example
-+\begin{listing}\RawFloats
-+{ \scriptsize
-+\verbfilebox[{\makebox[5ex][r]{\arabic{VerbboxLineNo}\hspace{2ex}}}]
-+	{appendix/styleguide/hello.c}
-+}
-+\begin{floatrow}[1]\thisfloatsetup{capposition=top}
-+  \floatbox{listing}[2.5in]{\caption{Sample Code Snippet (Top)}
-+    \label{lst:app:styleguide:Sample Code Snippet (Top)}}{
-+\theverbbox
-+}
-+\end{floatrow}
-+\end{listing}
-+
-+For code snippets, the ``ruled'' style would look even better.
-+Listing~\ref{lst:app:styleguide:Sample Code Snippet (Ruled)}
-+is an example using the option \qco{style=ruled}.
-+
-+\begin{listing}\RawFloats
-+{ \scriptsize
-+\verbfilebox[{\makebox[5ex][r]{\arabic{VerbboxLineNo}\hspace{2ex}}}]
-+	{appendix/styleguide/hello.c}
-+}
-+\begin{floatrow}[1]\thisfloatsetup{style=ruled}
-+  \floatbox{listing}[2.5in]{\caption{Sample Code Snippet (Ruled)}
-+    \label{lst:app:styleguide:Sample Code Snippet (Ruled)}}{
-+\theverbbox
-+}
-+\end{floatrow}
-+\end{listing}
+-\begin{figure*}[htbp]
++\begin{figure*}[htbp]\RawFloats
+ { \scriptsize
+ \begin{verbbox}
+  1 int delete(long key)                  1 int delete(long key)
+diff --git a/howto/howto.tex b/howto/howto.tex
+index 323f95f..af88c46 100644
+--- a/howto/howto.tex
++++ b/howto/howto.tex
+@@ -361,7 +361,7 @@ Other types of systems have well-known ways of locating files by filename.
+ \section{Whose Book Is This?}
+ \label{sec:howto:Whose Book Is This?}
 
- Once the conversion of code sippets to a new environment has
- completed, we would be able to choose one of the style options
+-\begin{figure*}[tbp]
++\begin{figure*}[tbp]\RawFloats
+ {
+ \scriptsize
+ \begin{verbbox}
+@@ -379,7 +379,7 @@ Other types of systems have well-known ways of locating files by filename.
+ \label{fig:howto:Creating a Up-To-Date PDF}
+ \end{figure*}
+
+-\begin{figure*}[tbp]
++\begin{figure*}[tbp]\RawFloats
+ {
+ \scriptsize
+ \begin{verbbox}
 -- 
 2.7.4
 
