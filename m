@@ -1,120 +1,80 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51846 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751262AbdHEPu2 (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Sat, 5 Aug 2017 11:50:28 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v75Fmvrh119410
- for <perfbook@vger.kernel.org>; Sat, 5 Aug 2017 11:50:27 -0400
-Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 2c5a773uvh-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sat,
- 05 Aug 2017 11:50:27 -0400
-Received: from localhost by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 5 Aug 2017
- 11:50:26 -0400
-Date: Sat, 5 Aug 2017 08:50:24 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/3] Employ auto-numbering in litmus tests
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <11d41e53-5367-1149-8064-8808696a2c33@gmail.com>
- <20170801204047.GH3730@linux.vnet.ibm.com>
- <068877e2-655b-0d6f-6dab-84d11467d0e5@gmail.com>
- <20170802162910.GY3730@linux.vnet.ibm.com>
- <0a7b7a93-c60c-436f-77a7-e2b27de86a40@gmail.com>
- <20170802224820.GH3730@linux.vnet.ibm.com>
- <672edb74-85b9-1086-44ee-dba21a0589c9@gmail.com>
- <94dbb98d-370a-8311-b467-9670f3968393@gmail.com>
- <20170805150913.GJ3730@linux.vnet.ibm.com>
- <a69ac710-6be5-0969-c092-8008a6dd764d@gmail.com>
+Return-Path: <ablacktshirt@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc;        bh=tiMo08K8zkf/TS7ULtfkXaMDoIITY5nGMW5MzjqrBeg=;
+ b=tBqplXmxfuJz3gqZg1aRB9P2D+HfJEGDzL7d+9OQyf1JpCcv8QTKC/t9QhQF95Ua5m
+ CNJXyvzlfMJqYVpcNpZhr7vG8/2zS68IVmfGP1icaPcTJc8d/1aDXCuqGrDC4XMUjxGG
+ sT0WrMM5IDEjjcX9Bh2KaQajiHhVh7Orj7rV7B+F8miQ0QCC6cUHsm8rE2dwaD3zX8rp
+ eGPy74pLYCSuNoqREIEHlUPDTfWJuCu1LjUFQwueS7K54O4ileO2Y1iJmhBOgO9GA0i2
+ rGz1pei/6WzYDrrFWkKKMGi6rEhKpYu1W4z8iwa0p+LVnM+HTGK2RraLdbZDZNQxa30t
+ iN8A==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a69ac710-6be5-0969-c092-8008a6dd764d@gmail.com>
-Message-Id: <20170805155024.GL3730@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20170804195049.GF3730@linux.vnet.ibm.com>
+References: 
+ <CAJYFCiNqJzKk747hHNLVUxKNBMveS5bO1B--BKrm05Xb-1Ncpw@mail.gmail.com>
+ <CAJYFCiOE9MBj+t_biHVvzso6XZWvuYGH-xhxF3TKyKQVDqJRHw@mail.gmail.com>
+ <20170804195049.GF3730@linux.vnet.ibm.com>
+From: Yubin Ruan <ablacktshirt@gmail.com>
+Date: Sat, 5 Aug 2017 09:02:26 +0800
+Message-ID: 
+ <CAJYFCiN4dfU8aUy3ogBig2M+AeqqtM32wWKgCXyu7GdpnsnOmQ@mail.gmail.com>
+Subject: Re: synchronization between two process without lock
+Content-Type: text/plain; charset="UTF-8"
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Sun, Aug 06, 2017 at 12:35:36AM +0900, Akira Yokosawa wrote:
-> On 2017/08/06 0:09, Paul E. McKenney wrote:
-> > On Sat, Aug 05, 2017 at 12:41:30PM +0900, Akira Yokosawa wrote:
-> >> >From ba0af5ad755ab4e175b07abb71890077e4d54a20 Mon Sep 17 00:00:00 2001
-> >> From: Akira Yokosawa <akiyks@gmail.com>
-> >> Date: Sat, 5 Aug 2017 12:29:10 +0900
-> >> Subject: [PATCH 0/3] Employ auto-numbering in litmus tests
-> >>
-> >> Hi Paul,
-> >>
-> >> As I mentioned earlier, we need to revert commits related to floatrow.
-> >> Patch #1 does the revert.
-> >> Patch #2 converts litmus tests in Memory Barriers section to use
-> >> auto-numbering.
-> >> Patch #3 updates style guide to reflect the removal of floatrow and
-> >> a typo fix. 
-> >>
-> >> I'm considering "subfig" package as an alternative to floatrow.
-> >> It predates floatrow and has less capability.
-> >> I'll see if it works in two-column layout, and update the style guide
-> >> if it goes well.
-> > 
-> > Life is like that sometimes.  ;-)
-> > 
-> > Applied, thank you!  I did a couple of updates on 3/3 for "nor" and
-> > for subject-verb agreement.
-> 
-> Thanks!
-> It is hard for me to choose "and" or "nor" in negative sentences...
-> So, "such as x, y, and z" is right in the negative sentence. Hmm.
+2017-08-05 3:50 GMT+08:00 Paul E. McKenney <paulmck@linux.vnet.ibm.com>:
+> On Fri, Aug 04, 2017 at 11:57:28PM +0800, Yubin Ruan wrote:
+>> 2017-08-04 22:52 GMT+08:00 Yubin Ruan <ablacktshirt@gmail.com>:
+>> > Hi,
+>> > I am sure the subject explain my intention. I got two processes trying
+>> > to modifying the same place. I want them to do it one after one, or,
+>> > if their operations interleave, I would like to let them know that the
+>> > content have been changed and polluted by the other so that the
+>> > content should be given up. That is, I would rather give up the data,
+>> > if polluted, than having a false one.
+>> >
+>> > I try to set a atomic ref counter, but it seems impossible to do that
+>> > without a lock to synchronize.
+>> >
+>> > Note that I don't want a strict synchronization: the situation is a
+>> > lot better. The data can be given up if that place has been polluted.
+>>
+>> Let's explain some of my reasoning: if process A use some flag to
+>> indicate that it has entered the critical region, then if it crash
+>> before it can reset the flag, all following processes cannot enter
+>> that region. But if process A cannot use flag for indication, how to
+>> other people know (how to synchronization)?
+>
+> The simplest approach is to guard the data with a lock.
 
-Well, what is there is OK.  In more ambiguous cases, one approach is
-to parenthesize the list, or to reverse the order: "these options,
-which include x, y, and z, do not have capability c."
+Indeed. But if a process get killed then it will have no chance to release
+the lock...
 
-> Uh-oh, in the commit log, the line "Also fix a typo (and -> nor)." remains.
+By the way, do you know whether there are any chances that a thread get
+killed by another thread when doing some "small" things? I mean something
+like this:
 
-Good point, fixed.
+    lock();
+    some_mem_copying();
+    unlock();
 
-> > Do we want to "git rm" floatrowpf.sty?
-> 
-> I think it has been already removed by the reverting commit d03363ff3493,
-> hasn't it?
+Are there any chance that a thread get killed by another thread before it
+can "unlock()", without the entire process going down?
 
-My confusion, ran "git diff" backwards, apologies!
+> But if you don't want to do that, another approach is to restrict the
+> data to one machine word minus one bit, with zero saying that the location
+> is (as you say) unpolluted.  Then you can use a compare-and-swap loop
+> to update the location only if it is unpolluted.
+>
+> But maybe you need more data.  If so, you can have the data separately
+> (perhaps dynamically allocated, perhaps not, your choice), and then use
+> the compare-and-swap method above where NULL says unpolluted.
 
-							Thanx, Paul
+Good suggestion... although I think it would be pretty painful.
 
->     Thanks, Akira
-> 
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> >>       Thanks, Akira 
-> >>
-> >> Akira Yokosawa (3):
-> >>   Revert commits after "Localize floatrow.sty as floatrowpf.sty"
-> >>   advsync: Employ auto-numbering in litmus tests
-> >>   styleguide: Remove references to 'floatrow' and adjust context
-> >>
-> >>  advsync/memorybarriers.tex         |  502 ++++++------
-> >>  appendix/styleguide/hello.c        |    9 -
-> >>  appendix/styleguide/styleguide.tex |  205 +----
-> >>  defer/rcuusage.tex                 |    6 +-
-> >>  floatrowpf.sty                     | 1482 ------------------------------------
-> >>  howto/howto.tex                    |    4 +-
-> >>  perfbook.tex                       |    4 +-
-> >>  7 files changed, 280 insertions(+), 1932 deletions(-)
-> >>  delete mode 100644 appendix/styleguide/hello.c
-> >>  delete mode 100644 floatrowpf.sty
-> >>
-> >> -- 
-> >> 2.7.4
-> >>
-> >>
-> > 
-> > 
-> 
+Thanks,
+Yubin
 
