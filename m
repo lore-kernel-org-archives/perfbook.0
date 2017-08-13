@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=g0h7n7zc6KB78s5Q1RueUborSwFubhyJTZ0iPkabvS0=;
- b=myCF2dhU4z1fY1ulrMoCKscfvAGbxt1i0evisD52T2Sf/zX26kxjMPoxOwHJ+MEMIA
- MSVoUtSObUk1oSXyQfHk3dr9ilE/u1wIyC9QN5CaBwoK0NHRoGb6BnIa1t7IV396HQGp
- 4+bN/laVPnTfkx9W+lXiozhevznObcBYGCPtDncMcWjxeAkb3bIzs/My8LEnICD71r21
- uAIxBItj/uqWY2apUXs0cx6OiFMzZsBClnNY16BJubCcjLR3O7P+UVDCbeVRj2iAI2nr
- YPaeqCQPQ+06aiKFJpY47NtR5+YyZQFFMnEpBlW9n8aRS2ddU1xUcsX/H/QDhRByPG1U
- /iOA==
-Subject: [PATCH 4/5] styleguide: Add example of options to \num{} command
+ bh=/USgztVYMVtDIYAZOS+DruYUKV4a0vKHWS+/jhuYcPE=;
+ b=g19hRD+PtgJbYr7fkX81u9HrsDkAV9HIVHaFQumRfWwo5g3D82UorW9fm10mRK92rO
+ 0POLF8b5HMs56Z79+16Znr2XL0YSVxhqmg8R9FsOAOTm1TPhnFyrh+S8ULQWshrDRqcx
+ 38h8UAEv1txxHQJMQTq06Tk0oDqqWW+/QA0FlsT78IOlBW/mdfZmKGNYSt7NR7eNIGMj
+ 1caNeGX0Kl1Pwx6mwdmxNfBRo9F/klHOimREty2/Xm9qoqe1f8KidJ87f47iQRIUlNYi
+ 5CDqzUXkUbQOe77fOM9CExpKXEguxkJCbzn4gGdoPdWB+Feq8yBdHmGHpa8e1l7OHho5
+ 45Aw==
+Subject: [PATCH 5/5] styleguide: Emphasize source part of epigraph
 References: <cc6fbe48-4598-922c-295b-a5d70a7d859d@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <26ad89e6-0704-5cc4-4f53-8c00c76d37e4@gmail.com>
-Date: Sun, 13 Aug 2017 12:32:27 +0900
+Message-ID: <de317839-7032-14b1-c81b-9f84aa8d16fe@gmail.com>
+Date: Sun, 13 Aug 2017 12:33:09 +0900
 MIME-Version: 1.0
 In-Reply-To: <cc6fbe48-4598-922c-295b-a5d70a7d859d@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,93 +23,29 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 5a9c793796655ca1be1505d544604cd059fd4a48 Mon Sep 17 00:00:00 2001
+From 24d4de52c8186c1ec1787e76d13e22646d804a53 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 12 Aug 2017 18:30:34 +0900
-Subject: [PATCH 4/5] styleguide: Add example of options to \num{} command
+Date: Sat, 12 Aug 2017 19:58:22 +0900
+Subject: [PATCH 5/5] styleguide: Emphasize source part of epigraph
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/styleguide/styleguide.tex | 46 ++++++++++++++++++++++++++++++++++++--
- perfbook.tex                       |  1 +
- 2 files changed, 45 insertions(+), 2 deletions(-)
+ appendix/styleguide/styleguide.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
-index c90bbe7..0ab9e68 100644
+index 0ab9e68..47251a1 100644
 --- a/appendix/styleguide/styleguide.tex
 +++ b/appendix/styleguide/styleguide.tex
-@@ -242,8 +242,8 @@ in math mode by default.\footnote{
-   See \url{https://tex.stackexchange.com/questions/119248/}
-   for the historical reason.}
+@@ -4,7 +4,7 @@
+ \chapter{Style Guide}
+ \label{chp:app:styleguide:Style Guide}
+ %
+-\Epigraph{De gustibus non est disputandum.}{Latin maxim}
++\Epigraph{De gustibus non est disputandum.}{\emph{Latin maxim}}
 
--\subsubsection{Digit Spacing}
--\label{sec:app:styleguide:Digit Spacing}
-+\subsubsection{Digit Grouping}
-+\label{sec:app:styleguide:Digit Grouping}
-
- Quote from NIST check list:\footnote{
-   \#16 in \url{http://physics.nist.gov/cuu/Units/checklist.html}.
-@@ -266,6 +266,48 @@ Quote from NIST check list:\footnote{
- In \LaTeX\ coding, it is cumbersome to place thin spaces as are recommended
- in NIST guide. The \verb|\num{}| command provided by the ``siunitx''
- package would be of help for us to follow this rule.
-+It would also help us overcome different conventions.
-+We can select a specific digit-grouping style as
-+a default in preamble, or specify an option to each \verb|\num{}|
-+command as is shown in
-+Table~\ref{tab:app:styleguide:Digit-Grouping Style}.
-+
-+\newcommand{\NumDigitGrpA}{12 345}
-+\newcommand{\NumDigitGrpB}{12.345}
-+\newcommand{\NumDigitGrp}{1 234 567.89}
-+\begin{table}[htbp]
-+\small\centering
-+\begin{tabular}{lrrr}\toprule
-+  Style & \multicolumn{3}{c}{Outputs of \co{\\num\{\}}} \\
-+  \midrule
-+  NIST/SI (English) & \num{\NumDigitGrpA} & \num{\NumDigitGrpB} & \num{\NumDigitGrp} \\
-+  SI (French) & \num[locale=FR]{\NumDigitGrpA} &
-+    \num[locale=FR]{\NumDigitGrpB} & \num[locale=FR]{\NumDigitGrp} \\
-+  English & \num[group-separator={,},group-digits=integer]{\NumDigitGrpA} &
-+    \num[group-separator={,},group-digits=integer]{\NumDigitGrpB} &
-+      \num[group-separator={,},group-digits=integer]{\NumDigitGrp} \\
-+  French & \num[locale=FR]{\NumDigitGrpA} &
-+    \num[locale=FR]{\NumDigitGrpB} & \num[locale=FR]{\NumDigitGrp} \\
-+  Other Europe & \num[group-separator={.},output-decimal-marker={,},group-digits=integer]{\NumDigitGrpA} &
-+    \num[group-separator={.},output-decimal-marker={,},group-digits=integer]{\NumDigitGrpB} &
-+      \num[group-separator={.},output-decimal-marker={,},group-digits=integer]{\NumDigitGrp} \\
-+\bottomrule
-+\end{tabular}
-+\caption{Digit-Grouping Style}
-+\label{tab:app:styleguide:Digit-Grouping Style}
-+\end{table}
-+
-+As are evident in
-+Table~\ref{tab:app:styleguide:Digit-Grouping Style},
-+periods and commas used as other than decimal markers are confusing
-+and should be avoided, especially in documents expecting global
-+audiences.
-+
-+By marking up constant decimal values by \verb|\num{}| commands,
-+the \LaTeX\ source would be exempted from any particular conventions.
-+
-+Because of its open-source policy, this approach should give
-+more ``portability'' to perfbook.
-
- \section{\LaTeX\ Conventions}
- \label{sec:app:styleguide:LaTeX Conventions}
-diff --git a/perfbook.tex b/perfbook.tex
-index f8421ca..9f1644d 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -53,6 +53,7 @@
- \setlength{\epigraphwidth}{2.6in}
- \usepackage[xspace]{ellipsis}
- \usepackage{braket} % for \ket{} macro in QC section
-+\usepackage{siunitx} % for \num{} macro
-
- % custom packages
-
+ This appendix is a collection of style guides which is intended
+ as a reference to improve consistency in perfbook. It also contains
 -- 
 2.7.4
 
