@@ -1,82 +1,67 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52319 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1752154AbdHHX2E (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Tue, 8 Aug 2017 19:28:04 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v78NOAjW001214
- for <perfbook@vger.kernel.org>; Tue, 8 Aug 2017 19:28:03 -0400
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 2c7kkg904e-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
- 08 Aug 2017 19:28:03 -0400
-Received: from localhost by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 8 Aug 2017
- 19:28:03 -0400
-Date: Tue, 8 Aug 2017 16:27:59 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] Promote 'ruled' style as default of 'listing' environment
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <acc91026-d2fe-3cc8-7c6f-f43662b533b8@gmail.com>
- <20170808223314.GK3730@linux.vnet.ibm.com>
- <51e05fb2-c89d-0cd5-d69f-968b5f61e0b8@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=yN8Qau6wQwnWBCOVEKKNIf5DzuBp8qNYG+yzKK056bI=;
+ b=V60gdIhx3NU+UCDsDpJtqIQLwcIe9VWxFKwYQ1ByjHoDKQL1nvU2yYI3U2U3YJSQgy
+ Sw//j6avg4IcVv7oOTsj98xdRs5X94EEy+NRxhS7tI0NrSXG+NWvRjq2EM7MtwNgEPdW
+ aMZj8EoFvGQbB4XOKZ+YwV70DcPyCIOmo0y+XLocauysSxQXxYKvNU48tqA2l5xiuAtl
+ KR9u5P5gj9plREgPI+N52Zg+UFySzYnxmkvkAeZ0cZOUApbEHRYTJSGihmeoQsVTIRpZ
+ J3uE4xnqXfefPNwyHWv47U0GPj4oaM/WnR6kRnT3DJ/9/qenlw085Ut5T2JDGPJBm8ta
+ eiXQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/5] Style guide updates
+Message-ID: <cc6fbe48-4598-922c-295b-a5d70a7d859d@gmail.com>
+Date: Sun, 13 Aug 2017 12:27:52 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <51e05fb2-c89d-0cd5-d69f-968b5f61e0b8@gmail.com>
-Message-Id: <20170808232759.GP3730@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Aug 09, 2017 at 07:44:39AM +0900, Akira Yokosawa wrote:
-> >From 74a0c53cb677deafcb68b9a22efcffd08b724f74 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Wed, 9 Aug 2017 07:40:41 +0900
-> Subject: [PATCH] Promote 'ruled' style as default of 'listing' environment
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+From 24d4de52c8186c1ec1787e76d13e22646d804a53 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 13 Aug 2017 11:00:48 +0900
+Subject: [PATCH 0/5] Style guide updates
 
-Queued and pushed, thank you!
+Hi Paul,
 
-							Thanx, Paul
+The style guide needs some updates regarding recent changes in
+litmus tests in memory barriers section. (Patch #3)
+Also I recovered the tweaks in table layout. I added another
+option to color rows alternately. (Patch #1 and #2)
+Patch #4 is my attempt to convince you that using commas for
+digit grouping should be regarded as harmful in global POV.
+My suggestion is to use \num{} commands in LaTeX source and
+let a reader to pick a style of his/her choice.
 
-> ---
->  appendix/styleguide/styleguide.tex | 3 ---
->  perfbook.tex                       | 2 +-
->  2 files changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
-> index f869360..829a9c2 100644
-> --- a/appendix/styleguide/styleguide.tex
-> +++ b/appendix/styleguide/styleguide.tex
-> @@ -636,9 +636,6 @@ For code snippets, the ``ruled'' style would be our choice.
->  Listing~\ref{lst:app:styleguide:Sample Code Snippet (Ruled)}
->  is an example using the style.
-> 
-> -\floatstyle{ruled}
-> -\restylefloat{listing}
-> -
->  \begin{listing}
->  { \scriptsize
->  \begin{verbbox}[\LstLineNo]
-> diff --git a/perfbook.tex b/perfbook.tex
-> index f622708..8f166ec 100644
-> --- a/perfbook.tex
-> +++ b/perfbook.tex
-> @@ -18,7 +18,7 @@
->  \usepackage{etoolbox}
-> 
->  \usepackage{float}
-> -\floatstyle{plain}
-> +\floatstyle{ruled}
->  \newfloat{listing}{tbhp}{lst}[chapter]
->  \floatname{listing}{Listing}
->  \usepackage{lscape}
-> -- 
-> 2.7.4
-> 
-> 
+\num{} command can slow down pdflatex processing somewhat,
+but should be acceptable on modern platforms.
+
+Thoughts?
+
+        Thanks, Akira
+--
+Akira Yokosawa (5):
+  styleguide: Add examples of alternative table layout
+  styleguide: Tweak layout of 'Limitation' table
+  styleguide: Update LaTeX source of code snippet
+  styleguide: Add example of options to \num{} command
+  styleguide: Emphasize source part of epigraph
+
+ appendix/styleguide/samplecodesnippet.tex    |  19 --
+ appendix/styleguide/samplecodesnippetfig.tex |  19 ++
+ appendix/styleguide/samplecodesnippetlst.tex |  19 ++
+ appendix/styleguide/styleguide.tex           | 375 ++++++++++++++++++---------
+ perfbook.tex                                 |   5 +-
+ 5 files changed, 301 insertions(+), 136 deletions(-)
+ delete mode 100644 appendix/styleguide/samplecodesnippet.tex
+ create mode 100644 appendix/styleguide/samplecodesnippetfig.tex
+ create mode 100644 appendix/styleguide/samplecodesnippetlst.tex
+
+-- 
+2.7.4
 
