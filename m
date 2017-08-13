@@ -1,52 +1,85 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/USgztVYMVtDIYAZOS+DruYUKV4a0vKHWS+/jhuYcPE=;
- b=g19hRD+PtgJbYr7fkX81u9HrsDkAV9HIVHaFQumRfWwo5g3D82UorW9fm10mRK92rO
- 0POLF8b5HMs56Z79+16Znr2XL0YSVxhqmg8R9FsOAOTm1TPhnFyrh+S8ULQWshrDRqcx
- 38h8UAEv1txxHQJMQTq06Tk0oDqqWW+/QA0FlsT78IOlBW/mdfZmKGNYSt7NR7eNIGMj
- 1caNeGX0Kl1Pwx6mwdmxNfBRo9F/klHOimREty2/Xm9qoqe1f8KidJ87f47iQRIUlNYi
- 5CDqzUXkUbQOe77fOM9CExpKXEguxkJCbzn4gGdoPdWB+Feq8yBdHmGHpa8e1l7OHho5
- 45Aw==
-Subject: [PATCH 5/5] styleguide: Emphasize source part of epigraph
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40214 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751053AbdHMR00 (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 13
+ Aug 2017 13:26:26 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v7DHO15m009222
+ for <perfbook@vger.kernel.org>; Sun, 13 Aug 2017 13:26:25 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2ca0ek1976-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
+ 13 Aug 2017 13:26:25 -0400
+Received: from localhost by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 13 Aug
+ 2017 13:26:24 -0400
+Date: Sun, 13 Aug 2017 10:26:24 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/5] Style guide updates
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <cc6fbe48-4598-922c-295b-a5d70a7d859d@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <de317839-7032-14b1-c81b-9f84aa8d16fe@gmail.com>
-Date: Sun, 13 Aug 2017 12:33:09 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <cc6fbe48-4598-922c-295b-a5d70a7d859d@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20170813172624.GA7017@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 24d4de52c8186c1ec1787e76d13e22646d804a53 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 12 Aug 2017 19:58:22 +0900
-Subject: [PATCH 5/5] styleguide: Emphasize source part of epigraph
+On Sun, Aug 13, 2017 at 12:27:52PM +0900, Akira Yokosawa wrote:
+> >From 24d4de52c8186c1ec1787e76d13e22646d804a53 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Sun, 13 Aug 2017 11:00:48 +0900
+> Subject: [PATCH 0/5] Style guide updates
+> 
+> Hi Paul,
+> 
+> The style guide needs some updates regarding recent changes in
+> litmus tests in memory barriers section. (Patch #3)
+> Also I recovered the tweaks in table layout. I added another
+> option to color rows alternately. (Patch #1 and #2)
+> Patch #4 is my attempt to convince you that using commas for
+> digit grouping should be regarded as harmful in global POV.
+> My suggestion is to use \num{} commands in LaTeX source and
+> let a reader to pick a style of his/her choice.
+> 
+> \num{} command can slow down pdflatex processing somewhat,
+> but should be acceptable on modern platforms.
+> 
+> Thoughts?
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- appendix/styleguide/styleguide.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied and pushed, thank you!
 
-diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
-index 0ab9e68..47251a1 100644
---- a/appendix/styleguide/styleguide.tex
-+++ b/appendix/styleguide/styleguide.tex
-@@ -4,7 +4,7 @@
- \chapter{Style Guide}
- \label{chp:app:styleguide:Style Guide}
- %
--\Epigraph{De gustibus non est disputandum.}{Latin maxim}
-+\Epigraph{De gustibus non est disputandum.}{\emph{Latin maxim}}
+Table D.3 looks fine, but it only has thee columns.  If it had more
+columns or was wider or variable-depth rows, it would be hard to read.
+Table D.4 looks good to me, but I (intentionally) have not yet looked
+at what you had to do in LaTeX to make it happen.  ;-)
 
- This appendix is a collection of style guides which is intended
- as a reference to improve consistency in perfbook. It also contains
--- 
-2.7.4
+							Thanx, Paul
 
+>         Thanks, Akira
+> --
+> Akira Yokosawa (5):
+>   styleguide: Add examples of alternative table layout
+>   styleguide: Tweak layout of 'Limitation' table
+>   styleguide: Update LaTeX source of code snippet
+>   styleguide: Add example of options to \num{} command
+>   styleguide: Emphasize source part of epigraph
+> 
+>  appendix/styleguide/samplecodesnippet.tex    |  19 --
+>  appendix/styleguide/samplecodesnippetfig.tex |  19 ++
+>  appendix/styleguide/samplecodesnippetlst.tex |  19 ++
+>  appendix/styleguide/styleguide.tex           | 375 ++++++++++++++++++---------
+>  perfbook.tex                                 |   5 +-
+>  5 files changed, 301 insertions(+), 136 deletions(-)
+>  delete mode 100644 appendix/styleguide/samplecodesnippet.tex
+>  create mode 100644 appendix/styleguide/samplecodesnippetfig.tex
+>  create mode 100644 appendix/styleguide/samplecodesnippetlst.tex
+> 
+> -- 
+> 2.7.4
+> 
 
