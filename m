@@ -1,85 +1,96 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40214 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751053AbdHMR00 (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 13
- Aug 2017 13:26:26 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v7DHO15m009222
- for <perfbook@vger.kernel.org>; Sun, 13 Aug 2017 13:26:25 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2ca0ek1976-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
- 13 Aug 2017 13:26:25 -0400
-Received: from localhost by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 13 Aug
- 2017 13:26:24 -0400
-Date: Sun, 13 Aug 2017 10:26:24 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=3A8h9oooNPCscl3OA7GZv3e0AHfyFcNzw+sD0Tg2Xtk=;
+ b=Fb9atqVxJv02qQ9yi/s/Qc9iojZv+XYZ6s6hwBvJVVJNk0QuqKgADdXsFS0Vr3juY2
+ dLjaOBRClVEWHVmvUtumfYASCpNbmEbDRWu/16ZLDyEtipaf4BmoGJALGXm6ivmpJWuA
+ VJx4DVRDZoKVlcVHB4xR1S395JsH55FAjE3eMLWWAex4ZTIj77pjQ5cpObFKbstXabnQ
+ R+I98NjpoE59zev739I0DZGwfXQswzlpbjQBW1RAWxPexHb2mbWNVdGabc4irvZ4XOZV
+ 4YyQVhIvZtVl9eOqHIiF7sE+2uSFQ3cB8NI+4YWeql9WKPUfHDx162ybkH4HzghYVs/i
+ jE0g==
 Subject: Re: [PATCH 0/5] Style guide updates
-Reply-To: paulmck@linux.vnet.ibm.com
 References: <cc6fbe48-4598-922c-295b-a5d70a7d859d@gmail.com>
+ <20170813172624.GA7017@linux.vnet.ibm.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <bcd15a7a-b8c6-b59a-1cc6-669ea41c5aba@gmail.com>
+Date: Mon, 14 Aug 2017 08:24:08 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cc6fbe48-4598-922c-295b-a5d70a7d859d@gmail.com>
-Message-Id: <20170813172624.GA7017@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <20170813172624.GA7017@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Aug 13, 2017 at 12:27:52PM +0900, Akira Yokosawa wrote:
-> >From 24d4de52c8186c1ec1787e76d13e22646d804a53 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sun, 13 Aug 2017 11:00:48 +0900
-> Subject: [PATCH 0/5] Style guide updates
+On 2017/08/13 10:26:24 -0700, Paul E. McKenney wrote:
+> On Sun, Aug 13, 2017 at 12:27:52PM +0900, Akira Yokosawa wrote:
+>> >From 24d4de52c8186c1ec1787e76d13e22646d804a53 Mon Sep 17 00:00:00 2001
+>> From: Akira Yokosawa <akiyks@gmail.com>
+>> Date: Sun, 13 Aug 2017 11:00:48 +0900
+>> Subject: [PATCH 0/5] Style guide updates
+>>
+>> Hi Paul,
+>>
+>> The style guide needs some updates regarding recent changes in
+>> litmus tests in memory barriers section. (Patch #3)
+>> Also I recovered the tweaks in table layout. I added another
+>> option to color rows alternately. (Patch #1 and #2)
+>> Patch #4 is my attempt to convince you that using commas for
+>> digit grouping should be regarded as harmful in global POV.
+>> My suggestion is to use \num{} commands in LaTeX source and
+>> let a reader to pick a style of his/her choice.
+>>
+>> \num{} command can slow down pdflatex processing somewhat,
+>> but should be acceptable on modern platforms.
+>>
+>> Thoughts?
 > 
-> Hi Paul,
+> Applied and pushed, thank you!
 > 
-> The style guide needs some updates regarding recent changes in
-> litmus tests in memory barriers section. (Patch #3)
-> Also I recovered the tweaks in table layout. I added another
-> option to color rows alternately. (Patch #1 and #2)
-> Patch #4 is my attempt to convince you that using commas for
-> digit grouping should be regarded as harmful in global POV.
-> My suggestion is to use \num{} commands in LaTeX source and
-> let a reader to pick a style of his/her choice.
-> 
-> \num{} command can slow down pdflatex processing somewhat,
-> but should be acceptable on modern platforms.
-> 
-> Thoughts?
+> Table D.3 looks fine, but it only has thee columns.  If it had more
+> columns or was wider or variable-depth rows, it would be hard to read.
 
-Applied and pushed, thank you!
+And I said in the guide, "especially in tables of simple structure."
+Large tables need case-by-case tuning, I suppose.
 
-Table D.3 looks fine, but it only has thee columns.  If it had more
-columns or was wider or variable-depth rows, it would be hard to read.
-Table D.4 looks good to me, but I (intentionally) have not yet looked
-at what you had to do in LaTeX to make it happen.  ;-)
+> Table D.4 looks good to me, but I (intentionally) have not yet looked
+> at what you had to do in LaTeX to make it happen.  ;-)
 
-							Thanx, Paul
+For the coloring, all I did was adding a command
+"\rowcolors{1}{}{lightgray}".
+The (not so) hard part was to make the header row to be actually
+one row. I used parbox for the moment.
+Please give a look when you have time.
 
->         Thanks, Akira
-> --
-> Akira Yokosawa (5):
->   styleguide: Add examples of alternative table layout
->   styleguide: Tweak layout of 'Limitation' table
->   styleguide: Update LaTeX source of code snippet
->   styleguide: Add example of options to \num{} command
->   styleguide: Emphasize source part of epigraph
+         Thanks, Akira
+
 > 
->  appendix/styleguide/samplecodesnippet.tex    |  19 --
->  appendix/styleguide/samplecodesnippetfig.tex |  19 ++
->  appendix/styleguide/samplecodesnippetlst.tex |  19 ++
->  appendix/styleguide/styleguide.tex           | 375 ++++++++++++++++++---------
->  perfbook.tex                                 |   5 +-
->  5 files changed, 301 insertions(+), 136 deletions(-)
->  delete mode 100644 appendix/styleguide/samplecodesnippet.tex
->  create mode 100644 appendix/styleguide/samplecodesnippetfig.tex
->  create mode 100644 appendix/styleguide/samplecodesnippetlst.tex
+> 							Thanx, Paul
 > 
-> -- 
-> 2.7.4
+>>         Thanks, Akira
+>> --
+>> Akira Yokosawa (5):
+>>   styleguide: Add examples of alternative table layout
+>>   styleguide: Tweak layout of 'Limitation' table
+>>   styleguide: Update LaTeX source of code snippet
+>>   styleguide: Add example of options to \num{} command
+>>   styleguide: Emphasize source part of epigraph
+>>
+>>  appendix/styleguide/samplecodesnippet.tex    |  19 --
+>>  appendix/styleguide/samplecodesnippetfig.tex |  19 ++
+>>  appendix/styleguide/samplecodesnippetlst.tex |  19 ++
+>>  appendix/styleguide/styleguide.tex           | 375 ++++++++++++++++++---------
+>>  perfbook.tex                                 |   5 +-
+>>  5 files changed, 301 insertions(+), 136 deletions(-)
+>>  delete mode 100644 appendix/styleguide/samplecodesnippet.tex
+>>  create mode 100644 appendix/styleguide/samplecodesnippetfig.tex
+>>  create mode 100644 appendix/styleguide/samplecodesnippetlst.tex
+>>
+>> -- 
+>> 2.7.4
+>>
+> 
 > 
 
