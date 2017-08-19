@@ -1,474 +1,184 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Z9tOG04keeeU1WHY1SFtW+1uCA7XbOlOZRXY9hHEFlg=;
- b=i4Av1zLh6w/L72osRt5jZR2gQHDVvYMFk87mKhrl8q5eukG7dz7LujYUz9otubTyGp
- 9xQTBKB7L2joqRpmhHJa3pZ2xld9gu3cWXaXgoldP0nhYe0i+5FVbrxoP6K9OYCSMysR
- wqoWFR3QLIXuKbkcf5EjaSuDMN7CdXSlP5zgIQqWT9MlJ9uieSY1FbnypNs6OOWG8t3X
- S8ut07SOF8spM5kWqUuReVdNL9Q5I0QK6t/MnI2SbBBCsNHShq9H+h7KxW3Gzu48QBLP
- cpfYbawH4WfQ4RWSgbkEOoRapTMHhZXyHdqK9XqKArh0P5J8HjnYm7aHMTHqQS/ZVwKg
- kYXA==
-Subject: [PATCH 4/4] styleguide: Add table examples with dashed lines
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57011 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1750847AbdHSA0N (ORCPT <rfc822;perfbook@vger.kernel.org>); Fri, 18
+ Aug 2017 20:26:13 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v7J0Q1pH120101
+ for <perfbook@vger.kernel.org>; Fri, 18 Aug 2017 20:26:13 -0400
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2ce2ukdmh6-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Fri,
+ 18 Aug 2017 20:26:12 -0400
+Received: from localhost by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Fri, 18 Aug
+ 2017 20:26:11 -0400
+Date: Fri, 18 Aug 2017 17:26:10 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/4] Style guide updates (round 2)
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <5db6cf8f-2061-5e14-07db-b64ebae2d2e4@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <c7144282-e993-e949-09f5-949926dd25ab@gmail.com>
-Date: Sat, 19 Aug 2017 08:45:16 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <5db6cf8f-2061-5e14-07db-b64ebae2d2e4@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20170819002610.GB11320@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From af290804fbb9868bb242c8ad6d889d46dfa9add1 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 18 Aug 2017 00:19:05 +0900
-Subject: [PATCH 4/4] styleguide: Add table examples with dashed lines
+On Sat, Aug 19, 2017 at 08:29:29AM +0900, Akira Yokosawa wrote:
+> >From af290804fbb9868bb242c8ad6d889d46dfa9add1 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Fri, 18 Aug 2017 23:53:45 +0900
+> Subject: [PATCH 0/4] Style guide updates (round 2)
+> 
+> Hi Paul,
+> 
+> Let me explain each patch in this set first.
+> 
+> Patch #1 is for compatibility to older LaTeX installation.
+> 
+> Patch #2 adds the tweaked tables described below.
+> 
+> Patch #3 converts "tabulary" tables to "tabularx". It involves manual
+> width adjustment, but the end result is not so different, with the
+> bonus of increased font size. This enables us to try dashed lines of
+> arydshln package.
+> 
+> Patch #4 adds examples using dashed lines. They look not so appealing
+> in the particular tables, but there might be cases they are useful.
+> On Ubuntu Trusty, an additional package "texlive-humanities" is necessary.
+> 
+> Regarding your message On 2017/08/14 08:32:46 -0700:
+> 
+> > Perhaps single-column tables with (say) three or fewer rows might
+> > look like D.3, and more complex ones like D.4?  Really complicated
+> > tables might need more \hlines, shaded cells, or some such.
+> 
+> There are few tables with three or fewer rows. So, most tables should
+> look like D.4 (in the previous round). It is now Table D.3
 
-These examples use dashed lines provided by "arydshln" package.
-On Ubuntu 14.04LTS, "arydshln" is contained in "texlive-humanities"
-package.
+I should have said "three or fewer columns", apologies for my confusion!
 
-On Ubuntu 16.04LTS, it is covered in "texlive-latex-extra".
+> Coloring of alternate rows could not be applied simply to Table 3.1
+> because of the \textcolor{} tweaks. I used siunitx's "S" column specifier
+> instead in Table D.4.
 
-Also update FAQ-BUILD.txt accordingly and tweak position of
-floating objects.
+But you did get the headers set up correctly despite their complexity,
+good show!  The latex source for the body of the table certainly looks
+good.  This table could probably be unruled as it only has three columns,
+but again, good demonstration of handling the headers.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- FAQ-BUILD.txt                      |   5 +-
- appendix/styleguide/styleguide.tex | 293 +++++++++++++++++++++++--------------
- perfbook.tex                       |   1 +
- 3 files changed, 189 insertions(+), 110 deletions(-)
+> >> For the coloring, all I did was adding a command
+> >> "\rowcolors{1}{}{lightgray}".
+> >> The (not so) hard part was to make the header row to be actually
+> >> one row. I used parbox for the moment.
+> >> Please give a look when you have time.
+> > 
+> > That does seem eminently reasonable for that table.
+> > 
+> > Tables 5.1 and 5.2 have more "interesting" headers, with the
+> > "Reads" spanning two columns, each of which has a subcolumn
+> > header.  One approach would be to apply the "Reads" to each
+> > subcolumn like you did for D.4.  But this approach looks to me
+> > to be less applicable to Table 13.1.  And Table C.1.
+> 
+> I touched Tables 13.1 and C.1 in this patch set.
+> They are Tables D.5 and D.7.
 
-diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index 6b618b4..2bd37f1 100644
---- a/FAQ-BUILD.txt
-+++ b/FAQ-BUILD.txt
-@@ -34,7 +34,7 @@
- 	find it?
+The gap in the midrule for D.5 does help with the separation in a
+nice subtle way.  Table D.7 also looks very good to me.  But I will
+need some education on the "\rowcolors{5}{}{lightgray}".  Would this
+need to change if the number of rows changed?
 
- 	A.	The "pdflatex" package is a variant of Don Knuth's
--		digital typesetting program.  On Ubuntu Trusty and Xenial,
-+		digital typesetting program.  On Ubuntu Xenial,
- 		installing the following set of packages suffices:
+> D.6 is another version of Table 13.1 with proper legends.
 
- 			texlive-latex-base texlive-latex-extra psutils
-@@ -43,6 +43,9 @@
- 			texlive-science texlive-bibtex-extra latex2html
- 			gnuplot-x11 xfig inkscape graphviz fig2ps
+I will have to think about the legend in this case.  Nice in general,
+but a surprising fraction of the total space used by the table.
+Would it make sense to allow more than 1.5 inches for the definition
+so that it took less vertical space?
 
-+		On Ubuntu Trusty, in addition to the above, you need:
-+			texlive-humanities
-+
- 		On Fedora 24, installing the following set of packages
- 		suffices:
- 			fig2ps graphviz texlive-epstopdf inkscape latex2html
-diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
-index 40dfa74..cfa3234 100644
---- a/appendix/styleguide/styleguide.tex
-+++ b/appendix/styleguide/styleguide.tex
-@@ -679,50 +679,7 @@ namely \qco{$-$}. For example,
- \subsection{Improvement Candidates}
- \label{sec:app:styleguide:Improvement Candidates}
+> I didn't touch Tables 5.1 nor 5.2 in this round, but they should be
+> easy.
+> 
+> > 
+> > Table 9.4 is a bit more challenging, and 10.1 is similar, though
+> > more suitable for your parbox trick.  Thoughts?
+> 
+> Table 9.4 is reworked as Table D.8. As you see, I removed the "Category"
+> column for coloring of rows to work.
 
--There are a few areas yet to be attempted in perfbook
--which would further improve its appearance.
--This section lists up such candidates.
--
--\subsubsection{Position of Caption}
--\label{sec:app:styleguide:Position of Caption}
--
--In \LaTeX\ conventions, captions of tables are usually placed
--above them. The reason is the flow of your eye movement
--when you look at them. Most tables have a row of heading at the
--top. You naturally look at the top of a table at first. Captions at
--the bottom of tables disturb this flow.
--The same can be said of code snippets, which are read from
--top to bottom.
--
--For code snippets, the ``ruled'' style chosen for listing
--environment places the caption at the top.
--See Listing~\ref{lst:app:styleguide:Sample Code Snippet}
--for an example.
--
--As for tables, the position of caption can be tweaked by
--\verb|\floatstyle{}| and \verb|\restylefloat{}| macros
--in preamble.
--
--Currently, as most code snippets are figures with their captions
--at the bottom, captions of tables at the top might look inconsistent.
--Once the transition of code snippets to listing environment
--completes, there would be fewer figures and the caption of tables
--at the top would hopefully be acceptable.
--
--Vertical space between captions at the top and the table bodies
--can be reduced by the help of ``ctable'' package.
--
--In the sample tables shown in
--Section~\ref{sec:app:styleguide:Ruled Line in Table},
--the vertical skip is manually reduced by setting a negative value to the
--\verb|\abovetopsep| variable which controls the behavior of
--\verb|\toprule| of the ``booktabs'' package.
--It should be regarded as a band-aid tweak.
--
--\subsubsection{Grouping Related Figures/Listings}
--\label{sec:app:styleguide:Grouping Related Figures/Listings}
--
--\begin{figure*}[tbhp]\centering
-+\begin{figure*}[tbh]\centering
- \begin{minipage}[t][][t]{2.1in}
- \resizebox{2.1in}{!}{\includegraphics{cartoons/1kHz}}
- \caption{Timer Wheel at 1\,kHz}
-@@ -736,54 +693,10 @@ It should be regarded as a band-aid tweak.
- \end{minipage}
- \end{figure*}
+Ah, and added them as headers on each group.  If you left them in their
+own column the coloring of the Category column looks strange?
 
--To prevent a pair of closely related figures or listings
--from being placed in different pages, it is desirable to group
--them into a single floating object.
--The ``subfig'' package provides the features to do so.\footnote{
--  One problem of grouping figures might be the complexity in
--  \LaTeX\ source.}
--
--Two floating objects can be placed side by side by using
--\co{\\parbox} or \co{minipage}.
--For example,
--Figures~\ref{fig:rt:Timer Wheel at 1kHz}
--and~\ref{fig:rt:Timer Wheel at 100kHz}
--can be grouped together by using a pair of \co{minipage}s
--as shown in
--Figures~\ref{fig:app:styleguide:Timer Wheel at 1kHz}
--and~\ref{fig:app:styleguide:Timer Wheel at 100kHz}.
--
--By using subfig package,
--Listings~\ref{lst:advsync:Message-Passing Litmus Test}
--and~\ref{lst:advsync:Enforcing Order of Message-Passing Litmus Test}
--can be grouped together as shown in
--Listing~\ref{lst:app:styleguide:Message-Passing Litmus Test (subfig)}
--with sub\-/captions (with a minor change of blank line).
--
--Note that they can not be grouped in the same way as
--Figures~\ref{fig:app:styleguide:Timer Wheel at 1kHz}
--and~\ref{fig:app:styleguide:Timer Wheel at 100kHz}
--because the ``ruled'' style prevents their captions
--from being properly typeset.
--
--The sub\-/caption can be cited by combining a \verb|\ref{}| macro
--and a \verb|\subref{}| macro, for example,
--``Listing~\ref{lst:app:styleguide:Message-Passing Litmus Test (subfig)}\,%
--\subref{sublst:app:styleguide:Not Enforcing Order}''.
--
--It can also be cited by a \verb|\ref{}| macro, for example,
--``Listing~\ref{sublst:app:styleguide:Enforcing Order}''.
--Note the difference in the resulting format. For the citing by
--a \verb|\ref{}| to work, you need to place the \verb|\label{}|
--macro of the combined floating object ahead of the definition of
--subfloats.
--Otherwise, the resulting caption number would be off by one
--from the actual number.
--
- \floatstyle{ruled}
- \restylefloat{listing}
+> Table 9.1 requires a different approach (not tried yet).
+> 
+> Table 10.1 can be regarded as a figure drawn by tabular environment
+> and is not suitable to booktabs' rules.
+> Tables 7.1 and C.5 don't look suitable to booktabs' rules either.
+> I'll keep them as is for the moment.
+> 
+> > 
+> > Table 14.1 might need to keep its hlines, but what are your thoughts?
+> > A clear separation between the number on the left and the columns
+> > corresponding to each CPU seems important.  Ditto 14.2.
+> 
+> Table 14.1 is reworked as Table D.9.
+> Gaps in the mid-rule can represent the separation done by vertical rules
+> in the original one. I don't think hlines are necessary here either.
+> Or using dashed hlines might be an option.
 
--\begin{listing*}%
-+\begin{listing*}[tbh]%
- \caption{Message-Passing Litmus Test (by subfig)}%
- \label{lst:app:styleguide:Message-Passing Litmus Test (subfig)}%
- {\scriptsize%
-@@ -857,6 +770,94 @@ exists (1:r2=2 /\ 1:r3=0)
- }\hspace*{\fill}%
- \end{listing*}
+No, D.9 looks quite good to me.  Much better than the lined original,
+in fact.
 
-+There are a few areas yet to be attempted in perfbook
-+which would further improve its appearance.
-+This section lists up such candidates.
-+
-+\subsubsection{Position of Caption}
-+\label{sec:app:styleguide:Position of Caption}
-+
-+In \LaTeX\ conventions, captions of tables are usually placed
-+above them. The reason is the flow of your eye movement
-+when you look at them. Most tables have a row of heading at the
-+top. You naturally look at the top of a table at first. Captions at
-+the bottom of tables disturb this flow.
-+The same can be said of code snippets, which are read from
-+top to bottom.
-+
-+For code snippets, the ``ruled'' style chosen for listing
-+environment places the caption at the top.
-+See Listing~\ref{lst:app:styleguide:Sample Code Snippet}
-+for an example.
-+
-+As for tables, the position of caption can be tweaked by
-+\verb|\floatstyle{}| and \verb|\restylefloat{}| macros
-+in preamble.
-+
-+Currently, as most code snippets are figures with their captions
-+at the bottom, captions of tables at the top might look inconsistent.
-+Once the transition of code snippets to listing environment
-+completes, there would be fewer figures and the caption of tables
-+at the top would hopefully be acceptable.
-+
-+Vertical space between captions at the top and the table bodies
-+can be reduced by the help of ``ctable'' package.
-+
-+In the sample tables shown in
-+Sections~\ref{sec:app:styleguide:Ruled Line in Table}
-+and~\ref{sec:app:styleguide:Table Layout Experiment},
-+the vertical skip is manually reduced by setting a negative value to the
-+\verb|\abovetopsep| variable which controls the behavior of
-+\verb|\toprule| of the ``booktabs'' package.
-+It should be regarded as a band-aid tweak.
-+
-+\subsubsection{Grouping Related Figures/Listings}
-+\label{sec:app:styleguide:Grouping Related Figures/Listings}
-+
-+To prevent a pair of closely related figures or listings
-+from being placed in different pages, it is desirable to group
-+them into a single floating object.
-+The ``subfig'' package provides the features to do so.\footnote{
-+  One problem of grouping figures might be the complexity in
-+  \LaTeX\ source.}
-+
-+Two floating objects can be placed side by side by using
-+\co{\\parbox} or \co{minipage}.
-+For example,
-+Figures~\ref{fig:rt:Timer Wheel at 1kHz}
-+and~\ref{fig:rt:Timer Wheel at 100kHz}
-+can be grouped together by using a pair of \co{minipage}s
-+as shown in
-+Figures~\ref{fig:app:styleguide:Timer Wheel at 1kHz}
-+and~\ref{fig:app:styleguide:Timer Wheel at 100kHz}.
-+
-+By using subfig package,
-+Listings~\ref{lst:advsync:Message-Passing Litmus Test}
-+and~\ref{lst:advsync:Enforcing Order of Message-Passing Litmus Test}
-+can be grouped together as shown in
-+Listing~\ref{lst:app:styleguide:Message-Passing Litmus Test (subfig)}
-+with sub\-/captions (with a minor change of blank line).
-+
-+Note that they can not be grouped in the same way as
-+Figures~\ref{fig:app:styleguide:Timer Wheel at 1kHz}
-+and~\ref{fig:app:styleguide:Timer Wheel at 100kHz}
-+because the ``ruled'' style prevents their captions
-+from being properly typeset.
-+
-+The sub\-/caption can be cited by combining a \verb|\ref{}| macro
-+and a \verb|\subref{}| macro, for example,
-+``Listing~\ref{lst:app:styleguide:Message-Passing Litmus Test (subfig)}\,%
-+\subref{sublst:app:styleguide:Not Enforcing Order}''.
-+
-+It can also be cited by a \verb|\ref{}| macro, for example,
-+``Listing~\ref{sublst:app:styleguide:Enforcing Order}''.
-+Note the difference in the resulting format. For the citing by
-+a \verb|\ref{}| to work, you need to place the \verb|\label{}|
-+macro of the combined floating object ahead of the definition of
-+subfloats.
-+Otherwise, the resulting caption number would be off by one
-+from the actual number.
-+
- \subsubsection{Ruled Line in Table}
- \label{sec:app:styleguide:Ruled Line in Table}
+> > Thoughts on Tables 17.1 and 17.2?  (The HTM comparison tables.)
+> 
+> I have not tried these large and complex tables yet.
+> The "tabu" package might improve them. I'm kind of scared by the fancy
+> looks of tabu document, though...  There can be other options.
+> Please give me a while.
 
-@@ -879,7 +880,7 @@ can be tweaked as shown in
- Table~\ref{tab:app:styleguide:Refrigeration Power Consumption}
- with the help of ``booktabs'' and ``xcolor'' packages.
+As far as I know, we are not under any schedule pressure on this
+item.  ;-)
 
--\begin{table}[htbp]
-+\begin{table}[tbhp]
- \rowcolors{1}{}{lightgray}
- \renewcommand*{\arraystretch}{1.2}\centering\small
- \begin{tabular}{lrrr}\toprule
-@@ -915,27 +916,18 @@ IBM~Q	& $0.015$
- Note that ruled lines of booktabs can not be mixed with
- vertical lines in a table.\footnote{
-   There is another package named ``arydshln'' which provides dashed lines
--  to be used in tables.
-+  to be used in tables. A couple of experimental examples are presented in
-+  Section~\ref{sec:app:styleguide:Table Layout Experiment}.
- }
+> > But most of the rest of the tables look like they would do just fine
+> > as either D.3 (for the single-column ones with three or fewer
+> > columns) or D.4 (for the rest).
+> > 
+> > But what are your impressions?
+> 
+> So the other simple tables can have the rows colored.
+> 
+> Let me know what you think of the added tables.
 
--\vfil
--\pagebreak % to permit wide tables to be printed
--
- \subsubsection{Table Layout Experiment}
- \label{sec:app:styleguide:Table Layout Experiment}
+I did have to find an arydshln.sty.  I ended up using this one:
 
- To see how far we can go without vertical rules in tables,
--several experiments using booktabs and xcolors are presented
--in this section.
-+several experiments using booktabs, xcolors, and arydshln packages
-+are presented in this section.
+http://ex.osaka-kyoiku.ac.jp/~fujii/dl/arydshln.sty
 
--Table~\ref{tab:cpu:Performance of Synchronization Mechanisms on 4-CPU 1.8GHz AMD Opteron 844 System}
--can be tweaked as is shown in
--Table~\ref{tab:app:styleguide:Performance of Synchronization Mechanisms of 4-CPU 1.8GHz AMD Opteron 844 System}.
--In this table, original tabular source contains tweaks with
--\verb|\textcolor{}| commands. They are removed by using ``S'' column
--specifiers provided by the ``siunitx'' package.
--
--\begin{table}[htb]
-+\begin{table}[tb]
- \rowcolors{1}{}{lightgray}
- \renewcommand*{\arraystretch}{1.1}
- \sisetup{group-minimum-digits=4,group-separator={,}}
-@@ -963,12 +955,19 @@ specifiers provided by the ``siunitx'' package.
- \label{tab:app:styleguide:Performance of Synchronization Mechanisms of 4-CPU 1.8GHz AMD Opteron 844 System}
- \end{table}
+Is that a reasonable choice, or is there a better one elsewhere?
 
-+Table~\ref{tab:cpu:Performance of Synchronization Mechanisms on 4-CPU 1.8GHz AMD Opteron 844 System}
-+can be tweaked as is shown in
-+Table~\ref{tab:app:styleguide:Performance of Synchronization Mechanisms of 4-CPU 1.8GHz AMD Opteron 844 System} using booktabs and xcolors.
-+In this table, original tabular source contains tweaks with
-+\verb|\textcolor{}| commands. They are removed by using ``S'' column
-+specifiers provided by the ``siunitx'' package.
-+
- Table~\ref{tab:app:styleguide:Reference Counting and Synchronization Mechanisms}
- is a tweaked version of
- Table~\ref{tab:together:Reference Counting and Synchronization Mechanisms},
- which has more complex header than the tables experimented so far.
+							Thanx, Paul
 
--\begin{table}[htbp]
-+\begin{table}[tb]
- \small
- \centering
- \renewcommand*{\arraystretch}{1.25}
-@@ -1005,7 +1004,7 @@ An example with proper legends is shown in
- Table~\ref{tab:app:styleguide:Reference Counting and Synchronization Mechanisms (Legends)}.
- Two types of memory barrier are denoted by subscripts here.
-
--\begin{table}[htbp]
-+\begin{table}[tb]
- \small
- \centering
- \renewcommand*{\arraystretch}{1.25}
-@@ -1047,7 +1046,7 @@ in a similar manner.
- It is not a ``table'' in the narrow sense, rather a sequence diagram.
- A ``figure'' environment might be a proper choice here.
-
--\begin{table*}[htb]
-+\begin{table*}[tbh]
- \small
- \centering
- \renewcommand*{\arraystretch}{1.2}
-@@ -1081,7 +1080,7 @@ Here, the ``Category'' column in the original is removed
- and the categories are indicated in rows of bold-face font
- just below the mid-rules.
-
--\begin{table*}[htb]
-+\begin{table*}[tbh]
- \rowcolors{2}{}{lightgray}
- \renewcommand*{\arraystretch}{1.1}
- \footnotesize
-@@ -1156,7 +1155,7 @@ can be tweaked as shown in
- Table~\ref{tab:app:styleguide:Memory Misordering: Store-Buffering Sequence of Events}.
- It is also a sequence diagram drawn as a tabular object.
-
--\begin{table*}[htb]
-+\begin{table*}[tbh]
- \rowcolors{6}{}{lightgray}
- \renewcommand*{\arraystretch}{1.1}
- \small
-@@ -1184,6 +1183,82 @@ It is also a sequence diagram drawn as a tabular object.
- \label{tab:app:styleguide:Memory Misordering: Store-Buffering Sequence of Events}
- \end{table*}
-
-+Table~\ref{tab:app:styleguide:Refrigeration Power Consumption (arydshln)}
-+shows another version of
-+Table~\ref{tab:future:Refrigeration Power Consumption}
-+with dashed horizontal and vertical rules of the arydshln package.
-+
-+\setlength\dashlinedash{.5pt}
-+\setlength\dashlinegap{1pt}
-+
-+\begin{table}[H]
-+\renewcommand*{\arraystretch}{1.2}\centering\small
-+\begin{tabular}{l:r:r:r}\toprule
-+Situation
-+	& $T$ (K)
-+		& $C_P$	& \parbox[b]{.75in}{\raggedleft Power per watt\par waste heat (W)} \\
-+\hline
-+Dry Ice
-+	& $195$
-+		& $1.990$
-+			& 0.5 \\ \hdashline
-+Liquid N$_2$
-+	& $77$
-+		& $0.356$
-+			& 2.8 \\ \hdashline
-+Liquid H$_2$
-+	& $20$
-+		& $0.073$
-+			& 13.7 \\ \hdashline
-+Liquid He
-+	& $4$
-+		& $0.0138$
-+			& 72.3 \\ \hdashline
-+IBM~Q	& $0.015$
-+		& $0.000051$
-+			& 19,500.0 \\
-+\bottomrule
-+\end{tabular}
-+\caption{Refrigeration Power Consumption}
-+\label{tab:app:styleguide:Refrigeration Power Consumption (arydshln)}
-+\end{table}
-+
-+In this case, the vertical dashed rules seems unnecessary.
-+The one without the vertical rules is shown in
-+Table~\ref{tab:app:styleguide:Refrigeration Power Consumption (arydshln-2)}.
-+
-+\begin{table}[H]
-+\renewcommand*{\arraystretch}{1.2}\centering\small
-+\begin{tabular}{lrrr}\toprule
-+Situation
-+	& $T$ (K)
-+		& $C_P$	& \parbox[b]{.75in}{\raggedleft Power per watt\par waste heat (W)} \\
-+\midrule
-+Dry Ice
-+	& $195$
-+		& $1.990$
-+			& 0.5 \\ \hdashline
-+Liquid N$_2$
-+	& $77$
-+		& $0.356$
-+			& 2.8 \\ \hdashline
-+Liquid H$_2$
-+	& $20$
-+		& $0.073$
-+			& 13.7 \\ \hdashline
-+Liquid He
-+	& $4$
-+		& $0.0138$
-+			& 72.3 \\ \hdashline
-+IBM~Q	& $0.015$
-+		& $0.000051$
-+			& 19,500.0 \\
-+\bottomrule
-+\end{tabular}
-+\caption{Refrigeration Power Consumption}
-+\label{tab:app:styleguide:Refrigeration Power Consumption (arydshln-2)}
-+\end{table}
-+
- \floatstyle{plain}
- \restylefloat{table}
- \captionsetup[table]{position=bottom,hangindent=0pt}
-diff --git a/perfbook.tex b/perfbook.tex
-index 3cfc4fd..17f38e8 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -92,6 +92,7 @@
-
- \usepackage{bm} % for bold math mode fonts --- should be after math mode font choice
- \usepackage{booktabs}
-+\usepackage{arydshln}
-
- \IfLmttForCode{
- \AtBeginEnvironment{verbatim}{\renewcommand{\ttdefault}{lmtt}}
--- 
-2.7.4
-
+>         Thanks, Akira
+> --
+> Akira Yokosawa (4):
+>   Use 'fixltx2e' package
+>   styleguide: Add more table experiments
+>   Get rid of 'tabulary' package
+>   styleguide: Add table examples with dashed lines
+> 
+>  FAQ-BUILD.txt                      |   5 +-
+>  SMPdesign/SMPdesign.tex            |   8 +-
+>  appendix/styleguide/styleguide.tex | 557 +++++++++++++++++++++++++++++--------
+>  defer/rcuapi.tex                   |  11 +-
+>  defer/whichtochoose.tex            |  10 +-
+>  perfbook.tex                       |   6 +-
+>  6 files changed, 462 insertions(+), 135 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
