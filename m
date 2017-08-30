@@ -1,67 +1,77 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52591 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1750737AbdHZQwS (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Sat, 26 Aug 2017 12:52:18 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v7QGmrKO023575
- for <perfbook@vger.kernel.org>; Sat, 26 Aug 2017 12:52:18 -0400
-Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 2ck352gr07-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sat,
- 26 Aug 2017 12:52:18 -0400
-Received: from localhost by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 26 Aug
- 2017 12:52:17 -0400
-Date: Sat, 26 Aug 2017 09:52:26 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] FAQ-BUILD.txt: Update Fedora requirements
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <20170826093314.17614-1-sj38.park@gmail.com>
+Received: from mail-pf0-f194.google.com ([209.85.192.194]:35148 "EHLO
+ mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751917AbdH3OMj (ORCPT <rfc822;perfbook@vger.kernel.org>); Wed, 30
+ Aug 2017 10:12:39 -0400
+Received: by mail-pf0-f194.google.com with SMTP id g13so4396766pfm.2 for
+ <perfbook@vger.kernel.org>; Wed, 30 Aug 2017 07:12:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=xKH++ixjW3EdVXMeW291s63L+L70LAh2gMZdmZ36Q/4=;
+ b=a9Ie/SPt8Sf9xuYpFFwmuTsoT6s0PUcoQb8Obeb+SlaMjlC5v6u9xQUMWCD/oCLI0D
+ wJKtYSCFMPtMovsSIrcoiOcRJtnZBBOOuR0N29m0QtJ8JEnXKbDrB4eFoT7SCPCbUDqu
+ izUoUFWNf6wI8L/h62mNOGKxEpG7b99r3L36TYA5QkoBL1LTNZ7hFBk42r8Lm7xQUAHQ
+ 9s8qgKSvCGyDWJcR9VM8eJZKfnSn719BuXyN3EZf7Potm7X6NTNoR2/wdqwHK7gFiDno
+ r1LZLAPgI+D6pjgHAyVlTyy6ZTCY1ttr3EXIe+gFo9JnYudunqcN7DunlYOH05504PHK
+ /Beg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] memorder: Adjust position of wide tables in 1c layout
+Message-ID: <5ecfbfc6-2a3f-407e-1d03-01d7a088261c@gmail.com>
+Date: Wed, 30 Aug 2017 23:12:31 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20170826093314.17614-1-sj38.park@gmail.com>
-Message-Id: <20170826165226.GY11320@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 
-On Sat, Aug 26, 2017 at 06:33:14PM +0900, SeongJae Park wrote:
-> Fedora 24 has officially entered End of Life[1].  This commit updates
-> necessary pacakges information for Fedora 24 to Fedora 26.
-> 
-> [1] https://fedoramagazine.org/fedora-24-eol/
-> 
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+From 10938ccbfc54a9a99f177455cb1beee2892ea3e4 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Wed, 30 Aug 2017 23:03:31 +0900
+Subject: [PATCH] memorder: Adjust position of wide tables in 1c layout
 
-Applied, thank you!
+Also fix typo in row count.
 
-							Thanx, Paul
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ memorder/memorder.tex | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> ---
->  FAQ-BUILD.txt | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-> index 2bd37f1..1fa581d 100644
-> --- a/FAQ-BUILD.txt
-> +++ b/FAQ-BUILD.txt
-> @@ -46,9 +46,9 @@
->  		On Ubuntu Trusty, in addition to the above, you need:
->  			texlive-humanities
-> 
-> -		On Fedora 24, installing the following set of packages
-> +		On Fedora 26, installing the following set of packages
->  		suffices:
-> -			fig2ps graphviz texlive-epstopdf inkscape latex2html
-> +			texlive-a2ping fig2ps graphviz inkscape latex2html
->  			texlive-collection-latexextra
-> 
->  		Other systems might provide similarly named packages.
-> -- 
-> 2.10.0
-> 
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index e059384..56d94c3 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -424,7 +424,7 @@ things out in the end.
+
+ \begin{table*}
+ \small
+-\centering\OneColumnHSpace{-0.1in}
++\centering\OneColumnHSpace{-0.7in}
+ \begin{tabular}{l||c||c|c|c|c||c|c|c|c|c|c}
+ 	& & \multicolumn{4}{c||}{Prior Ordered Operation} &
+ 		\multicolumn{6}{c}{Subsequent Ordered Operation} \\
+@@ -1811,7 +1811,7 @@ line to carry this new value to them.
+
+ \begin{table*}
+ \small
+-\centering\OneColumnHSpace{-0.1in}
++\centering\OneColumnHSpace{-0.8in}
+ \begin{tabular}{r||l|l|l|l||l|l|l}
+ 	& \tco{P0()} & \multicolumn{2}{c|}{\tco{P0()} \& \tco{P1()}} & \tco{P1()} & \multicolumn{3}{c}{\tco{P2()}} \\
+ 	\cline{2-8}
+@@ -1853,7 +1853,7 @@ line to carry this new value to them.
+ 	11 & & \tco{x==&x} & \tco{x==&a} &
+ 		 & (Respond \co{x}) & & \tco{y==&c} \\
+ 	\hline
+-	11 & (Finish store) & & \tco{x==&x} &
++	12 & (Finish store) & & \tco{x==&x} &
+ 		 &  & & \tco{y==&c} \\
+ \end{tabular}
+ \caption{Memory Ordering: WWC Sequence of Events}
+-- 
+2.7.4
 
