@@ -1,44 +1,41 @@
-Return-Path: <sj38.park@gmail.com>
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=iogQbNUY+8U5HsZrCobmfHJckQ7cti2sIqVo5JH/A/E=;
- b=PGONgZIkPmDCNHfyyDTeA9Ejkkq1JrySASRYBFP2EAmjAKV2XBymRNKkRPHOVNFDK1
- Vb5mm3Gp3PLCGDiDua57WF8fBahNqS889IpwD6cu8jmFh1uxqzfMuRLyZbnNo2HYaZIU
- blrKbiaz2+If/icN+tRpZLdbQWURS8vtYJuG2rpboNgwgR34D8wXu58U1LFUtpZaYhiD
- OQhGSqnoZ6NXoRAL1fPjbgsWZg3iJyZvPwFWrfRtL0LQxBUVyqyIxS6iALrZyX06ERgp
- B6mNj5vYjioG/K6dEojBIuNMiRFPO5dkDxTCfYeU3MQuqJG2OxIL6qEvAM7fgtIDfNdx
- pNnQ==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 2/2] memorder: Add missed closing parenthesis
-Date: Sat,  2 Sep 2017 11:49:37 +0900
-Message-Id: <20170902024937.4227-2-sj38.park@gmail.com>
-In-Reply-To: <20170902024937.4227-1-sj38.park@gmail.com>
-References: <20170902024937.4227-1-sj38.park@gmail.com>
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=Vl4Hr5jcHdLIk55+KrVGqufkpe/hfiOpXUdviiXqOgo=;
+ b=c4opiJJ7h3etLwdboV5o+XXATVELbBJVjhyGOiGjCKMStahmrlrr+ZhvGtlKwpHnR6
+ 4T6zUiXp4t05enBNEpw5kC+ZoUQeYRjXQ2q95RymfgTvMfRbamwQKmk1OTiSrFeuOOOL
+ g6UXnuDmC90x98J7aIcNdAe4WQVNq10iHTzBmFU2r0uI/Em3cJ6MW2Sq3ZbSwbkQPOtJ
+ 4kzYhLJ3cWoU7WkEiY94gOvDWOUaGdN07+mToEaGqYLi5SYYLaIr46eY+CDMnVJHvxZi
+ JiH1GkBQCx4rnIRIxviCgfKpR4apAWhKYVlSR5YxBCzTgi73zbY136WBGwi/nnlXv/7B
+ +TtA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Other-multicopy atomicity
+Message-ID: <a5f7959b-cfe3-9bc3-3f65-7b1f9577ad99@gmail.com>
+Date: Sat, 2 Sep 2017 13:09:37 +0900
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-A closing parenthesis is missed.  This commit adds it.
+Hi Paul,
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- memorder/memorder.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I have a comment on the term "other-multicompy atomicity".
 
-diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 5e7176e..b3b657b 100644
---- a/memorder/memorder.tex
-+++ b/memorder/memorder.tex
-@@ -596,7 +596,7 @@ are at most two threads involved.
- 	ordering for any accesses preceding or following both.
- 	No ordering need be provided for accesses between the
- 	\co{smp_mb__before_atomic()} (or, similarly, the
--	\co{smp_mb__after_atomic()} and the atomic RMW operation, as
-+	\co{smp_mb__after_atomic()}) and the atomic RMW operation, as
- 	indicated by the ``a'' entries on the \co{smp_mb__before_atomic()}
- 	and \co{smp_mb__after_atomic()} rows of the table.
+It took a while for me to realize that the "other-" stands for "other than self CPU".
+At first, it sounded like "other type of multicompy atomicity", which looked
+quite vague.
 
--- 
-2.10.0
+Commit 43236beadb1 ("memorder: Expand on cumulativity and {other,} multicopy
+atomicity") helped me to realize your intention. May I suggest to add a footnote
+on the use of "other-"?
+
+Also, you failed to replace tabs to white spaces in listing added in the
+above mentioned commit.
+
+       Thanks, Akira
 
