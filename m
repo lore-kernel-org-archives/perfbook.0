@@ -1,236 +1,88 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OCfhNdKpyeV0mGLSXZGFCwxc/8QQHYgGu1RgZSAYZ80=;
- b=uzceZoxULdzjUmuEtCZDhDJnL7GDAxyQXl9x8NWcaGGSqN0y20ZKrNDwK8mBsdskST
- 3VvZQrPg7vEXT0HEmjbsSReMFtsVhRGwr0xORIjMPdMEZfYNB2XqS3JLF4eNOljLI9Zn
- PnlnubK6WiBD6uWlOUTcogydTNBkPdAdYTX3BzGFGh5dKy0Zbu1ilr6DuueegQa4Ta9W
- L6IP6AabkA8U+9A96JdFqTgdc3I7sDpXeKwG2W4s+OykWKF0jCabCqfKPfs7d48HKltk
- f/y5Cp8AyX1QBPocRWX73sHsac4twFsfJfgI+F0eVsWIUYYxAx5sI3DxJtaGjQYDHN5S
- qc0Q==
-Subject: [PATCH 2/2] styleguide: Add more experimental tables
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41434 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1753099AbdICRik (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 3
+ Sep 2017 13:38:40 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v83Hce0h008291
+ for <perfbook@vger.kernel.org>; Sun, 3 Sep 2017 13:38:40 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2cqs5grfu9-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
+ 03 Sep 2017 13:38:40 -0400
+Received: from localhost by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 3 Sep 2017
+ 13:38:37 -0400
+Date: Sun, 3 Sep 2017 10:38:37 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/2] Style guide updates
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <f5647f1b-5849-d267-4310-b18d72b9f63d@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <80881838-cded-26d9-6611-94276e9f9534@gmail.com>
-Date: Sun, 3 Sep 2017 23:58:12 +0900
-MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <f5647f1b-5849-d267-4310-b18d72b9f63d@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20170903173837.GE15437@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+Content-Transfer-Encoding: Quoted-printable
+MIME-Version: 1.0
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 91874614a21874550a5d9ffa3d0fba5f6d6416f1 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 3 Sep 2017 21:24:20 +0900
-Subject: [PATCH 2/2] styleguide: Add more experimental tables
+On Sun, Sep 03, 2017 at 11:54:19PM +0900, Akira Yokosawa wrote:
+> >From 91874614a21874550a5d9ffa3d0fba5f6d6416f1 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Sun, 3 Sep 2017 23:39:54 +0900
+> Subject: [PATCH 0/2] Style guide updates
+>=20
+> Hi Paul,
+>=20
+> This patch set adds a section of ellipsis and a couple of experimental
+> tables corresponding to new tables in memorder.
+> Booktabs' rules and gaps in mid-rules still works in these tables, I
+> suppose.
+>=20
+> Let me know what you think.
 
-These are tweaked version of tables recently added in memorder.
-Although they have fairly complex headers, they can still be
-expressed without vertical rules.
+Nice!  I have applied these.
 
-In WWC sequence, narrow and wide skips in mid-rules roughly
-correspond to the single and double vertical rules used in
-the original table.
+I played with Table D.13 (WWC) a bit, as the lightgray looked a bit
+heavy to me.  Using lightgray!25 was too light and made me strain a bit
+to see the grey line, but anywhere between lightgray!35 and lightgray!60
+looked fine.
 
-Also remove the tweaked version of Table 13.1 without legends.
-Also use frame boxes for legends in Table D.5 as the same as
-Table D.12.
+The answer is probably "it depends" because my printer favors slightly
+darker than does my monitor.  Might depend on the table as well, as I
+would guess that the more empty cells the heavier the color needs to be.
+Left to myself, I would choose lightgray!50.  But what level of shading
+looks best to you on your equipment?
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- appendix/styleguide/styleguide.tex | 151 ++++++++++++++++++++++++++++---------
- 1 file changed, 114 insertions(+), 37 deletions(-)
+Either way, it looks way better than the current pervasive use of \hline
+in the main body of the text for those particular tables.
 
-diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
-index 831e7c2..ac6bfa5 100644
---- a/appendix/styleguide/styleguide.tex
-+++ b/appendix/styleguide/styleguide.tex
-@@ -1022,41 +1022,12 @@ is a tweaked version of
- Table~\ref{tab:together:Reference Counting and Synchronization Mechanisms},
- which has more complex header than the tables experimented so far.
+							Thanx, Paul
 
--\begin{table}[tb]
--\small
--\centering
--\renewcommand*{\arraystretch}{1.25}
--\rowcolors{3}{}{lightgray}
--\begin{tabular}{lccc}
--	\toprule
--	& \multicolumn{3}{c}{Release Synchronization} \\
--	\cmidrule(l){2-4}
--	\parbox[c]{.8in}{Acquisition\\Synchronization}
--			& Locking
--				& \parbox[c]{.5in}{Reference\\Counting}
--				        & RCU \\
--	\cmidrule{1-1} \cmidrule(l){2-4}
--	Locking		& $-$	& CAM	& CA  \\
--	\parbox[c][6ex]{.8in}{Reference\\Counting}
--			& A	& AM	& A   \\
--	RCU		& CA	& MCA	& CA  \\
--	\bottomrule
--\end{tabular}
--\caption{Reference Counting and Synchronization Mechanisms}
--\label{tab:app:styleguide:Reference Counting and Synchronization Mechanisms}
--\end{table}
--
- In
- Table~\ref{tab:app:styleguide:Reference Counting and Synchronization Mechanisms},
- the gap in the mid-rule corresponds to the distinction
- which is represented by double vertical rules in
- Table~\ref{tab:together:Reference Counting and Synchronization Mechanisms}.
--
--However, it makes no sense when it is separated from the explanation near~%
--Table~\ref{tab:together:Reference Counting and Synchronization Mechanisms}
--due to the lack of explanation of abbreviations used in the matrix.
--An example with proper legends is shown in
--Table~\ref{tab:app:styleguide:Reference Counting and Synchronization Mechanisms (Legends)}.
-+The legends in the frame box explain the abbreviations used in the matrix.
- Two types of memory barrier are denoted by subscripts here.
+>     Thanks, Akira
+> --
+> Akira Yokosawa (2):
+>   styleguide: Add 'Ellipsis' section
+>   styleguide: Add more experimental tables
+>=20
+>  appendix/styleguide/styleguide.tex | 206 ++++++++++++++++++++++++++++++-=
+------
+>  1 file changed, 169 insertions(+), 37 deletions(-)
+>=20
+> --=20
+> 2.7.4
+>=20
 
- \begin{table}[tb]
-@@ -1081,17 +1052,17 @@ Two types of memory barrier are denoted by subscripts here.
- \end{tabular}
-
- \vspace{5pt}\hfill
--{\footnotesize
-+\framebox[\width]{\footnotesize\setlength{\tabcolsep}{3pt}
- \rowcolors{1}{}{}
--  \begin{tabular}{lp{1.8in}}
--        A	& Atomic counting \\
--        C	& Check combined with the atomic acquisition operation \\
--        M\textsubscript{R}	& Memory barriers required only on release \\
--        M\textsubscript{A}	& Memory barriers required on acquire \\
-+  \begin{tabular}{lrp{2in}}
-+	Key:	& A: & Atomic counting \\
-+		& C: & Check combined with the atomic acquisition operation \\
-+		& M\textsubscript{R}: & Memory barriers required only on release \\
-+		& M\textsubscript{A}: & Memory barriers required on acquire \\
-   \end{tabular}
- }
- \caption{Reference Counting and Synchronization Mechanisms}
--\label{tab:app:styleguide:Reference Counting and Synchronization Mechanisms (Legends)}
-+\label{tab:app:styleguide:Reference Counting and Synchronization Mechanisms}
- \end{table}
-
- Table~\ref{tab:app:whymb:Cache Coherence Example}
-@@ -1413,6 +1384,112 @@ IBM~Q	& $0.015$
- \label{tab:app:styleguide:Refrigeration Power Consumption (arydshln-2)}
- \end{table}
-
-+Tables~\ref{tab:memorder:Linux-Kernel Memory-Ordering Cheat Sheet}
-+and~\ref{tab:memorder:Memory Ordering: WWC Sequence of Events}
-+recently added in Chapter~\ref{chp:memorder:Memory Ordering}
-+can be typeset as
-+Tables~\ref{tab:app:styleguide:Linux-Kernel Memory-Ordering Cheat Sheet}
-+and~\ref{tab:app:styleguide:Memory Ordering: WWC Sequence of Events}
-+using booktabs' ruled lines.
-+
-+\begin{table*}
-+\small
-+\centering\OneColumnHSpace{-0.7in}
-+\renewcommand*{\arraystretch}{1.1}
-+\rowcolors{7}{lightgray}{}
-+\begin{tabular}{lccccccccccc}\toprule
-+	& & \multicolumn{4}{c}{Prior Ordered Operation} &
-+		\multicolumn{6}{c}{Subsequent Ordered Operation} \\
-+	\cmidrule(l){3-6} \cmidrule(l){7-12}
-+	Operation Providing Ordering & C &
-+		Self & R & W & RMW & Self & R & W & DR & DW & RMW \\
-+	\cmidrule(r){1-1} \cmidrule{2-2} \cmidrule(l){3-6} \cmidrule(l){7-12}
-+	\tco{READ_ONCE()} &  &
-+		   Y &   &   &     &      &   &   &    &  Y &     \\
-+	\tco{smp_read_barrier_depends()} &  &
-+		     & Y &   &     &      &   &   &  Y &  Y &     \\
-+	Successful \tco{*_acquire()} &   &
-+		   R &   &   &     &      & Y & Y &  Y &  Y &   Y \\
-+	Successful \tco{*_release()} & C &
-+		     & Y & Y &   Y &    W &   &   &    &    &     \\
-+	\tco{smp_rmb()} &   &
-+		     & Y &   &   R &      & Y &   &  Y &    &   R \\
-+	\tco{smp_wmb()} &   &
-+		     &   & Y &   W &      &   & Y &    &  Y &   W \\
-+	\tco{smp_mb()} & CP &
-+		     & Y & Y &   Y &      & Y & Y &  Y &  Y &   Y \\
-+	Successful Non-Relaxed Non-\tco{void} RMW & CP &
-+		   Y & Y & Y &   Y &    Y & Y & Y &  Y &  Y &   Y \\
-+	\tco{smp_mb__before_atomic()} & CP &
-+		     & Y & Y &   Y &      & a & a & a  & a  &   Y \\
-+	\tco{smp_mb__after_atomic()} & CP &
-+		     & a & a &   Y &      & Y & Y &  Y &  Y &     \\
-+	\bottomrule
-+\end{tabular}
-+
-+\vspace{5pt}\hfill
-+\framebox[\width]{\footnotesize\setlength{\tabcolsep}{3pt}
-+\rowcolors{1}{}{}
-+\begin{tabular}{lrl}
-+	Key:	& C: & Ordering is cumulative \\
-+		& P: & Ordering propagates \\
-+		& R: & Read, or read portion of RMW \\
-+		& W: & Write, or write portion of RMW \\
-+		& Y: & Provides the specified ordering \\
-+		& a: & Provides specified ordering given intervening RMW atomic operation \\
-+		& DR: & Dependent read (address dependency) \\
-+		& DW: & Dependent write (address, data, or control dependency) \\
-+		& RMW: & Atomic read-modify-write operation \\
-+\end{tabular}
-+}
-+\caption{Linux-Kernel Memory-Ordering Cheat Sheet}
-+\label{tab:app:styleguide:Linux-Kernel Memory-Ordering Cheat Sheet}
-+\end{table*}
-+
-+\begin{table*}
-+\small
-+\centering\OneColumnHSpace{-0.8in}
-+\renewcommand*{\arraystretch}{1.1}
-+\rowcolors{13}{lightgray}{}
-+\begin{tabular}{rlllllll}\toprule
-+	& \multicolumn{1}{c}{\tco{P0()}} & \multicolumn{2}{c}{\tco{P0()} \& \tco{P1()}} &
-+		\multicolumn{1}{c}{\tco{P1()}} & \multicolumn{3}{c}{\tco{P2()}} \\
-+	\cmidrule(l){2-2} \cmidrule(l){3-4} \cmidrule(lr){5-5} \cmidrule(l){6-8}
-+	& Instruction & Store Buffer & Cache & Instruction &
-+			Instruction & Store Buffer & Cache \\
-+	\cmidrule{1-1} \cmidrule(l){2-2} \cmidrule(l){3-3} \cmidrule(l){4-4}
-+		\cmidrule(lr){5-5} \cmidrule(l){6-6} \cmidrule(l){7-7} \cmidrule(l){8-8}
-+	1 & (Initial state) & & \tco{y==&b} &
-+		(Initial state) &
-+			(Initial state) & & \tco{x==&a} \\
-+	2 & \tco{x = &x;} & \tco{x==&x} & \tco{y==&b} &
-+		 & & & \tco{x==&a} \\
-+	3 & (Read-Invalidate \tco{x}) & \tco{x==&x} & \tco{y==&b} & \tco{r1 = x} (\tco{&x})
-+		 & & & \tco{x==&a} \\
-+	4 &  & \tco{x==&x} \tco{y==&x} & \tco{y==&b} & \tco{y = r1}
-+		 & \tco{r2 = y} & & \tco{x==&a} \\
-+	5 &  & \tco{x==&x} & \tco{y==&x} & (Finish store)
-+		 & (Read \tco{y}) & & \tco{x==&a} \\
-+	6 & & \tco{x==&x} & \tco{y==&x} &
-+		 & (\tco{r2==&x}) & & \tco{x==&a} \tco{y==&x} \\
-+	7 & & \tco{x==&x} & \tco{y==&x} &
-+		 & \tco{*r2 = &c} & \tco{y==&c} & \tco{x==&a} \tco{y==&x} \\
-+	8 & & \tco{x==&x} & \tco{y==&x} &
-+		 & (Read Invalidate \tco{y}) & \tco{y==&c} & \tco{x==&a} \tco{y==&x} \\
-+	9 & & \tco{x==&x} &  &
-+		 &  & \tco{y==&c} & \tco{x==&a} \tco{y==&x} \\
-+	10 & & \tco{x==&x} &  &
-+		 & (Finish store) & & \tco{x==&a} \tco{y==&c} \\
-+	11 & & \tco{x==&x} & \tco{x==&a} &
-+		 & (Respond \co{x}) & & \tco{y==&c} \\
-+	12 & (Finish store) & & \tco{x==&x} &
-+		 &  & & \tco{y==&c} \\
-+	\bottomrule
-+\end{tabular}
-+\caption{Memory Ordering: WWC Sequence of Events}
-+\label{tab:app:styleguide:Memory Ordering: WWC Sequence of Events}
-+\end{table*}
-+
- \floatstyle{plain}
- \restylefloat{table}
- \captionsetup[table]{position=bottom,hangindent=0pt}
--- 
-2.7.4
-
+--
+To unsubscribe from this list: send the line "unsubscribe perfbook" in
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3=
+A__vger.kernel.org_majordomo-2Dinfo.html&d=3DDwIBAg&c=3Djf_iaSHvJObTbx-siA1=
+ZOg&r=3Dux41CW3B5BSVxDMRNRWyLbUmPebZc70Kq4AkfdiRGMI&m=3Dj_ozzr5UQ7iOShlWz8j=
+TnJpIivzQDwzX4hXGV91eHYE&s=3D-RHivQTkGEHbdiIdPhnAtLS16Xe_FLwxMwZ8co2KLVU&e=
+=3D=20
 
