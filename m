@@ -1,136 +1,166 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38347 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1753361AbdIDESL (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Mon, 4 Sep 2017 00:18:11 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v844DfMS032926
- for <perfbook@vger.kernel.org>; Mon, 4 Sep 2017 00:18:10 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 2crmrsnb3y-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
- 04 Sep 2017 00:18:10 -0400
-Received: from localhost by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 4 Sep 2017
- 00:18:09 -0400
-Date: Sun, 3 Sep 2017 21:18:09 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/2] Style guide updates
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <f5647f1b-5849-d267-4310-b18d72b9f63d@gmail.com>
- <20170903173837.GE15437@linux.vnet.ibm.com>
- <fc924fba-1dd2-dede-c557-2d42b7777fb0@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fc924fba-1dd2-dede-c557-2d42b7777fb0@gmail.com>
-Message-Id: <20170904041809.GF15437@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
-Content-Transfer-Encoding: Quoted-printable
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=vIfpqpCjvv6BffF8EfC7VVbRu2wC+BZuTprDhU9shH0=;
+ b=pyEqbuW7VGNxv+zlWAT9Q6nQpFdCHdLThNDHv3H2BrvW3Dg6y+AWZxRcLAH+1AV1Bt
+ JNtB+uGBOE/Yux20zwS2D7NDjOG0Pmtdw3iulHBk9Yp+wfBF/OOj2oA8ZjGsBeExqxd1
+ /g2m01gr2dQQSRf4HdMgUbzChUfM7ZRbovjq0/kfS3ZlRZO9wOCZYgsjggr3VAeGq+Pm
+ co+qHWDkipyLDrP2+553JKEZObDN2QthDM68h+1njRKjVn4hF3+d3DNufNZCGCFyZkAR
+ tEoZgvLTBltYwSbVP0bGwb2IPKDtFsExCt5UmC7kMSnUdcCHR68SGECT/rVHS5Rs8L23
+ ShSA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] memorder: Silence compiler warnings in litmus tests
+Message-ID: <937d7bee-b3dd-831a-98a5-c0dcab3996b3@gmail.com>
+Date: Tue, 5 Sep 2017 00:05:37 +0900
 MIME-Version: 1.0
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+List-ID: <perfbook.vger.kernel.org>
 
-On Mon, Sep 04, 2017 at 07:30:32AM +0900, Akira Yokosawa wrote:
-> On 2017/09/04 2:38, Paul E. McKenney wrote:
-> > On Sun, Sep 03, 2017 at 11:54:19PM +0900, Akira Yokosawa wrote:
-> >> >From 91874614a21874550a5d9ffa3d0fba5f6d6416f1 Mon Sep 17 00:00:00 2001
-> >> From: Akira Yokosawa <akiyks@gmail.com>
-> >> Date: Sun, 3 Sep 2017 23:39:54 +0900
-> >> Subject: [PATCH 0/2] Style guide updates
-> >>
-> >> Hi Paul,
-> >>
-> >> This patch set adds a section of ellipsis and a couple of experimental
-> >> tables corresponding to new tables in memorder.
-> >> Booktabs' rules and gaps in mid-rules still works in these tables, I
-> >> suppose.
-> >>
-> >> Let me know what you think.
-> >=20
-> > Nice!  I have applied these.
-> >=20
-> > I played with Table D.13 (WWC) a bit, as the lightgray looked a bit
-> > heavy to me.  Using lightgray!25 was too light and made me strain a bit
-> > to see the grey line, but anywhere between lightgray!35 and lightgray!60
-> > looked fine.
->=20
-> lightgray is defined on line 930 in styleguide.tex at the moment.
-> Current definition is:
->=20
-> 	\definecolor{lightgray}{gray}{0.9}
->=20
-> You can tweak it as you like. If you need more variation, you can define
-> another color and use it in specific tables.
-> But I'm against tweaking darkness in each table.
+From 410b1edcf1255563371b9b9bc8b54f10b3125090 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 4 Sep 2017 23:35:06 +0900
+Subject: [PATCH] memorder: Silence compiler warnings in litmus tests
 
-Ah, I was assuming that lightgray was a builtin.  Agreed, per-table
-tweaks should be avoided.
+Silence warnings from gcc:
 
-> > The answer is probably "it depends" because my printer favors slightly
-> > darker than does my monitor.  Might depend on the table as well, as I
-> > would guess that the more empty cells the heavier the color needs to be.
-> > Left to myself, I would choose lightgray!50.  But what level of shading
-> > looks best to you on your equipment?
->=20
-> It definitely depends on the printer/display to use.
-> But as the definition of lightgray can be tuned as you like, I'm OK with
-> the default of, for example:
->=20
-> 	\definecolor{lightgray}{gray}{0.95}
->=20
-> Let's see what people think.
->=20
-> The definition will be moved into perfbook.tex when we start conversion
-> of table layout and should be easy to find for people to customize.
+    C-MP+o-r+o-ctrl-o.c:
+        warning: 'r3' may be used uninitialized in this function
+        [-Wmaybe-uninitialized]
+    C-W+RWC+o-mb-o+a-o+o-mb-o.c, C-W+RWC+o-r+a-o+o-mb-o.c:
+        warning: assignment makes pointer from integer without a cast
+        [-Wint-conversion]
+    C-W+RWC+o-mb-o+a-o+o-mb-o.c, C-W+RWC+o-r+a-o+o-mb-o.c:
+        warning: cast from pointer to integer of different size
+        [-Wpointer-to-int-cast]
 
-The people I showed printouts to prefered your level of grayness,
-so let's stick with that for the time being.  But yes, easy adjustment
-is good, given the variation in monitors, printers, and eyes.  ;-)
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ CodeSamples/advsync/herd/C-MP+o-r+o-ctrl-o.litmus         |  2 +-
+ CodeSamples/advsync/herd/C-W+RWC+o-mb-o+a-o+o-mb-o.litmus |  6 +++---
+ CodeSamples/advsync/herd/C-W+RWC+o-r+a-o+o-mb-o.litmus    |  6 +++---
+ memorder/memorder.tex                                     | 14 +++++++-------
+ 4 files changed, 14 insertions(+), 14 deletions(-)
 
-							Thanx, Paul
+diff --git a/CodeSamples/advsync/herd/C-MP+o-r+o-ctrl-o.litmus b/CodeSamples/advsync/herd/C-MP+o-r+o-ctrl-o.litmus
+index fe44072..82cf629 100644
+--- a/CodeSamples/advsync/herd/C-MP+o-r+o-ctrl-o.litmus
++++ b/CodeSamples/advsync/herd/C-MP+o-r+o-ctrl-o.litmus
+@@ -16,7 +16,7 @@ P0(int* x0, int* x1) {
 
->       Thanks, Akira
->=20
-> > > Either way, it looks way better than the current pervasive use of \hl=
-ine
-> > in the main body of the text for those particular tables.
-> >=20
-> > 							Thanx, Paul
-> >=20
-> >>     Thanks, Akira
-> >> --
-> >> Akira Yokosawa (2):
-> >>   styleguide: Add 'Ellipsis' section
-> >>   styleguide: Add more experimental tables
-> >>
-> >>  appendix/styleguide/styleguide.tex | 206 ++++++++++++++++++++++++++++=
-++-------
-> >>  1 file changed, 169 insertions(+), 37 deletions(-)
-> >>
-> >> --=20
-> >> 2.7.4
-> >>
-> >=20
-> >=20
->=20
-> --
-> To unsubscribe from this list: send the line "unsubscribe perfbook" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  https://urldefense.proofpoint.com/v2/url?u=3Dhttp=
--3A__vger.kernel.org_majordomo-2Dinfo.html&d=3DDwICaQ&c=3Djf_iaSHvJObTbx-si=
-A1ZOg&r=3Dux41CW3B5BSVxDMRNRWyLbUmPebZc70Kq4AkfdiRGMI&m=3DuyhL4QLWRXYTZychf=
-v95fU4Rb5i9T45Skiw-rOvTrSY&s=3DsHKlmz4HbWX3x0yqdKF5SarQcDgJHf8f3R9ZYQk2mm4&=
-e=3D=20
->=20
+ P1(int* x0, int* x1) {
+ 	int r2;
+-	int r3;
++	int r3 = 0;
 
---
-To unsubscribe from this list: send the line "unsubscribe perfbook" in
-the body of a message to majordomo@vger.kernel.org
-More majordomo info at  https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3=
-A__vger.kernel.org_majordomo-2Dinfo.html&d=3DDwIBAg&c=3Djf_iaSHvJObTbx-siA1=
-ZOg&r=3Dux41CW3B5BSVxDMRNRWyLbUmPebZc70Kq4AkfdiRGMI&m=3DMS4Ss7GQu0IZzTJ120B=
-mJpvVMyZnQuEAFTFByGvMMx4&s=3D8Vyd5hRdslQKHP3rZclReXUd4jJP8CzoJqAkc22SLDo&e=
-=3D=20
+ 	r2 = READ_ONCE(*x1);
+ 	if (r2 >= 0)
+diff --git a/CodeSamples/advsync/herd/C-W+RWC+o-mb-o+a-o+o-mb-o.litmus b/CodeSamples/advsync/herd/C-W+RWC+o-mb-o+a-o+o-mb-o.litmus
+index 1e0f1b7..23050e6 100644
+--- a/CodeSamples/advsync/herd/C-W+RWC+o-mb-o+a-o+o-mb-o.litmus
++++ b/CodeSamples/advsync/herd/C-W+RWC+o-mb-o+a-o+o-mb-o.litmus
+@@ -19,8 +19,8 @@ P0(int *x, int *y)
+
+ P1(int *y, int *z)
+ {
+-	int *r1;
+-	int *r2;
++	int r1;
++	int r2;
+
+ 	r1 = smp_load_acquire(y);
+ 	r2 = READ_ONCE(*z);
+@@ -28,7 +28,7 @@ P1(int *y, int *z)
+
+ P2(int *z, int *x)
+ {
+-	int *r3;
++	int r3;
+
+ 	WRITE_ONCE(*z, 1);
+ 	smp_mb();
+diff --git a/CodeSamples/advsync/herd/C-W+RWC+o-r+a-o+o-mb-o.litmus b/CodeSamples/advsync/herd/C-W+RWC+o-r+a-o+o-mb-o.litmus
+index a71f1ac..527b373 100644
+--- a/CodeSamples/advsync/herd/C-W+RWC+o-r+a-o+o-mb-o.litmus
++++ b/CodeSamples/advsync/herd/C-W+RWC+o-r+a-o+o-mb-o.litmus
+@@ -18,8 +18,8 @@ P0(int *x, int *y)
+
+ P1(int *y, int *z)
+ {
+-	int *r1;
+-	int *r2;
++	int r1;
++	int r2;
+
+ 	r1 = smp_load_acquire(y);
+ 	r2 = READ_ONCE(*z);
+@@ -27,7 +27,7 @@ P1(int *y, int *z)
+
+ P2(int *z, int *x)
+ {
+-	int *r3;
++	int r3;
+
+ 	WRITE_ONCE(*z, 1);
+ 	smp_mb();
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index 624f9a8..151af4e 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -1567,7 +1567,7 @@ P0(int* x0, int* x1) {
+
+ P1(int* x0, int* x1) {
+   int r2;
+-  int r3;
++  int r3 = 0;
+
+   r2 = READ_ONCE(*x1);
+   if (r2 >= 0)
+@@ -2162,8 +2162,8 @@ P0(int *x, int *y)
+
+ P1(int *y, int *z)
+ {
+-  int *r1;
+-  int *r2;
++  int r1;
++  int r2;
+
+   r1 = smp_load_acquire(y);
+   r2 = READ_ONCE(*z);
+@@ -2171,7 +2171,7 @@ P1(int *y, int *z)
+
+ P2(int *z, int *x)
+ {
+-  int *r3;
++  int r3;
+
+   WRITE_ONCE(*z, 1);
+   smp_mb();
+@@ -2258,8 +2258,8 @@ P0(int *x, int *y)
+
+ P1(int *y, int *z)
+ {
+-  int *r1;
+-  int *r2;
++  int r1;
++  int r2;
+
+   r1 = smp_load_acquire(y);
+   r2 = READ_ONCE(*z);
+@@ -2267,7 +2267,7 @@ P1(int *y, int *z)
+
+ P2(int *z, int *x)
+ {
+-  int *r3;
++  int r3;
+
+   WRITE_ONCE(*z, 1);
+   smp_mb();
+-- 
+2.7.4
 
