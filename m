@@ -3,17 +3,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
  h=to:cc:from:subject:message-id:date:user-agent:mime-version
  :content-language:content-transfer-encoding;
- bh=e9yeXTIDGXo7Xqx/LVdhAbVoo3JVksG3MWsk2bQAytM=;
- b=HJdH+LPIGAnAhYHKfZrlXqTzdnfQU6EDU7qbQZ8WWJBmbUR77yluyGQkg9YXKY2hVV
- gFWv3fN4wBMSurDQ1Fk8uKwW5XCJvaSM5P/8Lcoh/tcp+MwrLDl4kM2QNjknSEX3WhNG
- vUQuTLRtHrU2Du9fM2NpMJK6TmfpK3CXURHFQYm1qSx6SoUT160JaMsZRvn8X3yOwl+x
- APfgyWXmkTOTWtGPguSp9SBWvRIUJvcY6GAkGlTh6yQ3AO6CTzkNKEAZouMEtrrbOeYk
- PQK6kqigK3soD1WXOZbAcqTm6tgGKJ5Mdfrzfeq2whjVzrWlVfEo4pzxJ4s2wot/j8hp
- VgDQ==
+ bh=vU+g8eci1GwHu0i7lkOXCcWoDyPlcyTZnzImTMZslGY=;
+ b=sQYb1zvimRDHQBveD4P5lEAJRTiXnM8bqoMRSFVxrzojQxt6UodZCXWWTwkvcAlImK
+ Rid8IUdn8+ybAmRVzE7IMCH6LBfOuEa1kOT4Siqpk1IhabLEq6IzTjqxZ4BzS0BHpCcc
+ oqJVMEHO0wwe2aS4Lx0jo8lGQ5VaUzvqDenUxS3MGSO6NnDUTSDjvYXXx6FhO9x9cxXx
+ 2fxmv4ETIr4VNxfcElj/hyMM3lOfH5P2ASmlnSW7m2Z7626V92q/51bUP09BGiOgUMpU
+ RF+Lc+B1pBlg2iE5nEA+dADyL5OKEOrbj1xRiDWKofOaWvSO6YVdHzED0NZu0mtHOcYm
+ 4COA==
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] memorder: Fix typo in '*_acquire' example
-Message-ID: <6b962183-2529-3786-a55a-8e9729b16ced@gmail.com>
-Date: Tue, 12 Sep 2017 00:28:33 +0900
+Subject: [PATCH] memorder: Reword footnote on cumulativity
+Message-ID: <fe6143ec-d858-b3de-682f-0d5e3a3122d2@gmail.com>
+Date: Mon, 11 Sep 2017 23:49:06 +0900
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
@@ -22,10 +22,10 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 469e14bc026a2aedd15284d3fa0ef55827eb7853 Mon Sep 17 00:00:00 2001
+From bfbd4d2c5c43a436795d4f352c54c3bb6b8d5304 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 12 Sep 2017 00:21:45 +0900
-Subject: [PATCH] memorder: Fix typo in '*_acquire' example
+Date: Mon, 11 Sep 2017 23:41:26 +0900
+Subject: [PATCH] memorder: Reword footnote on cumulativity
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
@@ -33,18 +33,18 @@ Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 96b598b..c44dfd2 100644
+index a916eeb..96b598b 100644
 --- a/memorder/memorder.tex
 +++ b/memorder/memorder.tex
-@@ -519,7 +519,7 @@ conditionally.
- Blank cells indicate that no ordering is supplied.
+@@ -3583,7 +3583,7 @@ invoked by those two clauses), not to code following that ``\co{if}''.
 
- The \co{*_acquire} row covers \co{smp_load_acquire()},
--\co{cmpxchg_acquire()}, \co{xchg_release()}, and so on;
-+\co{cmpxchg_acquire()}, \co{xchg_acquire()}, and so on;
- the \co{*_release} row covers \co{smp_store_release()},
- \co{cmpxchg_release()}, \co{xchg_release()}, and so on; and
- the ``Successful Non-Relaxed Non-\co{void} RMW'' row covers
+ Finally, control dependencies do \emph{not} provide cumulativity.\footnote{
+ 	Refer to Section~\ref{sec:memorder:Cumulativity} for
+-	the meaning of transitivity.}
++	the meaning of cumulativity.}
+ This is demonstrated by two related examples, with the initial values
+ of~\co{x} and~\co{y} both being zero:
+
 -- 
 2.7.4
 
