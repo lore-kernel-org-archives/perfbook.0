@@ -2,17 +2,17 @@ Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=+V9/Ml0dLOoafJF7DjHNp9GeWbo5CV8tqt1YcjFooms=;
- b=ASJwgJMJXeLo6nkdNAVaJ6XsUzZqH7xlUK02H2skugBM7OZdgHT+aEqlzisNPM+jlH
- MuparSRniv9rr6GrS+VHglIS+v5ncXVRvSR6xaV+F1FMRI/9HmTrpdAE45NyBbk3izEu
- a4CHW3czoLdZjS1UDcUm/x70R9GJpJHZ54XHdbbzaIS5l+wimNGcvDn77V/PvJl5jDjm
- 1teh+/5ELssxKm4kwDlZDtmfkTGWUTjJ1cxdVQwjIdgDJIEIoI918caDsqEaRm8n9YTE
- sLNxdvAa5c+LOh+y1JgK1eOnT8Ysua5c96muJZtd2d0oCjYNrlHc7AUvFW/2CJXj6kf5
- 1I7Q==
+ bh=Rigs+wnto/i5fvXxpVvWC6XC2KUvWqepGb+jMPzxq5k=;
+ b=lpIrYKKp05iM8RIjopa1+VBxeLLog8AUrJ1Y0cKXHXcTm32vRNoLkuJQXGhu/abA1M
+ T6AXSNgRe1HnYdgM+f4DoW7DDyLBhNEvlCqudxfIjO6MeTMaGgrqRtw4Bta9NzC2YDh6
+ kgScZxDLLw1n0QUMoU7dDn06fLFmX8inAS1leUxZyo7eU7bHPhcJlVmX0PsJiB2dTJly
+ M+TgPpGGjR7xB/KL3tkQ9/W1mtMVGQ+38VmkO6rguH8EQFbdHHFwnmtLX5z2vdOm3/bg
+ BpxKazCHdeLnjqxt+AzxVOV3w2eFAfv3bWoBE1R6HkT+AtfWGZfiextDThm5vTB4w7Rz
+ c0gA==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 2/3] memorder: Remove unnecessary comma
-Date: Tue, 12 Sep 2017 09:56:16 +0900
-Message-Id: <20170912005617.19975-2-sj38.park@gmail.com>
+Subject: [PATCH 3/3] future/QC: Remove unnecessary duplicate
+Date: Tue, 12 Sep 2017 09:56:17 +0900
+Message-Id: <20170912005617.19975-3-sj38.park@gmail.com>
 In-Reply-To: <20170912005617.19975-1-sj38.park@gmail.com>
 References: <20170912005617.19975-1-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
@@ -21,22 +21,22 @@ List-ID: <perfbook.vger.kernel.org>
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- memorder/memorder.tex | 2 +-
+ future/QC.tex | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 2da7b98..8511c3a 100644
---- a/memorder/memorder.tex
-+++ b/memorder/memorder.tex
-@@ -1103,7 +1103,7 @@ exists (1:r2=2 /\ 0:r2=2)
+diff --git a/future/QC.tex b/future/QC.tex
+index 3b01a56..e5ff74e 100644
+--- a/future/QC.tex
++++ b/future/QC.tex
+@@ -1016,7 +1016,7 @@ Grover's algorithm.
+ 	and $O(n \log_2 n)$ for classic-computing search?
+ 	Hash tables do $O(n)$ and $O(1)$ respectively!!!
+ \QuickQuizAnswer{
+-	Fixed-size hash table lookup lookups are $O(n)$, not $O(1)$.
++	Fixed-size hash table lookups are $O(n)$, not $O(1)$.
+ 	And for a resizing hash table, fairness dictates that the overhead
+ 	of resizing be properly accounted for.
 
- \subsubsection{Load Followed By Store}
- Listing~\ref{lst:memorder:Load-Buffering Litmus Test (No Ordering)}
--(\path{C-LB+o-o+o-o.litmus}),
-+(\path{C-LB+o-o+o-o.litmus})
- shows the classic \emph{load-buffering} litmus test.
- Although relatively strongly ordered systems such as x86
- or the IBM Mainframe do not reorder prior loads with subsequent stores,
 -- 
 2.10.0
 
