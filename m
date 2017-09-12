@@ -1,42 +1,61 @@
-Return-Path: <sj38.park@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Rigs+wnto/i5fvXxpVvWC6XC2KUvWqepGb+jMPzxq5k=;
- b=lpIrYKKp05iM8RIjopa1+VBxeLLog8AUrJ1Y0cKXHXcTm32vRNoLkuJQXGhu/abA1M
- T6AXSNgRe1HnYdgM+f4DoW7DDyLBhNEvlCqudxfIjO6MeTMaGgrqRtw4Bta9NzC2YDh6
- kgScZxDLLw1n0QUMoU7dDn06fLFmX8inAS1leUxZyo7eU7bHPhcJlVmX0PsJiB2dTJly
- M+TgPpGGjR7xB/KL3tkQ9/W1mtMVGQ+38VmkO6rguH8EQFbdHHFwnmtLX5z2vdOm3/bg
- BpxKazCHdeLnjqxt+AzxVOV3w2eFAfv3bWoBE1R6HkT+AtfWGZfiextDThm5vTB4w7Rz
- c0gA==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 3/3] future/QC: Remove unnecessary duplicate
-Date: Tue, 12 Sep 2017 09:56:17 +0900
-Message-Id: <20170912005617.19975-3-sj38.park@gmail.com>
-In-Reply-To: <20170912005617.19975-1-sj38.park@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58279 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751195AbdILF1e (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 12
+ Sep 2017 01:27:34 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v8C5O8kE097574
+ for <perfbook@vger.kernel.org>; Tue, 12 Sep 2017 01:27:34 -0400
+Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2cx8nwtg43-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Tue,
+ 12 Sep 2017 01:27:33 -0400
+Received: from localhost by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 12 Sep
+ 2017 01:27:32 -0400
+Date: Mon, 11 Sep 2017 20:58:49 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 1/3] memorder: Fix wrong variable citation
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <20170912005617.19975-1-sj38.park@gmail.com>
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20170912005617.19975-1-sj38.park@gmail.com>
+Message-Id: <20170912035849.GR3521@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: SeongJae Park <sj38.park@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- future/QC.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Sep 12, 2017 at 09:56:15AM +0900, SeongJae Park wrote:
+> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 
-diff --git a/future/QC.tex b/future/QC.tex
-index 3b01a56..e5ff74e 100644
---- a/future/QC.tex
-+++ b/future/QC.tex
-@@ -1016,7 +1016,7 @@ Grover's algorithm.
- 	and $O(n \log_2 n)$ for classic-computing search?
- 	Hash tables do $O(n)$ and $O(1)$ respectively!!!
- \QuickQuizAnswer{
--	Fixed-size hash table lookup lookups are $O(n)$, not $O(1)$.
-+	Fixed-size hash table lookups are $O(n)$, not $O(1)$.
- 	And for a resizing hash table, fairness dictates that the overhead
- 	of resizing be properly accounted for.
+Good eyes!  Applied all three, thank you!
 
--- 
-2.10.0
+							Thanx, Paul
+
+> ---
+>  memorder/memorder.tex | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+> index 183c525..2da7b98 100644
+> --- a/memorder/memorder.tex
+> +++ b/memorder/memorder.tex
+> @@ -704,8 +704,8 @@ as Y0, the store to \co{x1} on line~19 as Y1, and the load from
+>  Applying the if-then rule step by step, we know that the store to
+>  \co{x1} on line~19 happens after the load from \co{x1} on line~11 if
+>  \co{P0()}'s local variable \co{r2} is set to the value zero.
+> -The if-then rule would then state that the load from \co{x1} on
+> -line~21 happens after the store to \co{x1} on line~9.
+> +The if-then rule would then state that the load from \co{x0} on
+> +line~21 happens after the store to \co{x0} on line~9.
+>  In other words,
+>  \co{P1()}'s local variable \co{r2} is guaranteed
+>  to end up with the value two \emph{only if}
+> -- 
+> 2.10.0
+> 
 
