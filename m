@@ -1,64 +1,41 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34467 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1750715AbdIKPyg (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 11
- Sep 2017 11:54:36 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v8BFsCYN087582
- for <perfbook@vger.kernel.org>; Mon, 11 Sep 2017 11:54:36 -0400
-Received: from e18.ny.us.ibm.com (e18.ny.us.ibm.com [129.33.205.208]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2cwt0u0q65-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
- 11 Sep 2017 11:54:35 -0400
-Received: from localhost by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 11 Sep
- 2017 11:54:34 -0400
-Date: Mon, 11 Sep 2017 08:54:30 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] memorder: Reword footnote on cumulativity
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <fe6143ec-d858-b3de-682f-0d5e3a3122d2@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fe6143ec-d858-b3de-682f-0d5e3a3122d2@gmail.com>
-Message-Id: <20170911155430.GL3521@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Return-Path: <sj38.park@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=from:to:cc:subject:date:message-id;
+ bh=SA8qgKHKZHmuWra1FPmujKKbX5fdPmUn8WdzGHawgQk=;
+ b=b9EIyC1KypTm/zr473Qm4rPhnKWCq6yck5Cr8dLO3QxffmTX+4dskvy2YytWbLGa4k
+ J0WF44JVCFNPgd5knR+kLazlwd2deKex3Vo5nDjKC6wFmz8vcq/HTCX9YYBGuCwDUQzU
+ +6YVkUjGoptP8gRhlSjqBdKWekMV4q6IZqQSmS+gzFse0+OhjypXUqe80duBmm3eUW9T
+ OGDjF1BP0ddd3Enu0TnZdrEOiI0Xm4Gt/nfIGcmS3kmGLK6/w97xtmRO+w1SgnWKPsQR
+ ZC+3ZmPq+FBwSRAph0Qscx7SbCXJ1DKIOz1VOH/wXYsxH3kzJ7U5tEfh9n+E9RGOecWh
+ fhOQ==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH 1/3] memorder: Fix wrong variable citation
+Date: Tue, 12 Sep 2017 09:56:15 +0900
+Message-Id: <20170912005617.19975-1-sj38.park@gmail.com>
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Sep 11, 2017 at 11:49:06PM +0900, Akira Yokosawa wrote:
-> >From bfbd4d2c5c43a436795d4f352c54c3bb6b8d5304 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Mon, 11 Sep 2017 23:41:26 +0900
-> Subject: [PATCH] memorder: Reword footnote on cumulativity
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ memorder/memorder.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Good catch, queued and pushed, thank you!
-
-							Thanx, Paul
-
-> ---
->  memorder/memorder.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-> index a916eeb..96b598b 100644
-> --- a/memorder/memorder.tex
-> +++ b/memorder/memorder.tex
-> @@ -3583,7 +3583,7 @@ invoked by those two clauses), not to code following that ``\co{if}''.
-> 
->  Finally, control dependencies do \emph{not} provide cumulativity.\footnote{
->  	Refer to Section~\ref{sec:memorder:Cumulativity} for
-> -	the meaning of transitivity.}
-> +	the meaning of cumulativity.}
->  This is demonstrated by two related examples, with the initial values
->  of~\co{x} and~\co{y} both being zero:
-> 
-> -- 
-> 2.7.4
-> 
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index 183c525..2da7b98 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -704,8 +704,8 @@ as Y0, the store to \co{x1} on line~19 as Y1, and the load from
+ Applying the if-then rule step by step, we know that the store to
+ \co{x1} on line~19 happens after the load from \co{x1} on line~11 if
+ \co{P0()}'s local variable \co{r2} is set to the value zero.
+-The if-then rule would then state that the load from \co{x1} on
+-line~21 happens after the store to \co{x1} on line~9.
++The if-then rule would then state that the load from \co{x0} on
++line~21 happens after the store to \co{x0} on line~9.
+ In other words,
+ \co{P1()}'s local variable \co{r2} is guaranteed
+ to end up with the value two \emph{only if}
+-- 
+2.10.0
 
