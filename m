@@ -2,20 +2,22 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=89+xJef/5WfJmYM5FNV27EhU58Jc2J1/w7fDEuzqI8Q=;
- b=Ac0IZdqcZ8UWj8RhE4D9SCSPO5NA0cRk/JDbtBXcvaUkvF04e/akwDSXZT3kos74V4
- zrkiixDWBgHKG2NV4Wl9gaUBnWW0SSb5s5TJ7pxU5NfA3/PFy+myQO4w9nJ7C/Ft0RMt
- OEBvd/q0zJczDBAtXpdr/FwXsfe1K3wM7PfrMuczt/D6VzRwRpcMfpo8d1F4Nq8Kp0ri
- jfUUpSlHx1nH/D7Vxc0TL46hX7m/XCYPHTASN/DtvOSyBaw3WHO3vIUpJSjOvNvyF02W
- PnzIslEvAij0jXyzCFVjiRHM30+QvNwnropsTrs4/8E90WciXhun8aukgBVrXEUfTubE
- iUjQ==
-Subject: [PATCH v2 0/5] memorder: Miscellaneous fixes
+ bh=ilfnt/4M2cCjmM0dsGU01PYKDI3KYjrxmMdrY4Ec9gA=;
+ b=WRzV0dAjnKIUmewTV40e62TKGw9Ao1eIzdvBlLbpLNIjpjoGZ0bGlbcKpafSGxWpoB
+ fIJn+0Dt1Ereyxw0f05csyOxbvij7eRDXqz80Vn4kOWgPQ/7SVdUxrnCjIyQryUOepxq
+ RV5yyw0VyBw1J4sv2LwlnGbnsWaluDpORwlV08p30KmX0jRbNFbxdGJYUkU0gAdE3xJH
+ ws5dWfi9W7ESRse7pPy2+ooNpElv5lnKy3YFk/EZQSTxgp6fAEC9BM81hBEcxTK4rd0v
+ hyZQfbu7EG6fbZ7OehPD4jstoCIwaw7jQSRAhsyHy9fQXo9syaFXIxN7vtDG2sxs16MU
+ jPyg==
+Subject: [PATCH v2 1/5] memorder: Adjust hspace of table 'Summary of Memory
+ Ordering' in 1c
 References: <7b420fff-97d1-fcb2-2bbd-8d1a8c2ec1ec@gmail.com>
+ <95974ff0-250c-e25b-cca1-76281383e22a@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <95974ff0-250c-e25b-cca1-76281383e22a@gmail.com>
-Date: Sun, 17 Sep 2017 00:06:02 +0900
+Message-ID: <3d28d3f0-63af-6445-bfff-c172b666b452@gmail.com>
+Date: Sun, 17 Sep 2017 00:07:42 +0900
 MIME-Version: 1.0
-In-Reply-To: <7b420fff-97d1-fcb2-2bbd-8d1a8c2ec1ec@gmail.com>
+In-Reply-To: <95974ff0-250c-e25b-cca1-76281383e22a@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -23,40 +25,30 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
+From 7eec5812868178d3845f11abbe36e90c1d0cc602 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 16 Sep 2017 23:39:11 +0900
-Subject: [PATCH v2 0/5] memorder: Miscellaneous fixes
+Date: Thu, 14 Sep 2017 23:51:34 +0900
+Subject: [PATCH v2 1/5] memorder: Adjust hspace of table 'Summary of Memory Ordering' in 1c
 
-Hi Paul,
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ memorder/memorder.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-(Sorry, I messed up 2/5 in v1. Retrying...)
-
-This patch set consists of small fixes in memorder.
-
-Patches #1, #2, and #3 are trivial fixes.
-
-Patch #4 fixes a recursive reference within the chapter. I chose
-Section 14.1, but there might be other choices.
-
-Patch #5 might be a wrong guess on my side. I have not consulted
-any document regarding PA-RISC arch or its CPU implementation.
-Please apply it if it is the right guess.
-
-       Thanks, Akira
---
-Akira Yokosawa (5):
-  memorder: Adjust hspace of table 'Summary of Memory Ordering' in 1c
-  memorder: Fix usage of \IfInBook macro
-  memorder: More reword to 'full-strength non-void RMW'
-  memorder: Update reference to memory-barrier primitives
-  memorder: Fix table of 'Summary of Memory Ordering'
-
- appendix/styleguide/styleguide.tex |  2 +-
- memorder/memorder.tex              | 12 ++++++------
- 2 files changed, 7 insertions(+), 7 deletions(-)
-
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index 4194c42..9a66829 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -3702,7 +3702,7 @@ dependencies.
+ \begin{table*}
+ \small
+ \centering
+-\renewcommand*{\arraystretch}{1.2}
++\renewcommand*{\arraystretch}{1.2}\OneColumnHSpace{-.6in}
+ \begin{tabular}{l|p{2in}|c|c|c|c|c|c|c|c|c|c|c}
+ 	\multicolumn{2}{l|}{~}
+ 	& \begin{picture}(6,60)(0,0)
 -- 
 2.7.4
-
 
 
