@@ -1,59 +1,79 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=eNKi9Zy09FkW10efHPwgzsa57qk2fMVCjMnwTQ2v2Rw=;
- b=YdzQ+1UlVy5Afw5a9TrezAgMkExWVYyCNgAF6NQ1oWrHMGrncxo9dwUHWmHf/kozNJ
- SnhMVUKN8IGCMqnZvvfZCeJq7hOQigS6VpkwxfgOxGuI7J93HtogHhAe8G6L+nF1iD48
- lcK/mv3gmyuAZvPuDObQQXHFrnCEWhudlRRSJcb/wAxiH3KCiZo7T1QNs1wFxS3MGqsv
- 3/UbimPDmF5+pb8clMLxL1Ols37BvYHmwmtyWsB9Ny7uI/Qq+bF83G79Kea/vSPiMANM
- 5GnLfarllM9wjYXXgW+9igIwSPmsrYSZ16aqR7G5KgwGUuG057cyt4gJVUT8ln3i/ejN
- M+Tg==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: Is WRITE_ONCE() enough to prevent invention of stores?
-Message-ID: <9307038d-60f1-0c93-55a1-f3c9be35605c@gmail.com>
-Date: Sat, 16 Sep 2017 20:01:45 +0900
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54755 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751198AbdIQAyu (ORCPT <rfc822;perfbook@vger.kernel.org>); Sat, 16
+ Sep 2017 20:54:50 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v8H0s2Yu010392
+ for <perfbook@vger.kernel.org>; Sat, 16 Sep 2017 20:54:49 -0400
+Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2d10ggbm8f-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sat,
+ 16 Sep 2017 20:54:49 -0400
+Received: from localhost by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 16 Sep
+ 2017 20:54:48 -0400
+Date: Sat, 16 Sep 2017 17:54:44 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH v2 0/5] memorder: Miscellaneous fixes
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <7b420fff-97d1-fcb2-2bbd-8d1a8c2ec1ec@gmail.com>
+ <95974ff0-250c-e25b-cca1-76281383e22a@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <95974ff0-250c-e25b-cca1-76281383e22a@gmail.com>
+Message-Id: <20170917005444.GU3521@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Hi Paul,
+On Sun, Sep 17, 2017 at 12:06:02AM +0900, Akira Yokosawa wrote:
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Sat, 16 Sep 2017 23:39:11 +0900
+> Subject: [PATCH v2 0/5] memorder: Miscellaneous fixes
+> 
+> Hi Paul,
+> 
+> (Sorry, I messed up 2/5 in v1. Retrying...)
+> 
+> This patch set consists of small fixes in memorder.
+> 
+> Patches #1, #2, and #3 are trivial fixes.
+> 
+> Patch #4 fixes a recursive reference within the chapter. I chose
+> Section 14.1, but there might be other choices.
 
-I'm a bit disturbed by the description in Section 14.3.1 "Memory-Reference
-Restrictions" quoted below:
+I removed the reference with your Reported-by, as it was a holdover
+from my moving that section from the appendix.  I also fixed a typo in
+the table.
 
-> Oddly enough, the compiler is within its rights to use a variable
-> as temporary storage just before a store to that variable, thus
-> inventing stores to that variable.
-> Fortunately, most compilers avoid this sort of thing, at least outside
-> of stack variables.
-> Nevertheless, using WRITE_ONCE() (or declaring the variable
-> volatile) should prevent this sort of thing.
-> But take care: If you have a translation unit that uses that variable,
-> and never makes a volatile access to it, the compiler has no way of
-> knowing that it needs to be careful.
+> Patch #5 might be a wrong guess on my side. I have not consulted
+> any document regarding PA-RISC arch or its CPU implementation.
+> Please apply it if it is the right guess.
 
-I'm wondering if using WRITE_ONCE() in a translation unit is really
-enough to prevent invention of stores.
+All the others look good, including #5, thank you!!!
 
-Accessing via a volatile-cast pointer guarantees the access is not
-optimized out (and hopefully the referenced value is respected).
+							Thanx, Paul
 
-But I suspect that it has any effect in preventing invention of extra
-loads/stores.
-
-Isn't declaring the variable volatile necessary for the guarantee?
-
-In practice, as is described in the above quote: "Fortunately, most
-compilers avoid this sort of thing, at least outside of stack variables",
-we can assume non-volatile shared variables are not spilled out to
-the variables themselves as far as GCC/LLVM is concerned.
-But this is compiler dependent, I suppose.
-
-      Thanks, Akira
+>        Thanks, Akira
+> --
+> Akira Yokosawa (5):
+>   memorder: Adjust hspace of table 'Summary of Memory Ordering' in 1c
+>   memorder: Fix usage of \IfInBook macro
+>   memorder: More reword to 'full-strength non-void RMW'
+>   memorder: Update reference to memory-barrier primitives
+>   memorder: Fix table of 'Summary of Memory Ordering'
+> 
+>  appendix/styleguide/styleguide.tex |  2 +-
+>  memorder/memorder.tex              | 12 ++++++------
+>  2 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
+> 
+> 
 
