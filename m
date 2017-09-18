@@ -1,161 +1,238 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56896 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751452AbdIQVzM (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Sun, 17 Sep 2017 17:55:12 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v8HLsKp0033780
- for <perfbook@vger.kernel.org>; Sun, 17 Sep 2017 17:55:11 -0400
-Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2d1qyk1g4a-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
- 17 Sep 2017 17:55:11 -0400
-Received: from localhost by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 17 Sep
- 2017 17:55:11 -0400
-Date: Sun, 17 Sep 2017 14:55:08 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: Is WRITE_ONCE() enough to prevent invention of stores?
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <9307038d-60f1-0c93-55a1-f3c9be35605c@gmail.com>
- <20170917010730.GY3521@linux.vnet.ibm.com>
- <e802cd64-22d9-7ef4-a2b8-95d4779d6c3d@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=zona0DWxmH3dVdhg+wEmenk9dog4UEejPKxy9dXs2+U=;
+ b=Jt+H/7OZ6nMw/sTvpS8vTvNZ1h4637vJGPxMIF6vc9mPCawG6hKgFV6cszA/2RcCU+
+ kL4eRJ18Wiq+2b/U2A6lUziqxg9u35obKkvQipqCi7SKRF2Kyp9C21U/NduWrjgd2oDQ
+ P704qmRJ/wvFfVCBzh6hdpf9YaSYZOxVsBQCZTYPqny5l30Ffx5e6jth1G+QaD0PxMOc
+ RQJGY3SoXD7vVMv4sWh5YdVXUx/EGBGYlXxlKQjqrnD5bgKAmyoOqGA36AUmjF31Tgyg
+ jS6QALodzjumXReeepcSj0BYueGnTxk3oceqjmuS9zQtC/buoH8gkGScQD0ne6aXAdQP
+ BHQQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] memorder: Convert remaining code snippets in figures to
+ listings
+Message-ID: <dd46f6b1-a4d5-4c84-a24f-913db2de78ae@gmail.com>
+Date: Mon, 18 Sep 2017 23:53:36 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e802cd64-22d9-7ef4-a2b8-95d4779d6c3d@gmail.com>
-Message-Id: <20170917215508.GD3521@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Sep 17, 2017 at 08:04:21PM +0900, Akira Yokosawa wrote:
-> On 2017/09/16 18:07:30 -0700, Paul E. McKenney wrote:
-> > On Sat, Sep 16, 2017 at 08:01:45PM +0900, Akira Yokosawa wrote:
-> >> Hi Paul,
-> >>
-> >> I'm a bit disturbed by the description in Section 14.3.1 "Memory-Reference
-> >> Restrictions" quoted below:
-> >>
-> >>> Oddly enough, the compiler is within its rights to use a variable
-> >>> as temporary storage just before a store to that variable, thus
-> >>> inventing stores to that variable.
-> >>> Fortunately, most compilers avoid this sort of thing, at least outside
-> >>> of stack variables.
-> >>> Nevertheless, using WRITE_ONCE() (or declaring the variable
-> >>> volatile) should prevent this sort of thing.
-> >>> But take care: If you have a translation unit that uses that variable,
-> >>> and never makes a volatile access to it, the compiler has no way of
-> >>> knowing that it needs to be careful.
-> >>
-> >> I'm wondering if using WRITE_ONCE() in a translation unit is really
-> >> enough to prevent invention of stores.
-> >>
-> >> Accessing via a volatile-cast pointer guarantees the access is not
-> >> optimized out (and hopefully the referenced value is respected).
-> >>
-> >> But I suspect that it has any effect in preventing invention of extra
-> >> loads/stores.
-> >>
-> >> Isn't declaring the variable volatile necessary for the guarantee?
-> >>
-> >> In practice, as is described in the above quote: "Fortunately, most
-> >> compilers avoid this sort of thing, at least outside of stack variables",
-> >> we can assume non-volatile shared variables are not spilled out to
-> >> the variables themselves as far as GCC/LLVM is concerned.
-> >> But this is compiler dependent, I suppose.
-> > 
-> > I suspect that it will turn out to be impossible for the compiler to
-> > actually invent these stores in the general case.  For example, it might
-> > be that there is some lock held or other synchronization mechanism unknown
-> > to the compiler that prevents this behavior.  But I haven't fully worked
-> > this out yet.
-> 
-> You mean the invented stores wouldn't be visible from other threads anyway?
-> In a meaningful parallel code, that can be the case.
+From 5ea1ec3515ed44646c3337482ef2f0f6a7f5b4f2 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 18 Sep 2017 23:33:39 +0900
+Subject: [PATCH] memorder: Convert remaining code snippets in figures to listings
 
-I mean that it is very hard to prove that inventing a store isn't introducing
-a data race, which would be a violation of the standard.  The one case I know
-of where the compiler can be sure that it is within its rights to invent the
-store is before a normal store to a variable.
+Line numbers are not touched. Conversion to auto-numbering scheme
+can wait until renumbering becomes inevitable.
 
-Otherwise, it might be (for example) that one must hold a lock to legally
-update a given variable, and that lock might or might not be held at a given
-point in the code.  But if the compiler sees a plain store, the compiler
-knows that it is OK to update at that point.  So the compiler can invent
-a store prior to the existing store, as long as there is no memory barrier,
-compiler barrier, lock acquisition/release, atomic operation, etc., between
-the original store and the compiler's invented store.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
 
-> > But I do know that if you just do plain stores, the compiler is fully
-> > within its rights to invent stores preceding any given plain store.
-> 
-> So, the rules to use WRITE_ONCE() is something like the following?
-> 
-> ---
-> 1) Declare the variable without volatile.
+This is for consistency in this chapter.
+If it conflicts with changes on your side, I'll respin.
 
-Agreed.
+       Thanks, Akira
+--
+ memorder/memorder.tex | 58 +++++++++++++++++++++++++--------------------------
+ 1 file changed, 29 insertions(+), 29 deletions(-)
 
-> 2) READ_ONCE() and plain loads can be mixed. A plain load will see
->    a value at least newer than or equal to the one obtained at the
->    program-order most recent READ_ONCE().
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index f031857..0cbde1b 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -3089,7 +3089,7 @@ of the pointer itself.
+ As soon as the compiler does that, the dependency is broken and all
+ ordering is lost.
 
-I am not entirely sure of this one.  But if there is a barrier() or
-stronger between the READ_ONCE() and the plain load, then yes.
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+  1 int reserve_int;
+@@ -3105,10 +3105,10 @@ ordering is lost.
+ \centering
+ \theverbbox
+ \caption{Breakable Dependencies With Comparisons}
+-\label{fig:memorder:Breakable Dependencies With Comparisons}
+-\end{figure}
++\label{lst:memorder:Breakable Dependencies With Comparisons}
++\end{listing}
 
-> 3) WRITE_ONCE() should not be mixed with plain stores when invention
->    of stores is to be avoided.
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+  1 int reserve_int;
+@@ -3127,8 +3127,8 @@ ordering is lost.
+ \centering
+ \theverbbox
+ \caption{Broken Dependencies With Comparisons}
+-\label{fig:memorder:Broken Dependencies With Comparisons}
+-\end{figure}
++\label{lst:memorder:Broken Dependencies With Comparisons}
++\end{listing}
 
-Agreed.
+ \begin{enumerate}
+ \item	Although it is permissible to compute offsets from a
+@@ -3141,7 +3141,7 @@ ordering is lost.
+ 	For example, if \co{a} and \co{b} are equal, \co{cp+a-b}
+ 	is an identity function, including preserving the dependency.
+ \item	Comparisons can break dependencies.
+-	Figure~\ref{fig:memorder:Breakable Dependencies With Comparisons}
++	Listing~\ref{lst:memorder:Breakable Dependencies With Comparisons}
+ 	shows how this can happen.
+ 	Here global pointer \co{gp} points to a dynamically allocated
+ 	integer, but if memory is low, it might instead point to
+@@ -3150,7 +3150,7 @@ ordering is lost.
+ 	shown on lines~6 and~7 of the figure.
+ 	But the compiler could reasonably transform this code into
+ 	the form shown in
+-	Figure~\ref{fig:memorder:Broken Dependencies With Comparisons},
++	Listing~\ref{lst:memorder:Broken Dependencies With Comparisons},
+ 	especially on systems where instructions with absolute
+ 	addresses run faster than instructions using addresses
+ 	supplied in registers.
+@@ -3163,7 +3163,7 @@ ordering is lost.
+ \QuickQuiz{}
+ 	Why can't you simply dereference the pointer before comparing it
+ 	to \co{&reserve_int} on line~6 of
+-	Figure~\ref{fig:memorder:Breakable Dependencies With Comparisons}?
++	Listing~\ref{lst:memorder:Breakable Dependencies With Comparisons}?
+ \QuickQuizAnswer{
+ 	For first, it might be necessary to invoke
+ 	\co{handle_reserve()} before \co{do_something_with()}.
+@@ -3182,7 +3182,7 @@ ordering is lost.
+ 	comparison?
+ \QuickQuizAnswer{
 
-> Invention of stores is the opposite of fusing stores.
-> Suppose you don't want to update progress in the while loop:
-> 
-> 	while (!am_done()) {
-> 	  do_something(p);
-> 	  tmp++;
-> 	}
-> 	progress = tmp;
-> 
-> The compiler might transform this to
-> 
-> 	while (!am_done()) {
-> 	  do_something(p);
-> 	  progress++;
-> 	}
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+  1 int *gp1;
+@@ -3200,10 +3200,10 @@ ordering is lost.
+ \centering
+ \theverbbox
+ \caption{Breakable Dependencies With Non-Constant Comparisons}
+-\label{fig:memorder:Breakable Dependencies With Non-Constant Comparisons}
+-\end{figure}
++\label{lst:memorder:Breakable Dependencies With Non-Constant Comparisons}
++\end{listing}
 
-But only as long as the compiler knows that do_something() doesn't
-contain any ordering directives.
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+  1 int *gp1;
+@@ -3224,15 +3224,15 @@ ordering is lost.
+ \centering
+ \theverbbox
+ \caption{Broken Dependencies With Non-Constant Comparisons}
+-\label{fig:memorder:Broken Dependencies With Non-Constant Comparisons}
+-\end{figure}
++\label{lst:memorder:Broken Dependencies With Non-Constant Comparisons}
++\end{listing}
 
-> if it wants to avoid allocation of a register/stack to tmp for whatever
-> reason. WRITE_ONCE() prevents the unintended accesses of progress:
-> 
-> 	while (!am_done()) {
-> 	  do_something(p);
-> 	  tmp++;
-> 	}
-> 	WRITE_ONCE(progress, tmp);
+ 	Unfortunately, the compiler really can learn enough to
+ 	break your dependency chain, for example, as shown in
+-	Figure~\ref{fig:memorder:Breakable Dependencies With Non-Constant Comparisons}.
++	Listing~\ref{lst:memorder:Breakable Dependencies With Non-Constant Comparisons}.
+ 	The compiler is within its rights to transform this code
+ 	into that shown in
+-	Figure~\ref{fig:memorder:Broken Dependencies With Non-Constant Comparisons},
++	Listing~\ref{lst:memorder:Broken Dependencies With Non-Constant Comparisons},
+ 	and might well make this transformation due to register pressure
+ 	if \co{handle_equality()} was inlined and needed a lot of registers.
+ 	Line~10 of this transformed code uses \co{q}, which although
+@@ -3932,14 +3932,14 @@ hacker.
 
-Agreed, this would prevent the update to "progress" from being pulled
-into the loop.
+ The difference between Alpha and the other CPUs is illustrated by the
+ code shown in
+-Figure~\ref{fig:memorder:Insert and Lock-Free Search}.
++Listing~\ref{lst:memorder:Insert and Lock-Free Search}.
+ This \co{smp_wmb()} on line~9 of this figure
+ guarantees that the element initialization
+ in lines~6-8 is executed before the element is added to the
+ list on line~10, so that the lock-free search will work correctly.
+ That is, it makes this guarantee on all CPUs {\em except} Alpha.
 
-> ---
-> Adding this example in the text might be too verbose.
-> Would a Quick Quiz be reasonable?
+-\begin{figure}
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+   1 struct el *insert(long key, long data)
+@@ -3973,12 +3973,12 @@ That is, it makes this guarantee on all CPUs {\em except} Alpha.
+ \centering
+ \theverbbox
+ \caption{Insert and Lock-Free Search}
+-\label{fig:memorder:Insert and Lock-Free Search}
+-\end{figure}
++\label{lst:memorder:Insert and Lock-Free Search}
++\end{listing}
 
-Might be good in the section on protecting memory references, and putting
-it into a quick quiz or two makes a lot of sense.
+ Alpha has extremely weak memory ordering
+ such that the code on line~20 of
+-Figure~\ref{fig:memorder:Insert and Lock-Free Search} could see the old
++Listing~\ref{lst:memorder:Insert and Lock-Free Search} could see the old
+ garbage values that were present before the initialization on lines~6-8.
 
-							Thanx, Paul
+ Figure~\ref{fig:memorder:Why smp-read-barrier-depends() is Required}
+@@ -3987,13 +3987,13 @@ an aggressively parallel machine with partitioned caches, so that
+ alternating cache lines are processed by the different partitions
+ of the caches.
+ For example, the load of \co{head.next} on line~17 of
+-Figure~\ref{fig:memorder:Insert and Lock-Free Search}
++Listing~\ref{lst:memorder:Insert and Lock-Free Search}
+ might access cache bank~0,
+ and the load of \co{p->key} on line~20 and of \co{p->next} on line~23
+ might access cache bank~1.
+ On Alpha, the \co{smp_wmb()} will guarantee that the cache invalidations
+ performed by lines~6-8 of
+-Figure~\ref{fig:memorder:Insert and Lock-Free Search}
++Listing~\ref{lst:memorder:Insert and Lock-Free Search}
+ (for \co{p->next}, \co{p->key}, and \co{p->data}) will reach
+ the interconnect before that of line~10 (for \co{head.next}), but
+ makes absolutely no guarantee about the order of
+@@ -4034,10 +4034,10 @@ Itanium, PPC, and SPARC) that respect data dependencies on the read side.
+ A \co{smp_read_barrier_depends()} primitive has therefore been added to the
+ Linux kernel to eliminate overhead on these systems.
+ This primitive could be inserted in place of line~19 of
+-Figure~\ref{fig:memorder:Insert and Lock-Free Search},
++Listing~\ref{lst:memorder:Insert and Lock-Free Search},
+ but it is better to use the \co{rcu_dereference()} wrapper macro
+ as shown on lines~17 and~22 of
+-Figure~\ref{fig:memorder:Safe Insert and Lock-Free Search}.
++Listing~\ref{lst:memorder:Safe Insert and Lock-Free Search}.
 
->         Thanks, Akira
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> > 
-> 
+ It is also possible to implement a software barrier
+ that could be used in place of \co{smp_wmb()}, which would force
+@@ -4059,7 +4059,7 @@ fades off into the sunset, but as of 2017 there is a surprisingly
+ large number of people who run recent Linux kernels on their lovingly
+ preserved DEC Alpha systems.
+
+-\begin{figure}
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+  1  struct el *insert(long key, long data)
+@@ -4092,8 +4092,8 @@ preserved DEC Alpha systems.
+ \centering
+ \theverbbox
+ \caption{Safe Insert and Lock-Free Search}
+-\label{fig:memorder:Safe Insert and Lock-Free Search}
+-\end{figure}
++\label{lst:memorder:Safe Insert and Lock-Free Search}
++\end{listing}
+
+ The Linux memory-barrier primitives took their names from the Alpha
+ instructions, so \co{smp_mb()} is {\tt mb}, \co{smp_rmb()} is {\tt rmb},
+-- 
+2.7.4
 
