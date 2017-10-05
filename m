@@ -1,141 +1,116 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rdtS2SZMlahv2sBdlIhXaqDk5u6OwvoWJRfkdrA2tVY=;
- b=TZO+nKNEC3rW7EGQf7mlneJkze3VZnkBjoU8eFwE6PDl2KFUooAilBMLACXnJjTh5w
- UjMwW5xzVpWuZWWa/umOjfhcqrcHmUFtI8AqtMs9D9VPAvoju7akpI3yxdaiVDbWArvF
- ksycBu1MPbtBXSdggeYZg24dByjMl1FS4tFeEm6AK0QB57s8Zz875R/C9DNdr2Ldz4YG
- eVs8H0C+CQriMs+byiC1uAwI9dw6YuiPjubvEiXGGEPgZX1LLiVLmQ+NY+yoE4U6AR1u
- CSSBQevdpcX5XdDAc86uxw231WReJwf57siOHjdDLOsmmWpouacrcyPFpg2KKDG55DJF
- X9lA==
-Subject: [PATCH 10/10] styleguide: Reflect recent style improvements
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41502 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751868AbdJEUsg (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 5
+ Oct 2017 16:48:36 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v95KjVpE020284
+ for <perfbook@vger.kernel.org>; Thu, 5 Oct 2017 16:48:36 -0400
+Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2ddqekekuw-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Thu,
+ 05 Oct 2017 16:48:35 -0400
+Received: from localhost by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 5 Oct 2017
+ 16:48:34 -0400
+Date: Thu, 5 Oct 2017 13:48:31 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 00/10] Tweaks to follow guidelines in style guide
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <d36d262c-2fe4-284c-7818-516a4ad59ec7@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <d15ca863-c275-68ae-3d16-2f2efbe1ce14@gmail.com>
-Date: Fri, 6 Oct 2017 01:00:06 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <d36d262c-2fe4-284c-7818-516a4ad59ec7@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20171005204831.GX3521@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 2890e0069882321553c16aac213d4bb8d0a06fb7 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 4 Oct 2017 08:18:50 +0900
-Subject: [PATCH 10/10] styleguide: Reflect recent style improvements
+On Fri, Oct 06, 2017 at 12:47:21AM +0900, Akira Yokosawa wrote:
+> >From 2890e0069882321553c16aac213d4bb8d0a06fb7 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Wed, 5 Oct 2017 22:57:46 +0900
+> Subject: [PATCH 00/10] Tweaks to follow guidelines in style guide
+> 
+> Hi Paul,
+> 
+> This patch set consists of minor tweaks in regard to the suggestions
+> having been presented in style guide for a while.
+> 
+> Patches #1 -- #5 are trivial changes.
+> 
+> Patch #6 attempts to improve consistency in denoting POWER series CPU
+> by defining a macro "\Power{}".
+> 
+> Patch #7 substitutes "GCC" for "gcc". There are a few exceptions as
+> mentioned in commit log.
+> 
+> Patch #8 substitutes "IRQ" for "irq" in the same way. You might like
+> to skip this one, as I see "irq" more often than "IRQ" in Linux
+> documentations.
+> 
+> Patch #9 is somewhat invasive. It switches Times font to that of
+> "newtxtext" and "newtxmath" packages. The reason of the change
+> is to have access to both upright and slated glyphs of Greek letters.
+> Recent versions of these font packages give better looking result,
+> especially in math mode. As noted in the commit log, newtxmath in
+> TeX Live 2013/Debian has a few issues which have been fixed in later
+> versions. It also switches font choice for the experimental target "1csf".
+> 
+> Patch #10 updates style guide to reflect the changes made in this
+> patch set.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- appendix/styleguide/styleguide.tex | 58 ++++++++++++--------------------------
- 1 file changed, 18 insertions(+), 40 deletions(-)
+They look fine, so I applied them, thank you!  We might want to go with
+"irq", but let's see how people react.  Easy to change, aside from
+beginnings of sentences!
 
-diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
-index bec700c..d7ee97d 100644
---- a/appendix/styleguide/styleguide.tex
-+++ b/appendix/styleguide/styleguide.tex
-@@ -181,29 +181,14 @@ Example:
-   $45\degree$, rather than $45\,\degree$.
- \end{quote}
+							Thanx, Paul
 
--\subsection{NIST Guide Yet To Be Followed}
--\label{sec:app:styleguide:NIST Guides Yet To Be Followed}
--
--There are a few cases where NIST style guide is not followed.
--Other English conventions are followed in such cases.
--NIST rules of
--Sections~\ref{sec:app:styleguide:Percent Symbol}
--and~\ref{sec:app:styleguide:Font Style}
--are deemed acceptable by the editor.
--Contributions in those areas should be welcome.
--
- \subsubsection{Percent Symbol}
- \label{sec:app:styleguide:Percent Symbol}
-
- NIST style guide treats the percent symbol (\%) as the same as SI unit
- symbols.
--In this textbook, no space is placed in front of a percent symbol.
-
- \begin{quote}
--\begin{tabular}{ll}
--  NIST guide:& 50\,\% possibility\\
--  Current convention:& 50\% possibility\\
--\end{tabular}
-+  50\,\% possibility, rather than 50\% possibility.
- \end{quote}
-
- \subsubsection{Font Style}
-@@ -235,12 +220,15 @@ For example,
-   $\mathrm{e}^x$
- \end{quote}
-
--In this textbook, this rule is not much considered as of this writing.
--Most letters in math mode are italic regardless of what they
--represent. Exceptions are uppercase Greek letters, which are upright
--in math mode by default.\footnote{
--  See \url{https://tex.stackexchange.com/questions/119248/}
--  for the historical reason.}
-+%\footnote{
-+%  See \url{https://tex.stackexchange.com/questions/119248/}
-+%  for the historical reason.}
-+
-+\subsection{NIST Guide Yet To Be Followed}
-+\label{sec:app:styleguide:NIST Guides Yet To Be Followed}
-+
-+There are a few cases where NIST style guide is not followed.
-+Other English conventions are followed in such cases.
-
- \subsubsection{Digit Grouping}
- \label{sec:app:styleguide:Digit Grouping}
-@@ -670,7 +658,14 @@ Example with an en dash:
- \label{sec:app:styleguide:Numerical Minus Sign}
-
- Numerical minus signs should be coded as math mode minus signs,
--namely \qco{$-$}. For example,
-+namely \qco{$-$}.\footnote{This rule assumes that math mode uses the
-+  same upright glyph as text mode. Our default font choice meets
-+  the assumption.
-+\IfSansSerif{
-+  One of the experimental targets ``1csf'' \emph{does} use a differnt font
-+  for math mode figures as of October 2017.}{}
-+}
-+For example,
-
- \begin{quote}
-   $-30$, rather than -30.
-@@ -1399,28 +1394,11 @@ for examples of tables with complex headings.
- Other improvement candidates are listed in the source of this
- section as comments.
-
--% Capitalize initialism:
--%    Gnu Compiler Collection = GCC
--%    gcc should be used as a command name in \co{gcc}
--%    When mentioning GCC's C language, use `GNU C'
--%
- % Trademarks:
- %    As the Legal page covers trademarks, there is no need to
- %    use trademark symbol in the text. They seems to have been
- %    imported from original publications.
- %
--% Power or POWER?
--%    IBM's trademark page at https://www.ibm.com/legal/us/en/copytrade.shtml#section-P
--%    lists the following.
--%        PowerPC
--%        Power Architecture
--%        Power
--%        POWER
--%        POWER5
--%        POWER6
--%
--%    not Power5, POWER 5, nor Power-5
--%
- % Ugly line break by \co{}
- %                                 __
- %        atomic_store()
--- 
-2.7.4
-
+>         Thanks, Akira
+> --
+> Akira Yokosawa (10):
+>   debugging: Insert narrow space in front of percent symbol
+>   debugging: Use upright font for Euler's number
+>   future/QC: Insert narrow space in front of percent symbol
+>   future/QC: Use non-breakable hyphen for axis names
+>   treewide: Insert narrow space in front of percent symbol
+>   treewide: Use \Power{} macro for POWER CPU family
+>   treewide: Call GNU C compiler as "GCC"
+>   treewide: Use "IRQ" instead of "irq" used as abbreviation
+>   future/QC: Use upright glyph for math constant and descriptive suffix
+>   styleguide: Reflect recent style improvements
+> 
+>  FAQ-BUILD.txt                      |   4 +-
+>  Makefile                           |   2 +-
+>  SMPdesign/SMPdesign.tex            |   2 +-
+>  SMPdesign/beyond.tex               |  14 ++---
+>  advsync/advsync.tex                |   2 +-
+>  appendix/styleguide/styleguide.tex |  64 ++++++++---------------
+>  appendix/toyrcu/toyrcu.tex         |  26 +++++-----
+>  count/count.tex                    |  28 +++++-----
+>  cpu/hwfreelunch.tex                |   4 +-
+>  datastruct/datastruct.tex          |   2 +-
+>  debugging/debugging.tex            | 104 ++++++++++++++++++-------------------
+>  defer/rcuapi.tex                   |   6 +--
+>  defer/rcuusage.tex                 |   4 +-
+>  formal/dyntickrcu.tex              |  52 +++++++++----------
+>  formal/formal.tex                  |   2 +-
+>  formal/spinhint.tex                |   2 +-
+>  future/QC.tex                      |  92 ++++++++++++++++----------------
+>  future/htm.tex                     |   2 +-
+>  future/tm.tex                      |   4 +-
+>  intro/intro.tex                    |   8 +--
+>  memorder/memorder.tex              |  32 ++++++------
+>  perfbook.tex                       |  20 +++++--
+>  rt/rt.tex                          |  22 ++++----
+>  toolsoftrade/toolsoftrade.tex      |  24 ++++-----
+>  24 files changed, 257 insertions(+), 265 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
+> 
 
