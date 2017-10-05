@@ -2,19 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BDV7wrgMgaMdwx7IA7XJpOeJ0GUd322Fh3xTHJ3W2KI=;
- b=RrRtffYlwL3i+sDSy8M3LDLwUpEdX6iRJ9sDAtYbi7YsT+h41QdutbhGiEN/SSdF4o
- vd8gJeshLMr1hak0g6LSDYG1YtsqCOIrR3GEu8jJNKVi6hcYu+hvKbkR3JHWHP+F/29E
- 28G93xLujrOwcWWQgCuTESVC5MikbT/63h994sCMwN+SfKiWEWiHAYdlNLeCxutdeB5u
- rtVoLctIepHibXBu8fxSQPz3JoVHWUPMBlhQyM/e5fxG4NHqMSnBrs9kMCuAcRE39fQm
- TBWtaYbc6IoCppYy7kFHRcgMq/vjsdFjZ9J1tDWOVUjtx5Pp0QMBmfbD0Y4Bjm7dd62k
- CaTw==
-Subject: [PATCH 05/10] treewide: Insert narrow space in front of percent
- symbol
+ bh=Wr9smsQSSDHB1nS/RXSqWKPA+pMq8zC7Uun47QJFo4g=;
+ b=JNPVR/1ZHzYq/YcZhvyVu5Ab98jr94KLdHpc8h9OVVnpDx0J40SHSKtOkA8mhKIWcj
+ kXMnkl5bUiZNe0WsRkAsXMZLzFJJ2hoRrkE4wxohoI6oK7HpQagi00ZHbBh+r9rPssD+
+ vqLudz6J5kiTYX5QjTGHI9pX7mbPsvMgDWm4Vmt+ignLRiEGgatyQLPFFQoISUMRUHJm
+ YGSdkzXRhlz1ApPyfI4PmWqP1lxTzogtKJ2DHACvyC+ZhGyF2MPZ/sL/RF0nNMLtk4eO
+ 5cZYlj2TfQByY7wahiWdBVzBSHWpxJaE3r8Ub913ID5qaKug/mwnR0vsoLyksEKI7cd+
+ mV9w==
+Subject: [PATCH 06/10] treewide: Use \Power{} macro for POWER CPU family
 References: <d36d262c-2fe4-284c-7818-516a4ad59ec7@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <bb64f683-c5f3-979d-475f-73687d898089@gmail.com>
-Date: Fri, 6 Oct 2017 00:53:35 +0900
+Message-ID: <7873ebb2-714c-e68d-3130-1ed7710bbde4@gmail.com>
+Date: Fri, 6 Oct 2017 00:54:38 +0900
 MIME-Version: 1.0
 In-Reply-To: <d36d262c-2fe4-284c-7818-516a4ad59ec7@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,297 +23,313 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From ffbf7756c160eaa59e8a93c1bdd09c1497dfe449 Mon Sep 17 00:00:00 2001
+From c7255fa8b6fc7835c0eb6ab524aed3349cea1dca Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 1 Oct 2017 12:17:43 +0900
-Subject: [PATCH 05/10] treewide: Insert narrow space in front of percent symbol
-
-In SMPdesign/beyond.tex, there are two cases where "percent" is
-spelled out in compound words.
+Date: Sun, 1 Oct 2017 12:40:18 +0900
+Subject: [PATCH 06/10] treewide: Use \Power{} macro for POWER CPU family
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- SMPdesign/SMPdesign.tex |  2 +-
- SMPdesign/beyond.tex    | 14 +++++++-------
- advsync/advsync.tex     |  2 +-
- count/count.tex         |  4 ++--
- cpu/hwfreelunch.tex     |  4 ++--
- defer/rcuusage.tex      |  4 ++--
- formal/dyntickrcu.tex   |  2 +-
- formal/spinhint.tex     |  2 +-
- future/htm.tex          |  2 +-
- future/tm.tex           |  4 ++--
- intro/intro.tex         |  6 +++---
- rt/rt.tex               |  8 ++++----
- 12 files changed, 27 insertions(+), 27 deletions(-)
+ appendix/toyrcu/toyrcu.tex    | 26 +++++++++++++-------------
+ count/count.tex               |  6 +++---
+ intro/intro.tex               |  2 +-
+ memorder/memorder.tex         | 30 +++++++++++++++---------------
+ perfbook.tex                  |  1 +
+ toolsoftrade/toolsoftrade.tex |  4 ++--
+ 6 files changed, 35 insertions(+), 34 deletions(-)
 
-diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
-index 1936d27..81219cb 100644
---- a/SMPdesign/SMPdesign.tex
-+++ b/SMPdesign/SMPdesign.tex
-@@ -1186,7 +1186,7 @@ which fortunately is usually quite easy to do in actual
- practice~\cite{McKenney01e}, especially given today's large memories.
- For example, in most systems, it is quite reasonable to set
- \co{TARGET_POOL_SIZE} to 100, in which case allocations and frees
--are guaranteed to be confined to per-thread pools at least 99\% of
-+are guaranteed to be confined to per-thread pools at least 99\,\% of
- the time.
-
- As can be seen from the figure, the situations where the common-case
-diff --git a/SMPdesign/beyond.tex b/SMPdesign/beyond.tex
-index 7ba351e..1fb2a6b 100644
---- a/SMPdesign/beyond.tex
-+++ b/SMPdesign/beyond.tex
-@@ -401,8 +401,8 @@ large algorithmic superlinear speedups.
- \end{figure}
-
- Further investigation showed that
--PART sometimes visited fewer than 2\% of the maze's cells,
--while SEQ and PWQ never visited fewer than about 9\%.
-+PART sometimes visited fewer than 2\,\% of the maze's cells,
-+while SEQ and PWQ never visited fewer than about 9\,\%.
- The reason for this difference is shown by
- Figure~\ref{fig:SMPdesign:Reason for Small Visit Percentages}.
- If the thread traversing the solution from the upper left reaches
-@@ -473,11 +473,11 @@ optimizations are quite attractive.
- Cache alignment and padding often improves performance by reducing
- false sharing.
- However, for these maze-solution algorithms, aligning and padding the
--maze-cell array \emph{degrades} performance by up to 42\% for 1000x1000 mazes.
-+maze-cell array \emph{degrades} performance by up to 42\,\% for 1000x1000 mazes.
- Cache locality is more important than avoiding
- false sharing, especially for large mazes.
- For smaller 20-by-20 or 50-by-50 mazes, aligning and padding can produce
--up to a 40\% performance improvement for PART,
-+up to a 40\,\% performance improvement for PART,
- but for these small sizes, SEQ performs better anyway because there
- is insufficient time for PART to make up for the overhead of
- thread creation and destruction.
-@@ -508,7 +508,7 @@ context-switch overhead and visit percentage.
- As can be seen in
- Figure~\ref{fig:SMPdesign:Partitioned Coroutines},
- this coroutine algorithm (COPART) is quite effective, with the performance
--on one thread being within about 30\% of PART on two threads
-+on one thread being within about 30\,\% of PART on two threads
- (\path{maze_2seq.c}).
-
- \subsection{Performance Comparison II}
-@@ -532,7 +532,7 @@ Figures~\ref{fig:SMPdesign:Varying Maze Size vs. SEQ}
- and~\ref{fig:SMPdesign:Varying Maze Size vs. COPART}
- show the effects of varying maze size, comparing both PWQ and PART
- running on two threads
--against either SEQ or COPART, respectively, with 90\%-confidence
-+against either SEQ or COPART, respectively, with 90\=/percent\-/confidence
- error bars.
- PART shows superlinear scalability against SEQ and modest scalability
- against COPART for 100-by-100 and larger mazes.
-@@ -565,7 +565,7 @@ a thread is connected to both beginning and end).
- PWQ performs quite poorly, but
- PART hits breakeven at two threads and again at five threads, achieving
- modest speedups beyond five threads.
--Theoretical energy efficiency breakeven is within the 90\% confidence
-+Theoretical energy efficiency breakeven is within the 90\=/percent\-/confidence
- interval for seven and eight threads.
- The reasons for the peak at two threads are (1) the lower complexity
- of termination detection in the two-thread case and (2) the fact that
-diff --git a/advsync/advsync.tex b/advsync/advsync.tex
-index 98e6986..adf1dc9 100644
---- a/advsync/advsync.tex
-+++ b/advsync/advsync.tex
-@@ -85,7 +85,7 @@ basis of real-time programming:
- 	bound.
- \item	Real-time forward-progress guarantees are sometimes
- 	probabilistic, as in the soft-real-time guarantee that
--	``at least 99.9\% of the time, scheduling latency must
-+	``at least 99.9\,\% of the time, scheduling latency must
- 	be less than 100 microseconds.''
- 	In contrast, NBS's forward-progress
- 	guarantees have traditionally been unconditional.
-diff --git a/count/count.tex b/count/count.tex
-index f1645ee..73b6866 100644
---- a/count/count.tex
-+++ b/count/count.tex
-@@ -55,7 +55,7 @@ counting.
- 	whatever ``true value'' might mean in this context.
- 	However, the value read out should maintain roughly the same
- 	absolute error over time.
--	For example, a 1\% error might be just fine when the count
-+	For example, a 1\,\% error might be just fine when the count
- 	is on the order of a million or so, but might be absolutely
- 	unacceptable once the count reaches a trillion.
- 	See Section~\ref{sec:count:Statistical Counters}.
-@@ -204,7 +204,7 @@ On my dual-core laptop, a short run invoked \co{inc_count()}
- 100,014,000 times, but the final value of the counter was only
- 52,909,118.
- Although approximate values do have their place in computing,
--accuracies far greater than 50\% are almost always necessary.
-+accuracies far greater than 50\,\% are almost always necessary.
+diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
+index db45fad..2c65f74 100644
+--- a/appendix/toyrcu/toyrcu.tex
++++ b/appendix/toyrcu/toyrcu.tex
+@@ -73,7 +73,7 @@ Of course, only one RCU reader may be in its read-side critical section
+ at a time, which almost entirely defeats the purpose of RCU.
+ In addition, the lock operations in \co{rcu_read_lock()} and
+ \co{rcu_read_unlock()} are extremely heavyweight,
+-with read-side overhead ranging from about 100~nanoseconds on a single Power5
++with read-side overhead ranging from about 100~nanoseconds on a single \Power{5}
+ CPU up to more than 17~\emph{microseconds} on a 64-CPU system.
+ Worse yet,
+ these same lock operations permit \co{rcu_read_lock()}
+@@ -216,7 +216,7 @@ with a single global lock.
+ Furthermore, the read-side overhead, though high at roughly 140 nanoseconds,
+ remains at about 140 nanoseconds regardless of the number of CPUs.
+ However, the update-side overhead ranges from about 600 nanoseconds
+-on a single Power5 CPU
++on a single \Power{5} CPU
+ up to more than 100 \emph{microseconds} on 64 CPUs.
 
  \QuickQuiz{}
- 	But doesn't the \co{++} operator produce an x86 add-to-memory
-diff --git a/cpu/hwfreelunch.tex b/cpu/hwfreelunch.tex
-index b449ba2..152f691 100644
---- a/cpu/hwfreelunch.tex
-+++ b/cpu/hwfreelunch.tex
-@@ -193,13 +193,13 @@ excellent bragging rights, if nothing else!
- Although the speed of light would be a hard limit, the fact is that
- semiconductor devices are limited by the speed of electricity rather
- than that of light, given that electric waves in semiconductor materials
--move at between 3\% and 30\% of the speed of light in a vacuum.
-+move at between 3\,\% and 30\,\% of the speed of light in a vacuum.
- The use of copper connections on silicon devices is one way to increase
- the speed of electricity, and it is quite possible that additional
- advances will push closer still to the actual speed of light.
- In addition, there have been some experiments with tiny optical fibers
- as interconnects within and between chips, based on the fact that
--the speed of light in glass is more than 60\% of the speed of light
-+the speed of light in glass is more than 60\,\% of the speed of light
- in a vacuum.
- One obstacle to such optical fibers is the inefficiency conversion
- between electricity and light and vice versa, resulting in both
-diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
-index af4faff..74be9fc 100644
---- a/defer/rcuusage.tex
-+++ b/defer/rcuusage.tex
-@@ -193,7 +193,7 @@ ideal synchronization-free workload, as desired.
- 	each search is taking on average about 13~nanoseconds,
- 	which is short enough for small differences in code
- 	generation to make their presence felt.
--	The difference ranges from about 1.5\% to about 11.1\%, which is
-+	The difference ranges from about 1.5\,\% to about 11.1\,\%, which is
- 	quite small when you consider that the RCU QSBR code can handle
- 	concurrent updates and the ``ideal'' code cannot.
+@@ -368,7 +368,7 @@ However, this implementations still has some serious shortcomings.
+ First, the atomic operations in \co{rcu_read_lock()} and
+ \co{rcu_read_unlock()} are still quite  heavyweight,
+ with read-side overhead ranging from about 100~nanoseconds on
+-a single Power5 CPU up to almost 40~\emph{microseconds}
++a single \Power{5} CPU up to almost 40~\emph{microseconds}
+ on a 64-CPU system.
+ This means that the RCU read-side critical sections
+ have to be extremely long in order to get any real
+@@ -718,9 +718,9 @@ In fact, they are more complex than those
+ of the single-counter variant shown in
+ Figure~\ref{fig:app:toyrcu:RCU Implementation Using Single Global Reference Counter},
+ with the read-side primitives consuming about 150~nanoseconds on a single
+-Power5 CPU and almost 40~\emph{microseconds} on a 64-CPU system.
++\Power{5} CPU and almost 40~\emph{microseconds} on a 64-CPU system.
+ The update-side \co{synchronize_rcu()} primitive is more costly as
+-well, ranging from about 200~nanoseconds on a single Power5 CPU to
++well, ranging from about 200~nanoseconds on a single \Power{5} CPU to
+ more than 40~\emph{microseconds} on a 64-CPU system.
+ This means that the RCU read-side critical sections
+ have to be extremely long in order to get any real
+@@ -963,9 +963,9 @@ environments.
 
-@@ -775,7 +775,7 @@ again showing data taken on a 16-CPU 3\,GHz Intel x86 system.
- 	Most likely NUMA effects.
- 	However, there is substantial variance in the values measured for the
- 	refcnt line, as can be seen by the error bars.
--	In fact, standard deviations range in excess of 10\% of measured
-+	In fact, standard deviations range in excess of 10\,\% of measured
- 	values in some cases.
- 	The dip in overhead therefore might well be a statistical aberration.
- } \QuickQuizEnd
-diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
-index 80fa3e7..ec3c78c 100644
---- a/formal/dyntickrcu.tex
-+++ b/formal/dyntickrcu.tex
-@@ -1748,7 +1748,7 @@ states, passing without errors.
- 	\end{quote}
+ That said, the read-side primitives scale very nicely, requiring about
+ 115~nanoseconds regardless of whether running on a single-CPU or a 64-CPU
+-Power5 system.
++\Power{5} system.
+ As noted above, the \co{synchronize_rcu()} primitive does not scale,
+-ranging in overhead from almost a microsecond on a single Power5 CPU
++ranging in overhead from almost a microsecond on a single \Power{5} CPU
+ up to almost 200~microseconds on a 64-CPU system.
+ This implementation could conceivably form the basis for a
+ production-quality user-level RCU implementation.
+@@ -1340,9 +1340,9 @@ destruction will not be reordered into the preceding loop.
 
- 	This means that any attempt to optimize the production of code should
--	place at least 66\% of its emphasis on optimizing the debugging process,
-+	place at least 66\,\% of its emphasis on optimizing the debugging process,
- 	even at the expense of increasing the time and effort spent coding.
- 	Incremental coding and testing is one way to optimize the debugging
- 	process, at the expense of some increase in coding effort.
-diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-index a40d2c3..27df639 100644
---- a/formal/spinhint.tex
-+++ b/formal/spinhint.tex
-@@ -416,7 +416,7 @@ Given a source file \path{qrcu.spin}, one can use the following commands:
- 	run \co{top} in one window and \co{./pan} in another.  Keep the
- 	focus on the \co{./pan} window so that you can quickly kill
- 	execution if need be.  As soon as CPU time drops much below
--	100\%, kill \co{./pan}.  If you have removed focus from the
-+	100\,\%, kill \co{./pan}.  If you have removed focus from the
- 	window running \co{./pan}, you may wait a long time for the
- 	windowing system to grab enough memory to do anything for
- 	you.
-diff --git a/future/htm.tex b/future/htm.tex
-index e26ee2a..0c3801d 100644
---- a/future/htm.tex
-+++ b/future/htm.tex
-@@ -1185,7 +1185,7 @@ by Siakavaras et al.~\cite{Siakavaras2017CombiningHA},
- is to use RCU for read-only traversals and HTM
- only for the actual updates themselves.
- This combination outperformed other transactional-memory techniques by
--up to 220\%, a speedup similar to that observed by
-+up to 220\,\%, a speedup similar to that observed by
- Howard and Walpole~\cite{PhilHoward2011RCUTMRBTree}
- when they combined RCU with STM.
- In both cases, the weak atomicity is implemented in software rather than
-diff --git a/future/tm.tex b/future/tm.tex
-index ec5373d..8420331 100644
---- a/future/tm.tex
-+++ b/future/tm.tex
-@@ -711,8 +711,8 @@ representing the lock as part of the transaction, and everything works
- out perfectly.
- In practice, a number of non-obvious complications~\cite{Volos2008TRANSACT}
- can arise, depending on implementation details of the TM system.
--These complications can be resolved, but at the cost of a 45\% increase in
--overhead for locks acquired outside of transactions and a 300\% increase
-+These complications can be resolved, but at the cost of a 45\,\% increase in
-+overhead for locks acquired outside of transactions and a 300\,\% increase
- in overhead for locks acquired within transactions.
- Although these overheads might be acceptable for transactional
- programs containing small amounts of locking, they are often completely
+ This approach achieves much better read-side performance, incurring
+ roughly 63~nanoseconds of overhead regardless of the number of
+-Power5 CPUs.
++\Power{5} CPUs.
+ Updates incur more overhead, ranging from about 500~nanoseconds on
+-a single Power5 CPU to more than 100~\emph{microseconds} on 64
++a single \Power{5} CPU to more than 100~\emph{microseconds} on 64
+ such CPUs.
+
+ \QuickQuiz{}
+@@ -1542,9 +1542,9 @@ This approach achieves read-side performance almost equal to that
+ shown in
+ Section~\ref{sec:app:toyrcu:RCU Based on Free-Running Counter}, incurring
+ roughly 65~nanoseconds of overhead regardless of the number of
+-Power5 CPUs.
++\Power{5} CPUs.
+ Updates again incur more overhead, ranging from about 600~nanoseconds on
+-a single Power5 CPU to more than 100~\emph{microseconds} on 64
++a single \Power{5} CPU to more than 100~\emph{microseconds} on 64
+ such CPUs.
+
+ \QuickQuiz{}
+@@ -1866,11 +1866,11 @@ This implementation has blazingly fast read-side primitives, with
+ an \co{rcu_read_lock()}-\co{rcu_read_unlock()} round trip incurring
+ an overhead of roughly 50~\emph{picoseconds}.
+ The \co{synchronize_rcu()} overhead ranges from about 600~nanoseconds
+-on a single-CPU Power5 system up to more than 100~microseconds on
++on a single-CPU \Power{5} system up to more than 100~microseconds on
+ a 64-CPU system.
+
+ \QuickQuiz{}
+-	To be sure, the clock frequencies of Power
++	To be sure, the clock frequencies of \Power{}
+ 	systems in 2008 were quite high, but even a 5\,GHz clock
+ 	frequency is insufficient to allow
+ 	loops to be executed in 50~picoseconds!
+diff --git a/count/count.tex b/count/count.tex
+index 73b6866..a38aba1 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -3330,7 +3330,7 @@ will expand on these lessons.
+ 	\path{count_end_rcu.c} & \ref{sec:together:RCU and Per-Thread-Variable-Based Statistical Counters} &
+ 		5.7 ns & 354 ns & 501 ns \\
+ \end{tabular}
+-\caption{Statistical Counter Performance on Power-6}
++\caption{Statistical Counter Performance on \Power{6}}
+ \label{tab:count:Statistical Counter Performance on Power-6}
+ \end{table*}
+
+@@ -3410,14 +3410,14 @@ courtesy of eventual consistency.
+ 	\path{count_lim_sig.c} & \ref{sec:count:Signal-Theft Limit Counter Implementation} &
+ 		Y & 10.2 ns & 370 ns & 54,000 ns \\
+ \end{tabular}
+-\caption{Limit Counter Performance on Power-6}
++\caption{Limit Counter Performance on \Power{6}}
+ \label{tab:count:Limit Counter Performance on Power-6}
+ \end{table*}
+
+ Figure~\ref{tab:count:Limit Counter Performance on Power-6}
+ shows the performance of the parallel limit-counting algorithms.
+ Exact enforcement of the limits incurs a substantial performance
+-penalty, although on this 4.7\,GHz Power-6 system that penalty can be reduced
++penalty, although on this 4.7\,GHz \Power{6} system that penalty can be reduced
+ by substituting signals for atomic operations.
+ All of these implementations suffer from read-side lock contention
+ in the face of concurrent readers.
 diff --git a/intro/intro.tex b/intro/intro.tex
-index ca991bd..8bed518 100644
+index 8bed518..293a02f 100644
 --- a/intro/intro.tex
 +++ b/intro/intro.tex
-@@ -414,7 +414,7 @@ To see this, consider that the price of early computers was tens
- of millions of dollars at
- a time when engineering salaries were but a few thousand dollars a year.
- If dedicating a team of ten engineers to such a machine would improve
--its performance, even by only 10\%, then their salaries
-+its performance, even by only 10\,\%, then their salaries
- would be repaid many times over.
+@@ -77,7 +77,7 @@ that of a bicycle, courtesy of Moore's Law.
+ Papers calling out the advantages of multicore CPUs were published
+ as early as 1996~\cite{Olukotun96}.
+ IBM introduced simultaneous multi-threading
+-into its high-end POWER family in 2000, and multicore in 2001.
++into its high-end \Power{} family in 2000, and multicore in 2001.
+ Intel introduced hyperthreading into its commodity Pentium line in
+ November 2000, and both AMD and Intel introduced
+ dual-core CPUs in 2005.
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index 7dc3fb4..944c17a 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -314,7 +314,7 @@ synchronization primitives (such as locking and RCU)
+ that are responsible for maintaining the illusion of ordering through use of
+ \emph{memory barriers} (for example, \co{smp_mb()} in the Linux kernel).
+ These memory barriers can be explicit instructions, as they are on
+-ARM, POWER, Itanium, and Alpha, or they can be implied by other instructions,
++ARM, \Power{}, Itanium, and Alpha, or they can be implied by other instructions,
+ as they often are on x86.
+ Since these standard synchronization primitives preserve the illusion of
+ ordering, your path of least resistance is to simply use these primitives,
+@@ -827,7 +827,7 @@ if the shared variable had changed before entry into the loop.
+ This allows us to plot each CPU's view of the value of \co{state.variable}
+ over a 532-nanosecond time period, as shown in
+ Figure~\ref{fig:memorder:A Variable With Multiple Simultaneous Values}.
+-This data was collected in 2006 on 1.5\,GHz POWER5 system with 8 cores,
++This data was collected in 2006 on 1.5\,GHz \Power{5} system with 8 cores,
+ each containing a pair of hardware threads.
+ CPUs~1, 2, 3, and~4 recorded the values, while CPU~0 controlled the test.
+ The timebase counter period was about 5.32\,ns, sufficiently fine-grained
+@@ -2043,7 +2043,7 @@ communicated to \co{P1()} long before it was communicated to \co{P2()}.
+ \QuickQuizAnswer{
+ 	You need to face the fact that it really can trigger.
+ 	Akira Yokosawa used the \co{litmus7} tool to run this litmus test
+-	on a Power8 system.
++	on a \Power{8} system.
+ 	Out of 1,000,000,000 runs, 4 triggered the \co{exists} clause.
+ 	Thus, triggering the \co{exists} clause is not merely a one-in-a-million
+ 	occurrence, but rather a one-in-a-hundred-million occurrence.
+@@ -3707,7 +3707,7 @@ dependencies.
+ 		\rotatebox{90}{PA-RISC CPUs}
+ 	  \end{picture}
+ 	& \begin{picture}(6,60)(0,0)
+-		\rotatebox{90}{POWER}
++		\rotatebox{90}{\Power{}}
+ 	  \end{picture}
+ 	& \begin{picture}(6,60)(0,0)
+ 		\rotatebox{90}{SPARC TSO}
+@@ -4134,7 +4134,7 @@ For more on Alpha, see its reference manual~\cite{ALPHA2002}.
 
- One such machine was the CSIRAC, the oldest still-intact stored-program
-@@ -863,11 +863,11 @@ been extremely narrowly focused, and hence unable to demonstrate any
- general results.
- Furthermore, given that the normal range of programmer productivity
- spans more than an order of magnitude, it is unrealistic to expect
--an affordable study to be capable of detecting (say) a 10\% difference
-+an affordable study to be capable of detecting (say) a 10\,\% difference
- in productivity.
- Although the multiple-order-of-magnitude differences that such studies
- \emph{can} reliably detect are extremely valuable, the most impressive
--improvements tend to be based on a long series of 10\% improvements.
-+improvements tend to be based on a long series of 10\,\% improvements.
+ The ARM family of CPUs is extremely popular in embedded applications,
+ particularly for power-constrained applications such as cellphones.
+-Its memory model is similar to that of Power
++Its memory model is similar to that of \Power{}
+ (see Section~\ref{sec:memorder:POWER / PowerPC}, but ARM uses a
+ different set of memory-barrier instructions~\cite{ARMv7A:2010}:
 
- We must therefore take a different approach.
+@@ -4144,7 +4144,7 @@ different set of memory-barrier instructions~\cite{ARMv7A:2010}:
+ 	subsequent operations of the same type.
+ 	The ``type'' of operations can be all operations or can be
+ 	restricted to only writes (similar to the Alpha \co{wmb}
+-	and the POWER \co{eieio} instructions).
++	and the \Power{} \co{eieio} instructions).
+ 	In addition, ARM allows cache coherence to have one of three
+ 	scopes: single processor, a subset of the processors
+ 	(``inner'') and global (``outer'').
+@@ -4168,7 +4168,7 @@ None of these instructions exactly match the semantics of Linux's
+ \co{DMB}.
+ The \co{DMB} and \co{DSB} instructions have a recursive definition
+ of accesses ordered before and after the barrier, which has an effect
+-similar to that of POWER's cumulativity.
++similar to that of \Power{}'s cumulativity.
 
-diff --git a/rt/rt.tex b/rt/rt.tex
-index 2f5d4fe..21e7117 100644
---- a/rt/rt.tex
-+++ b/rt/rt.tex
-@@ -48,7 +48,7 @@ are clearly required.
- We might therefore say that a given soft real-time application must meet
- its response-time requirements at least some fraction of the time, for
- example, we might say that it must execute in less than 20 microseconds
--99.9\% of the time.
-+99.9\,\% of the time.
+ ARM also implements control dependencies, so that if a conditional
+ branch depends on a load, then any store executed after that conditional
+@@ -4292,7 +4292,7 @@ memory barriers.
+ \subsection{MIPS}
 
- This of course raises the question of what is to be done when the application
- fails to meet its response-time requirements.
-@@ -267,7 +267,7 @@ or even avoiding interrupts altogether in favor of polling.
+ The MIPS memory model~\cite[Table 6.6]{MIPSvII-A-2015}
+-appears to resemble that of ARM, Itanium, and Power,
++appears to resemble that of ARM, Itanium, and \Power{},
+ being weakly ordered by default, but respecting dependencies.
+ MIPS has a wide variety of memory-barrier instructions, but ties them
+ not to hardware considerations, but rather to the use cases provided
+@@ -4325,7 +4325,7 @@ in a manner similar to the ARM64 additions:
 
- Overloading can also degrade response times due to queueing effects,
- so it is not unusual for real-time systems to overprovision CPU bandwidth,
--so that a running system has (say) 80\% idle time.
-+so that a running system has (say) 80\,\% idle time.
- This approach also applies to storage and networking devices.
- In some cases, separate storage and networking hardware might be reserved
- for the sole use of high-priority portions of the real-time application.
-@@ -351,7 +351,7 @@ on the hardware and software implementing those operations.
- For each such operation, these constraints might include a maximum
- response time (and possibly also a minimum response time) and a
- probability of meeting that response time.
--A probability of 100\% indicates that the corresponding operation
-+A probability of 100\,\% indicates that the corresponding operation
- must provide hard real-time service.
+ Informal discussions with MIPS architects indicates that MIPS has a
+ definition of transitivity or cumulativity similar to that of
+-ARM and Power.
++ARM and \Power{}.
+ However, it appears that different MIPS implementations can have
+ different memory-ordering properties, so it is important to consult
+ the documentation for the specific MIPS implementation you are using.
+@@ -4339,10 +4339,10 @@ no code, however, they do use the gcc {\tt memory} attribute to disable
+ compiler optimizations that would reorder code across the memory
+ barrier.
 
- In some cases, both the response times and the required probabilities of
-@@ -1583,7 +1583,7 @@ These constraints include:
- 	latencies are provided only to the highest-priority threads.
- \item	Sufficient bandwidth to support the workload.
- 	An implementation rule supporting this constraint might be
--	``There will be at least 50\% idle time on all CPUs
-+	``There will be at least 50\,\% idle time on all CPUs
- 	during normal operation,''
- 	or, more formally, ``The offered load will be sufficiently low
- 	to allow the workload to be schedulable at all times.''
+-\subsection{POWER / PowerPC}
++\subsection{\Power{} / PowerPC}
+ \label{sec:memorder:POWER / PowerPC}
+
+-The POWER and PowerPC\textsuperscript{\textregistered}
++The \Power{} and PowerPC\textsuperscript{\textregistered}
+ CPU families have a wide variety of memory-barrier
+ instructions~\cite{PowerPC94,MichaelLyons05a}:
+ \begin{description}
+@@ -4388,7 +4388,7 @@ The \co{smp_mb()} instruction is also defined to be the {\tt sync}
+ instruction, but both \co{smp_rmb()} and \co{rmb()} are defined to
+ be the lighter-weight {\tt lwsync} instruction.
+
+-Power features ``cumulativity'', which can be used to obtain
++\Power{} features ``cumulativity'', which can be used to obtain
+ transitivity.
+ When used properly, any code seeing the results of an earlier
+ code fragment will also see the accesses that this earlier code
+@@ -4396,11 +4396,11 @@ fragment itself saw.
+ Much more detail is available from
+ McKenney and Silvera~\cite{PaulEMcKenneyN2745r2009}.
+
+-Power respects control dependencies in much the same way that ARM
+-does, with the exception that the Power \co{isync} instruction
++\Power{} respects control dependencies in much the same way that ARM
++does, with the exception that the \Power{} \co{isync} instruction
+ is substituted for the ARM \co{ISB} instruction.
+
+-Many members of the POWER architecture have incoherent instruction
++Many members of the \Power{} architecture have incoherent instruction
+ caches, so that a store to memory will not necessarily be reflected
+ in the instruction cache.
+ Thankfully, few people write self-modifying code these days, but JITs
+diff --git a/perfbook.tex b/perfbook.tex
+index da9cfa8..cc4f4b0 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -138,6 +138,7 @@
+ \newcommand{\qop}[1]{{\sffamily #1}} % QC operator such as H, T, S, etc.
+
+ \DeclareRobustCommand{\euler}{\ensuremath{\mathrm{e}}}
++\newcommand{\Power}[1]{POWER#1}
+
+ \newcommand{\Epigraph}[2]{\epigraphhead[65]{\rmfamily\epigraph{#1}{#2}}}
+
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 9cf3312..97a37d3 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -1038,7 +1038,7 @@ Line~39 moves the lock-acquisition count to this thread's element of the
+ \end{figure}
+
+ Figure~\ref{fig:toolsoftrade:Reader-Writer Lock Scalability}
+-shows the results of running this test on a 64-core Power-5 system
++shows the results of running this test on a 64-core \Power{5} system
+ with two hardware threads per core for a total of 128 software-visible
+ CPUs.
+ The \co{thinktime} parameter was zero for all these tests, and the
+@@ -1137,7 +1137,7 @@ This situation will only get worse as you add CPUs.
+ } \QuickQuizEnd
+
+ \QuickQuiz{}
+-	Power-5 is several years old, and new hardware should
++	\Power{5} is several years old, and new hardware should
+ 	be faster.
+ 	So why should anyone worry about reader-writer locks being slow?
+ \QuickQuizAnswer{
 -- 
 2.7.4
 
