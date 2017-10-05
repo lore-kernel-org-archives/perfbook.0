@@ -1,24 +1,20 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PJDtaK1ZrGV52DhYdzZfhXGV8CDttvqJufr6Lkt1N0o=;
- b=a5rOJfkPBlnI6mNoFipEBHRp7YOrQOK4vJKzlKZEvBQ3IDKFYt4hfM+kNNNYyd3gvM
- jBjDdhAXVDs3IgoQAPib6mjywlu38hEJ12PR+SSUe5rvRIXrvnKvTroTQ65eJhDV+Rso
- V0EJPYaCUbutwK4344LgivFzPRBfg9+dYxjyhoXA/9DqGpdpBenRX9q5wd1gKso0oh1J
- FpZ5JCCyimuWp94+aaaWB0Ie5BYE/M42+Vt+v31nX/1mn0Y2tviE6R/DuIT99nOXYXqv
- JZaveEhs1LmFt+9ZfC43De5g6nCDWcP32BC7zTofhfsD917oYxcJTT585QCA/bPcHAnJ
- Kfjg==
-Subject: Re: Is WRITE_ONCE() enough to prevent invention of stores?
-References: <9307038d-60f1-0c93-55a1-f3c9be35605c@gmail.com>
- <20170917010730.GY3521@linux.vnet.ibm.com>
- <e802cd64-22d9-7ef4-a2b8-95d4779d6c3d@gmail.com>
- <20170917215508.GD3521@linux.vnet.ibm.com>
+ s=20161025;
+ h=from:to:cc:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=9S8/kQUq/e2nzKrDBdPHwx+r/Q58QqMxc1t3OBjequE=;
+ b=mGwAWjUFU/+1/TH9gd2xcBjDuXogmz2mfD0cHLIVK5e/ULQiEaBuZN05by5Wgd64fm
+ WWB7UtMfYaqz/pNgFmzscnYATjOnixbfdrW+0l46dgvry8cHLekHPW2zGZEmRPOh+xsI
+ XepnCLP1OvtNx1Qra4iWMixI0RFzmimc/rTcmvc0qYM8kbEQygKlm2WonmSv+i/oWGpa
+ tFgk63lteLcYO+06WN9jtIye3do0HiyH6O3zYyymR1h5X60qKLQsVnkh7H1pR6D4P1sT
+ izBw+zbE6cZwn4XPzfVikqbIv4/J7SoU+gWtyuFjQIiny87Ngz5blHW5rNBubpxWdLoR
+ zs1g==
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <fb1ab164-36a7-1ed7-4eea-5668f5ada155@gmail.com>
-Date: Mon, 18 Sep 2017 07:51:29 +0900
+Subject: [PATCH 00/10] Tweaks to follow guidelines in style guide
+Message-ID: <d36d262c-2fe4-284c-7818-516a4ad59ec7@gmail.com>
+Date: Fri, 6 Oct 2017 00:47:21 +0900
 MIME-Version: 1.0
-In-Reply-To: <20170917215508.GD3521@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -26,158 +22,80 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2017/09/17 14:55:08 -0700, Paul E. McKenney wrote:
-> On Sun, Sep 17, 2017 at 08:04:21PM +0900, Akira Yokosawa wrote:
->> On 2017/09/16 18:07:30 -0700, Paul E. McKenney wrote:
->>> On Sat, Sep 16, 2017 at 08:01:45PM +0900, Akira Yokosawa wrote:
->>>> Hi Paul,
->>>>
->>>> I'm a bit disturbed by the description in Section 14.3.1 "Memory-Reference
->>>> Restrictions" quoted below:
->>>>
->>>>> Oddly enough, the compiler is within its rights to use a variable
->>>>> as temporary storage just before a store to that variable, thus
->>>>> inventing stores to that variable.
->>>>> Fortunately, most compilers avoid this sort of thing, at least outside
->>>>> of stack variables.
->>>>> Nevertheless, using WRITE_ONCE() (or declaring the variable
->>>>> volatile) should prevent this sort of thing.
->>>>> But take care: If you have a translation unit that uses that variable,
->>>>> and never makes a volatile access to it, the compiler has no way of
->>>>> knowing that it needs to be careful.
->>>>
->>>> I'm wondering if using WRITE_ONCE() in a translation unit is really
->>>> enough to prevent invention of stores.
->>>>
->>>> Accessing via a volatile-cast pointer guarantees the access is not
->>>> optimized out (and hopefully the referenced value is respected).
->>>>
->>>> But I suspect that it has any effect in preventing invention of extra
->>>> loads/stores.
->>>>
->>>> Isn't declaring the variable volatile necessary for the guarantee?
->>>>
->>>> In practice, as is described in the above quote: "Fortunately, most
->>>> compilers avoid this sort of thing, at least outside of stack variables",
->>>> we can assume non-volatile shared variables are not spilled out to
->>>> the variables themselves as far as GCC/LLVM is concerned.
->>>> But this is compiler dependent, I suppose.
->>>
->>> I suspect that it will turn out to be impossible for the compiler to
->>> actually invent these stores in the general case.  For example, it might
->>> be that there is some lock held or other synchronization mechanism unknown
->>> to the compiler that prevents this behavior.  But I haven't fully worked
->>> this out yet.
->>
->> You mean the invented stores wouldn't be visible from other threads anyway?
->> In a meaningful parallel code, that can be the case.
-> 
-> I mean that it is very hard to prove that inventing a store isn't introducing
-> a data race, which would be a violation of the standard.  The one case I know
-> of where the compiler can be sure that it is within its rights to invent the
-> store is before a normal store to a variable.
-> 
-> Otherwise, it might be (for example) that one must hold a lock to legally
-> update a given variable, and that lock might or might not be held at a given
-> point in the code.  But if the compiler sees a plain store, the compiler
-> knows that it is OK to update at that point.  So the compiler can invent
-> a store prior to the existing store, as long as there is no memory barrier,
-> compiler barrier, lock acquisition/release, atomic operation, etc., between
-> the original store and the compiler's invented store.
+From 2890e0069882321553c16aac213d4bb8d0a06fb7 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Wed, 5 Oct 2017 22:57:46 +0900
+Subject: [PATCH 00/10] Tweaks to follow guidelines in style guide
 
-I think I understand.
+Hi Paul,
 
-> 
->>> But I do know that if you just do plain stores, the compiler is fully
->>> within its rights to invent stores preceding any given plain store.
->>
->> So, the rules to use WRITE_ONCE() is something like the following?
->>
->> ---
->> 1) Declare the variable without volatile.
-> 
-> Agreed.
-> 
->> 2) READ_ONCE() and plain loads can be mixed. A plain load will see
->>    a value at least newer than or equal to the one obtained at the
->>    program-order most recent READ_ONCE().
-> 
-> I am not entirely sure of this one.  But if there is a barrier() or
-> stronger between the READ_ONCE() and the plain load, then yes.
+This patch set consists of minor tweaks in regard to the suggestions
+having been presented in style guide for a while.
 
-Ah, the compiler can reorder plain loads before READ_ONCE()...
+Patches #1 -- #5 are trivial changes.
 
-I did a litmus test of a plain load after READ_ONCE(), but
-such a reordering is not covered by herd7's litmus test, is it?
+Patch #6 attempts to improve consistency in denoting POWER series CPU
+by defining a macro "\Power{}".
 
-> 
->> 3) WRITE_ONCE() should not be mixed with plain stores when invention
->>    of stores is to be avoided.
-> 
-> Agreed.
-> 
->> Invention of stores is the opposite of fusing stores.
->> Suppose you don't want to update progress in the while loop:
->>
->> 	while (!am_done()) {
->> 	  do_something(p);
->> 	  tmp++;
->> 	}
->> 	progress = tmp;
->>
->> The compiler might transform this to
->>
->> 	while (!am_done()) {
->> 	  do_something(p);
->> 	  progress++;
->> 	}
-> 
-> But only as long as the compiler knows that do_something() doesn't
-> contain any ordering directives.
+Patch #7 substitutes "GCC" for "gcc". There are a few exceptions as
+mentioned in commit log.
 
-Yes. I borrowed the fusing example in the text and it should have
-the same assumption.
+Patch #8 substitutes "IRQ" for "irq" in the same way. You might like
+to skip this one, as I see "irq" more often than "IRQ" in Linux
+documentations.
 
-> 
->> if it wants to avoid allocation of a register/stack to tmp for whatever
->> reason. WRITE_ONCE() prevents the unintended accesses of progress:
->>
->> 	while (!am_done()) {
->> 	  do_something(p);
->> 	  tmp++;
->> 	}
->> 	WRITE_ONCE(progress, tmp);
-> 
-> Agreed, this would prevent the update to "progress" from being pulled
-> into the loop.
-> 
->> ---
->> Adding this example in the text might be too verbose.
->> Would a Quick Quiz be reasonable?
-> 
-> Might be good in the section on protecting memory references, and putting
-> it into a quick quiz or two makes a lot of sense.
+Patch #9 is somewhat invasive. It switches Times font to that of
+"newtxtext" and "newtxmath" packages. The reason of the change
+is to have access to both upright and slated glyphs of Greek letters.
+Recent versions of these font packages give better looking result,
+especially in math mode. As noted in the commit log, newtxmath in
+TeX Live 2013/Debian has a few issues which have been fixed in later
+versions. It also switches font choice for the experimental target "1csf".
 
-It's up to you where to put it.
+Patch #10 updates style guide to reflect the changes made in this
+patch set.
 
-And I now realize using READ_ONCE() and WRITE_ONCE() is quite tricky.
-Missing one might not cause a problem today, but a smarter compiler
-can expose the bug in the future...
+        Thanks, Akira
+--
+Akira Yokosawa (10):
+  debugging: Insert narrow space in front of percent symbol
+  debugging: Use upright font for Euler's number
+  future/QC: Insert narrow space in front of percent symbol
+  future/QC: Use non-breakable hyphen for axis names
+  treewide: Insert narrow space in front of percent symbol
+  treewide: Use \Power{} macro for POWER CPU family
+  treewide: Call GNU C compiler as "GCC"
+  treewide: Use "IRQ" instead of "irq" used as abbreviation
+  future/QC: Use upright glyph for math constant and descriptive suffix
+  styleguide: Reflect recent style improvements
 
-This is scary.
+ FAQ-BUILD.txt                      |   4 +-
+ Makefile                           |   2 +-
+ SMPdesign/SMPdesign.tex            |   2 +-
+ SMPdesign/beyond.tex               |  14 ++---
+ advsync/advsync.tex                |   2 +-
+ appendix/styleguide/styleguide.tex |  64 ++++++++---------------
+ appendix/toyrcu/toyrcu.tex         |  26 +++++-----
+ count/count.tex                    |  28 +++++-----
+ cpu/hwfreelunch.tex                |   4 +-
+ datastruct/datastruct.tex          |   2 +-
+ debugging/debugging.tex            | 104 ++++++++++++++++++-------------------
+ defer/rcuapi.tex                   |   6 +--
+ defer/rcuusage.tex                 |   4 +-
+ formal/dyntickrcu.tex              |  52 +++++++++----------
+ formal/formal.tex                  |   2 +-
+ formal/spinhint.tex                |   2 +-
+ future/QC.tex                      |  92 ++++++++++++++++----------------
+ future/htm.tex                     |   2 +-
+ future/tm.tex                      |   4 +-
+ intro/intro.tex                    |   8 +--
+ memorder/memorder.tex              |  32 ++++++------
+ perfbook.tex                       |  20 +++++--
+ rt/rt.tex                          |  22 ++++----
+ toolsoftrade/toolsoftrade.tex      |  24 ++++-----
+ 24 files changed, 257 insertions(+), 265 deletions(-)
 
-         Thanks, Akira
+-- 
+2.7.4
 
-> 
-> 							Thanx, Paul
-> 
->>         Thanks, Akira
->>
->>>
->>> 							Thanx, Paul
->>>
->>>
->>
-> 
-> 
 
