@@ -1,201 +1,173 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ytIUS25hR5VkxQIrguph8Qn+wLpAeUfrs/PVmSmtbtc=;
- b=E+rUI+YArgWBCUtEXBVSX0ohpvMHwJZHebQu/b7A8EXzP9YhUEaBNttx7BR+xMzMRp
- wvzzuawsH5cvqroHRUh+oSKJBxbBayjrMFSMcU1V+vh4Ya1OSRajFFEx72z1RLYvgxkP
- d7BYEYY2kSDZTBKz91DKGp6BpQyV23Zy0xLzk3IRem/wVXaRQHqt4K7dlOlMDI6+5JvA
- OxgW8w2Ezs5vwNI7MXt7wpRAdpb8/CGvb5tNf5xcE5CHlS18i571ZeioZaIGbfwx/ppx
- 2KPyFMYvu50ZmykpysPv7Xui2C6swS8jgoV090ZUq94BzvyHDfF5UxumAEA+bo0/7jN/
- GTMQ==
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49554 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751639AbdJFTMx (ORCPT <rfc822;perfbook@vger.kernel.org>); Fri, 6
+ Oct 2017 15:12:53 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v96JARgv073809
+ for <perfbook@vger.kernel.org>; Fri, 6 Oct 2017 15:12:53 -0400
+Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2deeuqasfd-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Fri,
+ 06 Oct 2017 15:12:53 -0400
+Received: from localhost by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Fri, 6 Oct 2017
+ 15:12:51 -0400
+Date: Fri, 6 Oct 2017 12:12:50 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Subject: Re: synchronize with a non-atomic flag
+Reply-To: paulmck@linux.vnet.ibm.com
 References: 
  <CAJYFCiMix3XfQ0Z=BMUO39eNssYcVLR-Y1zHee+QT9cBsVS3KA@mail.gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <a6e4d3a9-74c9-17c5-5aef-fc0ec83cfb34@gmail.com>
-Date: Fri, 6 Oct 2017 21:03:44 +0900
+ <a6e4d3a9-74c9-17c5-5aef-fc0ec83cfb34@gmail.com>
+ <CAJYFCiMCnyZnP1kCBAQfpGGd4PBkoMz5ALnkH2K2aqsmwjs+SA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: 
- <CAJYFCiMix3XfQ0Z=BMUO39eNssYcVLR-Y1zHee+QT9cBsVS3KA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: Yubin Ruan <ablacktshirt@gmail.com>
-Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, Akira Yokosawa <akiyks@gmail.com>
+ <CAJYFCiMCnyZnP1kCBAQfpGGd4PBkoMz5ALnkH2K2aqsmwjs+SA@mail.gmail.com>
+Message-Id: <20171006191250.GH3521@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Yubin Ruan <ablacktshirt@gmail.com>
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 
-Hi Yubin,
+On Fri, Oct 06, 2017 at 08:35:00PM +0800, Yubin Ruan wrote:
+> 2017-10-06 20:03 GMT+08:00 Akira Yokosawa <akiyks@gmail.com>:
+> > On 2017/10/06 14:52, Yubin Ruan wrote:
 
-On 2017/10/06 14:52, Yubin Ruan wrote:
-> Hi,
-> I saw lots of discussions on the web about possible race when doing
-> synchronization between multiple threads/processes with lock or atomic
-> operations[1][2]. From my point of view most them are over-worrying.
-> But I want to point out some particular issue here to see whether
-> anyone have anything to say.
+[ . . . ]
+
+> > I/O operations in printf() might make the situation trickier.
 > 
-> Imagine two processes communicate using only a uint32_t variable in
-> shared memory, like this:
+> printf(3) is claimed to be thread-safe, so I think this issue will not
+> concern us.
 > 
->     // uint32_t variable in shared memory
->     uint32_t flag = 0;
-> 
->     //process 1
->     while(1) {
->         if(READ_ONCE(flag) == 0) {
->             do_something();
->             WRITE_ONCE(flag, 1); // let another process to run
->         } else {
->             continue;
->         }
->     }
-> 
->     //process 2
->     while(1) {
->         if(READ_ONCE(flag) == 1) {
->             printf("process 2 running...\n");
->             WRITE_ONCE(flag, 0); // let another process to run
->         } else {
->             continue;
->         }
->     }
-> 
-> On X86 or X64, I expect this code to run correctly, that is, I will
-> got the two `printf' to printf one after one.
+> > In a more realistic case where you do something meaningful in
+> > do_something() in both threads:
+> >
+> >     //process 1
+> >     while(1) {
+> >         if(READ_ONCE(flag) == 0) {
+> >             do_something();
+> >             WRITE_ONCE(flag, 1); // let another process to run
+> >         } else {
+> >             continue;
+> >         }
+> >     }
+> >
+> >     //process 2
+> >     while(1) {
+> >         if(READ_ONCE(flag) == 1) {
+> >             do_something();
+> >             WRITE_ONCE(flag, 0); // let another process to run
+> >         } else {
+> >             continue;
+> >         }
+> >     }
 
-Well, I see only one printf() above.
-Do you mean:
+In the Linux kernel, there is control-dependency ordering between
+the READ_ONCE(flag) and any stores in either the then-clause or
+the else-clause.  However, I see no ordering between do_something()
+and the WRITE_ONCE().
 
-    //process 1
-    while(1) {
-        if(READ_ONCE(flag) == 0) {
-            printf("process 1 running...\n");
-            WRITE_ONCE(flag, 1); // let another process to run
-        } else {
-            continue;
-        }
-    }
+> > and if do_something() uses some shared variables other than "flag",
+> > you need a couple of memory barriers to ensure the ordering of
+> > READ_ONCE(), do_something(), and WRITE_ONCE() something like:
+> >
+> >     //process 1
+> >     while(1) {
+> >         if(READ_ONCE(flag) == 0) {
+> >             smp_rmb();
+> >             do_something();
+> >             smp_wmb();
+> >             WRITE_ONCE(flag, 1); // let another process to run
+> >         } else {
+> >             continue;
+> >         }
+> >     }
+> >
+> >     //process 2
+> >     while(1) {
+> >         if(READ_ONCE(flag) == 1) {
+> >             smp_rmb();
+> >             do_something();
+> >             smp_wmb();
+> >             WRITE_ONCE(flag, 0); // let another process to run
+> >         } else {
+> >             continue;
+> >         }
+> >     }
 
-    //process 2
-    while(1) {
-        if(READ_ONCE(flag) == 1) {
-            printf("process 2 running...\n");
-            WRITE_ONCE(flag, 0); // let another process to run
-        } else {
-            continue;
-        }
-    }
+Here, the control dependency again orders the READ_ONCE() against later
+stores, and the smp_rmb() orders the READ_ONCE() against any later
+loads.  The smp_wmb() orders do_something()'s writes (but not its reads!)
+against the WRITE_ONCE().
 
-?
+> > In Linux kernel memory model, you can use acquire/release APIs instead:
+> >
+> >     //process 1
+> >     while(1) {
+> >         if(smp_load_acquire(&flag) == 0) {
+> >             do_something();
+> >             smp_store_release(&flag, 1); // let another process to run
+> >         } else {
+> >             continue;
+> >         }
+> >     }
+> >
+> >     //process 2
+> >     while(1) {
+> >         if(smp_load_acquire(&flag) == 1) {
+> >             do_something();
+> >             smp_store_release(&flag, 0); // let another process to run
+> >         } else {
+> >             continue;
+> >         }
+> >     }
 
-Then printf()s can be a problem.
-It partially negates your claim 3).
-Without using memory barrier, there is no guarantee that the results of
-WRITE_ONCE() are visible to the other thread after the printf()'s
-memory accesses complete. I/O operations in printf() might make the situation
-trickier.
+This is probably the most straightforward of the above approaches.
 
-In a more realistic case where you do something meaningful in
-do_something() in both threads:
+That said, if you really want a series of things to execute in a
+particular order, why not just put them into the same process?
 
-    //process 1
-    while(1) {
-        if(READ_ONCE(flag) == 0) {
-            do_something();
-            WRITE_ONCE(flag, 1); // let another process to run
-        } else {
-            continue;
-        }
-    }
+							Thanx, Paul
 
-    //process 2
-    while(1) {
-        if(READ_ONCE(flag) == 1) {
-            do_something();
-            WRITE_ONCE(flag, 0); // let another process to run
-        } else {
-            continue;
-        }
-    }
-
-and if do_something() uses some shared variables other than "flag",
-you need a couple of memory barriers to ensure the ordering of
-READ_ONCE(), do_something(), and WRITE_ONCE() something like:
-
-    //process 1
-    while(1) {
-        if(READ_ONCE(flag) == 0) {
-	    smp_rmb();
-            do_something();
-	    smp_wmb();
-            WRITE_ONCE(flag, 1); // let another process to run
-        } else {
-            continue;
-        }
-    }
-
-    //process 2
-    while(1) {
-        if(READ_ONCE(flag) == 1) {
-	    smp_rmb();
-            do_something();
-	    smp_wmb();
-            WRITE_ONCE(flag, 0); // let another process to run
-        } else {
-            continue;
-        }
-    }
-
-In Linux kernel memory model, you can use acquire/release APIs instead:
-
-    //process 1
-    while(1) {
-        if(smp_load_acquire(&flag) == 0) {
-            do_something();
-            smp_store_release(&flag, 1); // let another process to run
-        } else {
-            continue;
-        }
-    }
-
-    //process 2
-    while(1) {
-        if(smp_load_acquire(&flag) == 1) {
-            do_something();
-            smp_store_release(&flag, 0); // let another process to run
-        } else {
-            continue;
-        }
-    }
-
-The intention of the code is easier to see when you use well-defined APIs.
-Just my two cents.
-
-              Thanks, Akira
-
->                                                That is because:
-> 
->     1) on X86/X64, load/store on 32-bits variable are atomic
->     2) I use READ_ONCE/WRITE_ONCE to prevent possibly harmful compiler
-> optimization on `flag'.
->     3) I use only one variable to communicate between two processes,
-> so there is no need for any kind of barrier.
-> 
-> Does anyone have any objection at that?
-> 
-> I know using a lock or atomic operation will save me a lot of
-> argument, but I think those things are unnecessary at this
-> circumstance, and it matter where performance matter, so I am picky
-> here...
+> Yes it could be tricky when `do_something()' really do something that
+> involved other shared variable.
 > 
 > Yubin
 > 
-> [1]: https://software.intel.com/en-us/blogs/2013/01/06/benign-data-races-what-could-possibly-go-wrong
-> [2]: https://www.usenix.org/conference/osdi10/ad-hoc-synchronization-considered-harmful
-> --
-> To unsubscribe from this list: send the line "unsubscribe perfbook" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> > The intention of the code is easier to see when you use well-defined APIs.
+> > Just my two cents.
+> >
+> >               Thanks, Akira
+> >
+> >>                                                That is because:
+> >>
+> >>     1) on X86/X64, load/store on 32-bits variable are atomic
+> >>     2) I use READ_ONCE/WRITE_ONCE to prevent possibly harmful compiler
+> >> optimization on `flag'.
+> >>     3) I use only one variable to communicate between two processes,
+> >> so there is no need for any kind of barrier.
+> >>
+> >> Does anyone have any objection at that?
+> >>
+> >> I know using a lock or atomic operation will save me a lot of
+> >> argument, but I think those things are unnecessary at this
+> >> circumstance, and it matter where performance matter, so I am picky
+> >> here...
+> >>
+> >> Yubin
+> >>
+> >> [1]: https://software.intel.com/en-us/blogs/2013/01/06/benign-data-races-what-could-possibly-go-wrong
+> >> [2]: https://www.usenix.org/conference/osdi10/ad-hoc-synchronization-considered-harmful
+> >> --
+> >> To unsubscribe from this list: send the line "unsubscribe perfbook" in
+> >> the body of a message to majordomo@vger.kernel.org
+> >> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> >>
+> >
 > 
 
