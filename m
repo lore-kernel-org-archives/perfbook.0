@@ -1,21 +1,21 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=lk4V94+r9BDmT+Dpy7HAR9J6PdKEI+OFrZQhRGHxnKE=;
- b=lhut72DFNKUvmCqZoyLu0thEkGy5esXDtH1xAnPJwXNcDAOqBlVFaPQ+s9W7y+Pwvw
- gCrOAzHgcQO2DJ3Y7Iq/YBtxsPil+uI+eXj7qeu8AqVsoGY02RfFGAx8CLh6oT0YwPeq
- 1xX27QEYfocxhyYbTA4Rv1rApmZSGB3YALpvyIX3yAEvgWAEFZZTu+ZA4vxtklZbn9Ex
- pbzeK0xnPHJanF6PW4JSiUYU4o+qhGmyUM0byM2J4phKqGyTX/ka/Ix3TDm8xRObdexo
- o/GTXRX23Zc8ApmvEVG9mnYbY3tztq0hBnV94mOn1/l4Zdx6POSQILsgnPjbvtdcr7Zp
- 3niA==
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9Ns/sbFI5LoEoyZPuFzUCp87uBU2OQ79cIBPE933bjw=;
+ b=T7vN08FDoOm/KoJ8NA1ApXNwjgtK3j3xLfc2WKkEwme/Mt5SOuD3bXSg8cesf44fuU
+ KvvURaWtviR2tgWnsJA981kBJRVB6FvFCP74Q8IT+RFXDecM32x81Xv2azpDD7bkXmPT
+ AaNKldxAcEFbEnJdbhOJ9McjR9ScMr6UnvaEe16EGqSxpROqtyNZZ/G6zWovi++lnx8s
+ dTo+AOIk3Pt1IUexTkj1vuVG1lEi4Z4+k0LpWZwDLzb1vCPRDrmGSip1caVNf6fgfkVY
+ JEuN5oVt6e6r5zsV1sPBNkuXcZRjaoiLT5ru4YvxHGFknpKKpbdizPKFt25MI0/GUmEP
+ DqPA==
+Subject: [PATCH 2/2] Convert code snippets to 'listing' env (appendix)
+References: <64de57b5-12d7-d0fb-673a-b53f0f6c6663@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 1/2] Convert code snippets to 'listing' env (together,
- advsync, rt, future)
-Message-ID: <64de57b5-12d7-d0fb-673a-b53f0f6c6663@gmail.com>
-Date: Sat, 14 Oct 2017 07:57:24 +0900
+Message-ID: <f2748183-878b-563c-16f2-9859b2db3774@gmail.com>
+Date: Sat, 14 Oct 2017 07:58:38 +0900
 MIME-Version: 1.0
+In-Reply-To: <64de57b5-12d7-d0fb-673a-b53f0f6c6663@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -23,545 +23,828 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From c8849b06b1563d9d82dfaf0f120932c4998c8b03 Mon Sep 17 00:00:00 2001
+From a7719c90d14629a667fd82d9ecbd9c78a1ddefd8 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 14 Oct 2017 00:12:52 +0900
-Subject: [PATCH 1/2] Convert code snippets to 'listing' env (together, advsync, rt, future)
+Date: Sat, 14 Oct 2017 07:46:18 +0900
+Subject: [PATCH 2/2] Convert code snippets to 'listing' env (appendix)
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- advsync/advsync.tex   | 10 ++++-----
- future/htm.tex        | 16 +++++++--------
- rt/rt.tex             | 34 +++++++++++++++----------------
- together/applyrcu.tex | 56 +++++++++++++++++++++++++--------------------------
- together/refcnt.tex   | 38 +++++++++++++++++-----------------
- 5 files changed, 77 insertions(+), 77 deletions(-)
+ appendix/questions/after.tex |  34 +++----
+ appendix/toyrcu/toyrcu.tex   | 230 +++++++++++++++++++++----------------------
+ 2 files changed, 132 insertions(+), 132 deletions(-)
 
-diff --git a/advsync/advsync.tex b/advsync/advsync.tex
-index adf1dc9..3b04aff 100644
---- a/advsync/advsync.tex
-+++ b/advsync/advsync.tex
-@@ -188,7 +188,7 @@ algorithm as wait-free.
- This algorithm is probably the most heavily used NBS algorithm in
- the Linux kernel.
+diff --git a/appendix/questions/after.tex b/appendix/questions/after.tex
+index 9944bcf..cea0791 100644
+--- a/appendix/questions/after.tex
++++ b/appendix/questions/after.tex
+@@ -12,15 +12,15 @@ and ``c''.
+ The producer loops recording the current time
+ (in seconds since 1970 in decimal),
+ then updating the values of ``a'', ``b'', and ``c'',
+-as shown in Figure~\ref{fig:app:questions:After Producer Function}.
++as shown in Listing~\ref{lst:app:questions:After Producer Function}.
+ The consumer code loops, also recording the current time, but also
+ copying the producer's timestamp along with the fields ``a'',
+ ``b'', and ``c'', as shown in
+-Figure~\ref{fig:app:questions:After Consumer Function}.
++Listing~\ref{lst:app:questions:After Consumer Function}.
+ At the end of the run, the consumer outputs a list of anomalous recordings,
+ e.g., where time has appeared to go backwards.
 
--\begin{figure}[tbp]
-+\begin{listing}[tbp]
+-\begin{figure}[htbp]
++\begin{listing}[htbp]
  { \scriptsize
  \begin{verbbox}
-  1 static inline bool
-@@ -217,14 +217,14 @@ the Linux kernel.
+   1 /* WARNING: BUGGY CODE. */
+@@ -47,10 +47,10 @@ e.g., where time has appeared to go backwards.
  \centering
  \theverbbox
- \caption{NBS Enqueue Algorithm}
--\label{fig:count:NBS Enqueue Algorithm}
+ \caption{``After'' Producer Function}
+-\label{fig:app:questions:After Producer Function}
 -\end{figure}
-+\label{lst:count:NBS Enqueue Algorithm}
++\label{lst:app:questions:After Producer Function}
 +\end{listing}
 
- Another common NBS algorithm is the atomic queue where elements are
- enqueued using an atomic exchange instruction~\cite{MagedMichael1993JPDC},
- followed by a store into the \co{->next} pointer of the new element's
- predecessor, as shown in
--Figure~\ref{fig:count:NBS Enqueue Algorithm},
-+Listing~\ref{lst:count:NBS Enqueue Algorithm},
- which shows the userspace-RCU library
- implementation~\cite{MathieuDesnoyers2009URCU}.
- Line~9 updates the tail pointer to reference the new element while
-@@ -240,7 +240,7 @@ Although mutual exclusion is required to dequeue a single element
- removal of the entire contents of the queue.
- What is not possible is to dequeue any given element in a non-blocking
- manner: The enqueuer might have failed between lines~9 and~10 of the
--figure, so that the element in question is only partially enqueued.
-+listing, so that the element in question is only partially enqueued.
- This results in a half-NBS algorithm where enqueues are NBS but
- dequeues are blocking.
- This algorithm is nevertheless used in practice, in part because
-diff --git a/future/htm.tex b/future/htm.tex
-index 80d3e1e..7c9f610 100644
---- a/future/htm.tex
-+++ b/future/htm.tex
-@@ -733,7 +733,7 @@ Therefore, the medium-priority threads are in effect blocking the
- high-priority process, which is the rationale for the name ``priority
- inversion.''
-
--\begin{figure}[tbp]
-+\begin{listing}[tbp]
+-\begin{figure}[htbp]
++\begin{listing}[htbp]
  { \scriptsize
  \begin{verbbox}
-   1 void boostee(void)
-@@ -765,8 +765,8 @@ inversion.''
+   1 /* WARNING: BUGGY CODE. */
+@@ -110,8 +110,8 @@ e.g., where time has appeared to go backwards.
  \centering
  \theverbbox
- \caption{Exploiting Priority Boosting}
--\label{fig:future:Exploiting Priority Boosting}
+ \caption{``After'' Consumer Function}
+-\label{fig:app:questions:After Consumer Function}
 -\end{figure}
-+\label{lst:future:Exploiting Priority Boosting}
++\label{lst:app:questions:After Consumer Function}
 +\end{listing}
-
- One way to avoid priority inversion is \emph{priority inheritance},
- in which a high-priority thread blocked on a lock temporarily donates
-@@ -774,10 +774,10 @@ its priority to the lock's holder, which is also called \emph{priority
- boosting}.
- However, priority boosting can be used for things other than avoiding
- priority inversion, as shown in
--Figure~\ref{fig:future:Exploiting Priority Boosting}.
--Lines~1-12 of this figure show a low-priority process that must
-+Listing~\ref{lst:future:Exploiting Priority Boosting}.
-+Lines~1-12 of this listing show a low-priority process that must
- nevertheless run every millisecond or so, while lines~14-24 of
--this same figure show a high-priority process that uses priority
-+this same listing show a high-priority process that uses priority
- boosting to ensure that \co{boostee()} runs periodically as needed.
-
- The \co{boostee()} function arranges this by always holding one of
-@@ -786,7 +786,7 @@ the two \co{boost_lock[]} locks, so that lines~20-21 of
 
  \QuickQuiz{}
- 	But the \co{boostee()} function in
--	Figure~\ref{fig:future:Exploiting Priority Boosting}
-+	Listing~\ref{lst:future:Exploiting Priority Boosting}
- 	alternatively acquires its locks in reverse order!
- 	Won't this result in deadlock?
- \QuickQuizAnswer{
-@@ -816,7 +816,7 @@ this thread might never again get a chance to run.
+ 	What SMP coding errors can you see in these examples?
+@@ -165,14 +165,14 @@ instructions in that time.
+ One possible reason is given by the following sequence of events:
+ \begin{enumerate}
+ \item	Consumer obtains timestamp
+-	(Figure~\ref{fig:app:questions:After Consumer Function}, line~13).
++	(Listing~\ref{lst:app:questions:After Consumer Function}, line~13).
+ \item	Consumer is preempted.
+ \item	An arbitrary amount of time passes.
+ \item	Producer obtains timestamp
+-	(Figure~\ref{fig:app:questions:After Producer Function}, line~10).
++	(Listing~\ref{lst:app:questions:After Producer Function}, line~10).
+ \item	Consumer starts running again, and picks up the producer's
+ 	timestamp
+-	(Figure~\ref{fig:app:questions:After Consumer Function}, line~14).
++	(Listing~\ref{lst:app:questions:After Consumer Function}, line~14).
+ \end{enumerate}
 
- And if the \co{boostee()} thread is not holding the lock, then
- the \co{booster()} thread's empty critical section on lines~20 and~21 of
--Figure~\ref{fig:future:Exploiting Priority Boosting}
-+Listing~\ref{lst:future:Exploiting Priority Boosting}
- will become an empty transaction that has no effect, so that
- \co{boostee()} never runs.
- This example illustrates some of the subtle consequences of
-diff --git a/rt/rt.tex b/rt/rt.tex
-index f1c0ae1..d9c32aa 100644
---- a/rt/rt.tex
-+++ b/rt/rt.tex
-@@ -1150,7 +1150,7 @@ sections~\cite{DinakarGuniguntala2008IBMSysJ}.
- Otherwise, long RCU read-side critical sections would result in
- excessive real-time latencies.
+ In this scenario, the producer's timestamp might be an arbitrary
+@@ -185,16 +185,16 @@ Simply use SMP primitives as designed.
 
--\begin{figure}[tb]
-+\begin{listing}[tb]
- { \scriptsize
- \begin{verbbox}
-  1 void __rcu_read_lock(void)
-@@ -1180,8 +1180,8 @@ excessive real-time latencies.
- \centering
- \theverbbox
- \caption{Preemptible Linux-Kernel RCU}
--\label{fig:rt:Preemptible Linux-Kernel RCU}
--\end{figure}
-+\label{lst:rt:Preemptible Linux-Kernel RCU}
-+\end{listing}
-
- A preemptible RCU implementation was therefore added to the Linux kernel.
- This implementation avoids the need to individually track the state of
-@@ -1194,7 +1194,7 @@ of the current grace period and
- while in one of those pre-existing critical sections have removed
- themselves from their lists.
- A simplified version of this implementation is shown in
--Figure~\ref{fig:rt:Preemptible Linux-Kernel RCU}.
-+Listing~\ref{lst:rt:Preemptible Linux-Kernel RCU}.
- The \co{__rcu_read_lock()} function spans lines~1-5 and
- the \co{__rcu_read_unlock()} function spans lines~7-22.
-
-@@ -1241,7 +1241,7 @@ count on line~20.
- \QuickQuiz{}
- 	Suppose that preemption occurs just after the load from
- 	\co{t->rcu_read_unlock_special.s} on line~17 of
--	Figure~\ref{fig:rt:Preemptible Linux-Kernel RCU}.
-+	Listing~\ref{lst:rt:Preemptible Linux-Kernel RCU}.
- 	Mightn't that result in the task failing to invoke
- 	\co{rcu_read_unlock_special()}, thus failing to remove itself
- 	from the list of tasks blocking the current grace period,
-@@ -1460,7 +1460,7 @@ real-time use.
- OSADL runs long-term tests of systems, so referring to their
- website (\url{http://osadl.org/}) can be helpful.
-
--\begin{figure}[tb]
-+\begin{listing}[tb]
- { \scriptsize
- \begin{verbbox}
-  1 cd /sys/kernel/debug/tracing
-@@ -1473,8 +1473,8 @@ website (\url{http://osadl.org/}) can be helpful.
- \centering
- \theverbbox
- \caption{Locating Sources of OS Jitter}
--\label{fig:rt:Locating Sources of OS Jitter}
--\end{figure}
-+\label{lst:rt:Locating Sources of OS Jitter}
-+\end{listing}
-
- Unfortunately, this list of OS-jitter sources can never be complete,
- as it will change with each new version of the kernel.
-@@ -1482,7 +1482,7 @@ This makes it necessary to be able to track down additional sources
- of OS jitter.
- Given a CPU $N$ running a CPU-bound usermode thread, the
- commands shown in
--Figure~\ref{fig:rt:Locating Sources of OS Jitter}
-+Listing~\ref{lst:rt:Locating Sources of OS Jitter}
- will produce a list of all the times that this CPU entered the kernel.
- Of course, the \co{N} on line~5 must be replaced with the
- number of the CPU in question, and the \co{1} on line~2 may be increased
-@@ -1704,7 +1704,7 @@ or about 9,000 degrees of rotation per second, which translates to
- We therefore need to schedule the fuel injection to within a time
- interval of about 100 microseconds.
-
--\begin{figure}[tb]
-+\begin{listing}[tb]
- { \scriptsize
- \begin{verbbox}
-  1 if (clock_gettime(CLOCK_REALTIME, &timestart) != 0) {
-@@ -1724,15 +1724,15 @@ interval of about 100 microseconds.
- \centering
- \theverbbox
- \caption{Timed-Wait Test Program}
--\label{fig:rt:Timed-Wait Test Program}
--\end{figure}
-+\label{lst:rt:Timed-Wait Test Program}
-+\end{listing}
-
- Suppose that a timed wait was to be used to initiate fuel injection,
- although if you are building an engine, I hope you supply a rotation
- sensor.
- We need to test the timed-wait functionality, perhaps using the test program
- shown in
--Figure~\ref{fig:rt:Timed-Wait Test Program}.
-+Listing~\ref{lst:rt:Timed-Wait Test Program}.
- Unfortunately, if we run this program, we can get unacceptable timer
- jitter, even in a -rt kernel.
-
-@@ -1789,7 +1789,7 @@ in fields imaginatively named \co{a}, \co{b}, and \co{c}.
- Otherwise, \co{cur_cal} points to a dynamically allocated
- structure providing the current calibration values.
-
--\begin{figure}[tb]
-+\begin{listing}[tb]
- { \scriptsize
- \begin{verbbox}
-  1 struct calibration {
-@@ -1832,10 +1832,10 @@ structure providing the current calibration values.
- \centering
- \theverbbox
- \caption{Real-Time Calibration Using RCU}
--\label{fig:rt:Real-Time Calibration Using RCU}
--\end{figure}
-+\label{lst:rt:Real-Time Calibration Using RCU}
-+\end{listing}
-
--Figure~\ref{fig:rt:Real-Time Calibration Using RCU}
-+Listing~\ref{lst:rt:Real-Time Calibration Using RCU}
- shows how RCU can be used to solve this problem.
- Lookups are deterministic, as shown in \co{calc_control()}
- on lines~9-15, consistent with real-time requirements.
-diff --git a/together/applyrcu.tex b/together/applyrcu.tex
-index d477ab5..5e7efff 100644
---- a/together/applyrcu.tex
-+++ b/together/applyrcu.tex
-@@ -108,7 +108,7 @@ held constant, ensuring that \co{read_count()} sees consistent data.
-
- \subsubsection{Implementation}
+ In this example, the easiest fix is to use locking, for example,
+ acquire a lock in the producer before line~10 in
+-Figure~\ref{fig:app:questions:After Producer Function} and in
++Listing~\ref{lst:app:questions:After Producer Function} and in
+ the consumer before line~13 in
+-Figure~\ref{fig:app:questions:After Consumer Function}.
++Listing~\ref{lst:app:questions:After Consumer Function}.
+ This lock must also be released after line~13 in
+-Figure~\ref{fig:app:questions:After Producer Function} and
++Listing~\ref{lst:app:questions:After Producer Function} and
+ after line~17 in
+-Figure~\ref{fig:app:questions:After Consumer Function}.
++Listing~\ref{lst:app:questions:After Consumer Function}.
+ These locks cause the code segments in lines~10-13 of
+-Figure~\ref{fig:app:questions:After Producer Function} and in lines~13-17 of
+-Figure~\ref{fig:app:questions:After Consumer Function} to {\em exclude}
++Listing~\ref{lst:app:questions:After Producer Function} and in lines~13-17 of
++Listing~\ref{lst:app:questions:After Consumer Function} to {\em exclude}
+ each other, in other words, to run atomically with respect to each other.
+ This is represented in
+ Figure~\ref{fig:app:questions:Effect of Locking on Snapshot Collection}:
+diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
+index 2c65f74..cd6541c 100644
+--- a/appendix/toyrcu/toyrcu.tex
++++ b/appendix/toyrcu/toyrcu.tex
+@@ -31,7 +31,7 @@ provides a summary and a list of desirable RCU properties.
+ \section{Lock-Based RCU}
+ \label{sec:app:toyrcu:Lock-Based RCU}
 
 -\begin{figure}[bp]
 +\begin{listing}[bp]
  { \scriptsize
  \begin{verbbox}
-   1 struct countarray {
-@@ -186,11 +186,11 @@ held constant, ensuring that \co{read_count()} sees consistent data.
+   1 static void rcu_read_lock(void)
+@@ -54,12 +54,12 @@ provides a summary and a list of desirable RCU properties.
  \centering
  \theverbbox
- \caption{RCU and Per-Thread Statistical Counters}
--\label{fig:together:RCU and Per-Thread Statistical Counters}
+ \caption{Lock-Based RCU Implementation}
+-\label{fig:app:toyrcu:Lock-Based RCU Implementation}
 -\end{figure}
-+\label{lst:together:RCU and Per-Thread Statistical Counters}
++\label{lst:app:toyrcu:Lock-Based RCU Implementation}
 +\end{listing}
 
- Lines~1-4 of
--Figure~\ref{fig:together:RCU and Per-Thread Statistical Counters}
-+Listing~\ref{lst:together:RCU and Per-Thread Statistical Counters}
- show the \co{countarray} structure, which contains a
- \co{->total} field for the count from previously exited threads,
- and a \co{counterp[]} array of pointers to the per-thread
-@@ -235,7 +235,7 @@ Line~43 picks up the current thread's index, line~45 acquires
- \QuickQuiz{}
- 	Hey!!!
- 	Line~46 of
--	Figure~\ref{fig:together:RCU and Per-Thread Statistical Counters}
-+	Listing~\ref{lst:together:RCU and Per-Thread Statistical Counters}
- 	modifies a value in a pre-existing \co{countarray} structure!
- 	Didn't you say that this structure, once made available to
- 	\co{read_count()}, remained constant???
-@@ -278,7 +278,7 @@ Line~69 can then safely free the old \co{countarray} structure.
+ Perhaps the simplest RCU implementation leverages locking, as
+ shown in
+-Figure~\ref{fig:app:toyrcu:Lock-Based RCU Implementation}
++Listing~\ref{lst:app:toyrcu:Lock-Based RCU Implementation}
+ (\path{rcu_lock.h} and \path{rcu_lock.c}).
+ In this implementation, \co{rcu_read_lock()} acquires a global
+ spinlock, \co{rcu_read_unlock()} releases it, and
+@@ -86,11 +86,11 @@ preventing grace-period sharing.
 
  \QuickQuiz{}
- 	Wow!
--	Figure~\ref{fig:together:RCU and Per-Thread Statistical Counters}
-+	Listing~\ref{lst:together:RCU and Per-Thread Statistical Counters}
- 	contains 69 lines of code, compared to only 42 in
- 	Listing~\ref{lst:count:Per-Thread Statistical Counters}.
- 	Is this extra complexity really worth it?
-@@ -303,7 +303,7 @@ Line~69 can then safely free the old \co{countarray} structure.
- 	Listing~\ref{lst:count:Per-Thread Statistical Counters}, but
- 	with all the scalability and performance benefits of the
- 	implementation shown in
--	Figure~\ref{fig:together:RCU and Per-Thread Statistical Counters}!
-+	Listing~\ref{lst:together:RCU and Per-Thread Statistical Counters}!
- } \QuickQuizEnd
-
- Use of RCU enables exiting threads to wait until other threads are
-@@ -389,7 +389,7 @@ tradeoff.
- \subsection{Array and Length}
- \label{sec:together:Array and Length}
-
--\begin{figure}[tbp]
-+\begin{listing}[tbp]
- { \scriptsize
- \begin{verbbox}
-  1 struct foo {
-@@ -401,11 +401,11 @@ tradeoff.
- \centering
- \theverbbox
- \caption{RCU-Protected Variable-Length Array}
--\label{fig:together:RCU-Protected Variable-Length Array}
--\end{figure}
-+\label{lst:together:RCU-Protected Variable-Length Array}
-+\end{listing}
-
- Suppose we have an RCU-protected variable-length array, as shown in
--Figure~\ref{fig:together:RCU-Protected Variable-Length Array}.
-+Listing~\ref{lst:together:RCU-Protected Variable-Length Array}.
- The length of the array \co{->a[]} can change dynamically, and at any
- given time, its length is given by the field \co{->length}.
- Of course, this introduces the following race condition:
-@@ -429,7 +429,7 @@ covered in Chapter~\ref{chp:memorder:Memory Ordering}.
- This works, but incurs read-side overhead and, perhaps worse, requires
- use of explicit memory barriers.
-
--\begin{figure}[tbp]
-+\begin{listing}[tbp]
- { \scriptsize
- \begin{verbbox}
-  1 struct foo_a {
-@@ -445,12 +445,12 @@ use of explicit memory barriers.
- \centering
- \theverbbox
- \caption{Improved RCU-Protected Variable-Length Array}
--\label{fig:together:Improved RCU-Protected Variable-Length Array}
--\end{figure}
-+\label{lst:together:Improved RCU-Protected Variable-Length Array}
-+\end{listing}
-
- A better approach is to put the value and the array into the same structure,
- as shown in
--Figure~\ref{fig:together:Improved RCU-Protected Variable-Length Array}.
-+Listing~\ref{lst:together:Improved RCU-Protected Variable-Length Array}.
- Allocating a new array (\co{foo_a} structure) then automatically provides
- a new place for the array length.
- This means that if any CPU picks up a reference to \co{->fa}, it is
-@@ -480,7 +480,7 @@ A more general version of this approach is presented in the next section.
- \subsection{Correlated Fields}
- \label{sec:together:Correlated Fields}
-
--\begin{figure}[tbp]
-+\begin{listing}[tbp]
- { \scriptsize
- \begin{verbbox}
-  1 struct animal {
-@@ -496,12 +496,12 @@ A more general version of this approach is presented in the next section.
- \centering
- \theverbbox
- \caption{Uncorrelated Measurement Fields}
--\label{fig:together:Uncorrelated Measurement Fields}
--\end{figure}
-+\label{lst:together:Uncorrelated Measurement Fields}
-+\end{listing}
-
- Suppose that each of Sch\"odinger's animals is represented by the
- data element shown in
--Figure~\ref{fig:together:Uncorrelated Measurement Fields}.
-+Listing~\ref{lst:together:Uncorrelated Measurement Fields}.
- The \co{meas_1}, \co{meas_2}, and \co{meas_3} fields are a set
- of correlated measurements that are updated periodically.
- It is critically important that readers see these three values from
-@@ -521,7 +521,7 @@ measurement values, but it requires copying a large structure due
- to the \co{->photo[]} field.
- This copying might incur unacceptably large overhead.
-
--\begin{figure}[tbp]
-+\begin{listing}[tbp]
- { \scriptsize
- \begin{verbbox}
-  1 struct measurement {
-@@ -541,11 +541,11 @@ This copying might incur unacceptably large overhead.
- \centering
- \theverbbox
- \caption{Correlated Measurement Fields}
--\label{fig:together:Correlated Measurement Fields}
--\end{figure}
-+\label{lst:together:Correlated Measurement Fields}
-+\end{listing}
-
- Another approach is to insert a level of indirection, as shown in
--Figure~\ref{fig:together:Correlated Measurement Fields}.
-+Listing~\ref{lst:together:Correlated Measurement Fields}.
- When a new measurement is taken, a new \co{measurement} structure
- is allocated, filled in with the measurements, and the \co{animal}
- structure's \co{->mp} field is updated to point to this new
-@@ -555,13 +555,13 @@ can be freed.
-
- \QuickQuiz{}
- 	But cant't the approach shown in
--	Figure~\ref{fig:together:Correlated Measurement Fields}
-+	Listing~\ref{lst:together:Correlated Measurement Fields}
- 	result in extra cache misses, in turn resulting in additional
- 	read-side overhead?
+ 	Why wouldn't any deadlock in the RCU implementation in
+-	Figure~\ref{fig:app:toyrcu:Lock-Based RCU Implementation}
++	Listing~\ref{lst:app:toyrcu:Lock-Based RCU Implementation}
+ 	also be a deadlock in any other RCU implementation?
  \QuickQuizAnswer{
- 	Indeed it can.
+ %
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+   1 void foo(void)
+@@ -117,11 +117,11 @@ preventing grace-period sharing.
+ \centering
+ \theverbbox
+ \caption{Deadlock in Lock-Based RCU Implementation}
+-\label{fig:app:toyrcu:Deadlock in Lock-Based RCU Implementation}
+-\end{figure}
++\label{lst:app:toyrcu:Deadlock in Lock-Based RCU Implementation}
++\end{listing}
+ %
+ 	Suppose the functions \co{foo()} and \co{bar()} in
+-	Figure~\ref{fig:app:toyrcu:Deadlock in Lock-Based RCU Implementation}
++	Listing~\ref{lst:app:toyrcu:Deadlock in Lock-Based RCU Implementation}
+ 	are invoked concurrently from different CPUs.
+ 	Then \co{foo()} will acquire \co{my_lock()} on line~3,
+ 	while \co{bar()} will acquire \co{rcu_gp_lock} on
+@@ -141,7 +141,7 @@ preventing grace-period sharing.
+ \QuickQuiz{}
+ 	Why not simply use reader-writer locks in the RCU implementation
+ 	in
+-	Figure~\ref{fig:app:toyrcu:Lock-Based RCU Implementation}
++	Listing~\ref{lst:app:toyrcu:Lock-Based RCU Implementation}
+ 	in order to allow RCU readers to proceed in parallel?
+ \QuickQuizAnswer{
+ 	One could in fact use reader-writer locks in this manner.
+@@ -169,7 +169,7 @@ in the next section.
+ \section{Per-Thread Lock-Based RCU}
+ \label{sec:app:toyrcu:Per-Thread Lock-Based RCU}
 
 -\begin{figure}[tbp]
 +\begin{listing}[tbp]
  { \scriptsize
  \begin{verbbox}
-  1 struct measurement {
-@@ -582,11 +582,11 @@ can be freed.
+   1 static void rcu_read_lock(void)
+@@ -196,10 +196,10 @@ in the next section.
  \centering
  \theverbbox
- \caption{Localized Correlated Measurement Fields}
--\label{fig:together:Localized Correlated Measurement Fields}
+ \caption{Per-Thread Lock-Based RCU Implementation}
+-\label{fig:app:toyrcu:Per-Thread Lock-Based RCU Implementation}
 -\end{figure}
-+\label{lst:together:Localized Correlated Measurement Fields}
++\label{lst:app:toyrcu:Per-Thread Lock-Based RCU Implementation}
 +\end{listing}
 
- 	One way to avoid this cache-miss overhead is shown in
--	Figure~\ref{fig:together:Localized Correlated Measurement Fields}:
-+	Listing~\ref{lst:together:Localized Correlated Measurement Fields}:
- 	Simply embed an instance of a \co{measurement} structure
- 	named \co{meas}
- 	into the \co{animal} structure, and point the \co{->mp}
-diff --git a/together/refcnt.tex b/together/refcnt.tex
-index 626c375..8a7fa1d 100644
---- a/together/refcnt.tex
-+++ b/together/refcnt.tex
-@@ -149,12 +149,12 @@ of compiler optimizations.
- This is the method of choice when the lock is required to protect
- other operations in addition to the reference count, but where
- a reference to the object must be held after the lock is released.
--Figure~\ref{fig:together:Simple Reference-Count API} shows a simple
-+Listing~\ref{lst:together:Simple Reference-Count API} shows a simple
- API that might be used to implement simple non-atomic reference
- counting---although simple reference counting is almost always
- open-coded instead.
+-Figure~\ref{fig:app:toyrcu:Per-Thread Lock-Based RCU Implementation}
++Listing~\ref{lst:app:toyrcu:Per-Thread Lock-Based RCU Implementation}
+ (\path{rcu_lock_percpu.h} and \path{rcu_lock_percpu.c})
+ shows an implementation based on one lock per thread.
+ The \co{rcu_read_lock()} and \co{rcu_read_unlock()} functions
+@@ -222,7 +222,7 @@ up to more than 100 \emph{microseconds} on 64 CPUs.
+ \QuickQuiz{}
+ 	Wouldn't it be cleaner to acquire all the locks, and then
+ 	release them all in the loop from lines~15-18 of
+-	Figure~\ref{fig:app:toyrcu:Per-Thread Lock-Based RCU Implementation}?
++	Listing~\ref{lst:app:toyrcu:Per-Thread Lock-Based RCU Implementation}?
+ 	After all, with this change, there would be a point in time
+ 	when there were no readers, simplifying things greatly.
+ \QuickQuizAnswer{
+@@ -232,7 +232,7 @@ up to more than 100 \emph{microseconds} on 64 CPUs.
+
+ \QuickQuiz{}
+ 	Is the implementation shown in
+-	Figure~\ref{fig:app:toyrcu:Per-Thread Lock-Based RCU Implementation}
++	Listing~\ref{lst:app:toyrcu:Per-Thread Lock-Based RCU Implementation}
+ 	free from deadlocks?
+ 	Why or why not?
+ \QuickQuizAnswer{
+@@ -266,7 +266,7 @@ up to more than 100 \emph{microseconds} on 64 CPUs.
+
+ \QuickQuiz{}
+ 	Isn't one advantage of the RCU algorithm shown in
+-	Figure~\ref{fig:app:toyrcu:Per-Thread Lock-Based RCU Implementation}
++	Listing~\ref{lst:app:toyrcu:Per-Thread Lock-Based RCU Implementation}
+ 	that it uses only primitives that are widely available,
+ 	for example, in POSIX pthreads?
+ \QuickQuizAnswer{
+@@ -289,7 +289,7 @@ the shortcomings of the lock-based implementation.
+ \section{Simple Counter-Based RCU}
+ \label{sec:app:toyrcu:Simple Counter-Based RCU}
 
 -\begin{figure}[tbp]
 +\begin{listing}[tbp]
  { \scriptsize
  \begin{verbbox}
-   1 struct sref {
-@@ -188,8 +188,8 @@ open-coded instead.
+   1 atomic_t rcu_refcnt;
+@@ -319,11 +319,11 @@ the shortcomings of the lock-based implementation.
  \centering
  \theverbbox
- \caption{Simple Reference-Count API}
--\label{fig:together:Simple Reference-Count API}
+ \caption{RCU Implementation Using Single Global Reference Counter}
+-\label{fig:app:toyrcu:RCU Implementation Using Single Global Reference Counter}
 -\end{figure}
-+\label{lst:together:Simple Reference-Count API}
++\label{lst:app:toyrcu:RCU Implementation Using Single Global Reference Counter}
 +\end{listing}
 
- \subsubsection{Atomic Counting}
- \label{sec:together:Atomic Counting}
-@@ -203,7 +203,7 @@ Any CPU that hands the object off must first acquire a new reference
- on behalf of the recipient object.
- In the Linux kernel, the \co{kref} primitives are used to implement
- this style of reference counting, as shown in
--Figure~\ref{fig:together:Linux Kernel kref API}.
-+Listing~\ref{lst:together:Linux Kernel kref API}.
+ A slightly more sophisticated RCU implementation is shown in
+-Figure~\ref{fig:app:toyrcu:RCU Implementation Using Single Global Reference Counter}
++Listing~\ref{lst:app:toyrcu:RCU Implementation Using Single Global Reference Counter}
+ (\path{rcu_rcg.h} and \path{rcu_rcg.c}).
+ This implementation makes use of a global reference counter
+ \co{rcu_refcnt} defined on line~1.
+@@ -410,7 +410,7 @@ is of course unacceptable in production settings.
+ 	Why not simply make \co{rcu_read_lock()} wait when a concurrent
+ 	\co{synchronize_rcu()} has been waiting too long in
+ 	the RCU implementation in
+-	Figure~\ref{fig:app:toyrcu:RCU Implementation Using Single Global Reference Counter}?
++	Listing~\ref{lst:app:toyrcu:RCU Implementation Using Single Global Reference Counter}?
+ 	Wouldn't that prevent \co{synchronize_rcu()} from starving?
+ \QuickQuizAnswer{
+ 	Although this would in fact eliminate the starvation, it would
+@@ -435,7 +435,7 @@ scheme that is more favorable to writers.
+ \section{Starvation-Free Counter-Based RCU}
+ \label{sec:app:toyrcu:Starvation-Free Counter-Based RCU}
 
- Atomic counting is required
- because locking is not used to protect all reference-count operations,
-@@ -243,10 +243,10 @@ RCU read-side critical sections.
- 	there cannot possibly be any CPU that is permitted
- 	to acquire a new reference.
- 	This same fact allows the non-atomic check in line~22
--	of Figure~\ref{fig:together:Linux Kernel kref API}.
-+	of Listing~\ref{lst:together:Linux Kernel kref API}.
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+   1 DEFINE_SPINLOCK(rcu_gp_lock);
+@@ -448,10 +448,10 @@ scheme that is more favorable to writers.
+ \centering
+ \theverbbox
+ \caption{RCU Global Reference-Count Pair Data}
+-\label{fig:app:toyrcu:RCU Global Reference-Count Pair Data}
+-\end{figure}
++\label{lst:app:toyrcu:RCU Global Reference-Count Pair Data}
++\end{listing}
+
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+   1 static void rcu_read_lock(void)
+@@ -487,10 +487,10 @@ scheme that is more favorable to writers.
+ \centering
+ \theverbbox
+ \caption{RCU Read-Side Using Global Reference-Count Pair}
+-\label{fig:app:toyrcu:RCU Read-Side Using Global Reference-Count Pair}
+-\end{figure}
++\label{lst:app:toyrcu:RCU Read-Side Using Global Reference-Count Pair}
++\end{listing}
+
+-Figure~\ref{fig:app:toyrcu:RCU Read-Side Using Global Reference-Count Pair}
++Listing~\ref{lst:app:toyrcu:RCU Read-Side Using Global Reference-Count Pair}
+ (\path{rcu_rcgp.h})
+ shows the read-side primitives of an RCU implementation that uses a pair
+ of reference counters (\co{rcu_refcnt[]}),
+@@ -500,7 +500,7 @@ a per-thread nesting counter \co{rcu_nesting},
+ a per-thread snapshot of the global index (\co{rcu_read_idx}),
+ and a global lock (\co{rcu_gp_lock}),
+ which are themselves shown in
+-Figure~\ref{fig:app:toyrcu:RCU Global Reference-Count Pair Data}.
++Listing~\ref{lst:app:toyrcu:RCU Global Reference-Count Pair Data}.
+
+ \paragraph{Design}
+
+@@ -554,7 +554,7 @@ These additional measures use the per-thread \co{rcu_nesting} variable
+ to track nesting.
+
+ To make all this work, line~6 of \co{rcu_read_lock()} in
+-Figure~\ref{fig:app:toyrcu:RCU Read-Side Using Global Reference-Count Pair}
++Listing~\ref{lst:app:toyrcu:RCU Read-Side Using Global Reference-Count Pair}
+ picks up the
+ current thread's instance of \co{rcu_nesting}, and if line~7 finds
+ that this is the outermost \co{rcu_read_lock()},
+@@ -577,7 +577,7 @@ the selected element of \co{rcu_refcnt}.
+ Regardless of the nesting level, line~27 decrements this thread's
+ instance of \co{rcu_nesting}.
+
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+   1 void synchronize_rcu(void)
+@@ -606,10 +606,10 @@ instance of \co{rcu_nesting}.
+ \centering
+ \theverbbox
+ \caption{RCU Update Using Global Reference-Count Pair}
+-\label{fig:app:toyrcu:RCU Update Using Global Reference-Count Pair}
+-\end{figure}
++\label{lst:app:toyrcu:RCU Update Using Global Reference-Count Pair}
++\end{listing}
+
+-Figure~\ref{fig:app:toyrcu:RCU Update Using Global Reference-Count Pair}
++Listing~\ref{lst:app:toyrcu:RCU Update Using Global Reference-Count Pair}
+ (\path{rcu_rcpg.c})
+ shows the corresponding \co{synchronize_rcu()} implementation.
+ Lines~6 and 19 acquire and release \co{rcu_gp_lock} in order to
+@@ -628,7 +628,7 @@ checking of \co{rcu_refcnt}.
+
+ \QuickQuiz{}
+ 	Why the memory barrier on line~5 of \co{synchronize_rcu()} in
+-	Figure~\ref{fig:app:toyrcu:RCU Update Using Global Reference-Count Pair}
++	Listing~\ref{lst:app:toyrcu:RCU Update Using Global Reference-Count Pair}
+ 	given that there is a spin-lock acquisition immediately after?
+ \QuickQuizAnswer{
+ 	The spin-lock acquisition only guarantees that the spin-lock's
+@@ -644,7 +644,7 @@ checking of \co{rcu_refcnt}.
+
+ 	Exercise for the reader: use a tool such as Promela/spin
+ 	to determine which (if any) of the memory barriers in
+-	Figure~\ref{fig:app:toyrcu:RCU Update Using Global Reference-Count Pair}
++	Listing~\ref{lst:app:toyrcu:RCU Update Using Global Reference-Count Pair}
+ 	are really needed.
+ 	See Chapter~\ref{chp:Formal Verification}
+ 	for information on using these tools.
+@@ -653,17 +653,17 @@ checking of \co{rcu_refcnt}.
+
+ \QuickQuiz{}
+ 	Why is the counter flipped twice in
+-	Figure~\ref{fig:app:toyrcu:RCU Update Using Global Reference-Count Pair}?
++	Listing~\ref{lst:app:toyrcu:RCU Update Using Global Reference-Count Pair}?
+ 	Shouldn't a single flip-and-wait cycle be sufficient?
+ \QuickQuizAnswer{
+ 	Both flips are absolutely required.
+ 	To see this, consider the following sequence of events:
+ 	\begin{enumerate}
+ 	\item	Line~8 of \co{rcu_read_lock()} in
+-		Figure~\ref{fig:app:toyrcu:RCU Read-Side Using Global Reference-Count Pair}
++		Listing~\ref{lst:app:toyrcu:RCU Read-Side Using Global Reference-Count Pair}
+ 		picks up \co{rcu_idx}, finding its value to be zero.
+ 	\item	Line~8 of \co{synchronize_rcu()} in
+-		Figure~\ref{fig:app:toyrcu:RCU Update Using Global Reference-Count Pair}
++		Listing~\ref{lst:app:toyrcu:RCU Update Using Global Reference-Count Pair}
+ 		complements the value of \co{rcu_idx}, setting its
+ 		value to one.
+ 	\item	Lines~10-13 of \co{synchronize_rcu()} find that the
+@@ -706,7 +706,7 @@ checking of \co{rcu_refcnt}.
+
+ This implementation avoids the update-starvation issues that could
+ occur in the single-counter implementation shown in
+-Figure~\ref{fig:app:toyrcu:RCU Implementation Using Single Global Reference Counter}.
++Listing~\ref{lst:app:toyrcu:RCU Implementation Using Single Global Reference Counter}.
+
+ \paragraph{Discussion}
+
+@@ -716,7 +716,7 @@ and \co{rcu_read_unlock()}
+ are still quite heavyweight.
+ In fact, they are more complex than those
+ of the single-counter variant shown in
+-Figure~\ref{fig:app:toyrcu:RCU Implementation Using Single Global Reference Counter},
++Listing~\ref{lst:app:toyrcu:RCU Implementation Using Single Global Reference Counter},
+ with the read-side primitives consuming about 150~nanoseconds on a single
+ \Power{5} CPU and almost 40~\emph{microseconds} on a 64-CPU system.
+ The update-side \co{synchronize_rcu()} primitive is more costly as
+@@ -748,7 +748,7 @@ sharing.
+ 	Given that atomic increment and decrement are so expensive,
+ 	why not just use non-atomic increment on line~10 and a
+ 	non-atomic decrement on line~25 of
+-	Figure~\ref{fig:app:toyrcu:RCU Read-Side Using Global Reference-Count Pair}?
++	Listing~\ref{lst:app:toyrcu:RCU Read-Side Using Global Reference-Count Pair}?
+ \QuickQuizAnswer{
+ 	Using non-atomic operations would cause increments and decrements
+ 	to be lost, in turn causing the implementation to fail.
+@@ -769,7 +769,7 @@ scheme that provides greatly improved read-side performance and scalability.
+ \section{Scalable Counter-Based RCU}
+ \label{sec:app:toyrcu:Scalable Counter-Based RCU}
+
+-\begin{figure}[tb]
++\begin{listing}[tb]
+ { \scriptsize
+ \begin{verbbox}
+   1 DEFINE_SPINLOCK(rcu_gp_lock);
+@@ -782,10 +782,10 @@ scheme that provides greatly improved read-side performance and scalability.
+ \centering
+ \theverbbox
+ \caption{RCU Per-Thread Reference-Count Pair Data}
+-\label{fig:app:toyrcu:RCU Per-Thread Reference-Count Pair Data}
+-\end{figure}
++\label{lst:app:toyrcu:RCU Per-Thread Reference-Count Pair Data}
++\end{listing}
+
+-\begin{figure}[tb]
++\begin{listing}[tb]
+ { \scriptsize
+ \begin{verbbox}
+   1 static void rcu_read_lock(void)
+@@ -821,18 +821,18 @@ scheme that provides greatly improved read-side performance and scalability.
+ \centering
+ \theverbbox
+ \caption{RCU Read-Side Using Per-Thread Reference-Count Pair}
+-\label{fig:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair}
+-\end{figure}
++\label{lst:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair}
++\end{listing}
+
+-Figure~\ref{fig:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair}
++Listing~\ref{lst:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair}
+ (\path{rcu_rcpl.h})
+ shows the read-side primitives of an RCU implementation that uses per-thread
+ pairs of reference counters.
+ This implementation is quite similar to that shown in
+-Figure~\ref{fig:app:toyrcu:RCU Read-Side Using Global Reference-Count Pair},
++Listing~\ref{lst:app:toyrcu:RCU Read-Side Using Global Reference-Count Pair},
+ the only difference being that \co{rcu_refcnt} is now a per-thread
+ array (as shown in
+-Figure~\ref{fig:app:toyrcu:RCU Per-Thread Reference-Count Pair Data}).
++Listing~\ref{lst:app:toyrcu:RCU Per-Thread Reference-Count Pair Data}).
+ As with the algorithm in the previous section, use of this two-element
+ array prevents readers from starving updaters.
+ One benefit of per-thread \co{rcu_refcnt[]} array is that the
+@@ -857,7 +857,7 @@ perform atomic operations.
+ 	But thankfully, it seems that no one runs Linux on 8-bit systems.
  } \QuickQuizEnd
 
 -\begin{figure}[tbp]
 +\begin{listing}[tbp]
  { \scriptsize
  \begin{verbbox}
-   1 struct kref {
-@@ -282,12 +282,12 @@ RCU read-side critical sections.
+   1 static void flip_counter_and_wait(int i)
+@@ -891,15 +891,15 @@ perform atomic operations.
  \centering
  \theverbbox
- \caption{Linux Kernel \tco{kref} API}
--\label{fig:together:Linux Kernel kref API}
+ \caption{RCU Update Using Per-Thread Reference-Count Pair}
+-\label{fig:app:toyrcu:RCU Update Using Per-Thread Reference-Count Pair}
 -\end{figure}
-+\label{lst:together:Linux Kernel kref API}
++\label{lst:app:toyrcu:RCU Update Using Per-Thread Reference-Count Pair}
 +\end{listing}
 
- The \co{kref} structure itself, consisting of a single atomic
- data item, is shown in lines~1-3 of
--Figure~\ref{fig:together:Linux Kernel kref API}.
-+Listing~\ref{lst:together:Linux Kernel kref API}.
- The \co{kref_init()} function on lines~5-8 initializes the counter
- to the value ``1''.
- Note that the \co{atomic_set()} primitive is a simple
-@@ -314,7 +314,7 @@ Otherwise, \co{kref_sub()} returns zero, informing the caller that
- \QuickQuiz{}
- 	Suppose that just after the \co{atomic_sub_and_test()}
- 	on line~22 of
--	Figure~\ref{fig:together:Linux Kernel kref API} is invoked,
-+	Listing~\ref{lst:together:Linux Kernel kref API} is invoked,
- 	that some other CPU invokes \co{kref_get()}.
- 	Doesn't this result in that other CPU now having an illegal
- 	reference to a released object?
-@@ -357,9 +357,9 @@ layer to track the destination caches that are used in packet routing.
- The actual implementation is quite a bit more involved; this section
- focuses on the aspects of \co{struct dst_entry} reference-count
- handling that matches this use case,
--shown in Figure~\ref{fig:together:Linux Kernel dst-clone API}.
-+shown in Listing~\ref{lst:together:Linux Kernel dst-clone API}.
+-Figure~\ref{fig:app:toyrcu:RCU Update Using Per-Thread Reference-Count Pair}
++Listing~\ref{lst:app:toyrcu:RCU Update Using Per-Thread Reference-Count Pair}
+ (\path{rcu_rcpl.c})
+ shows the implementation of \co{synchronize_rcu()}, along with a helper
+ function named \co{flip_counter_and_wait()}.
+ The \co{synchronize_rcu()} function resembles that shown in
+-Figure~\ref{fig:app:toyrcu:RCU Update Using Global Reference-Count Pair},
++Listing~\ref{lst:app:toyrcu:RCU Update Using Global Reference-Count Pair},
+ except that the repeated counter flip is replaced by a pair of calls
+ on lines~22 and 23 to the new helper function.
+
+@@ -976,7 +976,7 @@ concurrent RCU updates.
+ \section{Scalable Counter-Based RCU With Shared Grace Periods}
+ \label{sec:app:toyrcu:Scalable Counter-Based RCU With Shared Grace Periods}
 
 -\begin{figure}[tbp]
 +\begin{listing}[tbp]
  { \scriptsize
  \begin{verbbox}
-   1 static inline
-@@ -384,8 +384,8 @@ shown in Figure~\ref{fig:together:Linux Kernel dst-clone API}.
+   1 DEFINE_SPINLOCK(rcu_gp_lock);
+@@ -989,10 +989,10 @@ concurrent RCU updates.
  \centering
  \theverbbox
- \caption{Linux Kernel \tco{dst_clone} API}
--\label{fig:together:Linux Kernel dst-clone API}
+ \caption{RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update Data}
+-\label{fig:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update Data}
 -\end{figure}
-+\label{lst:together:Linux Kernel dst-clone API}
++\label{lst:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update Data}
 +\end{listing}
-
- The \co{dst_clone()} primitive may be used if the caller
- already has a reference to the specified \co{dst_entry},
-@@ -443,9 +443,9 @@ as shown below.
- The Linux kernel's \co{fget()} and \co{fput()} primitives
- use this style of reference counting.
- Simplified versions of these functions are shown in
--Figure~\ref{fig:together:Linux Kernel fget/fput API}.
-+Listing~\ref{lst:together:Linux Kernel fget/fput API}.
 
 -\begin{figure}[tbp]
 +\begin{listing}[tbp]
- { \fontsize{6.5pt}{7.5pt}\selectfont
+ { \scriptsize
  \begin{verbbox}
-   1 struct file *fget(unsigned int fd)
-@@ -494,8 +494,8 @@ Figure~\ref{fig:together:Linux Kernel fget/fput API}.
+   1 static void rcu_read_lock(void)
+@@ -1028,28 +1028,28 @@ concurrent RCU updates.
  \centering
  \theverbbox
- \caption{Linux Kernel \tco{fget}/\tco{fput} API}
--\label{fig:together:Linux Kernel fget/fput API}
+ \caption{RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update}
+-\label{fig:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update}
 -\end{figure}
-+\label{lst:together:Linux Kernel fget/fput API}
++\label{lst:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update}
 +\end{listing}
 
- Line~4 of \co{fget()} fetches the pointer to the current
- process's file-descriptor table, which might well be shared
+-Figure~\ref{fig:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update}
++Listing~\ref{lst:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update}
+ (\path{rcu_rcpls.h})
+ shows the read-side primitives for an RCU implementation using per-thread
+ reference count pairs, as before, but permitting updates to share
+ grace periods.
+ The main difference from the earlier implementation shown in
+-Figure~\ref{fig:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair}
++Listing~\ref{lst:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair}
+ is that \co{rcu_idx} is now a \co{long} that counts freely,
+ so that line~8 of
+-Figure~\ref{fig:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update}
++Listing~\ref{lst:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update}
+ must mask off the low-order bit.
+ We also switched from using \co{atomic_read()} and \co{atomic_set()}
+ to using \co{READ_ONCE()}.
+ The data is also quite similar, as shown in
+-Figure~\ref{fig:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update Data},
++Listing~\ref{lst:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update Data},
+ with \co{rcu_idx} now being a \co{long} instead of an
+ \co{atomic_t}.
+
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+   1 static void flip_counter_and_wait(int ctr)
+@@ -1094,15 +1094,15 @@ with \co{rcu_idx} now being a \co{long} instead of an
+ \centering
+ \theverbbox
+ \caption{RCU Shared Update Using Per-Thread Reference-Count Pair}
+-\label{fig:app:toyrcu:RCU Shared Update Using Per-Thread Reference-Count Pair}
+-\end{figure}
++\label{lst:app:toyrcu:RCU Shared Update Using Per-Thread Reference-Count Pair}
++\end{listing}
+
+-Figure~\ref{fig:app:toyrcu:RCU Shared Update Using Per-Thread Reference-Count Pair}
++Listing~\ref{lst:app:toyrcu:RCU Shared Update Using Per-Thread Reference-Count Pair}
+ (\path{rcu_rcpls.c})
+ shows the implementation of \co{synchronize_rcu()} and its helper
+ function \co{flip_counter_and_wait()}.
+ These are similar to those in
+-Figure~\ref{fig:app:toyrcu:RCU Update Using Per-Thread Reference-Count Pair}.
++Listing~\ref{lst:app:toyrcu:RCU Update Using Per-Thread Reference-Count Pair}.
+ The differences in \co{flip_counter_and_wait()} include:
+ \begin{enumerate}
+ \item	Line~6 uses \co{WRITE_ONCE()} instead of \co{atomic_set()},
+@@ -1188,7 +1188,7 @@ RCU implementation being used in production in real-life applications.
+ } \QuickQuizEnd
+
+ Referring back to
+-Figure~\ref{fig:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update},
++Listing~\ref{lst:app:toyrcu:RCU Read-Side Using Per-Thread Reference-Count Pair and Shared Update},
+ we see that there is one global-variable access and no fewer than four
+ accesses to thread-local variables.
+ Given the relatively high cost of thread-local accesses on systems
+@@ -1202,7 +1202,7 @@ thread-local accesses to one, as is done in the next section.
+ \section{RCU Based on Free-Running Counter}
+ \label{sec:app:toyrcu:RCU Based on Free-Running Counter}
+
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+   1 DEFINE_SPINLOCK(rcu_gp_lock);
+@@ -1214,10 +1214,10 @@ thread-local accesses to one, as is done in the next section.
+ \centering
+ \theverbbox
+ \caption{Data for Free-Running Counter Using RCU}
+-\label{fig:app:toyrcu:Data for Free-Running Counter Using RCU}
+-\end{figure}
++\label{lst:app:toyrcu:Data for Free-Running Counter Using RCU}
++\end{listing}
+
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+  1 static void rcu_read_lock(void)
+@@ -1257,14 +1257,14 @@ thread-local accesses to one, as is done in the next section.
+ \centering
+ \theverbbox
+ \caption{Free-Running Counter Using RCU}
+-\label{fig:app:toyrcu:Free-Running Counter Using RCU}
+-\end{figure}
++\label{lst:app:toyrcu:Free-Running Counter Using RCU}
++\end{listing}
+
+-Figure~\ref{fig:app:toyrcu:Free-Running Counter Using RCU}
++Listing~\ref{lst:app:toyrcu:Free-Running Counter Using RCU}
+ (\path{rcu.h} and \path{rcu.c})
+ shows an RCU implementation based on a single global free-running counter
+ that takes on only even-numbered values, with data shown in
+-Figure~\ref{fig:app:toyrcu:Data for Free-Running Counter Using RCU}.
++Listing~\ref{lst:app:toyrcu:Data for Free-Running Counter Using RCU}.
+ The resulting \co{rcu_read_lock()} implementation is extremely
+ straightforward.
+ Lines~3 and~4 simply add one to the global free-running \co{rcu_gp_ctr}
+@@ -1284,7 +1284,7 @@ of \co{synchronize_rcu()} will know to ignore it.
+ \QuickQuiz{}
+ 	If any even value is sufficient to tell \co{synchronize_rcu()}
+ 	to ignore a given task, why don't lines~10 and~11 of
+-	Figure~\ref{fig:app:toyrcu:Free-Running Counter Using RCU}
++	Listing~\ref{lst:app:toyrcu:Free-Running Counter Using RCU}
+ 	simply assign zero to \co{rcu_reader_gp}?
+ \QuickQuizAnswer{
+ 	Assigning zero (or any other even-numbered constant)
+@@ -1323,7 +1323,7 @@ destruction will not be reordered into the preceding loop.
+
+ \QuickQuiz{}
+ 	Why are the memory barriers on lines~19 and~31 of
+-	Figure~\ref{fig:app:toyrcu:Free-Running Counter Using RCU}
++	Listing~\ref{lst:app:toyrcu:Free-Running Counter Using RCU}
+ 	needed?
+ 	Aren't the memory barriers inherent in the locking
+ 	primitives on lines~20 and~30 sufficient?
+@@ -1349,7 +1349,7 @@ such CPUs.
+ 	Couldn't the update-side batching optimization described in
+ 	Section~\ref{sec:app:toyrcu:Scalable Counter-Based RCU With Shared Grace Periods}
+ 	be applied to the implementation shown in
+-	Figure~\ref{fig:app:toyrcu:Free-Running Counter Using RCU}?
++	Listing~\ref{lst:app:toyrcu:Free-Running Counter Using RCU}?
+ \QuickQuizAnswer{
+ 	Indeed it could, with a few modifications.
+ 	This work is left as an exercise for the reader.
+@@ -1360,7 +1360,7 @@ addition to the high update-side overhead noted earlier.
+ First, it is no longer permissible to nest RCU read-side critical
+ sections, a topic that is taken up in the next section.
+ Second, if a reader is preempted at line~3 of
+-Figure~\ref{fig:app:toyrcu:Free-Running Counter Using RCU} after fetching from
++Listing~\ref{lst:app:toyrcu:Free-Running Counter Using RCU} after fetching from
+ \co{rcu_gp_ctr} but before storing to \co{rcu_reader_gp},
+ and if the \co{rcu_gp_ctr} counter then runs through more than half
+ but less than all of its possible values, then \co{synchronize_rcu()}
+@@ -1371,7 +1371,7 @@ variables.
+
+ \QuickQuiz{}
+ 	Is the possibility of readers being preempted in
+-	lines~3-4 of Figure~\ref{fig:app:toyrcu:Free-Running Counter Using RCU}
++	lines~3-4 of Listing~\ref{lst:app:toyrcu:Free-Running Counter Using RCU}
+ 	a real problem, in other words, is there a real sequence
+ 	of events that could lead to failure?
+ 	If not, why not?
+@@ -1392,7 +1392,7 @@ variables.
+ \section{Nestable RCU Based on Free-Running Counter}
+ \label{sec:app:toyrcu:Nestable RCU Based on Free-Running Counter}
+
+-\begin{figure}[tb]
++\begin{listing}[tb]
+ { \scriptsize
+ \begin{verbbox}
+   1 DEFINE_SPINLOCK(rcu_gp_lock);
+@@ -1406,10 +1406,10 @@ variables.
+ \centering
+ \theverbbox
+ \caption{Data for Nestable RCU Using a Free-Running Counter}
+-\label{fig:app:toyrcu:Data for Nestable RCU Using a Free-Running Counter}
+-\end{figure}
++\label{lst:app:toyrcu:Data for Nestable RCU Using a Free-Running Counter}
++\end{listing}
+
+-\begin{figure}[tb]
++\begin{listing}[tb]
+ { \scriptsize
+ \begin{verbbox}
+  1 static void rcu_read_lock(void)
+@@ -1458,16 +1458,16 @@ variables.
+ \centering
+ \theverbbox
+ \caption{Nestable RCU Using a Free-Running Counter}
+-\label{fig:app:toyrcu:Nestable RCU Using a Free-Running Counter}
+-\end{figure}
++\label{lst:app:toyrcu:Nestable RCU Using a Free-Running Counter}
++\end{listing}
+
+-Figure~\ref{fig:app:toyrcu:Nestable RCU Using a Free-Running Counter}
++Listing~\ref{lst:app:toyrcu:Nestable RCU Using a Free-Running Counter}
+ (\path{rcu_nest.h} and \path{rcu_nest.c})
+ show an RCU implementation based on a single global free-running counter,
+ but that permits nesting of RCU read-side critical sections.
+ This nestability is accomplished by reserving the low-order bits of the
+ global \co{rcu_gp_ctr} to count nesting, using the definitions shown in
+-Figure~\ref{fig:app:toyrcu:Data for Nestable RCU Using a Free-Running Counter}.
++Listing~\ref{lst:app:toyrcu:Data for Nestable RCU Using a Free-Running Counter}.
+ This is a generalization of the scheme in
+ Section~\ref{sec:app:toyrcu:RCU Based on Free-Running Counter},
+ which can be thought of as having a single low-order bit reserved
+@@ -1573,7 +1573,7 @@ overhead.
+
+ \QuickQuiz{}
+ 	Given the algorithm shown in
+-	Figure~\ref{fig:app:toyrcu:Nestable RCU Using a Free-Running Counter},
++	Listing~\ref{lst:app:toyrcu:Nestable RCU Using a Free-Running Counter},
+ 	how could you double the time required to overflow the global
+ 	\co{rcu_gp_ctr}?
+ \QuickQuizAnswer{
+@@ -1585,7 +1585,7 @@ overhead.
+
+ \QuickQuiz{}
+ 	Again, given the algorithm shown in
+-	Figure~\ref{fig:app:toyrcu:Nestable RCU Using a Free-Running Counter},
++	Listing~\ref{lst:app:toyrcu:Nestable RCU Using a Free-Running Counter},
+ 	is counter overflow fatal?
+ 	Why or why not?
+ 	If it is fatal, what can be done to fix it?
+@@ -1675,7 +1675,7 @@ overhead.
+ \section{RCU Based on Quiescent States}
+ \label{sec:app:toyrcu:RCU Based on Quiescent States}
+
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+   1 DEFINE_SPINLOCK(rcu_gp_lock);
+@@ -1686,10 +1686,10 @@ overhead.
+ \centering
+ \theverbbox
+ \caption{Data for Quiescent-State-Based RCU}
+-\label{fig:app:toyrcu:Data for Quiescent-State-Based RCU}
+-\end{figure}
++\label{lst:app:toyrcu:Data for Quiescent-State-Based RCU}
++\end{listing}
+
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+   1 static void rcu_read_lock(void)
+@@ -1725,15 +1725,15 @@ overhead.
+ \centering
+ \theverbbox
+ \caption{Quiescent-State-Based RCU Read Side}
+-\label{fig:app:toyrcu:Quiescent-State-Based RCU Read Side}
+-\end{figure}
++\label{lst:app:toyrcu:Quiescent-State-Based RCU Read Side}
++\end{listing}
+
+-Figure~\ref{fig:app:toyrcu:Quiescent-State-Based RCU Read Side}
++Listing~\ref{lst:app:toyrcu:Quiescent-State-Based RCU Read Side}
+ (\path{rcu_qs.h})
+ shows the read-side primitives used to construct a user-level
+ implementation of RCU based on quiescent states, with the data shown in
+-Figure~\ref{fig:app:toyrcu:Data for Quiescent-State-Based RCU}.
+-As can be seen from lines~1-7 in the figure, the \co{rcu_read_lock()}
++Listing~\ref{lst:app:toyrcu:Data for Quiescent-State-Based RCU}.
++As can be seen from lines~1-7 in the listing, the \co{rcu_read_lock()}
+ and \co{rcu_read_unlock()} primitives do nothing, and can in fact
+ be expected to be inlined and optimized away, as they are in
+ server builds of the Linux kernel.
+@@ -1741,7 +1741,7 @@ This is due to the fact that quiescent-state-based RCU implementations
+ \emph{approximate} the extents of RCU read-side critical sections
+ using the aforementioned quiescent states.
+ Each of these quiescent states contains a call to
+-\co{rcu_quiescent_state()}, which is shown from lines~9-15 in the figure.
++\co{rcu_quiescent_state()}, which is shown from lines~9-15 in the listing.
+ Threads entering extended quiescent states (for example, when blocking)
+ may instead call \co{rcu_thread_offline()} (lines~17-23) when entering
+ an extended quiescent state and then call
+@@ -1751,7 +1751,7 @@ and \co{rcu_thread_offline()} is analogous to \co{rcu_read_unlock()}.
+ In addition, \co{rcu_quiescent_state()} can be thought of as a
+ \co{rcu_thread_online()} immediately followed by a
+ \co{rcu_thread_offline()}.\footnote{
+-	Although the code in the figure is consistent with
++	Although the code in the listing is consistent with
+ 	\co{rcu_quiescent_state()}
+ 	being the same as \co{rcu_thread_online()} immediately followed by
+ 	\co{rcu_thread_offline()}, this relationship is obscured by
+@@ -1779,7 +1779,7 @@ re-ordered with the lines~12-13.
+
+ \QuickQuiz{}
+ 	Doesn't the additional memory barrier shown on line~14 of
+-	Figure~\ref{fig:app:toyrcu:Quiescent-State-Based RCU Read Side}
++	Listing~\ref{lst:app:toyrcu:Quiescent-State-Based RCU Read Side}
+ 	greatly increase the overhead of \co{rcu_quiescent_state}?
+ \QuickQuizAnswer{
+ 	Indeed it does!
+@@ -1812,7 +1812,7 @@ ignore this thread.
+
+ \QuickQuiz{}
+ 	Why are the two memory barriers on lines~19 and 22 of
+-	Figure~\ref{fig:app:toyrcu:Quiescent-State-Based RCU Read Side}
++	Listing~\ref{lst:app:toyrcu:Quiescent-State-Based RCU Read Side}
+ 	needed?
+ \QuickQuizAnswer{
+ 	The memory barrier on line~19 prevents any RCU read-side
+@@ -1828,7 +1828,7 @@ The \co{rcu_thread_online()} function simply invokes
+ \co{rcu_quiescent_state()}, thus marking the end of the extended
+ quiescent state.
+
+-\begin{figure}[tbp]
++\begin{listing}[tbp]
+ { \scriptsize
+ \begin{verbbox}
+   1 void synchronize_rcu(void)
+@@ -1854,10 +1854,10 @@ quiescent state.
+ \centering
+ \theverbbox
+ \caption{RCU Update Side Using Quiescent States}
+-\label{fig:app:toyrcu:RCU Update Side Using Quiescent States}
+-\end{figure}
++\label{lst:app:toyrcu:RCU Update Side Using Quiescent States}
++\end{listing}
+
+-Figure~\ref{fig:app:toyrcu:RCU Update Side Using Quiescent States}
++Listing~\ref{lst:app:toyrcu:RCU Update Side Using Quiescent States}
+ (\path{rcu_qs.c})
+ shows the implementation of \co{synchronize_rcu()}, which is
+ quite similar to that of the preceding sections.
+@@ -1895,8 +1895,8 @@ certain types of library functions.
+ 	Why would the fact that the code is in a library make
+ 	any difference for how easy it is to use the RCU
+ 	implementation shown in
+-	Figures~\ref{fig:app:toyrcu:Quiescent-State-Based RCU Read Side} and
+-	\ref{fig:app:toyrcu:RCU Update Side Using Quiescent States}?
++	Listings~\ref{lst:app:toyrcu:Quiescent-State-Based RCU Read Side} and
++	\ref{lst:app:toyrcu:RCU Update Side Using Quiescent States}?
+ \QuickQuizAnswer{
+ 	A library function has absolutely no control over the caller,
+ 	and thus cannot force the caller to invoke \co{rcu_quiescent_state()}
 -- 
 2.7.4
+
 
