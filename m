@@ -2,17 +2,17 @@ Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=71gU0U1AnvZ4HHhU8uV/PLe8Wlq07q5Y3VFJtriS6UA=;
- b=kNDkEbEoi3JzmLU2JHXDAh23v3fufTgNWBkR1L8OX46XVJWxXqjA4JM6L0sUu9Tcu2
- JUutwYpIYkP1jc9ptKhqBIVpHsR5SzxvldjLbaHX+O7snEVkfrGh8LjbFA/bvZV4SRB9
- sYkQ/1XkXzJoglyjSYIFQajn543cv4jSLmu8ef9H7zeeKZRhNUzQVCBAajtoXM7e9NQn
- 8cxDqs4yDjpJkpvD3my712cZ4RDswapbr14J/vyWektD+G2JFGrVdUNCfFoPI72eQxgv
- 5b2sNb8sihFb7Vz8yDQ+/WL0Zv7aZiGPgobwlaEsMjuuANDIAjR0y1P/EtYBO0L8+U/e
- 1lGQ==
+ bh=NIoRWmHZQTyVTMrcW+dQcbM7A5Qsc5skCWtZiNl5zeU=;
+ b=aI8WW0X3ZlxTjDJ6D8zJmSd39UH/V3x8NIDT/hBqCV+rdLeRK6NLc96jKmDty5Y+dU
+ zkdCj1+22HPg8yu/XN0TOTJCnjOAN56vM4X2QBoIcqfYlwaz3GaEEeHeNWFOHvD5ej8a
+ ++CJhBZXOtxco+r5ZriAw9PEMymk43uDoHAj5d7fdG/8lz35BN/iIvMNVvn7r/78nNiG
+ ya0XyYKINCf1HIReKIEGL85GLaYLTOnvJw9gCU7kdRq2BKwRwCzzKhPm0gw2xYwQ1kuQ
+ TCr4j3jGSfdrJQN+VvlWzMHA4SW0vTjXGeN5/cBdEj7HK7Ju26BInVTvBvcqC1eVOchZ
+ XX7Q==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 3/5] memorder: Add missed unbreakable space before line number
-Date: Tue, 17 Oct 2017 11:20:52 +0900
-Message-Id: <20171017022054.32680-3-sj38.park@gmail.com>
+Subject: [PATCH 4/5] memorder: Fix typo on instruction name (LDAR -> LDLAR)
+Date: Tue, 17 Oct 2017 11:20:53 +0900
+Message-Id: <20171017022054.32680-4-sj38.park@gmail.com>
 In-Reply-To: <20171017022054.32680-1-sj38.park@gmail.com>
 References: <20171017022054.32680-1-sj38.park@gmail.com>
 To: paulmck@linux.vnet.ibm.com
@@ -25,18 +25,18 @@ Signed-off-by: SeongJae Park <sj38.park@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index cc1497b..11fa280 100644
+index 11fa280..28faeec 100644
 --- a/memorder/memorder.tex
 +++ b/memorder/memorder.tex
-@@ -4240,7 +4240,7 @@ On the other hand, the combination of the conditional branch on line~2
- and the \co{ISB} instruction on line~6 ensures that
- the load on line~7 happens after the load on line~1.
- Note that inserting an additional \co{ISB} instruction somewhere between
--lines~3 and 4 would enforce ordering between lines~1 and 5.
-+lines~3 and~4 would enforce ordering between lines~1 and~5.
-
- \subsection{ARMv8}
-
+@@ -4260,7 +4260,7 @@ and store-release (\co{STLLRB}, \co{STLLRH}, and \co{STLLR})
+ instructions.
+ These instructions act as ``half memory barriers'', so that
+ ARMv8 CPUs can reorder previous accesses with a later \co{LDLAR}
+-instruction, but are prohibited from reordering an earlier \co{LDAR}
++instruction, but are prohibited from reordering an earlier \co{LDLAR}
+ instruction with later accesses, as fancifully depicted in
+ Figure~\ref{fig:memorder:Half Memory Barrier}.
+ Similarly, ARMv8 CPUs can reorder an earlier \co{STLLR} instruction with
 -- 
 2.10.0
 
