@@ -2,20 +2,22 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=44NT2KLew5Aw1Axfmg6lp5dRoU3oNxyFwzsYzE68PAA=;
- b=H1xaZhMKIg9F8hwy8aGEO27EDMbQgDeWT1f4GEKnl8LNpUI6Etx2iGxwmzOgeBvEEN
- 6h0N42n+2UcpSXnFFcSLwoyZ+nWB37kRFPlDMyF1PVEeM8f1rGy8dxhBckCgkjpa4+l4
- ljl3dKu9s7Fkkud3Ihzy0uGN8w8jJlzJNnfR9YoSi2wqX+FMJck7qsHm/2eLCvBWTY78
- Ed1Yq6M5ij4pbylzejQmioYKzmTCa8h6jrjaqQdWhBNvELl0A4TgX2u+xq9gxEEQPQyR
- T1WkSC1o3CkgZFEWYUpF2vDVhjoUnlsZ4/POFqa71s8NkvjPcOB0EUyAmQQCA18k++aE
- GehQ==
-Subject: [PATCH 3/3] toolsoftrade: Adjust wording on age of POWER5
-References: <6d7b64ad-0a50-74f9-cae4-5800334e5569@gmail.com>
+ bh=oUeImhJWDph2hAMaUkLVxXzqouhBlR3j14D/JZPBpFY=;
+ b=rHIQkA5eNYqTdds7TRpLz2Qi1NlcYmge/BxMrk64023GpM8Eed4yOTOfdgW5KCml3Y
+ SNm+TDJZ8XGgXZK7HUugXImniGwIAj6V0E8gsQWmIlXDIgjg5mJYIYX5Qv72bQ4s84i2
+ DgQRqERgBClohgwMZI0ogq14OmxRfTzA6GWr0JV6w7Lsu6VEpebUq8vQM/GwNOER9sZV
+ gw7LTZCYhDj4BlsXFM6rwCd37IH6eDk7vlD8wtO1PhQ584CaovdLRpWzaZ66GuVDrFtc
+ CLMbAwgpZlvl/88W0Zxe92R1/vzZ1VRatTfJd56k1jrPl/4ZWp50hwTAW18yMYvEZlZQ
+ B+/A==
+Subject: Re: [PATCH] styleguide: Reflect recent conversion of code snippets to
+ listing
+References: <976bbd70-e58c-7b10-1339-87167b5f79ae@gmail.com>
+ <20171019235915.GF3521@linux.vnet.ibm.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <0f250ee5-7928-8d51-00a5-78e7cf48796c@gmail.com>
-Date: Sat, 21 Oct 2017 09:10:23 +0900
+Message-ID: <253df301-c11e-ca4d-9187-81aef7ee641c@gmail.com>
+Date: Sat, 21 Oct 2017 01:31:51 +0900
 MIME-Version: 1.0
-In-Reply-To: <6d7b64ad-0a50-74f9-cae4-5800334e5569@gmail.com>
+In-Reply-To: <20171019235915.GF3521@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -23,30 +25,45 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 79aa63bf91eacaec2c8cdf15d1f1874fbc42913e Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 21 Oct 2017 08:40:45 +0900
-Subject: [PATCH 3/3] toolsoftrade: Adjust wording on age of POWER5
+On 2017/10/19 16:59:15 -0700, Paul E. McKenney wrote:
+> On Fri, Oct 20, 2017 at 07:46:16AM +0900, Akira Yokosawa wrote:
+>> >From cf16d20dff9bf4cf2832c1fdd1fe00b39c4836fd Mon Sep 17 00:00:00 2001
+>> From: Akira Yokosawa <akiyks@gmail.com>
+>> Date: Fri, 20 Oct 2017 07:16:48 +0900
+>> Subject: [PATCH] styleguide: Reflect recent conversion of code snippets to listing
+>>
+>> Also use a different approach to reduce skips of table captions.
+>> By setting a smaller value to \abovecaptionskip, captions of tables
+>> and figures can be made closer to the body regardless of their
+>> positions and avoid ambiguity of them to look like captions
+>> to other nearby tables/figures.
+>>
+>> In the experimental tables, a negative value is still set
+>> to \abovetopsep to further reduce the skips.
+>>
+>> As options of \captionsetup{} related to vertical spacing are
+>> ignored in captions controlled by the "float" package, remove them.
+>>
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> 
+> Applied and pushed, thank you!
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- toolsoftrade/toolsoftrade.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So, looks like you are almost ready for the upcoming release.
+I'm preparing a patch to add a make target to move table captions to the top
+throughout perfbook.
+Would you like to see such a patch before the upcoming release?
 
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index 77b3eba..d37a295 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -1137,7 +1137,7 @@ This situation will only get worse as you add CPUs.
- } \QuickQuizEnd
+And I have a reminder for you.
 
- \QuickQuiz{}
--	\Power{5} is several years old, and new hardware should
-+	\Power{5} is more than a decade old, and new hardware should
- 	be faster.
- 	So why should anyone worry about reader-writer locks being slow?
- \QuickQuizAnswer{
--- 
-2.7.4
+You might want to update the "Roadmap" section in Chapter 1 to mention
+new Chapter 15. Style Guide can be ignored for the moment.
 
+Thoughts?
+
+     Thanks, Akira
+
+> 
+> 							Thanx, Paul
+> 
+[...]
 
