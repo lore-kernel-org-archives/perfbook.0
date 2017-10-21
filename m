@@ -1,65 +1,57 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55308 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1752915AbdJUA05 (ORCPT <rfc822;perfbook@vger.kernel.org>); Fri, 20
- Oct 2017 20:26:57 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9L0NXIj102118
- for <perfbook@vger.kernel.org>; Fri, 20 Oct 2017 20:26:57 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2dqt8eafqm-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Fri,
- 20 Oct 2017 20:26:57 -0400
-Received: from localhost by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Fri, 20 Oct
- 2017 20:26:56 -0400
-Date: Fri, 20 Oct 2017 17:26:53 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 1/3] debugging: Use \ln for natural logarithm in Eq E.9
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <6d7b64ad-0a50-74f9-cae4-5800334e5569@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=19UdcxYj1pndYC+Zw0IUVccDX+xNMPdJRda8fP5gVcc=;
+ b=VP6nZxOiun9tTVeeXZOq4xH2YcoN7RXB3OvMI50/zicEJlerNWj46KAtEihHWGm+9x
+ VLAukkU/BaPSqtTwUb6Ik/SeLMl6B/BKsataq7XUcHEYi2C07gzzaLPW/xHOa5O7SSH+
+ ypKelaQ46T4roCUejI2hmXe8II6Nsu47JYmHCndB8OBe3MKrFZkAETTOUmCgNSO9jHzq
+ rX0LS8g5v3b2F59wwhYGfg3/gXfqb7wL61xghYohNQn4vlwQ8ticF5V+tjDH+gUc6hSW
+ WrulIZ5QHPBCO1mL5ah12rcW4VMYDzOasLo31qeWi2eVcCqIwTaLYKfs5RJBbzTkoZWl
+ W4SA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] advsync/rt: Remove epigraph under section
+Message-ID: <458f0875-24ae-d62b-6448-152affe8fb7c@gmail.com>
+Date: Sat, 21 Oct 2017 20:27:57 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6d7b64ad-0a50-74f9-cae4-5800334e5569@gmail.com>
-Message-Id: <20171021002653.GK3521@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Oct 21, 2017 at 09:07:28AM +0900, Akira Yokosawa wrote:
-> >From ad506b1b01a5c13bbbe393c7acaa11b4320d0601 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sat, 21 Oct 2017 07:53:36 +0900
-> Subject: [PATCH 1/3] debugging: Use \ln for natural logarithm in Eq E.9
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+From 7ec65f19bf8b1d8a6389e684955d672658ac1010 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sat, 21 Oct 2017 20:20:27 +0900
+Subject: [PATCH] advsync/rt: Remove epigraph under section
 
-I applied all three, thank you!  Good eyes, especially on the log->ln
-change.  ;-)
+Also modify label (chp -> sec).
 
-							Thanx, Paul
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ advsync/rt.tex | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> ---
->  debugging/debugging.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/debugging/debugging.tex b/debugging/debugging.tex
-> index a4537b0..700e725 100644
-> --- a/debugging/debugging.tex
-> +++ b/debugging/debugging.tex
-> @@ -1265,7 +1265,7 @@ following formula:
->  	Equation~\ref{eq:debugging:Error-Free Test Duration}, resulting in:
-> 
->  	\begin{equation}
-> -		T = - \frac{1}{3} \log \frac{100 - 99.9}{100} = 2.3
-> +		T = - \frac{1}{3} \ln \frac{100 - 99.9}{100} = 2.3
->  	\end{equation}
-> 
->  	If the test runs without failure for 2.3 hours, we can be 99.9\,\%
-> -- 
-> 2.7.4
-> 
+diff --git a/advsync/rt.tex b/advsync/rt.tex
+index 673b8f8..4d86c5d 100644
+--- a/advsync/rt.tex
++++ b/advsync/rt.tex
+@@ -1,10 +1,10 @@
+ % advsync/rt.tex
+
+ \section{Parallel Real-Time Computing}
+-\label{chp:Parallel Real-Time Computing}
++\label{sec:Parallel Real-Time Computing}
+ %
+-\Epigraph{The difference between you and me is that I was right in time.}
+-	 {\emph{Konrad Adenauer}}
++%\Epigraph{The difference between you and me is that I was right in time.}
++%	 {\emph{Konrad Adenauer}}
+
+ An important emerging area in computing is that of parallel real-time
+ computing.
+-- 
+2.7.4
 
