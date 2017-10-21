@@ -1,57 +1,66 @@
-Return-Path: <akiyks@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mail-wm0-f42.google.com ([74.125.82.42]:44932 "EHLO
+ mail-wm0-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S932085AbdJUN6O (ORCPT <rfc822;perfbook@vger.kernel.org>); Sat, 21
+ Oct 2017 09:58:14 -0400
+Received: by mail-wm0-f42.google.com with SMTP id 196so3475673wma.1 for
+ <perfbook@vger.kernel.org>; Sat, 21 Oct 2017 06:58:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=19UdcxYj1pndYC+Zw0IUVccDX+xNMPdJRda8fP5gVcc=;
- b=VP6nZxOiun9tTVeeXZOq4xH2YcoN7RXB3OvMI50/zicEJlerNWj46KAtEihHWGm+9x
- VLAukkU/BaPSqtTwUb6Ik/SeLMl6B/BKsataq7XUcHEYi2C07gzzaLPW/xHOa5O7SSH+
- ypKelaQ46T4roCUejI2hmXe8II6Nsu47JYmHCndB8OBe3MKrFZkAETTOUmCgNSO9jHzq
- rX0LS8g5v3b2F59wwhYGfg3/gXfqb7wL61xghYohNQn4vlwQ8ticF5V+tjDH+gUc6hSW
- WrulIZ5QHPBCO1mL5ah12rcW4VMYDzOasLo31qeWi2eVcCqIwTaLYKfs5RJBbzTkoZWl
- W4SA==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] advsync/rt: Remove epigraph under section
-Message-ID: <458f0875-24ae-d62b-6448-152affe8fb7c@gmail.com>
-Date: Sat, 21 Oct 2017 20:27:57 +0900
+ s=20161025;        h=mime-version:from:date:message-id:subject:to;
+ bh=+tBI1hQ9iN+F8tLkQDFdHw0lL0KFfQiEtXXfrk8NTAo=;
+ b=iYqiafLb+PqgM0jnkbrPPn/bM2544kpRZN3P+ls9cjk70KV2Ge2F+LT/gzOlxkYzf2
+ jex6sekoxDeRvyLPi1kUib8mqQmrguGmDkocNsp2KWdUccQdUFAk5J6d9Z8RK5A9FEg3
+ lJFRyMlb8BHvivtA544eLSExzAQleN6Kkx4HRYHl4UPIgIZYuqPJD/AK7Ukr2rhrDWUW
+ j0hyEm7c5ik9seG9cKpRQMhSiYVTflKnj16m8Aa8t0D1tyOUUwJb7JWrYp6QoPo2pMgq
+ 9fAnnhkKC1OEdZoQzMaTkRtNQwz3x2PmHtp8VloriVgE2Qj4GIum/ZGIKAxppV9oF+ws
+ 7qwA==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From: Yubin Ruan <ablacktshirt@gmail.com>
+Date: Sat, 21 Oct 2017 21:58:12 +0800
+Message-ID: 
+ <CAJYFCiPGe4NaZMef_-gXF4Oyk8tP+DhmPYfrhgvEEHzTnmm59g@mail.gmail.com>
+Subject: Probably redundant code at listing 7.7
+Content-Type: text/plain; charset="UTF-8"
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: perfbook@vger.kernel.org
 
-From 7ec65f19bf8b1d8a6389e684955d672658ac1010 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 21 Oct 2017 20:20:27 +0900
-Subject: [PATCH] advsync/rt: Remove epigraph under section
+Hi,
 
-Also modify label (chp -> sec).
+In Listing 7.7, a hierarchy/conditional locking example is used to
+show how to reduce how contention:
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- advsync/rt.tex | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+1 void force_quiescent_state(struct rcu_node *rnp_leaf)
+2 {
+3      int ret;
+4      struct rcu_node *rnp = rnp_leaf;
+5      struct rcu_node *rnp_old = NULL;
+6
+7      for (; rnp != NULL; rnp = rnp->parent) {
+8          ret = (ACCESS_ONCE(gp_flags)) ||
+9                  !raw_spin_trylock(&rnp->fqslock);
+10         if (rnp_old != NULL)
+11             raw_spin_unlock(&rnp_old->fqslock);
+12         if (ret)
+13             return;
+14         rnp_old = rnp;
+15     }
+16     if (!ACCESS_ONCE(gp_flags)) {
+17         ACCESS_ONCE(gp_flags) = 1;
+18         do_force_quiescent_state();
+19         ACCESS_ONCE(gp_flags) = 0;
+20     }
+21     raw_spin_unlock(&rnp_old->fqslock);
+22 }
 
-diff --git a/advsync/rt.tex b/advsync/rt.tex
-index 673b8f8..4d86c5d 100644
---- a/advsync/rt.tex
-+++ b/advsync/rt.tex
-@@ -1,10 +1,10 @@
- % advsync/rt.tex
+I understand the purpose and most of the implementation of the code.
+But one thing I don't really understand is that why we need line 16
+here? By reaching line 16, we can be sure that that particular process
+have already acquired the fqslock of the root node and it should be
+the only one to reach there. So, it will always see gp_flags == 0 when
+reaching line 16.
 
- \section{Parallel Real-Time Computing}
--\label{chp:Parallel Real-Time Computing}
-+\label{sec:Parallel Real-Time Computing}
- %
--\Epigraph{The difference between you and me is that I was right in time.}
--	 {\emph{Konrad Adenauer}}
-+%\Epigraph{The difference between you and me is that I was right in time.}
-+%	 {\emph{Konrad Adenauer}}
+Did I miss anything? I read Quick Quiz 7.21 and it seems that there
+might be some tricky things there.
 
- An important emerging area in computing is that of parallel real-time
- computing.
--- 
-2.7.4
-
+Yubin
