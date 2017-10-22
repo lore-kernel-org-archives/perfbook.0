@@ -2,21 +2,22 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7MoUNz1oLGJyQwaM99F4FJ08h2KwxPt0qfdIBM2bfP8=;
- b=rvtvR3Nm03jF4pDjZzIaoEpnqaz/bAm5toRqdzgiuA/OtMapH0mWA2XAbF//Sa7auN
- BY8bw2CYIFvTc/clIDqTfUiD36JqlTS1TSjLXQ0xAojITtOQJYiR4pnzrQGz5XwEVufS
- Zx3sojODvGL+rcx9+kAzQjEFhe67tLDTH492uOBJIi9JRjp8tXjMPvJpk9X3nvqnfhbB
- g6V58kQHsL/cPkUW2rUMt3q/IiYOWYMS17NCvRr6nbtE0Oi8sc/x3x9kOO+CzEn0OZIi
- AU4ljhv+busnJOG+Pr1aEhhImvrisdqUNiC+xXQHDa1n86S51Mv9UZg/M9FHZ+CTtVPt
- vzHA==
-Subject: Re: [PATCH] advsync/rt: Remove epigraph under section
+ bh=hDt1Z97flIs3XQIng1aUMZ1atw/Db5UmbzHx19nwZ4Q=;
+ b=KGhHhAxPqpif3s+z3XljyWh0BszYgjhiYKEsfSUPuvD6pOHaupiqAquUl1dDFQxy1Q
+ E/Uhr3s0tuNxpQ1IidfE5thMnhk4/Z/rNfzsKZt0cz1hKPBiFiM/mCa90xzG+t/I1n1o
+ 4IE+xHmW4a/pft38/pF98Oic2t83K1u6mdX5uD1vhhLHidy+0uvo+yRE6beaVoBDvtDx
+ MznYKXNg8QVV9Uwz/vMwNUP5qFuui3mwVnUrugVQeL6Z0i9dXmUNANa1FQODdz1d6Ose
+ Ci9spry6PmKyk9cunbzPu6KpKa0ptIb6cNwOJFSZh36SbGhxdQaLqEpLAacQeWU+0spL
+ BqOg==
+Subject: [PATCH] advsync/rt: Restore epigraph under section
 References: <458f0875-24ae-d62b-6448-152affe8fb7c@gmail.com>
  <20171021171459.GM3521@linux.vnet.ibm.com>
+ <a3fafdfc-4791-e648-204c-e879717a929a@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <a3fafdfc-4791-e648-204c-e879717a929a@gmail.com>
-Date: Sun, 22 Oct 2017 09:20:45 +0900
+Message-ID: <669ca5d5-c8e6-9ffe-8c39-97b94c80e30b@gmail.com>
+Date: Sun, 22 Oct 2017 09:21:54 +0900
 MIME-Version: 1.0
-In-Reply-To: <20171021171459.GM3521@linux.vnet.ibm.com>
+In-Reply-To: <a3fafdfc-4791-e648-204c-e879717a929a@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -24,30 +25,37 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2017/10/21 10:14:59 -0700, Paul E. McKenney wrote:
-> On Sat, Oct 21, 2017 at 08:27:57PM +0900, Akira Yokosawa wrote:
->> >From 7ec65f19bf8b1d8a6389e684955d672658ac1010 Mon Sep 17 00:00:00 2001
->> From: Akira Yokosawa <akiyks@gmail.com>
->> Date: Sat, 21 Oct 2017 20:20:27 +0900
->> Subject: [PATCH] advsync/rt: Remove epigraph under section
->>
->> Also modify label (chp -> sec).
->>
->> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> 
-> Heh!  It overprinted and I didn't notice!  
-> 
-> Good catch on both counts, applied, thank you.
+From 101b029a0d2ab0296d51556a305099e73c6156e2 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 22 Oct 2017 09:03:58 +0900
+Subject: [PATCH] advsync/rt: Restore epigraph under section
 
-The epigraph can be restored under the section heading by using
-the \epigraph command instead.
+By using the \epigraph{} command, sections can have their own
+epigraphs. The \noindent command is to keep afterheading-ness.
 
-I'm sending a patch to do so. Please give it a try.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ advsync/rt.tex | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-          Thanks, Akira
+diff --git a/advsync/rt.tex b/advsync/rt.tex
+index 4d86c5d..ebbb2f4 100644
+--- a/advsync/rt.tex
++++ b/advsync/rt.tex
+@@ -3,9 +3,10 @@
+ \section{Parallel Real-Time Computing}
+ \label{sec:Parallel Real-Time Computing}
+ %
+-%\Epigraph{The difference between you and me is that I was right in time.}
+-%	 {\emph{Konrad Adenauer}}
++\epigraph{The difference between you and me is that I was right in time.}
++	 {\emph{Konrad Adenauer}}
 
-> 
-> 							Thanx, Paul
-> 
-[...]
++\noindent%
+ An important emerging area in computing is that of parallel real-time
+ computing.
+ Section~\ref{sec:advsync:What is Real-Time Computing?}
+-- 
+2.7.4
+
 
