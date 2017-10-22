@@ -1,20 +1,21 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=U9KnxAtiDPlF7wfhjRxskh8dAbAcbnPASCIbQHlcfSE=;
- b=NzdI2q9NpajM1/P8JZKjIS+SI594A/+SiaATwkc77UgSajbYMj8yKEKHVVDKG6na42
- qjlhQGrMDzyR2K3v/xqtRdrSz6K1slzWYOB92yS3E5lTUORqZRvDZeXd1m9L0qV/YVwH
- FciJT+PrsgvxqzyUOZtS1sFl0EtF+CuWzQz/Fm1F2/Iz0jmu7tesuoJYfRxWtWslKayw
- AMxiIPjyOXDpZ6gRvB0/Ml/mzQBTwglYRBPc2SPiCHCwEnynKL9L8+nK6FE1Rz81JmDT
- 5ywLkvyLiTtgcvtHrUflPCcPlU/NC6mTOTP4SiZQlglW7HEBSeAauG+QvYKVUV1rkFz1
- I+Yw==
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=i6+n7CKW+0NQgjFE5BQoYmj1kKXm2Gx+vEjB1LhMTU0=;
+ b=RIyMnRHew+TTzc0cmonmwkMG/yiiPbnplBqgM5aSKg0uDdqt4ZKgK42fqHx1xc2KL/
+ 1evgqWI8mahpo7q1ttvO4Eg3fPTalhVOlA+dkwE1F0MKcAtz767Itdp+QvfKXT5oLdL/
+ 5hP+ZfKWA5dsKb3nIejC7DQAXnXlxQ9zv0DIKrH3VycxCaI8GX8sF114m7/8I8Ug14p8
+ 2KxS7Xd9Eq620jCrfQ5ErfZTbh8NdX6HKFYJSe5+cG07mzJBfYRjK/aRnyVx//p2VEJ6
+ QWZSzuQQxZVSRHYjTVWZYB5p5lW//Wyfnb7PyPNDZmmBVJOUW+5I/dzweT1m+6W2C51R
+ TfOg==
+Subject: [PATCH 1/5] Move caption of table to top
+References: <6f0085b1-ca8e-d6f7-e613-1b1c8d119af6@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/5] Update table layout
-Message-ID: <6f0085b1-ca8e-d6f7-e613-1b1c8d119af6@gmail.com>
-Date: Mon, 23 Oct 2017 00:20:14 +0900
+Message-ID: <5445ca77-bcf9-8ab1-3c07-42421aa52255@gmail.com>
+Date: Mon, 23 Oct 2017 00:22:31 +0900
 MIME-Version: 1.0
+In-Reply-To: <6f0085b1-ca8e-d6f7-e613-1b1c8d119af6@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,64 +23,117 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From d224db4bfed5d4ce0639062a920bafc6f9442e16 Mon Sep 17 00:00:00 2001
+From a816ec3f6407f3de0b194dbf61498bca650ee818 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 22 Oct 2017 23:55:49 +0900
-Subject: [PATCH 0/5] Update table layout
+Date: Sun, 22 Oct 2017 20:18:54 +0900
+Subject: [PATCH 1/5] Move caption of table to top
 
-Hi Paul,
+For those who prefer caption of tables at the bottom, add a make
+target "perfbook-tcb.pdf" (abbr. tcb: Table Caption Bottom).
 
-My first idea was to add a make target for "table captions at the top".
-But I changed my mind and promoted the layout as default.
-Instead, I added a target "perfbook-tcb.pdf" (tcb: Table Caption Bottom),
-which keeps the caption at the bottom.
+Help message displayed by "make help" is updated accordingly.
 
-Patch #1 does the change in perfbook.tex and Makefile.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Makefile                           |  6 +++++-
+ appendix/styleguide/styleguide.tex |  6 ++++--
+ perfbook.tex                       | 12 ++++++++++++
+ 3 files changed, 21 insertions(+), 3 deletions(-)
 
-Patches #2 and #3 are minor fixes I noticed while updating tables.
+diff --git a/Makefile b/Makefile
+index d8d23c7..373f0d6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -10,7 +10,7 @@ LATEXSOURCES = \
 
-Patch #4 updates most tables to use the new table layout experimented in
-Style Guide for a while.  It contains changes to use "S" column specifier
-provided by the "siunitx" package.
+ LATEXGENERATED = autodate.tex qqz.tex contrib.tex origpub.tex
 
-Patch #5 converts a table into a figure drawn by tabular.
+-ABBREVTARGETS := 1c hb msns mss mstx msr msn msnt 1csf
++ABBREVTARGETS := tcb 1c hb msns mss mstx msr msn msnt 1csf
 
-There remains several tables not yet touched. They are complex and large
-ones. They need extra work to use the new scheme.
+ PDFTARGETS := perfbook.pdf $(foreach v,$(ABBREVTARGETS),perfbook-$(v).pdf)
 
-NOTE: Table 13.1 does not contain legends and does not use subscripts
-as shown in Table D.5 at the moment. In the text, it looks OK to me.
+@@ -101,6 +101,9 @@ contrib.tex: perfbook_flat.tex qqz.tex
+ origpub.tex: perfbook_flat.tex
+ 	sh utilities/extractorigpub.sh < $< > $@
 
-Thoughts?
++perfbook-tcb.tex: perfbook.tex
++	sed -e 's/{tblcptop}{true}/{tblcptop}{false}/' < $< > $@
++
+ perfbook-1c.tex: perfbook.tex
+ 	sed -e 's/,twocolumn//' -e 's/setboolean{twocolumn}{true}/setboolean{twocolumn}{false}/' < $< > $@
 
-      Thanks, Akira
---
-Akira Yokosawa (5):
-  Move caption of table to top
-  Define \twocolumnwidth for 1c layout
-  Use \O{} macro for 'order-of'
-  Update tables using booktabs and alternate-row coloring scheme
-  datastruct: Convert 'NUMA Topology of System Under Test' to figure
+@@ -179,6 +182,7 @@ help:
+ 	@echo "Official targets (Latin Modern Typewriter for monospace font):"
+ 	@echo "  Full,              Abbr."
+ 	@echo "  perfbook.pdf,      2c:   (default) 2-column layout"
++	@echo "  perfbook-tcb,      tct:  2-column layout with table caption at bottom"
+ 	@echo "  perfbook-1c.pdf,   1c:   1-column layout"
+ 	@echo "  perfbook-hb.pdf,   hb:   For hardcover books (2-column)"
+ 	@echo
+diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
+index 3b3c62f..14fd620 100644
+--- a/appendix/styleguide/styleguide.tex
++++ b/appendix/styleguide/styleguide.tex
+@@ -915,11 +915,12 @@ look ugly.\footnote{
+ Vertical lines should be avoided and horizontal lines should be
+ used sparingly, especially in tables of simple structure.
 
- Makefile                           |  6 ++-
- SMPdesign/SMPdesign.tex            | 10 +++--
- advsync/rt.tex                     |  8 ++--
- appendix/questions/after.tex       | 25 +++++++++----
- appendix/styleguide/styleguide.tex | 20 ++++++----
- count/count.tex                    | 54 ++++++++++++++++-----------
- cpu/overheads.tex                  | 76 +++++++++++++++++---------------------
- datastruct/datastruct.tex          | 23 ++++++++----
- defer/rcuapi.tex                   | 16 ++++----
- defer/rcufundamental.tex           | 16 ++++----
- defer/rcuusage.tex                 | 10 +++--
- defer/whichtochoose.tex            | 27 +++++---------
- formal/spinhint.tex                | 68 +++++++++++++++++-----------------
- future/QC.tex                      | 75 +++++++++++++++++++------------------
- memorder/memorder.tex              |  8 ++--
- perfbook.tex                       | 17 +++++++++
- together/refcnt.tex                | 25 +++++++------
- 17 files changed, 266 insertions(+), 218 deletions(-)
++\IfTblCpTop{}{
+ \floatstyle{plaintop}
+ \restylefloat{table}
+-\captionsetup[table]{hangindent=30pt}
+ \setlength{\abovetopsep}{-2pt}
+ \addtolength{\abovecaptionskip}{-2.5pt}
++}
 
+ For example,
+ Table~\ref{tab:future:Refrigeration Power Consumption}
+@@ -1381,11 +1382,12 @@ have been recently converted to the scheme presented in this section.
+ Refer to \path{memorder/memorder.tex}
+ for examples of tables with complex headings.
+
++\IfTblCpTop{}{
+ \floatstyle{plain}
+ \restylefloat{table}
+-\captionsetup[table]{hangindent=0pt}
+ \addtolength{\abovecaptionskip}{2.5pt}
+ \setlength{\abovetopsep}{0pt}
++}
+
+ \subsubsection{Miscellaneous Candidates}
+ \label{sec:app:styleguide:Miscellaneous Candidates}
+diff --git a/perfbook.tex b/perfbook.tex
+index 7e2cdd4..8a70c94 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -79,6 +79,9 @@
+ \newboolean{lmttforcode}
+ \setboolean{lmttforcode}{true}
+ \newcommand{\IfLmttForCode}[2]{\ifthenelse{\boolean{lmttforcode}}{#1}{#2}}
++\newboolean{tblcptop}
++\setboolean{tblcptop}{true}
++\newcommand{\IfTblCpTop}[2]{\ifthenelse{\boolean{tblcptop}}{#1}{#2}}
+
+ \newcommand{\OneColumnHSpace}[1]{\IfTwoColumn{}{\hspace*{#1}}}
+
+@@ -107,6 +110,15 @@
+ \AtBeginEnvironment{listing}{\renewcommand{\ttdefault}{lmtt}}
+ }{}
+
++\IfTblCpTop{
++\floatstyle{plaintop}
++\restylefloat{table}
++\addtolength{\abovecaptionskip}{-2.5pt}
++\setlength{\abovetopsep}{-2pt}
++}{}
++\captionsetup{hangindent=20pt}
++\captionsetup[listing]{hangindent=20pt}
++
+ \begin{document}
+
+ %%HTMLSKIP
 -- 
 2.7.4
+
 
