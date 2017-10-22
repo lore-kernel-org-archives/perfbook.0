@@ -1,104 +1,53 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35842 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S932179AbdJURp3 (ORCPT <rfc822;perfbook@vger.kernel.org>); Sat, 21
- Oct 2017 13:45:29 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9LHixUU109284
- for <perfbook@vger.kernel.org>; Sat, 21 Oct 2017 13:45:29 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2dr0jp3h3w-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sat,
- 21 Oct 2017 13:45:28 -0400
-Received: from localhost by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 21 Oct
- 2017 13:45:27 -0400
-Date: Sat, 21 Oct 2017 10:45:25 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: Probably redundant code at listing 7.7
-Reply-To: paulmck@linux.vnet.ibm.com
-References: 
- <CAJYFCiPGe4NaZMef_-gXF4Oyk8tP+DhmPYfrhgvEEHzTnmm59g@mail.gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7MoUNz1oLGJyQwaM99F4FJ08h2KwxPt0qfdIBM2bfP8=;
+ b=rvtvR3Nm03jF4pDjZzIaoEpnqaz/bAm5toRqdzgiuA/OtMapH0mWA2XAbF//Sa7auN
+ BY8bw2CYIFvTc/clIDqTfUiD36JqlTS1TSjLXQ0xAojITtOQJYiR4pnzrQGz5XwEVufS
+ Zx3sojODvGL+rcx9+kAzQjEFhe67tLDTH492uOBJIi9JRjp8tXjMPvJpk9X3nvqnfhbB
+ g6V58kQHsL/cPkUW2rUMt3q/IiYOWYMS17NCvRr6nbtE0Oi8sc/x3x9kOO+CzEn0OZIi
+ AU4ljhv+busnJOG+Pr1aEhhImvrisdqUNiC+xXQHDa1n86S51Mv9UZg/M9FHZ+CTtVPt
+ vzHA==
+Subject: Re: [PATCH] advsync/rt: Remove epigraph under section
+References: <458f0875-24ae-d62b-6448-152affe8fb7c@gmail.com>
+ <20171021171459.GM3521@linux.vnet.ibm.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <a3fafdfc-4791-e648-204c-e879717a929a@gmail.com>
+Date: Sun, 22 Oct 2017 09:20:45 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: 
- <CAJYFCiPGe4NaZMef_-gXF4Oyk8tP+DhmPYfrhgvEEHzTnmm59g@mail.gmail.com>
-Message-Id: <20171021174525.GN3521@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <20171021171459.GM3521@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Yubin Ruan <ablacktshirt@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Oct 21, 2017 at 09:58:12PM +0800, Yubin Ruan wrote:
-> Hi,
+On 2017/10/21 10:14:59 -0700, Paul E. McKenney wrote:
+> On Sat, Oct 21, 2017 at 08:27:57PM +0900, Akira Yokosawa wrote:
+>> >From 7ec65f19bf8b1d8a6389e684955d672658ac1010 Mon Sep 17 00:00:00 2001
+>> From: Akira Yokosawa <akiyks@gmail.com>
+>> Date: Sat, 21 Oct 2017 20:20:27 +0900
+>> Subject: [PATCH] advsync/rt: Remove epigraph under section
+>>
+>> Also modify label (chp -> sec).
+>>
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 > 
-> In Listing 7.7, a hierarchy/conditional locking example is used to
-> show how to reduce how contention:
+> Heh!  It overprinted and I didn't notice!  
 > 
-> 1 void force_quiescent_state(struct rcu_node *rnp_leaf)
-> 2 {
-> 3      int ret;
-> 4      struct rcu_node *rnp = rnp_leaf;
-> 5      struct rcu_node *rnp_old = NULL;
-> 6
-> 7      for (; rnp != NULL; rnp = rnp->parent) {
-> 8          ret = (ACCESS_ONCE(gp_flags)) ||
-> 9                  !raw_spin_trylock(&rnp->fqslock);
-> 10         if (rnp_old != NULL)
-> 11             raw_spin_unlock(&rnp_old->fqslock);
-> 12         if (ret)
-> 13             return;
-> 14         rnp_old = rnp;
-> 15     }
-> 16     if (!ACCESS_ONCE(gp_flags)) {
-> 17         ACCESS_ONCE(gp_flags) = 1;
-> 18         do_force_quiescent_state();
-> 19         ACCESS_ONCE(gp_flags) = 0;
-> 20     }
-> 21     raw_spin_unlock(&rnp_old->fqslock);
-> 22 }
+> Good catch on both counts, applied, thank you.
+
+The epigraph can be restored under the section heading by using
+the \epigraph command instead.
+
+I'm sending a patch to do so. Please give it a try.
+
+          Thanks, Akira
+
 > 
-> I understand the purpose and most of the implementation of the code.
-> But one thing I don't really understand is that why we need line 16
-> here? By reaching line 16, we can be sure that that particular process
-> have already acquired the fqslock of the root node and it should be
-> the only one to reach there. So, it will always see gp_flags == 0 when
-> reaching line 16.
+> 							Thanx, Paul
 > 
-> Did I miss anything? I read Quick Quiz 7.21 and it seems that there
-> might be some tricky things there.
-
-Within the confines of this particular example, you miss nothing.
-
-I simplified the code from that in the Linux kernel, which you can see at
-http://elixir.free-electrons.com/linux/latest/source/kernel/rcu/tree.c#L2942
-
-In that code, force_quiescent_state() doesn't clear ->gp_flags itself,
-it instead invokes rcu_gp_kthread_wake() to wake up another kernel
-thread.  This means that the second CPU can acquire the root-level
-->fqslock and see ->gp_flags equal to 1.
-
-So how should I fix this example?
-
-One approach would be to drop the check on line 16, as reflected in
-your question.  The downside of this approach is that two closely
-spaced calls to force_quiescent_state() might needlessly both call
-do_force_quiescent_state() -- the first call would service both requests,
-so the second call would be needless overhead.  But perhaps that is too
-detailed a consideration.
-
-Another approach would be to move line 19 to follow line 21, possibly
-with a timed wait in between.  The idea here is that you never need to
-invoke do_force_quiescent_state() more than (say) ten times a second,
-so the "winner" waits a tenth of a second before clearing gp_flags.
-
-A third approach would be to add the wake-up code from the Linux kernel
-back into the example.
-
-Right now, the timed-wait approach seems best, as it is simple, yet
-teaches the point of this technique.  But does anyone have a better idea?
-
-							Thanx, Paul
+[...]
 
