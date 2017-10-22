@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=M/GlJnEL9a3JTv3C01QLXHCQpfytWYw7qhwMbaOPc/Q=;
- b=HpWZNtd5BmG5t04emMY2HOhP5iURMedvrsWde0mBN+Qvc1oSNfPisXiGoB6uvOYXwF
- skxGY1G4vUkfiP+N77CW6/0RjdOHTdAHbPs4L0153M2/y1r66zYJ+NCv2vNidsfao6TK
- kK75RHS3emZW4ORVa0AyPQf7toQAfNuXvaOricKiuQv6+jxsRfNixRlfOz2BSfsXYrm0
- 8fvuxP195AA6E2EoyIxPMzyhsB+uLyGJ/tdWR7Aa9/fBDjfNe4vSp5SrDbSbvZXhemLq
- GxRnQo6Iz2VwnVroxzdhnPKWn1Xm7oQINiXM4m2yAIZEeQxHhbrUJycm71KxqcMH8lgC
- k6iw==
-Subject: [PATCH 2/5] Define \twocolumnwidth for 1c layout
+ bh=vALjwmLcPKksChIG1Xpm96cCaXjsF8QVdJQrVwEh+/0=;
+ b=fl5uX+UEQ64AjkuIE+LrOCR5JRDDfHVGCLz9J6nJ4ibJPV1u7Fdcza1zJG11tUSfsY
+ MWst+qKx3/iYcRruhxAJvTKadLiY7QFXMiez5/F7MyCd9GbdhxPa0dEIJOQaFTmVJbZ8
+ yRPkLqeuqPo2kRZdxprP1+gft3E8Ge6CfWPLEnApRJVX5rS37g+fl+CochI0aFlVk8ll
+ rl6djlzHzX6sayltMhMG6ZvDrpjC7tUewZ2CfLwlzJoK8sUejlBPSHmEoU4TsGPEinpc
+ l9Rw9f0dLOLi16dqEEBTkJz/jkROlNBcQff6/KUVOEkj6tZ4T90k9hyZFYaGNt8RVVLq
+ 6O8g==
+Subject: [PATCH 3/5] Use \O{} macro for 'order-of'
 References: <6f0085b1-ca8e-d6f7-e613-1b1c8d119af6@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <7e565cee-996d-e00f-f20e-176ded943c62@gmail.com>
-Date: Mon, 23 Oct 2017 00:24:18 +0900
+Message-ID: <820a8c5a-5666-3d18-c4fa-7c6692e806fd@gmail.com>
+Date: Mon, 23 Oct 2017 00:25:19 +0900
 MIME-Version: 1.0
 In-Reply-To: <6f0085b1-ca8e-d6f7-e613-1b1c8d119af6@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,107 +23,95 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From d04822df9b8f292309ca6b176a8e1c37da84eb11 Mon Sep 17 00:00:00 2001
+From e63ddb2e13bb0467de8ad00a767c35a5c75e6cc6 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 22 Oct 2017 20:25:28 +0900
-Subject: [PATCH 2/5] Define \twocolumnwidth for 1c layout
+Date: Sun, 22 Oct 2017 20:40:59 +0900
+Subject: [PATCH 3/5] Use \O{} macro for 'order-of'
 
-Using \columnwidth in \resizebox{} and tabularx environment causes
-several figures and a table to be too wide in 1c layout. By defining
-and using a length \twocolumnwidth for both 2c and 1c layouts, the
-problem can be avoided.
+This macro was defined in commit b4ad25eae241 ("future/QC: Use
+upright glyph for math constant and descriptive suffix").
+Use the same macro in other cases for consistency.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- SMPdesign/SMPdesign.tex | 2 +-
- memorder/memorder.tex   | 8 ++++----
- perfbook.tex            | 4 ++++
- 3 files changed, 9 insertions(+), 5 deletions(-)
+ advsync/rt.tex            | 8 ++++----
+ count/count.tex           | 4 ++--
+ datastruct/datastruct.tex | 2 +-
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
-index 0dbef1e..2e5b69f 100644
---- a/SMPdesign/SMPdesign.tex
-+++ b/SMPdesign/SMPdesign.tex
-@@ -1350,7 +1350,7 @@ Table~\ref{fig:app:questions:Schematic of Real-World Parallel Allocator}.
- \centering
- \renewcommand*{\arraystretch}{1.25}
- \setlength\tabcolsep{4pt}
--\begin{tabularx}{\columnwidth}{l|l|>{\raggedright\arraybackslash}X}
-+\begin{tabularx}{\twocolumnwidth}{l|l|>{\raggedright\arraybackslash}X}
- Level	& Locking & Purpose \\
- \hline
- Per-thread pool	  & Data ownership & High-speed allocation \\
-diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 53878f0..3c6d21a 100644
---- a/memorder/memorder.tex
-+++ b/memorder/memorder.tex
-@@ -2315,7 +2315,7 @@ exists (1:r2=0 /\ x1=2)
+diff --git a/advsync/rt.tex b/advsync/rt.tex
+index 4d86c5d..0406efa 100644
+--- a/advsync/rt.tex
++++ b/advsync/rt.tex
+@@ -843,7 +843,7 @@ timed delays (as in \co{sleep(1)}, which are rarely cancelled),
+ and timeouts for the \co{poll()} system call (which are often
+ cancelled before they have a chance to fire).
+ A good data structure for such timers would therefore be a priority queue
+-whose addition and deletion primitives were fast and $O(1)$ in the number
++whose addition and deletion primitives were fast and $\O{1}$ in the number
+ of timers posted.
 
- \begin{figure}[htbp]
- \centering
--\resizebox{\columnwidth}{!}{\includegraphics{memorder/fr}}
-+\resizebox{\twocolumnwidth}{!}{\includegraphics{memorder/fr}}
- \caption{Load-to-Store is Counter-Temporal}
- \label{fig:memorder:Load-to-Store is Counter-Temporal}
- \end{figure}
-@@ -2439,7 +2439,7 @@ Listing~\ref{lst:memorder:W+WRC Litmus Test With More Barriers}
+ The classic data structure for this purpose is the \emph{calendar queue},
+@@ -897,7 +897,7 @@ which, taken together, is much smaller than the 256-element array that
+ would be required for a single array.
 
- \begin{figure}[tbp]
- \centering
--\resizebox{\columnwidth}{!}{\includegraphics{memorder/co}}
-+\resizebox{\twocolumnwidth}{!}{\includegraphics{memorder/co}}
- \caption{Store-to-Store is Counter-Temporal}
- \label{fig:memorder:Store-to-Store is Counter-Temporal}
- \end{figure}
-@@ -2458,7 +2458,7 @@ But sometimes time is on our side, as shown in the next section.
+ This approach works extremely well for throughput-based systems.
+-Each timer operation is $O(1)$ with small constant, and each timer
++Each timer operation is $\O{1}$ with small constant, and each timer
+ element is touched at most $m+1$ times, where $m$ is the number of
+ levels.
 
- \begin{figure}[tbp]
- \centering
--\resizebox{\columnwidth}{!}{\includegraphics{memorder/rf}}
-+\resizebox{\twocolumnwidth}{!}{\includegraphics{memorder/rf}}
- \caption{Store-to-Load is Temporal}
- \label{fig:memorder:Store-to-Load is Temporal}
- \end{figure}
-@@ -4111,7 +4111,7 @@ in Alpha's heyday.
+@@ -949,7 +949,7 @@ degradations of latency in real-time systems.
 
- \begin{figure}[tbp]
- \centering
--\resizebox{\columnwidth}{!}{\includegraphics{memorder/Alpha}}
-+\resizebox{\twocolumnwidth}{!}{\includegraphics{memorder/Alpha}}
- \caption{Why \tco{smp_read_barrier_depends()} is Required}
- \label{fig:memorder:Why smp-read-barrier-depends() is Required}
- \end{figure}
-diff --git a/perfbook.tex b/perfbook.tex
-index 8a70c94..93d2253 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -119,6 +119,7 @@
- \captionsetup{hangindent=20pt}
- \captionsetup[listing]{hangindent=20pt}
+ Of course, real-time systems could simply choose a different data
+ structure, for example, some form of heap or tree, giving up
+-$O(1)$ bounds on insertion and deletion operations to gain $O(\log n)$
++$\O{1}$ bounds on insertion and deletion operations to gain $\O{\log n}$
+ limits on data-structure-maintenance operations.
+ This can be a good choice for special-purpose RTOSes, but is inefficient
+ for general-purpose systems such as Linux, which routinely support
+@@ -964,7 +964,7 @@ is good and sufficient.
+ Another key observation is that error-handling timeouts are normally
+ cancelled very early, often before they can be cascaded.
+ A final observation is that systems commonly have many more error-handling
+-timeouts than they do timer events, so that an $O(\log n)$
++timeouts than they do timer events, so that an $\O{\log n}$
+ data structure should provide acceptable performance for timer events.
 
-+
- \begin{document}
+ In short, the Linux kernel's -rt patchset uses timer wheels for
+diff --git a/count/count.tex b/count/count.tex
+index 9638971..c35c7c2 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -414,13 +414,13 @@ avoids the delays inherent in such circulation.
+ 	The hardware could also apply an order to the requests, thus
+ 	returning to each CPU the return value corresponding to its
+ 	particular atomic increment.
+-	This results in instruction latency that varies as $O(\log N)$,
++	This results in instruction latency that varies as $\O{\log N}$,
+ 	where $N$ is the number of CPUs, as shown in
+ 	Figure~\ref{fig:count:Data Flow For Global Combining-Tree Atomic Increment}.
+ 	And CPUs with this sort of hardware optimization are starting to
+ 	appear as of 2011.
 
- %%HTMLSKIP
-@@ -193,15 +194,18 @@
- \renewcommand\dbltopfraction{.75}
- \renewcommand\dblfloatpagefraction{.5}
+-	This is a great improvement over the $O(N)$ performance
++	This is a great improvement over the $\O{N}$ performance
+ 	of current hardware shown in
+ 	Figure~\ref{fig:count:Data Flow For Global Atomic Increment},
+ 	and it is possible that hardware latencies might decrease
+diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
+index c5038b6..46b4d8b 100644
+--- a/datastruct/datastruct.tex
++++ b/datastruct/datastruct.tex
+@@ -1800,7 +1800,7 @@ a resize operation.
 
-+\newlength{\twocolumnwidth}
- \IfTwoColumn{
- \setlength{\textheight}{8.25in}
- \setlength{\textwidth}{6.5in}
- \setlength{\columnsep}{0.25in}
-+\setlength{\twocolumnwidth}{\columnwidth}
- \renewcommand\floatpagefraction{.75}
- }{
- \setlength{\textheight}{8.25in}
- \setlength{\textwidth}{4.75in}
- \setlength{\columnsep}{0in}
-+\setlength{\twocolumnwidth}{3.125in}
- \addtolength{\oddsidemargin}{0.3in}
- \addtolength{\evensidemargin}{-0.3in}
- }
+ It turns out that it is possible to reduce the per-element memory overhead
+ from a pair of pointers to a single pointer, while still retaining
+-$O(1)$ deletions.
++$\O{1}$ deletions.
+ This is accomplished by augmenting split-order
+ list~\cite{OriShalev2006SplitOrderListHash}
+ with RCU
 -- 
 2.7.4
 
