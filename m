@@ -1,98 +1,103 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Gckjpxt93bLANSumR49GQSVdaJXBFx99LNybHYwy9Zs=;
- b=mcS9XTCplZF/gHphXVGaGO9C+OyU50CJS/zlSys6ON80X2a8XOLD1TL71PMXvQUdx5
- lfvcOHTqDiHV7FyMvzSTXtVkhY5OHGhxn3OTV8Ox+BzOxxdb8G+kN+OpVFjnz9KbBKRf
- Bckv45V/s9bZEny48aYL4WID4Vw5pHGfMWqHJLdRRhrbX6aw5MvP7oxpF1+8g+TSQpoH
- ulh3h2pJeXnffOXr8YtIS8oyQftNRboVEjrSkeYDEvsGeqRuZ+BHkCjaxy6mB/2Vhz/D
- bnjbxMe/nMrouOJKjGNP6+j8EncPq5P3tbvbVdPdG5uirSUcYPbfeDXtetMOA6RS1I1R
- ZB0A==
-Subject: [PATCH 5/5] datastruct: Convert 'NUMA Topology of System Under Test'
- to figure
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45586 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1750869AbdJWCYf (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Sun, 22 Oct 2017 22:24:35 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9N2OICp108206
+ for <perfbook@vger.kernel.org>; Sun, 22 Oct 2017 22:24:35 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204]) by
+ mx0b-001b2d01.pphosted.com with ESMTP id 2drt9cevr5-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
+ 22 Oct 2017 22:24:34 -0400
+Received: from localhost by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 22 Oct
+ 2017 22:24:34 -0400
+Date: Sun, 22 Oct 2017 19:24:30 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/5] Update table layout
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <6f0085b1-ca8e-d6f7-e613-1b1c8d119af6@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <644b7ee2-3900-6d86-c9a1-002e9cc3dd5b@gmail.com>
-Date: Mon, 23 Oct 2017 00:28:13 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <6f0085b1-ca8e-d6f7-e613-1b1c8d119af6@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20171023022430.GJ3659@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From d224db4bfed5d4ce0639062a920bafc6f9442e16 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 22 Oct 2017 23:31:29 +0900
-Subject: [PATCH 5/5] datastruct: Convert 'NUMA Topology of System Under Test' to figure
+On Mon, Oct 23, 2017 at 12:20:14AM +0900, Akira Yokosawa wrote:
+> >From d224db4bfed5d4ce0639062a920bafc6f9442e16 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Sun, 22 Oct 2017 23:55:49 +0900
+> Subject: [PATCH 0/5] Update table layout
+> 
+> Hi Paul,
+> 
+> My first idea was to add a make target for "table captions at the top".
+> But I changed my mind and promoted the layout as default.
+> Instead, I added a target "perfbook-tcb.pdf" (tcb: Table Caption Bottom),
+> which keeps the caption at the bottom.
+> 
+> Patch #1 does the change in perfbook.tex and Makefile.
+> 
+> Patches #2 and #3 are minor fixes I noticed while updating tables.
+> 
+> Patch #4 updates most tables to use the new table layout experimented in
+> Style Guide for a while.  It contains changes to use "S" column specifier
+> provided by the "siunitx" package.
+> 
+> Patch #5 converts a table into a figure drawn by tabular.
+> 
+> There remains several tables not yet touched. They are complex and large
+> ones. They need extra work to use the new scheme.
+> 
+> NOTE: Table 13.1 does not contain legends and does not use subscripts
+> as shown in Table D.5 at the moment. In the text, it looks OK to me.
+> 
+> Thoughts?
 
-This can be regarded as a figure drawn using the "tabular" environment.
-By using dashed rules of "arydshln" package, it looks more like a figure.
+At a first scan, this all looks good.  There are a few remaining
+tables in the old format, including a couple that we discussed earlier
+as being quite complex.  Which should be fine, for the time being,
+at least.  But what are your thoughts on the remaining old-style tables?
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- datastruct/datastruct.tex | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+Queued and pushed, thank you!
 
-diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
-index 46b4d8b..1dc2b49 100644
---- a/datastruct/datastruct.tex
-+++ b/datastruct/datastruct.tex
-@@ -458,7 +458,7 @@ Clearly something else is going on.
+							Thanx, Paul
 
- The problem is that this is a multi-socket system, with CPUs~0-7
- and~32-39 mapped to the first socket as shown in
--Table~\ref{tab:datastruct:NUMA Topology of System Under Test}.
-+Figure~\ref{fig:datastruct:NUMA Topology of System Under Test}.
- Test runs confined to the first eight CPUs therefore perform quite
- well, but tests that involve socket~0's CPUs~0-7 as well as
- socket~1's CPU~8 incur the overhead of passing data across
-@@ -504,27 +504,36 @@ the caches, which in turn promotes locality of reference.
- The next section therefore examines optimizations that can be carried out in
- read-mostly cases where updates are rare, but could happen at any time.
-
--\begin{table}
-+\setlength\dashlinedash{1pt}
-+\setlength\dashlinegap{2pt}
-+
-+\begin{figure}
-+\renewcommand*{\arraystretch}{1.2}
- \footnotesize
- \centering
--\begin{tabular}{r|r|r|r|r|r|r|r|r}
--	Socket & \multicolumn{8}{|c}{Core} \\
-+\begin{tabular}{r|r:r:r:r:r:r:r:r|}
-+	Socket & \multicolumn{8}{c|}{Core} \\
- 	\hline
- 	0 &  0 &  1 &  2 &  3 &  4 &  5 &  6 &  7 \\
-+	\cdashline{2-9}
- 	  & 32 & 33 & 34 & 35 & 36 & 37 & 38 & 39 \\
- 	\hline
- 	1 &  8 &  9 & 10 & 11 & 12 & 13 & 14 & 15 \\
-+	\cdashline{2-9}
- 	  & 40 & 41 & 42 & 43 & 44 & 45 & 46 & 47 \\
- 	\hline
- 	2 & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 \\
-+	\cdashline{2-9}
- 	  & 48 & 49 & 50 & 51 & 52 & 53 & 54 & 55 \\
- 	\hline
- 	3 & 24 & 25 & 26 & 27 & 28 & 29 & 30 & 31 \\
-+	\cdashline{2-9}
- 	  & 56 & 47 & 58 & 59 & 60 & 61 & 62 & 63 \\
-+	\hline
- \end{tabular}
- \caption{NUMA Topology of System Under Test}
--\label{tab:datastruct:NUMA Topology of System Under Test}
--\end{table}
-+\label{fig:datastruct:NUMA Topology of System Under Test}
-+\end{figure}
-
- \section{Read-Mostly Data Structures}
- \label{sec:datastruct:Read-Mostly Data Structures}
--- 
-2.7.4
-
+>       Thanks, Akira
+> --
+> Akira Yokosawa (5):
+>   Move caption of table to top
+>   Define \twocolumnwidth for 1c layout
+>   Use \O{} macro for 'order-of'
+>   Update tables using booktabs and alternate-row coloring scheme
+>   datastruct: Convert 'NUMA Topology of System Under Test' to figure
+> 
+>  Makefile                           |  6 ++-
+>  SMPdesign/SMPdesign.tex            | 10 +++--
+>  advsync/rt.tex                     |  8 ++--
+>  appendix/questions/after.tex       | 25 +++++++++----
+>  appendix/styleguide/styleguide.tex | 20 ++++++----
+>  count/count.tex                    | 54 ++++++++++++++++-----------
+>  cpu/overheads.tex                  | 76 +++++++++++++++++---------------------
+>  datastruct/datastruct.tex          | 23 ++++++++----
+>  defer/rcuapi.tex                   | 16 ++++----
+>  defer/rcufundamental.tex           | 16 ++++----
+>  defer/rcuusage.tex                 | 10 +++--
+>  defer/whichtochoose.tex            | 27 +++++---------
+>  formal/spinhint.tex                | 68 +++++++++++++++++-----------------
+>  future/QC.tex                      | 75 +++++++++++++++++++------------------
+>  memorder/memorder.tex              |  8 ++--
+>  perfbook.tex                       | 17 +++++++++
+>  together/refcnt.tex                | 25 +++++++------
+>  17 files changed, 266 insertions(+), 218 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
