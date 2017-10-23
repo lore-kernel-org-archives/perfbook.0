@@ -2,20 +2,20 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BlBPEg09Da31xNnRkksLrt9kpRreL3PUGvTWc0StcIc=;
- b=ssCGOOYPxUWQWnS9i0evyaGm6y9E9efCc8DxoL64qb4LU+9J8PAon/OHTO+jWVv1Ks
- 7tDjvtaRXTr+ofJhx4BhUdMnEe+ZZvxCCrYVVojHpEuSPiJu69V6NFT5pC0LP1UpHQWn
- JQ0n74uWu+DIUtbJYMdwA1AAZyWO5Nh+BU6UVTSeXsnWzUBuFiA2TRj3/O4dL6TyXZJn
- IfUskNON7VAlEXI9v953zAVGbUzQ76oSubCJNS+uOFb9D0p10GBeXtK7EGRG1qXrwYZm
- RNj4Re9kqrcJYaWMFL8CFTfEyBmro0oE5zmcUi7696MZHqTsA+xDRh9pAdUN170yuujb
- TH9A==
-Subject: [PATCH 2/3] defer/rcuapi: Update table layout
+ bh=yjPYUuVhw4ZCQyseQ1uPo4krkQQnZ/nufMFQICg3KaA=;
+ b=kP5SL2EnGs7O6TKOKB2L1j2N1TXGewRidT7l6EUAXdRFcDTK3a/cuCsn2MtzIyK/gm
+ KGRM4SOKhIUPeXdS7uH1ey5apzkHdZBQXnww/Lv3a0KMzaThSWHiNov7Dwyw6An2vUgb
+ sRYcODYt5xpqMPKtm8CmRbmqMU8K5LQoNMz0eU1FfbpUdfI/FUy+PREf4TbUdA8L9z25
+ PGuYu3dq2EymTCqxUDKH1PhoE91Z+KNZVzm0HP88Y+GNdoEFfcTmXrbvCnrcWIHhjnZe
+ 90u4YPPUL3zkFY/OrRdBg8zmwKDFiEjxLACvMqkWctDzKN0+MsVxyolChxibCpJp8iBe
+ gBNQ==
+Subject: [PATCH 3/3] Convert table of code fragments to 'listing'
 References: <6f0085b1-ca8e-d6f7-e613-1b1c8d119af6@gmail.com>
  <20171023022430.GJ3659@linux.vnet.ibm.com>
  <96ff162d-2670-3038-f9c8-c6921d4f374c@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <1e54c239-f1b3-8560-0da9-48051a35a59e@gmail.com>
-Date: Tue, 24 Oct 2017 00:29:10 +0900
+Message-ID: <9f9a283b-df08-a7e4-0518-b9d6da09707e@gmail.com>
+Date: Tue, 24 Oct 2017 00:30:09 +0900
 MIME-Version: 1.0
 In-Reply-To: <96ff162d-2670-3038-f9c8-c6921d4f374c@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,143 +25,128 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 953186f749ee9052636fc52b04c2830a35c4de75 Mon Sep 17 00:00:00 2001
+From 8f4cb48165bcd63d8fcbff966f7d3794a5c5863a Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 23 Oct 2017 23:15:10 +0900
-Subject: [PATCH 2/3] defer/rcuapi: Update table layout
+Date: Mon, 23 Oct 2017 23:33:11 +0900
+Subject: [PATCH 3/3] Convert table of code fragments to 'listing'
+
+Also reduce font size to scriptsize.
+
+NOTE: In these cases, the "ruled" style is not appropriate.
+"plaintop" style is a better choice.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- defer/rcuapi.tex | 29 ++++++++++-------------------
- 1 file changed, 10 insertions(+), 19 deletions(-)
+ appendix/whymb/whymemorybarriers.tex | 38 +++++++++++++++++++++---------------
+ 1 file changed, 22 insertions(+), 16 deletions(-)
 
-diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-index 874b8b1..6da4676 100644
---- a/defer/rcuapi.tex
-+++ b/defer/rcuapi.tex
-@@ -17,112 +17,103 @@ presents concluding remarks.
- \label{sec:defer:RCU has a Family of Wait-to-Finish APIs}
+diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
+index 422948e..efd67c9 100644
+--- a/appendix/whymb/whymemorybarriers.tex
++++ b/appendix/whymb/whymemorybarriers.tex
+@@ -1345,12 +1345,15 @@ as we will see.\footnote{
+ \subsection{Example 1}
+ \label{sec:app:whymb:Example 1}
 
- \begin{sidewaystable*}[htbp]
-+\rowcolors{1}{}{lightgray}
-+\renewcommand*{\arraystretch}{1.3}
- \centering
- \footnotesize
--\begin{tabularx}{7.9in}{>{\raggedright\arraybackslash}p{1.08in}|
--    >{\raggedright\arraybackslash}X|
--    >{\raggedright\arraybackslash}X|
--    >{\raggedright\arraybackslash}X|
--    >{\raggedright\arraybackslash}X|
-+\begin{tabularx}{7.9in}{>{\raggedright\arraybackslash}p{1.08in}
-+    >{\raggedright\arraybackslash}X
-+    >{\raggedright\arraybackslash}X
-+    >{\raggedright\arraybackslash}X
-+    >{\raggedright\arraybackslash}X
-     >{\raggedright\arraybackslash}p{1.22in}}
-+\toprule
- Attribute &
-     RCU Classic &
- 	RCU BH &
- 	    RCU Sched &
- 		Realtime RCU &
- 		    SRCU \\
--\hline
--\hline
-+\midrule
- Purpose &
-     Original &
- 	Prevent DDoS attacks &
- 	    Wait for preempt-disable regions, hardirqs, \& NMIs &
- 	        Realtime response &
- 		    Sleeping readers \\
--\hline
- Availability &
-     2.5.43 &
- 	2.6.9 &
- 	    2.6.12 &
- 		2.6.26 &
- 		    2.6.19 \\
--\hline
- Read-side primitives &
-     \tco{rcu_read_lock()}~! \tco{rcu_read_unlock()}~! &
- 	\tco{rcu_read_lock_bh()} \tco{rcu_read_unlock_bh()} &
- 	    \tco{preempt_disable()} \tco{preempt_enable()} (and friends) &
- 	        \tco{rcu_read_lock()} \tco{rcu_read_unlock()} &
- 		    \tco{srcu_read_lock()} \tco{srcu_read_unlock()} \\
--\hline
- { Update-side primitives (synchronous) } &
-     { \tco{synchronize_rcu()} \tco{synchronize_net()} } &
- 	\tco{synchronize_rcu_bh()} &
- 	    \tco{synchronize_sched()} &
- 	        { \tco{synchronize_rcu()} \tco{synchronize_net()} } &
- 		    \tco{synchronize_srcu()} \\
--\hline
- { Update-side primitives (asynchronous/callback) } &
-     \tco{call_rcu()} ! &
- 	\tco{call_rcu_bh()} &
- 	    \tco{call_rcu_sched()} &
- 	        \tco{call_rcu()} &
- 		    \tco{call_srcu()} \\
--\hline
- { Update-side primitives (wait for callbacks) } &
-     \tco{rcu_barrier()} &
- 	\tco{rcu_barrier_bh()} &
- 	    \tco{rcu_barrier_sched()} &
- 	        \tco{rcu_barrier()} &
- 		    N/A \\
--\hline
- Type-safe memory &
-     \tco{SLAB_DESTROY_BY_RCU} &
- 	&
- 	    &
- 	        \tco{SLAB_DESTROY_BY_RCU} &
- 		    \\
--\hline
- Read side constraints &
-     No blocking &
- 	No bottom-half (BH) enabling &
- 	    No blocking &
- 	        Only preemption and lock acquisition &
- 		    No \tco{synchronize_srcu()} with same \tco{srcu_struct} \\
--\hline
- Read side overhead &
-     Preempt disable/enable (free on non-\tco{PREEMPT}) &
- 	BH disable/enable &
- 	    Preempt disable/enable (free on non-\tco{PREEMPT}) &
- 	        Simple instructions, \IRQ\ disable/enable &
- 		    Simple instructions, preempt disable/enable, memory barriers \\
--\hline
- Asynchronous update-side overhead &
-     sub-microsecond &
- 	sub-microsecond &
- 	    sub-microsecond &
- 	        sub-microsecond &
- 		    N/A \\
--\hline
- Grace-period latency &
-     10s of milliseconds &
- 	10s of milliseconds &
- 	    10s of milliseconds &
- 	        10s of milliseconds &
- 		    10s of milliseconds \\
--\hline
- Non-\tco{PREEMPT_RT} implementation &
-     RCU Classic &
- 	RCU BH &
- 	    RCU Classic &
- 	        Preemptible RCU &
- 		    SRCU \\
--\hline
- \tco{PREEMPT_RT} implementation &
-     Preemptible RCU &
- 	Realtime RCU &
- 	    Forced Schedule on all CPUs &
- 	        Realtime RCU &
- 		    SRCU \\
-+\bottomrule
- \end{tabularx}
- \caption{RCU Wait-to-Finish APIs}
- \label{tab:defer:RCU Wait-to-Finish APIs}
+-Table~\ref{tab:app:whymb:Memory Barrier Example 1}
++Listing~\ref{lst:app:whymb:Memory Barrier Example 1}
+ shows three code fragments, executed concurrently by CPUs~0, 1, and 2.
+ Each of ``a'', ``b'', and ``c'' are initially zero.
+
+-\begin{table*}
+-\small
++\floatstyle{plaintop}
++\restylefloat{listing}
++
++\begin{listing}
++\scriptsize
+ \centering{\tt
+ \begin{tabular}{l|l|l}
+ 	\multicolumn{1}{c|}{\nf{CPU~0}} &
+@@ -1366,8 +1369,8 @@ Each of ``a'', ``b'', and ``c'' are initially zero.
+ 			 &		& assert(z == 0 || x == 1); \\
+ \end{tabular}}
+ \caption{Memory Barrier Example 1}
+-\label{tab:app:whymb:Memory Barrier Example 1}
+-\end{table*}
++\label{lst:app:whymb:Memory Barrier Example 1}
++\end{listing}
+
+ Suppose CPU~0 recently experienced many cache misses, so that its
+ message queue is full, but that CPU~1 has been running exclusively within
+@@ -1405,12 +1408,12 @@ the assertion.
+ \subsection{Example 2}
+ \label{sec:app:whymb:Example 2}
+
+-Table~\ref{tab:app:whymb:Memory Barrier Example 2}
++Listing~\ref{lst:app:whymb:Memory Barrier Example 2}
+ shows three code fragments, executed concurrently by CPUs~0, 1, and 2.
+ Both ``a'' and ``b'' are initially zero.
+
+-\begin{table*}
+-\small
++\begin{listing}
++\scriptsize
+ \centering{\tt
+ \begin{tabular}{l|l|l}
+ 	\multicolumn{1}{c|}{\nf{CPU~0}} &
+@@ -1425,8 +1428,8 @@ Both ``a'' and ``b'' are initially zero.
+ 		     &			& assert(y == 0 || x == 1); \\
+ \end{tabular}}
+ \caption{Memory Barrier Example 2}
+-\label{tab:app:whymb:Memory Barrier Example 2}
+-\end{table*}
++\label{lst:app:whymb:Memory Barrier Example 2}
++\end{listing}
+
+ Again, suppose CPU~0 recently experienced many cache misses, so that its
+ message queue is full, but that CPU~1 has been running exclusively within
+@@ -1447,11 +1450,11 @@ mainstream computer systems.
+ \subsection{Example 3}
+ \label{sec:app:whymb:Example 3}
+
+-Table~\ref{tab:app:whymb:Memory Barrier Example 3}
++Listing~\ref{lst:app:whymb:Memory Barrier Example 3}
+ shows three code fragments, executed concurrently by CPUs~0, 1, and 2.
+ All variables are initially zero.
+
+-\begin{table*}
++\begin{listing*}
+ \scriptsize
+ \centering{\tt
+ \begin{tabular}{r|l|l|l}
+@@ -1471,8 +1474,11 @@ All variables are initially zero.
+  9 &	e = 1; &			& assert(e == 0 || a == 1); \\
+ \end{tabular}}
+ \caption{Memory Barrier Example 3}
+-\label{tab:app:whymb:Memory Barrier Example 3}
+-\end{table*}
++\label{lst:app:whymb:Memory Barrier Example 3}
++\end{listing*}
++
++\floatstyle{ruled}
++\restylefloat{listing}
+
+ Note that neither CPU~1 nor CPU~2 can proceed to line~5 until they see
+ CPU~0's assignment to ``b'' on line~3.
+@@ -1487,7 +1493,7 @@ Therefore, CPU~2's assertion on line~9 is guaranteed \emph{not} to fire.
+
+ \QuickQuiz{}
+ 	Suppose that lines~3-5 for CPUs~1 and 2 in
+-	Table~\ref{tab:app:whymb:Memory Barrier Example 3}
++	Listing~\ref{lst:app:whymb:Memory Barrier Example 3}
+ 	are in an interrupt
+ 	handler, and that the CPU~2's line~9 runs at process level.
+ 	In other words, the code in all three columns of the table
+@@ -1524,7 +1530,7 @@ assert(r1 == 0 || a == 1);
+
+ \QuickQuiz{}
+ 	If CPU~2 executed an \co{assert(e==0||c==1)} in the example in
+-	Table~\ref{tab:app:whymb:Memory Barrier Example 3},
++	Listing~\ref{lst:app:whymb:Memory Barrier Example 3},
+ 	would this assert ever trigger?
+ \QuickQuizAnswer{
+ 	The result depends on whether the CPU supports ``transitivity''.
 -- 
 2.7.4
 
