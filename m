@@ -1,131 +1,119 @@
-Return-Path: <ablacktshirt@gmail.com>
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc;        bh=SaqowPS0i52V9TGbYuVIGIo1P8GJb5uFfHAfO8ESDaM=;
- b=um8UIYE1Xl7z08Ne5BEl80P8R4vDwWXbyGmynrr2gtNKAzFsEsJKR1d7JggpTvlwFC
- FsLE+mm6JWhQg5n9ZT2rvSjqaw6gV1lsCnTBZGKHi8dPMJ9jUg8CSg3Zd01gXHhIAHzx
- gFYcvEhDjFaIkr3rwogH9ATAMbjp8rVoOhWOHcW+k8dJAmIiZZdylXAwNTuaPrSDfY6f
- fENOLGhj9YJd/xTbvNHS1ybRdqyjmTeF7hEUvXoRokBkGZiayMjZCEMT6V0/Upx/DL6G
- qA3pBxKqhK7DtqhGCH6Q1Hi3iLnzTPGLm5pfQ+nBodplYnJhI8+uVnf05eF+NkiZbKDe
- UfYQ==
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6RhoOTwSEG6UZaaiI/8EOLfhN8wB2NlV2K6UwpTdvrs=;
+ b=g+x7faWGKKyM3arM2qi2+i/p1NFEWMRKZM22+DLtuqu4/ZBWA+Ci4DdHi5sKAvAD2a
+ KyQtnag+WIczxhPqZrxKKscPuak5/x2S22JKsqg3yAgVrhXhHolSxgHEDzQJ0Hd2K4zX
+ g3IeMuWTZX4evEDjtA4oHJUJUXOEEbYHuK1lyf3xcnQzC5tRVvc+m9n9fBNczmIQUKfo
+ ULSzAtD60DvVEQ+FBzVMU+NWoSu0ECQaZu0gtOjLmbMmAMQRgrm3v0DcslwCqxOz7GQ9
+ fVCx4S0jgpSt+ERNhtHPVmeJqfRkED/9MmO2A8r6ZygQSq2nUXBa8HN/1oQZvA2h9kwI
+ pR6g==
+Subject: Re: [PATCH 0/5] Update table layout
+References: <6f0085b1-ca8e-d6f7-e613-1b1c8d119af6@gmail.com>
+ <20171023022430.GJ3659@linux.vnet.ibm.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <67030f8b-7adc-602b-9d45-a619be702bf7@gmail.com>
+Date: Tue, 24 Oct 2017 00:25:20 +0900
 MIME-Version: 1.0
-In-Reply-To: <20171023020104.GI3659@linux.vnet.ibm.com>
-References: 
- <CAJYFCiPGe4NaZMef_-gXF4Oyk8tP+DhmPYfrhgvEEHzTnmm59g@mail.gmail.com>
- <20171021174525.GN3521@linux.vnet.ibm.com>
- <CAJYFCiMJsxxwDzurMvYFc7XzFYdk_nYQBK+1hKFPm7-jsfjbuA@mail.gmail.com>
- <20171023020104.GI3659@linux.vnet.ibm.com>
-From: Yubin Ruan <ablacktshirt@gmail.com>
-Date: Mon, 23 Oct 2017 13:47:49 +0800
-Message-ID: 
- <CAJYFCiMD=ZX-b9r5ooWa1LyKUMO8OiZr16m-B=5ARvjpuCkZQg@mail.gmail.com>
-Subject: Re: Probably redundant code at listing 7.7
-Content-Type: text/plain; charset="UTF-8"
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+In-Reply-To: <20171023022430.GJ3659@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Thanks Paul,
-
-2017-10-23 10:01 GMT+08:00 Paul E. McKenney <paulmck@linux.vnet.ibm.com>:
-> On Sun, Oct 22, 2017 at 02:41:39PM +0800, Yubin Ruan wrote:
->> Thanks paul,
+On 2017/10/22 19:24:30 -0700, Paul E. McKenney wrote:
+> On Mon, Oct 23, 2017 at 12:20:14AM +0900, Akira Yokosawa wrote:
+>> >From d224db4bfed5d4ce0639062a920bafc6f9442e16 Mon Sep 17 00:00:00 2001
+>> From: Akira Yokosawa <akiyks@gmail.com>
+>> Date: Sun, 22 Oct 2017 23:55:49 +0900
+>> Subject: [PATCH 0/5] Update table layout
 >>
->> 2017-10-22 1:45 GMT+08:00 Paul E. McKenney <paulmck@linux.vnet.ibm.com>:
->> > On Sat, Oct 21, 2017 at 09:58:12PM +0800, Yubin Ruan wrote:
->> >> Hi,
->> >>
->> >> In Listing 7.7, a hierarchy/conditional locking example is used to
->> >> show how to reduce how contention:
->> >>
->> >> 1 void force_quiescent_state(struct rcu_node *rnp_leaf)
->> >> 2 {
->> >> 3      int ret;
->> >> 4      struct rcu_node *rnp = rnp_leaf;
->> >> 5      struct rcu_node *rnp_old = NULL;
->> >> 6
->> >> 7      for (; rnp != NULL; rnp = rnp->parent) {
->> >> 8          ret = (ACCESS_ONCE(gp_flags)) ||
->> >> 9                  !raw_spin_trylock(&rnp->fqslock);
->> >> 10         if (rnp_old != NULL)
->> >> 11             raw_spin_unlock(&rnp_old->fqslock);
->> >> 12         if (ret)
->> >> 13             return;
->> >> 14         rnp_old = rnp;
->> >> 15     }
->> >> 16     if (!ACCESS_ONCE(gp_flags)) {
->> >> 17         ACCESS_ONCE(gp_flags) = 1;
->> >> 18         do_force_quiescent_state();
->> >> 19         ACCESS_ONCE(gp_flags) = 0;
->> >> 20     }
->> >> 21     raw_spin_unlock(&rnp_old->fqslock);
->> >> 22 }
->> >>
->> >> I understand the purpose and most of the implementation of the code.
->> >> But one thing I don't really understand is that why we need line 16
->> >> here? By reaching line 16, we can be sure that that particular process
->> >> have already acquired the fqslock of the root node and it should be
->> >> the only one to reach there. So, it will always see gp_flags == 0 when
->> >> reaching line 16.
->> >>
->> >> Did I miss anything? I read Quick Quiz 7.21 and it seems that there
->> >> might be some tricky things there.
->> >
->> > Within the confines of this particular example, you miss nothing.
->> >
->> > I simplified the code from that in the Linux kernel, which you can see at
->> > http://elixir.free-electrons.com/linux/latest/source/kernel/rcu/tree.c#L2942
+>> Hi Paul,
 >>
->> I check the kernel source code and now I understand how this technique
->> is implemented. One thing that you might find interesting is the code
->> in `rcu_gp_kthread_wake()' only check against the flag using
->> `!READ_ONCE(rsp->gp_flags)', but I think for code consistency it
->> should be something like `(READ_ONCE(rsp->gp_flags) &
->> RCU_GP_FLAG_FQS)' ...?
->
-> The reason it does not check for RCU_GP_FLAG_FQS is that this same
-> function is also used for starting new grace periods, which uses a
-> different flag.
->
->> > In that code, force_quiescent_state() doesn't clear ->gp_flags itself,
->> > it instead invokes rcu_gp_kthread_wake() to wake up another kernel
->> > thread.  This means that the second CPU can acquire the root-level
->> > ->fqslock and see ->gp_flags equal to 1.
->> >
->> > So how should I fix this example?
->> >
->> > One approach would be to drop the check on line 16, as reflected in
->> > your question.  The downside of this approach is that two closely
->> > spaced calls to force_quiescent_state() might needlessly both call
->> > do_force_quiescent_state() -- the first call would service both requests,
->> > so the second call would be needless overhead.  But perhaps that is too
->> > detailed a consideration.
->> >
->> > Another approach would be to move line 19 to follow line 21, possibly
->> > with a timed wait in between.  The idea here is that you never need to
->> > invoke do_force_quiescent_state() more than (say) ten times a second,
->> > so the "winner" waits a tenth of a second before clearing gp_flags.
->> >
->> > A third approach would be to add the wake-up code from the Linux kernel
->> > back into the example.
->> >
->> > Right now, the timed-wait approach seems best, as it is simple, yet
->> > teaches the point of this technique.  But does anyone have a better idea?
+>> My first idea was to add a make target for "table captions at the top".
+>> But I changed my mind and promoted the layout as default.
+>> Instead, I added a target "perfbook-tcb.pdf" (tcb: Table Caption Bottom),
+>> which keeps the caption at the bottom.
 >>
->> I think we should choose the timed-wait approach. The third approach
->> is not an wise option as the book is concerned. The first approach
->> might be a choice, but, after a few seconds of thinking, I think it is
->> not "sophisticated" enough ;-)
->
-> Sounds good, thank you!  I took a shot at this, what do you think?
+>> Patch #1 does the change in perfbook.tex and Makefile.
+>>
+>> Patches #2 and #3 are minor fixes I noticed while updating tables.
+>>
+>> Patch #4 updates most tables to use the new table layout experimented in
+>> Style Guide for a while.  It contains changes to use "S" column specifier
+>> provided by the "siunitx" package.
+>>
+>> Patch #5 converts a table into a figure drawn by tabular.
+>>
+>> There remains several tables not yet touched. They are complex and large
+>> ones. They need extra work to use the new scheme.
+>>
+>> NOTE: Table 13.1 does not contain legends and does not use subscripts
+>> as shown in Table D.5 at the moment. In the text, it looks OK to me.
+>>
+>> Thoughts?
+> 
+> At a first scan, this all looks good.  There are a few remaining
+> tables in the old format, including a couple that we discussed earlier
+> as being quite complex.  Which should be fine, for the time being,
+> at least.  But what are your thoughts on the remaining old-style tables?
+> 
 
-I am definitely OK with this. Unless anyone has any smart solution
-which can make it both 1) understandable, 2) efficient, I think you
-should follow the timed-wait approach and merge that in.
+Tables 17.1 and 17.2 are hard ones. Alternate-row coloring scheme can not
+be applied for them. We need to figure out how to improve them. I'm fine with
+them to be left for the moment.
 
-I am still looking around at other chapters so I will leave that.
-Maybe Akira can put some comments on this?
+Table 7.1 does not fit to the format because of the "Null (Not Held)" column.
+As all the cells of the column are all blank, vertical rules actually helps
+in this table. If you put some character/symbol to indicate compatibility,
+it can be converted to the new format. If you have a good candidate, please
+let me know.
 
-Yubin
+I'm sending patches to update Tables 9.3 and C.1, and a patch to convert
+Tables C.2, C.3, and C.4 into Listings.
+
+If there is any table I'm missing, feel free to tell me.
+
+      Thanks, Akira
+
+> Queued and pushed, thank you!
+> 
+> 							Thanx, Paul
+> 
+>>       Thanks, Akira
+>> --
+>> Akira Yokosawa (5):
+>>   Move caption of table to top
+>>   Define \twocolumnwidth for 1c layout
+>>   Use \O{} macro for 'order-of'
+>>   Update tables using booktabs and alternate-row coloring scheme
+>>   datastruct: Convert 'NUMA Topology of System Under Test' to figure
+>>
+>>  Makefile                           |  6 ++-
+>>  SMPdesign/SMPdesign.tex            | 10 +++--
+>>  advsync/rt.tex                     |  8 ++--
+>>  appendix/questions/after.tex       | 25 +++++++++----
+>>  appendix/styleguide/styleguide.tex | 20 ++++++----
+>>  count/count.tex                    | 54 ++++++++++++++++-----------
+>>  cpu/overheads.tex                  | 76 +++++++++++++++++---------------------
+>>  datastruct/datastruct.tex          | 23 ++++++++----
+>>  defer/rcuapi.tex                   | 16 ++++----
+>>  defer/rcufundamental.tex           | 16 ++++----
+>>  defer/rcuusage.tex                 | 10 +++--
+>>  defer/whichtochoose.tex            | 27 +++++---------
+>>  formal/spinhint.tex                | 68 +++++++++++++++++-----------------
+>>  future/QC.tex                      | 75 +++++++++++++++++++------------------
+>>  memorder/memorder.tex              |  8 ++--
+>>  perfbook.tex                       | 17 +++++++++
+>>  together/refcnt.tex                | 25 +++++++------
+>>  17 files changed, 266 insertions(+), 218 deletions(-)
+>>
+>> -- 
+>> 2.7.4
+>>
+> 
+> 
 
