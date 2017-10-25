@@ -1,78 +1,115 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54642 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751977AbdJYT0Z (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Wed, 25 Oct 2017 15:26:25 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9PJPN5L022341
- for <perfbook@vger.kernel.org>; Wed, 25 Oct 2017 15:26:25 -0400
-Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 2du0k40er5-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Wed,
- 25 Oct 2017 15:26:24 -0400
-Received: from localhost by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Wed, 25 Oct
- 2017 15:26:24 -0400
-Date: Wed, 25 Oct 2017 12:26:21 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 2/2] defer/rcuapi: Move sidewaystable caption to top
-Reply-To: paulmck@linux.vnet.ibm.com
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=iFbLPCM6ZNAESGoIY5wqlRZ58yKE6X4laahScz2xwls=;
+ b=vHcTAa75Ozh6r08QmyXWnZTIhsHbX4BAePh3+UhEZ8q+9INH5HfZs6eN9cA/tSWKBR
+ iM72GVmqIpYPGU9As1TZapHkdkifjqDWGR7tom+sc1bdub8aMuEdZzl4fgan4hw18BDz
+ 9eg1uI1AcPunFEnPsNHGd7Dwt/hWZ2cDO6gM9IxWIIGba/hLVuP/NvI9W6a1iyyBzsgh
+ 0jERp8OC5xop507isB+W/0wo0BLIn5Q/rvC2i0WNDtCtqayZ2nml8IPV7rPIUNsi7hEk
+ RaAWfmWGIzBkqAxgFsUHBCh4/JyMG8wKxg4YnwWQI1135RJOtS20lKeng9tR+xaf3LZ2
+ OB+A==
+Subject: [PATCH v2] locking: Update table layout
 References: <4cfc2b83-44b8-b1b8-056d-45f88f50c316@gmail.com>
- <78a844fd-a4dc-c387-2b07-c25e8d606f7b@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <5dee006d-1712-5383-0670-555cef1a5836@gmail.com>
+Date: Thu, 26 Oct 2017 06:58:44 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <78a844fd-a4dc-c387-2b07-c25e8d606f7b@gmail.com>
-Message-Id: <20171025192621.GP3659@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <4cfc2b83-44b8-b1b8-056d-45f88f50c316@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Oct 24, 2017 at 10:27:07PM +0900, Akira Yokosawa wrote:
-> >From 72c667546d964d7fd40a1f21a6475c62e364e77c Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Tue, 24 Oct 2017 22:15:27 +0900
-> Subject: [PATCH 2/2] defer/rcuapi: Move sidewaystable caption to top
-> 
-> Captions of sidewaystables can't be controled by float package's
-> styles. We need to move the caption in LaTeX source.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+From aa7899ff624e41740f4ed22eb43abf856caa6940 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Tue, 26 Oct 2017 06:51:42 +0900
+Subject: [PATCH v2] locking: Update table layout
 
-Applied and pushed, thank you!
+To imply vertical lines, instead of coloring alternate rows,
+put light gray boxes in blank cells.
 
-							Thanx, Paul
+Suggested-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Change after v1:
+  The definition of "\x" is moved to within the "table" environment
+  to make the macro local.
 
-> ---
->  defer/rcuapi.tex | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-> index 6da4676..d4e434d 100644
-> --- a/defer/rcuapi.tex
-> +++ b/defer/rcuapi.tex
-> @@ -20,6 +20,8 @@ presents concluding remarks.
->  \rowcolors{1}{}{lightgray}
->  \renewcommand*{\arraystretch}{1.3}
->  \centering
-> +\caption{RCU Wait-to-Finish APIs}
-> +\label{tab:defer:RCU Wait-to-Finish APIs}
->  \footnotesize
->  \begin{tabularx}{7.9in}{>{\raggedright\arraybackslash}p{1.08in}
->      >{\raggedright\arraybackslash}X
-> @@ -115,8 +117,6 @@ Non-\tco{PREEMPT_RT} implementation &
->  		    SRCU \\
->  \bottomrule
->  \end{tabularx}
-> -\caption{RCU Wait-to-Finish APIs}
-> -\label{tab:defer:RCU Wait-to-Finish APIs}
->  \end{sidewaystable*}
-> 
->  The most straightforward answer to ``what is RCU'' is that RCU is
-> -- 
-> 2.7.4
-> 
-> 
+--
+ locking/locking.tex | 41 +++++++++++++++++++----------------------
+ 1 file changed, 19 insertions(+), 22 deletions(-)
+
+diff --git a/locking/locking.tex b/locking/locking.tex
+index 9cb0176..14db27d 100644
+--- a/locking/locking.tex
++++ b/locking/locking.tex
+@@ -1312,43 +1312,40 @@ or even milliseconds.
+ \label{sec:locking:Beyond Reader-Writer Locks}
+
+ \begin{table}
++\renewcommand*{\arraystretch}{1.2}
++\newcommand{\x}{\textcolor{gray!20}{\rule{7pt}{7pt}}}
+ \small
+ \centering
+-\begin{tabular}{l||c|c|c|c|c|c}
+-	~ ~ ~ ~ ~ ~ ~ ~ ~
+-	& \begin{picture}(6,70)(0,0)
++\begin{tabular}{lcccccc}
++	\toprule
++	& \begin{picture}(6,65)(0,0)
+ 		\rotatebox{90}{Null (Not Held)}
+ 	  \end{picture}
+-	& \begin{picture}(6,70)(0,0)
++	& \begin{picture}(6,65)(0,0)
+ 		\rotatebox{90}{Concurrent Read}
+ 	  \end{picture}
+-	& \begin{picture}(6,70)(0,0)
++	& \begin{picture}(6,65)(0,0)
+ 		\rotatebox{90}{Concurrent Write}
+ 	  \end{picture}
+-	& \begin{picture}(6,70)(0,0)
++	& \begin{picture}(6,65)(0,0)
+ 		\rotatebox{90}{Protected Read}
+ 	  \end{picture}
+-	& \begin{picture}(6,70)(0,0)
++	& \begin{picture}(6,65)(0,0)
+ 		\rotatebox{90}{Protected Write}
+ 	  \end{picture}
+-	& \begin{picture}(6,70)(0,0)
++	& \begin{picture}(6,65)(0,0)
+ 		\rotatebox{90}{Exclusive}
+ 	  \end{picture}
+ 	\\
+-	\hline
+-%				 NL  CR  CW  PR    PW  EX
+-	\hline
+-	Null (Not Held)		& ~ & ~ & ~   & ~ & ~ & ~ \\
+-	\hline
+-	Concurrent Read		& ~ & ~ & ~   & ~ & ~ & X \\
+-	\hline
+-	Concurrent Write	& ~ & ~ & ~   & X & X & X \\
+-	\hline
+-	Protected Read		& ~ & ~ & X   & ~ & X & X \\
+-	\hline
+-	Protected Write		& ~ & ~ & X   & X & X & X \\
+-	\hline
+-	Exclusive		& ~ & X & X   & X & X & X \\
++%				  NL   CR   CW     PR   PW   EX
++	\cmidrule(r){1-1} \cmidrule{2-7}
++	Null (Not Held)		& \x & \x & \x   & \x & \x & \x \\
++	Concurrent Read		& \x & \x & \x   & \x & \x &  X \\
++	Concurrent Write	& \x & \x & \x   &  X &  X &  X \\
++	Protected Read		& \x & \x &  X   & \x &  X &  X \\
++	Protected Write		& \x & \x &  X   &  X &  X &  X \\
++	Exclusive		& \x &  X &  X   &  X &  X &  X \\
++	\bottomrule
+ \end{tabular}
+ \caption{VAX/VMS Distributed Lock Manager Policy}
+ \label{tab:locking:VAX/VMS Distributed Lock Manager Policy}
+-- 
+2.7.4
+
 
