@@ -1,20 +1,21 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=OORnO2l6HoTXgzi1rSuuWd37cuwMVaJRvXuakxuLctI=;
- b=dJaF20ps1bqkxppWy3yCi0XqLOUbromCNYcYlwAjqSzEi9kRMwSq9qlCuJ4bO0Sgx6
- 3/16OtS4WNXZwk45Ml+KySy69/zbwYHTY9DdEmuW0HP4n5VwJ5D+6VT9dAayfyP4rU6E
- rSXfLOC9q+KLRct8rlxW3/ewkkoCE2MmliV8Xny3o/sRvdhrE7wKwhYJYOgEtQvjvzFH
- 1r2W0qg9AjHUMmvzunMPHBzFoFdk2tSHaeUJpjQXgjl4bMnjvsd8rNGd6Rzh7DmM0pzR
- UTDntA/j8xGWDa5Q9d5u06e1UsNg+PWOB3TSJ1MIFYUzHhn82GQy6TibgOWW+oAxbtCv
- cI0A==
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ma+zvPo1viyA9X9egc/vSzcwt4gsYPAHI1Qg8kiBFq8=;
+ b=Eg16lfQyerFtO2dp/gzgxj1+3exRS2vikQZFydHHJUUGHAsPiq1c34eo5yHS9Jc599
+ e27Xnz1UwGwNLdL10MjFmN44Zrkbky1vCXbZelalu/WSIkJri8ga8KAiK0RCA9bn+1F2
+ FOH7fZMAq7mIvLp26X9TjR/nRKw74ht0Ngx5j8bFUePl71hK/xxQ2Jt+34hCTmv4NWHn
+ mCVJP6brZtpitU1JEStxwaNGJM+YOW8PdOtq7LUn4dxT5/ZR2dvPAya/3Xn4c5kwudaB
+ 1Ho7Ov8O68RFm1plgf8XF44IBOAFH8vRF12ZFOgMMaLc9PPP8bYL5jr8ClS7W8uzKAMw
+ GngQ==
+Subject: [PATCH 1/5] memorder: Fix excessive uses of midrule skip
+References: <225c5748-05bd-b97f-398f-50e09c58c701@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/5] Miscellaneous updates
-Message-ID: <225c5748-05bd-b97f-398f-50e09c58c701@gmail.com>
-Date: Fri, 27 Oct 2017 07:49:47 +0900
+Message-ID: <f593e28c-e910-127f-4cff-ea3d901465a6@gmail.com>
+Date: Fri, 27 Oct 2017 07:51:42 +0900
 MIME-Version: 1.0
+In-Reply-To: <225c5748-05bd-b97f-398f-50e09c58c701@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,41 +23,40 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 263fa8f220207903d6c41bddb773b113b65dd98f Mon Sep 17 00:00:00 2001
+From 02bb04ebd5d1cce822aebb1e01fb0331e8b56aad Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 27 Oct 2017 07:23:35 +0900
-Subject: [PATCH 0/5] Miscellaneous updates
+Date: Wed, 25 Oct 2017 20:22:24 +0900
+Subject: [PATCH 1/5] memorder: Fix excessive uses of midrule skip
 
-Hi Paul,
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ memorder/memorder.tex | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-This patch set is a collection of small fixes and tweaks.
-
-Patchs #1 -- #4 are trivial fixes
-Patch #5 shrinks/enlarges figures which were too large/small.
-(I like those penguin cartoons, but ...) ;-)
-
-         Thanks, Akira
---
-Akira Yokosawa (5):
-  memorder: Fix excessive uses of skips in midrule
-  memorder: Parenthesize properly
-  defer/rcufundamental: Adjust hspace for 1c layout
-  together/applyrcu: Use upright gryph for descriptive suffix
-  Tweak figure size
-
- SMPdesign/SMPdesign.tex     | 14 +++++++-------
- advsync/rt.tex              | 12 ++++++------
- appendix/questions/time.tex |  2 +-
- count/count.tex             |  4 ++--
- defer/rcufundamental.tex    |  4 ++--
- future/QC.tex               |  2 +-
- future/cpu.tex              |  4 ++--
- future/tm.tex               |  4 ++--
- intro/intro.tex             |  2 +-
- memorder/memorder.tex       | 10 +++++-----
- together/applyrcu.tex       |  8 ++++----
- 11 files changed, 33 insertions(+), 33 deletions(-)
-
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index 238783e..0ee4cad 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -1973,15 +1973,15 @@ line to carry this new value to them.
+ \small
+ \centering\OneColumnHSpace{-0.8in}
+ \renewcommand*{\arraystretch}{1.1}
+-\rowcolors{13}{lightgray}{}
++\rowcolors{10}{}{lightgray}
+ \begin{tabular}{rlllllll}\toprule
+ 	& \multicolumn{1}{c}{\tco{P0()}} & \multicolumn{2}{c}{\tco{P0()} \& \tco{P1()}} &
+ 		\multicolumn{1}{c}{\tco{P1()}} & \multicolumn{3}{c}{\tco{P2()}} \\
+ 	\cmidrule(l){2-2} \cmidrule(l){3-4} \cmidrule(lr){5-5} \cmidrule(l){6-8}
+ 	& Instruction & Store Buffer & Cache & Instruction &
+ 			Instruction & Store Buffer & Cache \\
+-	\cmidrule{1-1} \cmidrule(l){2-2} \cmidrule(l){3-3} \cmidrule(l){4-4}
+-		\cmidrule(lr){5-5} \cmidrule(l){6-6} \cmidrule(l){7-7} \cmidrule(l){8-8}
++	\cmidrule{1-1} \cmidrule(l){2-2} \cmidrule(l){3-4}
++		\cmidrule(lr){5-5} \cmidrule(l){6-8}
+ 	1 & (Initial state) & & \tco{y==0} &
+ 		(Initial state) &
+ 			(Initial state) & & \tco{x==0} \\
 -- 
 2.7.4
+
 
