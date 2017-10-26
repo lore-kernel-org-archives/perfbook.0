@@ -1,129 +1,62 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47366 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751753AbdJYWk2 (ORCPT <rfc822;perfbook@vger.kernel.org>); Wed, 25
- Oct 2017 18:40:28 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9PMdTbi102995
- for <perfbook@vger.kernel.org>; Wed, 25 Oct 2017 18:40:28 -0400
-Received: from e18.ny.us.ibm.com (e18.ny.us.ibm.com [129.33.205.208]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2du0k0fkgc-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Wed,
- 25 Oct 2017 18:40:28 -0400
-Received: from localhost by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Wed, 25 Oct
- 2017 18:40:27 -0400
-Date: Wed, 25 Oct 2017 15:40:23 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2] locking: Update table layout
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <4cfc2b83-44b8-b1b8-056d-45f88f50c316@gmail.com>
- <5dee006d-1712-5383-0670-555cef1a5836@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=OORnO2l6HoTXgzi1rSuuWd37cuwMVaJRvXuakxuLctI=;
+ b=dJaF20ps1bqkxppWy3yCi0XqLOUbromCNYcYlwAjqSzEi9kRMwSq9qlCuJ4bO0Sgx6
+ 3/16OtS4WNXZwk45Ml+KySy69/zbwYHTY9DdEmuW0HP4n5VwJ5D+6VT9dAayfyP4rU6E
+ rSXfLOC9q+KLRct8rlxW3/ewkkoCE2MmliV8Xny3o/sRvdhrE7wKwhYJYOgEtQvjvzFH
+ 1r2W0qg9AjHUMmvzunMPHBzFoFdk2tSHaeUJpjQXgjl4bMnjvsd8rNGd6Rzh7DmM0pzR
+ UTDntA/j8xGWDa5Q9d5u06e1UsNg+PWOB3TSJ1MIFYUzHhn82GQy6TibgOWW+oAxbtCv
+ cI0A==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/5] Miscellaneous updates
+Message-ID: <225c5748-05bd-b97f-398f-50e09c58c701@gmail.com>
+Date: Fri, 27 Oct 2017 07:49:47 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5dee006d-1712-5383-0670-555cef1a5836@gmail.com>
-Message-Id: <20171025224023.GT3659@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Oct 26, 2017 at 06:58:44AM +0900, Akira Yokosawa wrote:
-> >From aa7899ff624e41740f4ed22eb43abf856caa6940 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Tue, 26 Oct 2017 06:51:42 +0900
-> Subject: [PATCH v2] locking: Update table layout
-> 
-> To imply vertical lines, instead of coloring alternate rows,
-> put light gray boxes in blank cells.
-> 
-> Suggested-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
-> Change after v1:
->   The definition of "\x" is moved to within the "table" environment
->   to make the macro local.
+From 263fa8f220207903d6c41bddb773b113b65dd98f Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Fri, 27 Oct 2017 07:23:35 +0900
+Subject: [PATCH 0/5] Miscellaneous updates
 
-Applied, verified that adding a "\x" after the table gives an error,
-and pushed it out, thank you!
+Hi Paul,
 
-							Thanx, Paul
+This patch set is a collection of small fixes and tweaks.
 
-> --
->  locking/locking.tex | 41 +++++++++++++++++++----------------------
->  1 file changed, 19 insertions(+), 22 deletions(-)
-> 
-> diff --git a/locking/locking.tex b/locking/locking.tex
-> index 9cb0176..14db27d 100644
-> --- a/locking/locking.tex
-> +++ b/locking/locking.tex
-> @@ -1312,43 +1312,40 @@ or even milliseconds.
->  \label{sec:locking:Beyond Reader-Writer Locks}
-> 
->  \begin{table}
-> +\renewcommand*{\arraystretch}{1.2}
-> +\newcommand{\x}{\textcolor{gray!20}{\rule{7pt}{7pt}}}
->  \small
->  \centering
-> -\begin{tabular}{l||c|c|c|c|c|c}
-> -	~ ~ ~ ~ ~ ~ ~ ~ ~
-> -	& \begin{picture}(6,70)(0,0)
-> +\begin{tabular}{lcccccc}
-> +	\toprule
-> +	& \begin{picture}(6,65)(0,0)
->  		\rotatebox{90}{Null (Not Held)}
->  	  \end{picture}
-> -	& \begin{picture}(6,70)(0,0)
-> +	& \begin{picture}(6,65)(0,0)
->  		\rotatebox{90}{Concurrent Read}
->  	  \end{picture}
-> -	& \begin{picture}(6,70)(0,0)
-> +	& \begin{picture}(6,65)(0,0)
->  		\rotatebox{90}{Concurrent Write}
->  	  \end{picture}
-> -	& \begin{picture}(6,70)(0,0)
-> +	& \begin{picture}(6,65)(0,0)
->  		\rotatebox{90}{Protected Read}
->  	  \end{picture}
-> -	& \begin{picture}(6,70)(0,0)
-> +	& \begin{picture}(6,65)(0,0)
->  		\rotatebox{90}{Protected Write}
->  	  \end{picture}
-> -	& \begin{picture}(6,70)(0,0)
-> +	& \begin{picture}(6,65)(0,0)
->  		\rotatebox{90}{Exclusive}
->  	  \end{picture}
->  	\\
-> -	\hline
-> -%				 NL  CR  CW  PR    PW  EX
-> -	\hline
-> -	Null (Not Held)		& ~ & ~ & ~   & ~ & ~ & ~ \\
-> -	\hline
-> -	Concurrent Read		& ~ & ~ & ~   & ~ & ~ & X \\
-> -	\hline
-> -	Concurrent Write	& ~ & ~ & ~   & X & X & X \\
-> -	\hline
-> -	Protected Read		& ~ & ~ & X   & ~ & X & X \\
-> -	\hline
-> -	Protected Write		& ~ & ~ & X   & X & X & X \\
-> -	\hline
-> -	Exclusive		& ~ & X & X   & X & X & X \\
-> +%				  NL   CR   CW     PR   PW   EX
-> +	\cmidrule(r){1-1} \cmidrule{2-7}
-> +	Null (Not Held)		& \x & \x & \x   & \x & \x & \x \\
-> +	Concurrent Read		& \x & \x & \x   & \x & \x &  X \\
-> +	Concurrent Write	& \x & \x & \x   &  X &  X &  X \\
-> +	Protected Read		& \x & \x &  X   & \x &  X &  X \\
-> +	Protected Write		& \x & \x &  X   &  X &  X &  X \\
-> +	Exclusive		& \x &  X &  X   &  X &  X &  X \\
-> +	\bottomrule
->  \end{tabular}
->  \caption{VAX/VMS Distributed Lock Manager Policy}
->  \label{tab:locking:VAX/VMS Distributed Lock Manager Policy}
-> -- 
-> 2.7.4
-> 
-> 
+Patchs #1 -- #4 are trivial fixes
+Patch #5 shrinks/enlarges figures which were too large/small.
+(I like those penguin cartoons, but ...) ;-)
+
+         Thanks, Akira
+--
+Akira Yokosawa (5):
+  memorder: Fix excessive uses of skips in midrule
+  memorder: Parenthesize properly
+  defer/rcufundamental: Adjust hspace for 1c layout
+  together/applyrcu: Use upright gryph for descriptive suffix
+  Tweak figure size
+
+ SMPdesign/SMPdesign.tex     | 14 +++++++-------
+ advsync/rt.tex              | 12 ++++++------
+ appendix/questions/time.tex |  2 +-
+ count/count.tex             |  4 ++--
+ defer/rcufundamental.tex    |  4 ++--
+ future/QC.tex               |  2 +-
+ future/cpu.tex              |  4 ++--
+ future/tm.tex               |  4 ++--
+ intro/intro.tex             |  2 +-
+ memorder/memorder.tex       | 10 +++++-----
+ together/applyrcu.tex       |  8 ++++----
+ 11 files changed, 33 insertions(+), 33 deletions(-)
+
+-- 
+2.7.4
 
