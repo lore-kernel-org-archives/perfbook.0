@@ -1,78 +1,42 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39584 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751399AbdJ0DDf (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Thu, 26 Oct 2017 23:03:35 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9R2xSDS141829
- for <perfbook@vger.kernel.org>; Thu, 26 Oct 2017 23:03:35 -0400
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2duqcdcwuu-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Thu,
- 26 Oct 2017 23:03:35 -0400
-Received: from localhost by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 26 Oct
- 2017 23:03:34 -0400
-Date: Thu, 26 Oct 2017 20:03:30 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/5] Miscellaneous updates
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <225c5748-05bd-b97f-398f-50e09c58c701@gmail.com>
+Return-Path: <ablacktshirt@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent;        bh=5bz6F9ara73PMHhfzx1cm35V+Nb0it4A2B0GpXp2pMs=;
+ b=CXcLqisnYfTW4tPKxmB/wpdGxiOGCbv7BFIP9Pirs4nO1ZkNtKhK8XydfjvzCtirl3
+ T8WweSBQsWizGV9TL5+JS7Ln8GneJKvj+FgR5xrZiFkJhLXjalSZ8lhxwMh8t86OJFph
+ UO0VH0leNrADaexeB9PMyMDK0yvbbnEnSX8LQTVkm+1wNeAJ0At6oNIN8aEPCNTqqApj
+ uGz1SzAX498SKlSOPpqEg6kIFnbYhMNvrtCcemIXS3yZDqUo6fNtLRsdct8kAzRJIm4+
+ RulZGlrB21okfJg3k/Vc/8CPUw3knBJSYD9Jfh46vHCvkUjMwxK9+D1o9t0GsAAG9t94
+ 2h5w==
+Date: Fri, 27 Oct 2017 17:23:19 +0800
+From: Yubin Ruan <ablacktshirt@gmail.com>
+Subject: [PATCH] typo at Chp 7.
+Message-ID: <20171027092317.GA8509@HP>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <225c5748-05bd-b97f-398f-50e09c58c701@gmail.com>
-Message-Id: <20171027030330.GD3659@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+To: perfbook@vger.kernel.org
+Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Fri, Oct 27, 2017 at 07:49:47AM +0900, Akira Yokosawa wrote:
-> >From 263fa8f220207903d6c41bddb773b113b65dd98f Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Fri, 27 Oct 2017 07:23:35 +0900
-> Subject: [PATCH 0/5] Miscellaneous updates
-> 
-> Hi Paul,
-> 
-> This patch set is a collection of small fixes and tweaks.
-> 
-> Patchs #1 -- #4 are trivial fixes
-> Patch #5 shrinks/enlarges figures which were too large/small.
-> (I like those penguin cartoons, but ...) ;-)
-> 
->          Thanks, Akira
+Hi paul,
 
-;-)
+I finish chapter 7 and find some typo. Fixed in the patch below.
 
-Applied and pushed, thank you!
+Yubin
 
-							Thanx, Paul
-
-> --
-> Akira Yokosawa (5):
->   memorder: Fix excessive uses of skips in midrule
->   memorder: Parenthesize properly
->   defer/rcufundamental: Adjust hspace for 1c layout
->   together/applyrcu: Use upright gryph for descriptive suffix
->   Tweak figure size
-> 
->  SMPdesign/SMPdesign.tex     | 14 +++++++-------
->  advsync/rt.tex              | 12 ++++++------
->  appendix/questions/time.tex |  2 +-
->  count/count.tex             |  4 ++--
->  defer/rcufundamental.tex    |  4 ++--
->  future/QC.tex               |  2 +-
->  future/cpu.tex              |  4 ++--
->  future/tm.tex               |  4 ++--
->  intro/intro.tex             |  2 +-
->  memorder/memorder.tex       | 10 +++++-----
->  together/applyrcu.tex       |  8 ++++----
->  11 files changed, 33 insertions(+), 33 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
+diff --git a/locking/locking-existence.tex b/locking/locking-existence.tex
+index 9fcbbf9..c7c4ae8 100644
+--- a/locking/locking-existence.tex
++++ b/locking/locking-existence.tex
+@@ -174,7 +174,7 @@ single partitionable data structure such as the hash table shown in the
+ figure, it can be problematic if a given data element can be a member
+ of multiple hash tables or given more-complex data structures such
+ as trees or graphs.
+-These problems can be solved, in fact, such solutions form the basis
++These problems can be solved. In fact, such solutions form the basis
+ of lock-based software transactional memory
+ implementations~\cite{Shavit95,DaveDice2006DISC}.
+ However,
 
