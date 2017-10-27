@@ -1,77 +1,66 @@
-Return-Path: <akiyks@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mail-pf0-f195.google.com ([209.85.192.195]:48640 "EHLO
+ mail-pf0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751399AbdJ0CZJ (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 26
+ Oct 2017 22:25:09 -0400
+Received: by mail-pf0-f195.google.com with SMTP id b79so3870899pfk.5 for
+ <perfbook@vger.kernel.org>; Thu, 26 Oct 2017 19:25:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EPbVNayW+z5OxGuSMWTvfxCB5wZk8S65UmbBHJTRye4=;
- b=G9WdlI9N2RTOUBfHwVaaJu6+7jwh8kkbDKgTbIYrPdP4/W9IEr7QK3yixqSwbXb4ST
- Cxt9BTaJMyADjD5BBDR9vq+656PNJ53kwhEGzNDD2gww0S6OWNS38DkMY0Huwt86ZRS0
- ExqfnUShu54t/nvyyNHR0zXbUtx5++jIznYyxRQUOQK43kAa9D8QUuYaXRukHM6cp77U
- JFfAw5mbKA5COjew+7JqMSxjEIMAXLHdr8rS/uCqaG6Z93c74WimK4+WrwAtXQ3ZQKzN
- 1IlBLUDnJa9yRcxfP2MKUXWMQDIv4AaDmqhFUbzZle+V7T1sqevt4UaPqkjWHJ4PMvH2
- iTgA==
+ s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=uTBLpYZ+3b31F5Vw2UH5mrPvdpAO5qXZpSxHPHu+z5M=;
+ b=tsstplbJL3xYhH2OugdOPt0/bChEsDc90tLZcxiaPS4Uf9mMxjKNBS7+h4s1TBSO9t
+ SHXgMXcmIxnv+m1kieFLZunXwpnzy9lIer8IXEW8F0Mikq5JZDCw0RiZpYDsf6H3PHIl
+ r55LXvDGtMLWp/Duz2DaExlhe0UpAbOyQsuSkLAUS6hF3K7RyeC1TvvkVGPvQqmL+gZW
+ UpoPJybWpTfnr8HUEQ/ehZEDpK5obVUPFWWZP8LKRJ6CE9YGJNWWX+ML0jjmKhPXqUcH
+ p+GstV8N1nvkcaXlIx7FVJ99n23EhyAa02pevNvvb7R/wnzQ9W7+4pRSAWTIkXQzqU+g
+ rJ3w==
+Date: Fri, 27 Oct 2017 17:33:20 +0800
+From: Yubin Ruan <ablacktshirt@gmail.com>
 Subject: Re: [PATCH] typo at Chp 7.
+Message-ID: <20171027093317.GB8509@HP>
 References: <20171027092317.GA8509@HP>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <bf23f56f-b4e1-48fe-821d-721457cd469e@gmail.com>
-Date: Sat, 28 Oct 2017 00:02:19 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20171027092317.GA8509@HP>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: Yubin Ruan <ablacktshirt@gmail.com>, perfbook@vger.kernel.org
-Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, Akira Yokosawa <akiyks@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: perfbook@vger.kernel.org
+Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 
-Hi Yubin,
+And here are some more modification to some wording in chapter 7, but I am not
+sure whether you like it or not.
 
-On 2017/10/27 18:23, Yubin Ruan wrote:
-> Hi paul,
-> 
-> I finish chapter 7 and find some typo. Fixed in the patch below.
-> 
-> Yubin
-> 
-> diff --git a/locking/locking-existence.tex b/locking/locking-existence.tex
-> index 9fcbbf9..c7c4ae8 100644
-> --- a/locking/locking-existence.tex
-> +++ b/locking/locking-existence.tex
-> @@ -174,7 +174,7 @@ single partitionable data structure such as the hash table shown in the
->  figure, it can be problematic if a given data element can be a member
->  of multiple hash tables or given more-complex data structures such
->  as trees or graphs.
-> -These problems can be solved, in fact, such solutions form the basis
-> +These problems can be solved. In fact, such solutions form the basis
+Anyway, chapter 7 makes me feel good ;-) It makes me know that home-brewing a
+lock primitives with atomic instructions(which is what I was doing) is
+something that is possible and used in production.
 
-I'd suggest the following:
+Thanks,
+Yubin
 
-+These problems can be solved, in fact, and such solutions form the basis
+diff --git a/locking/locking.tex b/locking/locking.tex
+index 14db27d..a9f46f1 100644
+--- a/locking/locking.tex
++++ b/locking/locking.tex
+@@ -2166,8 +2166,8 @@ Signal-handler deadlocks can be explicitly avoided as follows:
+ 	of a signal handler.
+ \item	If the application invokes the library function
+ 	while holding a lock acquired within a given signal
+-	handler, then that signal must be blocked every time that the
+-	library function is called outside of a signal handler.
++	handler, then that signal must be blocked every time that lock
++    is to be acquired outside of a signal handler.
+ \end{enumerate}
 
->  of lock-based software transactional memory
->  implementations~\cite{Shavit95,DaveDice2006DISC}.
->  However,
-> --
-> To unsubscribe from this list: send the line "unsubscribe perfbook" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> .
-> 
-
-And please refer to Section 1.5 of perfbook for the process of contributing
-patches.
-
-Here is what Paul told me when I submitted my first patch back in April 2016.
-
-On 2016/04/13 1:00, Paul E. McKenney wrote:
-> Akira, in the future, please do use "git format-patch" and also please
-> use the Linux-kernel preferred format for referencing commits, as shown
-> in the updated commit below.  The idea is to use the first 12 digits of
-> the SHA-1 commit ID, followed by the subject line in both quotes and
-> parentheses.
-
-You can see the archive of the thread at:
-
-    http://www.spinics.net/lists/perfbook/msg00148.html
-
-       Thanks, Akira            
-
+ These rules can be enforced by using tools similar to
+@@ -2329,7 +2329,7 @@ locking's villainy.
+ If there are a very large number of uses of a callback-heavy library,
+ it may be wise to again add a parallel-friendly API to the library in
+ order to allow existing users to convert their code incrementally.
+-Alternatively, some advocate use of transactional memory in these cases.
++Alternatively, some advocate using transactional memory in these cases.
+ While the jury is still out on transactional memory,
+ Section~\ref{sec:future:Transactional Memory} discusses its strengths and
+ weaknesses.
