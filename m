@@ -1,94 +1,74 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45250 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751001AbdJ0XFy (ORCPT <rfc822;perfbook@vger.kernel.org>); Fri, 27
- Oct 2017 19:05:54 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9RN52a6000721
- for <perfbook@vger.kernel.org>; Fri, 27 Oct 2017 19:05:53 -0400
-Received: from e18.ny.us.ibm.com (e18.ny.us.ibm.com [129.33.205.208]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2dv5smy1xa-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Fri,
- 27 Oct 2017 19:05:53 -0400
-Received: from localhost by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Fri, 27 Oct
- 2017 19:05:52 -0400
-Date: Fri, 27 Oct 2017 16:05:49 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] typo at Chp 7.
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <20171027092317.GA8509@HP>
- <bf23f56f-b4e1-48fe-821d-721457cd469e@gmail.com>
+Received: from mail-pf0-f181.google.com ([209.85.192.181]:56879 "EHLO
+ mail-pf0-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1750803AbdJ1J2o (ORCPT <rfc822;perfbook@vger.kernel.org>); Sat, 28
+ Oct 2017 05:28:44 -0400
+Received: by mail-pf0-f181.google.com with SMTP id b85so6709177pfj.13 for
+ <perfbook@vger.kernel.org>; Sat, 28 Oct 2017 02:28:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=date:from:to:subject:message-id:mime-version:content-disposition
+ :user-agent;        bh=E17RCsWhEva3f9QX5ECnRIMIAUl859OahWWHZHIMFEw=;
+ b=parw0R3MA5Ek9y+pXI6uhV9ASJqAPOLMHPamPhGxtjslEHoU7HFvTVgRpAU66BXBjy
+ CXQ4Z8o3KTtJukVyRKzUcQ7HQ9lnDPqQjVZkUBq56GeESim2f+z9aZ6PO0iUi+3LSJ70
+ BDKCRlHyP8PjpxMhmZE0AxF/T3XOSg92fYUFZS3SuJwO7w2cTvWqGx9YK1EBxcUuBHz1
+ LlJynxaSGrGjyzqL29ej8USkBttnmBJUUmsu3Dv2NFSbHodtf+BXDbMozxVxGcBx1bSQ
+ La3pjeYW7SfshOy+MDzJHXMEMiIEgOgsaU2Y7ODjD6fwDAZ4nHW4b5TWXicBcktZvioj
+ MQdA==
+Date: Sat, 28 Oct 2017 17:29:34 +0800
+From: Yubin Ruan <ablacktshirt@gmail.com>
+Subject: Listing 9.2: actual free(3) will probably cause problem
+Message-ID: <20171028092932.GG5742@HP>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bf23f56f-b4e1-48fe-821d-721457cd469e@gmail.com>
-Message-Id: <20171027230549.GS3659@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Yubin Ruan <ablacktshirt@gmail.com>, perfbook@vger.kernel.org
+To: perfbook@vger.kernel.org
 
-On Sat, Oct 28, 2017 at 12:02:19AM +0900, Akira Yokosawa wrote:
-> Hi Yubin,
-> 
-> On 2017/10/27 18:23, Yubin Ruan wrote:
-> > Hi paul,
-> > 
-> > I finish chapter 7 and find some typo. Fixed in the patch below.
-> > 
-> > Yubin
-> > 
-> > diff --git a/locking/locking-existence.tex b/locking/locking-existence.tex
-> > index 9fcbbf9..c7c4ae8 100644
-> > --- a/locking/locking-existence.tex
-> > +++ b/locking/locking-existence.tex
-> > @@ -174,7 +174,7 @@ single partitionable data structure such as the hash table shown in the
-> >  figure, it can be problematic if a given data element can be a member
-> >  of multiple hash tables or given more-complex data structures such
-> >  as trees or graphs.
-> > -These problems can be solved, in fact, such solutions form the basis
-> > +These problems can be solved. In fact, such solutions form the basis
-> 
-> I'd suggest the following:
-> 
-> +These problems can be solved, in fact, and such solutions form the basis
+Hi Paul,
 
-How about this?
+I would suggest the following patch for defer/route_refcnt.c (as in Listing
+9.2). For the change in re_free, if we actually call free(3) on `rep', we will
+lose that piece of memory so that the READ_ONCE() at line 36 might see garbage
+value and will probably will not call abort(3), i.e., that is implementation
+specific behavior. And I don't see why will we have `old <=0`.
 
-	Not only can these problems be solved, but the solutions also
-	form the basis of lock-based software transactional memory [...].
+I think I understand what that code mean but you might mean some other?
+Hopefully I will not be too picky.
 
-> >  of lock-based software transactional memory
-> >  implementations~\cite{Shavit95,DaveDice2006DISC}.
-> >  However,
-> > --
-> > To unsubscribe from this list: send the line "unsubscribe perfbook" in
-> > the body of a message to majordomo@vger.kernel.org
-> > More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> > .
-> > 
-> 
-> And please refer to Section 1.5 of perfbook for the process of contributing
-> patches.
-> 
-> Here is what Paul told me when I submitted my first patch back in April 2016.
-> 
-> On 2016/04/13 1:00, Paul E. McKenney wrote:
-> > Akira, in the future, please do use "git format-patch" and also please
-> > use the Linux-kernel preferred format for referencing commits, as shown
-> > in the updated commit below.  The idea is to use the first 12 digits of
-> > the SHA-1 commit ID, followed by the subject line in both quotes and
-> > parentheses.
-> 
-> You can see the archive of the thread at:
-> 
->     http://www.spinics.net/lists/perfbook/msg00148.html
+Thanks,
+Yubin
 
-Please do use this approach if you can, but the delay was instead due
-to it taking some time for me to see that the sentence could in fact
-be confusing.
+----------------------------------------
+diff --git a/CodeSamples/defer/route_refcnt.c b/CodeSamples/defer/route_refcnt.c
+index 8a48faf..0d24e9d 100644
+--- a/CodeSamples/defer/route_refcnt.c
++++ b/CodeSamples/defer/route_refcnt.c
+@@ -36,7 +36,8 @@ DEFINE_SPINLOCK(routelock);
+ static void re_free(struct route_entry *rep)
+ {
+ 	WRITE_ONCE(rep->re_freed, 1);
+-	free(rep);
++    /* Will not actually free it. Just use the `re_freed' as a flag */
++	/*free(rep);*/
+ }
 
-							Thanx, Paul
+ /*
+@@ -50,7 +51,6 @@ unsigned long route_lookup(unsigned long addr)
+ 	struct route_entry **repp;
+ 	unsigned long ret;
+
+-retry:
+ 	repp = &route_list.re_next;
+ 	rep = NULL;
+ 	do {
+@@ -65,8 +65,6 @@ retry:
+ 			if (READ_ONCE(rep->re_freed))
+ 				abort();
+ 			old = atomic_read(&rep->re_refcnt);
+-			if (old <= 0)
+-				goto retry;
+ 			new = old + 1;
+ 		} while (atomic_cmpxchg(&rep->re_refcnt, old, new) != old);
 
