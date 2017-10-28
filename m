@@ -3,104 +3,88 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=SgGFAg9YdarrRJ6R12yLavWmhAqPUXZvloOCO0W2PvI=;
- b=gdHaY4gv8tqaSO2fssrU07u2uvaCEc26YdzmcAu+7njGNd4qFtVJ5f9nW2cPP650Oh
- NkX7aO5ohOL8qYrhjRt34azwy0Zw9vE+h39jSTc5vjktiXfUSO39EYDtEfEs+UnDdXK1
- WGnXL1YrmNDYVTjDjqnWfCD2yuaGFbi0af3VLAarHTzV2QlTYhBJHL7+ZQHkZ/UT/AEt
- ZIYqb1GXtzlWLLv0slagOflDjxgRqqfO9w9HDZHapyNT4kdagwEHx00NW+/KIRlLuK+K
- HoS1eWp2yEVADQS/06UxitLlpm56UUhGr43zpGrUS0jJGZ8Kt1/YzhPHnpqxjea0wPVi
- uHfg==
-Date: Sat, 28 Oct 2017 21:37:20 +0800
+ bh=bQIrG9XDI2uDbzuBKdwCl0NU7xtWyVto6lcHKcYGAew=;
+ b=TZU1ncU1iWtjjhAaRIpZNN3/klqbKyyVbMh9YBS5YELh6XTr/NqXH4XXCloKH0EUwB
+ NYNKUs+HGKFwpENq0fsvA3vyFzZUPTKfPLaWSW5ZsZmasOLByrHwAsyHbFcFJRZJH0Z3
+ uAqgXC5Dl1Q59XfefoUvqSHE0Y9fz8tfxk5L+MHmYXwsWYLupGVo3EhCte6jqvfxC2uI
+ OSNMpJslJdGcsRGUdRbJJ9RMMIID4zmY5mSaKlzKt4c2wGR9RSvzXOGnKH1O7Oc+jSRD
+ JjyOggZyPvCpPqGbJ1WXRawl4eH8zt2k4Wkn30q073uaaW0HUBsfqVfY7ZY5br139sqQ
+ OhRw==
+Date: Sat, 28 Oct 2017 16:06:40 +0800
 From: Yubin Ruan <ablacktshirt@gmail.com>
 Subject: Re: [PATCH] typo at Chp 7.
-Message-ID: <20171028133712.GD5742@HP>
-References: <20171027092317.GA8509@HP> <20171027093317.GB8509@HP>
- <a15a6a6b-010b-6284-41fb-23ab36a39aa5@gmail.com>
- <20171027232408.GT3659@linux.vnet.ibm.com>
+Message-ID: <20171028080553.GA5742@HP>
+References: <20171027092317.GA8509@HP>
+ <bf23f56f-b4e1-48fe-821d-721457cd469e@gmail.com>
+ <20171027230549.GS3659@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20171027232408.GT3659@linux.vnet.ibm.com>
+In-Reply-To: <20171027230549.GS3659@linux.vnet.ibm.com>
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-On Fri, Oct 27, 2017 at 04:24:08PM -0700, Paul E. McKenney wrote:
-> On Sat, Oct 28, 2017 at 12:18:47AM +0900, Akira Yokosawa wrote:
-> > On 2017/10/27 18:33, Yubin Ruan wrote:
-> > > And here are some more modification to some wording in chapter 7, but I am not
-> > > sure whether you like it or not.
+On Fri, Oct 27, 2017 at 04:05:49PM -0700, Paul E. McKenney wrote:
+> On Sat, Oct 28, 2017 at 12:02:19AM +0900, Akira Yokosawa wrote:
+> > Hi Yubin,
+> > 
+> > On 2017/10/27 18:23, Yubin Ruan wrote:
+> > > Hi paul,
 > > > 
-> > > Anyway, chapter 7 makes me feel good ;-) It makes me know that home-brewing a
-> > > lock primitives with atomic instructions(which is what I was doing) is
-> > > something that is possible and used in production.
+> > > I finish chapter 7 and find some typo. Fixed in the patch below.
 > > > 
-> > > Thanks,
 > > > Yubin
 > > > 
-> > > diff --git a/locking/locking.tex b/locking/locking.tex
-> > > index 14db27d..a9f46f1 100644
-> > > --- a/locking/locking.tex
-> > > +++ b/locking/locking.tex
-> > > @@ -2166,8 +2166,8 @@ Signal-handler deadlocks can be explicitly avoided as follows:
-> > >  	of a signal handler.
-> > >  \item	If the application invokes the library function
-> > >  	while holding a lock acquired within a given signal
-> > > -	handler, then that signal must be blocked every time that the
-> > > -	library function is called outside of a signal handler.
-> > > +	handler, then that signal must be blocked every time that lock
-> > > +    is to be acquired outside of a signal handler.
+> > > diff --git a/locking/locking-existence.tex b/locking/locking-existence.tex
+> > > index 9fcbbf9..c7c4ae8 100644
+> > > --- a/locking/locking-existence.tex
+> > > +++ b/locking/locking-existence.tex
+> > > @@ -174,7 +174,7 @@ single partitionable data structure such as the hash table shown in the
+> > >  figure, it can be problematic if a given data element can be a member
+> > >  of multiple hash tables or given more-complex data structures such
+> > >  as trees or graphs.
+> > > -These problems can be solved, in fact, such solutions form the basis
+> > > +These problems can be solved. In fact, such solutions form the basis
 > > 
-> > The talking point here is library function and signal handler. So something like:
+> > I'd suggest the following:
 > > 
-> > +	handler, then that signal must be blocked every time that one
-> > +	of related library functions is called outside of the signal handler.
-> > 
-> > Thoughts?
+> > +These problems can be solved, in fact, and such solutions form the basis
 > 
-> I believe that the major problem is that I didn't really specify the
-> situation and constraints.  How about the following?
+> How about this?
 > 
-> 							Thanx, Paul
-> 
-> -----------------------------------------------------------------------
-> 
-> commit 85025eaceff8cf10c9b674ba70d33dbd012e27ce
-> Author: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> Date:   Fri Oct 27 16:21:33 2017 -0700
-> 
->     locking: Clarify explicit avoidance of signal-handler deadlocks
->     
->     Reported-by: Yubin Ruan <ablacktshirt@gmail.com>
->     Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> 
-> diff --git a/locking/locking.tex b/locking/locking.tex
-> index 14db27d1148b..025320b294ed 100644
-> --- a/locking/locking.tex
-> +++ b/locking/locking.tex
-> @@ -2157,7 +2157,17 @@ locks, the strategies in the next section may prove helpful.
->  \subsubsection{Explicitly Avoid Signal-Handler Deadlocks}
->  \label{sec:locking:Explicitly Avoid Signal-Handler Deadlocks}
->  
-> -Signal-handler deadlocks can be explicitly avoided as follows:
-> +Suppose that a given library function is known to acquire locks,
-> +but does not block signals.
-> +Suppose further that it is necessary to invoke that function both from
-> +within and outside of a signal handler, and that it is not permissible
-> +to modify this library function.
-> +Of course, if no special action is taken, then if a signal arrives
-> +while that library function is holding its lock, deadlock can occur
-> +when the signal handler invokes that same library function,
-> +which in turn attempts to re-acquire that same lock.
-> +
-> +Such deadlocks can be avoided as follows:
->  
->  \begin{enumerate}
->  \item	If the application invokes the library function from
-> 
+> 	Not only can these problems be solved, but the solutions also
+> 	form the basis of lock-based software transactional memory [...].
 
-
-These all look good to me. Thank you Paul.
+Thanks for your suggestion. I think Akira's approach looks more nature to me.
+So, let me finish this little patch ;-)
 
 Yubin
+
+--------------------------------------------------------------------------
+From aede1ef2fe8c5213c8aec9581192c5915e69010c Mon Sep 17 00:00:00 2001
+From: Yubin Ruan <ablacktshirt@gmail.com>
+Date: Sat, 28 Oct 2017 16:00:43 +0800
+Subject: [PATCH] locking: a typo fixed
+
+Signed-off-by: Yubin Ruan <ablacktshirt@gmail.com>
+---
+ locking/locking-existence.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/locking/locking-existence.tex b/locking/locking-existence.tex
+index 9fcbbf9..2be69d8 100644
+--- a/locking/locking-existence.tex
++++ b/locking/locking-existence.tex
+@@ -174,7 +174,7 @@ single partitionable data structure such as the hash table shown in the
+ figure, it can be problematic if a given data element can be a member
+ of multiple hash tables or given more-complex data structures such
+ as trees or graphs.
+-These problems can be solved, in fact, such solutions form the basis
++These problems can be solved, in fact, and such solutions form the basis
+ of lock-based software transactional memory
+ implementations~\cite{Shavit95,DaveDice2006DISC}.
+ However,
+-- 
+2.7.4
 
