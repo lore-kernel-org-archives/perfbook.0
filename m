@@ -1,32 +1,32 @@
-Return-Path: <akiyks@gmail.com>
+Return-Path: <ablacktshirt@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=B6pqXZJ9N6PZLWjzQbVvoQgrrXCv8uatmU2Uf0af1q8=;
- b=oeh8WLYbOLm1PskUv+Tz7NPxMxr7l7tY2EaPBVR1Woc/1B6lp+YIFOmVGhqz7QN6Xe
- VmfMsAqvACglclYGimH3ycrWmB0wnntcSlE1hiS9Gzo+yfja3LXDMSACxuWtqX2TThI6
- dWe3NpNwdyyLYI8gYWaIdDNShGP/0R26+NJvnvZocX+f8ww/LSK0OvgUyyJi2Lvq8gCL
- 4UHMF8n1NUrMJX+zWLoxe74vs7pep67cQURESdMmuLC3eKeghJSwknVtJfZwelpcWqDm
- 6eb0VkPJFxuU6eCfl+e944+5J1fN99zdM2u0rQHr81qrt4p83o/s5S/nx56mQt6XStyO
- vvNw==
+ bh=ctlqmlxeDjIv0l/d6ilcdnH7iOHUYYMD1I00+Tq8lOg=;
+ b=PCnnaacE8h4PTi8Wu677XGPLfR4+9S8x1U+SCdXCD6q1DcM5THavO4YsaSPSrf37iV
+ /ufAOiiHUlzZbyKjZtB6aGS0j69OTbDCi46UdRJoobMPwUQtG2+h/5R2E6OH6pwv9HW5
+ 936pDw7x0HXfE+XVynZvImbg7cfoiW2FB/sGm7RSc7/YZO5W1s1qBIpGjQotnBFpSMbr
+ ZTV5Fdlsg3vbaRFXJBTvh1E7AI81TzMIy7BhC3U1ssteO7fO9KBJAaGApJQ1NowRr216
+ QubYpf+izDiLbQiGv+UQVp0HRajRQ9pd1sKBWFpkjajF/TH0qBxXMhJyazh4TFMq2VSJ
+ HGtw==
 Subject: Re: [PATCH] typo at Chp 7.
 References: <20171027092317.GA8509@HP> <20171027093317.GB8509@HP>
  <a15a6a6b-010b-6284-41fb-23ab36a39aa5@gmail.com>
  <20171027232408.GT3659@linux.vnet.ibm.com> <20171028133712.GD5742@HP>
  <20171028131703.GW3659@linux.vnet.ibm.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <607333fa-febd-c0c6-0139-993928bf1e40@gmail.com>
-Date: Sun, 29 Oct 2017 07:29:13 +0900
+From: Yubin Ruan <ablacktshirt@gmail.com>
+Message-ID: <46940108-3ce9-9f6f-fa63-e73953639804@gmail.com>
+Date: Sun, 29 Oct 2017 08:15:46 +0800
 MIME-Version: 1.0
 In-Reply-To: <20171028131703.GW3659@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, Yubin Ruan <ablacktshirt@gmail.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+To: paulmck@linux.vnet.ibm.com
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-On 2017/10/28 06:17:03 -0700, Paul E. McKenney wrote:
+On 10/28/2017 09:17 PM, Paul E. McKenney wrote:
 > On Sat, Oct 28, 2017 at 09:37:20PM +0800, Yubin Ruan wrote:
 >> On Fri, Oct 27, 2017 at 04:24:08PM -0700, Paul E. McKenney wrote:
 >>> On Sat, Oct 28, 2017 at 12:18:47AM +0900, Akira Yokosawa wrote:
@@ -109,13 +109,8 @@ On 2017/10/28 06:17:03 -0700, Paul E. McKenney wrote:
 > (If I don't hear otherwise in about 12 hours, I will just push it
 > out as is.)
 
-Paul, please append
 
-Acked-by: Akira Yokosawa <akiyks@gmail.com>
+Acked-by: Yubin Ruan <ablacktshirt@gmail.com>
 
-     Thanks, Akira
-> 
-> 							Thanx, Paul
-> 
-> 
+Yubin
 
