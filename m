@@ -1,75 +1,235 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51508 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751646AbdJ2D1x (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Sat, 28 Oct 2017 23:27:53 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9T3O2a7020156
- for <perfbook@vger.kernel.org>; Sat, 28 Oct 2017 23:27:53 -0400
-Received: from e18.ny.us.ibm.com (e18.ny.us.ibm.com [129.33.205.208]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2dvnw3fjrh-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sat,
- 28 Oct 2017 23:27:53 -0400
-Received: from localhost by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 28 Oct
- 2017 23:27:52 -0400
-Date: Sat, 28 Oct 2017 20:27:49 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] locking: Fix syntactic ambiguity
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <0eb6e2e3-e193-3109-7794-fcdf10a3045b@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=OWH9o/EqE97fi9bLjhX7XjSJePKbuq1JT9x95M17ui0=;
+ b=Ubs3XObpWhz4R0cTxaa5wim/UU6cmW7Bf8EqaBVKLrC/YTw9mnN1domXEr+Kgh6t09
+ FGW+pUoPEjCmqjtRwzKAuIGNDlfB6OLz6nbHZZaBePrLv8FcaKXBI7FmNLn294cbMcQO
+ BwGjmdfkHYJN/UZQvSfGvIufp3UyE+ZL9GIZeR43KtyueqhPga7yeV93PM1vwY9QbGD8
+ usbUJdd3kXGWZyZPpHNuqGKp7Rq2jr2lswEN8X8HkUm7cYxMWCL3JEPZHTv6mTpwE3Mf
+ McSRQ1cb7Lks8OBsoLBkLIVziL36659duWX8oLwr2XKhjh1Tw+RQ2/RzNJtjCSv0FbrZ
+ kJwQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] formal/regression: Tweak table format and indent in listing
+Message-ID: <f28a0cc5-ef5d-0134-73d5-cf0ba7d6d746@gmail.com>
+Date: Mon, 30 Oct 2017 00:44:48 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0eb6e2e3-e193-3109-7794-fcdf10a3045b@gmail.com>
-Message-Id: <20171029032749.GD3659@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
-To: Yubin Ruan <ablacktshirt@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+List-ID: <perfbook.vger.kernel.org>
 
-On Sun, Oct 29, 2017 at 09:01:57AM +0800, Yubin Ruan wrote:
-> >From c8a3ed4cc54d322dd107e4842837851943784666 Mon Sep 17 00:00:00 2001
-> From: Yubin Ruan <ablacktshirt@gmail.com>
-> Date: Sun, 29 Oct 2017 08:40:31 +0800
-> Subject: [PATCH] locking: Fix syntactic ambiguity
-> 
-> Acked-by: Akira Yokosawa <akiyks@gmail.com>
-> Suggested-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> Signed-off-by: Yubin Ruan <ablacktshirt@gmail.com>
+From 729f4ef5e8116d8a61b56d0f2a86d005f354ac59 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 30 Oct 2017 00:27:49 +0900
+Subject: [PATCH] formal/regression: Tweak table format and indent in listing
 
-Applied, thank you both!
+Use "S" column specifier in tables containing time duration.
 
-Yubin, whatever you did to generate and send this patch works just fine,
-thank you!  ;-)
+Remove vertical and horizontal rules in scorecard. Instead,
+add narrow skips between colored cells by adding empty columns
+in between and reducing \tabcolsep length locally in the table.
+\addlinespace is a booktabs' command to add vertical space between
+rows.
 
-							Thanx, Paul
+Substitute two white spaces for TAB characters in "verbbox" for
+proper indentation.
 
-> ---
->  locking/locking-existence.tex | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/locking/locking-existence.tex b/locking/locking-existence.tex
-> index 9fcbbf9..6340734 100644
-> --- a/locking/locking-existence.tex
-> +++ b/locking/locking-existence.tex
-> @@ -174,8 +174,8 @@ single partitionable data structure such as the hash table shown in the
->  figure, it can be problematic if a given data element can be a member
->  of multiple hash tables or given more-complex data structures such
->  as trees or graphs.
-> -These problems can be solved, in fact, such solutions form the basis
-> -of lock-based software transactional memory
-> +Not only can these problems be solved, but the solutions also form
-> +the basis of lock-based software transactional memory
->  implementations~\cite{Shavit95,DaveDice2006DISC}.
->  However,
->  Chapter~\ref{chp:Deferred Processing}
-> -- 
-> 2.7.4
-> --
-> To unsubscribe from this list: send the line "unsubscribe perfbook" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ formal/regression.tex | 133 ++++++++++++++++++++++++++------------------------
+ 1 file changed, 69 insertions(+), 64 deletions(-)
+
+diff --git a/formal/regression.tex b/formal/regression.tex
+index 0d464b1..9e564f7 100644
+--- a/formal/regression.tex
++++ b/formal/regression.tex
+@@ -174,24 +174,24 @@ C C-SB+l-o-o-u+l-o-o-u-C
+
+ P0(int *sl, int *x0, int *x1)
+ {
+-	int r2;
+-	int r1;
++  int r2;
++  int r1;
+
+-	r2 = cmpxchg_acquire(sl, 0, 1);
+-	WRITE_ONCE(*x0, 1);
+-	r1 = READ_ONCE(*x1);
+-	smp_store_release(sl, 0);
++  r2 = cmpxchg_acquire(sl, 0, 1);
++  WRITE_ONCE(*x0, 1);
++  r1 = READ_ONCE(*x1);
++  smp_store_release(sl, 0);
+ }
+
+ P1(int *sl, int *x0, int *x1)
+ {
+-	int r2;
+-	int r1;
++  int r2;
++  int r1;
+
+-	r2 = cmpxchg_acquire(sl, 0, 1);
+-	WRITE_ONCE(*x1, 1);
+-	r1 = READ_ONCE(*x0);
+-	smp_store_release(sl, 0);
++  r2 = cmpxchg_acquire(sl, 0, 1);
++  WRITE_ONCE(*x1, 1);
++  r1 = READ_ONCE(*x0);
++  smp_store_release(sl, 0);
+ }
+
+ filter (0:r2=0 /\ 1:r2=0)
+@@ -205,14 +205,15 @@ exists (0:r1=0 /\ 1:r1=0)
+ \end{listing}
+
+ \begin{table}[tbh]
+-\rowcolors{6}{}{lightgray}
++\rowcolors{1}{}{lightgray}
+ \renewcommand*{\arraystretch}{1.1}
+ \small
+-\centering\OneColumnHSpace{-0.1in}
+-\begin{tabular}{rrr}
++\centering
++\begin{tabular}{S[table-format=1.0]S[table-format=1.3]S[table-format=2.3]}
+ 	\toprule
+-	\# Threads & Locking & \tco{cmpxchg_acquire} \\
+-	\cmidrule{1-1} \cmidrule{2-2} \cmidrule{3-3}
++	\multicolumn{1}{c}{\# Threads} & \multicolumn{1}{c}{Locking} &
++			\multicolumn{1}{c}{\tco{cmpxchg_acquire}} \\
++	\midrule
+ 	2 & 0.004 &  0.022 \\
+ 	3 & 0.041 &  0.743 \\
+ 	4 & 0.374 & 59.565 \\
+@@ -250,19 +251,22 @@ is more than two orders of magnitude faster than emulation!
+ 	the \co{exists} clause, which provides significant speedups.
+
+ \begin{table}[tbh]
+-\rowcolors{6}{}{lightgray}
++\rowcolors{7}{lightgray}{}
+ \renewcommand*{\arraystretch}{1.1}
+ \small
+-\centering\OneColumnHSpace{-0.1in}
+-\begin{tabular}{rrrrrr}
++\centering
++\begin{tabular}{S[table-format=1.0]S[table-format=1.3]S[table-format=2.3]
++		S[table-format=3.3]S[table-format=2.3]S[table-format=3.3]}
+ 	\toprule
+ 	& & \multicolumn{2}{c}{\tco{cmpxchg_acquire}}
+ 		& \multicolumn{2}{c}{\tco{xchg_acquire}} \\
+ 	\cmidrule(l){3-4} \cmidrule(l){5-6}
+-	\# & Locking & \tco{filter} & \tco{exists}
+-		& \tco{filter} & \tco{exists} \\
+-	\cmidrule(l){1-1} \cmidrule(l){2-2} \cmidrule(l){3-3} \cmidrule(l){4-4}
+-		\cmidrule(l){5-5} \cmidrule(l){6-6}
++	\multicolumn{1}{c}{\#} & \multicolumn{1}{c}{Locking}
++		& \multicolumn{1}{c}{\tco{filter}}
++			& \multicolumn{1}{c}{\tco{exists}}
++				& \multicolumn{1}{c}{\tco{filter}}
++					& \multicolumn{1}{c}{\tco{exists}} \\
++	\cmidrule{1-1} \cmidrule(l){2-2} \cmidrule(l){3-4} \cmidrule(l){5-6}
+ 	2 & 0.004 &  0.022 &   0.039 &  0.027 &  0.058 \\
+ 	3 & 0.041 &  0.743 &   1.653 &  0.968 &  3.203 \\
+ 	4 & 0.374 & 59.565 & 151.962 & 74.818 & 500.96 \\
+@@ -400,53 +404,54 @@ required if we are to actually increase software reliability.
+
+ \begin{table*}[tbh]
+ % \rowcolors{6}{}{lightgray}
+-\renewcommand*{\arraystretch}{1.1}
++%\renewcommand*{\arraystretch}{1.1}
+ \small
+-\centering\OneColumnHSpace{-0.1in}
+-\begin{tabular}{l|c|c|c|c|c}
++\centering
++\setlength{\tabcolsep}{2pt}
++\begin{tabular}{lcccccccccc}
+ 	\toprule
+-	& Promela & PPCMEM & \tco{herd} & \tco{cbmc} & Nidhugg \\
+-	\hline
+-	(1) Automated
+-		& \cellcolor{red!50}
+-			& \cellcolor{orange!50}
+-				& \cellcolor{orange!50}
+-					& \cellcolor{blue!50}
++	& & Promela & & PPCMEM & & \tco{herd} & & \tco{cbmc} & & Nidhugg \\
++	\midrule
++	(1) Automated &
++		& \cellcolor{red!50} &
++			& \cellcolor{orange!50} &
++				& \cellcolor{orange!50} &
++					& \cellcolor{blue!50} &
+ 						& \cellcolor{blue!50} \\
+-	\hline
+-	(2) Environment
+-		& \cellcolor{red!50} (MM)
+-			& \cellcolor{green!50}
+-				& \cellcolor{blue!50}
+-					& \cellcolor{yellow!50} (MM)
++	\addlinespace[3pt]
++	(2) Environment &
++		& \cellcolor{red!50} (MM) &
++			& \cellcolor{green!50} &
++				& \cellcolor{blue!50} &
++					& \cellcolor{yellow!50} (MM) &
+ 						& \cellcolor{orange!50} (MM) \\
+-	\hline
+-	(3) Overhead
+-		& \cellcolor{yellow!50}
+-			& \cellcolor{red!50}
+-				& \cellcolor{yellow!50}
+-					& \cellcolor{yellow!50} (SAT)
++	\addlinespace[3pt]
++	(3) Overhead &
++		& \cellcolor{yellow!50} &
++			& \cellcolor{red!50} &
++				& \cellcolor{yellow!50} &
++					& \cellcolor{yellow!50} (SAT) &
+ 						& \cellcolor{green!50} \\
+-	\hline
+-	(4) Locate Bugs
+-		& \cellcolor{yellow!50}
+-			& \cellcolor{yellow!50}
+-				& \cellcolor{yellow!50}
+-					& \cellcolor{green!50}
++	\addlinespace[3pt]
++	(4) Locate Bugs &
++		& \cellcolor{yellow!50} &
++			& \cellcolor{yellow!50} &
++				& \cellcolor{yellow!50} &
++					& \cellcolor{green!50} &
+ 						& \cellcolor{green!50} \\
+-	\hline
+-	(5) Minimal Scaffolding
+-		& \cellcolor{green!50}
+-			& \cellcolor{yellow!50}
+-				& \cellcolor{yellow!50}
+-					& \cellcolor{blue!50}
++	\addlinespace[3pt]
++	(5) Minimal Scaffolding &
++		& \cellcolor{green!50} &
++			& \cellcolor{yellow!50} &
++				& \cellcolor{yellow!50} &
++					& \cellcolor{blue!50} &
+ 						& \cellcolor{blue!50} \\
+-	\hline
+-	(6) Relevant Bugs
+-		& \cellcolor{yellow!50} ???
+-			& \cellcolor{yellow!50} ???
+-				& \cellcolor{yellow!50} ???
+-					& \cellcolor{yellow!50} ???
++	\addlinespace[3pt]
++	(6) Relevant Bugs &
++		& \cellcolor{yellow!50} ??? &
++			& \cellcolor{yellow!50} ??? &
++				& \cellcolor{yellow!50} ??? &
++					& \cellcolor{yellow!50} ??? &
+ 						& \cellcolor{yellow!50} ??? \\
+ 	\bottomrule
+ \end{tabular}
+-- 
+2.7.4
 
