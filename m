@@ -1,66 +1,105 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57034 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751665AbdJ2TGt (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 29
- Oct 2017 15:06:49 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9TJ60Va107080
- for <perfbook@vger.kernel.org>; Sun, 29 Oct 2017 15:06:49 -0400
-Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2dwj6pnhge-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
- 29 Oct 2017 15:06:49 -0400
-Received: from localhost by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 29 Oct
- 2017 15:06:48 -0400
-Date: Sun, 29 Oct 2017 12:06:45 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] defer: Correct grammar
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <3a7d438a-7b9c-8862-1f6e-3bc47e5f3c28@gmail.com>
+Return-Path: <ablacktshirt@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ufCqo8SBMRcA8/EgxL9+UK1yWSrmbZ5Oa6zHt4XMeEQ=;
+ b=QDrq1p/JgBH81cIIxG/smI4v6s1SSDuNS6Re17A6/0vvmC59TFvkmQQmE+hED7B3+a
+ pmuCfDqPQZpV5roW416IjoZJvMIkALk6uy1Eqj5zPrt/9t6h5JqPwdJJhjsE0ViJuxH6
+ zmDk7CoZgooZvCVLYtL6zjorrn24MZeImlqcE8WvQ7X5xcQflerHKAOyunBQe47Rt1+F
+ w3gQz++5lx95i7rw47XGRxLDMqUDUdPqjj5NJIemdhr1InR/JLxUl47GcYxkB/SnzoFZ
+ tkXAGIPsNB1G1hxRLkcJrXjC9e9EtOjNkxRM4u737M5bLTZXMFGzkjpXfIZTjApzsVVB
+ j2TQ==
+Subject: Re: Listing 9.2: actual free(3) will probably cause problem
+References: <20171028092932.GG5742@HP>
+ <20171028131227.GV3659@linux.vnet.ibm.com>
+From: Yubin Ruan <ablacktshirt@gmail.com>
+Message-ID: <1751f079-4a3f-5046-4103-9e5c672e611b@gmail.com>
+Date: Sun, 29 Oct 2017 09:19:07 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3a7d438a-7b9c-8862-1f6e-3bc47e5f3c28@gmail.com>
-Message-Id: <20171029190645.GJ3659@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <20171028131227.GV3659@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Yubin Ruan <ablacktshirt@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Oct 29, 2017 at 11:37:50AM +0800, Yubin Ruan wrote:
-> >From 9d049c1dcc544588c12c989ff433fa88e999e4bb Mon Sep 17 00:00:00 2001
-> From: Yubin Ruan <ablacktshirt@gmail.com>
-> Date: Sun, 29 Oct 2017 11:36:21 +0800
-> Subject: [PATCH] defer: Correct grammar
+[Off list...]
+
+On 10/28/2017 09:12 PM, Paul E. McKenney wrote:
+> On Sat, Oct 28, 2017 at 05:29:34PM +0800, Yubin Ruan wrote:
+>> Hi Paul,
+>>
+>> I would suggest the following patch for defer/route_refcnt.c (as in Listing
+>> 9.2). For the change in re_free, if we actually call free(3) on `rep', we will
+>> lose that piece of memory so that the READ_ONCE() at line 36 might see garbage
+>> value and will probably will not call abort(3), i.e., that is implementation
+>> specific behavior. And I don't see why will we have `old <=0`.
+>>
+>> I think I understand what that code mean but you might mean some other?
+>> Hopefully I will not be too picky.
 > 
-> Signed-off-by: Yubin Ruan <ablacktshirt@gmail.com>
-
-Good catch, much clearer!  Applied and pushed, thank you!
-
-							Thanx, Paul
-
-> ---
->  defer/rcufundamental.tex | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Yes, this code is buggy and fixing it is on my list.  I would be happy to
+> accept a patch doing a real fix, but it is not simple.
 > 
-> diff --git a/defer/rcufundamental.tex b/defer/rcufundamental.tex
-> index ef3e4d4..4c16478 100644
-> --- a/defer/rcufundamental.tex
-> +++ b/defer/rcufundamental.tex
-> @@ -157,8 +157,8 @@ cause the values of \co{p->a}, \co{p->b}, and
->  \co{p->c} to be fetched before the value of \co{p}.
->  This is perhaps easiest to see in the case of value-speculation
->  compiler optimizations, where the compiler guesses the value
-> -of \co{p} fetches \co{p->a}, \co{p->b}, and
-> -\co{p->c} then fetches the actual value of \co{p}
-> +of \co{p}, fetches \co{p->a}, \co{p->b}, and
-> +\co{p->c}, and then fetches the actual value of \co{p}
->  in order to check whether its guess was correct.
->  This sort of optimization is quite aggressive, perhaps insanely so,
->  but does actually occur in the context of profile-driven optimization.
-> -- 
-> 2.7.4
+> One place to start is Anthony Williams's atomic shared pointer code.
+> The idea would be to translate that from C++ to C.
+
+Can you provide some references?
+
+> 
+> But please be aware that this is a non-trivial problem.  If you try to
+> hack together a solution, it -will- have subtle bugs.  So validating
+> your solution (even if you start from Anthony's approach) will be
+> non-trivial.  I suggest using cbmc or something similar in addition to
+> perfbook's stress tests.
+> 
+> So, are you up for it?  ;-)
+
+Akira, can you provide some comments? I not sure what is wrong with my
+suggestions. 
+
+And I currently don't know use those test. I will work on it.
+
+Yubin
+
+>>
+>> ----------------------------------------
+>> diff --git a/CodeSamples/defer/route_refcnt.c b/CodeSamples/defer/route_refcnt.c
+>> index 8a48faf..0d24e9d 100644
+>> --- a/CodeSamples/defer/route_refcnt.c
+>> +++ b/CodeSamples/defer/route_refcnt.c
+>> @@ -36,7 +36,8 @@ DEFINE_SPINLOCK(routelock);
+>>  static void re_free(struct route_entry *rep)
+>>  {
+>>  	WRITE_ONCE(rep->re_freed, 1);
+>> -	free(rep);
+>> +    /* Will not actually free it. Just use the `re_freed' as a flag */
+>> +	/*free(rep);*/
+>>  }
+>>
+>>  /*
+>> @@ -50,7 +51,6 @@ unsigned long route_lookup(unsigned long addr)
+>>  	struct route_entry **repp;
+>>  	unsigned long ret;
+>>
+>> -retry:
+>>  	repp = &route_list.re_next;
+>>  	rep = NULL;
+>>  	do {
+>> @@ -65,8 +65,6 @@ retry:
+>>  			if (READ_ONCE(rep->re_freed))
+>>  				abort();
+>>  			old = atomic_read(&rep->re_refcnt);
+>> -			if (old <= 0)
+>> -				goto retry;
+>>  			new = old + 1;
+>>  		} while (atomic_cmpxchg(&rep->re_refcnt, old, new) != old);
+>>
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe perfbook" in
+>> the body of a message to majordomo@vger.kernel.org
+>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>>
 > 
 
