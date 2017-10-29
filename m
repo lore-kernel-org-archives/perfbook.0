@@ -1,76 +1,160 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35786 "EHLO
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46982 "EHLO
  mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751790AbdJ2TOx (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 29
- Oct 2017 15:14:53 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9TJE7F0092859
- for <perfbook@vger.kernel.org>; Sun, 29 Oct 2017 15:14:53 -0400
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2dwdtfy2nh-1 (version=TLSv1.2
+ ESMTP id S1751839AbdJ2TVp (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 29
+ Oct 2017 15:21:45 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9TJJBVP128380
+ for <perfbook@vger.kernel.org>; Sun, 29 Oct 2017 15:21:44 -0400
+Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2dwj6pnwsh-1 (version=TLSv1.2
  cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
- 29 Oct 2017 15:14:53 -0400
-Received: from localhost by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ 29 Oct 2017 15:21:44 -0400
+Received: from localhost by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted for
  <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 29 Oct
- 2017 15:14:52 -0400
-Date: Sun, 29 Oct 2017 12:14:49 -0700
+ 2017 15:21:43 -0400
+Date: Sun, 29 Oct 2017 12:21:40 -0700
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: algorithm that change a data structure without inflicting
- expensive cache misses
+Subject: Re: Listing 9.2: actual free(3) will probably cause problem
 Reply-To: paulmck@linux.vnet.ibm.com
-References: <dbe0006d-dc21-e397-c207-f9c1a37867b0@gmail.com>
+References: <20171028092932.GG5742@HP>
+ <20171028131227.GV3659@linux.vnet.ibm.com>
+ <1751f079-4a3f-5046-4103-9e5c672e611b@gmail.com>
+ <d800cd74-a7af-8390-79e9-65cf15d7dc3f@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dbe0006d-dc21-e397-c207-f9c1a37867b0@gmail.com>
-Message-Id: <20171029191449.GK3659@linux.vnet.ibm.com>
+In-Reply-To: <d800cd74-a7af-8390-79e9-65cf15d7dc3f@gmail.com>
+Message-Id: <20171029192140.GL3659@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Yubin Ruan <ablacktshirt@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Yubin Ruan <ablacktshirt@gmail.com>, perfbook@vger.kernel.org
 
-On Sun, Oct 29, 2017 at 11:24:55AM +0800, Yubin Ruan wrote:
-> Hi,
+On Sun, Oct 29, 2017 at 08:42:02PM +0900, Akira Yokosawa wrote:
+> On 2017/10/29 09:19:07 +0800, Yubin Ruan wrote:
+> > [Off list...]
 > 
-> This question is raised Quick Quiz 9.23 and I think it is impossible because
-> any changes on a data structure will inevitably inflict cache miss (on other
-> CPUs). The only way we can help is to make the reader *ignore* the cache miss,
-> or do the invalidation proactively.
+> Well, this was on the list. I'm keeping the CC.
 > 
-> I cannot think of any existing algorithm. Can anyone provide any references
-> (if that really exist)?
+> > 
+> > On 10/28/2017 09:12 PM, Paul E. McKenney wrote:
+> >> On Sat, Oct 28, 2017 at 05:29:34PM +0800, Yubin Ruan wrote:
+> >>> Hi Paul,
+> >>>
+> >>> I would suggest the following patch for defer/route_refcnt.c (as in Listing
+> >>> 9.2). For the change in re_free, if we actually call free(3) on `rep', we will
+> >>> lose that piece of memory so that the READ_ONCE() at line 36 might see garbage
+> >>> value and will probably will not call abort(3), i.e., that is implementation
+> >>> specific behavior. And I don't see why will we have `old <=0`.
+> >>>
+> >>> I think I understand what that code mean but you might mean some other?
+> >>> Hopefully I will not be too picky.
+> >>
+> >> Yes, this code is buggy and fixing it is on my list.  I would be happy to
+> >> accept a patch doing a real fix, but it is not simple.
+> >>
+> >> One place to start is Anthony Williams's atomic shared pointer code.
+> >> The idea would be to translate that from C++ to C.
+> > 
+> > Can you provide some references?
 
-I can give you some "trick" answers:
+https://bitbucket.org/anthonyw/atomic_shared_ptr
 
-o	The updater changes some part of the data structure that the
-	readers happen not to be referencing at the time of the update.
-	But this is a bit useless in real life, because one of the
-	strengths of RCU is that the updaters have no idea what the
-	readers are doing, and thus don't need expensive invalidations
-	just to communicate their activities to each other.
+And, for completeness, a few others:
 
-o	The updater and all the readers are hardware threads within
-	a single core, and therefore share all levels of cache, so that
-	there can be no communications cache misses.  This actually
-	works if your workload fits into a single core, but is quite
-	useless otherwise.
+http://en.cppreference.com/w/cpp/experimental/atomic_shared_pt
 
-	With one exception.  You might shard your workload over the
-	cores, so that each core deals only with its own portion of
-	the data structure, again avoiding communications cache
-	misses.  Assuming, of course, that you can shart your data
-	in such a way as to avoid load imbalances.
+https://isocpp.org/files/papers/N4162.pdf
 
-o	Your workload is running on a really old parallel machine that
-	doesn't have cache.  But in that case, your performance will
-	be truly horrible no matter what you do -- you could easily
-	outperform the entirety of one of those old machines with a
-	single hardware thread of a modern system.
+Not so much a fan of this one because there really are already workloads
+out there that need more than 48 bits of address space, but here you go:
 
-If you do come up with a generally useful algorithm that manages
-a read-write shared data structure without cache misses, I bet a
-large number of people would be very interested.  ;-)
+https://github.com/facebook/folly/blob/master/folly/concurrency/AtomicSharedPtr.h
+
+There have been quite a few papers published on this topic over the
+past 20 years, most of which have at least one bug.  :-/
+
+> >> But please be aware that this is a non-trivial problem.  If you try to
+> >> hack together a solution, it -will- have subtle bugs.  So validating
+> >> your solution (even if you start from Anthony's approach) will be
+> >> non-trivial.  I suggest using cbmc or something similar in addition to
+> >> perfbook's stress tests.
+> >>
+> >> So, are you up for it?  ;-)
+> > 
+> > Akira, can you provide some comments? I not sure what is wrong with my
+> > suggestions. 
+> 
+> I think Paul didn't mean your suggestion was wrong. He wants formal
+> verification of its correctness. And he might have noticed other issues
+> in the code.
+> 
+> Paul, correct me if I'm guessing wrong.
+
+You got it -- for this level of complexity and subtlety, formal verification
+really is needed.
+
+> > And I currently don't know use those test. I will work on it.
+> 
+> The update of perfbook pushed earlier today contains relevant topics
+> in the "formal" chapter and bibliography.
+> 
+> This looks to me a good opportunity for you.
+
+That indeed was one of my motivations for expanding on this chapter.  ;-)
+
+I suggest starting with CBMC and Nidhugg.  CBMC is easier to use, so I
+would start with that, but you might need Nidhugg for larger scenarios.
 
 							Thanx, Paul
+
+> Akira
+> 
+> > 
+> > Yubin
+> > 
+> >>>
+> >>> ----------------------------------------
+> >>> diff --git a/CodeSamples/defer/route_refcnt.c b/CodeSamples/defer/route_refcnt.c
+> >>> index 8a48faf..0d24e9d 100644
+> >>> --- a/CodeSamples/defer/route_refcnt.c
+> >>> +++ b/CodeSamples/defer/route_refcnt.c
+> >>> @@ -36,7 +36,8 @@ DEFINE_SPINLOCK(routelock);
+> >>>  static void re_free(struct route_entry *rep)
+> >>>  {
+> >>>  	WRITE_ONCE(rep->re_freed, 1);
+> >>> -	free(rep);
+> >>> +    /* Will not actually free it. Just use the `re_freed' as a flag */
+> >>> +	/*free(rep);*/
+> >>>  }
+> >>>
+> >>>  /*
+> >>> @@ -50,7 +51,6 @@ unsigned long route_lookup(unsigned long addr)
+> >>>  	struct route_entry **repp;
+> >>>  	unsigned long ret;
+> >>>
+> >>> -retry:
+> >>>  	repp = &route_list.re_next;
+> >>>  	rep = NULL;
+> >>>  	do {
+> >>> @@ -65,8 +65,6 @@ retry:
+> >>>  			if (READ_ONCE(rep->re_freed))
+> >>>  				abort();
+> >>>  			old = atomic_read(&rep->re_refcnt);
+> >>> -			if (old <= 0)
+> >>> -				goto retry;
+> >>>  			new = old + 1;
+> >>>  		} while (atomic_cmpxchg(&rep->re_refcnt, old, new) != old);
+> >>>
+> >>> --
+> >>> To unsubscribe from this list: send the line "unsubscribe perfbook" in
+> >>> the body of a message to majordomo@vger.kernel.org
+> >>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> >>>
+> >>
+> > 
+> > 
+> 
 
