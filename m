@@ -1,20 +1,20 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57576 "EHLO
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56342 "EHLO
  mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751646AbdJ2DTW (ORCPT <rfc822;perfbook@vger.kernel.org>); Sat, 28
- Oct 2017 23:19:22 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9T3IkTm014890
- for <perfbook@vger.kernel.org>; Sat, 28 Oct 2017 23:19:22 -0400
-Received: from e18.ny.us.ibm.com (e18.ny.us.ibm.com [129.33.205.208]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2dvn74gb6r-1 (version=TLSv1.2
+ ESMTP id S1751667AbdJ2DUg (ORCPT <rfc822;perfbook@vger.kernel.org>); Sat, 28
+ Oct 2017 23:20:36 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9T3IkKY028775
+ for <perfbook@vger.kernel.org>; Sat, 28 Oct 2017 23:20:36 -0400
+Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2dvm7sa8yd-1 (version=TLSv1.2
  cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sat,
- 28 Oct 2017 23:19:21 -0400
-Received: from localhost by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ 28 Oct 2017 23:20:36 -0400
+Received: from localhost by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted for
  <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 28 Oct
- 2017 23:19:20 -0400
-Date: Sat, 28 Oct 2017 20:19:16 -0700
+ 2017 23:20:35 -0400
+Date: Sat, 28 Oct 2017 20:20:31 -0700
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Subject: Re: [PATCH] typo at Chp 7.
 Reply-To: paulmck@linux.vnet.ibm.com
@@ -22,19 +22,19 @@ References: <20171027092317.GA8509@HP> <20171027093317.GB8509@HP>
  <a15a6a6b-010b-6284-41fb-23ab36a39aa5@gmail.com>
  <20171027232408.GT3659@linux.vnet.ibm.com> <20171028133712.GD5742@HP>
  <20171028131703.GW3659@linux.vnet.ibm.com>
- <607333fa-febd-c0c6-0139-993928bf1e40@gmail.com>
+ <46940108-3ce9-9f6f-fa63-e73953639804@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <607333fa-febd-c0c6-0139-993928bf1e40@gmail.com>
-Message-Id: <20171029031916.GA3659@linux.vnet.ibm.com>
+In-Reply-To: <46940108-3ce9-9f6f-fa63-e73953639804@gmail.com>
+Message-Id: <20171029032031.GB3659@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Yubin Ruan <ablacktshirt@gmail.com>, perfbook@vger.kernel.org
+To: Yubin Ruan <ablacktshirt@gmail.com>
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 
-On Sun, Oct 29, 2017 at 07:29:13AM +0900, Akira Yokosawa wrote:
-> On 2017/10/28 06:17:03 -0700, Paul E. McKenney wrote:
+On Sun, Oct 29, 2017 at 08:15:46AM +0800, Yubin Ruan wrote:
+> On 10/28/2017 09:17 PM, Paul E. McKenney wrote:
 > > On Sat, Oct 28, 2017 at 09:37:20PM +0800, Yubin Ruan wrote:
 > >> On Fri, Oct 27, 2017 at 04:24:08PM -0700, Paul E. McKenney wrote:
 > >>> On Sat, Oct 28, 2017 at 12:18:47AM +0900, Akira Yokosawa wrote:
@@ -117,11 +117,10 @@ On Sun, Oct 29, 2017 at 07:29:13AM +0900, Akira Yokosawa wrote:
 > > (If I don't hear otherwise in about 12 hours, I will just push it
 > > out as is.)
 > 
-> Paul, please append
 > 
-> Acked-by: Akira Yokosawa <akiyks@gmail.com>
+> Acked-by: Yubin Ruan <ablacktshirt@gmail.com>
 
-Done, thank you!
+Applied, thank you!
 
 							Thanx, Paul
 
