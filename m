@@ -1,160 +1,93 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46982 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751839AbdJ2TVp (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 29
- Oct 2017 15:21:45 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9TJJBVP128380
- for <perfbook@vger.kernel.org>; Sun, 29 Oct 2017 15:21:44 -0400
-Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2dwj6pnwsh-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
- 29 Oct 2017 15:21:44 -0400
-Received: from localhost by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 29 Oct
- 2017 15:21:43 -0400
-Date: Sun, 29 Oct 2017 12:21:40 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: Listing 9.2: actual free(3) will probably cause problem
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <20171028092932.GG5742@HP>
- <20171028131227.GV3659@linux.vnet.ibm.com>
- <1751f079-4a3f-5046-4103-9e5c672e611b@gmail.com>
- <d800cd74-a7af-8390-79e9-65cf15d7dc3f@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=F6NFXa8Hn/aVKoLdjX2okfQnTI6z8mWIIM540PNjV3o=;
+ b=Va0vWgB11FCEP+A4aDHlf/LgaFtJHfVM6Wu/yVziDufycMlwSk2GlWJQdEzeW2ptGP
+ SEKmRG3gAVTI9KOQxdsfQhHqh2+w86Bf5h0NxkwpjD+4vTlc+4HV52rlV6aYv62+kmjM
+ QlReYDjeRz1ZVzp1GSf1jN6qNCLTrROyuuOrhN4zmwuTn9P5J2/COM8m6CZMuXdZpjRz
+ Dyt22mEVEFMHCZfIn/BkM/bLbLvAuVX3WpKUlXJ2i7nqmmRLPeCYFwDvdnNW98QPMymB
+ LzAv/JV+/rcWYeACeqkp4416p8tPGaQHKmOG/lcJh7moJvSCas+J/ijaoPtgIs1DT6ck
+ 6NFg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] formal/regression: Fix typo
+Message-ID: <ea9123a0-7651-72c0-24d5-1b847b6b2efc@gmail.com>
+Date: Tue, 31 Oct 2017 00:53:39 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d800cd74-a7af-8390-79e9-65cf15d7dc3f@gmail.com>
-Message-Id: <20171029192140.GL3659@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Yubin Ruan <ablacktshirt@gmail.com>, perfbook@vger.kernel.org
 
-On Sun, Oct 29, 2017 at 08:42:02PM +0900, Akira Yokosawa wrote:
-> On 2017/10/29 09:19:07 +0800, Yubin Ruan wrote:
-> > [Off list...]
-> 
-> Well, this was on the list. I'm keeping the CC.
-> 
-> > 
-> > On 10/28/2017 09:12 PM, Paul E. McKenney wrote:
-> >> On Sat, Oct 28, 2017 at 05:29:34PM +0800, Yubin Ruan wrote:
-> >>> Hi Paul,
-> >>>
-> >>> I would suggest the following patch for defer/route_refcnt.c (as in Listing
-> >>> 9.2). For the change in re_free, if we actually call free(3) on `rep', we will
-> >>> lose that piece of memory so that the READ_ONCE() at line 36 might see garbage
-> >>> value and will probably will not call abort(3), i.e., that is implementation
-> >>> specific behavior. And I don't see why will we have `old <=0`.
-> >>>
-> >>> I think I understand what that code mean but you might mean some other?
-> >>> Hopefully I will not be too picky.
-> >>
-> >> Yes, this code is buggy and fixing it is on my list.  I would be happy to
-> >> accept a patch doing a real fix, but it is not simple.
-> >>
-> >> One place to start is Anthony Williams's atomic shared pointer code.
-> >> The idea would be to translate that from C++ to C.
-> > 
-> > Can you provide some references?
+From c313894cb1f877b1d8ef5303d59d97b187cf925e Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Tue, 31 Oct 2017 00:48:11 +0900
+Subject: [PATCH] formal/regression: Fix typo
 
-https://bitbucket.org/anthonyw/atomic_shared_ptr
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
 
-And, for completeness, a few others:
+Here are fixes of several typos in the new section.
+There are chances I'm guessing wrong in some of the hunks, though.
 
-http://en.cppreference.com/w/cpp/experimental/atomic_shared_pt
+      Thanks, Akira
+--
+ formal/regression.tex | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-https://isocpp.org/files/papers/N4162.pdf
+diff --git a/formal/regression.tex b/formal/regression.tex
+index 39ca388..09d28e1 100644
+--- a/formal/regression.tex
++++ b/formal/regression.tex
+@@ -60,7 +60,7 @@ and C++ code, but these tools work only on very small litmus tests,
+ which normally means that you must extract the core of your
+ mechanism---by hand.
+ As with Promela and \co{spin}, both PPCMEM and \co{herd} are
+-extremely useful, but they are well-suited for regression suites.
++extremely useful, but they are not well-suited for regression suites.
 
-Not so much a fan of this one because there really are already workloads
-out there that need more than 48 bits of address space, but here you go:
+ In contrast, \co{cbmc} and Nidhugg can input C programs of reasonable
+ (though still quite limited) size, and if their capabilities continue
+@@ -394,7 +394,7 @@ Worse yet, imagine another software artifact with one bug that fails
+ once every day on average and 24 more that fail every million years
+ each.
+ Suppose that a formal-verification tool located the 24 million-year
+-bugs, but failed to fined the one-day bug.
++bugs, but failed to find the one-day bug.
+ Fixing the 24 bugs located will take time and effort, likely slightly
+ decrease reliability, and do nothing at all about the pressing
+ each-day failure that is likely causing much embarrassment and perhaps
+@@ -479,7 +479,7 @@ Despite requiring hand translation, Promela handles assertions
+ in a natural way, so its fifth cell is green.
 
-https://github.com/facebook/folly/blob/master/folly/concurrency/AtomicSharedPtr.h
+ PPCMEM usually requires hand translation due to the small size of litmus
+-tests that it support, so its first cell is orange.
++tests that it supports, so its first cell is orange.
+ It accurately handles several memory models, so its second cell is green.
+ Its overhead is quite high, so its third cell is red.
+ It provides a graphical display of relations among operations, which
+@@ -493,7 +493,7 @@ so \co{herd}'s first cell is also orange.
+ It supports a wide variety of memory models, so its second cell is blue.
+ It has reasonable overhead, so its third cell is yellow.
+ Its bug-location and assertion capabilities are quite similar to those
+-of \co{cbmc}, so \co{herd} gets the same color for the next two cells.
++of PPCMEM, so \co{herd} gets the same color for the next two cells.
 
-There have been quite a few papers published on this topic over the
-past 20 years, most of which have at least one bug.  :-/
+ The \co{cbmc} tool inputs C code directly, so its first cell is blue.
+ It supports a few memory models, so its second cell is yellow.
+@@ -515,7 +515,7 @@ so they are all yellow with question marks.
 
-> >> But please be aware that this is a non-trivial problem.  If you try to
-> >> hack together a solution, it -will- have subtle bugs.  So validating
-> >> your solution (even if you start from Anthony's approach) will be
-> >> non-trivial.  I suggest using cbmc or something similar in addition to
-> >> perfbook's stress tests.
-> >>
-> >> So, are you up for it?  ;-)
-> > 
-> > Akira, can you provide some comments? I not sure what is wrong with my
-> > suggestions. 
-> 
-> I think Paul didn't mean your suggestion was wrong. He wants formal
-> verification of its correctness. And he might have noticed other issues
-> in the code.
-> 
-> Paul, correct me if I'm guessing wrong.
-
-You got it -- for this level of complexity and subtlety, formal verification
-really is needed.
-
-> > And I currently don't know use those test. I will work on it.
-> 
-> The update of perfbook pushed earlier today contains relevant topics
-> in the "formal" chapter and bibliography.
-> 
-> This looks to me a good opportunity for you.
-
-That indeed was one of my motivations for expanding on this chapter.  ;-)
-
-I suggest starting with CBMC and Nidhugg.  CBMC is easier to use, so I
-would start with that, but you might need Nidhugg for larger scenarios.
-
-							Thanx, Paul
-
-> Akira
-> 
-> > 
-> > Yubin
-> > 
-> >>>
-> >>> ----------------------------------------
-> >>> diff --git a/CodeSamples/defer/route_refcnt.c b/CodeSamples/defer/route_refcnt.c
-> >>> index 8a48faf..0d24e9d 100644
-> >>> --- a/CodeSamples/defer/route_refcnt.c
-> >>> +++ b/CodeSamples/defer/route_refcnt.c
-> >>> @@ -36,7 +36,8 @@ DEFINE_SPINLOCK(routelock);
-> >>>  static void re_free(struct route_entry *rep)
-> >>>  {
-> >>>  	WRITE_ONCE(rep->re_freed, 1);
-> >>> -	free(rep);
-> >>> +    /* Will not actually free it. Just use the `re_freed' as a flag */
-> >>> +	/*free(rep);*/
-> >>>  }
-> >>>
-> >>>  /*
-> >>> @@ -50,7 +51,6 @@ unsigned long route_lookup(unsigned long addr)
-> >>>  	struct route_entry **repp;
-> >>>  	unsigned long ret;
-> >>>
-> >>> -retry:
-> >>>  	repp = &route_list.re_next;
-> >>>  	rep = NULL;
-> >>>  	do {
-> >>> @@ -65,8 +65,6 @@ retry:
-> >>>  			if (READ_ONCE(rep->re_freed))
-> >>>  				abort();
-> >>>  			old = atomic_read(&rep->re_refcnt);
-> >>> -			if (old <= 0)
-> >>> -				goto retry;
-> >>>  			new = old + 1;
-> >>>  		} while (atomic_cmpxchg(&rep->re_refcnt, old, new) != old);
-> >>>
-> >>> --
-> >>> To unsubscribe from this list: send the line "unsubscribe perfbook" in
-> >>> the body of a message to majordomo@vger.kernel.org
-> >>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> >>>
-> >>
-> > 
-> > 
-> 
+ Once again, please note that this table rates these tools for use in
+ regression testing.
+-Just because many of them area poor fit for regression testing does
++Just because many of them are poor fit for regression testing does
+ not at all mean that they are useless, in fact,
+ many of them have proven their worth many times over.
+ Just not for regression testing.
+-- 
+2.7.4
 
