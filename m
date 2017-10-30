@@ -1,108 +1,201 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39044 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S932356AbdJ3RW3 (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 30
- Oct 2017 13:22:29 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9UHKpM7081837
- for <perfbook@vger.kernel.org>; Mon, 30 Oct 2017 13:22:28 -0400
-Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2dx6t8dcq6-1 (version=TLSv1.2
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34956 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1751691AbdJ3SO0 (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Mon, 30 Oct 2017 14:14:26 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id v9UIDmTS139193
+ for <perfbook@vger.kernel.org>; Mon, 30 Oct 2017 14:14:25 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204]) by
+ mx0b-001b2d01.pphosted.com with ESMTP id 2dx64pucyg-1 (version=TLSv1.2
  cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
- 30 Oct 2017 13:22:27 -0400
-Received: from localhost by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ 30 Oct 2017 14:14:25 -0400
+Received: from localhost by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted for
  <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 30 Oct
- 2017 13:17:25 -0400
-Date: Mon, 30 Oct 2017 10:17:24 -0700
+ 2017 14:14:24 -0400
+Date: Mon, 30 Oct 2017 11:14:23 -0700
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] formal/regression: Fix typo
+Subject: Re: Is WRITE_ONCE() enough to prevent invention of stores?
 Reply-To: paulmck@linux.vnet.ibm.com
-References: <ea9123a0-7651-72c0-24d5-1b847b6b2efc@gmail.com>
+References: <9307038d-60f1-0c93-55a1-f3c9be35605c@gmail.com>
+ <20170917010730.GY3521@linux.vnet.ibm.com>
+ <e802cd64-22d9-7ef4-a2b8-95d4779d6c3d@gmail.com>
+ <20170917215508.GD3521@linux.vnet.ibm.com>
+ <fb1ab164-36a7-1ed7-4eea-5668f5ada155@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ea9123a0-7651-72c0-24d5-1b847b6b2efc@gmail.com>
-Message-Id: <20171030171724.GV3659@linux.vnet.ibm.com>
+In-Reply-To: <fb1ab164-36a7-1ed7-4eea-5668f5ada155@gmail.com>
+Message-Id: <20171030181423.GA3659@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 To: Akira Yokosawa <akiyks@gmail.com>
 Cc: perfbook@vger.kernel.org
 
-On Tue, Oct 31, 2017 at 12:53:39AM +0900, Akira Yokosawa wrote:
-> >From c313894cb1f877b1d8ef5303d59d97b187cf925e Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Tue, 31 Oct 2017 00:48:11 +0900
-> Subject: [PATCH] formal/regression: Fix typo
+On Mon, Sep 18, 2017 at 07:51:29AM +0900, Akira Yokosawa wrote:
+> On 2017/09/17 14:55:08 -0700, Paul E. McKenney wrote:
+> > On Sun, Sep 17, 2017 at 08:04:21PM +0900, Akira Yokosawa wrote:
+> >> On 2017/09/16 18:07:30 -0700, Paul E. McKenney wrote:
+> >>> On Sat, Sep 16, 2017 at 08:01:45PM +0900, Akira Yokosawa wrote:
+> >>>> Hi Paul,
+> >>>>
+> >>>> I'm a bit disturbed by the description in Section 14.3.1 "Memory-Reference
+> >>>> Restrictions" quoted below:
+> >>>>
+> >>>>> Oddly enough, the compiler is within its rights to use a variable
+> >>>>> as temporary storage just before a store to that variable, thus
+> >>>>> inventing stores to that variable.
+> >>>>> Fortunately, most compilers avoid this sort of thing, at least outside
+> >>>>> of stack variables.
+> >>>>> Nevertheless, using WRITE_ONCE() (or declaring the variable
+> >>>>> volatile) should prevent this sort of thing.
+> >>>>> But take care: If you have a translation unit that uses that variable,
+> >>>>> and never makes a volatile access to it, the compiler has no way of
+> >>>>> knowing that it needs to be careful.
+> >>>>
+> >>>> I'm wondering if using WRITE_ONCE() in a translation unit is really
+> >>>> enough to prevent invention of stores.
+> >>>>
+> >>>> Accessing via a volatile-cast pointer guarantees the access is not
+> >>>> optimized out (and hopefully the referenced value is respected).
+> >>>>
+> >>>> But I suspect that it has any effect in preventing invention of extra
+> >>>> loads/stores.
+> >>>>
+> >>>> Isn't declaring the variable volatile necessary for the guarantee?
+> >>>>
+> >>>> In practice, as is described in the above quote: "Fortunately, most
+> >>>> compilers avoid this sort of thing, at least outside of stack variables",
+> >>>> we can assume non-volatile shared variables are not spilled out to
+> >>>> the variables themselves as far as GCC/LLVM is concerned.
+> >>>> But this is compiler dependent, I suppose.
+> >>>
+> >>> I suspect that it will turn out to be impossible for the compiler to
+> >>> actually invent these stores in the general case.  For example, it might
+> >>> be that there is some lock held or other synchronization mechanism unknown
+> >>> to the compiler that prevents this behavior.  But I haven't fully worked
+> >>> this out yet.
+> >>
+> >> You mean the invented stores wouldn't be visible from other threads anyway?
+> >> In a meaningful parallel code, that can be the case.
+> > 
+> > I mean that it is very hard to prove that inventing a store isn't introducing
+> > a data race, which would be a violation of the standard.  The one case I know
+> > of where the compiler can be sure that it is within its rights to invent the
+> > store is before a normal store to a variable.
+> > 
+> > Otherwise, it might be (for example) that one must hold a lock to legally
+> > update a given variable, and that lock might or might not be held at a given
+> > point in the code.  But if the compiler sees a plain store, the compiler
+> > knows that it is OK to update at that point.  So the compiler can invent
+> > a store prior to the existing store, as long as there is no memory barrier,
+> > compiler barrier, lock acquisition/release, atomic operation, etc., between
+> > the original store and the compiler's invented store.
 > 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
-> Hi Paul,
+> I think I understand.
 > 
-> Here are fixes of several typos in the new section.
-> There are chances I'm guessing wrong in some of the hunks, though.
+> > 
+> >>> But I do know that if you just do plain stores, the compiler is fully
+> >>> within its rights to invent stores preceding any given plain store.
+> >>
+> >> So, the rules to use WRITE_ONCE() is something like the following?
+> >>
+> >> ---
+> >> 1) Declare the variable without volatile.
+> > 
+> > Agreed.
+> > 
+> >> 2) READ_ONCE() and plain loads can be mixed. A plain load will see
+> >>    a value at least newer than or equal to the one obtained at the
+> >>    program-order most recent READ_ONCE().
+> > 
+> > I am not entirely sure of this one.  But if there is a barrier() or
+> > stronger between the READ_ONCE() and the plain load, then yes.
+> 
+> Ah, the compiler can reorder plain loads before READ_ONCE()...
+> 
+> I did a litmus test of a plain load after READ_ONCE(), but
+> such a reordering is not covered by herd7's litmus test, is it?
+> 
+> > 
+> >> 3) WRITE_ONCE() should not be mixed with plain stores when invention
+> >>    of stores is to be avoided.
+> > 
+> > Agreed.
+> > 
+> >> Invention of stores is the opposite of fusing stores.
+> >> Suppose you don't want to update progress in the while loop:
+> >>
+> >> 	while (!am_done()) {
+> >> 	  do_something(p);
+> >> 	  tmp++;
+> >> 	}
+> >> 	progress = tmp;
+> >>
+> >> The compiler might transform this to
+> >>
+> >> 	while (!am_done()) {
+> >> 	  do_something(p);
+> >> 	  progress++;
+> >> 	}
+> > 
+> > But only as long as the compiler knows that do_something() doesn't
+> > contain any ordering directives.
+> 
+> Yes. I borrowed the fusing example in the text and it should have
+> the same assumption.
+> 
+> > 
+> >> if it wants to avoid allocation of a register/stack to tmp for whatever
+> >> reason. WRITE_ONCE() prevents the unintended accesses of progress:
+> >>
+> >> 	while (!am_done()) {
+> >> 	  do_something(p);
+> >> 	  tmp++;
+> >> 	}
+> >> 	WRITE_ONCE(progress, tmp);
+> > 
+> > Agreed, this would prevent the update to "progress" from being pulled
+> > into the loop.
+> > 
+> >> ---
+> >> Adding this example in the text might be too verbose.
+> >> Would a Quick Quiz be reasonable?
+> > 
+> > Might be good in the section on protecting memory references, and putting
+> > it into a quick quiz or two makes a lot of sense.
+> 
+> It's up to you where to put it.
+> 
+> And I now realize using READ_ONCE() and WRITE_ONCE() is quite tricky.
+> Missing one might not cause a problem today, but a smarter compiler
+> can expose the bug in the future...
+> 
+> This is scary.
 
-Good eyes, thank you very much!  I applied this, but have not yet pushed
-it out as it is blocked behind the patch I sent you, which I do not wish
-to push until you are happy with it.
+Section 15.3.1 is supposed to cover READ_ONCE() and WRITE_ONCE().
+There is one final paragraph added just now, but if you get a chance,
+please let me know what you think.
+
+And if you are scared, you might actually have a good understanding
+of the true situation.  ;-)
 
 							Thanx, Paul
 
->       Thanks, Akira
-> --
->  formal/regression.tex | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>          Thanks, Akira
 > 
-> diff --git a/formal/regression.tex b/formal/regression.tex
-> index 39ca388..09d28e1 100644
-> --- a/formal/regression.tex
-> +++ b/formal/regression.tex
-> @@ -60,7 +60,7 @@ and C++ code, but these tools work only on very small litmus tests,
->  which normally means that you must extract the core of your
->  mechanism---by hand.
->  As with Promela and \co{spin}, both PPCMEM and \co{herd} are
-> -extremely useful, but they are well-suited for regression suites.
-> +extremely useful, but they are not well-suited for regression suites.
-> 
->  In contrast, \co{cbmc} and Nidhugg can input C programs of reasonable
->  (though still quite limited) size, and if their capabilities continue
-> @@ -394,7 +394,7 @@ Worse yet, imagine another software artifact with one bug that fails
->  once every day on average and 24 more that fail every million years
->  each.
->  Suppose that a formal-verification tool located the 24 million-year
-> -bugs, but failed to fined the one-day bug.
-> +bugs, but failed to find the one-day bug.
->  Fixing the 24 bugs located will take time and effort, likely slightly
->  decrease reliability, and do nothing at all about the pressing
->  each-day failure that is likely causing much embarrassment and perhaps
-> @@ -479,7 +479,7 @@ Despite requiring hand translation, Promela handles assertions
->  in a natural way, so its fifth cell is green.
-> 
->  PPCMEM usually requires hand translation due to the small size of litmus
-> -tests that it support, so its first cell is orange.
-> +tests that it supports, so its first cell is orange.
->  It accurately handles several memory models, so its second cell is green.
->  Its overhead is quite high, so its third cell is red.
->  It provides a graphical display of relations among operations, which
-> @@ -493,7 +493,7 @@ so \co{herd}'s first cell is also orange.
->  It supports a wide variety of memory models, so its second cell is blue.
->  It has reasonable overhead, so its third cell is yellow.
->  Its bug-location and assertion capabilities are quite similar to those
-> -of \co{cbmc}, so \co{herd} gets the same color for the next two cells.
-> +of PPCMEM, so \co{herd} gets the same color for the next two cells.
-> 
->  The \co{cbmc} tool inputs C code directly, so its first cell is blue.
->  It supports a few memory models, so its second cell is yellow.
-> @@ -515,7 +515,7 @@ so they are all yellow with question marks.
-> 
->  Once again, please note that this table rates these tools for use in
->  regression testing.
-> -Just because many of them area poor fit for regression testing does
-> +Just because many of them are poor fit for regression testing does
->  not at all mean that they are useless, in fact,
->  many of them have proven their worth many times over.
->  Just not for regression testing.
-> -- 
-> 2.7.4
+> > 
+> > 							Thanx, Paul
+> > 
+> >>         Thanks, Akira
+> >>
+> >>>
+> >>> 							Thanx, Paul
+> >>>
+> >>>
+> >>
+> > 
+> > 
 > 
 
