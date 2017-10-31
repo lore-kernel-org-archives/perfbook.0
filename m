@@ -1,25 +1,27 @@
 Return-Path: <ablacktshirt@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ s=20161025;        h=subject:from:to:cc:references:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YhYGy8Ed1oyTZ8l+BsZ7Nxd2gR8W1Pz6OsV4R20L1RA=;
- b=CBzitN5Zt/aT2rG/Nhwm9cFDA9GULJdAPHm5ytPsL7ovuEjc60PHFXlNjainhvmDB4
- oM54HxmucpBFknYxBOWMPIlCQeHGaweK9U4spTY5YvS+B9EqrfOMTeawjfKNjyn2h1JD
- C5Y7phaf0l9RTva2+2nIMjctY4Swb5aO6WxKCcESlRH4JyX6ELV85pzqlmSPdEdo4UP4
- aTQm2Wl1J/PuQ7j57pPlboc8A2dld+nD1nO4a8EuSQ1JnNYo6ifNEwrT01WErxnfKgxs
- GwkUHOJjmSq2dizKsB1k4JI+gPbEP4j+ERRz5Lf2ylInvm7rycvda61Fb9OKHVhP6FvQ xzEg==
-Subject: Re: Is WRITE_ONCE() enough to prevent invention of stores?
+ bh=0OPjU7pLjXWW2ny9WPNZKwhBRHmtp4+uXnlI3HCO57o=;
+ b=hyGTG3JuGwDxHyDj/PKqnaTHuh973xm15LwLAepiZJl8/T+6RTgPFPIeU65lAr18jv
+ SC8qmpAVi7RhbRvn1z0dQxoWOR+xr4GlSl1OojVsOst4mEGOWqfsGXPyGEh06Fh/5L8R
+ NbYrjYGRrpY74qs2RuRimbh2J1Kwq8kkaBQCsHR4n0LzXj9IT/lCHsNyTcM8i0cjKxtR
+ kN0yZTIbJfc4gPp/J/gZrBlamEFgwa8VPRdHirVodg5FoQncXTZAybC9Hw4Xh3+JFw98
+ zHdX4Qom95feVKtjujn9pZwK281+3qNEeaEjXEGN9dpKWbov8B2QRN0EWe/UfzlxscSb
+ KO7g==
+Subject: [PATCH] memorder: Add one solution for one snippet
+From: Yubin Ruan <ablacktshirt@gmail.com>
 References: <9307038d-60f1-0c93-55a1-f3c9be35605c@gmail.com>
  <20170917010730.GY3521@linux.vnet.ibm.com>
  <e802cd64-22d9-7ef4-a2b8-95d4779d6c3d@gmail.com>
  <20170917215508.GD3521@linux.vnet.ibm.com>
  <fb1ab164-36a7-1ed7-4eea-5668f5ada155@gmail.com>
  <20171030181423.GA3659@linux.vnet.ibm.com>
-From: Yubin Ruan <ablacktshirt@gmail.com>
-Message-ID: <b067fb63-43b7-a8a4-7bdd-3cd79b839d5c@gmail.com>
-Date: Tue, 31 Oct 2017 11:03:10 +0800
+ <b067fb63-43b7-a8a4-7bdd-3cd79b839d5c@gmail.com>
+Message-ID: <70204d71-e19e-4bb6-8064-984550c38456@gmail.com>
+Date: Tue, 31 Oct 2017 11:14:47 +0800
 MIME-Version: 1.0
-In-Reply-To: <20171030181423.GA3659@linux.vnet.ibm.com>
+In-Reply-To: <b067fb63-43b7-a8a4-7bdd-3cd79b839d5c@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -27,172 +29,29 @@ To: paulmck@linux.vnet.ibm.com, Akira Yokosawa <akiyks@gmail.com>
 Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-On 10/31/2017 02:14 AM, Paul E. McKenney wrote:
-> On Mon, Sep 18, 2017 at 07:51:29AM +0900, Akira Yokosawa wrote:
->> On 2017/09/17 14:55:08 -0700, Paul E. McKenney wrote:
->>> On Sun, Sep 17, 2017 at 08:04:21PM +0900, Akira Yokosawa wrote:
->>>> On 2017/09/16 18:07:30 -0700, Paul E. McKenney wrote:
->>>>> On Sat, Sep 16, 2017 at 08:01:45PM +0900, Akira Yokosawa wrote:
->>>>>> Hi Paul,
->>>>>>
->>>>>> I'm a bit disturbed by the description in Section 14.3.1 "Memory-Reference
->>>>>> Restrictions" quoted below:
->>>>>>
->>>>>>> Oddly enough, the compiler is within its rights to use a variable
->>>>>>> as temporary storage just before a store to that variable, thus
->>>>>>> inventing stores to that variable.
->>>>>>> Fortunately, most compilers avoid this sort of thing, at least outside
->>>>>>> of stack variables.
->>>>>>> Nevertheless, using WRITE_ONCE() (or declaring the variable
->>>>>>> volatile) should prevent this sort of thing.
->>>>>>> But take care: If you have a translation unit that uses that variable,
->>>>>>> and never makes a volatile access to it, the compiler has no way of
->>>>>>> knowing that it needs to be careful.
->>>>>>
->>>>>> I'm wondering if using WRITE_ONCE() in a translation unit is really
->>>>>> enough to prevent invention of stores.
->>>>>>
->>>>>> Accessing via a volatile-cast pointer guarantees the access is not
->>>>>> optimized out (and hopefully the referenced value is respected).
->>>>>>
->>>>>> But I suspect that it has any effect in preventing invention of extra
->>>>>> loads/stores.
->>>>>>
->>>>>> Isn't declaring the variable volatile necessary for the guarantee?
->>>>>>
->>>>>> In practice, as is described in the above quote: "Fortunately, most
->>>>>> compilers avoid this sort of thing, at least outside of stack variables",
->>>>>> we can assume non-volatile shared variables are not spilled out to
->>>>>> the variables themselves as far as GCC/LLVM is concerned.
->>>>>> But this is compiler dependent, I suppose.
->>>>>
->>>>> I suspect that it will turn out to be impossible for the compiler to
->>>>> actually invent these stores in the general case.  For example, it might
->>>>> be that there is some lock held or other synchronization mechanism unknown
->>>>> to the compiler that prevents this behavior.  But I haven't fully worked
->>>>> this out yet.
->>>>
->>>> You mean the invented stores wouldn't be visible from other threads anyway?
->>>> In a meaningful parallel code, that can be the case.
->>>
->>> I mean that it is very hard to prove that inventing a store isn't introducing
->>> a data race, which would be a violation of the standard.  The one case I know
->>> of where the compiler can be sure that it is within its rights to invent the
->>> store is before a normal store to a variable.
->>>
->>> Otherwise, it might be (for example) that one must hold a lock to legally
->>> update a given variable, and that lock might or might not be held at a given
->>> point in the code.  But if the compiler sees a plain store, the compiler
->>> knows that it is OK to update at that point.  So the compiler can invent
->>> a store prior to the existing store, as long as there is no memory barrier,
->>> compiler barrier, lock acquisition/release, atomic operation, etc., between
->>> the original store and the compiler's invented store.
->>
->> I think I understand.
->>
->>>
->>>>> But I do know that if you just do plain stores, the compiler is fully
->>>>> within its rights to invent stores preceding any given plain store.
->>>>
->>>> So, the rules to use WRITE_ONCE() is something like the following?
->>>>
->>>> ---
->>>> 1) Declare the variable without volatile.
->>>
->>> Agreed.
->>>
->>>> 2) READ_ONCE() and plain loads can be mixed. A plain load will see
->>>>    a value at least newer than or equal to the one obtained at the
->>>>    program-order most recent READ_ONCE().
->>>
->>> I am not entirely sure of this one.  But if there is a barrier() or
->>> stronger between the READ_ONCE() and the plain load, then yes.
->>
->> Ah, the compiler can reorder plain loads before READ_ONCE()...
->>
->> I did a litmus test of a plain load after READ_ONCE(), but
->> such a reordering is not covered by herd7's litmus test, is it?
->>
->>>
->>>> 3) WRITE_ONCE() should not be mixed with plain stores when invention
->>>>    of stores is to be avoided.
->>>
->>> Agreed.
->>>
->>>> Invention of stores is the opposite of fusing stores.
->>>> Suppose you don't want to update progress in the while loop:
->>>>
->>>> 	while (!am_done()) {
->>>> 	  do_something(p);
->>>> 	  tmp++;
->>>> 	}
->>>> 	progress = tmp;
->>>>
->>>> The compiler might transform this to
->>>>
->>>> 	while (!am_done()) {
->>>> 	  do_something(p);
->>>> 	  progress++;
->>>> 	}
->>>
->>> But only as long as the compiler knows that do_something() doesn't
->>> contain any ordering directives.
->>
->> Yes. I borrowed the fusing example in the text and it should have
->> the same assumption.
->>
->>>
->>>> if it wants to avoid allocation of a register/stack to tmp for whatever
->>>> reason. WRITE_ONCE() prevents the unintended accesses of progress:
->>>>
->>>> 	while (!am_done()) {
->>>> 	  do_something(p);
->>>> 	  tmp++;
->>>> 	}
->>>> 	WRITE_ONCE(progress, tmp);
->>>
->>> Agreed, this would prevent the update to "progress" from being pulled
->>> into the loop.
->>>
->>>> ---
->>>> Adding this example in the text might be too verbose.
->>>> Would a Quick Quiz be reasonable?
->>>
->>> Might be good in the section on protecting memory references, and putting
->>> it into a quick quiz or two makes a lot of sense.
->>
->> It's up to you where to put it.
->>
->> And I now realize using READ_ONCE() and WRITE_ONCE() is quite tricky.
->> Missing one might not cause a problem today, but a smarter compiler
->> can expose the bug in the future...
->>
->> This is scary.
-> 
-> Section 15.3.1 is supposed to cover READ_ONCE() and WRITE_ONCE().
-> There is one final paragraph added just now, but if you get a chance,
-> please let me know what you think.
-> 
-> And if you are scared, you might actually have a good understanding
-> of the true situation.  ;-)
+From 256adc5ccd239288c3f38cd193072d6666ab1e82 Mon Sep 17 00:00:00 2001
+From: Yubin Ruan <ablacktshirt@gmail.com>
+Date: Tue, 31 Oct 2017 11:12:03 +0800
+Subject: [PATCH] memorder: Add one solution for one snippet
 
-Hi Akira and Paul,
+Signed-off-by: Yubin Ruan <ablacktshirt@gmail.com>
+---
+ memorder/memorder.tex | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Interesting discussion! I read the new material that Paul just pushed and will
-like to know how to use volatile cast to this all-too-real[1] code:
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index f8886b4..a1c96df 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -3055,6 +3055,8 @@ surprise to \co{do_something()}.\footnote{
+ 	Tracking down the bug consumed a holiday weekend not just
+ 	for your editor, but also for several of his colleagues.
+ 	In short, this is not a new problem.}
++In this case, \co{tmp} should be declared as \co{volatile} to prevent
++the transformation by the compiler.
 
-    1 tmp = p;
-    2 if (tmp != NULL && tmp <= q)
-    3     do_something(tmp);
-
-It seems that in this case declaring tmp as volatile or make it an atomic
-variable will be sufficient. But if I want to use a volatile cast, that is,
-READ_ONCE()/WRITE_ONCE(), how should I do that cast? Should I do
-    
-    if (READ_ONCE(tmp) != NULL && READ_ONCE(tmp) <= q)
-        do_something(tmp);
-
-Thoughts?
-
-Yubin
+ Compilers can also fuse stores.
+ The most infamous example is probably the progress-bar example
+-- 
+2.7.4
 
