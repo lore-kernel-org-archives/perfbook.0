@@ -1,87 +1,172 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pg0-f42.google.com ([74.125.83.42]:52655 "EHLO
- mail-pg0-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S933507AbdKAWJ2 (ORCPT <rfc822;perfbook@vger.kernel.org>); Wed, 1
- Nov 2017 18:09:28 -0400
-Received: by mail-pg0-f42.google.com with SMTP id a192so3260787pge.9 for
- <perfbook@vger.kernel.org>; Wed, 01 Nov 2017 15:09:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=X0eQqibtVlk3yVZ+hSw8lsBDOpRePl2KWOwMPff8N+w=;
- b=Ftuv6njDHm6MExWaLHU6s4pL1BIRA3WJOuaHHzUV7icv5aTj/PMZU3JJFzVrlVy0mj
- mEFolH8UI3cDQlZKxPhrCR1mJF5o2aI6SiXusc1xMkhgcshri2fXDXg3Gxl/4u/dvt2L
- SRjIQmH/wk6sdmfOEC4WyC+6x1S30qmWSY+fiY7q6dSFoCASCOn0adRmpaGr6BVoYfB1
- TPK48II28Pnc3rRLCsW5IZ0zve/UDETyrq1JZGJtijHqqQgkVsVN4cWMopN9Zx3mNlDR
- gAfkkFBYJ7unlhQRvM5Xj6c9DRg9Dx/QwIFD2iufrz46JAos/DnB5XFptG3lEvCa+EYo
- L32A==
-Subject: [PATCH] locking: Use helper macro in Table 7.1
-References: <0337637d-91f3-df97-7dd0-2f7b66676145@gmail.com>
- <20171101145145.GR3659@linux.vnet.ibm.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <e1024867-a2d4-1b6c-72aa-24c716ebc2f1@gmail.com>
-Date: Thu, 2 Nov 2017 07:09:26 +0900
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45160 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751852AbdKAUPw (ORCPT <rfc822;perfbook@vger.kernel.org>); Wed, 1
+ Nov 2017 16:15:52 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id vA1KAhhm136448
+ for <perfbook@vger.kernel.org>; Wed, 1 Nov 2017 16:15:51 -0400
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2dyn0bggrx-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Wed,
+ 01 Nov 2017 16:15:51 -0400
+Received: from localhost by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Wed, 1 Nov 2017
+ 16:15:49 -0400
+Date: Wed, 1 Nov 2017 13:15:46 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: Is WRITE_ONCE() enough to prevent invention of stores?
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <9307038d-60f1-0c93-55a1-f3c9be35605c@gmail.com>
+ <20170917010730.GY3521@linux.vnet.ibm.com>
+ <e802cd64-22d9-7ef4-a2b8-95d4779d6c3d@gmail.com>
+ <20170917215508.GD3521@linux.vnet.ibm.com>
+ <fb1ab164-36a7-1ed7-4eea-5668f5ada155@gmail.com>
+ <20171030181423.GA3659@linux.vnet.ibm.com>
+ <28b4b464-d8d3-6000-e30d-eb99291d5d7d@gmail.com>
+ <20171031162718.GK3659@linux.vnet.ibm.com>
+ <0b97b08a-243c-9d0a-2349-a6a2b949dc01@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20171101145145.GR3659@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0b97b08a-243c-9d0a-2349-a6a2b949dc01@gmail.com>
+Message-Id: <20171101201546.GX3659@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From af9e5f272a12304067120b79a86d6673b605b7b3 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 2 Nov 2017 07:02:07 +0900
-Subject: [PATCH] locking: Use helper macro in Table 7.1
+On Wed, Nov 01, 2017 at 07:25:29AM +0900, Akira Yokosawa wrote:
+> On 2017/11/01 1:27, Paul E. McKenney wrote:
+> > On Wed, Nov 01, 2017 at 12:36:13AM +0900, Akira Yokosawa wrote:
+> >> On 2017/10/30 11:14:23 -0700, Paul E. McKenney wrote:
+> >>> On Mon, Sep 18, 2017 at 07:51:29AM +0900, Akira Yokosawa wrote:
+> >>>> On 2017/09/17 14:55:08 -0700, Paul E. McKenney wrote:
+> >>>>> On Sun, Sep 17, 2017 at 08:04:21PM +0900, Akira Yokosawa wrote:
+> >>>>>> On 2017/09/16 18:07:30 -0700, Paul E. McKenney wrote:
+> >>>>>>> On Sat, Sep 16, 2017 at 08:01:45PM +0900, Akira Yokosawa wrote:
+> > 
+> > [ . . . ]
+> > 
+> >>>>>> Adding this example in the text might be too verbose.
+> >>>>>> Would a Quick Quiz be reasonable?
+> >>>>>
+> >>>>> Might be good in the section on protecting memory references, and putting
+> >>>>> it into a quick quiz or two makes a lot of sense.
+> >>>>
+> >>>> It's up to you where to put it.
+> >>>>
+> >>>> And I now realize using READ_ONCE() and WRITE_ONCE() is quite tricky.
+> >>>> Missing one might not cause a problem today, but a smarter compiler
+> >>>> can expose the bug in the future...
+> >>>>
+> >>>> This is scary.
+> >>>
+> >>> Section 15.3.1 is supposed to cover READ_ONCE() and WRITE_ONCE().
+> >>> There is one final paragraph added just now, but if you get a chance,
+> >>> please let me know what you think.
+> >>
+> >> It looks OK to me. Some minor nitpicks.
+> >>
+> >> * On exact exceptions and exact interrupts:
+> >>
+> >> IIRC, I've heard from you that there is an exceptional architecture
+> >> which requires explicit memory barriers in exception/interrupt handlers.
+> >> Was it Itanium?
+> > 
+> > For interrupts from kernel code, it is sometimes the case that the
+> > kernel needs other CPUs to see the accesses in the code before the
+> > interrupt handler, the code within the interrupt handler, and the code
+> > after the interrupt handler to have happened in order.  In that case,
+> > the interrupt entry/exit code might well need full memory barriers.
+> > 
+> > There are other ways to organize this that do not require interrupt
+> > entry/exit memory barriers, for example, the convention could be that
+> > locking be used.
+> 
+> Makes sense.
+> 
+> And I was somewhat confused here.
+> By "exact exceptions and exact interrupts", you are talking about
+> _instruction stream_ reordering.
+> Now I recall that my question at the time was "Do interrupts/
+> exceptions behave as memory barriers?".
+> So they are distinct point of view. If an architecture didn't
+> provide "exact exceptions and exact interrupts", it should be
+> quite tricky to return from exceptions/interrupts.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- locking/locking.tex | 25 +++++++------------------
- 1 file changed, 7 insertions(+), 18 deletions(-)
+Back in the old days, there were architectures with inexact interrupts
+that dumped hardware state onto the stack.  The supposed benefit was
+the ability to make progress without requiring that all pages used by
+a particular instruction be mapped simultaneously.  But OS writers
+really hated it, especially since the size of hardware state varied
+based on all sorts of things.  ;-)
 
-diff --git a/locking/locking.tex b/locking/locking.tex
-index 025320b..12a0240 100644
---- a/locking/locking.tex
-+++ b/locking/locking.tex
-@@ -1314,28 +1314,17 @@ or even milliseconds.
- \begin{table}
- \renewcommand*{\arraystretch}{1.2}
- \newcommand{\x}{\textcolor{gray!20}{\rule{7pt}{7pt}}}
-+\newcommand{\rothead}[1]{\begin{picture}(6,65)(0,0)\rotatebox{90}{#1}\end{picture}}
- \small
- \centering
- \begin{tabular}{lcccccc}
- 	\toprule
--	& \begin{picture}(6,65)(0,0)
--		\rotatebox{90}{Null (Not Held)}
--	  \end{picture}
--	& \begin{picture}(6,65)(0,0)
--		\rotatebox{90}{Concurrent Read}
--	  \end{picture}
--	& \begin{picture}(6,65)(0,0)
--		\rotatebox{90}{Concurrent Write}
--	  \end{picture}
--	& \begin{picture}(6,65)(0,0)
--		\rotatebox{90}{Protected Read}
--	  \end{picture}
--	& \begin{picture}(6,65)(0,0)
--		\rotatebox{90}{Protected Write}
--	  \end{picture}
--	& \begin{picture}(6,65)(0,0)
--		\rotatebox{90}{Exclusive}
--	  \end{picture}
-+	& \rothead{Null (Not Held)}
-+	& \rothead{Concurrent Read}
-+	& \rothead{Concurrent Write}
-+	& \rothead{Protected Read}
-+	& \rothead{Protected Write}
-+	& \rothead{Exclusive}
- 	\\
- %				  NL   CR   CW     PR   PW   EX
- 	\cmidrule(r){1-1} \cmidrule{2-7}
--- 
-2.7.4
+> Thanks for the clarification.
+> 
+> > 
+> >> * On the final paragraph of Section 15.3.1:
+> >>
+> >> "Nevertheless" appears twice in this paragraph. You might want to
+> >> reword one of them.
+> > 
+> > Good point, how about the following?
+> > 
+> > 	Nevertheless, it is quite possible to overdo use of READ_ONCE()
+> > 	and WRITE_ONCE(). For example, if you have prevented a given
+> > 	variable from changing (perhaps by holding the lock guarding
+> > 	all updates to that variable), there is no point in using
+> > 	READ_ONCE(). Similarly, if you have prevented any other CPUs or
+> > 	threads from reading a given variable (perhaps because you are
+> > 	initializing that variable before any other CPU or thread has
+> > 	access to it), there is no point in using WRITE_ONCE(). However,
+> > 	my experience is that developers need to use things like
+> > 	READ_ONCE() and WRITE_ONCE() more often than they think that
+> > 	they do, the overhead of unnecessary uses is quite low, and the
+> > 	penalty for failing to use them when needed is quite high.
+> 
+> The clause added to the last sentence makes the point more obvious.
+> This looks more than enough.
 
+Glad you like it!
+
+							Thanx, Paul
+
+>       Thanks, Akira
+> 
+> > 
+> > 							Thanx, Paul
+> > 
+> >>> And if you are scared, you might actually have a good understanding
+> >>> of the true situation.  ;-)
+> >>
+> >> Whew!!!
+> >>
+> >>      Thanks, Akira
+> >>
+> >>>
+> >>> 							Thanx, Paul
+> >>>
+> >>>>          Thanks, Akira
+> >>>>
+> >>>>>
+> >>>>> 							Thanx, Paul
+> >>>>>
+> >>>>>>         Thanks, Akira
+> >>>>>>
+> >>>>>>>
+> >>>>>>> 							Thanx, Paul
+> >>>>>>>
+> >>>>>>>
+> >>>>>>
+> >>>>>
+> >>>>>
+> >>>>
+> >>>
+> >>>
+> >>
+> > 
+> > 
+> 
 
