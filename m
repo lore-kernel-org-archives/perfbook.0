@@ -1,103 +1,59 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56686 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S933888AbdKBCxE (ORCPT <rfc822;perfbook@vger.kernel.org>); Wed,
- 1 Nov 2017 22:53:04 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id vA22mdFK058689
- for <perfbook@vger.kernel.org>; Wed, 1 Nov 2017 22:53:03 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 2dyrjb6kmv-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Wed,
- 01 Nov 2017 22:53:03 -0400
-Received: from localhost by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Wed, 1 Nov 2017
- 22:53:02 -0400
-Date: Wed, 1 Nov 2017 19:52:59 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: ARMv8 != arm64
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <2ce74586-5ac7-db14-f4e0-2aad297d8481@gmail.com>
- <20171101225251.GZ3659@linux.vnet.ibm.com>
- <73ab3c41-132f-56e0-8647-9fe1ee526d58@gmail.com>
+Received: from mail-pg0-f68.google.com ([74.125.83.68]:45566 "EHLO
+ mail-pg0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1750883AbdKBG6A (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 2
+ Nov 2017 02:58:00 -0400
+Received: by mail-pg0-f68.google.com with SMTP id b192so4276732pga.2 for
+ <perfbook@vger.kernel.org>; Wed, 01 Nov 2017 23:58:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KCd1+KdZfOAC4nvO0kmjGWTvxJz1igyD5YSgrr93VVE=;
+ b=eGeyRg2+A5q0RYyDJmByDIuR1afNMSzPHtkAxFvcrk2d5eivjYJP2/NLDmzDV/JGmQ
+ MCuAbLBTjX7FdRhlSoNU8OQfe4N++z50TF7SRFD5d1h0/452fNDQGljBQP3gdtgDD7Bl
+ CHWqaHzhm5v2jjcTdDOiY6dWGWPdkdShQy0a9mj9rrmjKjiANCcZ0oJUj83GlLfUGSDw
+ CLRPqz9Ul75X2f7adBtz891rklgr9YOFix52s7R9gc7m2TTzNUOnfgulM03DR+YK9ztB
+ ZV6I4uVZ3jK776niK6tKcdofM+DPDhq2S+7I/g1jlaAqMWIUjk43nqYekrTv2mWHDn8j
+ ou3A==
+From: pierre Kuo <vichy.kuo@gmail.com>
+Subject: [PATCH 1/2] locking: fix typo
+Date: Thu,  2 Nov 2017 14:57:48 +0800
+Message-Id: <1509605869-8186-1-git-send-email-vichy.kuo@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <73ab3c41-132f-56e0-8647-9fe1ee526d58@gmail.com>
-Message-Id: <20171102025259.GA3659@linux.vnet.ibm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: perfbook@vger.kernel.org
+Cc: Pierre Kuo <vichy.kuo@gmail.com>
 
-On Thu, Nov 02, 2017 at 08:22:46AM +0900, Akira Yokosawa wrote:
-> On 2017/11/01 15:52:51 -0700, Paul E. McKenney wrote:
-> > On Thu, Nov 02, 2017 at 07:34:28AM +0900, Akira Yokosawa wrote:
-> >> Hi Paul,
-> >>
-> >> In Section 15.4.3, you are treating ARMv8 as 64-bit CPU.
-> >> However, ARMv8 has 32-bit modes A32 and T32.
-> >> Instructions for load-acquire/store-release are also available in A32
-> >> and T32 modes of ARMv8.
-> >>
-> >> The opening paragraph of Section 15.4.3 needs some rework, I guess.
-> > 
-> > Ah, thank you!  How about the following?
-> 
-> Looks good to me!
-> 
-> Acked-by: Akira Yokosawa <akiyks@gmail.com>
+From: Pierre Kuo <vichy.kuo@gmail.com>
 
-Glad you like it, added your ack and pushed it.  ;-)
+In 7.1.1.2 Local Locking Hierarchies, below left parenthesis seems
+better to be comma.
 
-							Thanx, Paul
+"before invoking the comparison function
+(which is unknown code from qsort()’s perspective,"
+^^^ change it as comma.
 
->     Thanks, Akira
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> > ------------------------------------------------------------------------
-> > 
-> > commit 1a41fa1352ff77c3a09a4d182649e571735d7f1c
-> > Author: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> > Date:   Wed Nov 1 15:51:06 2017 -0700
-> > 
-> >     memorder: ARMv8 includes 32-bit capability
-> >     
-> >     Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> >     Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> > 
-> > diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-> > index 94e125ab3412..446f4804af53 100644
-> > --- a/memorder/memorder.tex
-> > +++ b/memorder/memorder.tex
-> > @@ -4485,10 +4485,11 @@ lines~3 and~4 would enforce ordering between lines~1 and~5.
-> >  \ContributedBy{Figure}{fig:memorder:Half Memory Barrier}{Melissa Brossard}
-> >  \end{figure}
-> >  
-> > -ARMv8 is ARM's 64-bit CPU~\cite{ARMv8A:2017},
-> > -in contrast to their 32-bit CPU described in
-> > +ARMv8 is ARM's new CPU family~\cite{ARMv8A:2017}
-> > +which includes 64-bit capabilities,
-> > +in contrast to their 32-bit-only CPU described in
-> >  Section~\ref{sec:memorder:ARMv7-A/R}.
-> > -ARMv8's memory model closely resembles its 32-bit counterpart,
-> > +ARMv8's memory model closely resembles its ARMv7 counterpart,
-> >  but adds load-acquire (\co{LDLARB}, \co{LDLARH}, and \co{LDLAR})
-> >  and store-release (\co{STLLRB}, \co{STLLRH}, and \co{STLLR})
-> >  instructions.
-> > @@ -4569,7 +4570,7 @@ being weakly ordered by default, but respecting dependencies.
-> >  MIPS has a wide variety of memory-barrier instructions, but ties them
-> >  not to hardware considerations, but rather to the use cases provided
-> >  by the Linux kernel and the C++11 standard~\cite{RichardSmith2015N4527}
-> > -in a manner similar to the ARM64 additions:
-> > +in a manner similar to the ARMv8 additions:
-> >  
-> >  \begin{description}[style=nextline]
-> >  \item[\tco{SYNC}]
-> > 
-> > 
-> 
+Signed-off-by: Pierre Kuo <vichy.kuo@gmail.com>
+---
+ locking/locking.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/locking/locking.tex b/locking/locking.tex
+index 12a0240..5921f50 100644
+--- a/locking/locking.tex
++++ b/locking/locking.tex
+@@ -327,7 +327,7 @@ But the first thread holds Lock~C, so the second thread's call to
+ Lock~B, resulting in deadlock.
+
+ In contrast, if \co{qsort()} releases Lock~C before invoking the
+-comparison function (which is unknown code from \co{qsort()}'s perspective,
++comparison function ,which is unknown code from \co{qsort()}'s perspective,
+ then deadlock is avoided as shown in
+ Figure~\ref{fig:lock:Local Locking Hierarchy for qsort()}.
+
+-- 
+1.9.1
 
