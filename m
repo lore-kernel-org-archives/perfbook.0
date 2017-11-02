@@ -1,58 +1,42 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33664 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1750826AbdKCM1X (ORCPT <rfc822;perfbook@vger.kernel.org>); Fri, 3
- Nov 2017 08:27:23 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id vA3CK9au029782
- for <perfbook@vger.kernel.org>; Fri, 3 Nov 2017 08:27:22 -0400
-Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2e0pv764xa-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Fri,
- 03 Nov 2017 08:27:22 -0400
-Received: from localhost by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Fri, 3 Nov 2017
- 08:27:21 -0400
-Date: Fri, 3 Nov 2017 05:27:19 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: Invalid compilation without -fno-strict-aliasing
-Reply-To: paulmck@linux.vnet.ibm.com
-References: 
- <CAJYFCiOuj6O18jBM=tWX6wxhXi4sskV-2WYYPvGLgU6LS3aH4w@mail.gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=JD9m7L03g8x1+0jvKVsTYIXzx1CpmDpuirDnjYNixPA=;
+ b=WahdlpJU+e/qKHaD9sQ7ZMtPXPS5ecA1ghuAez9LVxQhzY+v1WJ1IY0L8wo/DPLZpc
+ x6uhgbsx3JvRZjoQLKzDzGmyD3VcWRqGO5EBFBBdMSJRLY3EEz1TgukqkVGjNUeydtu9
+ wlsKN+W+Cynl+hdfyJy4IudnGMUBPY+EHusoXdLXl0+4RMpwylvsAeOGETsR+WsnA5wt
+ C3Ae+YLFsFUEEOllLwI7vH8jrCrIBWEQOgpoc7YKR+qLi0M+sCKWDNeqku+PMfqey9F/
+ aIGeI/aOrm85nQwdKRH4GVMmQx7LOPsTCMYvVHTkiJE37lX94ioJVOtfpgusx5RdVSaF
+ /8Jw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Incomplete sentence in commit 405f3f465f7f
+Message-ID: <765342ad-03aa-180f-308f-010a6d503b5d@gmail.com>
+Date: Thu, 2 Nov 2017 22:32:30 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: 
- <CAJYFCiOuj6O18jBM=tWX6wxhXi4sskV-2WYYPvGLgU6LS3aH4w@mail.gmail.com>
-Message-Id: <20171103122719.GH3624@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Yubin Ruan <ablacktshirt@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Fri, Nov 03, 2017 at 09:54:15AM +0800, Yubin Ruan wrote:
-> Does anyone have any idea why this thread
-> 
->     https://lkml.org/lkml/2003/2/25/270
+Hi Paul,
 
-Hmmm...  This is quite the blast from the past.  Compilers have changed
-a bit in the last 14 years.  Nevertheles...
+In commit 405f3f465f7f ("debugging,formal: Update for increased Linux kernel usage"),
+there is an incomplete hunk of formal/formal.tex
 
-> is related to strict-aliasing? To me, a compiler barrier like this will fix it:
-> 
->     if((stream + event_len) < ends) {
->         iwe->len = event_len;
->         barrier();
->         memcpy(stream, (char *) iwe, event_len);
->         stream += event_len;
->     }
+@@ -135,6 +147,7 @@ The larger overarching software construct is of course validated by testing.
+        artifact from the viewpoint of formal verification, it is tiny
+        compared to a great number of projects, including LLVM,
+        \GCC, the Linux kernel, Hadoop, MongoDB, and a great many others.
++       In addition, 
 
-As with many bugs, there are a number of ways to fix this one.  I suggest taking
-a look at the documentation for -no-strict-alias.  This stackoverflow URL might
-not be a bad place to start:
+        Although formal verification is finally starting to show some
+        promise, including more-recent L4 verifications involving greater
 
-https://stackoverflow.com/questions/23848188/strict-aliasing-rule-and-char-pointers
+What was your intention here?
 
-								Thanx, Paul
+    Thanks, Akira
 
