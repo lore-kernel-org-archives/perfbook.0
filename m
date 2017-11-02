@@ -1,56 +1,50 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pg0-f68.google.com ([74.125.83.68]:52872 "EHLO
- mail-pg0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1750883AbdKBG6E (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 2
- Nov 2017 02:58:04 -0400
-Received: by mail-pg0-f68.google.com with SMTP id a192so4264107pge.9 for
- <perfbook@vger.kernel.org>; Wed, 01 Nov 2017 23:58:04 -0700 (PDT)
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=NS2wH5PBUO+2hcwucB2BXFaruad0qKEBO/57mu44c9o=;
- b=YsWRbFRAnU1c6gyEo9WaoGVClMWDUdXaB/Y82AjxOTZaX3/KXHSBJS0pvG2yHtHOh0
- sZkLqE7QAJJMEdIciJH4MWlMWdWTckeUkmuWxrjx9olfnItmGn/u2v2GOTUYzYux3paK
- 2vE9JAfmNNnN3aOlYy1OhTd5bhTuW6ein7yDQhVobl6hOuP0X+mrDs0cVVLIT5VdVueH
- rjkpuCycXTgXuY68zSq6piRJORMJ9RLg01b1zdSWrGAHfF10LuDq6p3NDjTIaDhaDEgq
- nKTHr5HNZnSDbcVD+1hZEOTEUlOBY+LgP8CtVzxuZSYe8l5BaARNxN18WHU55PMK6XpI
- s7eg==
-From: pierre Kuo <vichy.kuo@gmail.com>
-Subject: [PATCH 2/2] SMPdesign: fix typo
-Date: Thu,  2 Nov 2017 14:57:49 +0800
-Message-Id: <1509605869-8186-2-git-send-email-vichy.kuo@gmail.com>
-In-Reply-To: <1509605869-8186-1-git-send-email-vichy.kuo@gmail.com>
-References: <1509605869-8186-1-git-send-email-vichy.kuo@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=opyeG0a8grMGH09krq6tgzcbhl4oVRsze1zbsl0/CoU=;
+ b=rZ/nb3EzhfJgSU3KT5fq4LR8q+PMcd13FOD4vs8CdK1nHo6Pf0cxl/nrlc1iMAYib/
+ BBwHw1gCPUIuMzMKByR4P3RB2lDp4QcnKp59w57jDrLQLJ8RLoA/Nbm2rd8spAUuE7mk
+ r07drKhRxFpE2HfKT+LqiB8gImm75TZrK4OqESqzKqSCwFI3JOGeTHO+hpsrlE0csuyC
+ cTeebWyiCvvaSZ7O001QrzMUs4niLYK7WWA3Btrr8crcN0va69+Rin3jIVWfehJBUqGh
+ BsfjdaQ2xXDbVs4rHqSRNeEh54CjD4N+eYVp/dY0Ebdr4aV9gYQ85yRZW/GWw3pe4bk1
+ Sjrw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [NOT A PATCH] Question on regression by bug fixes
+Message-ID: <8c6af34c-7cc5-492d-14c6-d6bc990da24b@gmail.com>
+Date: Thu, 2 Nov 2017 23:19:45 +0900
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
-Cc: Pierre Kuo <vichy.kuo@gmail.com>
 
-From: Pierre Kuo <vichy.kuo@gmail.com>
+Hi Paul
 
-In 6.5.1 Work-Queue Parallel Maze Solver, the line #4 and line #5 of
-listing 6.13 seem describe the cell 't' instead of cell 'n'.
+I couldn't follow the reasoning around the following _artificial_ hunk.
 
-Signed-off-by: Pierre Kuo <vichy.kuo@gmail.com>
----
- SMPdesign/beyond.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/formal/regression.tex b/formal/regression.tex
+index 29cb787..9831b9d 100644
+--- a/formal/regression.tex
++++ b/formal/regression.tex
+@@ -387,6 +387,7 @@ To see this, keep in mind that on average, every six fixes introduces
+ a bug.
+ Therefore, fixing the 24 bugs, which had a combine mean time to failure
+ of about 40,000 years, will introduce three more bugs.
++???
+ These three bugs most likely fail more often than once per 13,000 years,
+ so the reliability of the software has decreased.
 
-diff --git a/SMPdesign/beyond.tex b/SMPdesign/beyond.tex
-index 72862c5..88e2b31 100644
---- a/SMPdesign/beyond.tex
-+++ b/SMPdesign/beyond.tex
-@@ -141,8 +141,8 @@ Line~20 initializes for the next pass through the outer loop.
- The pseudocode for \co{maze_try_visit_cell()} is shown on lines~1-12
- of Listing~\ref{lst:SMPdesign:SEQ Helper Pseudocode}
- (\path{maze.c}).
--Line~4 checks to see if cells \co{c} and \co{n} are adjacent and connected,
--while line~5 checks to see if cell \co{n} has not yet been visited.
-+Line~4 checks to see if cells \co{c} and \co{t} are adjacent and connected,
-+while line~5 checks to see if cell \co{t} has not yet been visited.
- The \co{celladdr()} function returns the address of the specified cell.
- If either check fails, line~6 returns failure.
- Line~7 indicates the next cell, line~8 records this cell in the next
--- 
-1.9.1
+Where did the "once per 13,000 years" come from?
+13,000 was derived from 40,000/3?
+
+But in this argument, original 24 bugs are fixed, and 3 new bugs are introduced.
+We have no idea what failure rate the new bugs would have, don't we???
+
+What am I missing?
+
+    Thanks, Akira
 
