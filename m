@@ -1,50 +1,77 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=opyeG0a8grMGH09krq6tgzcbhl4oVRsze1zbsl0/CoU=;
- b=rZ/nb3EzhfJgSU3KT5fq4LR8q+PMcd13FOD4vs8CdK1nHo6Pf0cxl/nrlc1iMAYib/
- BBwHw1gCPUIuMzMKByR4P3RB2lDp4QcnKp59w57jDrLQLJ8RLoA/Nbm2rd8spAUuE7mk
- r07drKhRxFpE2HfKT+LqiB8gImm75TZrK4OqESqzKqSCwFI3JOGeTHO+hpsrlE0csuyC
- cTeebWyiCvvaSZ7O001QrzMUs4niLYK7WWA3Btrr8crcN0va69+Rin3jIVWfehJBUqGh
- BsfjdaQ2xXDbVs4rHqSRNeEh54CjD4N+eYVp/dY0Ebdr4aV9gYQ85yRZW/GWw3pe4bk1
- Sjrw==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [NOT A PATCH] Question on regression by bug fixes
-Message-ID: <8c6af34c-7cc5-492d-14c6-d6bc990da24b@gmail.com>
-Date: Thu, 2 Nov 2017 23:19:45 +0900
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47314 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1751830AbdKBWvX (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Thu, 2 Nov 2017 18:51:23 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id vA2MmnaM052593
+ for <perfbook@vger.kernel.org>; Thu, 2 Nov 2017 18:51:23 -0400
+Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205]) by
+ mx0b-001b2d01.pphosted.com with ESMTP id 2e08rvah1d-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Thu,
+ 02 Nov 2017 18:51:22 -0400
+Received: from localhost by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 2 Nov 2017
+ 18:51:22 -0400
+Date: Thu, 2 Nov 2017 15:51:17 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 1/2] locking: fix typo
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <1509605869-8186-1-git-send-email-vichy.kuo@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1509605869-8186-1-git-send-email-vichy.kuo@gmail.com>
+Message-Id: <20171102225117.GE3624@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: pierre Kuo <vichy.kuo@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Hi Paul
+On Thu, Nov 02, 2017 at 02:57:48PM +0800, pierre Kuo wrote:
+> From: Pierre Kuo <vichy.kuo@gmail.com>
+> 
+> In 7.1.1.2 Local Locking Hierarchies, below left parenthesis seems
+> better to be comma.
+> 
+> "before invoking the comparison function
+> (which is unknown code from qsort()’s perspective,"
+> ^^^ change it as comma.
+> 
+> Signed-off-by: Pierre Kuo <vichy.kuo@gmail.com>
 
-I couldn't follow the reasoning around the following _artificial_ hunk.
+I queued and pushed both, thank you!
 
-diff --git a/formal/regression.tex b/formal/regression.tex
-index 29cb787..9831b9d 100644
---- a/formal/regression.tex
-+++ b/formal/regression.tex
-@@ -387,6 +387,7 @@ To see this, keep in mind that on average, every six fixes introduces
- a bug.
- Therefore, fixing the 24 bugs, which had a combine mean time to failure
- of about 40,000 years, will introduce three more bugs.
-+???
- These three bugs most likely fail more often than once per 13,000 years,
- so the reliability of the software has decreased.
+On the patch below, I interchanged the comma with the preceding space
+character.
 
-Where did the "once per 13,000 years" come from?
-13,000 was derived from 40,000/3?
+							Thanx, Paul
 
-But in this argument, original 24 bugs are fixed, and 3 new bugs are introduced.
-We have no idea what failure rate the new bugs would have, don't we???
-
-What am I missing?
-
-    Thanks, Akira
+> ---
+>  locking/locking.tex | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/locking/locking.tex b/locking/locking.tex
+> index 12a0240..5921f50 100644
+> --- a/locking/locking.tex
+> +++ b/locking/locking.tex
+> @@ -327,7 +327,7 @@ But the first thread holds Lock~C, so the second thread's call to
+>  Lock~B, resulting in deadlock.
+> 
+>  In contrast, if \co{qsort()} releases Lock~C before invoking the
+> -comparison function (which is unknown code from \co{qsort()}'s perspective,
+> +comparison function ,which is unknown code from \co{qsort()}'s perspective,
+>  then deadlock is avoided as shown in
+>  Figure~\ref{fig:lock:Local Locking Hierarchy for qsort()}.
+> 
+> -- 
+> 1.9.1
+> 
+> --
+> To unsubscribe from this list: send the line "unsubscribe perfbook" in
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
 
