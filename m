@@ -1,42 +1,36 @@
-Return-Path: <akiyks@gmail.com>
+Return-Path: <vichy.kuo@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=JD9m7L03g8x1+0jvKVsTYIXzx1CpmDpuirDnjYNixPA=;
- b=WahdlpJU+e/qKHaD9sQ7ZMtPXPS5ecA1ghuAez9LVxQhzY+v1WJ1IY0L8wo/DPLZpc
- x6uhgbsx3JvRZjoQLKzDzGmyD3VcWRqGO5EBFBBdMSJRLY3EEz1TgukqkVGjNUeydtu9
- wlsKN+W+Cynl+hdfyJy4IudnGMUBPY+EHusoXdLXl0+4RMpwylvsAeOGETsR+WsnA5wt
- C3Ae+YLFsFUEEOllLwI7vH8jrCrIBWEQOgpoc7YKR+qLi0M+sCKWDNeqku+PMfqey9F/
- aIGeI/aOrm85nQwdKRH4GVMmQx7LOPsTCMYvVHTkiJE37lX94ioJVOtfpgusx5RdVSaF
- /8Jw==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: Incomplete sentence in commit 405f3f465f7f
-Message-ID: <765342ad-03aa-180f-308f-010a6d503b5d@gmail.com>
-Date: Thu, 2 Nov 2017 22:32:30 +0900
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc;        bh=j/jkLB1zlLquXr23btUZmLmXpWOAfPJIDwdZ3PZ/59o=;
+ b=kCcpuQ5S8x0qFnm5LwLyUuK2lQhn/42nu/9cbpXTXOGbQ0sPnTBR0l/rBcrTNx3dfv
+ QUq+Y1POSnebakvlr7/OYQfiUt+oF7Ygg3OMr3PT7cfxv++Nebyl8VOj/okTGG27/1nm
+ xhYfL61qYftzYDJeVHlZMIb9NbGfn29XoryKg4RGMYTREhfGHgRbfHowItc9SdKvvN1V
+ J1FlRJwycxkvpEWL7wzysraKSZO5Y/YKRKXv1JkfCBx0gFz5v98qwGh2Gy2q5tBG/0pb
+ ezP7GHK41biypW2Frnkcy7s8X8pLGSeR3y9gqR0X6olSLQySEQixXt4446DwttH8v/Cw
+ EWmw==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20171102225117.GE3624@linux.vnet.ibm.com>
+References: <1509605869-8186-1-git-send-email-vichy.kuo@gmail.com>
+ <20171102225117.GE3624@linux.vnet.ibm.com>
+From: pierre kuo <vichy.kuo@gmail.com>
+Date: Fri, 3 Nov 2017 21:23:05 +0800
+Message-ID: 
+ <CAOVJa8G7VznUmj4rL-tb=wuTRT3b6=sGm2W=2CyfSu1Om=U-WQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] locking: fix typo
+Content-Type: text/plain; charset="UTF-8"
+To: Paul McKenney <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+hi Paul:
+> On the patch below, I interchanged the comma with the preceding space
+> character.
+>
+Got it.
+BTW, I have another patch need ur review.
+Would you mind to give some comment?
+http://www.spinics.net/lists/perfbook/msg01522.html
 
-In commit 405f3f465f7f ("debugging,formal: Update for increased Linux kernel usage"),
-there is an incomplete hunk of formal/formal.tex
-
-@@ -135,6 +147,7 @@ The larger overarching software construct is of course validated by testing.
-        artifact from the viewpoint of formal verification, it is tiny
-        compared to a great number of projects, including LLVM,
-        \GCC, the Linux kernel, Hadoop, MongoDB, and a great many others.
-+       In addition, 
-
-        Although formal verification is finally starting to show some
-        promise, including more-recent L4 verifications involving greater
-
-What was your intention here?
-
-    Thanks, Akira
+Appreciate your help in advance.
 
