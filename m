@@ -2,19 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5t4qteU2gvIfhTq2SuVyFe5FC03e8zuog9IJJ3lDomU=;
- b=Xp02IKDbky6ugwcgs3ohd78XrBk/0eXaIzXfkyAqWIIGcxmiHD4bM1+mZevFPCkbkU
- x/SJmo7VxEWzLRNW7UGislM/5+cPGYf65Ix86SW99BFzZrMJwHerFaELcW7RV3iF2mMg
- kzRFB211iRz35DaI6i88tFlAE/aA6eiwNHXQN1HJJlfe0a3Ds7JEpTnwnaDLX3fY/hls
- LwSXtCnRAt6Wcpfa4j2eg4pGhok2xm8PnZM25usJjaAoLVv3vY4TKAmt7+e43fY0H8K3
- YMMt6ojnUcAInyUkErkudfkvctCzz/9/k1GQIiMFdZBUZaupJ8Q7AZrKzYRYH5kRX148
- fZMw==
-Subject: [PATCH 1/3] hyphen2endash.sh: Add patterns for 'nn-mm days' and
- 'nn-mm sheets'
+ bh=EL/f8Xa21sgUz13hW5/yg1/It2sePCHYchJ86gp1G9s=;
+ b=h8WMGmOE8ziatD4KhckLPD7NMcActVk6rzvXoQRCHnvB3ysLU3xm/KFUvlNKlhlRNn
+ fcK7cGfPXHhIt3XaVin0vZJssj1hXDMX7fVnirPpbAqf2YpuAng3HVs08b3TmLSoJp59
+ z9WCH/moh8CPmlNYcmHLUsbhE259mcf9peRUOI0eJIj7nVaYF7lesyYpxWmQ9hueIl89
+ Smiu58J7/4m9twjE2AB0dOkN7736iJR5XuQzDvRYmt1QyAZQAsZaihaK0a+twX9pyy9B
+ KPijKgx85yDbyibqjPiZsPlsVr8rux7NY2wDfdEFR/VkPWErhfei7yeCuR7jqU42f9kk
+ i/FQ==
+Subject: [PATCH 2/3] cpu/overheads: Don't break just after nn-mm
 References: <2495dd31-1b4c-99e2-46aa-dc55671007ff@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <2d2364ff-c8c9-40ab-62d3-a116700ff022@gmail.com>
-Date: Sat, 4 Nov 2017 10:39:42 +0900
+Message-ID: <479e6ed4-b56d-a9d8-3f98-28439201a348@gmail.com>
+Date: Sat, 4 Nov 2017 10:40:40 +0900
 MIME-Version: 1.0
 In-Reply-To: <2495dd31-1b4c-99e2-46aa-dc55671007ff@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,40 +23,31 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 844896af3fefe18c0e4dd32bdf6be2c9d8a776f8 Mon Sep 17 00:00:00 2001
+From 96995ec9781970d633f554579465e9f053ec316a Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 2 Nov 2017 22:42:14 +0900
-Subject: [PATCH 1/3] hyphen2endash.sh: Add patterns for 'nn-mm days' and 'nn-mm sheets'
+Date: Sat, 4 Nov 2017 07:44:36 +0900
+Subject: [PATCH 2/3] cpu/overheads: Don't break just after nn-mm
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/hyphen2endash.sh | 6 ++++++
- 1 file changed, 6 insertions(+)
+ cpu/overheads.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/utilities/hyphen2endash.sh b/utilities/hyphen2endash.sh
-index 29e3896..1586804 100644
---- a/utilities/hyphen2endash.sh
-+++ b/utilities/hyphen2endash.sh
-@@ -23,6 +23,10 @@
- # nn-mm~microsecond -> nn--mm~microsecond
- # nn-mm~millisecond -> nn--mm~millisecond
- # nn-mm~\emp -> nn--mm~\emp
-+# nn-mm days -> nn--mm~days
-+# nn-mm~days -> nn--mm~days
-+# nn-mm sheets -> nn--mm~sheets
-+# nn-mm~sheets -> nn--mm~sheets
- #
- # This program is free software; you can redistribute it and/or modify
- # it under the terms of the GNU General Public License as published by
-@@ -54,6 +58,8 @@ cat $1 |
- 	    -e 's/\([0-9]\+\)-\([0-9]\+\)~microsecond/\1--\2~microsecond/g' \
- 	    -e 's/\([0-9]\+\)-\([0-9]\+\)~millisecond/\1--\2~millisecond/g' \
- 	    -e 's/\([0-9]\+\)-\([0-9]\+\)~\\emp/\1--\2~\\emp/g' \
-+	    -e 's/\([0-9]\+\)-\([0-9]\+\)[ ~]days/\1--\2~days/g' \
-+	    -e 's/\([0-9]\+\)-\([0-9]\+\)[ ~]sheets/\1--\2~sheets/g' \
- 	    -e 's/\/\* Lines~\([0-9]\+\)--\([0-9]\+\) \*\//\/\* Lines \1-\2 \*\//g'
+diff --git a/cpu/overheads.tex b/cpu/overheads.tex
+index bd4c814..366b071 100644
+--- a/cpu/overheads.tex
++++ b/cpu/overheads.tex
+@@ -290,8 +290,8 @@ cycles, as shown in the ``Global Comms'' row.
+ 	How can I possibly get my head around them?
+ \QuickQuizAnswer{
+ 	Get a roll of toilet paper.
+-	In the USA, each roll will normally have somewhere around 350-500
+-	sheets.
++	In the USA, each roll will normally have somewhere around
++	350-500 sheets.
+ 	Tear off one sheet to represent a single clock cycle, setting it aside.
+ 	Now unroll the rest of the roll.
 
- # Last pattern is to preserve "Lines n-m" in comments within code snippet
 -- 
 2.7.4
 
