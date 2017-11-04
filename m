@@ -1,118 +1,99 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DINuU+aqpTMj9hEQ9TQgbLbl9dy5HaJtB6S/VYzn6Qk=;
- b=P6PGpqLNTXRyDQh1WhmmhsPuI8nNorT75fsmTcj1G6UooX1gFOeYWTIPWEZEz/Bn3n
- cPff7S29yHR+V2I+l/G0A4cvuynlQwq4wj++qqf0rcqbnTWV5vle6zpdvCANO6hUvwtw
- cKNbHbVDMGeirUAAAx2wuRErlRHo9INGnrwFe+IxEvbk5zPudNSp9dLjUBE4gUMsS4HF
- wHvi0woWmkk/IiEjg9RuXYLgXm5neUZ8YCzScAW6R60hrgbMUN2kI76PpFGNWa8XWN94
- NiyZhK00ik5JNdyw3Dp0uglJHh6BTH++zBIIwkO5T9Rspplctq9TgTKaerVfY1lbhE4U
- ll9w==
-Subject: [PATCH 3/3] Fix layout hiccups in answers to quick quizzes
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57442 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1752449AbdKDQJH (ORCPT <rfc822;perfbook@vger.kernel.org>); Sat, 4
+ Nov 2017 12:09:07 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id vA4G3tXd012131
+ for <perfbook@vger.kernel.org>; Sat, 4 Nov 2017 12:09:07 -0400
+Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2e18v2fkfr-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sat,
+ 04 Nov 2017 12:09:07 -0400
+Received: from localhost by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 4 Nov 2017
+ 12:09:05 -0400
+Date: Sat, 4 Nov 2017 09:09:04 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 2/3] cpu/overheads: Don't break just after nn-mm
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <2495dd31-1b4c-99e2-46aa-dc55671007ff@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <2747567f-60ef-551d-a08b-386fe781ad19@gmail.com>
-Date: Sat, 4 Nov 2017 10:41:33 +0900
+ <479e6ed4-b56d-a9d8-3f98-28439201a348@gmail.com>
+ <20171104044025.GU3624@linux.vnet.ibm.com>
+ <0347fa89-d3c2-c11d-f47c-737fa177dfb9@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <2495dd31-1b4c-99e2-46aa-dc55671007ff@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0347fa89-d3c2-c11d-f47c-737fa177dfb9@gmail.com>
+Message-Id: <20171104160904.GV3624@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From fa20d77f7a35114dd6bf93e362b44235b163f1ad Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 4 Nov 2017 08:34:01 +0900
-Subject: [PATCH 3/3] Fix layout hiccups in answers to quick quizzes
+On Sat, Nov 04, 2017 at 02:24:22PM +0900, Akira Yokosawa wrote:
+> On 2017/11/03 21:40:25 -0700, Paul E. McKenney wrote:
+> > On Sat, Nov 04, 2017 at 10:40:40AM +0900, Akira Yokosawa wrote:
+> >> >From 96995ec9781970d633f554579465e9f053ec316a Mon Sep 17 00:00:00 2001
+> >> From: Akira Yokosawa <akiyks@gmail.com>
+> >> Date: Sat, 4 Nov 2017 07:44:36 +0900
+> >> Subject: [PATCH 2/3] cpu/overheads: Don't break just after nn-mm
+> >>
+> >> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> > 
+> > You lost me with this one.  Shouldn't there be a non-breaking space
+> > between the "350-500" and the "sheets"?  Or is there some magic here
+> > that I am missing?
+> 
+> I intentionally chose normal space because the preceding number is
+> 3 digits and "sheets" can't be hyphenated. It can cause large underfil
+> in 2c layout.
+> In the current Answer, line breaking is done at different places in
+> both 1c and 2c layout, so it doesn't matter at the moment.
+> 
+> Also, non-breaking spaces can be enforced by a script something like
+> hypen2endash.sh. The added pattern in Patch #1 does the conversion
+> to nbsp. (I use this script for mostly 1c layout.)
+> 
+> Thoughts?
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- defer/rcuapi.tex              | 7 ++++---
- defer/rcufundamental.tex      | 1 +
- memorder/memorder.tex         | 7 ++++---
- toolsoftrade/toolsoftrade.tex | 2 +-
- 4 files changed, 10 insertions(+), 7 deletions(-)
+OK, I am finally seeing the connection between this change and the
+change to the sripts.  So, yes, it has no direct effect on LaTeX,
+but does have an indirect effect after the scripts have run.  And some
+quick-quiz answers do look much better as well!
 
-diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-index d4e434d..55811a1 100644
---- a/defer/rcuapi.tex
-+++ b/defer/rcuapi.tex
-@@ -367,9 +367,10 @@ returns a value that must be passed into the corresponding
- 	In practice, however, doing this is almost certainly a bad idea.
- 	In particular, the code shown in
- 	Listing~\ref{lst:defer:Multistage SRCU Deadlocks}
--	could still result in deadlock.
--
-+	could still result in deadlock.%
-+%
- \begin{listing}[htbp]
-+\scriptsize
- {
- \begin{verbbox}
-   1 idx = srcu_read_lock(&ssa);
-@@ -387,7 +388,7 @@ returns a value that must be passed into the corresponding
- \theverbbox
- \caption{Multistage SRCU Deadlocks}
- \label{lst:defer:Multistage SRCU Deadlocks}
--\end{listing}
-+\end{listing}%
- %
- } \QuickQuizEnd
+I applied and pushed all three, thank you
 
-diff --git a/defer/rcufundamental.tex b/defer/rcufundamental.tex
-index 4c16478..f2cfab2 100644
---- a/defer/rcufundamental.tex
-+++ b/defer/rcufundamental.tex
-@@ -750,6 +750,7 @@ versions of the list active at a given time.
- 	Listing~\ref{lst:defer:Concurrent RCU Deletion}.
-
- \begin{listing}[htbp]
-+\scriptsize
- {
- \begin{verbbox}
-   1 spin_lock(&mylock);
-diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 3ba4d3a..0e823d4 100644
---- a/memorder/memorder.tex
-+++ b/memorder/memorder.tex
-@@ -1854,8 +1854,8 @@ exists (1:r1=1 /\ 1:r2=0)
- \theverbbox
- \caption{Litmus Test Distinguishing Multicopy Atomic From Other Multicopy Atomic}
- \label{lst:memorder:Litmus Test Distinguishing Multicopy Atomic From Other Multicopy Atomic}
--\end{listing}
--
-+\end{listing}%
-+%
- 	Listing~\ref{lst:memorder:Litmus Test Distinguishing Multicopy Atomic From Other Multicopy Atomic}
- 	(\path{C-MP-OMCA+o-o-o+o-rmb-o.litmus})
- 	shows such a test.
-@@ -2299,7 +2299,8 @@ exists (1:r2=0 /\ x1=2)
- \theverbbox
- \caption{R Litmus Test With Write Memory Barrier (No Ordering)}
- \label{lst:memorder:R Litmus Test With Write Memory Barrier (No Ordering)}
--\end{listing}
-+\end{listing}%
-+%
- 	Wrong.
-
- 	Listing~\ref{lst:memorder:R Litmus Test With Write Memory Barrier (No Ordering)}
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index d37a295..7d3e038 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -727,7 +727,7 @@ by \co{lock_writer()} while holding the lock.
- 	The reason that ``x = 0'' was output was that \co{lock_reader()}
- 	acquired the lock first.
- 	Had \co{lock_writer()} instead acquired the lock first, then
--	the output would have been ``x = 3''.
-+	the output would have been \mbox{``x = 3''}.
- 	However, because the code fragment started \co{lock_reader()} first
- 	and because this run was performed on a multiprocessor,
- 	one would normally expect \co{lock_reader()} to acquire the
--- 
-2.7.4
-
+>         Thanks, Akira
+> 
+> > 
+> > 							Thanx, Paul
+> > 
+> >> ---
+> >>  cpu/overheads.tex | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/cpu/overheads.tex b/cpu/overheads.tex
+> >> index bd4c814..366b071 100644
+> >> --- a/cpu/overheads.tex
+> >> +++ b/cpu/overheads.tex
+> >> @@ -290,8 +290,8 @@ cycles, as shown in the ``Global Comms'' row.
+> >>  	How can I possibly get my head around them?
+> >>  \QuickQuizAnswer{
+> >>  	Get a roll of toilet paper.
+> >> -	In the USA, each roll will normally have somewhere around 350-500
+> >> -	sheets.
+> >> +	In the USA, each roll will normally have somewhere around
+> >> +	350-500 sheets.
+> >>  	Tear off one sheet to represent a single clock cycle, setting it aside.
+> >>  	Now unroll the rest of the roll.
+> >>
+> >> -- 
+> >> 2.7.4
+> >>
+> >>
+> > 
+> > 
+> 
 
