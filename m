@@ -1,93 +1,73 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=95GOAZYnOW/zMshhmIBJqst3i9DzYoXRIH9JxBc4RxY=;
- b=cyMz8WX0b9ccbuehFWeZ0jwceLYLf9hQ/ul/rLOUIcfTdeUmu8MUgLqaACFEfgr8sQ
- gUUVQtVteRor2AKiUokAyZNf3sjQRv2vzNjZufVILNmXuLpRBoGHLxvDD6b46xvWA09D
- zRwSjCsM2lD5sa8oDgG6ZgPp6dly9TCuoCiyRS+Tl4W1WC9F+Yc2KBMQS0p1YOM4Aso4
- Lh6O9z2d8g1zpRg96tn+SrkHAlMPtJccFRP6Y9Yect3ikWEm/S5dEdWFrrjvJiyR8Ux1
- XNWVv/kq5fxrQ4mHfOEslkCp/vFMTHYkFWw/AGfqlENlaQqqXRIxYyGd/pH55vF6wIkj
- LPdA==
-Subject: [PATCH 4/4] Fix typos in answers to quick quizzes
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35906 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1750857AbdKEVVl (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Sun, 5 Nov 2017 16:21:41 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id vA5LIrEt005309
+ for <perfbook@vger.kernel.org>; Sun, 5 Nov 2017 16:21:40 -0500
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2e26e0exs8-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
+ 05 Nov 2017 16:21:40 -0500
+Received: from localhost by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 5 Nov 2017
+ 16:21:39 -0500
+Date: Sun, 5 Nov 2017 10:13:55 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 0/4] Fix layout hiccup and typo in QQA
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <5a0c3a27-0b4e-8d2b-b43c-26e75cdfe05f@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <57b193be-fab3-69b9-335e-1b3aa55c20bb@gmail.com>
-Date: Sun, 5 Nov 2017 23:53:22 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <5a0c3a27-0b4e-8d2b-b43c-26e75cdfe05f@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20171105181355.GX3624@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 7902d9405a7e92aef281297af179c0696bc389b8 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 5 Nov 2017 23:05:29 +0900
-Subject: [PATCH 4/4] Fix typos in answers to quick quizzes
+On Sun, Nov 05, 2017 at 11:47:33PM +0900, Akira Yokosawa wrote:
+> >From 7902d9405a7e92aef281297af179c0696bc389b8 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Sun, 5 Nov 2017 23:33:03 +0900
+> Subject: [PATCH 0/4] Fix layout hiccup and typo in QQA
+> 
+> Hi Paul,
+> 
+> There remain several hiccups and typos in Answers to Quick Quizzes.
+> This patch set fixes them.
+> 
+> Patch #1 is actually a regression fix of my own. When I put
+> a thin space before the "%", I removed the escape by accident.
+> Patch #2 improves the layout of one-liner.
+> Patch #3 fixes remaining hiccups in QQA of whymb.
+> Patch #4 fixes other trivial typos.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- appendix/toyrcu/toyrcu.tex    | 2 +-
- memorder/memorder.tex         | 6 +++---
- toolsoftrade/toolsoftrade.tex | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+Good eyes, applied, thank you!  I am currently on a plane, so there may
+be some delay before these appear in the public perfbook repository.
 
-diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
-index cd6541c..a796401 100644
---- a/appendix/toyrcu/toyrcu.tex
-+++ b/appendix/toyrcu/toyrcu.tex
-@@ -1920,7 +1920,7 @@ certain types of library functions.
- 	effect extended beyond the enclosing
- 	\co{rcu_read_lock()} and \co{rcu_read_unlock()}, out to
- 	the previous and next call to \co{rcu_quiescent_state()}.
--	This \co{rcu_quiescent_state} can be thought of as a
-+	This \co{rcu_quiescent_state} can be thought of as an
- 	\co{rcu_read_unlock()} immediately followed by an
- 	\co{rcu_read_lock()}.
+							Thanx, Paul
 
-diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 0e823d4..23638da 100644
---- a/memorder/memorder.tex
-+++ b/memorder/memorder.tex
-@@ -608,7 +608,7 @@ are at most two threads involved.
- 	reordered against later stores, which brings us to the remaining
- 	rows in this table.
-
--	The \co{smp_mb())} row corresponds to the full memory barrier
-+	The \co{smp_mb()} row corresponds to the full memory barrier
- 	available on most platforms, with Itanium being the exception
- 	that proves the rule.
-
-@@ -1452,10 +1452,10 @@ dependent-load case.
- 	address dependencies.
- 	And this is why DEC Alpha requires the explicit memory barrier
- 	supplied for it by the \co{lockless_dereference()} on line~21 of
--	Listings~\ref{lst:memorder:Enforced Ordering of Message-Passing Address-Dependency Litmus Test}.
-+	Listing~\ref{lst:memorder:Enforced Ordering of Message-Passing Address-Dependency Litmus Test}.
- 	However, DEC Alpha does track load-to-store address dependencies,
- 	which is why line~20 of
--	Listings~\ref{lst:memorder:S Address-Dependency Litmus Test}
-+	Listing~\ref{lst:memorder:S Address-Dependency Litmus Test}
- 	does not have a \co{lockless_dereference()}.
-
- 	To sum up, current platforms either respect address dependencies
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index 7d3e038..771d8a9 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -606,7 +606,7 @@ Listing~\ref{lst:toolsoftrade:Demonstration of Exclusive Locks}
- (\path{lock.c}).
- Line~1 defines and initializes a POSIX lock named \co{lock_a}, while
- line~2 similarly defines and initializes a lock named \co{lock_b}.
--Line~3 defines and initializes a shared variable ~\co{x}.
-+Line~3 defines and initializes a shared variable~\co{x}.
-
- Lines~5-28 defines a function \co{lock_reader()} which repeatedly
- reads the shared variable \co{x} while holding
--- 
-2.7.4
-
+>       Thanks, Akira
+> --
+> Akira Yokosawa (4):
+>   formal/regression: Restore escape to '%' symbol
+>   defer/seqlock: Use minipage and verbatim for one-liner in QQA
+>   appendix/whymb: Fix layout in answers to quick quizzes
+>   Fix typos in answers to quick quizzes
+> 
+>  appendix/toyrcu/toyrcu.tex           |  2 +-
+>  appendix/whymb/whymemorybarriers.tex |  4 ++--
+>  defer/seqlock.tex                    | 10 ++++++++--
+>  formal/regression.tex                |  2 +-
+>  memorder/memorder.tex                |  6 +++---
+>  toolsoftrade/toolsoftrade.tex        |  2 +-
+>  6 files changed, 16 insertions(+), 10 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
