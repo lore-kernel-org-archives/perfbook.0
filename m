@@ -2,19 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NDq7zXzDEwHPnKgX1rYw7q/5PHTrI3/upQSghEGlNkA=;
- b=JkjOHEsvQtt/8iqfpHVLsxkLKENCPNqu/h6KGIOD1AIrUpCRmu7DnM7pJHiU9ug2Zz
- 1iCDXdflafUwekJEMQhjmbRn2rYEF1btXBEYb4Ddf2RYcmKDdlnPhv5fWbnBC1dZ5oB0
- Wgm6GeXeBCtXGisPRrZKeKwEL0KwYBG34Kok/tI7M1taQF0luGNbVJ+zulbFAXWH+4KC
- jEtM+ioHwQg3ByFcITNoh1efGBk7I/OxM8fLlzAC4/7gLdETOH7fvKnHLx7JB+mqJUSD
- A1M+hDeWhwF/gtr0OFqaSoXALxCSjxoSis4l60MD2E75GTSHOtq5NPi4/4QQ4Td/7W/a
- VphQ==
-Subject: [PATCH 2/4] defer/seqlock: Use minipage and verbatim for one-liner in
- QQA
+ bh=M9B3Djw9wPQCl8aYc1qsh9RP7iVAY41/TEU0fv9nbho=;
+ b=r+XQ3MBUUAqUZ5Rzqnz18dWocdYrXMnhQICI7s9hrcxFVZQiWiny25t3gRbO86D/ar
+ I0aKo37HD1t/yt9mtgQTu56dBy3Lo8mD1+7Z6RF/HOJivNWrCFAhAud5TLd8TAryBRei
+ jrA/VkRj8wNVP3qB57aK2tEIG759MVPAt/AZ7A7D3BjuKSy9Wv+WIRpeNObCdwOFq3yE
+ h65bTjrTln9hMP90CDX68vEFMh+tbF9Ad3U52Zygk7UxYBeOdWeM2/k3FX3rpXF+vnVp
+ w3nqrWTm6n7uKAYNCyyqQTa/YaLsyd3d0eizQWrOtAgkM2kObrH3PKrSzgQWYAg6JDqJ
+ xipQ==
+Subject: [PATCH 3/4] appendix/whymb: Fix layout in answers to quick quizzes
 References: <5a0c3a27-0b4e-8d2b-b43c-26e75cdfe05f@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <9e550556-2e2b-2659-1d18-c9efae4a4ef2@gmail.com>
-Date: Sun, 5 Nov 2017 23:50:23 +0900
+Message-ID: <7ce1c679-6b6f-97d8-cb90-89c2b5c1ac43@gmail.com>
+Date: Sun, 5 Nov 2017 23:51:48 +0900
 MIME-Version: 1.0
 In-Reply-To: <5a0c3a27-0b4e-8d2b-b43c-26e75cdfe05f@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,37 +23,38 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 17d998b15de3c1cd79073d5a255a06abeaee11d9 Mon Sep 17 00:00:00 2001
+From 0cd6e0e44f5cc4be1b1a71caa04e2e9321b24c94 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 5 Nov 2017 18:33:03 +0900
-Subject: [PATCH 2/4] defer/seqlock: Use minipage and verbatim for one-liner in QQA
+Date: Sun, 5 Nov 2017 22:19:06 +0900
+Subject: [PATCH 3/4] appendix/whymb: Fix layout in answers to quick quizzes
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- defer/seqlock.tex | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ appendix/whymb/whymemorybarriers.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/defer/seqlock.tex b/defer/seqlock.tex
-index e537628..421b3bd 100644
---- a/defer/seqlock.tex
-+++ b/defer/seqlock.tex
-@@ -214,8 +214,14 @@ in other words, that there has been no writer, and returns true if so.
- 	\co{smp_load_acquire()} instead of \co{READ_ONCE()}, which
- 	in turn would allow the \co{smp_mb()} on line~17 to be dropped.
- 	Similarly, line~41 could use an \co{smp_store_release()}, for
--	example, as follows: \\
--	\co{smp_store_release(&slp->seq, READ_ONCE(slp->seq) + 1);} \\
-+	example, as follows:
+diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
+index efd67c9..256b9af 100644
+--- a/appendix/whymb/whymemorybarriers.tex
++++ b/appendix/whymb/whymemorybarriers.tex
+@@ -377,7 +377,8 @@ levels of the system architecture.
+ 	to the shared bus first,
+ 	and that CPU ``wins''.  The other CPU must invalidate its copy of the
+ 	cache line and transmit an ``invalidate acknowledge'' message
+-	to the other CPU. \\
++	to the other CPU.
 +
-+\begin{minipage}[c][5ex][c]{\columnwidth}\scriptsize
-+\begin{verbatim}
-+smp_store_release(&slp->seq, READ_ONCE(slp->seq) + 1);
-+\end{verbatim}
-+\end{minipage}
-+
- 	This would allow the \co{smp_mb()} on line~40 to be dropped.
+ 	Of course, the losing CPU can be expected to immediately issue a
+ 	``read invalidate'' transaction, so the winning CPU's victory will
+ 	be quite ephemeral.
+@@ -1525,7 +1526,6 @@ assert(r1 == 0 || a == 1);
+ 	No changes are needed to the code in the first two columns,
+ 	because interrupt handlers run atomically from the perspective
+ 	of the interrupted code.
+-
  } \QuickQuizEnd
 
+ \QuickQuiz{}
 -- 
 2.7.4
 
