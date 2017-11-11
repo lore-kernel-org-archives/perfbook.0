@@ -1,20 +1,20 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46214 "EHLO
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50186 "EHLO
  mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751288AbdKKQpU (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Sat, 11 Nov 2017 11:45:20 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1]) by
- mx0b-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id vABGjFdw057304
- for <perfbook@vger.kernel.org>; Sat, 11 Nov 2017 11:45:19 -0500
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204]) by
- mx0b-001b2d01.pphosted.com with ESMTP id 2e5u2e9u7t-1 (version=TLSv1.2
+ with ESMTP id S1751457AbdKKQ51 (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Sat, 11 Nov 2017 11:57:27 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id vABGrVje124353
+ for <perfbook@vger.kernel.org>; Sat, 11 Nov 2017 11:57:27 -0500
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201]) by
+ mx0b-001b2d01.pphosted.com with ESMTP id 2e5uq90yqp-1 (version=TLSv1.2
  cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sat,
- 11 Nov 2017 11:45:16 -0500
-Received: from localhost by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ 11 Nov 2017 11:57:26 -0500
+Received: from localhost by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted for
  <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 11 Nov
- 2017 11:44:42 -0500
-Date: Sat, 11 Nov 2017 08:44:38 -0800
+ 2017 11:57:26 -0500
+Date: Sat, 11 Nov 2017 08:57:23 -0800
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Subject: Re: [PATCH 3/3] CodeSamples/formal: Get rid of warnings in cross
  compiling
@@ -22,40 +22,46 @@ Reply-To: paulmck@linux.vnet.ibm.com
 References: <d39e4d4f-4c4a-b72a-0fcf-8e244aa91c1e@gmail.com>
  <61f6fcf3-480c-8ba4-a4b2-4af17546b53f@gmail.com>
  <488587ce-a895-3079-0578-ff31f128f7ea@gmail.com>
+ <20171111164438.GU3624@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <488587ce-a895-3079-0578-ff31f128f7ea@gmail.com>
-Message-Id: <20171111164438.GU3624@linux.vnet.ibm.com>
+In-Reply-To: <20171111164438.GU3624@linux.vnet.ibm.com>
+Message-Id: <20171111165723.GA26014@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 To: Akira Yokosawa <akiyks@gmail.com>
 Cc: perfbook@vger.kernel.org
 
-On Sat, Nov 11, 2017 at 08:56:01AM +0900, Akira Yokosawa wrote:
-> On 2017/11/11 08:41:54 +0900, Akira Yokosawa wrote:
-> >>From 6ecff66f2b5f95e914d90e29b6d0a2eb4d8901cc Mon Sep 17 00:00:00 2001
-> > From: Akira Yokosawa <akiyks@gmail.com>
-> > Date: Sat, 11 Nov 2017 08:25:34 +0900
-> > Subject: [PATCH 3/3] CodeSamples/formal: Get rid of warnings in cross compiling
+On Sat, Nov 11, 2017 at 08:44:38AM -0800, Paul E. McKenney wrote:
+> On Sat, Nov 11, 2017 at 08:56:01AM +0900, Akira Yokosawa wrote:
+> > On 2017/11/11 08:41:54 +0900, Akira Yokosawa wrote:
+> > >>From 6ecff66f2b5f95e914d90e29b6d0a2eb4d8901cc Mon Sep 17 00:00:00 2001
+> > > From: Akira Yokosawa <akiyks@gmail.com>
+> > > Date: Sat, 11 Nov 2017 08:25:34 +0900
+> > > Subject: [PATCH 3/3] CodeSamples/formal: Get rid of warnings in cross compiling
+> > > 
+> > > Also fix corresponding code snippet.
+> > > 
+> > > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> > > ---
+> > >  CodeSamples/formal/litmus/C-2+2W+o-wmb-o+o-wmb-o.litmus | 2 --
 > > 
-> > Also fix corresponding code snippet.
-> > 
-> > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> > ---
-> >  CodeSamples/formal/litmus/C-2+2W+o-wmb-o+o-wmb-o.litmus | 2 --
+> > By the way Paul, didn't you have a plan to mention these "C-2+2W" litmus tests
+> > somewhere in the memorder chapter?
 > 
-> By the way Paul, didn't you have a plan to mention these "C-2+2W" litmus tests
-> somewhere in the memorder chapter?
+> Good point, it is an odd corner case that is worth at least a quick quiz.
+> How about the following?
 
-Good point, it is an odd corner case that is worth at least a quick quiz.
-How about the following?
+My fingers just keep automatically typing "Figure", so please see a
+corrected patch below.  Presumably my fingers will get with the program
+in a few months.  ;-)
 
 							Thanx, Paul
 
 ------------------------------------------------------------------------
 
-commit 9b44286879769a0973982807c80b6e0a7821a1de
+commit ac730edc868b6c8a9a71637fd205553e7ba88df2
 Author: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 Date:   Sat Nov 11 08:41:47 2017 -0800
 
@@ -65,7 +71,7 @@ Date:   Sat Nov 11 08:41:47 2017 -0800
     Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 
 diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 7d8e4978fa6d..327b1ad254bf 100644
+index 7d8e4978fa6d..2ef8363fba6a 100644
 --- a/memorder/memorder.tex
 +++ b/memorder/memorder.tex
 @@ -2455,7 +2455,103 @@ same variable is not necessarily the store that started last.
@@ -110,7 +116,7 @@ index 7d8e4978fa6d..327b1ad254bf 100644
 +
 +\QuickQuiz{}
 +	But for litmus tests having only ordered stores, as shown in
-+	Figure~\ref{lst:memorder:2+2W Litmus Test With Write Barriers}
++	Listing~\ref{lst:memorder:2+2W Litmus Test With Write Barriers}
 +	(\path{C-2+2W+o-wmb-o+o-wmb-o.litmus}),
 +	research shows that the cycle is prohibited, even in weakly
 +	ordered systems such as ARM and Power~\cite{test6-pdf}.
@@ -128,7 +134,7 @@ index 7d8e4978fa6d..327b1ad254bf 100644
 +	implementation.
 +	Therefore, neither the C11 nor the Linux kernel memory models
 +	provide any guarantee corresponding to
-+	Figure~\ref{lst:memorder:2+2W Litmus Test With Write Barriers}.
++	Listing~\ref{lst:memorder:2+2W Litmus Test With Write Barriers}.
 +
 +\begin{listing}[tbp]
 +{ \scriptsize
@@ -165,7 +171,7 @@ index 7d8e4978fa6d..327b1ad254bf 100644
 +%
 +	Of course, without the barrier, there are no ordering
 +	guarantees, even on real weakly ordered hardware, as shown in
-+	Figure~\ref{lst:memorder:2+2W Litmus Test Without Write Barriers}
++	Listing~\ref{lst:memorder:2+2W Litmus Test Without Write Barriers}
 +	(\path{C-2+2W+o-o+o-o.litmus}).
 +} \QuickQuizEnd
 +
