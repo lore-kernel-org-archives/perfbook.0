@@ -1,270 +1,202 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57744 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1750792AbdKLRPs (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 12
- Nov 2017 12:15:48 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id vACHFmo6103369
- for <perfbook@vger.kernel.org>; Sun, 12 Nov 2017 12:15:48 -0500
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2e6mwv3xcr-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
- 12 Nov 2017 12:15:48 -0500
-Received: from localhost by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 12 Nov
- 2017 12:15:47 -0500
-Date: Sun, 12 Nov 2017 09:15:44 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 3/3] CodeSamples/formal: Get rid of warnings in cross
- compiling
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <d39e4d4f-4c4a-b72a-0fcf-8e244aa91c1e@gmail.com>
- <61f6fcf3-480c-8ba4-a4b2-4af17546b53f@gmail.com>
- <488587ce-a895-3079-0578-ff31f128f7ea@gmail.com>
- <20171111164438.GU3624@linux.vnet.ibm.com>
- <20171111165723.GA26014@linux.vnet.ibm.com>
- <af50453a-e7a8-77a7-275e-8dbdcc797fea@gmail.com>
- <20171112012903.GX3624@linux.vnet.ibm.com>
- <ee17f3c5-967d-a26c-7c70-f6f82fda350e@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=LXtZzoHfsChRjPNF3c+LGqyoWcD1FoQZMLCAuYAbtHw=;
+ b=NiKch2QdnUjjqvxBfBwSiVzWOm3NxZA9TROJJI9XEKa56WXmZj2hFgkXM3iuyGaBT2
+ Revpm6ES6mVXn9kDAwyt3R0BoCV0EGTHJWSSfFBTjdU8kZqQELOBDMhIYU/PG03pnJn1
+ Hn83llmrP/0iV6+lo5UqSJdvfumsrqVYDa/zt6SUkw/UdkHN0cZim+VAHB12XI0Jwzf0
+ 2mGYY+bjRvvfBzdVTOH7ZVkLGzQzsnFaEVnXwqPtLGajYBnyn1AKl7lurqUGYsQbx/Qq
+ dgve4gUJxGCNAa9PJvMYoF6hZ3uaqZVNNLlkwM5euTmILWZCggycmfiFbm8OlK/1ewVK
+ nFwg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] memorder: Use litmus test in section 'control dependency
+ calamity'
+Message-ID: <50409a82-e3d0-c5cb-92a3-db4b42e3a7ed@gmail.com>
+Date: Tue, 14 Nov 2017 21:07:06 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ee17f3c5-967d-a26c-7c70-f6f82fda350e@gmail.com>
-Message-Id: <20171112171544.GZ3624@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Nov 12, 2017 at 11:27:37AM +0900, Akira Yokosawa wrote:
-> On 2017/11/12 10:29, Paul E. McKenney wrote:
-> > On Sun, Nov 12, 2017 at 08:26:21AM +0900, Akira Yokosawa wrote:
-> >> On 2017/11/11 08:57:23 -0800, Paul E. McKenney wrote:
-> >>> On Sat, Nov 11, 2017 at 08:44:38AM -0800, Paul E. McKenney wrote:
-> >>>> On Sat, Nov 11, 2017 at 08:56:01AM +0900, Akira Yokosawa wrote:
-> >>>>> On 2017/11/11 08:41:54 +0900, Akira Yokosawa wrote:
-> >>>>>> >From 6ecff66f2b5f95e914d90e29b6d0a2eb4d8901cc Mon Sep 17 00:00:00 2001
-> >>>>>> From: Akira Yokosawa <akiyks@gmail.com>
-> >>>>>> Date: Sat, 11 Nov 2017 08:25:34 +0900
-> >>>>>> Subject: [PATCH 3/3] CodeSamples/formal: Get rid of warnings in cross compiling
-> >>>>>>
-> >>>>>> Also fix corresponding code snippet.
-> >>>>>>
-> >>>>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> >>>>>> ---
-> >>>>>>  CodeSamples/formal/litmus/C-2+2W+o-wmb-o+o-wmb-o.litmus | 2 --
-> >>>>>
-> >>>>> By the way Paul, didn't you have a plan to mention these "C-2+2W" litmus tests
-> >>>>> somewhere in the memorder chapter?
-> >>>>
-> >>>> Good point, it is an odd corner case that is worth at least a quick quiz.
-> >>>> How about the following?
-> >>>
-> >>> My fingers just keep automatically typing "Figure", so please see a
-> >>> corrected patch below.  Presumably my fingers will get with the program
-> >>> in a few months.  ;-)
-> >>
-> >> ;-) ;-)
-> >>
-> >> Please see inline (nitpicking) comments below.
-> >>
-> >> Thanks, Akira
-> >>
-> >>>
-> >>> 							Thanx, Paul
-> >>>
-> >>> ------------------------------------------------------------------------
-> >>>
-> >>> commit ac730edc868b6c8a9a71637fd205553e7ba88df2
-> >>> Author: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> >>> Date:   Sat Nov 11 08:41:47 2017 -0800
-> >>>
-> >>>     memorder: Add a quick quiz for the 2+2W litmus tests
-> >>>     
-> >>>     Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> >>>     Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-> >>>
-> >>> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-> >>> index 7d8e4978fa6d..2ef8363fba6a 100644
-> >>> --- a/memorder/memorder.tex
-> >>> +++ b/memorder/memorder.tex
-> >>> @@ -2455,7 +2455,103 @@ same variable is not necessarily the store that started last.
-> >>>  This should not come as a surprise to anyone who carefully examined
-> >>>  Figure~\ref{fig:memorder:A Variable With More Simultaneous Values}.
-> >>>  
-> >>> -But sometimes time is on our side, as shown in the next section.
-> >>> +\begin{listing}[tbp]
-> >>> +{ \scriptsize
-> >>> +\begin{verbbox}[\LstLineNo]
-> >>> +C C-2+2W+o-wmb-o+o-wmb-o
-> >>> +{
-> >>> +}
-> >>> +
-> >>> +{
-> >>> +#include "api.h"
-> >>> +}
-> >>
-> >> 2nd parentheses should be removed in code snippets.
-> >>
-> >>> +
-> >>> +P0(int *x0, int *x1)
-> >>> +{
-> >>> +	WRITE_ONCE(*x0, 1);
-> >>> +	smp_wmb();
-> >>> +	WRITE_ONCE(*x1, 2);
-> >>> +}
-> >>
-> >> Need to convert "tab" -> "  ".
-> > 
-> > Good catches, fixed.
-> > 
-> >>> +
-> >>> +
-> >>> +P1(int *x0, int *x1)
-> >>> +{
-> >>> +	WRITE_ONCE(*x1, 1);
-> >>> +	smp_wmb();
-> >>> +	WRITE_ONCE(*x0, 2);
-> >>> +}
-> >>> +
-> >>> +exists (x0=1 /\ x1=1)
-> >>> +\end{verbbox}
-> >>> +}
-> >>> +\centering
-> >>> +\theverbbox
-> >>> +\caption{2+2W Litmus Test With Write Barriers}
-> >>> +\label{lst:memorder:2+2W Litmus Test With Write Barriers}
-> >>> +\end{listing}
-> >>> +
-> >>> +\QuickQuiz{}
-> >>> +	But for litmus tests having only ordered stores, as shown in
-> >>> +	Listing~\ref{lst:memorder:2+2W Litmus Test With Write Barriers}
-> >>> +	(\path{C-2+2W+o-wmb-o+o-wmb-o.litmus}),
-> >>> +	research shows that the cycle is prohibited, even in weakly
-> >>> +	ordered systems such as ARM and Power~\cite{test6-pdf}.
-> >>> +	Given that, are store-to-store really \emph{always}
-> >>> +	counter-temporal???
-> >>> +\QuickQuizAnswer{
-> >>> +	This litmus test is indeed a very interesting curiosity.
-> >>> +	Its ordering apparently occurs naturally given typical
-> >>> +	weakly ordered hardware design, which would normally be
-> >>> +	considered a great gift from the relevant laws of physics
-> >>> +	and cache-coherency-protocol mathematics.
-> >>> +
-> >>> +	Unfortunately, no one has been able to come up with a software use
-> >>> +	case for this gift that does not have a much better alternative
-> >>> +	implementation.
-> >>> +	Therefore, neither the C11 nor the Linux kernel memory models
-> >>> +	provide any guarantee corresponding to
-> >>> +	Listing~\ref{lst:memorder:2+2W Litmus Test With Write Barriers}.
-> >>
-> >> And the exists clause triggers by herd7 verification. (Redundant???)
-> > 
-> > Good point, added.
-> > 
-> >>> +
-> >>> +\begin{listing}[tbp]
-> >>> +{ \scriptsize
-> >>> +\begin{verbbox}[\LstLineNo]
-> >>> +C C-2+2W+o-o+o-o
-> >>> +{
-> >>> +}
-> >>> +
-> >>> +{
-> >>> +#include "api.h"
-> >>> +}
-> >>
-> >> Ditto.
-> >>
-> >>> +
-> >>> +P0(int *x0, int *x1)
-> >>> +{
-> >>> +	WRITE_ONCE(*x0, 1);
-> >>> +	WRITE_ONCE(*x1, 2);
-> >>
-> >> Ditto.
-> > 
-> > And these.
-> > 
-> >>> +}
-> >>> +
-> >>> +
-> >>> +P1(int *x0, int *x1)
-> >>> +{
-> >>> +	WRITE_ONCE(*x1, 1);
-> >>> +	WRITE_ONCE(*x0, 2);
-> >>> +}
-> >>> +
-> >>> +exists (x0=1 /\ x1=1)
-> >>> +\end{verbbox}
-> >>> +}
-> >>> +\centering
-> >>> +\theverbbox
-> >>> +\caption{2+2W Litmus Test Without Write Barriers}
-> >>> +\label{lst:memorder:2+2W Litmus Test Without Write Barriers}
-> >>> +\end{listing}%
-> >>> +%
-> >>
-> >> These "%"s have no effect because of the blank line above the
-> >> "listing" environment. You can remove them if you are OK with
-> >> the following sentence starting a new paragraph.
-> > 
-> > OK, I removed them.  So we only need the "%"s if we want the figure
-> > in the middle of a paragraph?
-> 
-> In order to prevent paragraph break, all you need is to avoid blank lines
-> in LaTeX source.
-> 
-> "%"s are useful when you don't want any "white space" to be recognized
-> by LaTeX engine, as line breaks in LaTeX source imply white spaces.
-> A line ending with a "%" (or any comment thereafter) doesn't imply
-> a white space.
-> 
-> The fixes in commit 90197e37d310 ("Fix layout hiccups in answers to
-> quick quizzes") used "%"s around "listing" environments at the head or
-> the tail of Answers to Quick Quizzes. In those cases, any white space
-> would cause extra indent or horizontal skips around cross-reference
-> markers.
-> 
-> In contrast, commit 4978c9b76f47 ("appendix/whymb: Fix layout in answers
-> to quick quizzes") tweaked just blank lines.
-> 
-> So "%" is not necessary in most cases. A line of just "%" can be used
-> instead of a blank line in LaTeX source when you want a blank line
-> around some environment without causing paragraph break, though.
-> Such use cases are present in some of the Answers to Quick Quizzes.
-> 
-> Can you see the difference?
+From 9b53814671df7e54b294599959b739f592196258 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Tue, 14 Nov 2017 20:57:08 +0900
+Subject: [PATCH] memorder: Use litmus test in section 'control dependency calamity'
 
-Had I put the listing at the end of the QQ, it would have been good
-to use % to prevent LaTeX from making a new paragraph for the
-end-of-quick-quiz market, but given that it was instead in the middle
-of the quick quiz, no need.
+Also substitute "cumulativity" for "transitivity".
 
-So I got it!  For the moment, anyway.  ;-)
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ memorder/memorder.tex | 139 ++++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 94 insertions(+), 45 deletions(-)
 
-							Thanx, Paul
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index f028789..180a721 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -3957,54 +3957,103 @@ invoked by those two clauses), not to code following that ``\co{if}''.
+ Finally, control dependencies do \emph{not} provide cumulativity.\footnote{
+ 	Refer to Section~\ref{sec:memorder:Cumulativity} for
+ 	the meaning of cumulativity.}
+-This is demonstrated by two related examples, with the initial values
+-of~\co{x} and~\co{y} both being zero:
++This is demonstrated by two related litmus tests, namely
++Listings~\ref{lst:memorder:LB Litmus Test With Control Dependency}
++and~\ref{lst:memorder:WWC Litmus Test With Control Dependency (Cumulativity?)}
++with the initial values
++of~\co{x} and~\co{y} both being zero.
 
->        Thanks, Akira
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> >>> +	Of course, without the barrier, there are no ordering
-> >>> +	guarantees, even on real weakly ordered hardware, as shown in
-> >>> +	Listing~\ref{lst:memorder:2+2W Litmus Test Without Write Barriers}
-> >>> +	(\path{C-2+2W+o-o+o-o.litmus}).
-> >>> +} \QuickQuizEnd
-> >>> +
-> >>> +But sometimes time really is on our side.  Read on!
-> >>>  
-> >>>  \subsubsection{Happens-Before}
-> >>>  \label{sec:memorder:Happens-Before}
-> >>>
-> >>>
-> >>
-> > 
-> > 
-> 
+-\vspace{5pt}
+-\begin{minipage}[t]{\columnwidth}
+-\tt
+-\scriptsize
+-\begin{tabular}{l|p{1.5in}}
+-	\nf{CPU 0} &	\nf{CPU 1} \\
+-	\hline
+-	\tco{r1 = READ_ONCE(x);} &
+-		\tco{r2 = READ_ONCE(y);} \\
+-	if (r1 > 0) &
+-		if (r2 > 0) \\
+-	~~~\tco{WRITE_ONCE(y, 1);} &
+-		~~~\tco{WRITE_ONCE(x, 1);} \\
+-	\multicolumn{2}{l}{~} \\
+-	\multicolumn{2}{l}{\tco{assert(!(r1 == 1 && r2 == 1));}} \\
+-\end{tabular}
+-\end{minipage}
+-\vspace{5pt}
++\begin{listing}
++{ \scriptsize
++\begin{verbbox}[\LstLineNo]
++C C-LB+o-cgt-o+o-cgt-o
++{
++}
+
+-The above two-CPU example will never trigger the \co{assert()}.
+-However, if control dependencies guaranteed transitivity (which they do
+-not), then adding the following CPU would guarantee a related assertion:
++P0(int *x, int *y)
++{
++  int r1;
+
+-\vspace{5pt}
+-\begin{minipage}[t]{\columnwidth}
+-\tt
+-\scriptsize
+-\begin{tabular}{l}
+-	\nf{CPU 2} \\
+-	\hline
+-	\tco{WRITE_ONCE(x, 2);} \\
+-	\multicolumn{1}{l}{~} \\
+-	\multicolumn{1}{l}{\tco{assert(!(r1 == 2 && r2 == 1 && x == 2));}} \\
+-\end{tabular}
+-\end{minipage}
+-\vspace{5pt}
++  r1 = READ_ONCE(*x);
++  if (r1 > 0)
++    WRITE_ONCE(*y, 1);
++}
++
++P1(int *x, int *y)
++{
++  int r2;
++
++  r2 = READ_ONCE(*y);
++  if (r2 > 0)
++    WRITE_ONCE(*x, 1);
++}
++
++exists (0:r1=1 /\ 1:r2=1)
++\end{verbbox}
++}
++\centering
++\theverbbox
++\caption{LB Litmus Test With Control Dependency}
++\label{lst:memorder:LB Litmus Test With Control Dependency}
++\end{listing}
++
++The \co{exists} clause in the two-thread example of
++Listing~\ref{lst:memorder:LB Litmus Test With Control Dependency}
++(\path{C-LB+o-cgt-o+o-cgt-o.litmus})
++will never trigger.
++If control dependencies guaranteed cumulativity (which they do
++not), then adding a thread to the example as in
++Listing~\ref{lst:memorder:WWC Litmus Test With Control Dependency (Cumulativity?)}
++(\path{C-WWC+o-cgt-o+o-cgt-o+o.litmus})
++would guarantee the related \co{exists} clause never to trigger.
++
++\begin{listing}
++{ \scriptsize
++\begin{verbbox}[\LstLineNo]
++C C-WWC+o-cgt-o+o-cgt-o+o
++{
++}
++
++P0(int *x, int *y)
++{
++  int r1;
++
++  r1 = READ_ONCE(*x);
++  if (r1 > 0)
++    WRITE_ONCE(*y, 1);
++}
++
++P1(int *x, int *y)
++{
++  int r2;
++
++  r2 = READ_ONCE(*y);
++  if (r2 > 0)
++    WRITE_ONCE(*x, 1);
++}
++
++P2(int *x)
++{
++  WRITE_ONCE(*x, 2);
++}
++
++exists (0:r1=2 /\ 1:r2=1 /\ x=2)
++\end{verbbox}
++}
++\centering
++\theverbbox
++\caption{WWC Litmus Test With Control Dependency (Cumulativity?)}
++\label{lst:memorder:WWC Litmus Test With Control Dependency (Cumulativity?)}
++\end{listing}
+
+-But because control dependencies do \emph{not} provide transitivity, the above
+-assertion can fail after the combined three-CPU example completes.
+-If you need the three-CPU example to provide ordering, you will need
+-\co{smp_mb()} between the loads and stores in the CPU~0 and CPU~1 code
+-fragments, that is, just before or just after the ``\co{if}'' statements.
+-Furthermore, the original two-CPU example is very fragile and should be avoided.
++But because control dependencies do \emph{not} provide cumulativity, the
++\co{exists} clause in the three-thread litmus test can trigger.
++If you need the three-thread example to provide ordering, you will need
++\co{smp_mb()} between the loads and stores in threads \co{P0()} and \co{P1()},
++that is, just before or just after the ``\co{if}'' statements.
++Furthermore, the original two-thread example is very fragile and should be avoided.
+
+-The two-CPU example is known as LB (load buffering) and the three-CPU
++The two-thread example is known as LB (load buffering) and the three-thread
+ example as WWC~\cite{Maranget2012TutorialARMPower}.
+
+ The following list of rules summarizes the lessons of this section:
+@@ -4053,8 +4102,8 @@ The following list of rules summarizes the lessons of this section:
+ \item	Control dependencies pair normally with other types of
+ 	memory-ordering operations.
+
+-\item	Control dependencies do \emph{not} provide transitivity.
+-	If you need transitivity, use \co{smp_mb()}.
++\item	Control dependencies do \emph{not} provide cumulativity.
++	If you need cumulativity, use \co{smp_mb()}.
+ \end{enumerate}
+
+ In short, many popular languages were designed primarily with
+-- 
+2.7.4
 
