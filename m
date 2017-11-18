@@ -3,17 +3,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
  h=to:cc:from:subject:message-id:date:user-agent:mime-version
  :content-language:content-transfer-encoding;
- bh=RRoXSiIgXu5ZFpY3GAavDtydBymKSi1cLDVK2h8t3F0=;
- b=HbxhO7slcE02xuC8M4PLPKDHAV6vC1d60n+AMXf+dFHvpPle5ZKbtR9r8tCV0lJYbS
- 8XQB4hOn5RUG2ernaHkXBMiviyhlSsct33//lvq9hS3Ach0prd6ddnFefba8bje0JwKO
- TV3nCwVtyp5/ITNxG8OINmV89Jl3cjFa1cK+PdpK9tPaZXCtxfd/UfeFnqqVonY7eGwc
- s8E06eUHFUjAIDuNyclFvjd/uNjaiF8caFoknvJQgsXJPcl+WgTv6ICYBoU0TMsG6pQG
- OgMpnVC8Lt8ck1kKJ2jvjiXD+r8xKt4VA1+kPUSIuyR9nm6mHpcL0VZK4kMuM02F4Ils
- GrOw==
+ bh=0U+3+rtmajyGY5tlGJ8dF2iUy0jdiRl8GMEtY5Bgf6I=;
+ b=JOcNwFo9IZJfl44Jka6uS52W87BvZKqGxmLWwivnRQQEhr4eJKAhrnooq69fpPZeuF
+ 3ILhdJf5pkFPFN5VfZdMcntmD+YbmvV+Pz2dGDssDrOL8/qw2MREuu0knibvUKG30wvc
+ dwV/7Rb3VBhmF9Lfwc3abGd/J+ZGGgkGSvZgDGAYYYGf0bygYr56FvunNYlV+kqiLn2+
+ YxuZxGJFVA67jVjeu1CL3+OGKevhE3ktvonQNQ0RyOUqpentcFWnDegBfxSIOVmidBR3
+ zcvLFSNfihAZ2tMT4gLdp2GTFl08Y+7ju/KTRjYeK15jlTk3v90cjwZKwVNj3HlrqL/T
+ LNxg==
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: Julia language
-Message-ID: <31ffe8fa-8787-7554-ce37-285cb0961a26@gmail.com>
-Date: Fri, 17 Nov 2017 00:43:19 +0900
+Subject: [PATCH 0/3] Update qqzreorder.pl
+Message-ID: <ec7ed5f9-1986-ba77-5e64-48334404c033@gmail.com>
+Date: Sun, 19 Nov 2017 00:03:05 +0900
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
@@ -22,25 +22,41 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
+From a2d0cd80fb99a15bd5265f12863ac8f0183f9a9b Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sat, 18 Nov 2017 23:43:37 +0900
+Subject: [PATCH 0/3] Update qqzreorder.pl
+
 Hi Paul,
 
-Have you heard of "Julia" language?
+In commit 90197e37d310 ("Fix layout hiccups in answers to quick
+quizzes"), I missed that code snippets at the end of QQAs were
+taken care of by qqzreorder.pl. The hiccup I saw in rcuapi.tex
+was the regression of conversion of code snippets to "listing"
+environment. I should have updated qqzreorder.pl at the time
+so that it could take care of "listing"s at the end of QQAs.
 
-JFYI,
-As can be seen in its official page at https://julialang.org/ and a Wikipedia
-article at https://en.wikipedia.org/wiki/Julia_(programming_language),
-it looks like one of promising answers to perfbook's Section 2.2 "Parallel
-Programming Goals".
+Patch #1 updates qqzreorder.pl and tweaks a code snippet in
+memorder's QQA, which has such a listing at the end of a QQA.
 
-As long as high-performance number crunching is concerned, it claims to have
-comparable performance to C, with a programming productivity much better
-than C + MPI.
+Patch #2 reverts the unnecessary changes in the above mentioned
+commit. It has no effect in the resulting PDF, but the spacial
+case handling should be done in a consistent manner.
 
-Note: I'm not a user of the language at the moment. I just heard of it at
-a twitter hashtag #julialang.
+Patch #3 fixes unrelated trivial typos.
 
-I'd like you to check it up and (hopefully) update the above mentioned
-section in perfbook.
+       Thanks, Akira
+--
+Akira Yokosawa (3):
+  Update qqzreorder.pl to take care of listing at the end of QQA
+  Partial revert of 'Fix layout hiccups in answers to quick quizzes'
+  memorder: Fix trivial typo
 
-      Thanks, Akira
+ defer/rcuapi.tex        |  7 +++----
+ memorder/memorder.tex   |  5 +++--
+ utilities/qqzreorder.pl | 24 ++++++++++++------------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
+
+-- 
+2.7.4
 
