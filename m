@@ -1,32 +1,32 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pf0-f193.google.com ([209.85.192.193]:37986 "EHLO
- mail-pf0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1751358AbdKUPbf (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 21
- Nov 2017 10:31:35 -0500
-Received: by mail-pf0-f193.google.com with SMTP id r62so10078253pfd.5 for
- <perfbook@vger.kernel.org>; Tue, 21 Nov 2017 07:31:34 -0800 (PST)
+Received: from mail-pg0-f65.google.com ([74.125.83.65]:43632 "EHLO
+ mail-pg0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1751187AbdKUPeL (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 21
+ Nov 2017 10:34:11 -0500
+Received: by mail-pg0-f65.google.com with SMTP id r12so10414455pgu.10 for
+ <perfbook@vger.kernel.org>; Tue, 21 Nov 2017 07:34:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
  h=to:cc:from:subject:message-id:date:user-agent:mime-version
  :content-language:content-transfer-encoding;
- bh=ahRkHJdybJe+uI1gipliRIOPmx/02PPC8pb7y/0dKmk=;
- b=ehuaVGsP3SMH0qwq1w0ItNGfZMX7mzrq0O0VCctbnP1p/vj28WZ9sARzMwt4d9g9ud
- 6SDy0iDHfWau1mgu2WfRNHAp6GWjYrm8TnOErvn79DGc7irzkhBwvRTa0U1z6N2JZFiK
- bGIC1IS82LIf6cmUMCRGwmHM70Zb96sGxZNBaWVKhMgiSRN3uXETE7TeB7ci40YDa9On
- G8IHyVN2B9NvmcOewFYqNc0NKnPfFxPlvWFolJ2s0YiTiPOmhCDsp3mem+mPxHlg3qj2
- 0JhuiuKLmS0fQPvVsTaHO+wjGDckpTGC0LHDG/hT4w6a2nMfTvyu+Kgeud4feJgmXyer
- 3ZEA==
+ bh=uGqtkmPg8yicT0RNHmf/ccDyUah+1XzyQkYGnfWy9zw=;
+ b=Sm5qBjA+8mfXgVwS6Un37MoXFMbKY0e38yqwDISr3spR573mmMG89W8CI0kd+ag4NE
+ 6GlDPqYjb4E9afuSxU0MJE/FZ/QSKPj7x4xU9/+YL59lLBfkSRPjefFEp9OnOxDR3CPs
+ UwYbnowCjo6iUfcGC+kmC6yDZ/07LHcHMZrHFoWMgoRCh3FM2iM7YXBKaz5QOIHXKsmi
+ w4hHej5ewZ0hoPWsb9OXsdP9/+OK02a9P19fsCqgPjcq/m5eZXCQKeD/3Ipb/uha8Ogd
+ d65j1i8IRrIo2UdKmXV7hRrI2aWDbitw7Remtzb7exiWZ+uCh+eYvo9zcAZqLzt92RQx
+ +w8Q==
 From: Akira Yokosawa <akiyks@gmail.com>
 Subject: [PATCH 0/2] Add Makefile in CodeSamples/formal/herd
-Message-ID: <69e0b7af-2f20-a5ee-ae04-99ae04659adb@gmail.com>
-Date: Wed, 22 Nov 2017 00:31:30 +0900
+Message-ID: <eb163ed9-ab88-6227-30ab-a985ababfc69@gmail.com>
+Date: Wed, 22 Nov 2017 00:34:08 +0900
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 
 From 180abe9a72d4e3fbe200ce2a032a6c616a70ce03 Mon Sep 17 00:00:00 2001
@@ -34,6 +34,7 @@ From: Akira Yokosawa <akiyks@gmail.com>
 Date: Wed, 22 Nov 2017 00:04:40 +0900
 Subject: [PATCH 0/2] Add Makefile in CodeSamples/formal/herd
 
+(Resending with To: Paul)
 Hi Paul,
 
 This is my attempt to add Makefile in CodeSamples/formal/herd.
