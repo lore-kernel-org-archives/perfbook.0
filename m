@@ -2,23 +2,22 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HnxghOtR7mgHTyEUzHmgzDBupqVAs47OCVo7Syp0nqw=;
- b=jq+8LfIgGNDODp+Wq5T577iMU+0DRqzttCJaBDVN4OSZEC496H0q/Omy/dzmTi3QIj
- zCppfvBgGjQDtc0LFa/mwAwPD2P/VadNA/I+TrOHs+IB/4JZYJhFzcXpMnjvxMI3rpVc
- lsGO2ZUj+nXFL1JVbzWbf+2XCyZqjlZnYQjew0/U/hmIWMg1mr3+YGGnSz4+WrYL0tmn
- D12o8om0E+jfT9mWgMYCCup6g1xcWFjSMPa3LyfSm8Vp2bGCq2XpB9oLBWNxzbCLLUTK
- QzXrewOZ6dnq1N4RM6dLEPKk8iQ0DffVZGhf+bPPdslQ+4IT6Wa94tr0ldgzPyyknyKs
- HuXg==
-Subject: [PATCH] CodeSamples/formal/herd: Add existence check of memory model
+ bh=EI8ljgGxdUa7EHL/kToE8wiDfWrqWgI5d3aK36DWnqY=;
+ b=m4iLx6EQE3GcFEGM+ECXmdlNp6qcx8MojR9/eAysWeQlge01N1VPTu91hrBf5xhtbU
+ /Rv1/Lyqhm5lEymv6XayixoQZnRfFHH/j1calBDLsgRLL8V5wkkRj/V/YdjfoMgZer7h
+ E40i+3mHIxNXzbq8YKVM3UMeh/eQ4ivbno4s/LLztNT9CPSfcFwsEW20iH714FX/IwnQ
+ CldASEoBEKNE1tl0UqfE9HRMey0z2jLnXuJ1UaNl2Bn2JxQiC2/PLtLJ4sLGFG+5nK0i
+ +N8x29kem3ZsekqEdi2SNUGhQxrCzP6SQXJYBh5OWEGVygsDwx0wGIYpcKA7dFgcWjJc
+ Gugw==
+Subject: [PATCH] CodeSamples/formal/herd: Remove dependency to memory model in
+ cross-klitmus
 References: <eb163ed9-ab88-6227-30ab-a985ababfc69@gmail.com>
- <20171122001231.GP3624@linux.vnet.ibm.com>
- <3840ADCE-66F6-417D-B3B6-22BBE87E85E4@gmail.com>
- <20171122061113.GT3624@linux.vnet.ibm.com>
+ <436dc15a-073d-adec-3fd6-92633bd93041@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <4d0da030-04c6-06ea-94f1-a7ecf654f58d@gmail.com>
-Date: Wed, 22 Nov 2017 20:32:26 +0900
+Message-ID: <7350c9f9-6f73-3a00-eee6-239889f93d37@gmail.com>
+Date: Thu, 23 Nov 2017 12:17:57 +0900
 MIME-Version: 1.0
-In-Reply-To: <20171122061113.GT3624@linux.vnet.ibm.com>
+In-Reply-To: <436dc15a-073d-adec-3fd6-92633bd93041@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -26,81 +25,33 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 53df3405f334e7cda1d650fefbf5fba416aa4abe Mon Sep 17 00:00:00 2001
+From 62491d966a645d08ffc6bb0c5bae9f725458cbec Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 22 Nov 2017 20:08:09 +0900
-Subject: [PATCH] CodeSamples/formal/herd: Add existence check of memory model
+Date: Thu, 23 Nov 2017 12:07:18 +0900
+Subject: [PATCH] CodeSamples/formal/herd: Remove dependency to memory model in cross-klitmus
 
-If any of the necessary files is lacking, output a message
-to give instructions for preparation of the memory model.
+Target "cross-klitmus" does not depend on memory model.
+Remove the implicit dependency of "cd $(LKMM_DIR)" from the recipe.
 
-Suggested-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+Fixes: ef76630632df ("CodeSamples/formal/herd: Add Makefile and utility script")
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/formal/herd/.gitignore |  1 +
- CodeSamples/formal/herd/Makefile   | 28 +++++++++++++++++++++++++---
- 2 files changed, 26 insertions(+), 3 deletions(-)
+ CodeSamples/formal/herd/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/CodeSamples/formal/herd/.gitignore b/CodeSamples/formal/herd/.gitignore
-index c7ba463..e0ad195 100644
---- a/CodeSamples/formal/herd/.gitignore
-+++ b/CodeSamples/formal/herd/.gitignore
-@@ -2,3 +2,4 @@
- *.herd
- klitmus
- klitmus.tar
-+memory-model
 diff --git a/CodeSamples/formal/herd/Makefile b/CodeSamples/formal/herd/Makefile
-index 9df6e65..1abe5c7 100644
+index 1abe5c7..b99699b 100644
 --- a/CodeSamples/formal/herd/Makefile
 +++ b/CodeSamples/formal/herd/Makefile
-@@ -9,14 +9,24 @@
- #
- # run-herd7-bench: Run benchmark tests of herd7 itself
- #
--# Note: LKMM model is assumed to reside in a directory next to perfbook's
--#       local repository.
-+# Note: There need to be a symbolic link "memory-model" under
-+#       CodeSamples/formal/herd for herd7 to work.
-+#       The memory model is available at the git archive:
-+#           https://github.com/aparri/memory-model.git.
-+#       Make sure the symbolic link points to the actual directory.
-+#       Alternatively, you can copy the files listed in LKMM_FILES to
-+#       a subdirectory "memory-model".
-+#
-+#       klitmus7 doesn't require the memory model.
- #
- # Copyright (C) Akira Yokosawa, 2017
- #
- # Authors: Akira Yokosawa <akiyks@gmail.com>
+@@ -73,7 +73,7 @@ cross-klitmus: klitmus.tar
 
--LKMM_DIR     := ../../../../memory-model
-+LKMM_DIR     := memory-model
-+LKMM_FILES   := linux-kernel.bell linux-kernel.cat linux-kernel.cfg \
-+		linux-kernel.def linux-kernel-hardware.cat lock.cat
-+LKMM_LIST    := $(addprefix $(LKMM_DIR)/,$(LKMM_FILES))
- HERD_DIR     := $(shell pwd)
- HERD7_CMD    := $(shell which herd7)
- KLITMUS7_CMD := $(shell which klitmus7)
-@@ -41,6 +51,18 @@ run-herd7: $(LITMUS7_HERD_OUT)
+ klitmus.tar: litmus2herd
+ 	mkdir -p klitmus
+-	cd $(LKMM_DIR); klitmus7 -o $(HERD_DIR)/klitmus $(addprefix $(HERD_DIR)/,$(LITMUS7_HERD_TEST))
++	klitmus7 -o klitmus $(LITMUS7_HERD_TEST)
+ 	tar cf klitmus.tar ./klitmus
 
- run-herd7-bench: $(HERD_BENCH_OUT)
-
-+$(LKMM_LIST):
-+	@echo "#####################################################"
-+	@echo "### Please prepare Linux Kernel Memory Model.     ###"
-+	@echo "### You can get it at the git archive:            ###"
-+	@echo "###   https://github.com/aparri/memory-model.git  ###"
-+	@echo "###                                               ###"
-+	@echo "### Refer to comment in Makefile for more info.   ###"
-+	@echo "#####################################################"
-+	@exit 1
-+
-+$(LITMUS7_HERD_OUT) $(HERD_BENCH_OUT): $(LKMM_LIST)
-+
- $(LITMUS7_HERD_OUT): %.out: %.herd
- 	cd $(LKMM_DIR); herd7 -conf linux-kernel.cfg $(HERD_DIR)/$< > $(HERD_DIR)/$@
-
+ clean:
 -- 
 2.7.4
 
