@@ -1,146 +1,65 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42310 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S932339AbdK0SE6 (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon,
- 27 Nov 2017 13:04:58 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id vARHxS7i079578
- for <perfbook@vger.kernel.org>; Mon, 27 Nov 2017 13:04:58 -0500
-Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2egnnxp5mb-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
- 27 Nov 2017 13:04:55 -0500
-Received: from localhost by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 27 Nov
- 2017 13:04:54 -0500
-Date: Mon, 27 Nov 2017 10:05:01 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: Julia language
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <31ffe8fa-8787-7554-ce37-285cb0961a26@gmail.com>
- <20171118191913.GJ3624@linux.vnet.ibm.com>
- <af00bd8f-245b-7a11-b110-91d6b95d152e@gmail.com>
- <20171120174344.GT3624@linux.vnet.ibm.com>
- <2241e3df-7540-e0a3-245c-d72348817579@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=NuTc2GXsbv7H5iSEDcT5oigsKFhtYAleC8lt/TA3MZ4=;
+ b=lL1K2P6YPrJMuK+5/ERDxp0KLSfIXkem81hKhCtSdGHlHvtSE7mwZ5NCJjvv+CfMfA
+ hqaZ9DylGOY2Ormr/b3z8pRUBIAK+XJple8yRQJeM06lQkFXGuSYiUc1BWDkbidGGaFw
+ YZPQAwM56Fo0cDYEW4YXmwiERql4EvwXiN+QiuBsQPk8SvYki8+oYLyitgnd7UPQoyOc
+ +BO+ScIwPjX7MrG88BDU+JMEfdeUnUw9a5pMQt0LfrPRkFc64vzuZBkgjD7U8IxBaLuM
+ RnYmz/EC+KkPN1XUgbT45t5ayH2xq1z0/F8Po3B3I4mXvS66ndqZpHUkbrj41V73GAkM
+ 8uEQ==
+Subject: Re: [PATCH] CodeSamples/formal/herd: Remove dependency to memory
+ model in cross-klitmus
+References: <eb163ed9-ab88-6227-30ab-a985ababfc69@gmail.com>
+ <436dc15a-073d-adec-3fd6-92633bd93041@gmail.com>
+ <7350c9f9-6f73-3a00-eee6-239889f93d37@gmail.com>
+ <20171126184024.GC3624@linux.vnet.ibm.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <f323d375-0088-c125-d149-fb6168756b35@gmail.com>
+Date: Wed, 29 Nov 2017 00:24:32 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2241e3df-7540-e0a3-245c-d72348817579@gmail.com>
-Message-Id: <20171127180501.GH3624@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <20171126184024.GC3624@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Nov 21, 2017 at 07:39:01AM +0900, Akira Yokosawa wrote:
-> On 2017/11/20 09:43:44 -0800, Paul E. McKenney wrote:
-> > On Sun, Nov 19, 2017 at 09:30:54AM +0900, Akira Yokosawa wrote:
-> >> On 2017/11/19 4:19, Paul E. McKenney wrote:
-> >>> On Fri, Nov 17, 2017 at 12:43:19AM +0900, Akira Yokosawa wrote:
-> >>>> Hi Paul,
-> >>>>
-> >>>> Have you heard of "Julia" language?
-> >>>>
-> >>>> JFYI,
-> >>>> As can be seen in its official page at https://julialang.org/ and a Wikipedia
-> >>>> article at https://en.wikipedia.org/wiki/Julia_(programming_language),
-> >>>> it looks like one of promising answers to perfbook's Section 2.2 "Parallel
-> >>>> Programming Goals".
-> >>>>
-> >>>> As long as high-performance number crunching is concerned, it claims to have
-> >>>> comparable performance to C, with a programming productivity much better
-> >>>> than C + MPI.
-> >>>>
-> >>>> Note: I'm not a user of the language at the moment. I just heard of it at
-> >>>> a twitter hashtag #julialang.
-> >>>>
-> >>>> I'd like you to check it up and (hopefully) update the above mentioned
-> >>>> section in perfbook.
-> >>>
-> >>> I had heard of it, but I had not heard of it being seriously proposed
-> >>> as the answer to Section 2.2.  I have added it to todo.txt with your
-> >>> Reported-by.
-> >>>
-> >>> Have you or has someone you know used this for a large parallel-programming
-> >>> project?  (Just looking for some real-world confirmation.)
-> >>
-> >> So you want a secondary-source info on the real-world use?
-> >>
-> >> I learned of Julia from Gen Kuroki's twitter activity since this June.
-> >> He is a mathematician at Tohoku Univiersity, and experimenting/demonstrating
-> >> Monte Carlo analysis of several statistic problems using Julia (on a Windows PC!).
-> >> But what he is doing right now doesn't qualify as a _large_ parallel-programming
-> >> project.
-> >>
-> >> There is a case-studies page at https://juliacomputing.com/case-studies/,
-> >> but this should be regarded as a primary source.
-> >>
-> >> One of the case study, "Deep Learning for Medical Diagnosis" at
-> >> https://juliacomputing.com/case-studies/ibm.html, looks like a collaboration
-> >> of IBM and Juliacomputing.
-> >>
-> >> Could this qualify as a real-world large parallel programming example?
-> > 
-> > Maybe...  Some evaluation and a proposal at the end...
-> > 
-> > But please understand that 40+ years working in this field has made me
-> > deeply skeptical of sweeping claims for new languages.  Now, don't get
-> > me wrong, Julia might well be great stuff that deserves mention in the
-> > book, but let's first take a quick look at history.
-> > 
-> > Let's start with my employer, IBM.  This URL is informative:
-> > 
-> > http://www.softwarepreservation.org/projects/FORTRAN/BackusEtAl-Preliminary%20Report-1954.pdf
-> > 
-> > This is a 1954 report on the specifications for FORTRAN, reportedly
-> > co-authored by none other than John Backus.  Please see page 3, first
-> > full paragraph:
-> > 
-> > 	Since FORTRAN should virtually eliminate coding and debugging,
-> > 	it should be possible to solve problems for less than half the
-> > 	cost that would be required without such a system.
-> > 
-> > To be fair, they were comparing coding in FORTRAN to coding in IBM 704
-> > assembly language, but still, my use of FORTRAN in the 1970s involved
-> > -significant- coding and debugging.  ;-)
+On 2017/11/26 10:40:24 -0800, Paul E. McKenney wrote:
+> On Thu, Nov 23, 2017 at 12:17:57PM +0900, Akira Yokosawa wrote:
+>> >From 62491d966a645d08ffc6bb0c5bae9f725458cbec Mon Sep 17 00:00:00 2001
+>> From: Akira Yokosawa <akiyks@gmail.com>
+>> Date: Thu, 23 Nov 2017 12:07:18 +0900
+>> Subject: [PATCH] CodeSamples/formal/herd: Remove dependency to memory model in cross-klitmus
+>>
+>> Target "cross-klitmus" does not depend on memory model.
+>> Remove the implicit dependency of "cd $(LKMM_DIR)" from the recipe.
+>>
+>> Fixes: ef76630632df ("CodeSamples/formal/herd: Add Makefile and utility script")
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 > 
-> I suppose it was the only language you could choose.
+> I applied and pushed both, the first just before the release and the one
+> below as the first commit after the release.
 > 
-> > 
-> > Julia's case-studies page is impressive, but at first glance it appears
-> > to mostly be centered on HPC, which leads me to question the "generality"
-> > part of the iron triangle of parallel programming.  Gen Kuroki's use
-> > case seems to be in a similar area.
-> 
-> As I said in the first mail in this thread:
-> 
->     >>>> As long as high-performance number crunching is concerned, [...]
-> 
-> I was not sure of "generality" either.
-> 
-> > 
-> > So what to do?
-> > 
-> > For the upcoming release, nothing.  After all, it is only a few days away.
-> > 
-> > But perhaps later it might be good to expand Section 17.4 ("Functional
-> > Programming for Parallelism") to cover languages instead of just
-> > functional programming.  Julia might fit in here, as might Rust (given
-> > the ownership aspects of its type system), Go (another popular parallel
-> > system), and maybe even Python (because everyone and their dog seems
-> > to use it).
-> > 
-> > Does that seem reasonable?
-> 
-> Sounds good!
-> 
-> Julia seems the youngest one among them.
-> We can wait for (say) a few years to see where it goes, I suppose.
+> I also attached the (very crude) scripts that I use to collect herd
+> performance data, just in case they are useful.
 
-And here is Eric Raymond's take on this:  http://esr.ibiblio.org/?p=7724
+Well, I have no idea how to use absperf-reduce.sh.
+It's partly because I'm not good at awk, but I can't figure out what kind of
+input and arguments the script assumes.
 
-Thoughts?
+Can you show me an example?
 
-							Thanx, Paul
+I know absperf.sh runs each litmus test 10 times with timeout of 15 minutes.
+
+I'd be happy to integrate the collection feature into formal/herd/Makefile,
+once I know what is expected.
+
+      Thanks, Akira
+
+> 
+> 							Thanx, Paul
+[...]
 
