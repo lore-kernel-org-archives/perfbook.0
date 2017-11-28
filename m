@@ -1,159 +1,176 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48992 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S933316AbdK2QgY (ORCPT <rfc822;perfbook@vger.kernel.org>); Wed, 29
- Nov 2017 11:36:24 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id vATGaGVd007491
- for <perfbook@vger.kernel.org>; Wed, 29 Nov 2017 11:36:24 -0500
-Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2ehvcvv6p4-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Wed,
- 29 Nov 2017 11:36:23 -0500
-Received: from localhost by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Wed, 29 Nov
- 2017 11:36:22 -0500
-Date: Wed, 29 Nov 2017 08:36:20 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] CodeSamples/formal/herd: Remove dependency to memory
- model in cross-klitmus
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <eb163ed9-ab88-6227-30ab-a985ababfc69@gmail.com>
- <436dc15a-073d-adec-3fd6-92633bd93041@gmail.com>
- <7350c9f9-6f73-3a00-eee6-239889f93d37@gmail.com>
- <20171126184024.GC3624@linux.vnet.ibm.com>
- <f323d375-0088-c125-d149-fb6168756b35@gmail.com>
- <20171129003113.GA3624@linux.vnet.ibm.com>
- <c9fcf8f4-f4f4-e5de-151f-919fe1443eca@gmail.com>
+Return-Path: <ablacktshirt@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc;        bh=SL5Unp6C+DLoY6ddDW5yclPLGziBVwH+n3VgmCDlgCI=;
+ b=gyGW9dRvQBxS/5De8UgcnJJTXx0nwJ/Tfg6n3GK/GyunSfe7y3rE1BnfVfZLGkUAQp
+ 1emD6s+jW762o5n2ik/AcgkZVGuYGfaz0VV+V85bX41f7wPYtHzmK9nb6JrXYGrKcxlk
+ MSI/5SkiG1/iEfzW9ZRsqRXW42kCOPlfvZiFhRgim2YWEbSgvgQPEP9fgGyQkZLhvVp7
+ jgsfKTwF1daIGIr+1yH4lBS8IThOAWlLimM7fKljLUsM9m6JNk5/F/tIQaivmNcyjw6p
+ hldDZkD3+yYAufXMMVFqxsDT5wNo38hcws5vPbK0iPa6PnRCCDZaoCkNEZR+b7enoeb9
+ 3zvw==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c9fcf8f4-f4f4-e5de-151f-919fe1443eca@gmail.com>
-Message-Id: <20171129163620.GD3624@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <20171127180501.GH3624@linux.vnet.ibm.com>
+References: <31ffe8fa-8787-7554-ce37-285cb0961a26@gmail.com>
+ <20171118191913.GJ3624@linux.vnet.ibm.com>
+ <af00bd8f-245b-7a11-b110-91d6b95d152e@gmail.com>
+ <20171120174344.GT3624@linux.vnet.ibm.com>
+ <2241e3df-7540-e0a3-245c-d72348817579@gmail.com>
+ <20171127180501.GH3624@linux.vnet.ibm.com>
+From: Yubin Ruan <ablacktshirt@gmail.com>
+Date: Tue, 28 Nov 2017 10:07:05 +0800
+Message-ID: 
+ <CAJYFCiONjmu_ys-2oFAqAsE2fCcE5giMYK=QF3bWTnuZPVmrPQ@mail.gmail.com>
+Subject: Re: Julia language
+Content-Type: text/plain; charset="UTF-8"
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org, Duzhong Chen <cdzos97@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Nov 30, 2017 at 12:24:26AM +0900, Akira Yokosawa wrote:
-> On 2017/11/28 16:31:13 -0800, Paul E. McKenney wrote:
-> > On Wed, Nov 29, 2017 at 12:24:32AM +0900, Akira Yokosawa wrote:
-> >> On 2017/11/26 10:40:24 -0800, Paul E. McKenney wrote:
-> >>> On Thu, Nov 23, 2017 at 12:17:57PM +0900, Akira Yokosawa wrote:
-> >>>> >From 62491d966a645d08ffc6bb0c5bae9f725458cbec Mon Sep 17 00:00:00 2001
-> >>>> From: Akira Yokosawa <akiyks@gmail.com>
-> >>>> Date: Thu, 23 Nov 2017 12:07:18 +0900
-> >>>> Subject: [PATCH] CodeSamples/formal/herd: Remove dependency to memory model in cross-klitmus
-> >>>>
-> >>>> Target "cross-klitmus" does not depend on memory model.
-> >>>> Remove the implicit dependency of "cd $(LKMM_DIR)" from the recipe.
-> >>>>
-> >>>> Fixes: ef76630632df ("CodeSamples/formal/herd: Add Makefile and utility script")
-> >>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> >>>
-> >>> I applied and pushed both, the first just before the release and the one
-> >>> below as the first commit after the release.
-> >>>
-> >>> I also attached the (very crude) scripts that I use to collect herd
-> >>> performance data, just in case they are useful.
-> >>
-> >> Well, I have no idea how to use absperf-reduce.sh.
-> >> It's partly because I'm not good at awk, but I can't figure out what kind of
-> >> input and arguments the script assumes.
-> > 
-> > Good point...
-> > 
-> >> Can you show me an example?
-> >>
-> >> I know absperf.sh runs each litmus test 10 times with timeout of 15 minutes.
-> >>
-> >> I'd be happy to integrate the collection feature into formal/herd/Makefile,
-> >> once I know what is expected.
-> > 
-> > So you run absperf.sh and feed its output into absperf-reduce.sh as
-> > its standard input.
-> > 
-> > I normally dump the absperf.sh to a file and then run absperf-reduce.sh
-> > on that file.  The output is the litmus-test name followed by the
-> > average, minimum, and maximum runtimes for that litmus test.
-> > 
-> > One oddity is that both scripts expect the scripts to be in the
-> > directory litmus-tests/absperf -- this is hard-coded into absperf.sh's
-> > for-loop and into the first pattern of absperf-reduce.sh's awk script
-> > (the "/^litmus-tests/ {" line).
-> 
-> Ah, this is the key point I could not figure out.
-> Now I can run the scripts using short litmus tests.
-> 
-> We also need memory model files in the current directory.
-> 
-> So the current scheme in CodeSamples/formal/herd/ of "cd memory-model; herd7 ..."
-> conflicts with the above assumption.
+2017-11-28 2:05 GMT+08:00 Paul E. McKenney <paulmck@linux.vnet.ibm.com>:
+> On Tue, Nov 21, 2017 at 07:39:01AM +0900, Akira Yokosawa wrote:
+>> On 2017/11/20 09:43:44 -0800, Paul E. McKenney wrote:
+>> > On Sun, Nov 19, 2017 at 09:30:54AM +0900, Akira Yokosawa wrote:
+>> >> On 2017/11/19 4:19, Paul E. McKenney wrote:
+>> >>> On Fri, Nov 17, 2017 at 12:43:19AM +0900, Akira Yokosawa wrote:
+>> >>>> Hi Paul,
+>> >>>>
+>> >>>> Have you heard of "Julia" language?
+>> >>>>
+>> >>>> JFYI,
+>> >>>> As can be seen in its official page at https://julialang.org/ and a Wikipedia
+>> >>>> article at https://en.wikipedia.org/wiki/Julia_(programming_language),
+>> >>>> it looks like one of promising answers to perfbook's Section 2.2 "Parallel
+>> >>>> Programming Goals".
+>> >>>>
+>> >>>> As long as high-performance number crunching is concerned, it claims to have
+>> >>>> comparable performance to C, with a programming productivity much better
+>> >>>> than C + MPI.
+>> >>>>
+>> >>>> Note: I'm not a user of the language at the moment. I just heard of it at
+>> >>>> a twitter hashtag #julialang.
+>> >>>>
+>> >>>> I'd like you to check it up and (hopefully) update the above mentioned
+>> >>>> section in perfbook.
+>> >>>
+>> >>> I had heard of it, but I had not heard of it being seriously proposed
+>> >>> as the answer to Section 2.2.  I have added it to todo.txt with your
+>> >>> Reported-by.
+>> >>>
+>> >>> Have you or has someone you know used this for a large parallel-programming
+>> >>> project?  (Just looking for some real-world confirmation.)
+>> >>
+>> >> So you want a secondary-source info on the real-world use?
+>> >>
+>> >> I learned of Julia from Gen Kuroki's twitter activity since this June.
+>> >> He is a mathematician at Tohoku Univiersity, and experimenting/demonstrating
+>> >> Monte Carlo analysis of several statistic problems using Julia (on a Windows PC!).
+>> >> But what he is doing right now doesn't qualify as a _large_ parallel-programming
+>> >> project.
+>> >>
+>> >> There is a case-studies page at https://juliacomputing.com/case-studies/,
+>> >> but this should be regarded as a primary source.
+>> >>
+>> >> One of the case study, "Deep Learning for Medical Diagnosis" at
+>> >> https://juliacomputing.com/case-studies/ibm.html, looks like a collaboration
+>> >> of IBM and Juliacomputing.
+>> >>
+>> >> Could this qualify as a real-world large parallel programming example?
+>> >
+>> > Maybe...  Some evaluation and a proposal at the end...
+>> >
+>> > But please understand that 40+ years working in this field has made me
+>> > deeply skeptical of sweeping claims for new languages.  Now, don't get
+>> > me wrong, Julia might well be great stuff that deserves mention in the
+>> > book, but let's first take a quick look at history.
+>> >
+>> > Let's start with my employer, IBM.  This URL is informative:
+>> >
+>> > http://www.softwarepreservation.org/projects/FORTRAN/BackusEtAl-Preliminary%20Report-1954.pdf
+>> >
+>> > This is a 1954 report on the specifications for FORTRAN, reportedly
+>> > co-authored by none other than John Backus.  Please see page 3, first
+>> > full paragraph:
+>> >
+>> >     Since FORTRAN should virtually eliminate coding and debugging,
+>> >     it should be possible to solve problems for less than half the
+>> >     cost that would be required without such a system.
+>> >
+>> > To be fair, they were comparing coding in FORTRAN to coding in IBM 704
+>> > assembly language, but still, my use of FORTRAN in the 1970s involved
+>> > -significant- coding and debugging.  ;-)
+>>
+>> I suppose it was the only language you could choose.
+>>
+>> >
+>> > Julia's case-studies page is impressive, but at first glance it appears
+>> > to mostly be centered on HPC, which leads me to question the "generality"
+>> > part of the iron triangle of parallel programming.  Gen Kuroki's use
+>> > case seems to be in a similar area.
+>>
+>> As I said in the first mail in this thread:
+>>
+>>     >>>> As long as high-performance number crunching is concerned, [...]
+>>
+>> I was not sure of "generality" either.
+>>
+>> >
+>> > So what to do?
+>> >
+>> > For the upcoming release, nothing.  After all, it is only a few days away.
+>> >
+>> > But perhaps later it might be good to expand Section 17.4 ("Functional
+>> > Programming for Parallelism") to cover languages instead of just
+>> > functional programming.  Julia might fit in here, as might Rust (given
+>> > the ownership aspects of its type system), Go (another popular parallel
+>> > system), and maybe even Python (because everyone and their dog seems
+>> > to use it).
+>> >
+>> > Does that seem reasonable?
+>>
+>> Sounds good!
+>>
+>> Julia seems the youngest one among them.
+>> We can wait for (say) a few years to see where it goes, I suppose.
+>
+> And here is Eric Raymond's take on this:  http://esr.ibiblio.org/?p=7724
+>
+> Thoughts?
 
-Indeed, and one more reason to rewrite.  ;-)
+As for the C programming language, if it would have hygienic macros,
+it will be a great pleasure because that will enable you to "generate
+programs", syntactically and semantically. I am not that
+security-oriented and I care so much about performance and control of
+my programs, so from this perspective C is more tasty than other GC
+languages. Really, C is "elegant & powerful" for me.
 
-> Let me think what approach is suitable for perfbook's CodeSamples.
-> This may take a while.
+And the memory error problem "caused" by C is indeed a drawback, but
+C++ doesn't not solve it entirely. Instead, C++ makes writing
+spaghetti code more easily. The only thing I love about C++ is its
+template, because writing template makes me...feel good (yes, the
+complexity make me feel good. And also, template enables you to
+generate code "automatically")
 
-Not an emergency as far as I know, especially given that I can continue
-using the old scripts.  ;-)
+Another very important thing for me, from the perspective of
+programming languages: type system. I am really not a fans of
+scripting languages which does not enforce strict typing. They are too
+"error prone" for writing programs. Having a program running four
+hours and throw out a syntax error is really no fun.
 
-							Thanx, Paul
+What about programming languages for parallel programming? Well, it
+will be great to have a programming language with a builtin parallel
+programming paradigm so that programmers will not have to struggle
+with those messy race conditions and will have more time to enjoy
+coffee and tea as others people in the sunshine. But, as David Wheeler
+will say, "all problems in computer science can be solved by another
+level of indirection", we the programmer can achieve things in more
+than one way. We should not be restricted to programming languages
+when thinking about parallel programming. Things like MapReduce is a
+good example of doing thing parallel, above the languages.
 
->        Thanks, Akira
-> 
-> > 
-> > So here is how the absperf-reduce.sh script operates, in the likely
-> > event that you would prefer to just rewrite it (which would be fine
-> > by me):
-> > 
-> > o	Each awk statement block is preceded by a pattern, and
-> > 	contains a "{}"-enclosed sequence of statements.  These
-> > 	statements are executed only when the pattern matches the
-> > 	current line.  The special pattern "END" executes after
-> > 	the input has been consumed and processed.
-> > 
-> > o	The "/^litmus-tests/" matches lines beginning with "litmus-tests".
-> > 	These lines are those "echo"ed by absperf.sh.  This check
-> > 	relies on the fact that herd7 doesn't output lines beginning
-> > 	with "litmus-tests", which is admittedly a very fragile
-> > 	approach.
-> > 
-> > 	Upon match, the variable "curtest" is set to the first word
-> > 	on the current line (which is the litmus-test pathname)
-> > 	and the variable "testrun" is set to zero to say that we
-> > 	do not yet have any evidence that the test ran to completion.
-> > 
-> > o	The "/^Test/" is output by herd7, and indicates that the
-> > 	litmus test actually completed.  So we set "testran" to 1.
-> > 
-> > o	The "/maxresident)k/" matches output from /bin/time.  If
-> > 	herd7 ran, the following lines parse the /bin/time output,
-> > 	and accumulate the number of runs, the total time, and
-> > 	the minimum and maximum time in awk associative arrays.
-> > 
-> > 	(In awk, 'a["efwefew"]++' is a perfectly valid expression,
-> > 	and it increments the element of "a" indexed by the string
-> > 	"efwefew".  I am pretty sure that most scripting languages
-> > 	do this these days, but it was pretty surprising back when
-> > 	awk came out with it.)
-> > 
-> > o	The "END" loops through all elements of the array, with
-> > 	the variable "i" taking on each index of that array in
-> > 	turn.  The print statement thus prints the litmus test
-> > 	name along with its statistics.
-> > 
-> > I then hand-edited the output to make various tables in email and Table
-> > 12.3 in perfbook.
-> > 
-> > Why awk?  Back when I was starting scripting languages, it was the only
-> > one availalble on UNIX.  This would have been some time in the 1980s.
-> > It is very unlikely to be the best choice for someone starting out
-> > today.  ;-)
-> > 
-> > 							Thanx, Paul
-> > 
-> > 
-> 
+P.S., Eric Raymond's post make me feel that writing is really really
+important ;-)
+
+
+        Yubin
 
