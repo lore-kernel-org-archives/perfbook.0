@@ -1,222 +1,76 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FpwNo9FIO2n0RTY7zP6CZRsNQzW5DTHQx6Z2txFkrbg=;
- b=HtII+wwNOWChLV8weUgK+I7AvuP/b01UJtAGmqjeauAX0NA+q1xOs94HRgtHOhJLIC
- YtuN9Q/3++WEXaVICfCeC6xMWKlL0kgEwyY5i7ThSYvzjsF0yiXRP8ltIApn9xYLCopg
- RVlzug+73F+IhL+nv2QSzCIelw2XKZIOI8tszz4bfsJLV1OMgMW1P4rc841HErt5cuoL
- HaSNn5dz/sA36kg0Ay+U+ioQfqpBmpxYvqgafQwdNs2JWCfok5jYbNj1ntkaijFBfJ16
- RXn3l5TnS4jHIZb1hQEH444MzC+03jkoB+DvRE5CalkaMbmdDXgKskxOCn96vArFLkcZ
- hKzg==
-Subject: [PATCH v2 2/2] future: Add merged table of locking & HTM comparison
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55824 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1752235AbdLFWyY (ORCPT <rfc822;perfbook@vger.kernel.org>); Wed, 6
+ Dec 2017 17:54:24 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id vB6MsDNF055985
+ for <perfbook@vger.kernel.org>; Wed, 6 Dec 2017 17:54:24 -0500
+Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2epmpwcwt4-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Wed,
+ 06 Dec 2017 17:54:24 -0500
+Received: from localhost by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Wed, 6 Dec 2017
+ 17:54:23 -0500
+Date: Wed, 6 Dec 2017 14:54:21 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH v2 0/2] future: Update Locking and HTM comparison tables
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <49209cfd-5494-fc54-ba4b-f8389ba4aed7@gmail.com>
  <96abd2d1-8383-fef6-549b-3e156b9c571b@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <974b2384-3fd5-0285-04b4-e2b7afe5e300@gmail.com>
-Date: Thu, 7 Dec 2017 07:22:39 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <96abd2d1-8383-fef6-549b-3e156b9c571b@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20171206225421.GE7829@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 0525a99211ea5bce67be8f5137c4abde142d8e8e Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 6 Dec 2017 23:38:41 +0900
-Subject: [PATCH v2 2/2] future: Add merged table of locking & HTM comparison
+On Thu, Dec 07, 2017 at 07:19:02AM +0900, Akira Yokosawa wrote:
+> >From 0525a99211ea5bce67be8f5137c4abde142d8e8e Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Thu, 7 Dec 2017 07:05:32 +0900
+> Subject: [PATCH v2 0/2] future: Update Locking and HTM comparison tables
+> 
+> Hi Paul,
+> 
+> I found another typo in HTMtableRCU.tex.
+> This is a respin including the fix.
+> Please apply this set instead.
+> 
+> Change since v1:
+> 
+>     Fix typo (Privitization -> Privatization)
+> 
+>         Thanks, Akira
 
-Tables of HTMtable.tex and HTMtableRCU.tex can be merged into a single
-large table in a "sidewaystable" environment.
+Ah, good catch!  I queued and pushed your updated patches and my
+wording change, thank you!
 
-To reduce the height of the table, font size of footnotesize is used
-in addition to commands \setstretch{} and \resizebox{}.
+							Thanx, Paul
 
-The additional paragraph in the text citing the table is tentative
-and need some rewording.
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- future/HTMtableFull.tex | 148 ++++++++++++++++++++++++++++++++++++++++++++++++
- future/htm.tex          |   6 ++
- 2 files changed, 154 insertions(+)
- create mode 100644 future/HTMtableFull.tex
-
-diff --git a/future/HTMtableFull.tex b/future/HTMtableFull.tex
-new file mode 100644
-index 0000000..5001497
---- /dev/null
-+++ b/future/HTMtableFull.tex
-@@ -0,0 +1,148 @@
-+% future/HTMtableFull.tex
-+% SPDX-License-Identifier: CC-BY-SA-3.0
-+
-+\begin{sidewaystable*}[htbp]
-+\input{future/HTMtableColor}
-+\centering
-+\caption{Comparison of Locking (Plain and Augmented) and HTM
-+  (\colorbox{plus}{Advantage}, \colorbox{minus}{Disadvantage},
-+  \colorbox{down}{Strong Disadvantage})}
-+\label{tab:future:Comparison of Locking (Plain and Augmented) and HTM}
-+\footnotesize
-+\setstretch{0.95}
-+%\renewcommand*{\arraystretch}{1.4}
-+\setlength{\tabcolsep}{3pt}
-+\resizebox{8in}{!}{
-+\begin{tabularx}{8.5in}{p{.85in}cXcXcX}
-+\toprule
-+  &
-+    & \multicolumn{1}{c}{Locking} &
-+      & \multicolumn{1}{c}{Locking with Userspace RCU or Hazard Pointers} &
-+        & \multicolumn{1}{c}{Hardware Transactional Memory} \\
-+\midrule
-+  Basic Idea &
-+    & Allow only one thread at a time to access a given set of objects. &
-+      & Allow only one thread at a time to access a given set of objects. &
-+        & Cause a given operation over a set of objects to execute atomically. \\
-+\midrule
-+  Scope &
-+    & \Pl Handles all operations. &
-+      & \Pl Handles all operations. &
-+        & \Pl Handles revocable operations. \\
-+\addlinespace[4pt]
-+  &
-+    & &
-+      & &
-+        & \Mn Irrevocable operations force fallback (typically to locking). \\
-+\midrule
-+  Composability &
-+    & \Dw Limited by deadlock. &
-+      & \Pl Readers limited only by grace-period-wait operations. &
-+        & \Dw Limited by irrevocable operations, transaction size, and deadlock.
-+          (Assuming lock-based fallback code.) \\
-+\addlinespace[4pt]
-+  &
-+    & &
-+      & \Mn Updaters limited by deadlock. Readers reduce deadlock. &
-+        & \\
-+\midrule
-+  Scalability \& Performance &
-+    & \Mn Data must be partitionable to avoid lock contention. &
-+      & \Mn Data must be partitionable to avoid lock contention among updaters. &
-+        & \Mn Data must be partitionable to avoid conflicts. \\
-+\addlinespace[4pt]
-+  &
-+    & &
-+      & \Pl Partitioning not needed for readers. &
-+        & \\
-+\cmidrule{3-7}
-+  &
-+    & \Dw Partitioning must typically be fixed at design time. &
-+      & \Dw Partitioning for updaters must typically be fixed at design time. &
-+        & \Pl Dynamic adjustment of partitioning carried out automatically
-+          down to cacheline boundaries. \\
-+\addlinespace[4pt]
-+  &
-+    & &
-+      & \Pl Partitioning not needed for readers. &
-+        & \Mn Partitioning required for fallbacks (less important for rare
-+          fallbacks). \\
-+\cmidrule{3-7}
-+  &
-+    & \Dw Locking primitives typically result in expensive cache misses and
-+      memory-barrier instructions.&
-+      & \Dw Updater locking primitives typically result in expensive cache
-+        misses and memory-barrier instructions. &
-+        & \Mn Transactions begin/end instructions typically do not result in
-+          cache misses, but do have memory-ordering consequences. \\
-+\cmidrule{3-7}
-+  &
-+    & \Pl Contention effects are focused on acquisition and release, so that
-+      the critical section runs at full speed. &
-+      & \Pl Update-side contention effects are focused on acquisition and
-+        release, so that the critical section runs at full speed. &
-+        & \Mn Contention aborts conflicting transactions, even if they have been
-+          running for a long time. \\
-+\addlinespace[4pt]
-+  &
-+    & &
-+      & \Pl Readers do not contend with updaters or with each other. &
-+        & \\
-+\cmidrule{3-7}
-+  &
-+    & &
-+      & \Pl Read-side primitives are typically wait-free with low overhead.
-+        (Lock-free for hazard pointers.) &
-+        & \Mn Read-only transactions subject to conflicts and rollbacks. No
-+          forward-progress guarantees other than those supplied by fallback
-+          code. \\
-+\cmidrule{3-7}
-+  &
-+    & \Pl Privatization operations are simple, intuitive, performant,
-+      and scalable. &
-+      & \Pl Privatization operations are simple, intuitive, performant,
-+        and scalable when data is visible only to updaters. &
-+        & \Mn Privatized data contributes to transaction size. \\
-+\addlinespace[4pt]
-+  &
-+    & &
-+      & \Mn Privatization operations are expensive (though still intuitive
-+        and scalable) for reader-visible data. &
-+        & \\
-+\midrule
-+  Hardware Support &
-+    & \Pl Commodity hardware suffices. &
-+      & \Pl Commodity hardware suffices. &
-+        & \Mn New hardware required (and is starting to become available). \\
-+\cmidrule{3-7}
-+  &
-+    & \Pl Performance is insensitive to cache-geometry details. &
-+      & \Pl Performance is insensitive to cache-geometry details. &
-+        & \Mn Performance depends critically on cache geometry. \\
-+\midrule
-+  Software Support &
-+    & \Pl APIs exist, large body of code and experience, debuggers operate
-+      naturally. &
-+      & \Pl APIs exist, large body of code and experience, debuggers operate
-+        naturally. &
-+        & \Mn APIs emerging, little experience outside of DBMS, breakpoints
-+              mid-transaction can be problematic. \\
-+\midrule
-+  Interaction With Other Mechanisms &
-+    & \Pl Long experience of successful interaction. &
-+      & \Pl Long experience of successful interaction. &
-+        & \Dw Just beginning investigation of interaction. \\
-+\midrule
-+  Practical Apps &
-+    & \Pl Yes. &
-+      & \Pl Yes. &
-+        & \Pl Yes. \\
-+\midrule
-+  Wide Applicability &
-+    & \Pl Yes. &
-+      & \Pl Yes. &
-+        & \Mn Jury still out, but likely to win significant use. \\
-+\bottomrule
-+\end{tabularx}
-+}
-+\end{sidewaystable*}
-diff --git a/future/htm.tex b/future/htm.tex
-index 7c9f610..6667cd0 100644
---- a/future/htm.tex
-+++ b/future/htm.tex
-@@ -918,6 +918,12 @@ A summary of the differences between the two tables is as follows:
- 	straightforward.
- \end{enumerate}
-
-+\input{future/HTMtableFull}
-+
-+For those who want to see the comparison at one view,
-+Table~\ref{tab:future:Comparison of Locking (Plain and Augmented) and HTM}
-+shows the merged comparison.
-+
- Of course, it is also possible to augment HTM,
- as discussed in the next section.
-
--- 
-2.7.4
-
+> --
+> Akira Yokosawa (2):
+>   future: Update Locking and HTM comparison tables
+>   future: Add merged table of locking & HTM comparison
+> 
+>  appendix/styleguide/styleguide.tex |   6 -
+>  future/HTMtable.tex                | 201 ++++++++++++++---------------
+>  future/HTMtableColor.tex           |   9 ++
+>  future/HTMtableFull.tex            | 148 +++++++++++++++++++++
+>  future/HTMtableRCU.tex             | 254 +++++++++++++++++--------------------
+>  future/htm.tex                     |   6 +
+>  perfbook.tex                       |   1 +
+>  7 files changed, 370 insertions(+), 255 deletions(-)
+>  create mode 100644 future/HTMtableColor.tex
+>  create mode 100644 future/HTMtableFull.tex
+> 
+> -- 
+> 2.7.4
+> 
+> 
 
