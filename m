@@ -1,26 +1,25 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-pf0-f196.google.com ([209.85.192.196]:38516 "EHLO
- mail-pf0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1752041AbdLLPdX (ORCPT <rfc822;perfbook@vger.kernel.org>); Tue, 12
- Dec 2017 10:33:23 -0500
-Received: by mail-pf0-f196.google.com with SMTP id u25so14456769pfg.5 for
- <perfbook@vger.kernel.org>; Tue, 12 Dec 2017 07:33:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=cUK+PO2U0yyEwC4+1t3/AtpEX8mAzYBhSMpo0nj+6DE=;
- b=SghO+lDuk8Ji60u2vqhBnEdRV2tTPtW7ft/K6jkDMlUv2oJ4LhqU51wLbahO6+C4Bo
- avsdCCtXj2E/ujruDk+/fsf3OgJRN+6Dq2wY4mr6S/1khz3tWQ5+5inI5QtgRWGxw1sE
- FUaTT2m6DqL4/P3Ao3BqsJ3eHygEKBtkSclDzahc1Z7pYi/0US3QbDBk9+nqzu1L3nJ1
- u78rFCK29DAXsRjVEFoDHWiwrIequS4/CPT+EcY1L2+VfgN+aFLbndXHFc2NKlecJUGG
- MFtDwMl4RA371MaE4tslzFWZBBCFdeyvvcvou6nEE/6rNrK/ZTfMw40Ua6RTyL+yKU2V
- 165w==
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail-pg0-f68.google.com ([74.125.83.68]:36496 "EHLO
+        mail-pg0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1757161AbdLWDmI (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Fri, 22 Dec 2017 22:42:08 -0500
+Received: by mail-pg0-f68.google.com with SMTP id k134so15173103pga.3
+        for <perfbook@vger.kernel.org>; Fri, 22 Dec 2017 19:42:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=WZ0WeT652Y5fFMwjparHwM2FzbHF8ZXQ7Bok4MoLF0M=;
+        b=HqtrKaDEVCmFauI1OybBac24KIxi9cUJE3Biilhd+jrgibZOubT0IBEJdbT9nV/TzQ
+         L+brUShN01j+bAx70ZDfI3HBIEJg1h0rQ01IP43HLA3TglK9PxYJhMK/5sztwbx52eYI
+         vUCA+bk2YqVvaOR14sYcOabr98uR7UU0Zf76p+sAJmYkzv0jCD6K4adlLagZn/EjvWHv
+         R1ROYoIWONiedV5UnijSuo1LvDLXcK3K0L6SI6tEpbHoQ0NBIZgzdATew1R6dB/VeSkr
+         QXNLMD9uJ6FqzY/TDgOcnjabr4qZicO6Vz8pQ+xYddDdR4xASTBHNNLrpQf7vwc5+1h2
+         Lmxg==
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] CodeSamples/formal/herd: Tame 'sort' command by setting
- LC_ALL
-Message-ID: <f0cbd8a6-921b-f863-b1bd-97fd35b6ccdd@gmail.com>
-Date: Wed, 13 Dec 2017 00:33:17 +0900
+Subject: [PATCH 0/4] count: Get rid of ACCESS_ONCE
+Message-ID: <8134b352-67cd-2426-a3f7-ca776a3d7267@gmail.com>
+Date: Sat, 23 Dec 2017 12:42:04 +0900
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
@@ -30,69 +29,49 @@ List-ID: <perfbook.vger.kernel.org>
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 
-From d6979ecb0635bd0418c049c89357cadb50cb32de Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 12 Dec 2017 23:56:07 +0900
-Subject: [PATCH] CodeSamples/formal/herd: Tame 'sort' command by setting LC_ALL
-
-Otherwise, results of sorting in targets run-absperf and
-run-absperf-all will depend on locale setting.
-
-Fixes: ef392264b2b1 ("CodeSamples/formal/herd: Make use of absperf scripts in make targets")
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
 Hi Paul,
 
-I suppose your locale setting is "en_US.UTF-8".
-If this is the case, the result of run-absperf with a short timeout
-will look something like:
+This patch set removes ACCESS_ONCE() in Chapter 5.
+(Yes, I saw the update in todo.txt.)
 
-    C-SB+l-o-o-u+l-o-o-u-X.litmus 0.04 0.04 0.04
-    C-SB+l-o-o-u+l-o-o-u-XE.litmus 0.09 0.09 0.09
-    C-SB+l-o-o-u+l-o-o-u+l-o-o-u-X.litmus 1.55 1.55 1.55
-    C-SB+l-o-o-u+l-o-o-u+l-o-o-u-XE.litmus 5.26 5.26 5.26
-    C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u.litmus 0.6 0.60 0.60
-    C-SB+l-o-o-u+l-o-o-u+l-o-o-u.litmus 0.06 0.06 0.06
-    C-SB+l-o-o-u+l-o-o-u+l-o-o-u-C.litmus 1.22 1.22 1.22
-    C-SB+l-o-o-u+l-o-o-u+l-o-o-u-CE.litmus 2.65 2.65 2.65
-    C-SB+l-o-o-u+l-o-o-u.litmus 0.01 0.01 0.01
-    C-SB+l-o-o-u+l-o-o-u-C.litmus 0.04 0.04 0.04
-    C-SB+l-o-o-u+l-o-o-u-CE.litmus 0.06 0.06 0.06
+Patch #1 updates code snippets and code under CodeSamples/count/.
+Patch #2 updates text in Chapter 5 as well as Section 4.2.5 to adjust
+context.  Citations in QQA to LWN article "ACCESS_ONCE()" is
+replaced by footnotes referencing definition in Section 4.2.5.
+Patch #3 adds a couple of git commits to bibliography to be cited
+by Patch #4.
+Patch #4 adds a Quick Quiz in Section 4.2.5 to put a brief history of
+ACCESS_ONCE().
 
-I used "sort -r" to have the ordering as:
+As ACCESS_ONCE() has been removed during Linux 4.15 merge window,
+it would be a good chance to put some memorial words in perfbook.
+In patch #4, I put them in a QQA. An alternative would be to
+put them in a dedicated section on "compiler barriers" in Section 4.2 or 4.3.
 
-    C-SB+l-o-o-u+l-o-o-u.litmus 0.01 0.01 0.01
-    C-SB+l-o-o-u+l-o-o-u-XE.litmus 0.09 0.09 0.09
-    C-SB+l-o-o-u+l-o-o-u-X.litmus 0.04 0.04 0.04
-    C-SB+l-o-o-u+l-o-o-u-CE.litmus 0.06 0.06 0.06
-    C-SB+l-o-o-u+l-o-o-u-C.litmus 0.04 0.04 0.04
-    C-SB+l-o-o-u+l-o-o-u+l-o-o-u.litmus 0.06 0.06 0.06
-    C-SB+l-o-o-u+l-o-o-u+l-o-o-u-XE.litmus 5.26 5.26 5.26
-    C-SB+l-o-o-u+l-o-o-u+l-o-o-u-X.litmus 1.55 1.55 1.55
-    C-SB+l-o-o-u+l-o-o-u+l-o-o-u-CE.litmus 2.65 2.65 2.65
-    C-SB+l-o-o-u+l-o-o-u+l-o-o-u-C.litmus 1.22 1.22 1.22
-    C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u.litmus 0.6 0.60 0.60
+In any case, the wording of the brief history needs some polishing
+by the inventor of ACCESS_ONCE(). So I don't expect patch #4 to be
+applied as is.
 
-This change ensures the intended ordering no matter what your locale is.
-(Well, this is not ideal, but close enough.)
+BTW, I thought twice about citing the git commit adding ACCESS_ONCE()
+in RCU code because of its title. Are you OK with it being listed in
+bibliography?
 
-        Thanks, Akira
+      Thanks, Akira
 --
- CodeSamples/formal/herd/Makefile | 1 +
- 1 file changed, 1 insertion(+)
+Akira Yokosawa (4):
+  count: Get rid of ACCESS_ONCE() in code snippet
+  count: Get rid of ACCESS_ONCE() in text
+  Update bibliography
+  toolsoftrade: Add quick quiz on ACCESS_ONCE()
 
-diff --git a/CodeSamples/formal/herd/Makefile b/CodeSamples/formal/herd/Makefile
-index 7bbfeaf..8e0635a 100644
---- a/CodeSamples/formal/herd/Makefile
-+++ b/CodeSamples/formal/herd/Makefile
-@@ -79,6 +79,7 @@ absperf.out: ABSPERF_LIST = $(ABSPERF_SHORT)
- absperf.out: $(ABSPERF_SHORT)
- absperf-all.out: ABSPERF_LIST = $(ABSPERF_TEST)
- absperf-all.out: $(ABSPERF_TEST)
-+$(ABSPERF_OUT): export LC_ALL = C
+ CodeSamples/count/count_lim_sig.c | 26 ++++++++++-----------
+ CodeSamples/count/counttorture.h  |  8 +++----
+ CodeSamples/count/limtorture.h    | 18 +++++++-------
+ bib/RCU.bib                       | 33 +++++++++++++++++++++++++-
+ count/count.tex                   | 45 ++++++++++++++++++++---------------
+ toolsoftrade/toolsoftrade.tex     | 49 ++++++++++++++++++++++++++++-----------
+ 6 files changed, 119 insertions(+), 60 deletions(-)
 
- $(ABSPERF_OUT):
- 	mkdir -p absperf
 -- 
 2.7.4
 
