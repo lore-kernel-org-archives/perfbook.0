@@ -1,81 +1,107 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49904 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S966499AbeAOPuP (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 15
- Jan 2018 10:50:15 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w0FFo85b020089
- for <perfbook@vger.kernel.org>; Mon, 15 Jan 2018 10:50:15 -0500
-Received: from e18.ny.us.ibm.com (e18.ny.us.ibm.com [129.33.205.208]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2fgxduagb1-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Mon,
- 15 Jan 2018 10:50:15 -0500
-Received: from localhost by e18.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 15 Jan
- 2018 10:50:14 -0500
-Date: Mon, 15 Jan 2018 07:50:17 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: STM implementation
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <20180115142809.GA28308@HP>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=zAZSR/FR7QSRJbI+Bfhf8DKAIAZtZZnckcpTdJ69qyQ=;
+ b=twFkRpb15KjfkQALBfKfLJoxDcMcjHOndkTkSuzjXoYJ5yIh/lJuwL62lIMwd5IohV
+ ulJFYBMW4E7KPnMN7Zn+P1bOP6kB4q7nhhqLZSwF+AVR8N/eJjRoOp61iIFrGxHvXnzy
+ yqvcp39EFlhHS9fuSYIyXxMyuHzft+0rqa7X1jmyT4ibePvcLrQIv8nlyTXVevOH7nYv
+ Fl3TqWGfkaMz1RxLLYP7tw1N3EUC6Ji96gGBZPy0nenu0Bw2WvQ+qF+rVivQODdLacQX
+ yiO+pPfsNutJu25csZU2NG58NAJz24UoX+AtgqOUfuIdm0kl7oEQuVA6MIE4N/POVwdE
+ veLQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/4] Fix fonts in figures
+Message-ID: <46894f44-5b60-886f-2321-67c1b9b51c97@gmail.com>
+Date: Sat, 27 Jan 2018 18:51:07 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180115142809.GA28308@HP>
-Message-Id: <20180115155017.GI9671@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Yubin Ruan <ablacktshirt@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Jan 15, 2018 at 10:28:33PM +0800, Yubin Ruan wrote:
-> Hi Paul,
-> 
-> I writing to ask about implementation of STM (software transactional memory).
-> 
-> I just finish section 17 of the perfbook, but that doesn't say much about
-> implementations of transactional memory, especially STM. Basically I
-> understand the common implementation of HTM (hardware transactional memory)
-> and have experience using it (thanks to the meltdown paper[1] and the original
-> HTM paper[2] and some other materials[3]). But I cannot find useful materials
-> on the topic of STM implementation. I read through the original STM paper[4],
-> but found it a bit cryptographic (hard to understand). Based on the materials
-> I read so far, STM can be implemented using lock-free algorithms or simply
-> locking. Alternatively, it can also be implemented using techniques similar to
-> those in the database world (write-ahead logging, i.e., journaling). But I
-> guess a robust and efficient implementation will require more to handle issues
-> such as I/O ? Can you provide some hints on this topic?
-> 
-> I am still investigating and will really appreciate any comments.
+From 3fd97ea1bffc46d5ea2946397d3fa5debf74579e Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sat, 27 Jan 2018 16:30:20 +0900
+Subject: [PATCH 0/4] Fix fonts in figures
 
-Hello, Yubin,
+Hi Paul,
 
-There has been a huge variety of STM implementations over the years.
-Last I looked into it carefully (admittedly some years back), there was
-a tradeoff between performance and scalability, but both performance
-and scalability were quite poor compared to non-TM approaches.
+This patch set is the result of my investigation of improper font
+rendering in figures on Fedora 27.  In the end, I found several
+font-related issues which also affected the results on other
+platforms.
 
-A colleague of mine had good things to say about SwissTM, but that was
-more than five years ago.  Michael Spear has done quite a bit of more
-recent STM work, so looking at his publications would be helpful.
+The cause of the font problem on Fedora 27 is the introduction
+of URW++ v2 font family.  It is not compatible with fixfonts.sh's
+font conversion.
 
-Please let me know how it goes!
+Another problem on Fedora 27 is that ghostscript 9.22 does not work
+with a2ping script. I reported the issue to Red Hat Bugzilla [1].
+So far, it has not been resolved.  a2ping issue is not touched in
+this patch set.
 
-							Thanx, Paul
+[1]: https://bugzilla.redhat.com/show_bug.cgi?id=1530268
 
->         Yubin
-> 
-> [1]: https://meltdownattack.com/meltdown.pdf
->     (The meltdown paper)
-> 
-> [2]: http://cs.brown.edu/~mph/HerlihyM93/herlihy93transactional.pdf
->     (Transactional Memory: Architectural Support for Lock-Free Data Structures)
-> 
-> [3]: https://www.scss.tcd.ie/~jones/CS4021/transactional%20memory.pdf
->     (A lecture note on Intel TSX, which also talk about implementation of HTM)
-> 
-> [4]: https://pdfs.semanticscholar.org/846e/87f6c8b9d8909d678b5c668cfe46cf40a348.pdf
->     (Software Transactional Memory)
-> 
+Patch #1 adds a font conversion script for .svg files. In some
+.svg files, non-free font names such as "Helvetica" and "Courier"
+are used. Also, a generic font name of "Sans" causes the result
+to depend on locale setting. Converting those names to URW font-
+family names can eliminate the ambiguity.
+It also adds a recipe to convert fonts in .eps files which are
+the origin of figures (mostly generated by gnuplot).
+
+Patch #2 fixes fixfonts.sh to avoid unintended conversions.
+
+Patch #3 fixes font names embedded in .eps files which look
+like the result of wrong conversion before they were committed.
+
+Patch #4 adds conversion scripts for URW++ v2 font family.
+Which set of scripts to use is determined in Makefile according
+to the result of "fc-list" command.
+
+These changes have been tested on Ubuntu Trusty, Ubuntu Xenial,
+Fedora 26, and Fedora 27 (with ghostscript downgraded to 9.20).
+
+Differences in the resulting figures can be seen in Figures 9.1,
+9.7, 9.8, 17.5, and 17.6.
+
+You need to do "make neatfreak; make -j4" to ensure all the
+affected figures to be rebuilt.
+
+         Thanks, Akira
+
+NOTE 1: After KPTI was applied, ghostscript slowed down significantly
+on virtual guest machines (might as well on real machines).
+
+NOTE 2: Before this change, full rebuild on Ubuntu Trusty with small
+RAM size (<2GB) sometimes ended up in DOS (thrashing). Now this
+symptom has disappeared.
+
+--
+Akira Yokosawa (4):
+  Add fixsvgfonts.sh
+  Fix pattern order in fixfonts.sh
+  future: Fix embedded font name in .eps files
+  Makefile: Support URW++ v2 font family names
+
+ Makefile                         | 38 +++++++++++++++++++++----
+ future/be-lb-n4-rf-all.eps       |  4 +--
+ future/be-lw-n4-rf-all.eps       |  4 +--
+ future/latencytrend.eps          |  4 +--
+ utilities/fixanepsfonts-urwps.sh | 27 ++++++++++++++++++
+ utilities/fixfonts-urwps.sh      | 61 ++++++++++++++++++++++++++++++++++++++++
+ utilities/fixfonts.sh            | 28 ++++++++++++++----
+ utilities/fixsvgfonts-urwps.sh   | 23 +++++++++++++++
+ utilities/fixsvgfonts.sh         | 15 ++++++++++
+ 9 files changed, 187 insertions(+), 17 deletions(-)
+ create mode 100644 utilities/fixanepsfonts-urwps.sh
+ create mode 100644 utilities/fixfonts-urwps.sh
+ create mode 100644 utilities/fixsvgfonts-urwps.sh
+ create mode 100644 utilities/fixsvgfonts.sh
+
+-- 
+2.7.4
 
