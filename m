@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DQyTIrH4II4dvzcqBF+5mKCO63E5znHwaTjLsni3YJs=;
- b=LshiLQ9hb+Q6JJjlvwY/sUKr3D1fm1XHLiUkz8iwqJsBViESfIYExFX847KfEK4mmu
- EQAsOrmRrMsvuZit68TPgGZR6YVvr1Df4KSGK37QgGOhFxd7coNtOkP3rAGMwFFMkh6s
- 4V8l5p74Cyj9i9E4OMikEfSncyaNLGX+Iu0Dqz6ZvvZhDID6FPHFyB1tv/r1cPnCJWuu
- 4bHV7tv8w8/u0k2T4+/0iRnDRXoDYG2x6e8n9dLr2GNWL/c6csipFNL/G5YNmK3kOqAM
- kfTKb653pdqSm3mliS9JUsv6ETNOAJ621l7wmUgWvEyltiS9h3FfUazwVwPr+Qx+rB2k
- Ce8g==
-Subject: [PATCH 2/4] Fix pattern order in fixfonts.sh
+ bh=iz0ZqVM9+UJnCpot3b6e83Z0x/i3u0OVureecopP27k=;
+ b=DT/YKjHG3uwa5r151yVbU3kdNhebquP0BEUSU4D6pwb6y5P4cAbQaMG45PzJsuljkm
+ uVue+VHdeH6iymkQ/y8fOX2d+tXiCc/clWaxtYLwbB8823BuAJTpGzxKMS7k6b+u+JFD
+ bclt/n539fxCzwn54J0FyFBogrt7hqzqPnk3g9qTjWyhPTJKncFVksZTxMuRFpnR/+dQ
+ BIf7sTmhLVhCE/Bg8eyXjQdt6Re/9pHnHvoyNa9mI6TqmhilfDPE8v76LMBi7cMWpzC8
+ 3V54oR3hW0uuZRHv4s5VyLddxUB005zch7ip7FkaZg0DJiiTBVoKjozjdG+6uqj+5CqU
+ tkMw==
+Subject: [PATCH 3/4] future: Fix embedded font name in .eps files
 References: <46894f44-5b60-886f-2321-67c1b9b51c97@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <9018de50-1b54-74c6-522d-5e3fee3e60e2@gmail.com>
-Date: Sat, 27 Jan 2018 18:57:05 +0900
+Message-ID: <2b88992f-22e7-580a-ee93-de4d01b03df2@gmail.com>
+Date: Sat, 27 Jan 2018 18:58:27 +0900
 MIME-Version: 1.0
 In-Reply-To: <46894f44-5b60-886f-2321-67c1b9b51c97@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,63 +23,80 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From f66a34666ba8ebe75e17cbcca67afc3d4b80d093 Mon Sep 17 00:00:00 2001
+From 3976a1258fea7b1be19bbfba91a78f1603bb9be0 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 27 Jan 2018 12:47:49 +0900
-Subject: [PATCH 2/4] Fix pattern order in fixfonts.sh
+Date: Sat, 27 Jan 2018 12:51:29 +0900
+Subject: [PATCH 3/4] future: Fix embedded font name in .eps files
 
-Longer matching patters should come first.
-Also add several patterns for Helvetica Narrow fonts.
+"NimbusSanL-Regu+g" is not a proper font name.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/fixfonts.sh | 28 ++++++++++++++++++++++------
- 1 file changed, 22 insertions(+), 6 deletions(-)
+ future/be-lb-n4-rf-all.eps | 4 ++--
+ future/be-lw-n4-rf-all.eps | 4 ++--
+ future/latencytrend.eps    | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/utilities/fixfonts.sh b/utilities/fixfonts.sh
-index f348dc9..646c68b 100644
---- a/utilities/fixfonts.sh
-+++ b/utilities/fixfonts.sh
-@@ -16,17 +16,33 @@
- # http://www.gnu.org/licenses/gpl-2.0.html.
- #
- # Copyright (c) 2011 Paul E. McKenney, IBM Corporation.
-+# Copyright (c) 2018 Akira Yokosawa
-
--sed	-e 's+Times-Roman+NimbusSanL-Regu+g' \
-+sed	-e 's+Times-Roman-BoldItalic+NimbusSanL-BoldItal+g' \
-+	-e 's+Times-Roman-Italic+NimbusSanL-ReguItal+g' \
-+	-e 's+Times-Roman-Bold+NimbusSanL-Bold+g' \
-+	-e 's+Times-Roman+NimbusSanL-Regu+g' \
- 	-e 's+Times+NimbusSanL-Regu+g' \
- 	-e 's+Helvetica-BoldOblique+NimbusSanL-BoldItal+g' \
- 	-e 's+Helvetica-Oblique+NimbusSanL-ReguItal+g' \
--	-e 's+Helvetica-Bold+NimbusSanL-Bold+g' \
- 	-e 's+Helvetica-Bold-iso+NimbusSanL-Bold+g' \
--	-e 's+Helvetica+NimbusSanL-Regu+g' \
-+	-e 's+Helvetica-Bold+NimbusSanL-Bold+g' \
-+	-e 's+Helvetica-Narrow-BoldOblique-iso+NimbusSanL-BoldCondItal+g' \
-+	-e 's+Helvetica-Narrow-BoldOblique+NimbusSanL-BoldCondItal+g' \
-+	-e 's+Helvetica-Narrow-Oblique-iso+NimbusSanL-ReguCondItal+g' \
-+	-e 's+Helvetica-Narrow-Oblique+NimbusSanL-ReguCondItal+g' \
-+	-e 's+Helvetica-Narrow-Bold-iso+NimbusSanL-BoldCond+g' \
-+	-e 's+Helvetica-Narrow-Bold+NimbusSanL-BoldCond+g' \
-+	-e 's+Helvetica-Narrow-iso+NimbusSanL-ReguCond+g' \
-+	-e 's+Helvetica-Narrow+NimbusSanL-ReguCond+g' \
- 	-e 's+Helvetica-iso+NimbusSanL-Regu+g' \
-+	-e 's+Helvetica+NimbusSanL-Regu+g' \
- 	-e 's+Symbol+StandardSymL+g' \
--	-e 's+Courier+NimbusMonL-Regu+g' \
--	-e 's+Courier-Bold+NimbusMonL-Bold+g' \
-+	-e 's+Courier-BoldOblique+NimbusMonL-BoldObli+g' \
- 	-e 's+Courier-Oblique+NimbusMonL-ReguObli+g' \
--	-e 's+Courier-BoldOblique+NimbusMonL-BoldObli+g'
-+	-e 's+Courier-Bold+NimbusMonL-Bold+g' \
-+	-e 's+Courier+NimbusMonL-Regu+g' \
-+	-e 's+NimbusSanL-Regu-Italic+NimbusSanL-ReguItal+g' \
-+	-e 's+NimbusSanL-Regu-BoldItalic+NimbusSanL-BoldItal+g' \
-+	-e 's+NimbusSanL-Regu-Bold+NimbusSanL-Bold+g' \
-+	-e 's+StardardSymL-+Symbol-+g'
+diff --git a/future/be-lb-n4-rf-all.eps b/future/be-lb-n4-rf-all.eps
+index e0ad1aa..5482a3f 100644
+--- a/future/be-lb-n4-rf-all.eps
++++ b/future/be-lb-n4-rf-all.eps
+@@ -249,7 +249,7 @@ gsave
+ 0.100 0.100 scale
+ 0 setgray
+ newpath
+-(NimbusSanL-Regu+g) findfont 100 scalefont setfont
++(NimbusSanL-Regu) findfont 100 scalefont setfont
+ 1.000 UL
+ LTb
+ 450 300 M
+@@ -459,5 +459,5 @@ grestore
+ end
+ showpage
+ %%Trailer
+-%%DocumentFonts: NimbusSanL-Regu+g
++%%DocumentFonts: NimbusSanL-Regu
+ %%Pages: 1
+diff --git a/future/be-lw-n4-rf-all.eps b/future/be-lw-n4-rf-all.eps
+index afdf069..a9aa12e 100644
+--- a/future/be-lw-n4-rf-all.eps
++++ b/future/be-lw-n4-rf-all.eps
+@@ -249,7 +249,7 @@ gsave
+ 0.100 0.100 scale
+ 0 setgray
+ newpath
+-(NimbusSanL-Regu+g) findfont 100 scalefont setfont
++(NimbusSanL-Regu) findfont 100 scalefont setfont
+ 1.000 UL
+ LTb
+ 630 300 M
+@@ -591,5 +591,5 @@ grestore
+ end
+ showpage
+ %%Trailer
+-%%DocumentFonts: NimbusSanL-Regu+g
++%%DocumentFonts: NimbusSanL-Regu
+ %%Pages: 1
+diff --git a/future/latencytrend.eps b/future/latencytrend.eps
+index 5db0682..676578b 100644
+--- a/future/latencytrend.eps
++++ b/future/latencytrend.eps
+@@ -249,7 +249,7 @@ gsave
+ 0.100 0.100 scale
+ 0 setgray
+ newpath
+-(NimbusSanL-Regu+g) findfont 100 scalefont setfont
++(NimbusSanL-Regu) findfont 100 scalefont setfont
+ 1.000 UL
+ LTb
+ 570 300 M
+@@ -449,5 +449,5 @@ grestore
+ end
+ showpage
+ %%Trailer
+-%%DocumentFonts: NimbusSanL-Regu+g
++%%DocumentFonts: NimbusSanL-Regu
+ %%Pages: 1
 -- 
 2.7.4
 
