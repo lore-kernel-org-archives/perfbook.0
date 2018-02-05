@@ -1,45 +1,60 @@
-Return-Path: <sj38.park@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=glXEH7IJyMqoOsfq/eJzUwXUyThMwfR9vdLcBsV/dTI=;
- b=ugj/DgAz0bnzZYW2087Dltvd2SDvpp9gAkt57dKD/ojXrAFbXOCv61TmYsyJHq5azW
- uxxEoqBlRetXwlBj6TDRa7MYQElO1YLoJJsTwLRfRzzYypE3HvLs1G/Cllp9FLrFGu4q
- gOJVjaqadYegKZaeUIu+BICk3ptS95QuirGDoIPrWyvGuV+1BHrryZ37RjUlY5+YieiQ
- gUeJgkKmR/DhKuq/NdqB7ZX0JxhHiOPW6Fb8lO+dD7f1gUZjrZYuYukXib9CMUJOKNOL
- pCQd6g2r1Cw9RYuJvdcMMU+0ye9vhWVlBbr8zGAgDsDlLf01PmQ7dh/VcDZQAf4f0+DR
- JMWQ==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 2/2] toolsoftrade: Use `\path{}` for filename
-Date: Mon,  5 Feb 2018 07:11:35 +0900
-Message-Id: <20180204221135.1001-2-sj38.park@gmail.com>
-In-Reply-To: <20180204221135.1001-1-sj38.park@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38318 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1752838AbeBEBcP (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Sun, 4 Feb 2018 20:32:15 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w151Sne2129051
+ for <perfbook@vger.kernel.org>; Sun, 4 Feb 2018 20:32:15 -0500
+Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2fxdbdrkqj-1 (version=TLSv1.2
+ cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
+ 04 Feb 2018 20:32:14 -0500
+Received: from localhost by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 4 Feb 2018
+ 20:32:14 -0500
+Date: Sun, 4 Feb 2018 17:32:20 -0800
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH 1/2] toolsoftrade: Add a missed unbreakable space for line
+ number
+Reply-To: paulmck@linux.vnet.ibm.com
 References: <20180204221135.1001-1-sj38.park@gmail.com>
-To: paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180204221135.1001-1-sj38.park@gmail.com>
+Message-Id: <20180205013220.GT3617@linux.vnet.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: SeongJae Park <sj38.park@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-A file name in toolsoftrade chapter is using `\co{}`.  This commit fixes
-it to use `\path{}` instead as 'Style Guide' chapter mentions.
+On Mon, Feb 05, 2018 at 07:11:34AM +0900, SeongJae Park wrote:
+> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- toolsoftrade/toolsoftrade.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Good catches, both applied, thank you!
 
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index ac25855..1ac7a34 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -107,7 +107,7 @@ grep $pattern1 | sed -e 's/a/b/' | sort
- 	For a sufficiently large input file,
- 	\co{grep} will pattern-match in parallel with \co{sed}
- 	editing and with the input processing of \co{sort}.
--	See the file \co{parallel.sh} for a demonstration of
-+	See the file \path{parallel.sh} for a demonstration of
- 	shell-script parallelism and pipelining.
- } \QuickQuizEnd
+							Thanx, Paul
 
--- 
-2.10.0
+> ---
+>  toolsoftrade/toolsoftrade.tex | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+> index e7a922b..ac25855 100644
+> --- a/toolsoftrade/toolsoftrade.tex
+> +++ b/toolsoftrade/toolsoftrade.tex
+> @@ -272,7 +272,7 @@ If the process ID is instead $-1$, this indicates that the \co{wait()}
+>  primitive was unable to wait on a child.
+>  If so, line~9 checks for the \co{ECHILD} errno, which indicates that there
+>  are no more child processes, so that line~10 exits the loop.
+> -Otherwise, lines~11 and 12 print an error and exit.
+> +Otherwise, lines~11 and~12 print an error and exit.
+> 
+>  \QuickQuiz{}
+>  	Why does this \co{wait()} primitive need to be so complicated?
+> -- 
+> 2.10.0
+> 
 
