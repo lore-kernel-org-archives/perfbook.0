@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=a+Me3ZODUHkKTfzC5Kd4iKrS8iRKCRO1dBq5RrcK36c=;
- b=on5lp05IAiIWZ7KUTRG+G/wUbTfv9sWwrj9O4+RN5+AIy16zeKWyr/VuFLAikfRJA0
- tQ7rGdW7P6T84yr6zBLyHBc2OgSBLXvlq9ZMsx1yUf0E9VgcmrD7cwVy+uTlm38n1owa
- qtnUi6vAooQyXEr+aGZw63RcHmWmweF2Hr1Rph+1ReMZAEv2+6jOE1ASptLiecX655D0
- wRmkPOvWlXaxO67iMEM87itckSQ5DuKZ1fsp3pWxjCm2HTEMTrquhoGRcY+bPzHQZfjK
- 1pliVpluvndtuVH16goM8j5i9Pex/JgZKl5S3YDkgmmWOg1GDE/O2JROTesSLfWQEHcO
- BtPQ==
-Subject: [PATCH 4/5] future/QC: Disambiguate 'QC power'
+ bh=Em/ynmG8dnh2z+WZBi7M2xl1zCs+ipcVQKKceHl11Nc=;
+ b=BzsETV94v333P1cvXcIjO0t38cDbhR6c85R9IwdydkP+ueKAboP604kyrxTsEMC4sr
+ Swb68cgPW2hJjQ4AP9rE1pXAebIzB0NwbCRlHL5MbYsWCN4hPqNaXWETRfdcSm71DM+V
+ JagV3ACE4puQ9uLf2gcjuyMFhihzZ9HLrxIGghv2veNYIhfTymysXOH8cVUwz1EjJr3B
+ kcYXCtf7IaA8TXfj21OUX2DXIyZGJn40fJnMzmz3KveLbkDF0qYvnN2blDvR01dZhADj
+ 00aiiW3JzwUbk6hHeEJ50yHQ7c6vso8PZ/4gpw9O4ZQGteH/RMAzMDypvzVzTgqzn2qG
+ e8AQ==
+Subject: [PATCH 5/5] future/QC: Fix typo
 References: <1e4f8413-f968-9d37-6322-8057bfe97bb7@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <6d45e0b1-cb49-07ce-7a24-c6388bcdf827@gmail.com>
-Date: Sun, 25 Feb 2018 08:52:56 +0900
+Message-ID: <ae28a529-e232-87bd-d85b-a80689f1b0d9@gmail.com>
+Date: Sun, 25 Feb 2018 08:53:41 +0900
 MIME-Version: 1.0
 In-Reply-To: <1e4f8413-f968-9d37-6322-8057bfe97bb7@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,15 +23,10 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 625cce030615870d912d19883ba7b755fa07cab8 Mon Sep 17 00:00:00 2001
+From 66f9f9f82d4fef12b6d7e2a399c14fbaa758e3f8 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 24 Feb 2018 18:57:43 +0900
-Subject: [PATCH 4/5] future/QC: Disambiguate 'QC power'
-
-In QC section, "power" is mostly used to mean "electric power".
-So, "increase QC power" can be confusing.
-
-"QC capability" sounds a better choice here.
+Date: Sun, 25 Feb 2018 00:02:51 +0900
+Subject: [PATCH 5/5] future/QC: Fix typo
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
@@ -39,18 +34,18 @@ Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/future/QC.tex b/future/QC.tex
-index cffc6e1..74bac86 100644
+index 74bac86..1afae2c 100644
 --- a/future/QC.tex
 +++ b/future/QC.tex
-@@ -743,7 +743,7 @@ aforementioned desired error rates of $10^{-4}$ (let alone $10^{-8}$) are a
- long way off, and will likely take considerable work and time to achieve.
-
- In fact, as of early 2018 it is believed that adding qubits will not
--increase QC power unless error rates decrease
-+increase QC capability unless error rates decrease
- sharply~\cite{IBMResearch2018QuantumVolume}.
-
- \subsubsection{Thermodynamics}
+@@ -189,7 +189,7 @@ a system with fifty qubits~\cite{WillKnight2017IBM50qubits}, which
+ is more than triple the sixteen-qubit system made available only five
+ months prior.
+ It is therefore quite possible that the current exponential growth
+-in numbers of qubits might persist for some time time come.
++in numbers of qubits might persist for some time to come.
+ Unfortunately, each qubit must be connected to its own signal generator,
+ which means that a million-qubit system would also have not only a million
+ signal generators, but also a million wires, each of which would be
 -- 
 2.7.4
 
