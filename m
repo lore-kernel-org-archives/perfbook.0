@@ -1,73 +1,87 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46028 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1751505AbeBYSWj (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Sun, 25 Feb 2018 13:22:39 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w1PIIWuZ051926
- for <perfbook@vger.kernel.org>; Sun, 25 Feb 2018 13:22:39 -0500
-Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2gbp7f8b86-1 (version=TLSv1.2
- cipher=AES256-SHA bits=256 verify=NOT) for <perfbook@vger.kernel.org>; Sun,
- 25 Feb 2018 13:22:38 -0500
-Received: from localhost by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 25 Feb
- 2018 13:22:38 -0500
-Date: Sun, 25 Feb 2018 10:23:03 -0800
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/5] future/QC: Improve table layout
-Reply-To: paulmck@linux.vnet.ibm.com
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=25mJnr5FdZOyKkSYS7w58rUV1DgxW3onf0EQ2WyPwPg=;
+ b=vGaAQxowAA803vUo8zpWHMv+6KDB4i/ocK+2Euzr6FM/mFMKZZdlic+Dku3AXYR8FV
+ qHOz4YQVFMNVKAg+xLT8zeaBIEaOvfxQGNRz8qtfnvAg34snL2KCS35ZPaFtIejGkT/g
+ 8lSw0sjc+3aURguzNx0qMpMsvMOj/D1GLiOevha9JhRX8Z+K5AZwrjzcyzmuz+nva1QS
+ 0pVY7eujLxD6ge5XJtOF6Q8mTcpgcZL18Z+UBk5quw62M3gqM9cvh0Utz4zh9mDzPbQI
+ P0F749A0+vbnlVFt+BYzsV+Le1/tUCalv9gag+FXe3UDdm0aOkjS0zUshqNk3o9JvQMX
+ pC9Q==
+Subject: [PATCH] future/QC: Remove 'Readout' in header of 'entanglement error
+ rate' row
 References: <1e4f8413-f968-9d37-6322-8057bfe97bb7@gmail.com>
+ <20180225182303.GE2855@linux.vnet.ibm.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <b8083f74-2290-0280-de67-cdcd69083502@gmail.com>
+Date: Mon, 26 Feb 2018 07:30:08 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1e4f8413-f968-9d37-6322-8057bfe97bb7@gmail.com>
-Message-Id: <20180225182303.GE2855@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <20180225182303.GE2855@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Feb 25, 2018 at 08:47:23AM +0900, Akira Yokosawa wrote:
-> >From 66f9f9f82d4fef12b6d7e2a399c14fbaa758e3f8 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sun, 25 Feb 2018 08:09:50 +0900
-> Subject: [PATCH 0/5] future/QC: Improve table layout
-> 
-> Hi Paul,
-> 
-> This patch set is a response to your recent updates in QC section.
-> 
-> Patch #1 retouches Table 17.5
-> 
-> Patch #2 removes alternate-row coloring in Table 17.5, which looks
-> redundant after the retouch.
-> 
-> Patch #3 is for consistency of spacing around unit symbols as is
-> suggested in Style Guide.
-> 
-> Patches #4 and #5 are a word choice suggestion and a typo fix.
-> 
-> Patch #2 can be skipped if you'd like to keep the background color.
+From 4d1964b2296525414181b8e9b8fc7a77297fa838 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 26 Feb 2018 07:10:27 +0900
+Subject: [PATCH] future/QC: Remove 'Readout' in header of 'entanglement error rate' row
 
-Much better on all counts, thank you!  Queued and pushed.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Paul,
 
-							Thanx, Paul
+Looking at the retouched table once again, I find
+"readout of entanglement gate" doesn't make sense. The "Readout"
+in the header should be removed, shouldn't it?
 
-> --
-> Akira Yokosawa (5):
->   future/QC: Improve layout of Table 17.5 by using subfloat
->   future/QC: Remove alternate-row coloring in Table 17.5
->   future/QC: Add narrow space in front of percent symbol
->   future/QC: Disambiguate 'QC power'
->   future/QC: Fix typo
-> 
->  future/QC.tex | 137 +++++++++++++++++++++++++++++++---------------------------
->  perfbook.tex  |   1 +
->  2 files changed, 75 insertions(+), 63 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
+        Thanks, Akra
+--
+ future/QC.tex | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/future/QC.tex b/future/QC.tex
+index 1afae2c..a5b1758 100644
+--- a/future/QC.tex
++++ b/future/QC.tex
+@@ -677,26 +677,26 @@ $10^{-4}$).
+ }
+
+ \subfloat[Multi-Qubit Gate Properties (Entanglement)]{
+-\begin{tabular}{@{}ll*{6}{S[table-format=2.2]}@{}}
++\begin{tabular}{@{}l*{6}{S[table-format=2.2]}@{}}
+ 	\toprule
+-	& & \multicolumn{6}{c}{Entanglement Connection} \\
+-	\cmidrule{3-8}
+-	\multicolumn{2}{c}{Gate Property} &
++	 & \multicolumn{6}{c}{Entanglement Connection} \\
++	\cmidrule{2-7}
++	Gate Property &
+ 		\multicolumn{1}{c}{CX0\_1} &
+ 			\multicolumn{1}{c}{CX1\_2} &
+ 				\multicolumn{1}{c}{CX0\_2} &
+ 					\multicolumn{1}{c}{CX3\_2} &
+ 						\multicolumn{1}{c}{CX4\_2} &
+ 							\multicolumn{1}{c@{}}{CX3\_4} \\
+-	\cmidrule(r){1-2} \cmidrule{3-8}
+-	Readout & Error Rate (\%) &
++	\cmidrule(r){1-1} \cmidrule{2-7}
++	Error Rate (\%) &
+ 		 3.46 &
+ 			 4.07 &
+ 				 3.26 &
+ 					 2.76 &
+ 						 2.23 &
+ 							 2.66 \\
+-	& Fidelity (\%) &
++	Fidelity (\%) &
+ 		 96.54 &
+ 			95.93 &
+ 				96.74 &
+-- 
+2.7.4
+
 
