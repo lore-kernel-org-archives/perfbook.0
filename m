@@ -1,929 +1,137 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49952 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1753520AbeDAOOg (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Sun, 1 Apr 2018 10:14:36 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w31EEFax049272
- for <perfbook@vger.kernel.org>; Sun, 1 Apr 2018 10:14:35 -0400
-Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2h2rnax4fs-1 (version=TLSv1.2
- cipher=AES256-SHA256 bits=256 verify=NOT) for <perfbook@vger.kernel.org>;
- Sun, 01 Apr 2018 10:14:35 -0400
-Received: from localhost by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 1 Apr 2018
- 10:14:34 -0400
-Date: Sun, 1 Apr 2018 07:15:29 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] Stop using modified book.cls
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <f402cef4-bf70-082a-3f13-87688ecc963f@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=u8Nca+9bgw/vCmDy6h9En3tK8kazsQvCBxsK1DZhZOM=;
+ b=cawPUyBL9FgaH8pZrYT16IHXI84sNuTUGumFODLC5ic2MaIW6nb7h2K73/y+XVcRUB
+ AK0/UcCPsfcljbMWTicptCYKB2gRT44a0YtNXjDMBMZoEwLClpQeZfqn4cvu9UR9ZpDH
+ t8XQ9UHbQipdn6S3juyymGsS7Qc8544jqRsqeoaqd4Yqi2Gi84k1DPEbVswuFWFWq3XD
+ p7ly1tQelsyEQ6CE7ZxgiCCQpfuObFWuHAWTKN7B3x1vbRTvUZ/WiWhSbEtRCzF28j9D
+ U1izWeDjtWcj/Eqh6Th9slEw8jRbkjAbx1neHm5Ha1OeHLio9NAOp1Fvd/PPitWu+dyR
+ v8Fg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] Makefile: Reduce file size of figure generated from
+ ibmqx2-labeled.svg
+Message-ID: <1bf169c6-47eb-f6e4-5c10-f42b7e75b0c0@gmail.com>
+Date: Wed, 4 Apr 2018 07:16:56 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f402cef4-bf70-082a-3f13-87688ecc963f@gmail.com>
-Message-Id: <20180401141529.GG3948@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Apr 01, 2018 at 09:48:52AM +0900, Akira Yokosawa wrote:
-> >From 8516b731b6c0c43c52c71ba4fc00bdf6e471d329 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sun, 1 Apr 2018 09:01:19 +0900
-> Subject: [PATCH] Stop using modified book.cls
-> 
-> Strictly speaking, using a modified version of a standard class
-> file should be avoided. Instead, define a class "pfbook" in
-> pfbook.cls which loads the book class to add an option and
-> override a couple of definitions.
-> 
-> The addition of the option was originally done in commit
-> 7b8ce4d5ece9 ("Modify book.cls to allow 10.75x8.25-inch PDFs
-> for hardcover use").
-> 
-> The modification of definitions was originally done in commit
-> 398070c4ae9a ("book.cls: Fix indent after \chapter in twocolumn").
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+From 9d3172e3960cb97b301e37ee86913ca391b7cfb3 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Wed, 4 Apr 2018 07:30:45 +0900
+Subject: [PATCH] Makefile: Reduce file size of figure generated from ibmqx2-labeled.svg
 
-I very much like having only the changed definition as opposed to
-my having duplicated the entire file, thank you!  Queued and pushed.
+The .svg file contains a high-resolution scanned bitmap image and
+results in a large .pdf file of more than 6.3MB. It is about 46
+percent of the size of final perfbook.pdf.
 
-						Thanx, Paul
+By adding a recipe to convert such .svg files to lower resolution
+.png files, perfbook.pdf can be made much smaller.
 
-> ---
-> Hi Paul,
-> 
-> It turned out that this is a preferred way to customize an existing
-> document class.
-> 
-> See: https://tex.stackexchange.com/questions/528/style-class-tutorials
->      http://tutex.tug.org/pracjourn/2005-4/hefferon/hefferon.pdf
-> 
->         Thanks, Akira
-> --
->  Makefile     |   2 +-
->  book.cls     | 768 -----------------------------------------------------------
->  perfbook.tex |   2 +-
->  pfbook.cls   |  47 ++++
->  4 files changed, 49 insertions(+), 770 deletions(-)
->  delete mode 100644 book.cls
->  create mode 100644 pfbook.cls
-> 
-> diff --git a/Makefile b/Makefile
-> index 465e139..873be64 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -3,7 +3,7 @@ LATEXSOURCES = \
->  	legal.tex \
->  	glossary.tex \
->  	qqz.sty origpub.sty \
-> -	book.cls \
-> +	pfbook.cls \
->  	ushyphex.tex pfhyphex.tex \
->  	*/*.tex \
->  	*/*/*.tex
-> diff --git a/book.cls b/book.cls
-> deleted file mode 100644
-> index 629f5c9..0000000
-> --- a/book.cls
-> +++ /dev/null
-> @@ -1,768 +0,0 @@
-> -%%
-> -%% This is file `book.cls',
-> -%% generated with the docstrip utility.
-> -%%
-> -%% The original source files were:
-> -%%
-> -%% classes.dtx  (with options: `book')
-> -%% 
-> -%% This is a generated file.
-> -%% 
-> -%% The source is maintained by the LaTeX Project team and bug
-> -%% reports for it can be opened at http://latex-project.org/bugs.html
-> -%% (but please observe conditions on bug reports sent to that address!)
-> -%%
-> -%%
-> -%% Copyright 1993-2016
-> -%% The LaTeX3 Project and any individual authors listed elsewhere
-> -%% in this file.
-> -%% 
-> -%% This file was generated from file(s) of the LaTeX base system.
-> -%% --------------------------------------------------------------
-> -%% 
-> -%% It may be distributed and/or modified under the
-> -%% conditions of the LaTeX Project Public License, either version 1.3c
-> -%% of this license or (at your option) any later version.
-> -%% The latest version of this license is in
-> -%%    http://www.latex-project.org/lppl.txt
-> -%% and version 1.3c or later is part of all distributions of LaTeX
-> -%% version 2005/12/01 or later.
-> -%% 
-> -%% This file has been modified by Paul E. McKenney, so is not maintained
-> -%% by the LaTeX Project.  These modifications allow specifying "hardcover"
-> -%% in order to generate 10.75x8.25in pages for hardcover books.
-> -%% 
-> -%% It has also been modified by Akira Yokosawa. The modification fixes
-> -%% indentation behavior of first paragraph in a chapter when twocolumn
-> -%% option is specified.
-> -%%
-> -%% This file may only be distributed together with a copy of the LaTeX
-> -%% base system. You may however distribute the LaTeX base system without
-> -%% such generated files.
-> -%% 
-> -%% The list of all files belonging to the LaTeX base distribution is
-> -%% given in the file `manifest.txt'. See also `legal.txt' for additional
-> -%% information.
-> -%% 
-> -%% The list of derived (unpacked) files belonging to the distribution
-> -%% and covered by LPPL is defined by the unpacking scripts (with
-> -%% extension .ins) which are part of the distribution.
-> -%% \CharacterTable
-> -%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-> -%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-> -%%   Digits        \0\1\2\3\4\5\6\7\8\9
-> -%%   Exclamation   \!     Double quote  \"     Hash (number) \#
-> -%%   Dollar        \$     Percent       \%     Ampersand     \&
-> -%%   Acute accent  \'     Left paren    \(     Right paren   \)
-> -%%   Asterisk      \*     Plus          \+     Comma         \,
-> -%%   Minus         \-     Point         \.     Solidus       \/
-> -%%   Colon         \:     Semicolon     \;     Less than     \<
-> -%%   Equals        \=     Greater than  \>     Question mark \?
-> -%%   Commercial at \@     Left bracket  \[     Backslash     \\
-> -%%   Right bracket \]     Circumflex    \^     Underscore    \_
-> -%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-> -%%   Right brace   \}     Tilde         \~}
-> -\NeedsTeXFormat{LaTeX2e}[1995/12/01]
-> -\ProvidesClass{book}
-> -              [2014/09/29 v1.4h-pem-ay
-> - Standard LaTeX document class]
-> -\newcommand\@ptsize{}
-> -\newif\if@restonecol
-> -\newif\if@titlepage
-> -\@titlepagetrue
-> -\newif\if@openright
-> -\newif\if@mainmatter \@mainmattertrue
-> -\if@compatibility\else
-> -\DeclareOption{a4paper}
-> -   {\setlength\paperheight {297mm}%
-> -    \setlength\paperwidth  {210mm}}
-> -\DeclareOption{a5paper}
-> -   {\setlength\paperheight {210mm}%
-> -    \setlength\paperwidth  {148mm}}
-> -\DeclareOption{b5paper}
-> -   {\setlength\paperheight {250mm}%
-> -    \setlength\paperwidth  {176mm}}
-> -\DeclareOption{letterpaper}
-> -   {\setlength\paperheight {11in}%
-> -    \setlength\paperwidth  {8.5in}}
-> -\DeclareOption{letterpaperhb}
-> -   {\setlength\paperheight {10.75in}%
-> -    \setlength\paperwidth  {8.25in}}
-> -\DeclareOption{legalpaper}
-> -   {\setlength\paperheight {14in}%
-> -    \setlength\paperwidth  {8.5in}}
-> -\DeclareOption{executivepaper}
-> -   {\setlength\paperheight {10.5in}%
-> -    \setlength\paperwidth  {7.25in}}
-> -\DeclareOption{landscape}
-> -   {\setlength\@tempdima   {\paperheight}%
-> -    \setlength\paperheight {\paperwidth}%
-> -    \setlength\paperwidth  {\@tempdima}}
-> -\fi
-> -\if@compatibility
-> -  \renewcommand\@ptsize{0}
-> -\else
-> -\DeclareOption{10pt}{\renewcommand\@ptsize{0}}
-> -\fi
-> -\DeclareOption{11pt}{\renewcommand\@ptsize{1}}
-> -\DeclareOption{12pt}{\renewcommand\@ptsize{2}}
-> -\if@compatibility\else
-> -\DeclareOption{oneside}{\@twosidefalse \@mparswitchfalse}
-> -\fi
-> -\DeclareOption{twoside}{\@twosidetrue  \@mparswitchtrue}
-> -\DeclareOption{draft}{\setlength\overfullrule{5pt}}
-> -\if@compatibility\else
-> -\DeclareOption{final}{\setlength\overfullrule{0pt}}
-> -\fi
-> -\DeclareOption{titlepage}{\@titlepagetrue}
-> -\if@compatibility\else
-> -\DeclareOption{notitlepage}{\@titlepagefalse}
-> -\fi
-> -\if@compatibility
-> -\@openrighttrue
-> -\else
-> -\DeclareOption{openright}{\@openrighttrue}
-> -\DeclareOption{openany}{\@openrightfalse}
-> -\fi
-> -\if@compatibility\else
-> -\DeclareOption{onecolumn}{\@twocolumnfalse}
-> -\fi
-> -\DeclareOption{twocolumn}{\@twocolumntrue}
-> -\DeclareOption{leqno}{\input{leqno.clo}}
-> -\DeclareOption{fleqn}{\input{fleqn.clo}}
-> -\DeclareOption{openbib}{%
-> -  \AtEndOfPackage{%
-> -   \renewcommand\@openbib@code{%
-> -      \advance\leftmargin\bibindent
-> -      \itemindent -\bibindent
-> -      \listparindent \itemindent
-> -      \parsep \z@
-> -      }%
-> -   \renewcommand\newblock{\par}}%
-> -}
-> -\ExecuteOptions{letterpaper,10pt,twoside,onecolumn,final,openright}
-> -\ProcessOptions
-> -\input{bk1\@ptsize.clo}
-> -\setlength\lineskip{1\p@}
-> -\setlength\normallineskip{1\p@}
-> -\renewcommand\baselinestretch{}
-> -\setlength\parskip{0\p@ \@plus \p@}
-> -\@lowpenalty   51
-> -\@medpenalty  151
-> -\@highpenalty 301
-> -\setcounter{topnumber}{2}
-> -\renewcommand\topfraction{.7}
-> -\setcounter{bottomnumber}{1}
-> -\renewcommand\bottomfraction{.3}
-> -\setcounter{totalnumber}{3}
-> -\renewcommand\textfraction{.2}
-> -\renewcommand\floatpagefraction{.5}
-> -\setcounter{dbltopnumber}{2}
-> -\renewcommand\dbltopfraction{.7}
-> -\renewcommand\dblfloatpagefraction{.5}
-> -\if@twoside
-> -  \def\ps@headings{%
-> -      \let\@oddfoot\@empty\let\@evenfoot\@empty
-> -      \def\@evenhead{\thepage\hfil\slshape\leftmark}%
-> -      \def\@oddhead{{\slshape\rightmark}\hfil\thepage}%
-> -      \let\@mkboth\markboth
-> -    \def\chaptermark##1{%
-> -      \markboth {\MakeUppercase{%
-> -        \ifnum \c@secnumdepth >\m@ne
-> -          \if@mainmatter
-> -            \@chapapp\ \thechapter. \ %
-> -          \fi
-> -        \fi
-> -        ##1}}{}}%
-> -    \def\sectionmark##1{%
-> -      \markright {\MakeUppercase{%
-> -        \ifnum \c@secnumdepth >\z@
-> -          \thesection. \ %
-> -        \fi
-> -        ##1}}}}
-> -\else
-> -  \def\ps@headings{%
-> -    \let\@oddfoot\@empty
-> -    \def\@oddhead{{\slshape\rightmark}\hfil\thepage}%
-> -    \let\@mkboth\markboth
-> -    \def\chaptermark##1{%
-> -      \markright {\MakeUppercase{%
-> -        \ifnum \c@secnumdepth >\m@ne
-> -          \if@mainmatter
-> -            \@chapapp\ \thechapter. \ %
-> -          \fi
-> -        \fi
-> -        ##1}}}}
-> -\fi
-> -\def\ps@myheadings{%
-> -    \let\@oddfoot\@empty\let\@evenfoot\@empty
-> -    \def\@evenhead{\thepage\hfil\slshape\leftmark}%
-> -    \def\@oddhead{{\slshape\rightmark}\hfil\thepage}%
-> -    \let\@mkboth\@gobbletwo
-> -    \let\chaptermark\@gobble
-> -    \let\sectionmark\@gobble
-> -    }
-> -  \if@titlepage
-> -  \newcommand\maketitle{\begin{titlepage}%
-> -  \let\footnotesize\small
-> -  \let\footnoterule\relax
-> -  \let \footnote \thanks
-> -  \null\vfil
-> -  \vskip 60\p@
-> -  \begin{center}%
-> -    {\LARGE \@title \par}%
-> -    \vskip 3em%
-> -    {\large
-> -     \lineskip .75em%
-> -      \begin{tabular}[t]{c}%
-> -        \@author
-> -      \end{tabular}\par}%
-> -      \vskip 1.5em%
-> -    {\large \@date \par}%       % Set date in \large size.
-> -  \end{center}\par
-> -  \@thanks
-> -  \vfil\null
-> -  \end{titlepage}%
-> -  \setcounter{footnote}{0}%
-> -  \global\let\thanks\relax
-> -  \global\let\maketitle\relax
-> -  \global\let\@thanks\@empty
-> -  \global\let\@author\@empty
-> -  \global\let\@date\@empty
-> -  \global\let\@title\@empty
-> -  \global\let\title\relax
-> -  \global\let\author\relax
-> -  \global\let\date\relax
-> -  \global\let\and\relax
-> -}
-> -\else
-> -\newcommand\maketitle{\par
-> -  \begingroup
-> -    \renewcommand\thefootnote{\@fnsymbol\c@footnote}%
-> -    \def\@makefnmark{\rlap{\@textsuperscript{\normalfont\@thefnmark}}}%
-> -    \long\def\@makefntext##1{\parindent 1em\noindent
-> -            \hb@xt@1.8em{%
-> -                \hss\@textsuperscript{\normalfont\@thefnmark}}##1}%
-> -    \if@twocolumn
-> -      \ifnum \col@number=\@ne
-> -        \@maketitle
-> -      \else
-> -        \twocolumn[\@maketitle]%
-> -      \fi
-> -    \else
-> -      \newpage
-> -      \global\@topnum\z@   % Prevents figures from going at top of page.
-> -      \@maketitle
-> -    \fi
-> -    \thispagestyle{plain}\@thanks
-> -  \endgroup
-> -  \setcounter{footnote}{0}%
-> -  \global\let\thanks\relax
-> -  \global\let\maketitle\relax
-> -  \global\let\@maketitle\relax
-> -  \global\let\@thanks\@empty
-> -  \global\let\@author\@empty
-> -  \global\let\@date\@empty
-> -  \global\let\@title\@empty
-> -  \global\let\title\relax
-> -  \global\let\author\relax
-> -  \global\let\date\relax
-> -  \global\let\and\relax
-> -}
-> -\def\@maketitle{%
-> -  \newpage
-> -  \null
-> -  \vskip 2em%
-> -  \begin{center}%
-> -  \let \footnote \thanks
-> -    {\LARGE \@title \par}%
-> -    \vskip 1.5em%
-> -    {\large
-> -      \lineskip .5em%
-> -      \begin{tabular}[t]{c}%
-> -        \@author
-> -      \end{tabular}\par}%
-> -    \vskip 1em%
-> -    {\large \@date}%
-> -  \end{center}%
-> -  \par
-> -  \vskip 1.5em}
-> -\fi
-> -\newcommand*\chaptermark[1]{}
-> -\setcounter{secnumdepth}{2}
-> -\newcounter {part}
-> -\newcounter {chapter}
-> -\newcounter {section}[chapter]
-> -\newcounter {subsection}[section]
-> -\newcounter {subsubsection}[subsection]
-> -\newcounter {paragraph}[subsubsection]
-> -\newcounter {subparagraph}[paragraph]
-> -\renewcommand \thepart {\@Roman\c@part}
-> -\renewcommand \thechapter {\@arabic\c@chapter}
-> -\renewcommand \thesection {\thechapter.\@arabic\c@section}
-> -\renewcommand\thesubsection   {\thesection.\@arabic\c@subsection}
-> -\renewcommand\thesubsubsection{\thesubsection.\@arabic\c@subsubsection}
-> -\renewcommand\theparagraph    {\thesubsubsection.\@arabic\c@paragraph}
-> -\renewcommand\thesubparagraph {\theparagraph.\@arabic\c@subparagraph}
-> -\newcommand\@chapapp{\chaptername}
-> -\newcommand\frontmatter{%
-> -    \cleardoublepage
-> -  \@mainmatterfalse
-> -  \pagenumbering{roman}}
-> -\newcommand\mainmatter{%
-> -    \cleardoublepage
-> -  \@mainmattertrue
-> -  \pagenumbering{arabic}}
-> -\newcommand\backmatter{%
-> -  \if@openright
-> -    \cleardoublepage
-> -  \else
-> -    \clearpage
-> -  \fi
-> -  \@mainmatterfalse}
-> -\newcommand\part{%
-> -  \if@openright
-> -    \cleardoublepage
-> -  \else
-> -    \clearpage
-> -  \fi
-> -  \thispagestyle{plain}%
-> -  \if@twocolumn
-> -    \onecolumn
-> -    \@tempswatrue
-> -  \else
-> -    \@tempswafalse
-> -  \fi
-> -  \null\vfil
-> -  \secdef\@part\@spart}
-> -
-> -\def\@part[#1]#2{%
-> -    \ifnum \c@secnumdepth >-2\relax
-> -      \refstepcounter{part}%
-> -      \addcontentsline{toc}{part}{\thepart\hspace{1em}#1}%
-> -    \else
-> -      \addcontentsline{toc}{part}{#1}%
-> -    \fi
-> -    \markboth{}{}%
-> -    {\centering
-> -     \interlinepenalty \@M
-> -     \normalfont
-> -     \ifnum \c@secnumdepth >-2\relax
-> -       \huge\bfseries \partname\nobreakspace\thepart
-> -       \par
-> -       \vskip 20\p@
-> -     \fi
-> -     \Huge \bfseries #2\par}%
-> -    \@endpart}
-> -\def\@spart#1{%
-> -    {\centering
-> -     \interlinepenalty \@M
-> -     \normalfont
-> -     \Huge \bfseries #1\par}%
-> -    \@endpart}
-> -\def\@endpart{\vfil\newpage
-> -              \if@twoside
-> -               \if@openright
-> -                \null
-> -                \thispagestyle{empty}%
-> -                \newpage
-> -               \fi
-> -              \fi
-> -              \if@tempswa
-> -                \twocolumn
-> -              \fi}
-> -\newcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
-> -                    \thispagestyle{plain}%
-> -                    \global\@topnum\z@
-> -                    \@afterindentfalse
-> -                    \secdef\@chapter\@schapter}
-> -\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
-> -                       \if@mainmatter
-> -                         \refstepcounter{chapter}%
-> -                         \typeout{\@chapapp\space\thechapter.}%
-> -                         \addcontentsline{toc}{chapter}%
-> -                                   {\protect\numberline{\thechapter}#1}%
-> -                       \else
-> -                         \addcontentsline{toc}{chapter}{#1}%
-> -                       \fi
-> -                    \else
-> -                      \addcontentsline{toc}{chapter}{#1}%
-> -                    \fi
-> -                    \chaptermark{#1}%
-> -                    \addtocontents{lof}{\protect\addvspace{10\p@}}%
-> -                    \addtocontents{lot}{\protect\addvspace{10\p@}}%
-> -                    \if@twocolumn
-> -                      \@topnewpage[\@makechapterhead{#2}]%
-> -                    \else
-> -                      \@makechapterhead{#2}%
-> -                    \fi
-> -                    \@afterheading}
-> -\def\@makechapterhead#1{%
-> -  \vspace*{50\p@}%
-> -  {\parindent \z@ \raggedright \normalfont
-> -    \ifnum \c@secnumdepth >\m@ne
-> -      \if@mainmatter
-> -        \huge\bfseries \@chapapp\space \thechapter
-> -        \par\nobreak
-> -        \vskip 20\p@
-> -      \fi
-> -    \fi
-> -    \interlinepenalty\@M
-> -    \Huge \bfseries #1\par\nobreak
-> -    \vskip 40\p@
-> -  }}
-> -\def\@schapter#1{\if@twocolumn
-> -                   \@topnewpage[\@makeschapterhead{#1}]%
-> -                 \else
-> -                   \@makeschapterhead{#1}%
-> -                 \fi
-> -                 \@afterheading}
-> -\def\@makeschapterhead#1{%
-> -  \vspace*{50\p@}%
-> -  {\parindent \z@ \raggedright
-> -    \normalfont
-> -    \interlinepenalty\@M
-> -    \Huge \bfseries  #1\par\nobreak
-> -    \vskip 40\p@
-> -  }}
-> -\newcommand\section{\@startsection {section}{1}{\z@}%
-> -                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
-> -                                   {2.3ex \@plus.2ex}%
-> -                                   {\normalfont\Large\bfseries}}
-> -\newcommand\subsection{\@startsection{subsection}{2}{\z@}%
-> -                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
-> -                                     {1.5ex \@plus .2ex}%
-> -                                     {\normalfont\large\bfseries}}
-> -\newcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
-> -                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
-> -                                     {1.5ex \@plus .2ex}%
-> -                                     {\normalfont\normalsize\bfseries}}
-> -\newcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
-> -                                    {3.25ex \@plus1ex \@minus.2ex}%
-> -                                    {-1em}%
-> -                                    {\normalfont\normalsize\bfseries}}
-> -\newcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
-> -                                       {3.25ex \@plus1ex \@minus .2ex}%
-> -                                       {-1em}%
-> -                                      {\normalfont\normalsize\bfseries}}
-> -\if@twocolumn
-> -  \setlength\leftmargini  {2em}
-> -\else
-> -  \setlength\leftmargini  {2.5em}
-> -\fi
-> -\leftmargin  \leftmargini
-> -\setlength\leftmarginii  {2.2em}
-> -\setlength\leftmarginiii {1.87em}
-> -\setlength\leftmarginiv  {1.7em}
-> -\if@twocolumn
-> -  \setlength\leftmarginv  {.5em}
-> -  \setlength\leftmarginvi {.5em}
-> -\else
-> -  \setlength\leftmarginv  {1em}
-> -  \setlength\leftmarginvi {1em}
-> -\fi
-> -\setlength  \labelsep  {.5em}
-> -\setlength  \labelwidth{\leftmargini}
-> -\addtolength\labelwidth{-\labelsep}
-> -\@beginparpenalty -\@lowpenalty
-> -\@endparpenalty   -\@lowpenalty
-> -\@itempenalty     -\@lowpenalty
-> -\renewcommand\theenumi{\@arabic\c@enumi}
-> -\renewcommand\theenumii{\@alph\c@enumii}
-> -\renewcommand\theenumiii{\@roman\c@enumiii}
-> -\renewcommand\theenumiv{\@Alph\c@enumiv}
-> -\newcommand\labelenumi{\theenumi.}
-> -\newcommand\labelenumii{(\theenumii)}
-> -\newcommand\labelenumiii{\theenumiii.}
-> -\newcommand\labelenumiv{\theenumiv.}
-> -\renewcommand\p@enumii{\theenumi}
-> -\renewcommand\p@enumiii{\theenumi(\theenumii)}
-> -\renewcommand\p@enumiv{\p@enumiii\theenumiii}
-> -\newcommand\labelitemi{\textbullet}
-> -\newcommand\labelitemii{\normalfont\bfseries \textendash}
-> -\newcommand\labelitemiii{\textasteriskcentered}
-> -\newcommand\labelitemiv{\textperiodcentered}
-> -\newenvironment{description}
-> -               {\list{}{\labelwidth\z@ \itemindent-\leftmargin
-> -                        \let\makelabel\descriptionlabel}}
-> -               {\endlist}
-> -\newcommand*\descriptionlabel[1]{\hspace\labelsep
-> -                                \normalfont\bfseries #1}
-> -\newenvironment{verse}
-> -               {\let\\\@centercr
-> -                \list{}{\itemsep      \z@
-> -                        \itemindent   -1.5em%
-> -                        \listparindent\itemindent
-> -                        \rightmargin  \leftmargin
-> -                        \advance\leftmargin 1.5em}%
-> -                \item\relax}
-> -               {\endlist}
-> -\newenvironment{quotation}
-> -               {\list{}{\listparindent 1.5em%
-> -                        \itemindent    \listparindent
-> -                        \rightmargin   \leftmargin
-> -                        \parsep        \z@ \@plus\p@}%
-> -                \item\relax}
-> -               {\endlist}
-> -\newenvironment{quote}
-> -               {\list{}{\rightmargin\leftmargin}%
-> -                \item\relax}
-> -               {\endlist}
-> -\if@compatibility
-> -\newenvironment{titlepage}
-> -    {%
-> -      \cleardoublepage
-> -      \if@twocolumn
-> -        \@restonecoltrue\onecolumn
-> -      \else
-> -        \@restonecolfalse\newpage
-> -      \fi
-> -      \thispagestyle{empty}%
-> -      \setcounter{page}\z@
-> -    }%
-> -    {\if@restonecol\twocolumn \else \newpage \fi
-> -    }
-> -\else
-> -\newenvironment{titlepage}
-> -    {%
-> -      \cleardoublepage
-> -      \if@twocolumn
-> -        \@restonecoltrue\onecolumn
-> -      \else
-> -        \@restonecolfalse\newpage
-> -      \fi
-> -      \thispagestyle{empty}%
-> -      \setcounter{page}\@ne
-> -    }%
-> -    {\if@restonecol\twocolumn \else \newpage \fi
-> -     \if@twoside\else
-> -        \setcounter{page}\@ne
-> -     \fi
-> -    }
-> -\fi
-> -\newcommand\appendix{\par
-> -  \setcounter{chapter}{0}%
-> -  \setcounter{section}{0}%
-> -  \gdef\@chapapp{\appendixname}%
-> -  \gdef\thechapter{\@Alph\c@chapter}}
-> -\setlength\arraycolsep{5\p@}
-> -\setlength\tabcolsep{6\p@}
-> -\setlength\arrayrulewidth{.4\p@}
-> -\setlength\doublerulesep{2\p@}
-> -\setlength\tabbingsep{\labelsep}
-> -\skip\@mpfootins = \skip\footins
-> -\setlength\fboxsep{3\p@}
-> -\setlength\fboxrule{.4\p@}
-> -\@addtoreset {equation}{chapter}
-> -\renewcommand\theequation
-> -  {\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@equation}
-> -\newcounter{figure}[chapter]
-> -\renewcommand \thefigure
-> -     {\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@figure}
-> -\def\fps@figure{tbp}
-> -\def\ftype@figure{1}
-> -\def\ext@figure{lof}
-> -\def\fnum@figure{\figurename\nobreakspace\thefigure}
-> -\newenvironment{figure}
-> -               {\@float{figure}}
-> -               {\end@float}
-> -\newenvironment{figure*}
-> -               {\@dblfloat{figure}}
-> -               {\end@dblfloat}
-> -\newcounter{table}[chapter]
-> -\renewcommand \thetable
-> -     {\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@table}
-> -\def\fps@table{tbp}
-> -\def\ftype@table{2}
-> -\def\ext@table{lot}
-> -\def\fnum@table{\tablename\nobreakspace\thetable}
-> -\newenvironment{table}
-> -               {\@float{table}}
-> -               {\end@float}
-> -\newenvironment{table*}
-> -               {\@dblfloat{table}}
-> -               {\end@dblfloat}
-> -\newlength\abovecaptionskip
-> -\newlength\belowcaptionskip
-> -\setlength\abovecaptionskip{10\p@}
-> -\setlength\belowcaptionskip{0\p@}
-> -\long\def\@makecaption#1#2{%
-> -  \vskip\abovecaptionskip
-> -  \sbox\@tempboxa{#1: #2}%
-> -  \ifdim \wd\@tempboxa >\hsize
-> -    #1: #2\par
-> -  \else
-> -    \global \@minipagefalse
-> -    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
-> -  \fi
-> -  \vskip\belowcaptionskip}
-> -\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
-> -\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
-> -\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
-> -\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
-> -\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
-> -\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
-> -\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
-> -\DeclareRobustCommand*\cal{\@fontswitch\relax\mathcal}
-> -\DeclareRobustCommand*\mit{\@fontswitch\relax\mathnormal}
-> -\newcommand\@pnumwidth{1.55em}
-> -\newcommand\@tocrmarg{2.55em}
-> -\newcommand\@dotsep{4.5}
-> -\setcounter{tocdepth}{2}
-> -\newcommand\tableofcontents{%
-> -    \if@twocolumn
-> -      \@restonecoltrue\onecolumn
-> -    \else
-> -      \@restonecolfalse
-> -    \fi
-> -    \chapter*{\contentsname
-> -        \@mkboth{%
-> -           \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
-> -    \@starttoc{toc}%
-> -    \if@restonecol\twocolumn\fi
-> -    }
-> -\newcommand*\l@part[2]{%
-> -  \ifnum \c@tocdepth >-2\relax
-> -    \addpenalty{-\@highpenalty}%
-> -    \addvspace{2.25em \@plus\p@}%
-> -    \setlength\@tempdima{3em}%
-> -    \begingroup
-> -      \parindent \z@ \rightskip \@pnumwidth
-> -      \parfillskip -\@pnumwidth
-> -      {\leavevmode
-> -       \large \bfseries #1\hfil \hb@xt@\@pnumwidth{\hss #2}}\par
-> -       \nobreak
-> -         \global\@nobreaktrue
-> -         \everypar{\global\@nobreakfalse\everypar{}}%
-> -    \endgroup
-> -  \fi}
-> -\newcommand*\l@chapter[2]{%
-> -  \ifnum \c@tocdepth >\m@ne
-> -    \addpenalty{-\@highpenalty}%
-> -    \vskip 1.0em \@plus\p@
-> -    \setlength\@tempdima{1.5em}%
-> -    \begingroup
-> -      \parindent \z@ \rightskip \@pnumwidth
-> -      \parfillskip -\@pnumwidth
-> -      \leavevmode \bfseries
-> -      \advance\leftskip\@tempdima
-> -      \hskip -\leftskip
-> -      #1\nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
-> -      \penalty\@highpenalty
-> -    \endgroup
-> -  \fi}
-> -\newcommand*\l@section{\@dottedtocline{1}{1.5em}{2.3em}}
-> -\newcommand*\l@subsection{\@dottedtocline{2}{3.8em}{3.2em}}
-> -\newcommand*\l@subsubsection{\@dottedtocline{3}{7.0em}{4.1em}}
-> -\newcommand*\l@paragraph{\@dottedtocline{4}{10em}{5em}}
-> -\newcommand*\l@subparagraph{\@dottedtocline{5}{12em}{6em}}
-> -\newcommand\listoffigures{%
-> -    \if@twocolumn
-> -      \@restonecoltrue\onecolumn
-> -    \else
-> -      \@restonecolfalse
-> -    \fi
-> -    \chapter*{\listfigurename}%
-> -      \@mkboth{\MakeUppercase\listfigurename}%
-> -              {\MakeUppercase\listfigurename}%
-> -    \@starttoc{lof}%
-> -    \if@restonecol\twocolumn\fi
-> -    }
-> -\newcommand*\l@figure{\@dottedtocline{1}{1.5em}{2.3em}}
-> -\newcommand\listoftables{%
-> -    \if@twocolumn
-> -      \@restonecoltrue\onecolumn
-> -    \else
-> -      \@restonecolfalse
-> -    \fi
-> -    \chapter*{\listtablename}%
-> -      \@mkboth{%
-> -          \MakeUppercase\listtablename}%
-> -         {\MakeUppercase\listtablename}%
-> -    \@starttoc{lot}%
-> -    \if@restonecol\twocolumn\fi
-> -    }
-> -\let\l@table\l@figure
-> -\newdimen\bibindent
-> -\setlength\bibindent{1.5em}
-> -\newenvironment{thebibliography}[1]
-> -     {\chapter*{\bibname}%
-> -      \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
-> -      \list{\@biblabel{\@arabic\c@enumiv}}%
-> -           {\settowidth\labelwidth{\@biblabel{#1}}%
-> -            \leftmargin\labelwidth
-> -            \advance\leftmargin\labelsep
-> -            \@openbib@code
-> -            \usecounter{enumiv}%
-> -            \let\p@enumiv\@empty
-> -            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
-> -      \sloppy
-> -      \clubpenalty4000
-> -      \@clubpenalty \clubpenalty
-> -      \widowpenalty4000%
-> -      \sfcode`\.\@m}
-> -     {\def\@noitemerr
-> -       {\@latex@warning{Empty `thebibliography' environment}}%
-> -      \endlist}
-> -\newcommand\newblock{\hskip .11em\@plus.33em\@minus.07em}
-> -\let\@openbib@code\@empty
-> -\newenvironment{theindex}
-> -               {\if@twocolumn
-> -                  \@restonecolfalse
-> -                \else
-> -                  \@restonecoltrue
-> -                \fi
-> -                \twocolumn[\@makeschapterhead{\indexname}]%
-> -                \@mkboth{\MakeUppercase\indexname}%
-> -                        {\MakeUppercase\indexname}%
-> -                \thispagestyle{plain}\parindent\z@
-> -                \parskip\z@ \@plus .3\p@\relax
-> -                \columnseprule \z@
-> -                \columnsep 35\p@
-> -                \let\item\@idxitem}
-> -               {\if@restonecol\onecolumn\else\clearpage\fi}
-> -\newcommand\@idxitem{\par\hangindent 40\p@}
-> -\newcommand\subitem{\@idxitem \hspace*{20\p@}}
-> -\newcommand\subsubitem{\@idxitem \hspace*{30\p@}}
-> -\newcommand\indexspace{\par \vskip 10\p@ \@plus5\p@ \@minus3\p@\relax}
-> -\renewcommand\footnoterule{%
-> -  \kern-3\p@
-> -  \hrule\@width.4\columnwidth
-> -  \kern2.6\p@}
-> -\@addtoreset{footnote}{chapter}
-> -\newcommand\@makefntext[1]{%
-> -    \parindent 1em%
-> -    \noindent
-> -    \hb@xt@1.8em{\hss\@makefnmark}#1}
-> -\newcommand\contentsname{Contents}
-> -\newcommand\listfigurename{List of Figures}
-> -\newcommand\listtablename{List of Tables}
-> -\newcommand\bibname{Bibliography}
-> -\newcommand\indexname{Index}
-> -\newcommand\figurename{Figure}
-> -\newcommand\tablename{Table}
-> -\newcommand\partname{Part}
-> -\newcommand\chaptername{Chapter}
-> -\newcommand\appendixname{Appendix}
-> -\def\today{\ifcase\month\or
-> -  January\or February\or March\or April\or May\or June\or
-> -  July\or August\or September\or October\or November\or December\fi
-> -  \space\number\day, \number\year}
-> -\setlength\columnsep{10\p@}
-> -\setlength\columnseprule{0\p@}
-> -\pagestyle{headings}
-> -\pagenumbering{arabic}
-> -\if@twoside
-> -\else
-> -  \raggedbottom
-> -\fi
-> -\if@twocolumn
-> -  \twocolumn
-> -  \sloppy
-> -  \flushbottom
-> -\else
-> -  \onecolumn
-> -\fi
-> -\endinput
-> -%%
-> -%% End of file `book.cls'.
-> diff --git a/perfbook.tex b/perfbook.tex
-> index fe9421e..1441a29 100644
-> --- a/perfbook.tex
-> +++ b/perfbook.tex
-> @@ -1,4 +1,4 @@
-> -\documentclass[10pt,twocolumn]{book}
-> +\documentclass[10pt,twocolumn]{pfbook} % book class customized for perfbook
->  % For arxiv.org, must be on or before line 5:
->  \pdfoutput=1
-> 
-> diff --git a/pfbook.cls b/pfbook.cls
-> new file mode 100644
-> index 0000000..9c1ef9f
-> --- /dev/null
-> +++ b/pfbook.cls
-> @@ -0,0 +1,47 @@
-> +% SPDX-License-Identifier: GPL-2.0-or-later
-> +% This file is pfbook.cls
-> +% book class customized for perfbook
-> +% Copyright (C) 2018 Akira Yokosawa
-> +\NeedsTeXFormat{LaTeX2e}[1995/12/01]
-> +\ProvidesClass{pfbook}
-> +              [2018/04/01 v1.4h-pem-ay
-> + book class customized for perfbook]
-> +% (by Paul E. McKenney)
-> +% Add an option "letterpaperhb" in order to generate 10.75x8.25in pages
-> +% for hardcover books.
-> +\DeclareOption{letterpaperhb}
-> +   {\setlength\paperheight {10.75in}%
-> +    \setlength\paperwidth  {8.25in}}
-> +\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
-> +\ProcessOptions\relax
-> +\LoadClass{book}
-> +% (by Akira Yokosawa)
-> +% Fix indentation behavior of first paragraph in a chapter when twocolumn
-> +% option is specified.
-> +\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
-> +                       \if@mainmatter
-> +                         \refstepcounter{chapter}%
-> +                         \typeout{\@chapapp\space\thechapter.}%
-> +                         \addcontentsline{toc}{chapter}%
-> +                                   {\protect\numberline{\thechapter}#1}%
-> +                       \else
-> +                         \addcontentsline{toc}{chapter}{#1}%
-> +                       \fi
-> +                    \else
-> +                      \addcontentsline{toc}{chapter}{#1}%
-> +                    \fi
-> +                    \chaptermark{#1}%
-> +                    \addtocontents{lof}{\protect\addvspace{10\p@}}%
-> +                    \addtocontents{lot}{\protect\addvspace{10\p@}}%
-> +                    \if@twocolumn
-> +                      \@topnewpage[\@makechapterhead{#2}]%
-> +                    \else
-> +                      \@makechapterhead{#2}%
-> +                    \fi
-> +                    \@afterheading}
-> +\def\@schapter#1{\if@twocolumn
-> +                   \@topnewpage[\@makeschapterhead{#1}]%
-> +                 \else
-> +                   \@makeschapterhead{#1}%
-> +                 \fi
-> +                 \@afterheading}
-> -- 
-> 2.7.4
-> 
+Size of perfbook.pdf (can vary depending on LaTeX / other tool config):
+    before: 13.7 MB
+    after:   7.7 MB
+
+DPI=200 is chosen for .png file output. Resulting Figure 17.16 looks
+good enough. That said, we should restrict the use of .png in
+exceptional cases. Otherwise, we would lose the merit of vector
+graphics.
+
+While we are here, remove the comment in target "neatfreak".
+There have been make rules to take care of generating necessary
+PDF files for quite some time.
+
+NOTE: You need to remove future/ibmqx2-labeled.pdf before doing
+"make" to see the effect of this change. Alternatively,
+"make clean" removes both .png and .pdf files generated by the
+added recipe along with several other files.
+The high resolution figure can be restored by overriding the
+definition of SVG_LARGE_BITMAP by a make option such as:
+"make clean; make SVG_LARGE_BITMAP=".
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ .gitignore |  1 +
+ Makefile   | 19 +++++++++++++++----
+ 2 files changed, 16 insertions(+), 4 deletions(-)
+
+diff --git a/.gitignore b/.gitignore
+index 3f2e4a9..f0b8339 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -4,6 +4,7 @@
+ *.dvi
+ *.log
+ *.pdf
++*.png
+ *.qqz
+ *.toc
+ *.sav
+diff --git a/Makefile b/Makefile
+index 873be64..4167e20 100644
+--- a/Makefile
++++ b/Makefile
+@@ -48,8 +48,10 @@ PDFTARGETS_OF_EPSOTHER := $(filter-out $(PDFTARGETS_OF_EPSORIG),$(PDFTARGETS_OF_
+ BIBSOURCES := bib/*.bib alphapf.bst
+
+ SVGSOURCES := $(wildcard */*.svg)
+-
+-PDFTARGETS_OF_SVG := $(SVGSOURCES:%.svg=%.pdf)
++SVG_LARGE_BITMAP := future/ibmqx2-labeled.svg
++PDFTARGETS_OF_SVG := $(filter-out $(SVG_LARGE_BITMAP:%.svg=%.pdf),$(SVGSOURCES:%.svg=%.pdf))
++PNGTARGETS_OF_SVG := $(SVG_LARGE_BITMAP:%.svg=%.png)
++TARGETS_OF_SVG :=  $(PDFTARGETS_OF_SVG) $(PNGTARGETS_OF_SVG)
+
+ DOT := $(shell which dot 2>/dev/null)
+
+@@ -102,7 +104,7 @@ $(PDFTARGETS:.pdf=.aux): $(LATEXGENERATED) $(LATEXSOURCES)
+ autodate.tex: $(LATEXSOURCES) $(BIBSOURCES) $(SVGSOURCES) $(FIGSOURCES) $(DOTSOURCES)
+ 	sh utilities/autodate.sh >autodate.tex
+
+-perfbook_flat.tex: perfbook.tex $(LATEXSOURCES) $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG)
++perfbook_flat.tex: perfbook.tex $(LATEXSOURCES) $(PDFTARGETS_OF_EPS) $(TARGETS_OF_SVG)
+ 	echo > qqz.tex
+ 	echo > contrib.tex
+ 	echo > origpub.tex
+@@ -206,6 +208,15 @@ endif
+ 	@inkscape --export-pdf=$@ $<i > /dev/null 2>&1
+ 	@rm -f $<i
+
++$(PNGTARGETS_OF_SVG): %.png: %.svg
++	@echo "$< --> $@"
++ifndef INKSCAPE
++	$(error "$< --> $@: inkscape not found. Please install it.")
++endif
++	@sh $(FIXSVGFONTS) < $< > $<i
++	@inkscape --export-dpi=200 --export-png=$@ $<i > /dev/null 2>&1
++	@rm -f $<i
++
+ help:
+ 	@echo "Official targets (Latin Modern Typewriter for monospace font):"
+ 	@echo "  Full,              Abbr."
+@@ -238,6 +249,7 @@ clean:
+ 		-o -name '*.qqz' -o -name '*.toc' -o -name '*.bbl' | xargs rm -f
+ 	rm -f perfbook_flat.tex perfbook*.out perfbook-*.tex
+ 	rm -f $(LATEXGENERATED)
++	rm -f $(SVG_LARGE_BITMAP:%.svg=%.pdf) $(PNGTARGETS_OF_SVG)
+ 	rm -f extraction
+
+ distclean: clean
+@@ -251,7 +263,6 @@ ls-unused:
+ 	find . -name .unused | xargs ls
+
+ neatfreak: distclean
+-	# Don't forget to regenerate the .pdf from each .svg file
+ 	find . -name '*.pdf' | xargs rm -f
+
+ .SECONDEXPANSION:
+-- 
+2.7.4
 
