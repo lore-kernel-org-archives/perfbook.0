@@ -1,72 +1,102 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50846 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1752235AbeDGXkJ (ORCPT <rfc822;perfbook@vger.kernel.org>); Sat, 7
- Apr 2018 19:40:09 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w37Nd03q122073
- for <perfbook@vger.kernel.org>; Sat, 7 Apr 2018 19:40:09 -0400
-Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2h6t5d5nbq-1 (version=TLSv1.2
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47304 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+ with ESMTP id S1751662AbeDIRUe (ORCPT <rfc822;perfbook@vger.kernel.org>);
+ Mon, 9 Apr 2018 13:20:34 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1]) by
+ mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w39HJkta012270
+ for <perfbook@vger.kernel.org>; Mon, 9 Apr 2018 13:20:33 -0400
+Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207]) by
+ mx0b-001b2d01.pphosted.com with ESMTP id 2h89ggseu6-1 (version=TLSv1.2
  cipher=AES256-SHA256 bits=256 verify=NOT) for <perfbook@vger.kernel.org>;
- Sat, 07 Apr 2018 19:40:08 -0400
-Received: from localhost by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Mon, 09 Apr 2018 13:20:33 -0400
+Received: from localhost by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 7 Apr 2018
- 19:40:07 -0400
-Date: Sat, 7 Apr 2018 16:41:05 -0700
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 9 Apr 2018
+ 13:20:32 -0400
+Date: Mon, 9 Apr 2018 10:21:33 -0700
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] future/formalregress: Fix staccato of 'been'
+Subject: Re: [PATCH v2] Fix labeling of appendix and section
 Reply-To: paulmck@linux.vnet.ibm.com
-References: <b1a921af-ee58-8dfd-cda2-0523b89c66b0@gmail.com>
+References: <d3ea21c4-ba6f-46e3-15da-cd35d450b59d@gmail.com>
+ <c07a5add-15e7-0c0a-b2ef-af96bbde7059@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b1a921af-ee58-8dfd-cda2-0523b89c66b0@gmail.com>
-Message-Id: <20180407234105.GN3948@linux.vnet.ibm.com>
+In-Reply-To: <c07a5add-15e7-0c0a-b2ef-af96bbde7059@gmail.com>
+Message-Id: <20180409172133.GL3948@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 To: Akira Yokosawa <akiyks@gmail.com>
 Cc: perfbook@vger.kernel.org
 
-On Sun, Apr 08, 2018 at 12:23:05AM +0900, Akira Yokosawa wrote:
-> >From b4f82853b7425a54e5ac898b91660fff66e4190b Mon Sep 17 00:00:00 2001
+On Tue, Apr 10, 2018 at 12:44:58AM +0900, Akira Yokosawa wrote:
+> >From d9d064c4aac8758ccaa435444ff0e60a16a9d6d2 Mon Sep 17 00:00:00 2001
 > From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sat, 7 Apr 2018 23:14:24 +0900
-> Subject: [PATCH] future/formalregress: Fix staccato of 'been'
+> Date: Tue, 10 Apr 2018 00:30:08 +0900
+> Subject: [PATCH v2] Fix labeling of appendix and section
 > 
-> Also remove redundant "v" in "v4.17".
+> These are a couple of labels which don't match the current
+> context due to movement to/from appendix.
 > 
 > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> ---
+> Change from v1:
+>     Fixed typo in commit log.
 
-Good eyes, applied and pushed, thank you!
+Good eyes, applied and queued, thank you!  I changed one additional
+"appendix" to section, please see below for the updated commit, and
+please let me know if I messed anything up.
 
 							Thanx, Paul
 
-> ---
-> Hi Paul,
-> 
-> If you prefer "v4.17", "version" can be removed instead.
-> 
->         Thanks, Akira
-> --
->  future/formalregress.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/future/formalregress.tex b/future/formalregress.tex
-> index dd37ec8..8402da1 100644
-> --- a/future/formalregress.tex
-> +++ b/future/formalregress.tex
-> @@ -116,7 +116,7 @@ In contrast, one of the great strengths of PPCMEM and \co{herd}
->  is their detailed modeling of various CPU families memory models,
->  including x86, ARM, Power, and, in the case of \co{herd},
->  even a Linux-kernel memory model~\cite{Alglave:2018:FSC:3173162.3177156},
-> -which has been been accepted into version v4.17 of
-> +which has been accepted into version 4.17 of
->  the Linux kernel.
-> 
->  The \co{cbmc} and Nidhugg tools provide some ability to select
-> -- 
-> 2.7.4
-> 
+------------------------------------------------------------------------
+
+commit 15e646185e3f404c6d84af4947e598278e53d22d
+Author: Akira Yokosawa <akiyks@gmail.com>
+Date:   Tue Apr 10 00:30:08 2018 +0900
+
+    Fix labeling of appendix and section
+    
+    These are a couple of labels which don't match the current
+    context due to movement to/from appendix.
+    
+    Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+    Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+
+diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
+index a796401e8d0c..c0a45a85ca03 100644
+--- a/appendix/toyrcu/toyrcu.tex
++++ b/appendix/toyrcu/toyrcu.tex
+@@ -2,7 +2,7 @@
+
+ \QuickQuizChapter{chp:app:``Toy'' RCU Implementations}{``Toy'' RCU Implementations}
+
+-The toy RCU implementations in this section are designed not for
++The toy RCU implementations in this appendix are designed not for
+ high performance, practicality, or any kind of production use,\footnote{
+ 	However, production-quality user-level RCU implementations
+ 	are available~\cite{MathieuDesnoyers2009URCU,MathieuDesnoyers2012URCU}.}
+@@ -15,7 +15,7 @@ Chapters~\ref{chp:Introduction},
+ and~\ref{chp:Deferred Processing}
+ for even these toy RCU implementations to be easily understandable.
+
+-This section provides a series of RCU implementations in order of
++This appendix provides a series of RCU implementations in order of
+ increasing sophistication, from the viewpoint of solving the
+ existence-guarantee problem.
+ Section~\ref{sec:app:toyrcu:Lock-Based RCU} presents a rudimentary
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index 079840425ca3..40fe3a4919f0 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -4179,7 +4179,7 @@ dependencies.
+
+ \section{Hardware Specifics}
+ \label{sec:memorder:Hardware Specifics}
+-\OriginallyPublished{Appendix}{sec:memorder:Hardware Specifics}{Memory-Barrier Instructions For Specific CPUs}{Linux Journal}{PaulMcKenney2005i,PaulMcKenney2005j}
++\OriginallyPublished{Section}{sec:memorder:Hardware Specifics}{Memory-Barrier Instructions For Specific CPUs}{Linux Journal}{PaulMcKenney2005i,PaulMcKenney2005j}
+
+ \begin{table*}[tbh]
+ \rowcolors{4}{}{lightgray}
 
