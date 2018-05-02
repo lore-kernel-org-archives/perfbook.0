@@ -2,18 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bQvI6X2pO1nRExx3mXZZEQuwln8dt9AxW06buRJT3Ow=;
- b=iybO3k/PF3PSVLt4vg8KS4yLoCwQK90qaJ/RNTiXqAp+cLkFbg/KGvNjEXu6C1KOpe
- IAnX5g4tACTbfqNYUnYSt1LlsW+kriCoeinGH3ZLEn+TixThixmS6eBrJbUONRdudUy4
- zdhYKjLcjqNBydK05DtSWNVoyL+jDhTo071tPgCBISveXX1ROHBWu0zvRC4zEOi4rA2y
- Voo134RGCZRor5vgD0kk4DLqYG0qzUloeP1WzyzoOR4KwyyMybngUrruBnMBJf0DZZos
- dQQBJAO+nGJJ2h5pMaaOof9w7FANx2SAmDW3NYIQp4ZOdYnCzTSh7KN+pxBjx/r7tk8l
- xg0Q==
-Subject: [PATCH 3/5] FAQ-BUILD: Add note on Ubuntu Bionic
+ bh=k8SldwP4ycOnYu8q/KVjov+7Zyb1P1+rFlEQ/M1j4P4=;
+ b=sVMRtWgYwT+aV6+B61xB4jEjp0sAhgfdjE+UDFl5T7qIug6a28L6f41MfAPXQYvwLS
+ Bk+3or2b9ttXKn8yg3hrm6PW5ZWYGB1rY1ir8z9R9EIDNSYPvqqQgAT3CKN7tpBw9TZV
+ nA0sfrOUrcOZoVjGL82Sojvf6BtsA85vc0dyvWe109T5VAO1xOW02KYKNLbJEjOU9/aJ
+ DBUiaX7PT+vpfWZOLz52tTum6YjCJv6uF2rviZPkOu5/pFJipsXFd3VjW2XbQuoCAb26
+ Mqd4HhYkP9XDXksyPfz5TOAy8VRNKlc+9+u7njVzbSIKTAomZUoFmk11V0ZDujiqtcbK
+ HRSA==
+Subject: [PATCH 4/5] Makefile: Use latexpand instead of texexpand
 References: <cf0ba9bc-ba0e-fac5-4b1d-52a69655244d@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <8d2fb0cb-df72-5e39-0ff1-58c6eb2d5190@gmail.com>
-Date: Wed, 2 May 2018 13:18:38 +0900
+Message-ID: <74c13ecc-616e-c140-aed5-db50529774e1@gmail.com>
+Date: Wed, 2 May 2018 13:19:50 +0900
 MIME-Version: 1.0
 In-Reply-To: <cf0ba9bc-ba0e-fac5-4b1d-52a69655244d@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,40 +23,49 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 37b458d896098180c42291fc05467ca33ce00609 Mon Sep 17 00:00:00 2001
+From 0e99d58218ee3552fa583eb0035e32b53265b667 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 28 Apr 2018 00:55:58 +0900
-Subject: [PATCH 3/5] FAQ-BUILD: Add note on Ubuntu Bionic
+Date: Mon, 30 Apr 2018 23:43:15 +0900
+Subject: [PATCH 4/5] Makefile: Use latexpand instead of texexpand
 
-Ubuntu Bionic has incompatible combination of a2ping (2.77p) and
-Ghostscript (9.22) at the moment.
-It also has slightly different texlive packages from Ubuntu Xenial.
+latexpand of TeX Live [1] works similarly as texexpand.
+By this change, latex2html package becomes unnecessary for
+building perfbook.
+
+While we are here, straighten dependency of autodate.tex and
+perfbook_flat.tex.
+
+NOTE: Irrelevant warnings from latexpand are redirected to /dev/null.
+
+[1]: https://www.ctan.org/pkg/latexpand
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- FAQ-BUILD.txt | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index ea2c57f..e0ae289 100644
---- a/FAQ-BUILD.txt
-+++ b/FAQ-BUILD.txt
-@@ -47,6 +47,15 @@
- 		On Ubuntu Trusty, in addition to the above, you need:
- 			texlive-humanities
+diff --git a/Makefile b/Makefile
+index 9ac521c..a208920 100644
+--- a/Makefile
++++ b/Makefile
+@@ -101,14 +101,14 @@ $(PDFTARGETS:.pdf=.bbl): %.bbl: %.aux $(BIBSOURCES)
+ $(PDFTARGETS:.pdf=.aux): $(LATEXGENERATED) $(LATEXSOURCES)
+ 	sh utilities/runfirstlatex.sh $(basename $@)
 
-+		On Ubuntu Bionic, the following list should cover
-+		necessary packages (except for -doc packages):
-+			texlive-publishers texlive-pstricks
-+			texlive-science texlive-fonts-extra
-+			latex2html xfig inkscape graphviz fig2ps
-+
-+		You might need to fetch a version of a2ping which is
-+		compatible with Ghostscript 9.22. See #7 below.
-+
- 		On Fedora 26, installing the following set of packages
- 		suffices:
- 			texlive-a2ping fig2ps graphviz inkscape latex2html
+-autodate.tex: $(LATEXSOURCES) $(BIBSOURCES) $(SVGSOURCES) $(FIGSOURCES) $(DOTSOURCES)
++autodate.tex: perfbook.tex $(LATEXSOURCES) $(BIBSOURCES) $(SVGSOURCES) $(FIGSOURCES) $(DOTSOURCES) $(EPSORIGIN)
+ 	sh utilities/autodate.sh >autodate.tex
+
+-perfbook_flat.tex: perfbook.tex $(LATEXSOURCES) $(PDFTARGETS_OF_EPS) $(TARGETS_OF_SVG)
++perfbook_flat.tex: autodate.tex $(PDFTARGETS_OF_EPS) $(TARGETS_OF_SVG)
+ 	echo > qqz.tex
+ 	echo > contrib.tex
+ 	echo > origpub.tex
+-	texexpand perfbook.tex > $@
++	latexpand --empty-comments perfbook.tex 1> $@ 2> /dev/null
+
+ qqz.tex: perfbook_flat.tex
+ 	sh utilities/extractqqz.sh < $< | perl utilities/qqzreorder.pl > $@
 -- 
 2.7.4
 
