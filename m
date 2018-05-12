@@ -2,18 +2,19 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hdDZylPAFDAPUL3f7mfWqjo5VWHiDVdRGqBal+JiI0c=;
- b=YEaDaOS0iTWxqjrxpoCgmYHW6bmUWeY/kHMGO6H3M//7KjwDv3xCfGW1RkNCxPA4CM
- Mtm8H/3dN0GeKJF9JKcA4KNth4hp+7iPHhrEwTCSpdSKCsAm4u6hzGuAgWEfIZMIkJYn
- dp9ehXDq7ew0Kh4SYES7L8uOuToFu17yGWRUikdzHiRu+MbWGLw8o6A54myInjFPGq7H
- q8T2dL+EOGc+MxTbpAWALkPQX2tX6FOM4rWAMqjcMrJf/hV3btthKfsk5JFBzypBtI1f
- wH27o1kmCQQGuGrdzSw7ZeJ36/uB0HqxQVoWvYo4psdCIzRDc71dA/Ia3hu/PMZw7wjr
- JZ5w==
-Subject: [PATCH 2/9] fixsvgfonts: Fix typo
+ bh=vAAolsoElOymxvCytyzBfTBPHd+kgU1ayLGhpisuWJQ=;
+ b=lwf48dvnf9uabn/5Yot6UFOnO5uiUma49aCcXsTCg2nIeIO/Cs4Es4Yr7AmHmcnmak
+ pfnCPAzQAgeZXnT0ovYPmNUaHNs+hdfjG3vygGPS85f8yGEuj3YFWTCJkLyE2FkFjt32
+ 3+mfv0KBX8qbpgNUJR3dt9kvAZLxNFtn7tRkFFeOZLvQkdAZuz41z9sI2Dx+7HDLWLhI
+ iEatWUuUON0x3QCb9vMLCTib0vnELAh3W4FNrZafHYwmKwcUT69qi2Itqcaz3OCTCFOu
+ 6vuLgG2zyKUUCzhB9jhU1b28MD4EuHuEPXI/ATQUArpHuR/lJy69gX7Ey10iMX4Y7Sqs
+ ZrsA==
+Subject: [PATCH 3/9] FAQ-BUILD: Add note on Fedora 28, 27, and other Linux
+ distros
 References: <8d5ad929-fbac-db70-0669-ee4b117319f4@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <14792ea1-105d-6065-a386-1afcc632bd34@gmail.com>
-Date: Sat, 12 May 2018 13:15:23 +0900
+Message-ID: <8c7cb2a8-fcdb-7f63-b44b-59305f9f742b@gmail.com>
+Date: Sat, 12 May 2018 13:16:43 +0900
 MIME-Version: 1.0
 In-Reply-To: <8d5ad929-fbac-db70-0669-ee4b117319f4@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -23,51 +24,82 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From ef1811c7c57cd685222732c5cb53d4f579e56a81 Mon Sep 17 00:00:00 2001
+From 093da12a7fea59ddddf2c1cac6a4ad878aed14af Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 12 May 2018 00:36:59 +0900
-Subject: [PATCH 2/9] fixsvgfonts: Fix typo
+Date: Sat, 12 May 2018 00:40:03 +0900
+Subject: [PATCH 3/9] FAQ-BUILD: Add note on Fedora 28, 27, and other Linux distros
 
-There was a typo in sed pattern as well as in header comment.
+Also remove out-of-date info on RHEL and Fedora.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/fixsvgfonts-urwps.sh | 4 ++--
- utilities/fixsvgfonts.sh       | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ FAQ-BUILD.txt | 41 ++++++++++++++++++++++-------------------
+ 1 file changed, 22 insertions(+), 19 deletions(-)
 
-diff --git a/utilities/fixsvgfonts-urwps.sh b/utilities/fixsvgfonts-urwps.sh
-index ac55b4a..a917fea 100644
---- a/utilities/fixsvgfonts-urwps.sh
-+++ b/utilities/fixsvgfonts-urwps.sh
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- #
- # fixsvgfonts-urwps.sh: Convert an .svg file to use embeddable fonts,
--#       taking from standard input and putting on standar output.
-+#       taking from standard input and putting on standard output.
- #
- # Copyright (c) 2018 Akira Yokosawa
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index bf81a85..6faa705 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -56,27 +56,30 @@
+ 		You might need to fetch a version of a2ping which is
+ 		compatible with Ghostscript 9.22. See #7 below.
 
-@@ -20,4 +20,4 @@ sed	-e 's+family:Helvetica+family:Nimbus Sans+g' \
- 	-e 's+family="Nimbus Mono L+family="Nimbus Mono PS+g' \
- 	-e 's+cation:Nimbus Mono L+cation:Nimbus Mono PS+g' \
- 	-e 's+family:Standard Symbols L+family:Standard Symbols PS+g' \
--	-e 's+cation:Standard Symbosl L+cation:Standard Symbols PS+g'
-+	-e 's+cation:Standard Symbols L+cation:Standard Symbols PS+g'
-diff --git a/utilities/fixsvgfonts.sh b/utilities/fixsvgfonts.sh
-index 812cbc2..287d3e2 100644
---- a/utilities/fixsvgfonts.sh
-+++ b/utilities/fixsvgfonts.sh
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- #
- # fixsvgfonts.sh: Convert an .svg file to use embeddable fonts, taking from
--#	standard input and putting on standar output.
-+#	standard input and putting on standard output.
- #
- # Copyright (c) 2018 Akira Yokosawa
+-		On Fedora 26, installing the following set of packages
+-		suffices:
+-			texlive-a2ping fig2ps graphviz inkscape
++		On Fedora 28 and 27, installing the following set of
++		packages suffices:
++			texlive-collection-binextra
+ 			texlive-collection-latexextra
++			texlive-collection-fontsextra
++			fig2ps graphviz inkscape
 
+-		Other systems might provide similarly named packages.
+-		For example, Doug Miller noted that the following list
+-		of teTeX components worked for him on RHEL5:
++		You need to install a version of a2ping compatible
++		with Ghostscript 9.22 or later. See #7 below.
+
+-			tetex tetex-afm tetex-dvips tetex-latex latex2html
+-			texinfo tetex-fonts tetex-doc tetex-xdvi
++		On other Linux distributions such as RHEL/CentOS and
++		Scientific Linux, where support of TeX Live packages
++		is insufficient, manually installing TeX Live should
++		be a reasonable choice.
++		See: https://www.tug.org/texlive/quickinstall.html
+
+-		For another example, Frederic Weisbecker reports that
+-		the following packages allows perfbook to be built on
+-		Fedora 19:
++		NOTE: In doing so, you might end up in having
++			redundant texlive packages of your choise
++			of distribution to satisfy dependency
++			of other packages.
+
+-			texlive-latex texlive-collection-latexextra
+-			psutils texlive-math* texlive-bibtex latex2html
+-			xfig (and maybe also gnuplot-latex
+-			texlive-publishers-doc texlive-fonts-extra
+-			texlive-science).
++		Besides TeX Live, you need the following list of
++		packages:
++			fig2ps graphviz inkscape
+
+ 6.	I cannot build perfbook, and the perfbook.log file complains
+ 	about some obscure package being missing.  What do I do?
+@@ -111,9 +114,9 @@
+ 	install those packages?
+
+ 	A.	The simplest approach is to upgrade to a recent TeX
+-		distribution such as TeX Live 2016.  Upgrading your Linux
+-		distribution (e.g. to Ubuntu Xenial) is one way to
+-		upgrade TeX Live (to 2015 on Xenial), and might	have many
++		distribution such as TeX Live 2018.  Upgrading your Linux
++		distribution (e.g. to Ubuntu Bionic) is one way to
++		upgrade TeX Live (to 2017 on Bionic), and might	have many
+ 		other benefits as well.
+
+ 		However, if you prefer to manually install individual
 -- 
 2.7.4
 
