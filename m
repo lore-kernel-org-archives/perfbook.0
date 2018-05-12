@@ -2,19 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vb3K6EHBk52f8t3xhTnEUhZXEVmqk6UHDmEAry+oDIc=;
- b=eyTVfZcgjKDeMSyGWyPdRTlE4LbGTV2jns+R5JduwTyWCcK1ncs1CAXyoz7WjYM27x
- xFuwPGiywXHSzU3og2rgwjZ7qwqfctMXq+vekRbP9BMqDugBJqLR+VFifuSHCoD9P1Af
- 1OdBXOqmLKgQblPca9sofOyttvu9O652LmaXIKhyha9u6don4iJWn8rO6c57mWRLsDxW
- LHwdbF22f3xePtcY2ThmjWn6Jfyuog0/D/HfDdjnEiN9B+N294Vhj3eawkPgO69tYVU9
- 2YoDot33llr86sOF8LpfmdlzVSkTRTwIjDUuMuVXv7tzHHv8KUHFdrvXXDWXHy3w5rOq
- rNOQ==
-Subject: [PATCH 1/9] Makefile: Add sed pattern to accommodate fontconfig
- 2.13.0
+ bh=hdDZylPAFDAPUL3f7mfWqjo5VWHiDVdRGqBal+JiI0c=;
+ b=YEaDaOS0iTWxqjrxpoCgmYHW6bmUWeY/kHMGO6H3M//7KjwDv3xCfGW1RkNCxPA4CM
+ Mtm8H/3dN0GeKJF9JKcA4KNth4hp+7iPHhrEwTCSpdSKCsAm4u6hzGuAgWEfIZMIkJYn
+ dp9ehXDq7ew0Kh4SYES7L8uOuToFu17yGWRUikdzHiRu+MbWGLw8o6A54myInjFPGq7H
+ q8T2dL+EOGc+MxTbpAWALkPQX2tX6FOM4rWAMqjcMrJf/hV3btthKfsk5JFBzypBtI1f
+ wH27o1kmCQQGuGrdzSw7ZeJ36/uB0HqxQVoWvYo4psdCIzRDc71dA/Ia3hu/PMZw7wjr
+ JZ5w==
+Subject: [PATCH 2/9] fixsvgfonts: Fix typo
 References: <8d5ad929-fbac-db70-0669-ee4b117319f4@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <2906d431-ffa2-4767-858d-cf7cbe57351a@gmail.com>
-Date: Sat, 12 May 2018 13:14:21 +0900
+Message-ID: <14792ea1-105d-6065-a386-1afcc632bd34@gmail.com>
+Date: Sat, 12 May 2018 13:15:23 +0900
 MIME-Version: 1.0
 In-Reply-To: <8d5ad929-fbac-db70-0669-ee4b117319f4@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,58 +23,50 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 9817247baeaab6781acda56214fc4c1d31aa676d Mon Sep 17 00:00:00 2001
+From ef1811c7c57cd685222732c5cb53d4f579e56a81 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 12 May 2018 00:24:38 +0900
-Subject: [PATCH 1/9] Makefile: Add sed pattern to accommodate fontconfig 2.13.0
+Date: Sat, 12 May 2018 00:36:59 +0900
+Subject: [PATCH 2/9] fixsvgfonts: Fix typo
 
-It is observed that fontconfig 2.13.0 recognizes "Steel City Comic"
-font just as "Test". Add sed patterns to convert the fontfamily
-specifier in .svg files on-the-fly in such cases.
-
-This issue is observed on Fedora 28.
+There was a typo in sed pattern as well as in header comment.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ utilities/fixsvgfonts-urwps.sh | 4 ++--
+ utilities/fixsvgfonts.sh       | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index a208920..2b2ce2e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -71,6 +71,8 @@ FIXSVGFONTS   = utilities/fixsvgfonts-urwps.sh
- FIXANEPSFONTS = utilities/fixanepsfonts-urwps.sh
- endif
+diff --git a/utilities/fixsvgfonts-urwps.sh b/utilities/fixsvgfonts-urwps.sh
+index ac55b4a..a917fea 100644
+--- a/utilities/fixsvgfonts-urwps.sh
++++ b/utilities/fixsvgfonts-urwps.sh
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ #
+ # fixsvgfonts-urwps.sh: Convert an .svg file to use embeddable fonts,
+-#       taking from standard input and putting on standar output.
++#       taking from standard input and putting on standard output.
+ #
+ # Copyright (c) 2018 Akira Yokosawa
 
-+STEELFONTID := $(shell fc-list | grep -i steel | grep -c Steel)
-+
- default = $(PERFBOOK_DEFAULT)
-
- ifeq ($(default),)
-@@ -204,7 +206,11 @@ $(PDFTARGETS_OF_SVG): %.pdf: %.svg
- ifndef INKSCAPE
- 	$(error "$< --> $@: inkscape not found. Please install it.")
- endif
-+ifeq ($(STEELFONTID),0)
-+	@sh $(FIXSVGFONTS) < $< | sed -e 's/Steel City Comic/Test/g' > $<i
-+else
- 	@sh $(FIXSVGFONTS) < $< > $<i
-+endif
- 	@inkscape --export-pdf=$@ $<i > /dev/null 2>&1
- 	@rm -f $<i
-
-@@ -213,7 +219,11 @@ $(PNGTARGETS_OF_SVG): %.png: %.svg
- ifndef INKSCAPE
- 	$(error "$< --> $@: inkscape not found. Please install it.")
- endif
-+ifeq ($(STEELFONTID),0)
-+	@sh $(FIXSVGFONTS) < $< | sed -e 's/Steel City Comic/Test/g' > $<i
-+else
- 	@sh $(FIXSVGFONTS) < $< > $<i
-+endif
- 	@inkscape --export-dpi=200 --export-png=$@ $<i > /dev/null 2>&1
- 	@rm -f $<i
+@@ -20,4 +20,4 @@ sed	-e 's+family:Helvetica+family:Nimbus Sans+g' \
+ 	-e 's+family="Nimbus Mono L+family="Nimbus Mono PS+g' \
+ 	-e 's+cation:Nimbus Mono L+cation:Nimbus Mono PS+g' \
+ 	-e 's+family:Standard Symbols L+family:Standard Symbols PS+g' \
+-	-e 's+cation:Standard Symbosl L+cation:Standard Symbols PS+g'
++	-e 's+cation:Standard Symbols L+cation:Standard Symbols PS+g'
+diff --git a/utilities/fixsvgfonts.sh b/utilities/fixsvgfonts.sh
+index 812cbc2..287d3e2 100644
+--- a/utilities/fixsvgfonts.sh
++++ b/utilities/fixsvgfonts.sh
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ #
+ # fixsvgfonts.sh: Convert an .svg file to use embeddable fonts, taking from
+-#	standard input and putting on standar output.
++#	standard input and putting on standard output.
+ #
+ # Copyright (c) 2018 Akira Yokosawa
 
 -- 
 2.7.4
