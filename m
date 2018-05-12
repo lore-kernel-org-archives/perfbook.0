@@ -2,19 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vAAolsoElOymxvCytyzBfTBPHd+kgU1ayLGhpisuWJQ=;
- b=lwf48dvnf9uabn/5Yot6UFOnO5uiUma49aCcXsTCg2nIeIO/Cs4Es4Yr7AmHmcnmak
- pfnCPAzQAgeZXnT0ovYPmNUaHNs+hdfjG3vygGPS85f8yGEuj3YFWTCJkLyE2FkFjt32
- 3+mfv0KBX8qbpgNUJR3dt9kvAZLxNFtn7tRkFFeOZLvQkdAZuz41z9sI2Dx+7HDLWLhI
- iEatWUuUON0x3QCb9vMLCTib0vnELAh3W4FNrZafHYwmKwcUT69qi2Itqcaz3OCTCFOu
- 6vuLgG2zyKUUCzhB9jhU1b28MD4EuHuEPXI/ATQUArpHuR/lJy69gX7Ey10iMX4Y7Sqs
- ZrsA==
-Subject: [PATCH 3/9] FAQ-BUILD: Add note on Fedora 28, 27, and other Linux
- distros
+ bh=U59Ee080FnV6u5Glbw86CzVWBa4dEIVoXKqzLVeSA3c=;
+ b=fDK1FMCoHuTEMkDn4csB7dsQrZmjC0NaJxc7cCfG0h4AaYF5A9wGHdAbfqKo51yWM0
+ ow0lauo4l6moFkWdiWzwi2GGMLbEwJ8nB5/9GKqcMw9z3RdI0oW6ndg8S1EvjFNY7Xh1
+ r83wsW1XTg/EwjEMeflV1mzeXhDXloYOrbvw6mOj+SHL8RCqCBVULAPLqAmIaNKH1hZI
+ ESJotnVT6OYuXH+2AKKQ+1t0w1pRLbH8vmsM3XjgV6d9xlNWjaty6+myi+D8w80mzAl8
+ PCz288x6+hRfYThNcR8QTfMuESFzWBqNmXG0XAl0TsyXJ6DdwUkhz2n7oB8gJiUiFxZ9
+ VeiQ==
+Subject: [PATCH 4/9] Makefile: Add 'latexpand' existence check
 References: <8d5ad929-fbac-db70-0669-ee4b117319f4@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <8c7cb2a8-fcdb-7f63-b44b-59305f9f742b@gmail.com>
-Date: Sat, 12 May 2018 13:16:43 +0900
+Message-ID: <97f75bdd-46e1-98af-10fb-5f7e1c158038@gmail.com>
+Date: Sat, 12 May 2018 13:18:04 +0900
 MIME-Version: 1.0
 In-Reply-To: <8d5ad929-fbac-db70-0669-ee4b117319f4@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,82 +23,50 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 093da12a7fea59ddddf2c1cac6a4ad878aed14af Mon Sep 17 00:00:00 2001
+From 2888aa1bc01c4d87150c7f8cf5dcc9eb7ab47ac4 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 12 May 2018 00:40:03 +0900
-Subject: [PATCH 3/9] FAQ-BUILD: Add note on Fedora 28, 27, and other Linux distros
+Date: Sat, 12 May 2018 00:48:35 +0900
+Subject: [PATCH 4/9] Makefile: Add 'latexpand' existence check
 
-Also remove out-of-date info on RHEL and Fedora.
+On distributions like Fedora, where texlive packages are
+finely fragmented, 'latexpand' can be missing.
+
+Also remove blank lines in this part of Makefile.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- FAQ-BUILD.txt | 41 ++++++++++++++++++++++-------------------
- 1 file changed, 22 insertions(+), 19 deletions(-)
+ Makefile | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index bf81a85..6faa705 100644
---- a/FAQ-BUILD.txt
-+++ b/FAQ-BUILD.txt
-@@ -56,27 +56,30 @@
- 		You might need to fetch a version of a2ping which is
- 		compatible with Ghostscript 9.22. See #7 below.
+diff --git a/Makefile b/Makefile
+index 2b2ce2e..336da79 100644
+--- a/Makefile
++++ b/Makefile
+@@ -54,13 +54,10 @@ PNGTARGETS_OF_SVG := $(SVG_LARGE_BITMAP:%.svg=%.png)
+ TARGETS_OF_SVG :=  $(PDFTARGETS_OF_SVG) $(PNGTARGETS_OF_SVG)
 
--		On Fedora 26, installing the following set of packages
--		suffices:
--			texlive-a2ping fig2ps graphviz inkscape
-+		On Fedora 28 and 27, installing the following set of
-+		packages suffices:
-+			texlive-collection-binextra
- 			texlive-collection-latexextra
-+			texlive-collection-fontsextra
-+			fig2ps graphviz inkscape
+ DOT := $(shell which dot 2>/dev/null)
+-
+ FIG2EPS := $(shell which fig2eps 2>/dev/null)
+-
+ A2PING := $(shell which a2ping 2>/dev/null)
+-
+ INKSCAPE := $(shell which inkscape 2>/dev/null)
+-
++LATEXPAND := $(shell which latexpand 2>/dev/null)
+ URWPS := $(shell fc-list | grep "Nimbus Mono PS" | wc -l)
 
--		Other systems might provide similarly named packages.
--		For example, Doug Miller noted that the following list
--		of teTeX components worked for him on RHEL5:
-+		You need to install a version of a2ping compatible
-+		with Ghostscript 9.22 or later. See #7 below.
+ ifeq ($(URWPS),0)
+@@ -107,6 +104,9 @@ autodate.tex: perfbook.tex $(LATEXSOURCES) $(BIBSOURCES) $(SVGSOURCES) $(FIGSOUR
+ 	sh utilities/autodate.sh >autodate.tex
 
--			tetex tetex-afm tetex-dvips tetex-latex latex2html
--			texinfo tetex-fonts tetex-doc tetex-xdvi
-+		On other Linux distributions such as RHEL/CentOS and
-+		Scientific Linux, where support of TeX Live packages
-+		is insufficient, manually installing TeX Live should
-+		be a reasonable choice.
-+		See: https://www.tug.org/texlive/quickinstall.html
-
--		For another example, Frederic Weisbecker reports that
--		the following packages allows perfbook to be built on
--		Fedora 19:
-+		NOTE: In doing so, you might end up in having
-+			redundant texlive packages of your choise
-+			of distribution to satisfy dependency
-+			of other packages.
-
--			texlive-latex texlive-collection-latexextra
--			psutils texlive-math* texlive-bibtex latex2html
--			xfig (and maybe also gnuplot-latex
--			texlive-publishers-doc texlive-fonts-extra
--			texlive-science).
-+		Besides TeX Live, you need the following list of
-+		packages:
-+			fig2ps graphviz inkscape
-
- 6.	I cannot build perfbook, and the perfbook.log file complains
- 	about some obscure package being missing.  What do I do?
-@@ -111,9 +114,9 @@
- 	install those packages?
-
- 	A.	The simplest approach is to upgrade to a recent TeX
--		distribution such as TeX Live 2016.  Upgrading your Linux
--		distribution (e.g. to Ubuntu Xenial) is one way to
--		upgrade TeX Live (to 2015 on Xenial), and might	have many
-+		distribution such as TeX Live 2018.  Upgrading your Linux
-+		distribution (e.g. to Ubuntu Bionic) is one way to
-+		upgrade TeX Live (to 2017 on Bionic), and might	have many
- 		other benefits as well.
-
- 		However, if you prefer to manually install individual
+ perfbook_flat.tex: autodate.tex $(PDFTARGETS_OF_EPS) $(TARGETS_OF_SVG)
++ifndef LATEXPAND
++	$(error "--> $@: latexpand not found. Please install it.")
++endif
+ 	echo > qqz.tex
+ 	echo > contrib.tex
+ 	echo > origpub.tex
 -- 
 2.7.4
 
