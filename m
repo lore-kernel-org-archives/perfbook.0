@@ -2,19 +2,18 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lwZMOF8g5mCfK5e9/XWhIDST9kNPoBZJcMkytraKZuM=;
- b=Tzf7kgGPB2+r5kCwzld7rCiilywbbOpu8UA6xPofKKuCMPu0XY51LzJQPW+OrcgLw5
- tG8rpn9C21+24XKbVPruGklOYj077cVTeY9rfA87yici4casflxrUP5g+zzQy5MoF6v4
- OVDedwUeGDLETXjwjK0vfsof90Jiu+Dvi2EeMFSFfj9tg5rSm3a+wpUnq6OFYKYUSH6r
- 45XMJOcTEVkqlkS6rO3ha5RlPXfu0dMX7BPqoGU+WzwXx29LziQ/aDJTo4Y5RktUN5Lt
- XpM+ImhADdgg65lVJhp1N/LFmW6G4E+uUVAX2hBjjqFzMyVrvTw0kSmfMw4TyP3FWIMX
- ozhA==
-Subject: [PATCH 8/9] Makefile: Move check of 'Steel City Comic' font from
- runlatex.sh
+ bh=t4uuqr4g8UC+lS8A1ssaZpAhqpEVAFFWd6+nn7Adgzc=;
+ b=VOwP9SJoPEVW+zzOU8ZkPN9BqfmZq2TnZda+4gc4MpqoZQa5UJyHdAWrIXu7451rE5
+ AQqdEOJ+2yqLGOF5KwH4wp79+VpBG6kq81cPGZRfFW2Fsh1H2znuxElMciuqqcWGhMEy
+ jHtqMQkmhFukEZ7C/LnEvNC1w5t2entFsOgwm3Umv+SpItpCfn/aBKcNIVgXujwSkdBT
+ nCICnRS6Ee8hZfrQEov7PB1MlJPhjBzxFa6aNLciFlnK6zHdoFE1Gz8UI/tfrZX81H3K
+ IQiJtGbWiVLygQ3Y1XH6V/jvFTlJFWaA+YCYZMrLcCIVahEo+YTMUmN7Dpo/Vx2Fwu1y
+ 7MuA==
+Subject: [PATCH 9/9] FAQ-BUILD: Rephrase #7 to reflect Makefile update
 References: <8d5ad929-fbac-db70-0669-ee4b117319f4@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <bc06bec7-4691-c2bf-334f-1ecd4f6f6b2c@gmail.com>
-Date: Sat, 12 May 2018 13:23:48 +0900
+Message-ID: <444cd748-47f9-2f23-520d-b213f746912c@gmail.com>
+Date: Sat, 12 May 2018 13:24:55 +0900
 MIME-Version: 1.0
 In-Reply-To: <8d5ad929-fbac-db70-0669-ee4b117319f4@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,59 +23,33 @@ To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 66fa50f1b811d1b2abb632ac60925bb0ae1e83c5 Mon Sep 17 00:00:00 2001
+From 0c02a970a352e72cf6e29bf2707c6404b1939ec7 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 12 May 2018 00:58:41 +0900
-Subject: [PATCH 8/9] Makefile: Move check of 'Steel City Comic' font from runlatex.sh
+Date: Sat, 12 May 2018 08:58:55 +0900
+Subject: [PATCH 9/9] FAQ-BUILD: Rephrase #7 to reflect Makefile update
 
-This check can be done in Makefile before invoking inkscape.
+Version conflict of a2ping is checked in Makefile now.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile              | 4 ++++
- utilities/runlatex.sh | 8 --------
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ FAQ-BUILD.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 42296fa..6a704d2 100644
---- a/Makefile
-+++ b/Makefile
-@@ -58,6 +58,7 @@ FIG2EPS := $(shell which fig2eps 2>/dev/null)
- A2PING := $(shell which a2ping 2>/dev/null)
- INKSCAPE := $(shell which inkscape 2>/dev/null)
- LATEXPAND := $(shell which latexpand 2>/dev/null)
-+STEELFONT := $(shell fc-list | grep -c -i steel)
- URWPS := $(shell fc-list | grep "Nimbus Mono PS" | wc -l)
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index 6faa705..9fb3b68 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -86,8 +86,8 @@
 
- ifeq ($(URWPS),0)
-@@ -220,6 +221,9 @@ endif
+ 	A.	Please see #5 above.
 
- $(PDFTARGETS_OF_SVG): %.pdf: %.svg
- 	@echo "$< --> $@"
-+ifeq ($(STEELFONT),0)
-+	$(error "Steel City Comic" font not found. See #1 in FAQ.txt)
-+endif
- ifndef INKSCAPE
- 	$(error $< --> $@ inkscape not found. Please install it)
- endif
-diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
-index 81800db..289364d 100644
---- a/utilities/runlatex.sh
-+++ b/utilities/runlatex.sh
-@@ -129,13 +129,5 @@ echo "'$basename.pdf' is ready."
- # to avoid redundant run of bibtex and pdflatex
- touch $basename.bbl
- touch $basename.pdf
--if ! strings cartoons/r-2014-Old-man-and-Brat.pdf | grep -q -i -e "Steel City Comic" -e "Test"
--then
--	echo "#######################################################################"
--	echo "## Steel City Comic font is not found in the resulting PDF!          ##"
--	echo "## Some speech balloons in the cartoons have been rendered awkwardly.##"
--	echo "## See item 1 in FAQ.txt and FAQ-BUILD.txt to fix the font issue.    ##"
--	echo "#######################################################################"
--fi
- sh utilities/mpostcheck.sh
- exit 0
+-7.	I cannot build perfbook, neither can I find perfbook.log.
+-	What am I missing?
++7.	Building perfbook aborts with error "a2ping version conflict".
++	What can I do?
+
+ 	A.	Updating a2ping can resolve the build error if you
+ 		have Ghostscript 9.22 or later.  Compatible a2ping
 -- 
 2.7.4
 
