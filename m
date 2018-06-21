@@ -1,59 +1,53 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41028 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S932523AbeE1P6g (ORCPT <rfc822;perfbook@vger.kernel.org>); Mon, 28
- May 2018 11:58:36 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4SFs7GX057066
- for <perfbook@vger.kernel.org>; Mon, 28 May 2018 11:58:36 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2j8h0d1n5s-1 (version=TLSv1.2
- cipher=AES256-GCM-SHA384 bits=256 verify=NOT) for <perfbook@vger.kernel.org>;
- Mon, 28 May 2018 11:58:35 -0400
-Received: from localhost by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Mon, 28 May
- 2018 11:58:34 -0400
-Date: Mon, 28 May 2018 09:00:14 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH] SMPdesign: Add a missed unbreakble space for line number
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <20180528150607.3513-1-sj38.park@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=8AncBqGgR6LRn1vFF93Kf5ZVNmINhouVoGeUbuxPuFI=;
+ b=Y9vlzgOoYr2f1wTiwbRc8TRnWzgNmKSCVS39dOfqqOfOJSm/+ykvDA+a9qG4tnxpzE
+ gmqpN5/lECc/cXHGVqWm2vgBPzEJGWMOLxi3tIJlUv4ZryoeT1PXj59qSzJN7e8DBohy
+ 1GD2ixkGIKSloJz1WoCCN1nB15Wtb6CY1ZHhzpoQGD0f7etFb/UGaLPMXIJSHXZYNRfj
+ NLBAmNTHOuwHaa56nDbb+EYG+llO70jCLxImraM3tMgPejMyB4jNLYOGDqWlPNf7YUUV
+ uy1ifh60kpHaLbKaGs+bbFWhZ8tJIkCEfKQDouefneEQ/Gzh/OS6IZWl7+Ky55W3tKaz
+ 40ow==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] bib/QC: Use ASCII apostrophe
+Message-ID: <d9f4012a-8b2a-e227-34e2-0002a38a91fd@gmail.com>
+Date: Thu, 21 Jun 2018 22:17:51 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180528150607.3513-1-sj38.park@gmail.com>
-Message-Id: <20180528160014.GY3803@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, May 29, 2018 at 12:06:07AM +0900, SeongJae Park wrote:
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+From d31dccd5a0e41c8082893c8caef8a43ae4065f94 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Thu, 21 Jun 2018 21:23:43 +0900
+Subject: [PATCH] bib/QC: Use ASCII apostrophe
 
-Good catch, queued and pushed, thank you!
+Also keep some capital letters in title.
 
-							Thanx, Paul
+Fixes: f1903322bdb8 ("Bibliography update")
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ bib/QC.bib | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> ---
->  SMPdesign/SMPdesign.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
-> index 8078c4b..824de41 100644
-> --- a/SMPdesign/SMPdesign.tex
-> +++ b/SMPdesign/SMPdesign.tex
-> @@ -1109,7 +1109,7 @@ Line~6 gets a pointer to this thread's pool, and
->  line~7 checks to see if this per-thread pool is full.
-> 
->  If so, lines~8-15 empty half of the per-thread pool into the global pool,
-> -with lines~8 and 14 acquiring and releasing the spinlock.
-> +with lines~8 and~14 acquiring and releasing the spinlock.
->  Lines~9-12 implement the loop moving blocks from the local to the
->  global pool, and line~13 sets the per-thread pool's count to the proper
->  value.
-> -- 
-> 2.10.0
-> 
+diff --git a/bib/QC.bib b/bib/QC.bib
+index f598d26..0c80e46 100644
+--- a/bib/QC.bib
++++ b/bib/QC.bib
+@@ -1167,7 +1167,7 @@
+
+ @unpublished{JohnBoyd2018ClassicalAnneal
+ ,Author="Johhn Boyd"
+-,Title="Fujitsu’s CMOS Digital Annealer Produces Quantum Computer Speeds"
++,Title="Fujitsu's {CMOS Digital Annealer} Produces Quantum Computer Speeds"
+ ,month="May"
+ ,day="30"
+ ,year="2018"
+-- 
+2.7.4
 
