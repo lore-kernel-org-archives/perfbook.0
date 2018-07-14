@@ -1,62 +1,102 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59920 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1753857AbeGEXDa (ORCPT <rfc822;perfbook@vger.kernel.org>); Thu, 5
- Jul 2018 19:03:30 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w65MxScK054407
- for <perfbook@vger.kernel.org>; Thu, 5 Jul 2018 19:03:29 -0400
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2k1qu8an1x-1 (version=TLSv1.2
- cipher=AES256-GCM-SHA384 bits=256 verify=NOT) for <perfbook@vger.kernel.org>;
- Thu, 05 Jul 2018 19:03:29 -0400
-Received: from localhost by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Thu, 5 Jul 2018
- 19:03:28 -0400
-Date: Thu, 5 Jul 2018 16:05:41 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: counting examples
-Reply-To: paulmck@linux.vnet.ibm.com
-References: 
- <CAFMy-Rm--uJjqAfFxdbJfuNd-XVsDm+Fh_jx1kGNaojgTgEWKg@mail.gmail.com>
+Received: from mail-it0-f52.google.com ([209.85.214.52]:55086 "EHLO
+ mail-it0-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1726043AbeGNNSu (ORCPT <rfc822;perfbook@vger.kernel.org>); Sat, 14
+ Jul 2018 09:18:50 -0400
+Received: by mail-it0-f52.google.com with SMTP id s7-v6so14902037itb.4 for
+ <perfbook@vger.kernel.org>; Sat, 14 Jul 2018 05:59:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=mime-version:from:date:message-id:subject:to;
+ bh=OTuezg1s2R2jyu1/kKGvuOyydJZEAkJuHoMavBUbUaQ=;
+ b=RGH2PJvBrsXUPoorAwQMXSN7Z6p/glxwCoCUTKTzZ59ntZgISk1+qbh4BpTM/eZYx8
+ hZfsRHS9Rla0t+DfCM3CSXtqjH0ePFkAaz9NNJ2LztFlMI+jZ7ZJ+9gVwBQ3L5VFPVOi
+ HdqKWsqSEElC8ldsRpv+tfg5lSNtrWIRvkNpGb4YOYvq/ZJQZRx3d4MirbLsGALC4Qr9
+ qL5MfLXoxUjpt2oa6qjaZEXto7MiWMb7PFhoB02OUGBgfpV1BqD6iw914Azt1QLz5ZR3
+ 5JUdEnMQaaOLXQc6XjMiLuOXpK5EI5N33ckbf1aNyQLwGOgk2ukSoYY5P0Z4gz2yazTx
+ ar+Q==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: 
- <CAFMy-Rm--uJjqAfFxdbJfuNd-XVsDm+Fh_jx1kGNaojgTgEWKg@mail.gmail.com>
-Message-Id: <20180705230541.GV3593@linux.vnet.ibm.com>
+From: Elad Lahav <e2lahav@gmail.com>
+Date: Sat, 14 Jul 2018 08:59:48 -0400
+Message-ID: 
+ <CAJbg=FVjq_rwhvSw3Y=7xOxUqN_kV4P=wD42HU9=1u3KGnyJpg@mail.gmail.com>
+Subject: Section 4.2: wrong error reporting for pthread functions
+Content-Type: text/plain; charset="UTF-8"
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Imre Palik <imrep.amz@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: perfbook@vger.kernel.org
 
-On Thu, Jul 05, 2018 at 10:09:49PM +0200, Imre Palik wrote:
-> Hi All,
-> 
-> first of all, thanks for the great book.
+Hello,
 
-On behalf of all of its contributors, glad you like it!
+Throughout section 4.2 the following pattern is used for reporting
+errors returned by various pthread functions:
 
-> I have some doubts about some of the counting examples.  Namely, those
-> that implement inc_count() as a simple increment operation.  If there
-> is nothing to restrain the compiler/linker, they can possibly merge
-> several increments together, or optionally keep the counter value in a
-> register.
-> 
-> Of course, this won't happen with counttorture, because of the
-> barrier() in the loop.  But I wonder if that barrier() should be part
-> of inc_count() instead.  What do you think?
+if (pthread_func() == 0) {
+    perror("pthread_func");
+    exit(-1);
+}
 
-I actually put this on my todo list as a results of the C++ discussion,
-but given that I am in the process of (almost) rewriting Linux-kernel
-RCU, it will take time to get to it.  So if you are interested, I would
-welcome a patch that added READ_ONCE() and WRITE_ONCE as appropriate.
+This is wrong, as pthread functions return the error number on failure
+and do not set errno, as demonstrated by the following program, which
+attempts to join with a detached thread:
 
-If you are curious about the historical perspective, some of the counter
-code predates ACCESS_ONCE() -- let alone READ_ONCE() and WRITE_ONCE()
--- in the Linux kernel.  Compilers have gotten more aggressive over
-the decades.  ;-)
+#include <stdio.h>
+#include <errno.h>
+#include <pthread.h>
 
-							Thanx, Paul
+static void *
+my_thread(void *arg)
+{
+    return NULL;
+}
 
+int
+main()
+{
+    pthread_attr_t  attr;
+    pthread_t       tid;
+
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
+
+    errno = 0;
+
+    if (pthread_create(&tid, &attr, my_thread, NULL) != 0) {
+        perror("pthread_create");
+        return 1;
+    }
+
+    if (pthread_join(tid, NULL) != 0) {
+        perror("pthread_join");
+        return 1;
+    }
+
+    return 0;
+}
+
+The result:
+# ./pthread_error
+pthread_join: Success
+
+The correct way to report errors is to use strerror() on the returned code:
+
+#include <string.h>
+...
+    int rc;
+    rc = pthread_join(tid, NULL);
+    if (rc != 0) {
+        fprintf(stderr, "pthread_join: %s\n", strerror(rc));
+        return 1;
+    }
+
+# ./pthread_error
+pthread_join: Invalid argument
+
+Also, using exit(-1) is likely to produce unexpected results for the
+parent process. Error codes returned from processes are small
+integers, with the range being platform-specific. This means that -1
+will get truncated to some unspecified value. It is customary to use 1
+to indicate a failure from a process (if no other specific code is
+defined). stdlib.h provides EXIT_SUCCESS and EXIT_FAILURE, which may
+be easier to read.
+
+--Elad
