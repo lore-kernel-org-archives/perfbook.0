@@ -1,189 +1,87 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40518 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1729508AbeGQQqe (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Tue, 17 Jul 2018 12:46:34 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6HG9Itp042308
- for <perfbook@vger.kernel.org>; Tue, 17 Jul 2018 12:13:11 -0400
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2k9h8hqg74-1 (version=TLSv1.2
- cipher=AES256-GCM-SHA384 bits=256 verify=NOT) for <perfbook@vger.kernel.org>;
- Tue, 17 Jul 2018 12:13:10 -0400
-Received: from localhost by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Tue, 17 Jul
- 2018 12:13:10 -0400
-Date: Tue, 17 Jul 2018 09:15:31 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: Section 4.2: wrong error reporting for pthread functions
-Reply-To: paulmck@linux.vnet.ibm.com
-References: 
- <CAJbg=FVjq_rwhvSw3Y=7xOxUqN_kV4P=wD42HU9=1u3KGnyJpg@mail.gmail.com>
- <20180714233313.GH12945@linux.vnet.ibm.com>
- <4131cfaa-45c2-e0e0-ecc0-dfa3058c53c3@gmail.com>
- <20180716163924.GZ12945@linux.vnet.ibm.com>
- <2def0b9d-d197-d1dd-2489-72b9c9d2be26@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2def0b9d-d197-d1dd-2489-72b9c9d2be26@gmail.com>
-Message-Id: <20180717161531.GM12945@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Return-Path: <sj38.park@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=from:to:cc:subject:date:message-id;
+ bh=rmdtnEdohlLECHXajSD8aagI942ASKIPjX6HmVAAIKc=;
+ b=Omb9ykjTbizdAx21ijE0xilx/XBXGcjzcjUq0ikhVhRdEK5ubdRXp+pHxh9wObEN3C
+ RJGvmv3YZiOOYri6BABcVwMkqqhO+VsCnt+eds8x851AS7UfJ7uTT2w/HRoXRL0FoMnS
+ 6c5LpkrPCQkJ05dnmPG6ZX8j/A9J71yuMVxSvQfXshriVAusA+SvzFdVAUOpO7+P5bf/
+ xpOKtTUQ9G/eEPXiEE/FEjvHORr/mdBa5CTkP4KNKvlRS7rl6MsnmAdt093zsAaz1XlS
+ S6TEl9DP2doFkPqhOY6Eo7KRFniyswmDzlekSuydwB4Zwk8XLb7C2i7w9b/siSfoytME
+ YqeA==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH 1/3] locking: Add missed unbreakable spaces
+Date: Tue, 17 Jul 2018 09:34:20 +0900
+Message-Id: <20180717003422.27190-1-sj38.park@gmail.com>
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Elad Lahav <e2lahav@gmail.com>, perfbook@vger.kernel.org
 
-On Wed, Jul 18, 2018 at 12:43:16AM +0900, Akira Yokosawa wrote:
-> On 2018/07/16 09:39:24 -0700, Paul E. McKenney wrote:
-> > On Tue, Jul 17, 2018 at 12:42:57AM +0900, Akira Yokosawa wrote:
-> >> Hi Paul,
-> >>
-> >> See inline comments below for a few nits and suggestions.
-> > 
-> > I fixed the perror() calls straightforwardly, thank you!
-> > Queued and pushed with both your and Elad's Reported-by.
-> > 
-> >> On 2018/07/14 16:33:13 -0700, Paul E. McKenney wrote:
-> >>> On Sat, Jul 14, 2018 at 08:59:48AM -0400, Elad Lahav wrote:
-> > 
-> > [ . . . ]
-> > 
-> >> I see you have already updated most of the code samples under CodeSamples/,
-> >> but let me suggest an alternative way not to increase line counts
-> >> (or even to decrease line counts).
-> >>
-> >> "pthread_create(3)" man page gives you an example code.
-> >>
-> >> First, two helpers are defined as follows:
-> >>
-> >>        #define handle_error_en(en, msg) \
-> >>                do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
-> >>
-> >>        #define handle_error(msg) \
-> >>                do { perror(msg); exit(EXIT_FAILURE); } while (0)
-> >>
-> >> Then, one of the call sites looks as follows:
-> >>
-> >>                s = pthread_create(&tinfo[tnum].thread_id, &attr,
-> >>                                   &thread_start, &tinfo[tnum]);
-> >>                if (s != 0)
-> >>                    handle_error_en(s, "pthread_create");
-> >>
-> >> If we employ this pattern, one of the hunks in your patch will look like:
-> >>
-> >> -	if (pthread_mutex_lock(pmlp) != 0) {
-> >> -		perror("lock_reader:pthread_mutex_lock");
-> >> -		exit(-1);
-> >> -	}
-> >> +	if ((en = pthread_mutex_lock(pmlp)) != 0)
-> >> +		handle_error_en(en, "lock_reader:pthread_mutex_lock");
-> >>
-> >> Thoughts?
-> >>
-> >> I think these error cases are not our main topic, and to hide the
-> >> details inside helpers sounds reasonable.
-> > 
-> > Does it make sense to pull the "if" into the handle_error_en() macro
-> > as well, perhaps like this?
-> > 
-> > #define handle_error_en(en, msg) \
-> > 	do { if (!en) break; errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
-> > 
-> > 	s = pthread_create(&tinfo[tnum].thread_id, &attr,
-> > 			   &thread_start, &tinfo[tnum]);
-> > 	handle_error_en(s, "pthread_create");
-> > 
-> 
-> This version of handle_error_en() can return.
-> As per Elad's suggestion, if we want to make fatal_en() not to return,
-> we can't pull the "if".
-> 
-> It looks to me by keeping the "if" out of helper funcs, fatal-error
-> conditions can be made more obvious.
-> 
-> 	s = pthread_create(&tinfo[tnum].thread_id, &attr,
-> 			   &thread_start, &tinfo[tnum]);
-> 	if (s != 0)
-> 		fatal_en(s, "pthread_create");
-> 
-> I prefer this approach.
+This commit adds missed unbreakable spaces for lock names, line numbers,
+and CPU numbers.
 
-At this point, I believe that the right approach is for me to instead
-make use of the existing api.h wrappers for the pthread_*() functions.
-Smaller code and fewer places to change as opinions shift.  I was
-thinking in terms of instead moving to the pthread_*() functions, but
-this discussion has clearly shown the folly of that approach.  ;-)
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ locking/locking.tex | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-The exceptions are of course the exposition of the pthread_*()
-functions in the toolsoftrade chapter.
+diff --git a/locking/locking.tex b/locking/locking.tex
+index 33dad9e..467208a 100644
+--- a/locking/locking.tex
++++ b/locking/locking.tex
+@@ -124,7 +124,7 @@ We can create a directed-graph representation of a deadlock scenario
+ with nodes for threads and locks, as shown in
+ Figure~\ref{fig:locking:Deadlock Cycle}.
+ An arrow from a lock to a thread indicates that the thread holds
+-the lock, for example, Thread~B holds Locks~2 and 4.
++the lock, for example, Thread~B holds Locks~2 and~4.
+ An arrow from a thread to a lock indicates that the thread is waiting
+ on the lock, for example, Thread~B is waiting on Lock~3.
 
-> >> Also, wouldn't it be a good idea to employ auto-numbering scheme as
-> >> mentioned in Section D.3.1.1 of Style Guide when updating code snippets?
-> >> This update will involve a lot of renumbering of line numbers otherwise.
-> >>
-> >> If you feel OK with this approach, I can prepare a patch series
-> >> on behalf of you. (Can take a little while, though.)
-> > 
-> > This approach involves labeling lines that are referred to in the text?
-> > If those labels could be introduced as comments in the original code,
-> > that could be really nice!
-> 
-> By using "fancyvrb" package instead of "verbatimbox", this is mostly
-> possible.  by "mostly possible", I mean label within comments can
-> be made invisible in the output, but "/*", "*/", and "//" will remain
-> in the output.
-> 
-> For example, original source code of Listing 4.1 (using fatal() helper)
-> would look like:
-> 
-> 	pid = fork(); //%label[ln:toolsoftrade:fork:fork]
-> 	if (pid == 0) { //%label[ln:toolsoftrade:fork:if]
-> 		/* child */ //%label[ln:toolsoftrade:fork:child]
-> 	} else if (pid < 0) { //%label[ln:toolsoftrade:fork:else]
-> 		/* parent, upon error */ //%label[ln:toolsoftrade:fork:errora]
-> 		fatal("fork"); //%label[ln:toolsoftrade:fork:errorb]
-> 	} else {
-> 		/* parent, pid == child ID */ //%label[ln:toolsoftrade:fork:parent]
-> 	}
-> 
-> Corresponding source of the code snippet (after removal of "//") would
-> look like:
-> 
->   pid = fork();%label[ln:toolsoftrade:fork:fork]
->   if (pid == 0) {%label[ln:toolsoftrade:fork:if]
->     /* child */%label[ln:toolsoftrade:fork:child]
->   } else if (pid < 0) {%label[ln:toolsoftrade:fork:else]
->     /* parent, upon error */%label[ln:toolsoftrade:fork:errora]
->     fatal("fork");%label[ln:toolsoftrade:fork:errorb]
->   } else {
->     /* parent, pid == child ID */%label[ln:toolsoftrade:fork:parent]
->   }
-> 
-> Note that in this example, "%" represents "\" after escaping to LaTeX,
-> "[" for "{", "]" for "}". These 3 escaping characters need to be
-> chosen for each snippet so that they do not appear in the unescaped code.
-> "[" and "]" can not be used for snippets that used array reference,
-> for example.
-> 
-> So in theory, we can do what you want, but need somewhat ad-hoc
-> manual tweaks. Still, it might be possible to write a script or two
-> to do such tweaks in a semi-automated way.
+@@ -303,7 +303,7 @@ To see the benefits of local locking hierarchies, compare
+ Figures~\ref{fig:lock:Without Local Locking Hierarchy for qsort()} and
+ \ref{fig:lock:Local Locking Hierarchy for qsort()}.
+ In both figures, application functions \co{foo()} and \co{bar()}
+-invoke \co{qsort()} while holding Locks~A and B, respectively.
++invoke \co{qsort()} while holding Locks~A and~B, respectively.
+ Because this is a parallel implementation of \co{qsort()}, it acquires
+ Lock~C.
+ Function \co{foo()} passes function \co{cmp()} to \co{qsort()},
+@@ -353,9 +353,9 @@ releasing all locks before invoking unknown code.
+ However, we can instead construct a layered locking hierarchy, as shown in
+ Figure~\ref{fig:lock:Layered Locking Hierarchy for qsort()}.
+ here, the \co{cmp()} function uses a new Lock~D that is acquired after
+-all of Locks~A, B, and C, avoiding deadlock.
++all of Locks~A, B, and~C, avoiding deadlock.
+ we therefore have three layers to the global deadlock hierarchy, the
+-first containing Locks~A and B, the second containing Lock~C, and
++first containing Locks~A and~B, the second containing Lock~C, and
+ the third containing Lock~D.
 
-I already use scripts to do the auto-numbering and auto-intenting
-for the old-style listings, so why not?  ;-)
+ \begin{listing}[tbp]
+@@ -584,7 +584,7 @@ This primitive acquires the lock immediately if the lock is available
 
-If I haven't already made these available, please let me know and
-I can send them on.  They aren't exactly profound.
+ If \co{spin_trylock()} was successful, line~15 does the needed
+ layer-1 processing.
+-Otherwise, line~6 releases the lock, and lines~7 and 8 acquire them in
++Otherwise, line~6 releases the lock, and lines~7 and~8 acquire them in
+ the correct order.
+ Unfortunately, there might be multiple networking devices on
+ the system (e.g., Ethernet and WiFi), so that the \co{layer_1()}
+@@ -1024,12 +1024,12 @@ This can happen on machines with shared caches or NUMA characteristics,
+ for example, as shown in
+ Figure~\ref{fig:lock:System Architecture and Lock Unfairness}.
+ If CPU~0 releases a lock that all the other CPUs are attempting
+-to acquire, the interconnect shared between CPUs~0 and 1 means that
++to acquire, the interconnect shared between CPUs~0 and~1 means that
+ CPU~1 will have an advantage over CPUs~2-7.
+ Therefore CPU~1 will likely acquire the lock.
+ If CPU~1 hold the lock long enough for CPU~0 to be requesting the
+ lock by the time CPU~1 releases it and vice versa, the lock can
+-shuttle between CPUs~0 and 1, bypassing CPUs~2-7.
++shuttle between CPUs~0 and~1, bypassing CPUs~2-7.
 
-> If you'd like to see what the code snippet and reference to labels
-> would be,  I can prepare a experimental branch which is relative to
-> commit f2b9d37d3b95 ("count: Expand on gap between C11 atomics and
-> the Linux kernel").
-> 
-> Thoughts?
-
-Sounds worth a try, thank you!
-
-							Thanx, Paul
+ \QuickQuiz{}
+ 	Wouldn't it be better just to use a good parallel design
+-- 
+2.10.0
 
