@@ -1,68 +1,65 @@
-Return-Path: <sj38.park@gmail.com>
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=8OV9bC+pJeyZZWOmxi7ACV7UcyVaBoYj3NcTDFyJchU=;
- b=fErM97tVSLJSOpXTkf5oG4ANBIbato2vEVyTEoxHpFKbmPLZCaBm+UXA9W4dUqDJJu
- pwWLFjTrRUjRzpCIGSjNtoMVPug9usWOYyZk2F246IsLQGqa0EQJNQphwSgpXWvjwjFG
- /sHgE56rlKAW56E2sKNgImIUmRpFDPfa94o09D/ULrwd1YMLc0NmRZDtbnoiccfOCBQ7
- 3IR/haWEVPYSaQjzvTKCKZ1C9jFq/TvSPf1j+r2R6Me+JuuJbU8TSeWqAiA2PP4TwvLb
- EAo8eIVdVzgkBtheAulQMNOQE308hdxm4oDEN4oo5K5dXtLnqiNCauWiFV+Hpdptm1GL
- LUcA==
-From: SeongJae Park <sj38.park@gmail.com>
-Date: Sun, 22 Jul 2018 03:20:52 +0900 (KST)
-Subject: Re: [PATCH] toolsoftrade: Fix a mistake about line number pointing
-In-Reply-To: <20180721180941.GF12945@linux.vnet.ibm.com>
-Message-ID: <alpine.DEB.2.20.1807220319400.1230@hxeon>
-References: <20180721180410.20353-1-sj38.park@gmail.com>
- <20180721180941.GF12945@linux.vnet.ibm.com>
+ h=from:subject:to:cc:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=4FDvfR6RBxFuLE68iSf29V49bjtvE+K/AOXaFbVJ77I=;
+ b=cOoDPmFDt1i/anD/I3n96G+6PxtXJ9EX3jrlNRTv3yMpEY+ewhw6NyEVmJW0Z0aFsf
+ hcL2C7ExYkqLXylRFGneNDEz+7M4AodgQdyKrzc4vVnFnhiUmmuTH/hHFzzQAZgLaN6S
+ pNRFZUmY/BtByYEjUoc+nfk8JZSEfD0m4nHeCHG2g84Kac4W16Ffts6UGhUhDURJJdmW
+ hpIPasBogWbhkiTze0j6DSN+vdlNAiRJvVtzhNDdj5Z+6EWT6jKAbEtBcRApl1yDlgAp
+ a48FQyC0E41kvMwU8n1Sscwz5OixEKPW48uVU2MZXHNvD3+4OAGG8b+JsiMqoA9Vumvs
+ oOvw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [NOT YET PULL] Trial of labeling lines in code snippets
+Message-ID: <34eef16d-9d74-ac55-a20a-54c2be1c58f2@gmail.com>
+Date: Sat, 21 Jul 2018 09:19:53 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: SeongJae Park <sj38.park@gmail.com>, perfbook@vger.kernel.org
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
+Hi Paul,
 
+So, an experimental branch to label particular lines in code
+snippets is ready for review.
+The branch is based on current master of yours.
 
-On Sat, 21 Jul 2018, Paul E. McKenney wrote:
+I've converted 4 code snippets in Section 4.2. and updated
+corresponding code samples (sans forkjoin.c because it is
+quite simplified in Listing 4.1).
 
-> On Sun, Jul 22, 2018 at 03:04:10AM +0900, SeongJae Park wrote:
-> > Fixes: c88cc9eba7a5 ("toolsoftrade: Give a forward reference for READ_ONCE() and WRITE_ONCE()")
-> > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
->
-> Hmmm...  There is both a READ_ONCE() and a WRITE_ONCE() on line 41, so
-> the original is accurate.  That said, this might be an indication that the
-> question is confusing.  If so, would you like to take a shot at rewording?
+Does this approach look reasonable to you?
 
-Oops, obviously my fault.  sorry.  Ignore the patch, please.
+        Thanks, Akira
 
+---
+The following changes since commit e3191997557e0d33b862e267fb4d5971e879ca07:
 
-Thnaks,
-SeongJae Park
->
-> 							Thanx, Paul
->
-> > ---
-> >  toolsoftrade/toolsoftrade.tex | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-> > index 00db182..f02d339 100644
-> > --- a/toolsoftrade/toolsoftrade.tex
-> > +++ b/toolsoftrade/toolsoftrade.tex
-> > @@ -629,7 +629,7 @@ primitives.
-> >  } \QuickQuizEnd
-> >
-> >  \QuickQuiz{}
-> > -	What is the \co{READ_ONCE()} on lines~17 and~41 and the
-> > +	What is the \co{READ_ONCE()} on lines~17 and the
-> >  	\co{WRITE_ONCE()} on line~41 of
-> >  	Listing~\ref{lst:toolsoftrade:Demonstration of Exclusive Locks}?
-> >  \QuickQuizAnswer{
-> > --
-> > 2.10.0
-> >
->
->
+  utilities: Provide scripts instead of broken symlinks (2018-07-18 11:40:57 -0700)
+
+are available in the git repository at:
+
+  https://github.com/akiyks/perfbook trial-fancyvrb
+
+for you to fetch changes up to 2154a175e469e6238c89d4c494d204a9ddbaa20a:
+
+  [EXP] Update hyphen2endash (2018-07-21 09:17:34 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (3):
+      [EXP] toolsoftrade: Add labels in code samples as comments
+      [EXP] toolsoftrade: Reference line in code snippets by label
+      [EXP] Update hyphen2endash
+
+ CodeSamples/api-pthreads/api-pthreads.h |  14 +-
+ CodeSamples/toolsoftrade/forkjoinvar.c  |  10 +-
+ CodeSamples/toolsoftrade/pcreate.c      |   5 +-
+ perfbook.tex                            |   6 +
+ toolsoftrade/toolsoftrade.tex           | 221 +++++++++++++++++---------------
+ utilities/hyphen2endash.sh              |   3 +
+ 6 files changed, 141 insertions(+), 118 deletions(-)
 
