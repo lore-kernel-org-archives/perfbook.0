@@ -1,91 +1,88 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mail-it0-f49.google.com ([209.85.214.49]:50524 "EHLO
- mail-it0-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
- ESMTP id S1731152AbeGWClq (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 22
- Jul 2018 22:41:46 -0400
-Received: by mail-it0-f49.google.com with SMTP id w16-v6so21863324ita.0 for
- <perfbook@vger.kernel.org>; Sun, 22 Jul 2018 18:43:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=mime-version:from:date:message-id:subject:to;
- bh=fXKUycQ57xu9c9ajWqBE6QNY8gjjNgv4FgGe0Mv16Us=;
- b=CFPLCbkJfcGwpgC6aWo6QZzFEIppYduYnA0+xE/hCIxLlOdEtO+pCn4iXG91ha5KhT
- COz5lkYTYBxJ9XDcPaEmzd1SvYrl9W2RGVrcX4oSr5Yzp9ah9DZTd8Ckt2W89uIQsBJZ
- JJX/tM34bDh672w25Tt5e51dinVpWMAyfu/gUmE/r2u9ciKnaEjnCA8eG6CSlkczDidk
- 90g9EbbiciNayrwZWjD2NYpXnSNMee2T2qinm6IHfupQ8ou869lNrDQTWu3O/rIEBCdZ
- rxL0SbkhUVd6oP3+khMJAtxF1vo+wYIuanpZMoR1s/x7AVcL/srSopujvU76tf2dDD0S
- DRDg==
-MIME-Version: 1.0
-From: Artem Polyakov <artpol84@gmail.com>
-Date: Sun, 22 Jul 2018 18:42:45 -0700
-Message-ID: 
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58916 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1731059AbeGWDgt (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 22
+ Jul 2018 23:36:49 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6N2XUa2136297
+ for <perfbook@vger.kernel.org>; Sun, 22 Jul 2018 22:37:55 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2kcke8wweg-1 (version=TLSv1.2
+ cipher=AES256-GCM-SHA384 bits=256 verify=NOT) for <perfbook@vger.kernel.org>;
+ Sun, 22 Jul 2018 22:37:54 -0400
+Received: from localhost by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 22 Jul
+ 2018 22:37:53 -0400
+Date: Sun, 22 Jul 2018 19:37:53 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: Memory barrier pairing question
+Reply-To: paulmck@linux.vnet.ibm.com
+References: 
  <CAJ2Qj5qej+kBZxpy4cUbKVE3NJAnOSc9FZ5wur_rKVU_rnYhVw@mail.gmail.com>
-Subject: Memory barrier pairing question
-Content-Type: multipart/alternative; boundary="0000000000001261b00571a0c44f"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: 
+ <CAJ2Qj5qej+kBZxpy4cUbKVE3NJAnOSc9FZ5wur_rKVU_rnYhVw@mail.gmail.com>
+Message-Id: <20180723023753.GJ12945@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
+To: Artem Polyakov <artpol84@gmail.com>
+Cc: perfbook@vger.kernel.org
 
---0000000000001261b00571a0c44f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Sun, Jul 22, 2018 at 06:42:45PM -0700, Artem Polyakov wrote:
+> Hello,
+> I have a question about the following scenario (considering POWER arch):
+> 
+> initial { x = 0; y = 0; }
+> 
+> thread0 {
+>     x = 1;
+>     lwsync;
+>     y = 1;
+> }
+> 
+> thread1 {
+>     a = y;
+>     isync;
+>     b = x;
+> }
+> 
+> Because "isync" is not a memory barrier this example doesn't have
+> read/write barrier pairing. However, if I understand correctly, lwsync will
+> ensure that "x = 1" will become visible to thread1 before lwsync is done
+> and before "y = 1" will become visible. So "isync" here can be sort of
+> control dependency as it ensures that "a = y" will be performed before "b =
+> x" and even will flush the pipeline according to POWER9 spec.
+> 
+> Can someone comment on this scenario and tell if I am right or where I am
+> wrong.
 
-Hello,
-I have a question about the following scenario (considering POWER arch):
+I am not a Power hardware architect, but here is my understanding.
 
-initial { x =3D 0; y =3D 0; }
+The isync waits until all the prior instructions "execute", but for
+a limited definition of "execute".  One way to think of isync is as
+an instruction that does not allow subsequent instructions to start
+until it can be proven that execution really will reach the isync
+instruction.
 
-thread0 {
-    x =3D 1;
-    lwsync;
-    y =3D 1;
-}
+So given a load, how could it be that execution would be prevented
+from reaching the isync instruction?  One possibility is a SEGV.
+But once address translation completes successfully, SEGV cannot
+happen.  So isync doesn't need to wait for the load to return an
+actual value, but instead only for its execution to reach a point
+where the hardware knows that a value will eventually be returned.
 
-thread1 {
-    a =3D y;
-    isync;
-    b =3D x;
-}
+And that is why you need a compare and conditional branch before the
+isync to ensure that the load has completed.  In that case, the
+hardware cannot prove that execution will actually reach the isync
+until the load completes, the compare sets the condition code,
+and the branch condition is evaluated.  Therefore, anything after
+the compare-branch-isync series cannot start executing until after
+the load returns its value.
 
-Because "isync" is not a memory barrier this example doesn't have
-read/write barrier pairing. However, if I understand correctly, lwsync will
-ensure that "x =3D 1" will become visible to thread1 before lwsync is done
-and before "y =3D 1" will become visible. So "isync" here can be sort of
-control dependency as it ensures that "a =3D y" will be performed before "b=
- =3D
-x" and even will flush the pipeline according to POWER9 spec.
+Make sense, or am I missing the point of your question?
 
-Can someone comment on this scenario and tell if I am right or where I am
-wrong.
+							Thanx, Paul
 
---=20
-=D0=A1 =D0=A3=D0=B2=D0=B0=D0=B6=D0=B5=D0=BD=D0=B8=D0=B5=D0=BC, =D0=9F=D0=BE=
-=D0=BB=D1=8F=D0=BA=D0=BE=D0=B2 =D0=90=D1=80=D1=82=D0=B5=D0=BC =D0=AE=D1=80=
-=D1=8C=D0=B5=D0=B2=D0=B8=D1=87
-Best regards, Artem Y. Polyakov
-
---0000000000001261b00571a0c44f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello,<div>I have a question about the following scenario =
-(considering POWER arch):</div><div><br></div><div>initial { x =3D 0; y =3D=
- 0; }</div><div><br></div><div>thread0 {</div><div>=C2=A0 =C2=A0 x =3D 1;<b=
-r clear=3D"all"><div>=C2=A0 =C2=A0 lwsync;</div><div>=C2=A0 =C2=A0 y =3D 1;=
-</div><div>}</div><div><br></div><div>thread1 {</div><div>=C2=A0 =C2=A0 a =
-=3D y;</div><div>=C2=A0 =C2=A0 isync;</div><div>=C2=A0 =C2=A0 b =3D x;</div=
-><div>}</div><div><br></div><div>Because &quot;isync&quot; is not a memory =
-barrier this example doesn&#39;t have read/write barrier pairing. However, =
-if I understand correctly, lwsync=C2=A0will ensure that &quot;x =3D 1&quot;=
- will become visible to thread1 before lwsync=C2=A0is done and before &quot=
-;y =3D 1&quot; will become visible. So &quot;isync&quot; here can be sort o=
-f control dependency as it ensures that &quot;a =3D y&quot; will be perform=
-ed before &quot;b =3D x&quot; and even will flush the pipeline according to=
- POWER9 spec.</div><div><br></div><div>Can someone comment on this scenario=
- and tell if I am right or where I am wrong.</div><div><br></div>-- <br><di=
-v dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature">=
-=D0=A1 =D0=A3=D0=B2=D0=B0=D0=B6=D0=B5=D0=BD=D0=B8=D0=B5=D0=BC, =D0=9F=D0=BE=
-=D0=BB=D1=8F=D0=BA=D0=BE=D0=B2 =D0=90=D1=80=D1=82=D0=B5=D0=BC =D0=AE=D1=80=
-=D1=8C=D0=B5=D0=B2=D0=B8=D1=87<br>Best regards, Artem Y. Polyakov</div></di=
-v></div>
-
---0000000000001261b00571a0c44f--
