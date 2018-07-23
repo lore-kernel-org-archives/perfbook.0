@@ -2,17 +2,17 @@ Return-Path: <imrep.amz@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=8gCNqfiTIWbmfLY4tVv0aPvvWspeX3tE1a49t0pao7Q=;
- b=vbFQRM9LY7gJDgYR/eusYb2MbtRn/rdjqrtG8KyM9D3wqM/cHDe1LO6u3HC1iIzFO8
- cenVC9Nw69SQS4dc3H5U1gjmwx/j8yfzQOMCSdeaDS79Asr3m1HK7jp6kQwVlMan/7YW
- rFLZp5vDQsK5EdH0UUoiDpBOBM7hrEH6KDk24JZ9CIQIe0ouGwtKsyoj01+2kTqlHcEa
- HHmr3G3thvj/CkLz1jLPKGAqvwnFz+Jl6ZyUe3ga+bZbV8zVBkInuEa60K1WSKuzIZHB
- Q6m+YMnosyZnP2yuXg+E7n9wVHSE6bhe+b6ZKBRjUPASMBMB9ITWytyoTKO7TkuI4X2v
- om2g==
+ bh=p3m+x1Bj/HW5fscl2Xaw/sQ6F3KwBETWnMvrZQV5rW4=;
+ b=Tf68NSPlljJ5ZVJiPoE/7MSrJihSu0hyv+uIfvh+1vgKqDN1atmqcb0q4cFp4bAjOR
+ w0P5hhMupnQnHVq2aqsVRwECLOe0nt8WBWhbxebPyaw4l2DnYPwQc5CkdlSHgtsblClK
+ 6bFuzrE9mNSt1HN2by85JfQMONUXlFU+41zaeYRghLzIGisy+EAshl75zDvrmISdim/A
+ o0gAti3zUSpiqYFhm7ChTxXwehZwNQBMPJegnTgicBQLNbMZLw355yjhVhVnJJEOwFSo
+ PnwNNiFlH3hkcXsKZqEHnfNnpzdVLTERQy4sLyDpczj72c9KN2x5G9De0JhjGkwG2NbS
+ zT4w==
 From: Imre Palik <imrep.amz@gmail.com>
-Subject: [PATCH 2/4] Making the counter implementations safer
-Date: Mon, 23 Jul 2018 22:07:26 +0200
-Message-Id: <1532376448-15103-3-git-send-email-imrep.amz@gmail.com>
+Subject: [PATCH 3/4] Updating count.tex with new counter code
+Date: Mon, 23 Jul 2018 22:07:27 +0200
+Message-Id: <1532376448-15103-4-git-send-email-imrep.amz@gmail.com>
 In-Reply-To: <1532376448-15103-1-git-send-email-imrep.amz@gmail.com>
 References: <1532376448-15103-1-git-send-email-imrep.amz@gmail.com>
 To: paulmck@linux.vnet.ibm.com
@@ -21,351 +21,149 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: "Palik, Imre" <imrep.amz@gmail.com>
 
-Relevant parts of some of the counter implementations were prone to be optimised
-out by an overly eager compiler/linker.
-
-This patch makes the compiler's task easier, by declaring big parts of the
-implementation inline.  Then proceeds to fix the issue.
-
-Some barriers from the countertorture framework also got removed, as a proper
-multithreaded implementation should provide its own ordering guarantees.
+Now count.text reflects the changes made to the counter implementations, to
+restrict too eager compilers.
 
 Signed-off-by: Imre Palik <imrep.amz@gmail.com>
 ---
- CodeSamples/count/Makefile              | 30 ++++++++++++++++--------------
- CodeSamples/count/count_atomic.c        |  6 +++---
- CodeSamples/count/count_end.c           |  9 +++++----
- CodeSamples/count/count_end_rcu.c       |  7 ++++---
- CodeSamples/count/count_nonatomic.c     |  8 ++++----
- CodeSamples/count/count_stack.c         |  9 +++++----
- CodeSamples/count/count_stat.c          |  6 +++---
- CodeSamples/count/count_stat_atomic.c   |  6 +++---
- CodeSamples/count/count_stat_eventual.c |  2 +-
- CodeSamples/count/count_tstat.c         |  3 ++-
- CodeSamples/count/counttorture.h        |  2 --
- 11 files changed, 46 insertions(+), 42 deletions(-)
+ count/count.tex | 93 +++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 47 insertions(+), 46 deletions(-)
 
-diff --git a/CodeSamples/count/Makefile b/CodeSamples/count/Makefile
-index eacdb57..481eb3f 100644
---- a/CodeSamples/count/Makefile
-+++ b/CodeSamples/count/Makefile
-@@ -43,49 +43,51 @@ else
- all: $(PROGS)
- endif
-
-+CC?=cc
-+
- include $(top)/recipes.mk
-
- count_atomic: count_atomic.c ../api.h counttorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_atomic count_atomic.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_atomic count_atomic.c -lpthread
-
- count_end: count_end.c ../api.h counttorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_end count_end.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_end count_end.c -lpthread
-
- count_end_rcu: count_end_rcu.c ../api.h counttorture.h $(RCU_SRCS)
--	cc $(GCC_ARGS) $(CFLAGS) -o count_end_rcu count_end_rcu.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_end_rcu count_end_rcu.c -lpthread
-
- count_lim: count_lim.c ../api.h limtorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_lim count_lim.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_lim count_lim.c -lpthread
-
- count_lim_app: count_lim_app.c ../api.h limtorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_lim_app count_lim_app.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_lim_app count_lim_app.c -lpthread
-
- count_lim_atomic: count_lim_atomic.c ../api.h limtorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_lim_atomic count_lim_atomic.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_lim_atomic count_lim_atomic.c -lpthread
-
- count_lim_sig: count_lim_sig.c ../api.h limtorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_lim_sig count_lim_sig.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_lim_sig count_lim_sig.c -lpthread
-
- count_limd: count_limd.c ../api.h limtorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_limd count_limd.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_limd count_limd.c -lpthread
-
- count_nonatomic: count_nonatomic.c ../api.h counttorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_nonatomic count_nonatomic.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_nonatomic count_nonatomic.c -lpthread
-
- count_stack: count_stack.c ../api.h counttorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_stack count_stack.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_stack count_stack.c -lpthread
-
- count_stat: count_stat.c ../api.h counttorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_stat count_stat.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_stat count_stat.c -lpthread
-
- count_stat_atomic: count_stat_atomic.c ../api.h counttorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_stat_atomic count_stat_atomic.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_stat_atomic count_stat_atomic.c -lpthread
-
- count_stat_eventual: count_stat_eventual.c ../api.h counttorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_stat_eventual count_stat_eventual.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_stat_eventual count_stat_eventual.c -lpthread
-
- count_tstat: count_tstat.c ../api.h counttorture.h
--	cc $(GCC_ARGS) $(CFLAGS) -o count_tstat count_tstat.c -lpthread
-+	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_tstat count_tstat.c -lpthread
-
- clean:
- 	rm -f $(PROGS)
-diff --git a/CodeSamples/count/count_atomic.c b/CodeSamples/count/count_atomic.c
-index 0457aa1..fc73717 100644
---- a/CodeSamples/count/count_atomic.c
-+++ b/CodeSamples/count/count_atomic.c
-@@ -27,16 +27,16 @@ void inc_count(void)
- 	atomic_inc(&counter);
+diff --git a/count/count.tex b/count/count.tex
+index 561256a..82d4a7f 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -1003,41 +1003,42 @@ comes at the cost of the additional thread running \co{eventual()}.
+   5 
+   6 void inc_count(void)
+   7 {
+-  8   counter++;
+-  9 }
+- 10 
+- 11 long read_count(void)
+- 12 {
+- 13   int t;
+- 14   long sum;
+- 15 
+- 16   spin_lock(&final_mutex);
+- 17   sum = finalcount;
+- 18   for_each_thread(t)
+- 19     if (counterp[t] != NULL)
+- 20       sum += *counterp[t];
+- 21   spin_unlock(&final_mutex);
+- 22   return sum;
+- 23 }
+- 24 
+- 25 void count_register_thread(void)
+- 26 {
+- 27   int idx = smp_thread_id();
+- 28 
+- 29   spin_lock(&final_mutex);
+- 30   counterp[idx] = &counter;
+- 31   spin_unlock(&final_mutex);
+- 32 }
+- 33 
+- 34 void count_unregister_thread(int nthreadsexpected)
+- 35 {
+- 36   int idx = smp_thread_id();
+- 37 
+- 38   spin_lock(&final_mutex);
+- 39   finalcount += counter;
+- 40   counterp[idx] = NULL;
+- 41   spin_unlock(&final_mutex);
+- 42 }
++  8   WRITE_ONCE(counter,
++  9              READ_ONCE(counter) + 1);counter++;
++ 10 }
++ 11 
++ 12 long read_count(void)
++ 13 {
++ 14   int t;
++ 15   long sum;
++ 16 
++ 17   spin_lock(&final_mutex);
++ 18   sum = finalcount;
++ 19   for_each_thread(t)
++ 20     if (counterp[t] != NULL)
++ 21       sum += *counterp[t];
++ 22   spin_unlock(&final_mutex);
++ 23   return sum;
++ 24 }
++ 25 
++ 26 void count_register_thread(void)
++ 27 {
++ 28   int idx = smp_thread_id();
++ 29 
++ 30   spin_lock(&final_mutex);
++ 31   counterp[idx] = &counter;
++ 32   spin_unlock(&final_mutex);
++ 33 }
++ 34 
++ 35 void count_unregister_thread(int nthreadsexpected)
++ 36 {
++ 37   int idx = smp_thread_id();
++ 38 
++ 39   spin_lock(&final_mutex);
++ 40   finalcount += counter;
++ 41   counterp[idx] = NULL;
++ 42   spin_unlock(&final_mutex);
++ 43 }
+ \end{verbbox}
  }
+ \centering
+@@ -1105,18 +1106,18 @@ value of the counter and exiting threads.
+ } \QuickQuizEnd
 
--long read_count(void)
-+__inline__ long read_count(void)
- {
- 	return atomic_read(&counter);
- }
+ The \co{inc_count()} function used by updaters is quite simple, as can
+-be seen on lines~6-9.
++be seen on lines~6-10.
 
--void count_init(void)
-+__inline__ void count_init(void)
- {
- }
+ The \co{read_count()} function used by readers is a bit more complex.
+-Line~16 acquires a lock to exclude exiting threads, and line~21 releases
++Line~17 acquires a lock to exclude exiting threads, and line~22 releases
+ it.
+-Line~17 initializes the sum to the count accumulated by those threads that
+-have already exited, and lines~18-20 sum the counts being accumulated
++Line~18 initializes the sum to the count accumulated by those threads that
++have already exited, and lines~19-21 sum the counts being accumulated
+ by threads currently running.
+-Finally, line~22 returns the sum.
++Finally, line~23 returns the sum.
 
--void count_cleanup(void)
-+__inline__ void count_cleanup(void)
- {
- }
+ \QuickQuiz{}
+-	Doesn't the check for \co{NULL} on line~19 of
++	Doesn't the check for \co{NULL} on line~20 of
+ 	Listing~\ref{lst:count:Per-Thread Statistical Counters}
+ 	add extra branch mispredictions?
+ 	Why not have a variable set permanently to zero, and point
+@@ -1156,7 +1157,7 @@ Finally, line~22 returns the sum.
+ 	\co{inc_count()} fastpath.
+ } \QuickQuizEnd
 
-diff --git a/CodeSamples/count/count_end.c b/CodeSamples/count/count_end.c
-index a39c0c9..00335f2 100644
---- a/CodeSamples/count/count_end.c
-+++ b/CodeSamples/count/count_end.c
-@@ -26,9 +26,10 @@ unsigned long *counterp[NR_THREADS] = { NULL };
- unsigned long finalcount = 0;
- DEFINE_SPINLOCK(final_mutex);
+-Lines~25-32 show the \co{count_register_thread()} function, which
++Lines~26-33 show the \co{count_register_thread()} function, which
+ must be called by each thread before its first use of this counter.
+ This function simply sets up this thread's element of the \co{counterp[]}
+ array to point to its per-thread \co{counter} variable.
+@@ -1177,14 +1178,14 @@ array to point to its per-thread \co{counter} variable.
+ 	a hundred or so CPUs, there is no need to get fancy.
+ } \QuickQuizEnd
 
--void inc_count(void)
-+__inline__ void inc_count(void)
- {
--	counter++;
-+	WRITE_ONCE(counter,
-+		   READ_ONCE(counter) + 1);
- }
-
- unsigned long read_count(void)
-@@ -45,7 +46,7 @@ unsigned long read_count(void)
- 	return sum;
- }
-
--void count_init(void)
-+__inline__ void count_init(void)
- {
- }
-
-@@ -68,7 +69,7 @@ void count_unregister_thread(int nthreadsexpected)
- 	spin_unlock(&final_mutex);
- }
-
--void count_cleanup(void)
-+__inline__ void count_cleanup(void)
- {
- }
-
-diff --git a/CodeSamples/count/count_end_rcu.c b/CodeSamples/count/count_end_rcu.c
-index e6614b9..ca0a392 100644
---- a/CodeSamples/count/count_end_rcu.c
-+++ b/CodeSamples/count/count_end_rcu.c
-@@ -32,9 +32,10 @@ unsigned long __thread counter = 0;
- struct countarray *countarrayp = NULL;
- DEFINE_SPINLOCK(final_mutex);
-
--void inc_count(void)
-+__inline__ void inc_count(void)
- {
--	counter++;
-+	WRITE_ONCE(counter,
-+		   READ_ONCE(counter) + 1);
- }
-
- unsigned long read_count(void)
-@@ -94,7 +95,7 @@ void count_unregister_thread(int nthreadsexpected)
- 	free(capold);
- }
-
--void count_cleanup(void)
-+__inline__ void count_cleanup(void)
- {
- }
-
-diff --git a/CodeSamples/count/count_nonatomic.c b/CodeSamples/count/count_nonatomic.c
-index 868b0fe..90979c5 100644
---- a/CodeSamples/count/count_nonatomic.c
-+++ b/CodeSamples/count/count_nonatomic.c
-@@ -23,21 +23,21 @@
-
- unsigned long counter = 0;
-
--void inc_count(void)
-+__inline__ void inc_count(void)
- {
- 	counter++;
- }
-
--unsigned long read_count(void)
-+__inline__ unsigned long read_count(void)
- {
- 	return counter;
- }
-
--void count_init(void)
-+__inline__ void count_init(void)
- {
- }
-
--void count_cleanup(void)
-+__inline__ void count_cleanup(void)
- {
- }
-
-diff --git a/CodeSamples/count/count_stack.c b/CodeSamples/count/count_stack.c
-index aa6185d..975db48 100644
---- a/CodeSamples/count/count_stack.c
-+++ b/CodeSamples/count/count_stack.c
-@@ -26,9 +26,10 @@ unsigned long *counterp[NR_THREADS] = { NULL };
- unsigned long finalcount = 0;
- DEFINE_SPINLOCK(final_mutex);
-
--void inc_count(void)
-+__inline__ void inc_count(void)
- {
--	(*counter)++;
-+	WRITE_ONCE(*counter,
-+		   READ_ONCE(*counter) + 1);
- }
-
- unsigned long read_count(void)
-@@ -45,7 +46,7 @@ unsigned long read_count(void)
- 	return sum;
- }
-
--void count_init(void)
-+__inline__ void count_init(void)
- {
- }
-
-@@ -69,7 +70,7 @@ void count_unregister_thread(int nthreadsexpected)
- 	spin_unlock(&final_mutex);
- }
-
--void count_cleanup(void)
-+__inline__ void count_cleanup(void)
- {
- }
-
-diff --git a/CodeSamples/count/count_stat.c b/CodeSamples/count/count_stat.c
-index b483022..1d72f99 100644
---- a/CodeSamples/count/count_stat.c
-+++ b/CodeSamples/count/count_stat.c
-@@ -27,7 +27,7 @@ void inc_count(void)
- 	__get_thread_var(counter)++;
- }
-
--unsigned long read_count(void)
-+__inline__ unsigned long read_count(void)
- {
- 	int t;
- 	unsigned long sum = 0;
-@@ -37,11 +37,11 @@ unsigned long read_count(void)
- 	return sum;
- }
-
--void count_init(void)
-+__inline__ void count_init(void)
- {
- }
-
--void count_cleanup(void)
-+__inline__ void count_cleanup(void)
- {
- }
-
-diff --git a/CodeSamples/count/count_stat_atomic.c b/CodeSamples/count/count_stat_atomic.c
-index 732ab6d..d1ff10b 100644
---- a/CodeSamples/count/count_stat_atomic.c
-+++ b/CodeSamples/count/count_stat_atomic.c
-@@ -27,7 +27,7 @@ void inc_count(void)
- 	atomic_inc(&__get_thread_var(counter));
- }
-
--unsigned long read_count(void)
-+__inline__ unsigned long read_count(void)
- {
- 	int t;
- 	unsigned long sum = 0;
-@@ -37,11 +37,11 @@ unsigned long read_count(void)
- 	return sum;
- }
-
--void count_init(void)
-+__inline__ void count_init(void)
- {
- }
-
--void count_cleanup(void)
-+__inline__ void count_cleanup(void)
- {
- }
-
-diff --git a/CodeSamples/count/count_stat_eventual.c b/CodeSamples/count/count_stat_eventual.c
-index 2b23dbd..324bc24 100644
---- a/CodeSamples/count/count_stat_eventual.c
-+++ b/CodeSamples/count/count_stat_eventual.c
-@@ -31,7 +31,7 @@ void inc_count(void)
- 		   READ_ONCE(__get_thread_var(counter)) + 1);
- }
-
--unsigned long read_count(void)
-+__inline__ unsigned long read_count(void)
- {
- 	return READ_ONCE(global_count);
- }
-diff --git a/CodeSamples/count/count_tstat.c b/CodeSamples/count/count_tstat.c
-index 1fa4e52..59e4025 100644
---- a/CodeSamples/count/count_tstat.c
-+++ b/CodeSamples/count/count_tstat.c
-@@ -29,7 +29,8 @@ DEFINE_SPINLOCK(final_mutex);
-
- void inc_count(void)
- {
--	counter++;
-+	WRITE_ONCE(counter,
-+		   READ_ONCE(counter) + 1);
- }
-
- unsigned long read_count(void)  /* known failure with counttorture! */
-diff --git a/CodeSamples/count/counttorture.h b/CodeSamples/count/counttorture.h
-index ff0dd72..bdfc7d4 100644
---- a/CodeSamples/count/counttorture.h
-+++ b/CodeSamples/count/counttorture.h
-@@ -86,7 +86,6 @@ void *count_read_perf_test(void *arg)
- 	while (READ_ONCE(goflag) == GOFLAG_RUN) {
- 		for (i = COUNT_READ_RUN; i > 0; i--) {
- 			j += read_count();
--			barrier();
- 		}
- 		n_reads_local += COUNT_READ_RUN;
- 	}
-@@ -110,7 +109,6 @@ void *count_update_perf_test(void *arg)
- 	while (READ_ONCE(goflag) == GOFLAG_RUN) {
- 		for (i = COUNT_UPDATE_RUN; i > 0; i--) {
- 			inc_count();
--			barrier();
- 		}
- 		n_updates_local += COUNT_UPDATE_RUN;
- 	}
+-Lines~34-42 show the \co{count_unregister_thread()} function, which
++Lines~35-43 show the \co{count_unregister_thread()} function, which
+ must be called prior to exit by each thread that previously called
+ \co{count_register_thread()}.
+-Line~38 acquires the lock, and line~41 releases it, thus excluding any
++Line~39 acquires the lock, and line~42 releases it, thus excluding any
+ calls to \co{read_count()} as well as other calls to
+ \co{count_unregister_thread()}.
+-Line~39 adds this thread's \co{counter} to the global \co{finalcount},
+-and then line~40 \co{NULL}s out its \co{counterp[]} array entry.
++Line~40 adds this thread's \co{counter} to the global \co{finalcount},
++and then line~41 \co{NULL}s out its \co{counterp[]} array entry.
+ A subsequent call to \co{read_count()} will see the exiting thread's
+ count in the global \co{finalcount}, and will skip the exiting thread
+ when sequencing through the \co{counterp[]} array, thus obtaining
 -- 
 2.7.4
 
