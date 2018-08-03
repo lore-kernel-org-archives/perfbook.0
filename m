@@ -2,20 +2,20 @@ Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
  s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uVfQt8cvlR/eyyGfVnbqpZewsAA5PN091VfMfI/b/rM=;
- b=eSI2aOqWqAKSBmnv60tizlToTvA9tTJBCqtdU490IPctwupx9sdZVjpfri3YDnZz1M
- hrnFxgisFkbS7UgQczA7/jpEKAPBq6PLTYxGdee/ItlaFi/JmNxgFkdF0Wg4c8XoY+MG
- glyslv0Jerm7ofdhKugqBYtDui0DUSwU1Vjw7QaqoNDUDrmXUted8ybuzptb7bgKBNOM
- zDqpTsUOkR81gua92+6vwz4ZPm+ABd4MIM3386c+VHr8w12bNmEZLiKmZFPKVm1vcVDu
- 1RLVwPF4kHrxLhCONTjypA84JubvnQOZxnb6kO3Lf6PAUjoaUqorBfQOBy0FIaC9I1GX
- EYug==
+ bh=tehc3ywkjQvEvdg9eArrSnjVAi+QglPd85wACf3uQOo=;
+ b=OlUNR7jSnaTmEAkUUQQkYxTpNclvC0Ieos8AdqoBwFkiwQ2qfPJ6488ePAONKxnFr1
+ BPpPaydvRal16Ak1tW/in3KdEWDxKjN/m9pjXiAlSMrXnlqjAgIcrDj4fPqLG1tbiSvn
+ nGnBF8mVvfcDi/JP2kEaTdfZzhUSGng5vC6jK1sNhv2SkDINu50gkJf73cJLN/P54UMd
+ U/WCg1ua7AD7lSpa7ra78jkkGhusZ6hQZyDvp8SvNX/TElr4CIRruCEYDVwGIRKToGR9
+ dlnGkC3wU8NCHwiX/YIRHJbHvoPbrGxWpYARGyy+zZXAT10hLqmsdNcXpnrtzND4INyD
+ vl7Q==
 Subject: Re: [GIT PULL v3] Trial of labeling lines in code snippets
 References: <34eef16d-9d74-ac55-a20a-54c2be1c58f2@gmail.com>
  <18fcce90-11d6-4ab1-c6fc-73791a305091@gmail.com>
  <20180803143557.GA24813@linux.vnet.ibm.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <7b5ac9b5-c812-12a1-0cb1-e09ac99415bf@gmail.com>
-Date: Sat, 4 Aug 2018 00:02:25 +0900
+Message-ID: <1c8fb4a3-dd43-f6e9-3bf9-b1acf078f6e6@gmail.com>
+Date: Sat, 4 Aug 2018 00:49:34 +0900
 MIME-Version: 1.0
 In-Reply-To: <20180803143557.GA24813@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=utf-8
@@ -118,14 +118,6 @@ On 2018/08/03 07:35:57 -0700, Paul E. McKenney wrote:
 > ./utilities/gen_snippet_mk.pl > CodeSamples/snippets.mk
 > Use of uninitialized value $_ in substitution (s///) at ./utilities/gen_snippet_mk.pl line 47.
 > Use of uninitialized value $_ in concatenation (.) or string at ./utilities/gen_snippet_mk.pl line 48.
-
-Thanks for testing!
-
-Looks like gen_snippet_mk.pl need some brush up. Or there might be missing
-dependencies in Makefile.
-I admit the new scripts have been tested only in a limited circumstances...
-I will respin soon.
-
 > echo > qqz.tex
 > echo > contrib.tex
 > echo > origpub.tex
@@ -139,20 +131,42 @@ I will respin soon.
 > 
 > ------------------------------------------------------------------------
 > 
+
+There is one thing I'd like to confirm.
+Did you do "make" just after checking out the trial branch (before
+modifying forkjoinvar.c)?
+
+I can't reproduce the above issue on the head of the branch.
+
+In the middle of the branch, there is a point when CodeSamples/snippets.mk
+resides in the repository. It might have newer time stamp than the
+modified forkjoinvar.c. (Well, I'don't think this is likely...)
+
+I'll add a recipe to remove CodeSamples/snippets.mk by "make clean".
+You'll be able to do "make clean; make" if something goes wrong.
+
 > I typed "make" again and no errors.  Plus it did update as I expected it
 > to.  And when I changed it back, it built the first time without errors.
+
+Ah, you don't reproduce it once "make" succeeds. Hmm...
+
 > 
 > Do I perhaps have a shortcoming in my (admittedly ancient) environment?
 > Or is this something that happens the first time the new functionality
 > is exercised on a change?
+
+Build script changes might need "make clean" after "git pull".
+(Current HEAD doesn't remove snippets.mk even by "make neatfreak", though.)
+
+I also have some other updates in build scripts to add dependencies to
+code/makefile generation scripts themselves. Will submit another pull request
+when it's ready.
+
+        Thanks, Akira
+
 > 
 > But even so, this is -way- more convenient than my old approach of doing
 > all the changes by hand!!!
-
-Glad to know you liked it! ;-)
-
-        Akira
-
 > 
 > 							Thanx, Paul
 > 
