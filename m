@@ -1,32 +1,46 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from gusty.araneus.fi ([185.55.84.130]:64486 "EHLO gusty.araneus.fi"
- rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP id S1727683AbeHLXe6
- (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 12 Aug 2018 19:34:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=gson.org; s=mail;
- t=1534106839; bh=b6qKDIVcPNIf7kKNM+nYWQ+4Lf0x/vEnBg77SDr9fqI=;
- h=Date:To:Subject:From;
- b=hy1gRNL/LNwzcWFcs075DQYLJoYiNKuxQ1YpOuNtyR/eFsh3zJooCGHY6lKDHXSut
- 8H5Pqq4sjXMxq1Unif7dx3Zpz4iakRYqebB18lWHW+Ld4nrMcEl1qj0ziHzgVSgpkH
- u8+JsgfbIrrgL/ycuEDvGUl/Yf0b4ap3uOma5hP8=
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43034 "EHLO
+ mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with
+ ESMTP id S1727876AbeHMCIQ (ORCPT <rfc822;perfbook@vger.kernel.org>); Sun, 12
+ Aug 2018 22:08:16 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1]) by
+ mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w7CNOKk0083816
+ for <perfbook@vger.kernel.org>; Sun, 12 Aug 2018 19:28:38 -0400
+Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205]) by
+ mx0a-001b2d01.pphosted.com with ESMTP id 2ktgsmj62c-1 (version=TLSv1.2
+ cipher=AES256-GCM-SHA384 bits=256 verify=NOT) for <perfbook@vger.kernel.org>;
+ Sun, 12 Aug 2018 19:28:38 -0400
+Received: from localhost by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted for
+ <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sun, 12 Aug
+ 2018 19:28:36 -0400
+Date: Sun, 12 Aug 2018 16:28:34 -0700
+From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: memory_order_explicit
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <23408.40149.473045.271221@guava.gson.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Message-ID: <23408.40149.473045.271221@guava.gson.org>
-Date: Sun, 12 Aug 2018 23:47:17 +0300
-Subject: memory_order_explicit
-From: Andreas Gustafsson <gson@gson.org>
+Content-Disposition: inline
+In-Reply-To: <23408.40149.473045.271221@guava.gson.org>
+Message-Id: <20180812232834.GJ24813@linux.vnet.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
+To: Andreas Gustafsson <gson@gson.org>
+Cc: perfbook@vger.kernel.org
 
-perfbook/toolsoftrade/toolsoftrade.tex says:
+On Sun, Aug 12, 2018 at 11:47:17PM +0300, Andreas Gustafsson wrote:
+> perfbook/toolsoftrade/toolsoftrade.tex says:
+> 
+>   For example, ``\co{memory_order_explicit(&a, memory_order_relaxed)}''
+>   is vaguely similar to the Linux kernel's ``\co{READ_ONCE()}''
+> 
+> I'm no expert on the C11 atomics, but as far as I can see, there is no
+> such function as "memory_order_explicit".  Did you perhaps mean to say
+> "atomic_load_explicit"?
 
-  For example, ``\co{memory_order_explicit(&a, memory_order_relaxed)}''
-  is vaguely similar to the Linux kernel's ``\co{READ_ONCE()}''
+Indeed I did, good catch, thank you!  I have applied a fix with your
+Reported-by.
 
-I'm no expert on the C11 atomics, but as far as I can see, there is no
-such function as "memory_order_explicit".  Did you perhaps mean to say
-"atomic_load_explicit"?
--- 
-Andreas Gustafsson, gson@gson.org
+							Thanx, Paul
 
