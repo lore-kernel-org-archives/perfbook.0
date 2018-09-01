@@ -1,84 +1,57 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.vnet.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39862 "EHLO
- mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
- with ESMTP id S1726976AbeIAVme (ORCPT <rfc822;perfbook@vger.kernel.org>);
- Sat, 1 Sep 2018 17:42:34 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1]) by
- mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w81HJGRa109198
- for <perfbook@vger.kernel.org>; Sat, 1 Sep 2018 13:29:51 -0400
-Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206]) by
- mx0a-001b2d01.pphosted.com with ESMTP id 2m7ps459sx-1 (version=TLSv1.2
- cipher=AES256-GCM-SHA384 bits=256 verify=NOT) for <perfbook@vger.kernel.org>;
- Sat, 01 Sep 2018 13:29:51 -0400
-Received: from localhost by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted for
- <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>; Sat, 1 Sep 2018
- 13:29:50 -0400
-Date: Sat, 1 Sep 2018 10:29:47 -0700
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/3] Tweak section-level epigraph
-Reply-To: paulmck@linux.vnet.ibm.com
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=xgStYy+plrjFYvQJ/T6fWU2EZqCvR2a/NAzXvFe5vr0=;
+ b=gdnODwkI4v+okAlmtRc1Tf3Z1FvOprY61ROa2Yc9LeyTHJ4uksmPrHLqhUogV2pair
+ GVHS7mdZjL3D4sMU+zZvLJKLZmoJYLf6HyCZrrzx45PBePfzGcLTPSU16E2mm/NhOB7Z
+ qOJMILMmZ38tBOlZ+B37BlT+iz6kmT5+K8EAJVChTO/aujRo68ptmyZWM8iC8GHWUWHo
+ YYXw2+g/ZVrzwGUXAlnYqbmMgHUGV2Lyc6Sr2UXD6gVljYl1BIz6/WijZDZdbggMDZza
+ XG83wAsFl06XEOS9Mq4b/Lg7zW/CNPH+vKKP8kAtMCsR0/XYu0cfJu58YfBAn6LT+Lc6
+ 9nRg==
+Subject: [PATCH] Add info where to obtain 'noindentafter' package
 References: <eb5de77b-fc3f-88d4-f717-c0f7314005e9@gmail.com>
+ <20180901172947.GN4225@linux.vnet.ibm.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <e7b62093-acdf-5969-f6b9-c4d2951f6d09@gmail.com>
+Date: Sun, 2 Sep 2018 08:33:04 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eb5de77b-fc3f-88d4-f717-c0f7314005e9@gmail.com>
-Message-Id: <20180901172947.GN4225@linux.vnet.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <20180901172947.GN4225@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Sep 01, 2018 at 09:11:36AM +0900, Akira Yokosawa wrote:
-> >From 40c5e61208be1df272b99fa103b9d74ddbb1c379 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sat, 1 Sep 2018 08:45:12 +0900
-> Subject: [PATCH 0/3] Tweak section-level epigraph
-> 
-> Hi Paul,
-> 
-> Recently, you added section-level epigraphs in debugging chapter.
-> I noticed minor issues in there appearances.
-> 
->   1. 1st paragraph of a section is now indented.
->   2. In "1csf" target, section-level epigraph of sans serif font
->      looks inconsistent with chapter-level epigraph of roman font.
-> 
-> Indent right after an epigraph can be suppressed by using
-> "noindentafter" package. However, Ubuntu Trusty has a buggy one.
-> So patch #1 imports the latest one.
-> Patch #2 enables the \NoIndentAfterCmd setting for \epigraph{}.
-> Patch #3 removes font family setting in \Epigraph{} for chapter-
-> level epigraph.
-> 
-> Note that Patch #1 contains trailing blanks.
+From bb7727a5e3a9a22ec53a870f09b7bbf39448f95e Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 2 Sep 2018 08:12:36 +0900
+Subject: [PATCH] Add info where to obtain 'noindentafter' package
 
-Nice!!!
+LPPL 1.3c Clause 6.d.2 requires us to provide information to obtain
+a complete, unmodified copy of the Work.
 
-But given the license and this line from noindentafter.sty, don't
-we either have to also add noindentafter.tex on the one hand or
-say where to get them on the other?
+Reported-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ noindentafter.sty | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-"This work consists of the files noindentafter.tex and noindentafter.sty."
+diff --git a/noindentafter.sty b/noindentafter.sty
+index 2ea6e22..7a36224 100644
+--- a/noindentafter.sty
++++ b/noindentafter.sty
+@@ -1,3 +1,8 @@
++%% Notice to comply with Clause 6 of LPPL v 1.3c
++%% This file is copied from TeX Live 2015/Debian.
++%% Whole package including documentation can be obtained from:
++%%     https://ctan.org/pkg/noindentafter
++
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \iffalse %%%%
+ %                                                                              %
+ %  Copyright (c) 2014 - Michiel Helvensteijn - www.mhelvens.net                %
+-- 
+2.7.4
 
-Or am I misinterpreting the license?
-
-							Thanx, Paul
-
->          Thanks, Akira
-> 
-> Akira Yokosawa (3):
->   Import noindentafter.sty 0.2.2
->   Suppress indent right after section-level epigraph
->   Remove font family specifier in \Epigraph{}
-> 
->  Makefile          |   1 +
->  noindentafter.sty | 189 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  perfbook.tex      |   4 +-
->  3 files changed, 193 insertions(+), 1 deletion(-)
->  create mode 100644 noindentafter.sty
-> 
-> -- 
-> 2.7.4
-> 
 
