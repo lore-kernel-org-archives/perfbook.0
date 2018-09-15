@@ -1,96 +1,231 @@
-Return-Path: <paulmck@linux.vnet.ibm.com>
-Date: Sun, 16 Sep 2018 08:08:49 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: Question of usage of per_thread()
-Message-ID: <20180916150849.GW652@linux.ibm.com>
-Reply-To: paulmck@linux.ibm.com
-References: <71206929-11cd-73bc-560e-f982c7e86cf8@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=kd9zirqGTL/KW/MpcNDZCy8Kmovh/mQjlul+HdsgOwE=;
+ b=gwV1E5/Ppskl2eUgQSTUgSAVVe3IRAs2gO/5TXxzV+VFQNCisr6RgfST7+aLEMHng6
+ JFqg6DKvbu/h9I5vvG819z8f01XI3BkUUvBmpwAem9O9BoHEJlYosOMUoBWtP+ZR6Lqs
+ VuIlPgO/LE9pCGHWofV0/fc5Hj8iEoGUCPIOAyy/TEp2Tb7qcitu9JCKQv0NrCPBjW1V
+ Vdv26k0v6Zba2hxMYd3Jame72HyBBgeM2bBL8PC4PaMZ5R/hbZcNCrU7UgrK00I4j9fp
+ awDy8NbALjM3gxK1O43WCBOD7JoBYy7FMkyBEqEdumv/ixLHlXkDhXdA3LDCmIZledSa
+ sX1g==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 1/2] count: Use new scheme for updated 2 snippets
+Message-ID: <2b7297a8-62d2-bcdb-0b41-e3bb1b270a6e@gmail.com>
+Date: Sat, 15 Sep 2018 11:08:06 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <71206929-11cd-73bc-560e-f982c7e86cf8@gmail.com>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, perfbook@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, "Palik, Imre" <imrep.amz@gmail.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Sun, Sep 16, 2018 at 05:37:23PM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> Every time I review code under CodeSamples/,
-> I find myself confused where to use READ_ONCE/WRITE_ONCEs.
-> 
-> I'm looking at Listing 5.3 of current master.
-> 
-> There are two cases which lack READ_ONCE/WRITE_ONCE to access potentially
-> shared variables, namely on line 5 (__get_thread_var(counter)++;) and
-> on line 14 (sum += per_thread(counter, t);).
-> 
-> Line 5 looks like a good candidate to be optimized out when inlined.
-> But the performance result indicates "gcc -O3" keeps it inside the loop.
-> 
-> Is this because the definition of __get_thread_var() contains
-> a call to smp_thread_id() and complicated enough not to be optimized
-> out?
-> 
-> As for line 14, as per_thread() was derived from per_cpu() of kernel
-> API, I looked for call sites of per_cpu() in the kernel source tree.
-> 
-> There are very few cases where READ_ONCE/WRITE_ONCE is used along
-> with per_cpu(). There are two READ_ONCEs with per_cpu() in
-> kernel/rcu/srcutree.c, whose author is none other than you.
-> Are those READ_ONCEs necessary?
-> 
-> I don't grasp the actual definition of per_cpu() macro.
-> Definition of per_thread() macro under CodeSamples/api-pthreads/
-> does not look so complicated, but contains array indexing,
-> which might be good enough to prevent optimization in the loop.
-> 
-> I'm not sure, but my gut feeling is that READ_ONCE/WRITE_ONCE
-> is necessary to access an unannotated variable. If we need
-> volatility for sure, we could modify the definition of annotating
-> macros/functions.
-> 
-> Can you enlighten me?
+From e8d3761680aa3d5a978ddccf2b9c00b5920cd39e Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Fri, 14 Sep 2018 22:11:18 +0900
+Subject: [PATCH 1/2] count: Use new scheme for updated 2 snippets
 
-Yes, I do need to expand on this, both in perfbook and in order to inspect
-my usage in Linux-kernel RCU.  Please see below for my current outline,
-and any and all feedback would be deeply appreciated!
+Also use "static __inline__" for inlined function definitions.
 
-							Thanx, Paul
+Commit b1bab635598b ("Making the counter implementations safer")
+introduced the __inline__ keyword. Inline functions defined in CodeSamples/api_pthreads/api-gcc.h have "static __inline__"
+keywords. Such functions can not be used in functions which have
+only __inline__. The commit avoided the mismatch by not adding
+__inline__ to inc_count() in count_atomic.c.
 
-------------------------------------------------------------------------
+Consistently using "static __inline__" should be a better
+approach in this case.
 
+Side effect: This change slightly increases height of code
+snippets, and the "[bp]" placement specifier to
+count_nonatomic.c originally appeared in commit 216744f9918e
+("Add non-optimized counter material to the count chapter.")
+back in 2009, which repeatedly swung among "[hp]", [tp], and
+"[bp]" during 2016 and 2017, has finally become moot.
+We can settle with the default "[tbp]".
 
-Plain accesses, that is, without either READ_ONCE() or WRITE_ONCE():
-o	Only accessed under lock.
-o	Only accessed by owning CPU/thread.
-o	Only modified by owning CPU/thread under lock, and otherwise
-	accessed only either while holding lock or by owning CPU/thread.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+CC: Imre Palik <imrep.amz@gmail.com>
+---
+Imre, 
 
-WRITE_ONCE() for modifications, READ_ONCE() for non-owning CPUs/threads
-not holding lock:
-o	Only modified while holding lock by owning CPU/thread,
-	could be read from anywhere by anyone.
+Changes in count_atomic.c and count_nonatomic.c should not affect
+their performance so much. So all we need for now is the performance
+data of count_nonatomic after applying the previous patch (now
+commit c1e1273b3e17 in the repository.
 
-WRITE_ONCE() for modifications, READ_ONCE() for CPUs/threads not holding
-lock:
-o	Only modified while holding lock, could be read anywhere by
-	anyone.
+Paul,
 
-WRITE_ONCE() for modifications, READ_ONCE() for non-owning
-CPUs/threads:
-o	Only modified by owning CPU/threads, could be read anywhere
-	by anyone.
+My plan is to take care of the other code under CodeSamples/count/
+and update code snippets in Chapter 5 after the Figure 5.1 fix.
 
-Otherwise, READ_ONCE() and WRITE_ONCE() everywhere.
+    Thanks, Akira
+--
+ CodeSamples/count/count_atomic.c    | 16 +++++++-----
+ CodeSamples/count/count_nonatomic.c | 16 +++++++-----
+ count/count.tex                     | 51 +++++++++----------------------------
+ 3 files changed, 30 insertions(+), 53 deletions(-)
 
-But note that READ_ONCE() and WRITE_ONCE() provide absolutely no
-ordering guarantees unless:
+diff --git a/CodeSamples/count/count_atomic.c b/CodeSamples/count/count_atomic.c
+index fc73717..298f104 100644
+--- a/CodeSamples/count/count_atomic.c
++++ b/CodeSamples/count/count_atomic.c
+@@ -20,23 +20,25 @@
 
-o	There is only one variable being accesses, and all of those
-	accesses are of the same size and alignment.
+ #include "../api.h"
 
-o	There is only one CPU/thread doing the accesses to all
-	of the variables during the timeframe of interest.
+-atomic_t counter = ATOMIC_INIT(0);
++//\begin{snippet}[labelbase=ln:count:count_atomic:inc-read,commandchars=\\\[\]]
++atomic_t counter = ATOMIC_INIT(0);		//\lnlbl{counter}
 
-o	There are other operations involved, for example, smp_mb().
+-void inc_count(void)
++static __inline__ void inc_count(void)
+ {
+-	atomic_inc(&counter);
++	atomic_inc(&counter);			//\lnlbl{inc}
+ }
+
+-__inline__ long read_count(void)
++static __inline__ long read_count(void)
+ {
+-	return atomic_read(&counter);
++	return atomic_read(&counter);		//\lnlbl{read}
+ }
++//\end{snippet}
+
+-__inline__ void count_init(void)
++static __inline__ void count_init(void)
+ {
+ }
+
+-__inline__ void count_cleanup(void)
++static __inline__ void count_cleanup(void)
+ {
+ }
+
+diff --git a/CodeSamples/count/count_nonatomic.c b/CodeSamples/count/count_nonatomic.c
+index 50df475..d5582b1 100644
+--- a/CodeSamples/count/count_nonatomic.c
++++ b/CodeSamples/count/count_nonatomic.c
+@@ -21,23 +21,25 @@
+
+ #include "../api.h"
+
+-unsigned long counter = 0;
++//\begin{snippet}[labelbase=ln:count:count_nonatomic:inc-read,commandchars=\\\[\]]
++unsigned long counter = 0;				//\lnlbl{counter}
+
+-__inline__ void inc_count(void)
++static __inline__ void inc_count(void)
+ {
+-	WRITE_ONCE(counter, READ_ONCE(counter) + 1);
++	WRITE_ONCE(counter, READ_ONCE(counter) + 1);	//\lnlbl{inc}
+ }
+
+-__inline__ unsigned long read_count(void)
++static __inline__ unsigned long read_count(void)
+ {
+-	return READ_ONCE(counter);
++	return READ_ONCE(counter);			//\lnlbl{read}
+ }
++//\end{snippet}
+
+-__inline__ void count_init(void)
++static __inline__ void count_init(void)
+ {
+ }
+
+-__inline__ void count_cleanup(void)
++static __inline__ void count_cleanup(void)
+ {
+ }
+
+diff --git a/count/count.tex b/count/count.tex
+index b9cd888..cfdacb5 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -165,24 +165,8 @@ are more appropriate for advanced students.
+ \section{Why Isn't Concurrent Counting Trivial?}
+ \label{sec:count:Why Isn't Concurrent Counting Trivial?}
+
+-\begin{listing}[bp]
+-{ \scriptsize
+-\begin{verbbox}
+-  1 long counter = 0;
+-  2 
+-  3 void inc_count(void)
+-  4 {
+-  5   counter++;
+-  6 }
+-  7 
+-  8 long read_count(void)
+-  9 {
+- 10   return counter;
+- 11 }
+-\end{verbbox}
+-}
+-\centering
+-\theverbbox
++\begin{listing}[tbp]
++\input{CodeSamples/count/count_nonatomic@inc-read.fcv}
+ \caption{Just Count!}
+ \label{lst:count:Just Count!}
+ \end{listing}
+@@ -190,9 +174,11 @@ are more appropriate for advanced students.
+ Let's start with something simple, for example, the straightforward
+ use of arithmetic shown in
+ Listing~\ref{lst:count:Just Count!} (\path{count_nonatomic.c}).
+-Here, we have a counter on line~1, we increment it on line~5, and we
+-read out its value on line~10.
++\begin{lineref}[ln:count:count_nonatomic:inc-read]
++Here, we have a counter on line~\lnref{counter}, we increment it on
++line~\lnref{inc}, and we read out its value on line~\lnref{read}.
+ What could be simpler?
++\end{lineref}
+
+ This approach has the additional advantage of being blazingly fast if
+ you are doing lots of reading and almost no incrementing, and on small
+@@ -243,23 +229,7 @@ accuracies far greater than 50\,\% are almost always necessary.
+ } \QuickQuizEnd
+
+ \begin{listing}[tbp]
+-{ \scriptsize
+-\begin{verbbox}
+-  1 atomic_t counter = ATOMIC_INIT(0);
+-  2 
+-  3 void inc_count(void)
+-  4 {
+-  5   atomic_inc(&counter);
+-  6 }
+-  7 
+-  8 long read_count(void)
+-  9 {
+- 10   return atomic_read(&counter);
+- 11 }
+-\end{verbbox}
+-}
+-\centering
+-\theverbbox
++\input{CodeSamples/count/count_atomic@inc-read.fcv}
+ \caption{Just Count Atomically!}
+ \label{lst:count:Just Count Atomically!}
+ \end{listing}
+@@ -274,8 +244,11 @@ accuracies far greater than 50\,\% are almost always necessary.
+ The straightforward way to count accurately is to use atomic operations,
+ as shown in
+ Listing~\ref{lst:count:Just Count Atomically!} (\path{count_atomic.c}).
+-Line~1 defines an atomic variable, line~5 atomically increments it, and
+-line~10 reads it out.
++\begin{lineref}[ln:count:count_atomic:inc-read]
++Line~\lnref{counter} defines an atomic variable,
++line~\lnref{inc} atomically increments it, and
++line~\lnref{read} reads it out.
++\end{lineref}
+ Because this is atomic, it keeps perfect count.
+ However, it is slower: on a Intel Core Duo laptop, it is about
+ six times slower than non-atomic increment
+-- 
+2.7.4
+
