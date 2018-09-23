@@ -1,132 +1,128 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=v61VMDTOg8wm92hi2I2qOTyMOwj/BZu0nl4O/sUhBuU=;
-        b=lq37TalQqGa9Hbad3rFM9hlH81iFMn8NXpT0EyNm9/aX15GISFd4KhRt33PLzfha+N
-         NGC3EjrsdfY9kGrNFtDgqHbuwzejikjjDyXpMf/EysHHlTSZfdKk9uQ1RVu4YzZS2dmd
-         8dx8+hZ+LJL7uf1rMANUVVu1tMuPbytCRCEGjE2Gs2kmpiaeCV3yUY8Z23v1S8HnIsec
-         A+QyHNc3GYs4eGLqt72QIr0EMScYeQ3nylo6Aolu0X7W/S9HHC3eoRdIZ1WlseP/4S5q
-         mrmsvg784yuxLX8GJZMAzzBUZlPTUmnx31f5SdJOEBqMXDwS4RaSL1lM+sa1LzZX+nY0
-         48sw==
-Subject: [PATCH 9/9] future/formalregress: Example of extraction of snippet
- from .litmus file
+Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52990 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727014AbeIXDnp (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sun, 23 Sep 2018 23:43:45 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8NLdFcd080218
+        for <perfbook@vger.kernel.org>; Sun, 23 Sep 2018 17:44:43 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2mp2t9gdd9-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <perfbook@vger.kernel.org>; Sun, 23 Sep 2018 17:44:43 -0400
+Received: from localhost
+        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Sun, 23 Sep 2018 17:44:42 -0400
+Date: Sun, 23 Sep 2018 14:44:39 -0700
+From: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: [PATCH 0/9] Update code snippet extraction scheme
+Reply-To: paulmck@linux.ibm.com
 References: <b0d4c5e6-6a4c-c475-422d-328eebba4fb9@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <89dd2630-6ea9-c392-2114-5b249c0183be@gmail.com>
-Date: Sun, 23 Sep 2018 16:34:23 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <b0d4c5e6-6a4c-c475-422d-328eebba4fb9@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20180923214439.GV4222@linux.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From df6459c699d373a247342b3a79d3bf7a239cfbe3 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 30 Aug 2018 22:59:44 +0900
-Subject: [PATCH 9/9] future/formalregress: Example of extraction of snippet from .litmus file
+On Sun, Sep 23, 2018 at 04:21:05PM +0900, Akira Yokosawa wrote:
+> >From df6459c699d373a247342b3a79d3bf7a239cfbe3 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Sun, 23 Sep 2018 09:16:20 +0900
+> Subject: [PATCH 0/9] Update code snippet extraction scheme
+> 
+> Hi Paul,
+> 
+> This patch set updates scripts to extract code snippet from
+> source files under CodeSamples/.
+> 
+> Patch #1 fixes fcvextract.pl to use "linelabel" environment in
+> extracted .fcv files.
+> 
+> Patches #2 through #5 add capability to handle code snippets
+> other than C. Patch #2 is a simple update with a bug fix to
+> handle source files under deep sub-directories. 
+> 
+> One major obstacle was the restriction of comments in .litmus
+> files.
+> 
+>     1) We can't add comments at the beginning nor the end of
+>        a litmus test.
+>     2) There are a few tokens and characters we can't use in
+>        comments, i.e. "exists" or "filter" as a token in
+>        comment is not accepted by herd7, "{" and "}" characters
+>        sometimes cause error, comments of the form "(*" -- "*)"
+>        are not allowed in the C-language part of litmus test.
+> 
+> I ended up using comments of the form "//...", which has been
+> supported by herdtools7.
+> 
+> Patches #3 and #4 work around the restriction.
+> 
+> Patch #5 prevents a side-effect of doing "make" under
+> CodeSamples/formal/herd, which will convert litmus tests under
+> CodeSamples/formal/litmus so that they can be fed into herd7,
+> and cause the converted tests to have redundant
+> "\begin[snippet]" meta commands.
+> 
+> Patch #6 adds an option "style=" to the meta command
+> \begin{snippet}, which can be used to specify which of
+> Verbetim{L/N/U} is to be emitted. It also adds pass-through
+> handling of other options.
+> 
+> Patch #7 is not an update to the scripts, but a tweak in
+> appearance of VerbatimN and VerbatimU environments so that
+> inline snippets will have frames around them. 
+> 
+> Patches #8 and #9 are examples of actually extracting snippets
+> from .sh and .litmus files.
+> 
+> Effect of patch #7 can be seen in Section 4.1 (below the 1st
+> paragraph) and in Section 4.2.1 (above Quick Quiz 4.6) after
+> applying the whole patch set.  If you don't like the change,
+> feel free to omit #7.
+> 
+> By this update, hopefully, the new scheme should be able to
+> cover 99 percent of snippets. Although the scripts lack
+> rigorous checks of unexpected inputs.
 
-This is a POC of including litmus test snippet extracted via
-reorder_ltms.pl and fcvextract.pl.
+Very nice, thank you!!!  Queued and pushed.
 
-As herdtools7 does not allow comment following a "filter" or
-"exists" clause, we use an option "filterlabel" to the meta command
-"\end[snippet]".
+							Thanx, Paul
 
-NOTE: Neither "exists" nor "filter" can appear as a token in
-    comments of litmus test. "filter_" is OK. A token in comment?
-    Don't ask me!
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- .../formal/herd/C-SB+l-o-o-u+l-o-o-u-C.litmus      |  2 ++
- future/formalregress.tex                           | 40 +++-------------------
- 2 files changed, 6 insertions(+), 36 deletions(-)
-
-diff --git a/CodeSamples/formal/herd/C-SB+l-o-o-u+l-o-o-u-C.litmus b/CodeSamples/formal/herd/C-SB+l-o-o-u+l-o-o-u-C.litmus
-index ae64726..32d8e52 100644
---- a/CodeSamples/formal/herd/C-SB+l-o-o-u+l-o-o-u-C.litmus
-+++ b/CodeSamples/formal/herd/C-SB+l-o-o-u+l-o-o-u-C.litmus
-@@ -1,4 +1,5 @@
- C C-SB+l-o-o-u+l-o-o-u-C
-+// \begin[snippet][labelbase=ln:future:formalregress:C-SB+l-o-o-u+l-o-o-u-C:whole,commandchars=\%\[\]]
- 
- {
- }
-@@ -25,5 +26,6 @@ P1(int *sl, int *x0, int *x1)
- 	smp_store_release(sl, 0);
- }
- 
-+//\end[snippet][filterlabel=filter_]
- filter (0:r2=0 /\ 1:r2=0)
- exists (0:r1=0 /\ 1:r1=0)
-diff --git a/future/formalregress.tex b/future/formalregress.tex
-index 163237e..dd94c8c 100644
---- a/future/formalregress.tex
-+++ b/future/formalregress.tex
-@@ -188,41 +188,7 @@ is correct, and additional verification passes can verify correct
- use of the locking APIs.
- 
- \begin{listing}[tbp]
--{ \scriptsize
--\begin{verbbox}[\LstLineNo]
--C C-SB+l-o-o-u+l-o-o-u-C
--
--{
--}
--
--P0(int *sl, int *x0, int *x1)
--{
--  int r2;
--  int r1;
--
--  r2 = cmpxchg_acquire(sl, 0, 1);
--  WRITE_ONCE(*x0, 1);
--  r1 = READ_ONCE(*x1);
--  smp_store_release(sl, 0);
--}
--
--P1(int *sl, int *x0, int *x1)
--{
--  int r2;
--  int r1;
--
--  r2 = cmpxchg_acquire(sl, 0, 1);
--  WRITE_ONCE(*x1, 1);
--  r1 = READ_ONCE(*x0);
--  smp_store_release(sl, 0);
--}
--
--filter (0:r2=0 /\ 1:r2=0)
--exists (0:r1=0 /\ 1:r1=0)
--\end{verbbox}
--}
--\centering
--\theverbbox
-+\input{CodeSamples/formal/herd/C-SB+l-o-o-u+l-o-o-u-C@whole.fcv}
- \caption{Emulating Locking with \tco{cmpxchg_acquire()}}
- \label{lst:future:Emulating Locking with cmpxchg}
- \end{listing}
-@@ -263,11 +229,13 @@ The difference is not insignificant: At four processes, the model
- is more than two orders of magnitude faster than emulation!
- 
- \QuickQuiz{}
--	Why bother with a separate \co{filter} command on line~28 of
-+\begin{lineref}[ln:future:formalregress:C-SB+l-o-o-u+l-o-o-u-C:whole]
-+	Why bother with a separate \co{filter} command on line~\lnref{filter_} of
- 	Listing~\ref{lst:future:Emulating Locking with cmpxchg}
- 	instead of just adding the condition to the \co{exists} clause?
- 	And wouldn't it be simpler to use \co{xchg_acquire()} instead
- 	of \co{cmpxchg_acquire()}?
-+\end{lineref}
- \QuickQuizAnswer{
- 	The \co{filter} clause causes the \co{herd} tool to discard
- 	executions at an earlier stage of processing than does
--- 
-2.7.4
-
+>         Thanks, Akira
+> 
+> Akira Yokosawa (9):
+>   fcvextract.pl: Use 'linelabel' env in extracted snippet
+>   Update build scripts to support code snippets other than 'C'
+>   Add scripts and recipes to work around restriction of herdtools7
+>   reorder_ltms.pl: Enable further labeling in litmus test snippet
+>   Exclude meta command lines in .litmus -> .litmus.herd conversion
+>   fcvextract.pl: Support 'style=' option and pass through other options
+>   Enable 'single' frame around inline code snippets
+>   toolsoftrade: Example of extraction of snippet from parallel.sh
+>   future/formalregress: Example of extraction of snippet from .litmus
+>     file
+> 
+>  .gitignore                                         |   1 +
+>  .../formal/herd/C-SB+l-o-o-u+l-o-o-u-C.litmus      |   2 +
+>  CodeSamples/formal/herd/litmus2herd.sh             |   4 +-
+>  CodeSamples/toolsoftrade/parallel.sh               |  20 ++--
+>  Makefile                                           |  19 +++-
+>  future/formalregress.tex                           |  40 +------
+>  perfbook.tex                                       |   7 +-
+>  toolsoftrade/toolsoftrade.tex                      |  12 +--
+>  utilities/fcvextract.pl                            |  74 ++++++++++---
+>  utilities/gen_snippet_d.pl                         |  66 +++++++++++-
+>  utilities/reorder_ltms.pl                          | 117 +++++++++++++++++++++
+>  11 files changed, 281 insertions(+), 81 deletions(-)
+>  create mode 100755 utilities/reorder_ltms.pl
+> 
+> -- 
+> 2.7.4
+> 
 
