@@ -3,18 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DH6uocRqFmcWXI5Y3GcK40G7jWO5GfBgMVSXRUIItXU=;
-        b=J0oHYIHl/5VJMQFIPeaxkAGELNmLJbh8MObolZmVIcykRZVRH30DtOm2Hkf3FLGoni
-         rh0WAWmLsakxqLVkal+A3PdtJ3Ai1KQ1uXU8NShqeQlXWxCd/excwCLZM4VVZZf1okuA
-         Dc9kUoE7GQWhzyaWQVxCVyarKHKR/qw8+7DZLfBG6Q56hyf5NbIDztuhT3+Mc3A+Fzjp
-         G2cu3/pg3Udz/NBvs0PWZlGTA6Cw7lCCYq9pzkFdoa5pkRqNK/NmuMNKRWGYeWJpTH8O
-         traqXhL3LtvhkKyr8LEjn4iw3HLyA/1bEVsPjjjmravpwT28Axna+xZSY/0NP+RU+I2w
-         xf9w==
-Subject: [PATCH 7/9] Enable 'single' frame around inline code snippets
+        bh=YDYJPyI4OvJTsVuJNQhsMPDXg10kAVPyj0bY/Ta3kTo=;
+        b=XQgR2qNoV+lTOwFwuN/QKr8b8mw6kwyqS6Wnpt4tvB2CgsEAPSoHCPIDOckLWBuC56
+         2W1eu6qDaiwVjiVE9mnLgokD9bFKGFowImMPSrsJxE356esA8RJrGwdSBSFLxE9CIYlv
+         SsGPf3xYWAJmsIRT8Ejn/x2+vZW6eyYAV+Wx4Ta1/mo7xsdiYend6NQwchlTLVZT9xOG
+         HFduUdfQ2HHbwRVFCxANA0qZFoG6iyeLt4vak36K6Ak4nKjL31CoabM+MoZbKwiJYdKs
+         TNGfKn2fKjA/FjbobO8AWLc3jcYOAVqOrUcca+dyyXDuNVEg20UquhhKnmwMx7Nt/YXB
+         JNUQ==
+Subject: [PATCH 8/9] toolsoftrade: Example of extraction of snippet from
+ parallel.sh
 References: <b0d4c5e6-6a4c-c475-422d-328eebba4fb9@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <a16a9a38-0854-6354-d628-1766bd9dbdba@gmail.com>
-Date: Sun, 23 Sep 2018 16:31:33 +0900
+Message-ID: <86cb7863-6362-4650-2aaf-578bdee100c2@gmail.com>
+Date: Sun, 23 Sep 2018 16:32:49 +0900
 MIME-Version: 1.0
 In-Reply-To: <b0d4c5e6-6a4c-c475-422d-328eebba4fb9@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,49 +25,80 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From b69a5a8bcb76b49c5f1f30ba31d7280a67c0b87d Mon Sep 17 00:00:00 2001
+From 0165c8b80522c46743850978e2756da2190a12ec Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 30 Aug 2018 23:01:03 +0900
-Subject: [PATCH 7/9] Enable 'single' frame around inline code snippets
+Date: Thu, 30 Aug 2018 22:40:40 +0900
+Subject: [PATCH 8/9] toolsoftrade: Example of extraction of snippet from parallel.sh
 
-Inline code snippets can have frames by modifying the definitions
-of VerbatimN and VerbatimU environments.
-
-Definition of \lnlbl{} command for VerbatimN needs tweaks to
-raise the position of anchor a bit to compensate extra vertical
-space around frame.
+This is a POC of extraction from a .sh file.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- perfbook.tex | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ CodeSamples/toolsoftrade/parallel.sh | 20 +++++++++++---------
+ toolsoftrade/toolsoftrade.tex        | 12 ++----------
+ 2 files changed, 13 insertions(+), 19 deletions(-)
 
-diff --git a/perfbook.tex b/perfbook.tex
-index 1dc72c2..3547f64 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -117,9 +117,9 @@
- {fontsize=\scriptsize,numbers=left,numbersep=5pt,xleftmargin=9pt,obeytabs=true,tabsize=2}
- \AfterEndEnvironment{VerbatimL}{\vspace*{-9pt}}
- \DefineVerbatimEnvironment{VerbatimN}{Verbatim}%
--{fontsize=\scriptsize,numbers=left,numbersep=5pt,xleftmargin=25pt,obeytabs=true,tabsize=2}
-+{fontsize=\scriptsize,numbers=left,numbersep=3pt,xleftmargin=5pt,xrightmargin=5pt,obeytabs=true,tabsize=2,frame=single}
- \DefineVerbatimEnvironment{VerbatimU}{Verbatim}%
--{fontsize=\scriptsize,numbers=none,xleftmargin=15pt,obeytabs=true,tabsize=2,samepage=true}
-+{fontsize=\scriptsize,numbers=none,xleftmargin=5pt,xrightmargin=5pt,obeytabs=true,tabsize=2,samepage=true,frame=single}
+diff --git a/CodeSamples/toolsoftrade/parallel.sh b/CodeSamples/toolsoftrade/parallel.sh
+index 6b87a2a..760dda6 100644
+--- a/CodeSamples/toolsoftrade/parallel.sh
++++ b/CodeSamples/toolsoftrade/parallel.sh
+@@ -26,15 +26,17 @@ function compute_it {
+ 	sleep 5
+ }
  
- \IfLmttForCode{
- \AtBeginEnvironment{verbatim}{\renewcommand{\ttdefault}{lmtt}}
-@@ -242,6 +242,9 @@
- %\fvset{fontsize=\scriptsize,numbers=left,numbersep=5pt,xleftmargin=9pt,obeytabs=true,tabsize=2}
- \newcommand{\lnlblbase}{}
- \newcommand{\lnlbl}[1]{\phantomsection\label{\lnlblbase:#1}}
-+\AtBeginEnvironment{VerbatimN}{%
-+\renewcommand{\lnlbl}[1]{\raisebox{6pt}{\phantomsection\label{\lnlblbase:#1}}}%
-+}
- \newcommand{\lnrefbase}{}
- \newcommand{\lnref}[1]{\ref{\lnrefbase:#1}}
+-echo Computing in parallel starting at `date`
+-compute_it 1 > compute_it.1.out &
+-compute_it 2 > compute_it.2.out &
+-wait
+-echo Computing in parallel finished at `date`
+-echo Computation \"output\":
+-cat compute_it.1.out
+-cat compute_it.2.out
+-rm compute_it.1.out compute_it.2.out
++# \begin{snippet}[labelbase=ln:toolsoftrade:parallel:compute_it,commandchars=\\\{\},style=N]
++echo Computing in parallel starting at `date`	#\fcvexclude
++compute_it 1 > compute_it.1.out &		#\lnlbl{comp1}
++compute_it 2 > compute_it.2.out &		#\lnlbl{comp2}
++wait						#\lnlbl{wait}
++echo Computing in parallel finished at `date`	#\fcvexclude
++echo Computation \"output\":			#\fcvexclude
++cat compute_it.1.out				#\lnlbl{cat1}
++cat compute_it.2.out				#\lnlbl{cat2}
++rm compute_it.1.out compute_it.2.out		#\fcvexclude
++# \end{snippet}
  
+ echo
+ echo Computing sequentially starting at `date`
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index ece92f1..d21bda0 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -42,15 +42,7 @@ For example, suppose that you had a program \co{compute_it}
+ that you needed to run twice with two different sets of arguments.
+ This can be accomplished using UNIX shell scripting as follows:
+ 
+-\begin{linelabel}[ln:toolsoftrade:jobcontrol:script]
+-\begin{VerbatimN}[commandchars=\\\{\}]
+-compute_it 1 > compute_it.1.out & \lnlbl{comp1}
+-compute_it 2 > compute_it.2.out & \lnlbl{comp2}
+-wait \lnlbl{wait}
+-cat compute_it.1.out \lnlbl{cat1}
+-cat compute_it.2.out \lnlbl{cat2}
+-\end{VerbatimN}
+-\end{linelabel}
++\input{CodeSamples/toolsoftrade/parallel@compute_it.fcv}
+ 
+ \begin{figure}[tb]
+ \centering
+@@ -59,7 +51,7 @@ cat compute_it.2.out \lnlbl{cat2}
+ \label{fig:toolsoftrade:Execution Diagram for Parallel Shell Execution}
+ \end{figure}
+ 
+-\begin{lineref}[ln:toolsoftrade:jobcontrol:script]
++\begin{lineref}[ln:toolsoftrade:parallel:compute_it]
+ Lines~\lnref{comp1} and~\lnref{comp2} launch two instances of this
+ program, redirecting their
+ output to two separate files, with the \co{&} character directing the
 -- 
 2.7.4
 
