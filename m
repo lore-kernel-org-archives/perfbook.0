@@ -1,128 +1,113 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52990 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727014AbeIXDnp (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 23 Sep 2018 23:43:45 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w8NLdFcd080218
-        for <perfbook@vger.kernel.org>; Sun, 23 Sep 2018 17:44:43 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2mp2t9gdd9-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Sun, 23 Sep 2018 17:44:43 -0400
-Received: from localhost
-        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Sun, 23 Sep 2018 17:44:42 -0400
-Date: Sun, 23 Sep 2018 14:44:39 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH 0/9] Update code snippet extraction scheme
-Reply-To: paulmck@linux.ibm.com
-References: <b0d4c5e6-6a4c-c475-422d-328eebba4fb9@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=V6WYDdcL6maHYixd2+YtvP1V1wr56OsjcFkgL0vj/wM=;
+        b=uW7B7kbdSuMRrBINlWcJt373G0zz6uneEQIwmLL1gddhbIrTaip890TOKq+sdAalX9
+         iIuHg90gUrngq8e71diIi//uy4ESJMtnclHHdmSX6xrOnOX/3wsGGypjUy6B7zxuDn9R
+         LiKFQkwdoAjm/oB3YDijFWXfGL/x27OXaXFBhYlYrZyTGHdn7vpj6tB3QcfsD+YGv7V4
+         SXYLc5OiNCTXWe7pYBGD1KJKv9RkYhmq7E3pKynfxKQgYjrqPRjxyWcWDuWJf6AsmS58
+         jjk1uNH3CpdzQhwbvbGL2PWxYIYa4rbBBXjNdu3hRVZrFQC2AqjHyxKmVxAQ+e91qmQs
+         nFrA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] Require updating a2ping to 2.83p on older distos
+Message-ID: <aec4b5bb-0095-bfc5-e4b3-2fbd97c5311a@gmail.com>
+Date: Mon, 24 Sep 2018 12:02:08 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b0d4c5e6-6a4c-c475-422d-328eebba4fb9@gmail.com>
-Message-Id: <20180923214439.GV4222@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Sep 23, 2018 at 04:21:05PM +0900, Akira Yokosawa wrote:
-> >From df6459c699d373a247342b3a79d3bf7a239cfbe3 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sun, 23 Sep 2018 09:16:20 +0900
-> Subject: [PATCH 0/9] Update code snippet extraction scheme
-> 
-> Hi Paul,
-> 
-> This patch set updates scripts to extract code snippet from
-> source files under CodeSamples/.
-> 
-> Patch #1 fixes fcvextract.pl to use "linelabel" environment in
-> extracted .fcv files.
-> 
-> Patches #2 through #5 add capability to handle code snippets
-> other than C. Patch #2 is a simple update with a bug fix to
-> handle source files under deep sub-directories. 
-> 
-> One major obstacle was the restriction of comments in .litmus
-> files.
-> 
->     1) We can't add comments at the beginning nor the end of
->        a litmus test.
->     2) There are a few tokens and characters we can't use in
->        comments, i.e. "exists" or "filter" as a token in
->        comment is not accepted by herd7, "{" and "}" characters
->        sometimes cause error, comments of the form "(*" -- "*)"
->        are not allowed in the C-language part of litmus test.
-> 
-> I ended up using comments of the form "//...", which has been
-> supported by herdtools7.
-> 
-> Patches #3 and #4 work around the restriction.
-> 
-> Patch #5 prevents a side-effect of doing "make" under
-> CodeSamples/formal/herd, which will convert litmus tests under
-> CodeSamples/formal/litmus so that they can be fed into herd7,
-> and cause the converted tests to have redundant
-> "\begin[snippet]" meta commands.
-> 
-> Patch #6 adds an option "style=" to the meta command
-> \begin{snippet}, which can be used to specify which of
-> Verbetim{L/N/U} is to be emitted. It also adds pass-through
-> handling of other options.
-> 
-> Patch #7 is not an update to the scripts, but a tweak in
-> appearance of VerbatimN and VerbatimU environments so that
-> inline snippets will have frames around them. 
-> 
-> Patches #8 and #9 are examples of actually extracting snippets
-> from .sh and .litmus files.
-> 
-> Effect of patch #7 can be seen in Section 4.1 (below the 1st
-> paragraph) and in Section 4.2.1 (above Quick Quiz 4.6) after
-> applying the whole patch set.  If you don't like the change,
-> feel free to omit #7.
-> 
-> By this update, hopefully, the new scheme should be able to
-> cover 99 percent of snippets. Although the scripts lack
-> rigorous checks of unexpected inputs.
+From f44b769bdf6da275a09ae3abe0decc835ba65875 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 24 Sep 2018 11:26:02 +0900
+Subject: [PATCH] Require updating a2ping to 2.83p on older distos
 
-Very nice, thank you!!!  Queued and pushed.
+Recent security fixes to Ghostscript [1] on Ubuntu Trusty and
+Xenial broke a2ping 2.77p.
 
-							Thanx, Paul
+This change removes conditional of "Ghostscript 9.22 and later" in
+checking a2ping's version, and report error if 2.77p is found.
+Also update FAQ-BUILD.txt to provide nicer instructions to update.
 
->         Thanks, Akira
-> 
-> Akira Yokosawa (9):
->   fcvextract.pl: Use 'linelabel' env in extracted snippet
->   Update build scripts to support code snippets other than 'C'
->   Add scripts and recipes to work around restriction of herdtools7
->   reorder_ltms.pl: Enable further labeling in litmus test snippet
->   Exclude meta command lines in .litmus -> .litmus.herd conversion
->   fcvextract.pl: Support 'style=' option and pass through other options
->   Enable 'single' frame around inline code snippets
->   toolsoftrade: Example of extraction of snippet from parallel.sh
->   future/formalregress: Example of extraction of snippet from .litmus
->     file
-> 
->  .gitignore                                         |   1 +
->  .../formal/herd/C-SB+l-o-o-u+l-o-o-u-C.litmus      |   2 +
->  CodeSamples/formal/herd/litmus2herd.sh             |   4 +-
->  CodeSamples/toolsoftrade/parallel.sh               |  20 ++--
->  Makefile                                           |  19 +++-
->  future/formalregress.tex                           |  40 +------
->  perfbook.tex                                       |   7 +-
->  toolsoftrade/toolsoftrade.tex                      |  12 +--
->  utilities/fcvextract.pl                            |  74 ++++++++++---
->  utilities/gen_snippet_d.pl                         |  66 +++++++++++-
->  utilities/reorder_ltms.pl                          | 117 +++++++++++++++++++++
->  11 files changed, 281 insertions(+), 81 deletions(-)
->  create mode 100755 utilities/reorder_ltms.pl
-> 
-> -- 
-> 2.7.4
-> 
+[1]: https://usn.ubuntu.com/3768-1/
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ FAQ-BUILD.txt | 21 ++++++++++++++-------
+ Makefile      |  6 ++----
+ 2 files changed, 16 insertions(+), 11 deletions(-)
+
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index 9fb3b68..336ab71 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -53,8 +53,9 @@
+ 			texlive-science texlive-fonts-extra
+ 			xfig inkscape graphviz fig2ps
+ 
+-		You might need to fetch a version of a2ping which is
+-		compatible with Ghostscript 9.22. See #7 below.
++		You need to fetch a version of a2ping which is
++		compatible with updated Ghostscript (not limited to
++		Ubuntu Bionic). See #7 below.
+ 
+ 		On Fedora 28 and 27, installing the following set of
+ 		packages suffices:
+@@ -86,14 +87,20 @@
+ 
+ 	A.	Please see #5 above.
+ 
+-7.	Building perfbook aborts with error "a2ping version conflict".
++7.	Building perfbook aborts with error "Your need to update a2ping".
+ 	What can I do?
+ 
+-	A.	Updating a2ping can resolve the build error if you
+-		have Ghostscript 9.22 or later.  Compatible a2ping
+-		(2.83p) is available at:
++	A.	a2ping 2.77p has become incompatible with up-to-date
++		Ghostscript on most Linux distributions since September
++		2018 due to security fixes backported from Ghostscript
++		9.22 and later. A compatible a2ping (2.83p) is available
++		at:
+ 			https://www.ctan.org/pkg/a2ping
+-		It is included in TeX Live 2018 or later.
++
++		Copy "a2ping.pl" as "a2ping" into a directory which
++		precedes /usr/bin in your PATH setting.
++
++		a2ping 2.83p is included in TeX Live 2018 or later.
+ 
+ 8.	When I try to build perfbook, it hangs after printing a line
+ 	reading "pdflatex 1".  How can I fix this?
+diff --git a/Makefile b/Makefile
+index 72865d7..4810812 100644
+--- a/Makefile
++++ b/Makefile
+@@ -75,9 +75,7 @@ STEELFONTID := $(shell fc-list | grep -i steel | grep -c Steel)
+ ifdef A2PING
+ A2PING_277P := $(shell a2ping --help 2>&1 | grep -c "2.77p,")
+ ifeq ($(A2PING_277P),1)
+-GS_VER := $(shell gs --version)
+-A2PING_GSCNFL := $(shell env printf "%05.2f\n%05.2f\n" $(GS_VER) 9.22 | \
+-	sort | head -1 | grep -c "09.22")
++A2PING_GSCNFL := 1
+ else
+ A2PING_GSCNFL := 0
+ endif
+@@ -216,7 +214,7 @@ ifndef A2PING
+ 	$(error $< --> $@: a2ping not found. Please install it)
+ endif
+ ifeq ($(A2PING_GSCNFL),1)
+-	$(error a2ping version conflict. See #7 in FAQ-BUILD.txt)
++	$(error You need to update a2ping. See #7 in FAQ-BUILD.txt)
+ endif
+ 	@cp $< $<i
+ 	@sh $(FIXANEPSFONTS) $<i
+-- 
+2.7.4
 
