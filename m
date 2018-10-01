@@ -1,62 +1,148 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57852 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726143AbeJBAaP (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 1 Oct 2018 20:30:15 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w91HnIWn046953
-        for <perfbook@vger.kernel.org>; Mon, 1 Oct 2018 13:51:19 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2munguytpa-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Mon, 01 Oct 2018 13:51:19 -0400
-Received: from localhost
-        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Mon, 1 Oct 2018 13:51:18 -0400
-Date: Mon, 1 Oct 2018 10:51:17 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: Fwd: Other architectures we can work on?
-Reply-To: paulmck@linux.ibm.com
-References: <CABoNC81BJOPV3oBQ-Q9m9-5VZAdWq0L_r+4m6Wv7QWuXQo1LnA@mail.gmail.com>
- <CABoNC82ftdi_Ki-zhwv2xC1HVC4=O-wGvF+wS+MSCEa8ETctXQ@mail.gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=L/HAgZwJ3DEfO+Oo3gwKTdE8RqCaJ2qP1k/Ee8geeXA=;
+        b=FaHjy2Vrl/cGutTKIHxY0Nv7ILv5hrL8FsZxPloN11b7LDBS3DL6IaDVa4xGpU9kvs
+         xdpi418W9cq5zOlPwIx3hQ5GO2LpXpgMGAPYR5KfLS0Sp5MJDbLNgsGZByNtmY0sRgyt
+         WHsHyVlNjlpOb4Fsy8iz3FT6gygO8+5vaGhV4XQ4/NgN8FqLQf+RlyIDvomzsTjI760c
+         Wt5wm/ZvkujMOSsrS44AqSKrDZkpf8pXuEruI53HBiVCochNfjRNkxVO64sxKBqL1pt4
+         FJYwrStS49/HKSMO6nogdi64Dw1AqTnjY/2PGrOmt6n4c5lXZ+0lQI+s965tD3iSppLM
+         dGUw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: Question of usage of per_thread()
+References: <71206929-11cd-73bc-560e-f982c7e86cf8@gmail.com>
+ <20180916150849.GW652@linux.ibm.com>
+Message-ID: <c6eaaa51-2063-7fb6-d308-4152d31f30be@gmail.com>
+Date: Tue, 2 Oct 2018 07:48:15 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABoNC82ftdi_Ki-zhwv2xC1HVC4=O-wGvF+wS+MSCEa8ETctXQ@mail.gmail.com>
-Message-Id: <20181001175117.GF4222@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <20180916150849.GW652@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Junchang Wang <junchangwang@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Oct 01, 2018 at 11:23:17AM +0800, Junchang Wang wrote:
-> Forward to list perfbook since the last mail was blocked due to the
-> non-plain-text issue.
+On 2018/09/17 0:08, Paul E. McKenney wrote:
+> On Sun, Sep 16, 2018 at 05:37:23PM +0900, Akira Yokosawa wrote:
+>> Hi Paul,
+>>
+>> Every time I review code under CodeSamples/,
+>> I find myself confused where to use READ_ONCE/WRITE_ONCEs.
+>>
+>> I'm looking at Listing 5.3 of current master.
+>>
+>> There are two cases which lack READ_ONCE/WRITE_ONCE to access potentially
+>> shared variables, namely on line 5 (__get_thread_var(counter)++;) and
+>> on line 14 (sum += per_thread(counter, t);).
+>>
+>> Line 5 looks like a good candidate to be optimized out when inlined.
+>> But the performance result indicates "gcc -O3" keeps it inside the loop.
+>>
+>> Is this because the definition of __get_thread_var() contains
+>> a call to smp_thread_id() and complicated enough not to be optimized
+>> out?
+>>
+>> As for line 14, as per_thread() was derived from per_cpu() of kernel
+>> API, I looked for call sites of per_cpu() in the kernel source tree.
+>>
+>> There are very few cases where READ_ONCE/WRITE_ONCE is used along
+>> with per_cpu(). There are two READ_ONCEs with per_cpu() in
+>> kernel/rcu/srcutree.c, whose author is none other than you.
+>> Are those READ_ONCEs necessary?
+>>
+>> I don't grasp the actual definition of per_cpu() macro.
+>> Definition of per_thread() macro under CodeSamples/api-pthreads/
+>> does not look so complicated, but contains array indexing,
+>> which might be good enough to prevent optimization in the loop.
+>>
+>> I'm not sure, but my gut feeling is that READ_ONCE/WRITE_ONCE
+>> is necessary to access an unannotated variable. If we need
+>> volatility for sure, we could modify the definition of annotating
+>> macros/functions.
+>>
+>> Can you enlighten me?
+> 
+> Yes, I do need to expand on this, both in perfbook and in order to inspect
+> my usage in Linux-kernel RCU.  Please see below for my current outline,
+> and any and all feedback would be deeply appreciated!
+> 
+
+So, I applied your outline to accesses in Listing 5.3.
+See inline comments below for my observation.
+
+> 							Thanx, Paul
+> 
+> ------------------------------------------------------------------------
 > 
 > 
-> Hi Paul and list,
+> Plain accesses, that is, without either READ_ONCE() or WRITE_ONCE():
+> o	Only accessed under lock.
+> o	Only accessed by owning CPU/thread.
+> o	Only modified by owning CPU/thread under lock, and otherwise
+> 	accessed only either while holding lock or by owning CPU/thread.
 > 
-> I'm again reading the excellent 15th chapter (Advanced
-> Synchronization), which helps me eventually understand how a
-> hardware/compiler can optimize--and hence ``break''-- my parallelized
-> code :-).
+> WRITE_ONCE() for modifications, READ_ONCE() for non-owning CPUs/threads
+> not holding lock:
+> o	Only modified while holding lock by owning CPU/thread,
+> 	could be read from anywhere by anyone.
 > 
-> I really want to get my hands dirty and to test my code and samples in
-> perfbook on real servers. However, all servers in my lab are x86. I
-> wonder if there is any chance that we can have access to architectures
-> other than x86 to test code. For example, are there any cloud service
-> that provides access to POWER or ARM architecture?
+> WRITE_ONCE() for modifications, READ_ONCE() for CPUs/threads not holding
+> lock:
+> o	Only modified while holding lock, could be read anywhere by
+> 	anyone.
+> 
+> WRITE_ONCE() for modifications, READ_ONCE() for non-owning
+> CPUs/threads:
+> o	Only modified by owning CPU/threads, could be read anywhere
+> 	by anyone.
 
-For POWER access for academic or open-source projects, please see here:
+Listing 5.3's per-thread variable "counter" looks covered here.
+So the write part of the increment on line 5 needs WRITE_ONCE().
+Read access on line 14 also needs READ_ONCE().
 
-https://osuosl.org/services/powerdev/request_hosting/
+Read part of the increment doesn't need READ_ONCE(), I guess.
 
-There are said to be similar services for ARM, for example:
+Line 5 would look like:
 
-https://thenewstack.io/cncf-packet-team-provide-free-infrastructure-cloud-developers
+    WRITE_ONCE(__get_thread_var(counter), __get_thread_var(counter) + 1);
 
-Please let me know how it goes!
+. Considering the cost of __get_thread_var(), there should be a room
+to help compilers to optimize by using a local pointer as follows:
 
-							Thanx, Paul
+    static __inline__ void inc_count(void)
+    {
+        long *p_counter = &__get_thread_var(counter);
+
+        WRITE_ONCE(*p_counter, *p_counter + 1);
+    }
+
+. Does this look reasonable to you? Or is it better to also use
+READ_ONCE()?
+
+But if __get_thread_var() does imply volatility, we can keep the
+current way of increment:
+
+        __get_thread_var(counter)++;
+
+Thoughts?
+
+        Thanks, Akira
+
+> 
+> Otherwise, READ_ONCE() and WRITE_ONCE() everywhere.
+> 
+> But note that READ_ONCE() and WRITE_ONCE() provide absolutely no
+> ordering guarantees unless:
+> 
+> o	There is only one variable being accesses, and all of those
+> 	accesses are of the same size and alignment.
+> 
+> o	There is only one CPU/thread doing the accesses to all
+> 	of the variables during the timeframe of interest.
+> 
+> o	There are other operations involved, for example, smp_mb().
+> 
 
