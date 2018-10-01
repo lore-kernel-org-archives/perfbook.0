@@ -1,49 +1,77 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mail-oi1-f177.google.com ([209.85.167.177]:41875 "EHLO
-        mail-oi1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727287AbeJAJ7I (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 1 Oct 2018 05:59:08 -0400
-Received: by mail-oi1-f177.google.com with SMTP id l197-v6so9980955oib.8
-        for <perfbook@vger.kernel.org>; Sun, 30 Sep 2018 20:23:30 -0700 (PDT)
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=rIQgbq0ZsdRpWTFkVxJEyMzbyBOstQSM5XbA3KhH5B8=;
-        b=FWnB/vot0oVd2shNWZSnWvNiRJpTFXz/Zx96/Bk6maiZwFsrpFv0OVceCUax2pjX0z
-         Z7LL8N16V65zDcujsH7UQFSdZviGIj5koXT2fRjRDZX3VJk5kAnpIm4zBdvUD2AK1wKZ
-         e1SLnaEXTQ/+G23Kp/6NuOd0inLN0HlEu7oYcb2ANB1g3+TYt52J01hrpLcfGL9NwMKI
-         2/Q9sFUErL1haN2LMjTVyhAsPM9SNDhPPip848NIrn4PfWe7kbzLpDC8vD+5/nct+Kg8
-         KeSrQpg/rMRS5Tq3cQ4rhfJMiMQJa9o5vqsMWgPO61hEMnivZY97h7d5t+XMNy1fkiz+
-         vZRA==
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=m0fYQbxPyERc4rNTFy/we4w4wgXHgJ3fv3dv5K9PACw=;
+        b=Q60g6Cct/KS3BcxGCII0FVVUBwHdaAoWnAi0Yyhp+hUv/i2bHA1MSSN8e27xkvyU2k
+         9HkBoU6x4UN+Mj/VA7l4bl+8fevVuHYSemZVJkCxQIkKG6NNyQc/Ji0YrPwlMUW2DYP8
+         QwwHWoaRADZX3yGZIlA1L8XPB/70tr1U2gqbKRScMIkJP/CU9KTnKfk6PoxjI5qJN1/B
+         YM1iwt3shPmw13H6ZbFWkIev9rNHe1bM8yUCJj6fpYlx5079oYX0+SInYOJIS+XsrBq+
+         VXmX9D9pz1xVqPlBWgzis0hzoMrWaINhsg/xIKkIKp2FjKoe39Dt2irpr8x6pGsNCNc7
+         n7Hg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/5] Misc updates
+Message-ID: <1a19dbcb-3dbb-3359-dafa-1fc8dbe4837d@gmail.com>
+Date: Mon, 1 Oct 2018 22:48:48 +0900
 MIME-Version: 1.0
-References: <CABoNC81BJOPV3oBQ-Q9m9-5VZAdWq0L_r+4m6Wv7QWuXQo1LnA@mail.gmail.com>
-In-Reply-To: <CABoNC81BJOPV3oBQ-Q9m9-5VZAdWq0L_r+4m6Wv7QWuXQo1LnA@mail.gmail.com>
-From: Junchang Wang <junchangwang@gmail.com>
-Date: Mon, 1 Oct 2018 11:23:17 +0800
-Message-ID: <CABoNC82ftdi_Ki-zhwv2xC1HVC4=O-wGvF+wS+MSCEa8ETctXQ@mail.gmail.com>
-Subject: Fwd: Other architectures we can work on?
-Content-Type: text/plain; charset="UTF-8"
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
 
-Forward to list perfbook since the last mail was blocked due to the
-non-plain-text issue.
+From c545a33aea39aeae40bcff478285f814c32a4456 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 1 Oct 2018 22:05:58 +0900
+Subject: [PATCH 0/5] Misc updates
 
+Hi Paul,
 
-Hi Paul and list,
+This is a miscellaneous collection of updates.
 
-I'm again reading the excellent 15th chapter (Advanced
-Synchronization), which helps me eventually understand how a
-hardware/compiler can optimize--and hence ``break''-- my parallelized
-code :-).
+Patch #1 fixes build error you'd encounter when you do "make"
+after doing "make" under CodeSamples/ directory.
 
-I really want to get my hands dirty and to test my code and samples in
-perfbook on real servers. However, all servers in my lab are x86. I
-wonder if there is any chance that we can have access to architectures
-other than x86 to test code. For example, are there any cloud service
-that provides access to POWER or ARM architecture?
+Patches #2 and #3 fix trivial typos in FAQ-BUILD.txt and
+tooldoftrade, respectively.
 
-Thanks,
---Junchang
+Patch #4 removes obsolete workaround code in perfbook.tex.
+
+Patch #5 removes rules in Makefile used to support a hi-res
+figure in QC section.
+
+Once Patch #5 is applied, you can remove orphaned files listed
+below:
+
+    future/Bloch_Sphere.svg
+    future/QC-FormConstant.eps
+    future/QS1_1.svg
+    future/T2h1lc19xmqrdlsor.eps
+    future/ibmqx2-labeled.svg
+
+As a matter of fact, I have prepared a patch to remove
+them, but it would be too large to submit.
+
+        Thanks, Akira
+--
+Akira Yokosawa (5):
+  CodeSamples: Exclude meta command lines in building api.h
+  FAQ-BUILD.txt: Fix typo
+  toolsoftrade: Fix typo DEFINE_PER_THREAD() -> DEFINE_PER_CPU()
+  Remove workaround for Fedora 23 Tex Live bug
+  Makefile: Remove rules for QC section
+
+ .gitignore                    |  1 -
+ CodeSamples/Makefile          |  4 +++-
+ FAQ-BUILD.txt                 |  2 +-
+ Makefile                      | 25 +++++--------------------
+ perfbook.tex                  | 14 --------------
+ toolsoftrade/toolsoftrade.tex |  2 +-
+ utilities/gen_snippet_d.pl    | 16 ++++++++--------
+ 7 files changed, 18 insertions(+), 46 deletions(-)
+
+-- 
+2.7.4
 
