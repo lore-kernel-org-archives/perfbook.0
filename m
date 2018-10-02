@@ -1,20 +1,23 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=SuzQAISUbwj9wTvbNs52aD5gWbQb6XiFLamE2oBXn3M=;
-        b=H4c96HKIi/h0zoNSI8kE0JYzXEge+DEqAtlgsYxXDSF6cFMRKqa+Qe8gPU2u+Tl8mT
-         2jmIgHa+ynQvo1mDooEtUQSdIOHeoN/kSZmU0usfSXnMUAOSELnQoaktPiR29z0l5McC
-         nG+mR3wr/2SZi7RP1o8k8dSFnacrUxYcp/bpKBumrlBOgUvv1TBveFPS1Lo476sANQrB
-         ERMgZuLge4dKwKZaK1HIpUkD139kAFIrgPiqhpLR/8ZlaYIpiu4pn66bExjiIzAzwMta
-         zd2tvvduuGY6AwZgEcQL6KAxcgu5D1a++gvMDSSPQAisR6tsz1dFtBnR8CQoJgEvGTDD
-         GwOg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=tigWPthCvCNorMxSfMlj7LvnQy7gH/Jnx6RGOwI7koY=;
+        b=ADM7C/KgAMJugzyP3zMsF5CXcbM5WvIJ5w0om74320VYZIQTC6LSnwlIkvxkahu1cN
+         GIDZEmV8elFX6LUtZYF5Iv20pvLt99BNM/iNB2HLx9sAXnLQswfG2cuIfJSju8UaUnhd
+         I0CREvCwmu4QAa5/ShLYf5+GWrxLxiB3x5fRk5kgDlfponqDUJjf9ZXERzlqL3klPA00
+         62iuCvl/UzZOhnjVzbP32oyA7CbUUySG27l1AzqZtzxXtDMY+z1vLU2Rzv2rv5YoKe2N
+         +ljFBlrqZ6JH03uzz45QVZASm64fGJPvuPnL+4M2EMkoZ7rQFCGz8xL87PTTofYhHwUG
+         DACA==
+Subject: [PATCH 2/2] count: Adjust type of variable 'counter' with code
+ snippet
+References: <afb11222-c68a-22e6-a95c-bfb4d4b9344d@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 1/2] count: Employ new scheme for snippet from count_stat.c
-Message-ID: <afb11222-c68a-22e6-a95c-bfb4d4b9344d@gmail.com>
-Date: Wed, 3 Oct 2018 00:15:00 +0900
+Message-ID: <549dac1f-17b7-5225-7d91-e7cd83b8b63b@gmail.com>
+Date: Wed, 3 Oct 2018 00:16:12 +0900
 MIME-Version: 1.0
+In-Reply-To: <afb11222-c68a-22e6-a95c-bfb4d4b9344d@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,134 +25,42 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 047e2e2aa09633f5605111119e2f45fd43f6febc Mon Sep 17 00:00:00 2001
+From a9c276c3da87ed327d003a70d60777f41999b4fc Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 2 Oct 2018 23:54:33 +0900
-Subject: [PATCH 1/2] count: Employ new scheme for snippet from count_stat.c
+Date: Wed, 3 Oct 2018 00:08:49 +0900
+Subject: [PATCH 2/2] count: Adjust type of variable 'counter' with code snippet
 
-Also add necessary READ_ONCE()/WRITE_ONCE() as par.
-the rule of where to use them provided by Paul as an
-outline on perfbook mail-list [1].
+In the actual code of count_stat.c, the per-thread variable
+"counter" has the type "unsigned long".
 
-[1]: https://www.spinics.net/lists/perfbook/msg01788.html
-
-Suggested by: Paul E. McKenney <paulmck@linux.ibm.com>
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/count/count_stat.c | 22 +++++++++++++---------
- count/count.tex                | 33 ++++++++-------------------------
- 2 files changed, 21 insertions(+), 34 deletions(-)
+ count/count.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/CodeSamples/count/count_stat.c b/CodeSamples/count/count_stat.c
-index 1d72f99..0675320 100644
---- a/CodeSamples/count/count_stat.c
-+++ b/CodeSamples/count/count_stat.c
-@@ -20,28 +20,32 @@
- 
- #include "../api.h"
- 
--DEFINE_PER_THREAD(unsigned long, counter);
-+//\begin{snippet}[labelbase=ln:count:count_stat:inc-read,commandchars=\\\[\]]
-+DEFINE_PER_THREAD(unsigned long, counter);		//\lnlbl{define}
- 
--void inc_count(void)
-+static __inline__ void inc_count(void)			//\lnlbl{inc:b}
- {
--	__get_thread_var(counter)++;
--}
-+	unsigned long *p_counter = &__get_thread_var(counter);
-+
-+	WRITE_ONCE(*p_counter, *p_counter + 1);
-+}							//\lnlbl{inc:e}
- 
--__inline__ unsigned long read_count(void)
-+static __inline__ unsigned long read_count(void)	//\lnlbl{read:b}
- {
- 	int t;
- 	unsigned long sum = 0;
- 
- 	for_each_thread(t)
--		sum += per_thread(counter, t);
-+		sum += READ_ONCE(per_thread(counter, t));
- 	return sum;
--}
-+}							//\lnlbl{read:e}
-+//\end{snippet}
- 
--__inline__ void count_init(void)
-+void count_init(void)
- {
- }
- 
--__inline__ void count_cleanup(void)
-+void count_cleanup(void)
- {
- }
- 
 diff --git a/count/count.tex b/count/count.tex
-index a7d4c9d..4f760a4 100644
+index 4f760a4..9f9fd0f 100644
 --- a/count/count.tex
 +++ b/count/count.tex
-@@ -477,28 +477,7 @@ thread (presumably cache aligned and padded to avoid false sharing).
- } \QuickQuizEnd
- 
- \begin{listing}[tbp]
--{ \scriptsize
--\begin{verbbox}
--  1 DEFINE_PER_THREAD(long, counter);
--  2 
--  3 void inc_count(void)
--  4 {
--  5   __get_thread_var(counter)++;
--  6 }
--  7 
--  8 long read_count(void)
--  9 {
-- 10   int t;
-- 11   long sum = 0;
-- 12 
-- 13   for_each_thread(t)
-- 14     sum += per_thread(counter, t);
-- 15   return sum;
-- 16 }
--\end{verbbox}
--}
--\centering
--\theverbbox
-+\input{CodeSamples/count/count_stat@inc-read.fcv}
- \caption{Array-Based Per-Thread Statistical Counters}
- \label{lst:count:Array-Based Per-Thread Statistical Counters}
- \end{listing}
-@@ -506,22 +485,26 @@ thread (presumably cache aligned and padded to avoid false sharing).
- Such an array can be wrapped into per-thread primitives, as shown in
- Listing~\ref{lst:count:Array-Based Per-Thread Statistical Counters}
+@@ -487,7 +487,7 @@ Listing~\ref{lst:count:Array-Based Per-Thread Statistical Counters}
  (\path{count_stat.c}).
--Line~1 defines an array containing a set of per-thread counters of
-+\begin{lineref}[ln:count:count_stat:inc-read]
-+Line~\lnref{define} defines an array containing a set of per-thread counters of
- type \co{long} named, creatively enough, \co{counter}.
+ \begin{lineref}[ln:count:count_stat:inc-read]
+ Line~\lnref{define} defines an array containing a set of per-thread counters of
+-type \co{long} named, creatively enough, \co{counter}.
++type \co{unsigned long} named, creatively enough, \co{counter}.
  
--Lines~3-6 show a function that increments the counters, using the
-+Lines~\lnref{inc:b}-\lnref{inc:e}
-+show a function that increments the counters, using the
- \co{__get_thread_var()} primitive to locate the currently running
- thread's element of the \co{counter} array.
- Because this element is modified only by the corresponding thread,
- non-atomic increment suffices.
- 
--Lines~8-16 show a function that reads out the aggregate value of the counter,
-+Lines~\lnref{read:b}-\lnref{read:e}
-+show a function that reads out the aggregate value of the counter,
+ Lines~\lnref{inc:b}-\lnref{inc:e}
+ show a function that increments the counters, using the
+@@ -501,7 +501,7 @@ show a function that reads out the aggregate value of the counter,
  using the \co{for_each_thread()} primitive to iterate over the list of
  currently running threads, and using the \co{per_thread()} primitive
  to fetch the specified thread's counter.
- Because the hardware can fetch and store a properly aligned \co{long}
+-Because the hardware can fetch and store a properly aligned \co{long}
++Because the hardware can fetch and store a properly aligned \co{unsigned long}
  atomically, and because \GCC\ is kind enough to make use of this capability,
  normal loads suffice, and no special atomic instructions are required.
-+\end{lineref}
- 
- \QuickQuiz{}
- 	What other choice does \GCC\ have, anyway???
+ \end{lineref}
 -- 
 2.7.4
+
 
