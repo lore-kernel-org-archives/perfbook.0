@@ -1,124 +1,255 @@
 Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=from:subject:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QghXQzaaQMs9ARN56yi+E2cd+RgieQSMVLPvsnoHCsg=;
- b=UmKaBw900UTt5ye1rdaYnDDA8owxZJ0pQfC29UMBZR/Wfd67KdLgBJYO/Hsw/ysX0p
- q4qVWqiBSuZe527ftQoyHX6f6rLQVhG+HVr+U35zEnKHHi22MxGSiKPj3kYDDamxXTRK
- pIcG2MsbrvwS6GDsYexnanNaauK1UQocOe3WE6ZxpHcEypLpQLWPDBZ6icO7nb8kujwX
- 7DZk0f3gcU7vv87YaROBabQX0NTb/kKLHQ/g6t4wxskeS2BNePE5wUk6UJyTJ59fKaj7
- l8FK97OBIK4iPskZQnfE0MBHSvFm5OlDS/eGnd0lpntzIMzy8jiCwozuco3v8FkFzI8i
- bxZg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=W3i7XjYMlF6SVNLPq92sU2UFF0hPNpMQV0byBzJtBdk=;
+        b=Ys62e2km+qidnBTCFWWNP7c3RDaqR25/PvNz369IHrVWXsXuZwFjt/yzynmjQKX+XL
+         2PNWtmCl9RdQ7NwiTAcO1OJBiSDmhwwlaUqfuruCw8I5L8Lj1+j3WWyO+elELxvHh7W3
+         JwLdpxF6yAnkFitB5Rbta2TNLRjgnMC4kgNRxPQskXYJ5JfimuKvtiT7knsfNoS/24X2
+         /Hv1JK7IvT+yFjEYdg6K/eKOzMUtUS2k2ejzkmPVRXihrCEOMM/0YzJ+Nm5eD/j+O18V
+         3U08iZ3yXRAKqLF2miG7rR1m9Qf9aIUZe0z3ZfjpzLqztQ75cag8b3IdkW+6VhlT/TUd
+         C5HA==
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: Fwd: Other architectures we can work on?
-References: 
- <CABoNC81BJOPV3oBQ-Q9m9-5VZAdWq0L_r+4m6Wv7QWuXQo1LnA@mail.gmail.com>
- <CABoNC82ftdi_Ki-zhwv2xC1HVC4=O-wGvF+wS+MSCEa8ETctXQ@mail.gmail.com>
- <20181001175117.GF4222@linux.ibm.com>
- <CABoNC81Lsi6sC8MCh2T0KrKnt+c1QAVNOm7+601GuRqd8OVopg@mail.gmail.com>
- <20181004153223.GE2674@linux.ibm.com>
-Message-ID: <e5aa1bad-33bb-6ba3-e183-039b4d3bfce8@gmail.com>
-Date: Sat, 6 Oct 2018 08:47:32 +0900
+Subject: [PATCH] count: Employ new scheme for snippet of count_stat_eventual.c
+Message-ID: <c89e5d7d-e0b4-6f4f-e986-1208f4c5ce8b@gmail.com>
+Date: Sat, 6 Oct 2018 07:35:42 +0900
 MIME-Version: 1.0
-In-Reply-To: <20181004153223.GE2674@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-To: Junchang Wang <junchangwang@gmail.com>
-Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2018/10/04 08:32:23 -0700, Paul E. McKenney wrote:
-> Hello, Junchang,
-> 
-> Glad it worked out for you!
-> 
-> Note that the DIY toolset (http://diy.inria.fr/) has things that
-> automatically exercise litmus tests on real hardware.  See the
-> CodeSamples/formal directory in the perfbook archive, and especially
-> its herd and litmus subdirectories, for some example uses.
-> (And kudos to Akira for setting this up!)
+From 16fb7e39700268cd498f88c16b34170e3b91fd24 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Thu, 6 Oct 2018 07:20:06 +0900
+Subject: [PATCH] count: Employ new scheme for snippet of count_stat_eventual.c
 
-Hi Junchang,
+Also omit READ_ONCE()s which access variables owned and modified
+only by the owning thread.
 
-At the time I worked in those subdirectories, "ocaml" 4.02.3 for
-powerpc was not capable of natively building DIY toolset.
+Read part of stopflag's increment in eventual() doesn't need
+READ_ONCE() because once the "if" statement stands, stopflag
+won't be modified by any other thread.
 
-Current version of ocaml can build the toolset, which means
-you can test litmus tests without cross compiling on powerpc.
+Also modify code around pthread_create() in count_init() so that
+the "if" statement won't be too wide for a code snippet in two-
+column layout.
 
-But the default target of Makefile under the "litmus" subdirectory
-assumes x86 architecture. For powerpc, you need to use the target
-"cross-pcc" even if you are on a powerpc platform.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Paul,
 
-One thing I'd like to advise you is that klitmus7 can generate
-kernel module sources which can deadlock. Such deadlock can be
-hard to escape on a remote virtual machine.
+I might be missing something in omitting READ_ONCE() of stopflag's
+increment in eventual().
+If this were kernel code, we wouldn't be able to make sure
+that eventual() is the only updater after the particular point in
+execution.
 
-herd7 doesn't detect deadlock condition. litmus7 runs litmus tests
-in userland, and it is easier to kill if deadlock happens. litmus7
-is much slower than klitmus7, but it can help in identifying
-possible deadlocks.
-
-Or by running a particular litmus test by klitmus7 on a host
-which can be easily reset if necessary, you can see if it can
-deadlock.
-
-NOTE: api.h in the subdirectory "litmus" predates the merge of
-tools/memoroy-model into Linux kernel, and covers limited subset
-of kernel API used there.
-
-Just out of curiosity, which distribution did you choose for
-your powerpc server?
+Thoughts?
 
         Thanks, Akira
+--
 
-> 
-> 						Thanx, Paul
-> 
-> On Thu, Oct 04, 2018 at 11:01:00PM +0800, Junchang Wang wrote:
->> Hi Paul,
->>
->> Thanks a lot! OSU has approved my application and provisioned a PPC
->> server for me. Now I can start testing code on PPC :-). For the ARM
->> server, the application is still in progress. I'll let you know if
->> there are any updates.
->>
->>
->> Thank!
->> --JunchangOn Tue, Oct 2, 2018 at 1:51 AM Paul E. McKenney
->> <paulmck@linux.ibm.com> wrote:
->>>
->>> On Mon, Oct 01, 2018 at 11:23:17AM +0800, Junchang Wang wrote:
->>>> Forward to list perfbook since the last mail was blocked due to the
->>>> non-plain-text issue.
->>>>
->>>>
->>>> Hi Paul and list,
->>>>
->>>> I'm again reading the excellent 15th chapter (Advanced
->>>> Synchronization), which helps me eventually understand how a
->>>> hardware/compiler can optimize--and hence ``break''-- my parallelized
->>>> code :-).
->>>>
->>>> I really want to get my hands dirty and to test my code and samples in
->>>> perfbook on real servers. However, all servers in my lab are x86. I
->>>> wonder if there is any chance that we can have access to architectures
->>>> other than x86 to test code. For example, are there any cloud service
->>>> that provides access to POWER or ARM architecture?
->>>
->>> For POWER access for academic or open-source projects, please see here:
->>>
->>> https://osuosl.org/services/powerdev/request_hosting/
->>>
->>> There are said to be similar services for ARM, for example:
->>>
->>> https://thenewstack.io/cncf-packet-team-provide-free-infrastructure-cloud-developers
->>>
->>> Please let me know how it goes!
->>>
->>>                                                         Thanx, Paul
->>>
->>
-> 
+ CodeSamples/count/count_stat_eventual.c | 38 +++++++++-------
+ count/count.tex                         | 81 +++++++--------------------------
+ 2 files changed, 37 insertions(+), 82 deletions(-)
+
+diff --git a/CodeSamples/count/count_stat_eventual.c b/CodeSamples/count/count_stat_eventual.c
+index 324bc24..fa8972f 100644
+--- a/CodeSamples/count/count_stat_eventual.c
++++ b/CodeSamples/count/count_stat_eventual.c
+@@ -21,22 +21,24 @@
+ 
+ #include "../api.h"
+ 
+-DEFINE_PER_THREAD(unsigned long, counter);
+-unsigned long global_count;
+-int stopflag;
++//\begin{snippet}[labelbase=ln:count:count_stat_eventual:whole,commandchars=\$\[\]]
++DEFINE_PER_THREAD(unsigned long, counter);		//\lnlbl{per_thr_cnt}
++unsigned long global_count;				//\lnlbl{glb_cnt}
++int stopflag;						//\lnlbl{stopflag}
+ 
+-void inc_count(void)
++static __inline__ void inc_count(void)			//\lnlbl{inc:b}
+ {
+-	WRITE_ONCE(__get_thread_var(counter),
+-		   READ_ONCE(__get_thread_var(counter)) + 1);
+-}
++	unsigned long *p_counter = &__get_thread_var(counter);
+ 
+-__inline__ unsigned long read_count(void)
++	WRITE_ONCE(*p_counter, *p_counter + 1);
++}							//\lnlbl{inc:e}
++
++static __inline__ unsigned long read_count(void)	//\lnlbl{read:b}
+ {
+ 	return READ_ONCE(global_count);
+-}
++}							//\lnlbl{read:e}
+ 
+-void *eventual(void *arg)
++void *eventual(void *arg)				//\lnlbl{eventual:b}
+ {
+ 	int t;
+ 	unsigned long sum;
+@@ -49,29 +51,31 @@ void *eventual(void *arg)
+ 		poll(NULL, 0, 1);
+ 		if (READ_ONCE(stopflag)) {
+ 			smp_mb();
+-			WRITE_ONCE(stopflag, READ_ONCE(stopflag) + 1);
++			WRITE_ONCE(stopflag, stopflag + 1);
+ 		}
+ 	}
+ 	return NULL;
+-}
++}							//\lnlbl{eventual:e}
+ 
+-void count_init(void)
++void count_init(void)					//\lnlbl{init:b}
+ {
+ 	int en;
+ 	thread_id_t tid;
+ 
+-	if ((en = pthread_create(&tid, NULL, eventual, NULL)) != 0) {
++	en = pthread_create(&tid, NULL, eventual, NULL);
++	if (en != 0) {
+ 		fprintf(stderr, "pthread_create: %s\n", strerror(en));
+ 		exit(EXIT_FAILURE);
+ 	}
+-}
++}							//\lnlbl{init:e}
+ 
+-void count_cleanup(void)
++void count_cleanup(void)				//\lnlbl{cleanup:b}
+ {
+ 	WRITE_ONCE(stopflag, 1);
+ 	while (READ_ONCE(stopflag) < 3)
+ 		poll(NULL, 0, 1);
+ 	smp_mb();
+-}
++}							//\lnlbl{cleanup:e}
++//\end{snippet}
+ 
+ #include "counttorture.h"
+diff --git a/count/count.tex b/count/count.tex
+index c36e7d8..aea7b93 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -785,94 +785,45 @@ converge on the true value---hence this approach qualifies as
+ eventually consistent.
+ 
+ \begin{listing}[tbp]
+-{ \scriptsize
+-\begin{verbbox}
+- 1 DEFINE_PER_THREAD(unsigned long, counter);
+- 2 unsigned long global_count;
+- 3 int stopflag;
+- 4
+- 5 void inc_count(void)
+- 6 {
+- 7   WRITE_ONCE(__get_thread_var(counter),
+- 8              READ_ONCE(__get_thread_var(counter)) + 1);
+- 9 }
+-10
+-11 unsigned long read_count(void)
+-12 {
+-13   return READ_ONCE(global_count);
+-14 }
+-15
+-16 void *eventual(void *arg)
+-17 {
+-18   int t;
+-19   unsigned long sum;
+-20
+-21   while (READ_ONCE(stopflag) < 3) {
+-22     sum = 0;
+-23     for_each_thread(t)
+-24       sum += READ_ONCE(per_thread(counter, t));
+-25     WRITE_ONCE(global_count, sum);
+-26     poll(NULL, 0, 1);
+-27     if (READ_ONCE(stopflag)) {
+-28       smp_mb();
+-29       WRITE_ONCE(stopflag, READ_ONCE(stopflag) + 1);
+-30     }
+-31   }
+-32   return NULL;
+-33 }
+-34
+-35 void count_init(void)
+-36 {
+-37   int en;
+-38   thread_id_t tid;
+-39
+-40   if ((en = pthread_create(&tid, NULL, eventual, NULL)) != 0) {
+-41     fprintf(stderr, "pthread_create: %s\n", strerror(en));
+-42     exit(-1);
+-43   }
+-44 }
+-45
+-46 void count_cleanup(void)
+-47 {
+-48   WRITE_ONCE(stopflag, 1);
+-49   while (READ_ONCE(stopflag) < 3)
+-50     poll(NULL, 0, 1);
+-51   smp_mb();
+-52 }
+-\end{verbbox}
+-}
+-\centering
+-\theverbbox
++\input{CodeSamples/count/count_stat_eventual@whole.fcv}
+ \caption{Array-Based Per-Thread Eventually Consistent Counters}
+ \label{lst:count:Array-Based Per-Thread Eventually Consistent Counters}
+ \end{listing}
+ 
++\begin{lineref}[ln:count:count_stat_eventual:whole]
+ The implementation is shown in
+ Listing~\ref{lst:count:Array-Based Per-Thread Eventually Consistent Counters}
+ (\path{count_stat_eventual.c}).
+-Lines~1-2 show the per-thread variable and the global variable that
+-track the counter's value, and line three shows \co{stopflag}
++Lines~\lnref{per_thr_cnt}-\lnref{glb_cnt}
++show the per-thread variable and the global variable that
++track the counter's value, and line~\lnref{stopflag} shows \co{stopflag}
+ which is used to coordinate termination (for the case where we want
+ to terminate the program with an accurate counter value).
+-The \co{inc_count()} function shown on lines~5-9 is similar to its
++The \co{inc_count()} function shown on
++lines~\lnref{inc:b}-\lnref{inc:e} is similar to its
+ counterpart in
+ Listing~\ref{lst:count:Array-Based Per-Thread Statistical Counters}.
+-The \co{read_count()} function shown on lines~11-14 simply returns the
++The \co{read_count()} function shown on
++lines~\lnref{read:b}-\lnref{read:e} simply returns the
+ value of the \co{global_count} variable.
+ 
+-However, the \co{count_init()} function on lines~35-44
+-creates the \co{eventual()} thread shown on lines~16-33, which
++However, the \co{count_init()} function on
++lines~\lnref{init:b}-\lnref{init:e}
++creates the \co{eventual()} thread shown on
++lines~\lnref{eventual:b}-\lnref{eventual:e}, which
+ cycles through all the threads,
+ summing the per-thread local \co{counter} and storing the
+ sum to the \co{global_count} variable.
+ The \co{eventual()} thread waits an arbitrarily chosen one millisecond
+ between passes.
+-The \co{count_cleanup()} function on lines~46-52 coordinates termination.
++The \co{count_cleanup()} function on
++lines~\lnref{cleanup:b}-\lnref{cleanup:e} coordinates termination.
+ 
+ This approach gives extremely fast counter read-out while still
+ supporting linear counter-update performance.
+ However, this excellent read-side performance and update-side scalability
+ comes at the cost of the additional thread running \co{eventual()}.
++\end{lineref}
+ 
+ \QuickQuiz{}
+ 	Why doesn't \co{inc_count()} in
+-- 
+2.7.4
 
