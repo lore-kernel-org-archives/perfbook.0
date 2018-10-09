@@ -1,60 +1,72 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=WY5D8CMCGpUsfxCQ1n34u41w9yP1VmNnw24H3U3IgRc=;
-        b=Unp1KHOXDVUB/DGXC63UVLBY55Z4foWs73GD6R8AugEl8yalpuATc66wpcFT/tXq57
-         M4sNhSdQg6EHspVN5cvCSSlowQO1lkEvD7vqXv0zupneu6VOpZBtpwHa05dcD2Harq71
-         QiuEvIwr33AmGU0jYMJzxVyONUEFr8Wx475Jw6zgkxSLi3NBdzz2GH69Q2ZAzYwJ6ndd
-         HxNFKc9n/KA0doDt9FyJkYKNI2wNuofw4ZTifYOE6SwXoMwvE1SrjWUpII2buwnVqq45
-         VyFxlwlBdg8avJ7VojQesDYEXDrOV40iXfphbiyEeVmrvy0Gd6YI5W1Q0KVen0XyNhYw
-         0uKQ==
-Subject: [PATCH 6/5] count: Fix typo (\lnlbl{} -> \lnref{})
+Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37100 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725759AbeJILJY (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 9 Oct 2018 07:09:24 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w993sVhF118362
+        for <perfbook@vger.kernel.org>; Mon, 8 Oct 2018 23:54:31 -0400
+Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2n0m0d1h5k-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <perfbook@vger.kernel.org>; Mon, 08 Oct 2018 23:54:31 -0400
+Received: from localhost
+        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Mon, 8 Oct 2018 23:54:31 -0400
+Date: Mon, 8 Oct 2018 20:54:27 -0700
+From: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: [PATCH 0/5] count: Employ new code-snippet scheme (cont.)
+Reply-To: paulmck@linux.ibm.com
 References: <9c31cb06-b79f-3b9c-e86a-68fb3840f688@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <358bdd72-581f-e9cc-4277-a48f606caeea@gmail.com>
-Date: Mon, 8 Oct 2018 23:02:46 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <9c31cb06-b79f-3b9c-e86a-68fb3840f688@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20181009035427.GH2674@linux.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 6cd4d087e034532c228589aa82b287233e45ccf8 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 8 Oct 2018 21:44:10 +0900
-Subject: [PATCH 6/5] count: Fix typo (\lnlbl{} -> \lnref{})
+On Mon, Oct 08, 2018 at 10:40:51AM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> This is the continuation of changes to snippets in the "count"
+> chapter.
+> 
+> To help your review of the changes regarding READ_ONCE()/WRITE_ONCE(),
+> I split the patches to the ones just applying the scheme and
+> the ones modifying READ_ONCE()/WRITE_ONCE().
+> 
+> Note on patch #3: It fixes the segfault observed in count_tstat.
+> However, I'm not sure if you want to take it or not. The fail can
+> be thought of as a Quick Quiz within the Answer to the Quick Quiz.
+> So keeping it as is would also be reasonable.
+> 
+>         Thanks, Akira
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-Paul,
+They look good at first glance, so I have queued and pushed them.
+Thank you very much!
 
-This fixes a couple of typo in "[PATCH 4/5] count: Employ new scheme for
-snippet of count_lim".
+							Thanx, Paul
 
-        Thanks, Akira
---
- count/count.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/count/count.tex b/count/count.tex
-index db2107e..f8c68a4 100644
---- a/count/count.tex
-+++ b/count/count.tex
-@@ -1482,7 +1482,7 @@ These lines form \co{sub_count()}'s fastpath, and, as with
- 
- If the fastpath cannot accommodate subtraction of \co{delta},
- execution proceeds to the slowpath on
--lines~\lnlbl{acquire}-\lnlbl{return:gs}.
-+lines~\lnref{acquire}-\lnref{return:gs}.
- Because the slowpath must access global state, line~\lnref{acquire}
- acquires \co{gblcnt_mutex}, which is released either by line~\lnref{release:f}
- (in case of failure) or by line~\lnref{release:s} (in case of success).
--- 
-2.7.4
-
+> --
+> Akira Yokosawa (5):
+>   count: Employ new scheme for snippet of count_end and count_tstat
+>   count: Fix uses of READ/WRITE_ONCE()s in count_end and count_tstat
+>   count: Tweak counttorture.h to avoid segfault
+>   count: Employ new scheme for snippet of count_lim
+>   count: Fix uses of READ/WRITE_ONCE() in count_lim
+> 
+>  CodeSamples/count/count_end.c    |  53 ++---
+>  CodeSamples/count/count_lim.c    | 147 +++++++------
+>  CodeSamples/count/count_tstat.c  |  27 +--
+>  CodeSamples/count/counttorture.h |  21 +-
+>  count/count.tex                  | 437 +++++++++++++--------------------------
+>  5 files changed, 287 insertions(+), 398 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
