@@ -1,72 +1,59 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37100 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725759AbeJILJY (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 9 Oct 2018 07:09:24 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w993sVhF118362
-        for <perfbook@vger.kernel.org>; Mon, 8 Oct 2018 23:54:31 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2n0m0d1h5k-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Mon, 08 Oct 2018 23:54:31 -0400
-Received: from localhost
-        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Mon, 8 Oct 2018 23:54:31 -0400
-Date: Mon, 8 Oct 2018 20:54:27 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH 0/5] count: Employ new code-snippet scheme (cont.)
-Reply-To: paulmck@linux.ibm.com
-References: <9c31cb06-b79f-3b9c-e86a-68fb3840f688@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=nbgbVklHXl5tNsmONCe3PW21T7bTS2kz3yTgF5MiKZc=;
+        b=nvbHKcgtgwga80fia8K5BgpmVhfGvWKXB6mb5zqgagdOi/vhOgmxt6N3x/KXlEWkhz
+         tahh1faqoiYeWvOWr4+Yhpp44EqFSMH12PbaJNNH2ZNJw3f9JATy8N9PEor+VHmmCyPK
+         b3luwb6DYPmAoHcDmrc6ZPzZqjwkACVVbZ3IZtrgEldh7xvot+S/6jH8euqLCFLPCVth
+         ZX5H+nv0PyWOXj8B+7lH8iFpJXOxAvww2SLLBezTjodyi+VCYXReKwt9UDKVcPCBQCLj
+         yHNJmclYRaUX+cgOhiwF4yI9mYWM/wtxqWPtNSdDuW3jGFxhKFtIefMFPg22qkC61z6O
+         0l7g==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/6] count: Employ new code-snippet scheme (cont.)
+Message-ID: <a20c67f0-db94-7e03-ed69-d09fd51899dd@gmail.com>
+Date: Sat, 13 Oct 2018 23:52:50 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9c31cb06-b79f-3b9c-e86a-68fb3840f688@gmail.com>
-Message-Id: <20181009035427.GH2674@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Oct 08, 2018 at 10:40:51AM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> This is the continuation of changes to snippets in the "count"
-> chapter.
-> 
-> To help your review of the changes regarding READ_ONCE()/WRITE_ONCE(),
-> I split the patches to the ones just applying the scheme and
-> the ones modifying READ_ONCE()/WRITE_ONCE().
-> 
-> Note on patch #3: It fixes the segfault observed in count_tstat.
-> However, I'm not sure if you want to take it or not. The fail can
-> be thought of as a Quick Quiz within the Answer to the Quick Quiz.
-> So keeping it as is would also be reasonable.
-> 
->         Thanks, Akira
+Hi Paul,
 
-They look good at first glance, so I have queued and pushed them.
-Thank you very much!
+count_lim_sig.c was a hard one to review for me regarding the usage
+of READ_ONCE()/WRITE_ONCE(). Patch #5 is my attempt to add several
+of them. There might be other combination of racy accesses.
 
-							Thanx, Paul
+Patches #1--#4 are trivial ones.
 
-> --
-> Akira Yokosawa (5):
->   count: Employ new scheme for snippet of count_end and count_tstat
->   count: Fix uses of READ/WRITE_ONCE()s in count_end and count_tstat
->   count: Tweak counttorture.h to avoid segfault
->   count: Employ new scheme for snippet of count_lim
->   count: Fix uses of READ/WRITE_ONCE() in count_lim
-> 
->  CodeSamples/count/count_end.c    |  53 ++---
->  CodeSamples/count/count_lim.c    | 147 +++++++------
->  CodeSamples/count/count_tstat.c  |  27 +--
->  CodeSamples/count/counttorture.h |  21 +-
->  count/count.tex                  | 437 +++++++++++++--------------------------
->  5 files changed, 287 insertions(+), 398 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
+Patch #6 is the result of quick review of your recent addition to
+toolsoftrade.  I'm not sure you like the addition of comments
+"/* BUGGY!!! */" to Lisitngs which look irrelevant to their
+captions.
+
+Patches #5 and #6 are more likely to need your close look.
+
+        Thanks, Akira
+--
+Akira Yokosawa (6):
+  count: Employ new scheme for snippet of count_lim_app
+  count: Fix uses of READ/WRITE_ONCE() in count_lim_app
+  count: Employ new scheme for snippet of count_lim_atomic
+  count: Employ new scheme for snippet of count_lim_sig
+  count: READ/WRITE_ONCE() tweaks for count_lim_sig
+  toolsoftrade: Proofread newly added sections
+
+ CodeSamples/count/count_lim_app.c    |  17 +-
+ CodeSamples/count/count_lim_atomic.c | 209 ++++----
+ CodeSamples/count/count_lim_sig.c    | 159 ++++---
+ count/count.tex                      | 892 ++++++++++-------------------------
+ toolsoftrade/toolsoftrade.tex        |  44 +-
+ 5 files changed, 494 insertions(+), 827 deletions(-)
+
+-- 
+2.7.4
 
