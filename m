@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Dr+A/XU++nrWvGP1HQJrw9WS8/gaoTkKunzJSOgDruk=;
-        b=uym7kWUgMLdwcmJSdK8YqPGCjSIiT7HIzCDDSdAJ9QUWDhecCSjHk3GNiSsvA7+9m+
-         wZbkmDfvxSEfsI0y8occrML4WRhPWqkDkAXGrgG/J/Zu8fPD9BFLh4uHndKNX8Vy4nbh
-         YrXO4LVJQ5fmHerwxh70+OHvVH157Dh0dUQ5K8RqgXZFjCpJ9Svi1650wpPkGhQG2wBz
-         LUjEVIYDKsxjLvmfLxcu7mP63sAqA+XcNbVsPkv0gTr81gQ5UVCYnLgiXK9KvjrRE6MN
-         Iw9IgtO1a6WnfQsNGxSmILyXDkiNV/m5AJ4g+qwhoQIp/mAKow3ply+77/QTVEojSRW/
-         Wxaw==
-Subject: [PATCH 3/6] count: Employ new scheme for snippet of count_lim_atomic
+        bh=7IDRuW2RXJ7NuqFWu+B9kKBk1Ugg2ZoTUmviN89tT9M=;
+        b=F419YuOwPIXzTsNQLnlVWd2/IxtrXGFLDRDOWEZ1hSZ7bYICqSKYIRHtTeNxdoXnxq
+         BZaOwe2dszQciPiFzEvwgx6qd2EnT33SzPGUC/CHaF+W9NhaFKIBDlb/91aqO54zLwM7
+         jasqSg9ThXW1uOcLj9VDkPwTOSrv59SkTFYYKvoZS5lgnteSPTybxfAbUVR7nswPtSeD
+         3m7i+sY/mJywMtp85Bh3aPckbCz4YMcBpyiLvTun1CBx1aM6MvDN8u5N/6w8PH+/1yCf
+         G7SJp///AfOwivDCETa/A/cbX+PVedyh5t5wYv9O3wkl02F9iE6niJTc/qE0uzEVJWjC
+         Lvdw==
+Subject: [PATCH 4/6] count: Employ new scheme for snippet of count_lim_sig
 References: <a20c67f0-db94-7e03-ed69-d09fd51899dd@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <eb1a1ce4-ae1e-8416-0290-af018cdfcec6@gmail.com>
-Date: Sat, 13 Oct 2018 23:56:04 +0900
+Message-ID: <0b08d321-5a04-5db7-5f72-06ad4b2aac90@gmail.com>
+Date: Sat, 13 Oct 2018 23:56:50 +0900
 MIME-Version: 1.0
 In-Reply-To: <a20c67f0-db94-7e03-ed69-d09fd51899dd@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,316 +24,250 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 95838d3aa0446586b7e7ef84b942e2a51a3daa88 Mon Sep 17 00:00:00 2001
+From 3db4be0993d4c955dfed6a625c622c33b52bf2a5 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 8 Oct 2018 19:45:06 +0900
-Subject: [PATCH 3/6] count: Employ new scheme for snippet of count_lim_atomic
+Date: Tue, 9 Oct 2018 01:45:32 +0900
+Subject: [PATCH 4/6] count: Employ new scheme for snippet of count_lim_sig
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/count/count_lim_atomic.c | 209 ++++++++--------
- count/count.tex                      | 457 ++++++++++++-----------------------
- 2 files changed, 265 insertions(+), 401 deletions(-)
+ CodeSamples/count/count_lim_sig.c | 148 +++++++-------
+ count/count.tex                   | 395 ++++++++++----------------------------
+ 2 files changed, 184 insertions(+), 359 deletions(-)
 
-diff --git a/CodeSamples/count/count_lim_atomic.c b/CodeSamples/count/count_lim_atomic.c
-index 491d700..6190a9f 100644
---- a/CodeSamples/count/count_lim_atomic.c
-+++ b/CodeSamples/count/count_lim_atomic.c
-@@ -21,51 +21,58 @@
- 
+diff --git a/CodeSamples/count/count_lim_sig.c b/CodeSamples/count/count_lim_sig.c
+index 5eae9ba..f22bfef 100644
+--- a/CodeSamples/count/count_lim_sig.c
++++ b/CodeSamples/count/count_lim_sig.c
+@@ -22,77 +22,81 @@
  #include "../api.h"
+ #include <signal.h>
  
--atomic_t __thread counterandmax = ATOMIC_INIT(0);
--unsigned long globalcountmax = 1 << 25;
-+static void balance_count(void);
-+
-+//\begin{snippet}[labelbase=ln:count:count_lim_atomic:var_access,commandchars=\\\@\$]
-+atomic_t __thread counterandmax = ATOMIC_INIT(0);	//\lnlbl{var:candmax}
-+unsigned long globalcountmax = 1 << 25;			//\lnlbl{var:def:b}
+-#define THEFT_IDLE	0
+-#define THEFT_REQ	1
+-#define	THEFT_ACK	2
+-#define THEFT_READY	3
++//\begin{snippet}[labelbase=ln:count:count_lim_sig:data,commandchars=\\\@\$]
++#define THEFT_IDLE   0					//\lnlbl{value:b}
++#define THEFT_REQ    1
++#define	THEFT_ACK    2
++#define THEFT_READY  3
+ 
+ int __thread theft = THEFT_IDLE;
+-int __thread counting = 0;
+-unsigned long __thread counter = 0;
++int __thread counting = 0;				//\lnlbl{value:e}
++unsigned long __thread counter = 0;			//\lnlbl{var:b}
+ unsigned long __thread countermax = 0;
+ unsigned long globalcountmax = 10000;
  unsigned long globalcount = 0;
  unsigned long globalreserve = 0;
- atomic_t *counterp[NR_THREADS] = { NULL };
--DEFINE_SPINLOCK(gblcnt_mutex);
--#define CM_BITS (sizeof(atomic_t) * 4)
--#define MAX_COUNTERMAX ((1 << CM_BITS) - 1)
-+DEFINE_SPINLOCK(gblcnt_mutex);				//\lnlbl{var:def:e}
-+#define CM_BITS (sizeof(atomic_t) * 4)			//\lnlbl{var:CM_BITS}
-+#define MAX_COUNTERMAX ((1 << CM_BITS) - 1)		//\lnlbl{var:MAX_CMAX}
- 
--static void split_counterandmax_int(int cami, int *c, int *cm)
-+static __inline__ void					//\lnlbl{split_int:b}
-+split_counterandmax_int(int cami, int *c, int *cm)
- {
--	*c = (cami >> CM_BITS) & MAX_COUNTERMAX;
--	*cm = cami & MAX_COUNTERMAX;
--}
-+	*c = (cami >> CM_BITS) & MAX_COUNTERMAX;	//\lnlbl{split_int:msh}
-+	*cm = cami & MAX_COUNTERMAX;			//\lnlbl{split_int:lsh}
-+}							//\lnlbl{split_int:e}
- 
--static void split_counterandmax(atomic_t *cam, int *old, int *c, int *cm)
-+static __inline__ void					//\lnlbl{split:b}
-+split_counterandmax(atomic_t *cam, int *old, int *c, int *cm)//\lnlbl{split:func}
- {
--	unsigned int cami = atomic_read(cam);
-+	unsigned int cami = atomic_read(cam);		//\lnlbl{split:int}
- 
--	*old = cami;
--	split_counterandmax_int(cami, c, cm);
--}
-+	*old = cami;					//\lnlbl{split:old}
-+	split_counterandmax_int(cami, c, cm);		//\lnlbl{split:split_int}
-+}							//\lnlbl{split:e}
- 
--static int merge_counterandmax(int c, int cm)
-+static __inline__ int merge_counterandmax(int c, int cm)//\lnlbl{merge:b}
- {
- 	unsigned int cami;
- 
--	cami = (c << CM_BITS) | cm;
-+	cami = (c << CM_BITS) | cm;			//\lnlbl{merge:merge}
- 	return ((int)cami);
--}
-+}							//\lnlbl{merge:e}
+ unsigned long *counterp[NR_THREADS] = { NULL };
+-unsigned long *countermaxp[NR_THREADS] = { NULL };
+-int *theftp[NR_THREADS] = { NULL };
++unsigned long *countermaxp[NR_THREADS] = { NULL };	//\lnlbl{maxp}
++int *theftp[NR_THREADS] = { NULL };			//\lnlbl{theftp}
+ DEFINE_SPINLOCK(gblcnt_mutex);
+-#define MAX_COUNTERMAX 100
++#define MAX_COUNTERMAX 100				//\lnlbl{var:e}
 +//\end{snippet}
  
 -static void globalize_count(void)
-+//\begin{snippet}[labelbase=ln:count:count_lim_atomic:utility1,commandchars=\\\@\$]
-+static void globalize_count(void)			//\lnlbl{globalize:b}
++//\begin{snippet}[labelbase=ln:count:count_lim_sig:migration,commandchars=\\\@\$]
++static void globalize_count(void)		//\lnlbl{globalize:b}
  {
- 	int c;
- 	int cm;
- 	int old;
- 
--	split_counterandmax(&counterandmax, &old, &c, &cm);
-+	split_counterandmax(&counterandmax, &old, &c, &cm);//\lnlbl{globalize:split}
- 	globalcount += c;
- 	globalreserve -= cm;
- 	old = merge_counterandmax(0, 0);
- 	atomic_set(&counterandmax, old);
+ 	globalcount += counter;
+ 	counter = 0;
+ 	globalreserve -= countermax;
+ 	countermax = 0;
 -}
-+}							//\lnlbl{globalize:e}
++}						//\lnlbl{globalize:e}
+ 
+-static void flush_local_count_sig(int unused)
++static void flush_local_count_sig(int unused)	//\lnlbl{flush_sig:b}
+ {
+-	if (READ_ONCE(theft) != THEFT_REQ)
+-		return;
+-	smp_mb();
+-	WRITE_ONCE(theft, THEFT_ACK);
+-	if (!counting) {
+-		WRITE_ONCE(theft, THEFT_READY);
++	if (READ_ONCE(theft) != THEFT_REQ)	//\lnlbl{flush_sig:check:REQ}
++		return;				//\lnlbl{flush_sig:return:n}
++	smp_mb();				//\lnlbl{flush_sig:mb:1}
++	WRITE_ONCE(theft, THEFT_ACK);		//\lnlbl{flush_sig:set:ACK}
++	if (!counting) {			//\lnlbl{flush_sig:check:fast}
++		WRITE_ONCE(theft, THEFT_READY);	//\lnlbl{flush_sig:set:READY}
+ 	}
+ 	smp_mb();
+-}
++}						//\lnlbl{flush_sig:e}
  
 -static void flush_local_count(void)
 +static void flush_local_count(void)			//\lnlbl{flush:b}
  {
- 	int c;
- 	int cm;
-@@ -73,85 +80,69 @@ static void flush_local_count(void)
  	int t;
- 	int zero;
+ 	thread_id_t tid;
  
--	if (globalreserve == 0)
--		return;
--	zero = merge_counterandmax(0, 0);
--	for_each_thread(t)
--		if (counterp[t] != NULL) {
--			old = atomic_xchg(counterp[t], zero);
--			split_counterandmax_int(old, &c, &cm);
--			globalcount += c;
--			globalreserve -= cm;
+-	for_each_tid(t, tid)
+-		if (theftp[t] != NULL) {
+-			if (*countermaxp[t] == 0) {
+-				WRITE_ONCE(*theftp[t], THEFT_READY);
+-				continue;
++	for_each_tid(t, tid)				//\lnlbl{flush:loop:b}
++		if (theftp[t] != NULL) {		//\lnlbl{flush:skip}
++			if (*countermaxp[t] == 0) {	//\lnlbl{flush:checkmax}
++				WRITE_ONCE(*theftp[t], THEFT_READY);//\lnlbl{flush:READY}
++				continue;		//\lnlbl{flush:next}
+ 			}
+-			WRITE_ONCE(*theftp[t], THEFT_REQ);
+-			pthread_kill(tid, SIGUSR1);
 -		}
--}
--
--static void balance_count(void)
--{
--	int c;
--	int cm;
--	int old;
--	unsigned long limit;
--
--	limit = globalcountmax - globalcount - globalreserve;
--	limit /= num_online_threads();
--	if (limit > MAX_COUNTERMAX)
--		cm = MAX_COUNTERMAX;
--	else
--		cm = limit;
--	globalreserve += cm;
--	c = cm / 2;
--	if (c > globalcount)
--		c = globalcount;
--	globalcount -= c;
--	old = merge_counterandmax(c, cm);
--	atomic_set(&counterandmax, old);
--}
--
--int add_count(unsigned long delta)
-+	if (globalreserve == 0)				//\lnlbl{flush:checkrsv}
-+		return;					//\lnlbl{flush:return:n}
-+	zero = merge_counterandmax(0, 0);		//\lnlbl{flush:initzero}
-+	for_each_thread(t)				//\lnlbl{flush:loop:b}
-+		if (counterp[t] != NULL) {		//\lnlbl{flush:checkp}
-+			old = atomic_xchg(counterp[t], zero);//\lnlbl{flush:atmxchg}
-+			split_counterandmax_int(old, &c, &cm);//\lnlbl{flush:split}
-+			globalcount += c;		//\lnlbl{flush:glbcnt}
-+			globalreserve -= cm;		//\lnlbl{flush:glbrsv}
+-	for_each_tid(t, tid) {
+-		if (theftp[t] == NULL)
+-			continue;
+-		while (READ_ONCE(*theftp[t]) != THEFT_READY) {
+-			poll(NULL, 0, 1);
+-			if (READ_ONCE(*theftp[t]) == THEFT_REQ)
+-				pthread_kill(tid, SIGUSR1);
+-		}
+-		globalcount += *counterp[t];
++			WRITE_ONCE(*theftp[t], THEFT_REQ);//\lnlbl{flush:REQ}
++			pthread_kill(tid, SIGUSR1);	//\lnlbl{flush:signal}
 +		}					//\lnlbl{flush:loop:e}
++	for_each_tid(t, tid) {				//\lnlbl{flush:loop2:b}
++		if (theftp[t] == NULL)			//\lnlbl{flush:skip:nonexist}
++			continue;			//\lnlbl{flush:next2}
++		while (READ_ONCE(*theftp[t]) != THEFT_READY) {//\lnlbl{flush:loop3:b}
++			poll(NULL, 0, 1);		//\lnlbl{flush:block}
++			if (READ_ONCE(*theftp[t]) == THEFT_REQ)//\lnlbl{flush:check:REQ}
++				pthread_kill(tid, SIGUSR1);//\lnlbl{flush:signal2}
++		}					//\lnlbl{flush:loop3:e}
++		globalcount += *counterp[t];		//\lnlbl{flush:thiev:b}
+ 		*counterp[t] = 0;
+ 		globalreserve -= *countermaxp[t];
+-		*countermaxp[t] = 0;
+-		WRITE_ONCE(*theftp[t], THEFT_IDLE);
+-	}
+-}
++		*countermaxp[t] = 0;			//\lnlbl{flush:thiev:e}
++		WRITE_ONCE(*theftp[t], THEFT_IDLE);	//\lnlbl{flush:IDLE}
++	}						//\lnlbl{flush:loop2:e}
 +}							//\lnlbl{flush:e}
-+//\end{snippet}
-+
-+//\begin{snippet}[labelbase=ln:count:count_lim_atomic:add_sub,commandchars=\\\@\$]
-+int add_count(unsigned long delta)			//\lnlbl{add:b}
- {
- 	int c;
- 	int cm;
- 	int old;
- 	int new;
  
--	do {
--		split_counterandmax(&counterandmax, &old, &c, &cm);
--		if (delta > MAX_COUNTERMAX || c + delta > cm)
--			goto slowpath;
--		new = merge_counterandmax(c + delta, cm);
--	} while (atomic_cmpxchg(&counterandmax, old, new) != old);
--	return 1;
--slowpath:
+-static void balance_count(void)
++static void balance_count(void)				//\lnlbl{balance:b}
+ {
+-	countermax = globalcountmax - globalcount - globalreserve;
++	countermax = globalcountmax - globalcount -
++	             globalreserve;
+ 	countermax /= num_online_threads();
+ 	if (countermax > MAX_COUNTERMAX)
+ 		countermax = MAX_COUNTERMAX;
+@@ -101,42 +105,49 @@ static void balance_count(void)
+ 	if (counter > globalcount)
+ 		counter = globalcount;
+ 	globalcount -= counter;
+-}
++}							//\lnlbl{balance:e}
++//\end{snippet}
+ 
+-int add_count(unsigned long delta)
++//\begin{snippet}[labelbase=ln:count:count_lim_sig:add,commandchars=\\\@\$]
++int add_count(unsigned long delta)			//\lnlbl{b}
+ {
+ 	int fastpath = 0;
+ 
+-	counting = 1;
+-	barrier();
+-	if (countermax - counter >= delta && READ_ONCE(theft) <= THEFT_REQ) {
+-		counter += delta;
+-		fastpath = 1;
++	counting = 1;					//\lnlbl{fast:b}
++	barrier();					//\lnlbl{barrier:1}
++	if (countermax - counter >= delta &&		//\lnlbl{check:b}
++	    READ_ONCE(theft) <= THEFT_REQ) {		//\lnlbl{check:e}
++		counter += delta;			//\lnlbl{add:f}
++		fastpath = 1;				//\lnlbl{fasttaken}
+ 	}
+-	barrier();
+-	counting = 0;
+-	barrier();
+-	if (READ_ONCE(theft) == THEFT_ACK) {
+-		smp_mb();
+-		WRITE_ONCE(theft, THEFT_READY);
++	barrier();					//\lnlbl{barrier:2}
++	counting = 0;					//\lnlbl{clearcnt}
++	barrier();					//\lnlbl{barrier:3}
++	if (READ_ONCE(theft) == THEFT_ACK) {		//\lnlbl{check:ACK}
++		smp_mb();				//\lnlbl{mb}
++		WRITE_ONCE(theft, THEFT_READY);		//\lnlbl{READY}
+ 	}
+ 	if (fastpath)
+-		return 1;
 -	spin_lock(&gblcnt_mutex);
--	globalize_count();
++		return 1;				//\lnlbl{return:fs}
++	spin_lock(&gblcnt_mutex);			//\lnlbl{acquire}
+ 	globalize_count();
 -	if (globalcountmax - globalcount - globalreserve < delta) {
--		flush_local_count();
++	if (globalcountmax - globalcount -
++	    globalreserve < delta) {
+ 		flush_local_count();
 -		if (globalcountmax - globalcount - globalreserve < delta) {
 -			spin_unlock(&gblcnt_mutex);
 -			return 0;
-+	do {						//\lnlbl{add:fast:b}
-+		split_counterandmax(&counterandmax, &old, &c, &cm);//\lnlbl{add:split}
-+		if (delta > MAX_COUNTERMAX || c + delta > cm)//\lnlbl{add:check}
-+			goto slowpath;			//\lnlbl{add:goto}
-+		new = merge_counterandmax(c + delta, cm);//\lnlbl{add:merge}
-+	} while (atomic_cmpxchg(&counterandmax,		//\lnlbl{add:atmcmpex}
-+	                        old, new) != old);	//\lnlbl{add:loop:e}
-+	return 1;					//\lnlbl{add:return:fs}
-+slowpath:						//\lnlbl{add:slow:b}
-+	spin_lock(&gblcnt_mutex);			//\lnlbl{add:acquire}
-+	globalize_count();				//\lnlbl{add:globalize}
-+	if (globalcountmax - globalcount -		//\lnlbl{add:checkglb:b}
-+	    globalreserve < delta) {			//\lnlbl{add:checkglb:e}
-+		flush_local_count();			//\lnlbl{add:flush}
-+		if (globalcountmax - globalcount -	//\lnlbl{add:checkglb:nb}
-+		    globalreserve < delta) {		//\lnlbl{add:checkglb:ne}
-+			spin_unlock(&gblcnt_mutex);	//\lnlbl{add:release:f}
-+			return 0;			//\lnlbl{add:return:sf}
++		if (globalcountmax - globalcount -
++		    globalreserve < delta) {
++			spin_unlock(&gblcnt_mutex);	//\lnlbl{release:f}
++			return 0;			//\lnlbl{return:sf}
  		}
  	}
--	globalcount += delta;
--	balance_count();
--	spin_unlock(&gblcnt_mutex);
--	return 1;
--}
-+	globalcount += delta;				//\lnlbl{add:addglb}
-+	balance_count();				//\lnlbl{add:balance}
-+	spin_unlock(&gblcnt_mutex);			//\lnlbl{add:release:s}
-+	return 1;					//\lnlbl{add:return:ss}
-+}							//\lnlbl{add:e}
- 
--int sub_count(unsigned long delta)
-+int sub_count(unsigned long delta)			//\lnlbl{sub:b}
- {
- 	int c;
- 	int cm;
- 	int old;
- 	int new;
- 
--	do {
-+	do {						//\lnlbl{sub:fast:b}
- 		split_counterandmax(&counterandmax, &old, &c, &cm);
- 		if (delta > c)
--			goto slowpath;
-+		  goto slowpath;
- 		new = merge_counterandmax(c - delta, cm);
--	} while (atomic_cmpxchg(&counterandmax, old, new) != old);
--	return 1;
--slowpath:
-+	} while (atomic_cmpxchg(&counterandmax,
-+	                        old, new) != old);
-+	return 1;					//\lnlbl{sub:fast:e}
-+ slowpath:						//\lnlbl{sub:slow:b}
- 	spin_lock(&gblcnt_mutex);
- 	globalize_count();
- 	if (globalcount < delta) {
-@@ -164,10 +155,12 @@ slowpath:
- 	globalcount -= delta;
+ 	globalcount += delta;
  	balance_count();
  	spin_unlock(&gblcnt_mutex);
 -	return 1;
 -}
-+	return 1;					//\lnlbl{sub:slow:e}
-+}							//\lnlbl{sub:e}
-+//\end{snippet}
- 
--unsigned long read_count(void)
-+//\begin{snippet}[labelbase=ln:count:count_lim_atomic:read,commandchars=\\\@\$]
-+unsigned long read_count(void)				//\lnlbl{b}
- {
- 	int c;
- 	int cm;
-@@ -175,22 +168,47 @@ unsigned long read_count(void)
- 	int t;
- 	unsigned long sum;
- 
--	spin_lock(&gblcnt_mutex);
--	sum = globalcount;
--	for_each_thread(t)
-+	spin_lock(&gblcnt_mutex);			//\lnlbl{acquire}
-+	sum = globalcount;				//\lnlbl{initsum}
-+	for_each_thread(t)				//\lnlbl{loop:b}
- 		if (counterp[t] != NULL) {
--			split_counterandmax(counterp[t], &old, &c, &cm);
-+			split_counterandmax(counterp[t], &old, &c, &cm);//\lnlbl{split}
- 			sum += c;
--		}
--	spin_unlock(&gblcnt_mutex);
--	return sum;
--}
-+		}					//\lnlbl{loop:e}
-+	spin_unlock(&gblcnt_mutex);			//\lnlbl{release}
-+	return sum;					//\lnlbl{return}
++	return 1;					//\lnlbl{return:ss}
 +}							//\lnlbl{e}
 +//\end{snippet}
  
- void count_init(void)
++//\begin{snippet}[labelbase=ln:count:count_lim_sig:sub,commandchars=\\\@\$]
+ int sub_count(unsigned long delta)
  {
- }
- 
--void count_register_thread(void)
-+//\begin{snippet}[labelbase=ln:count:count_lim_atomic:utility2,commandchars=\\\@\$]
-+static void balance_count(void)				//\lnlbl{balance:b}
-+{
-+	int c;
-+	int cm;
-+	int old;
-+	unsigned long limit;
-+
-+	limit = globalcountmax - globalcount -
-+	        globalreserve;
-+	limit /= num_online_threads();
-+	if (limit > MAX_COUNTERMAX)
-+		cm = MAX_COUNTERMAX;
-+	else
-+		cm = limit;
-+	globalreserve += cm;
-+	c = cm / 2;
-+	if (c > globalcount)
-+		c = globalcount;
-+	globalcount -= c;
-+	old = merge_counterandmax(c, cm);
-+	atomic_set(&counterandmax, old);		//\lnlbl{balance:atmcset}
-+}							//\lnlbl{balance:e}
-+
-+void count_register_thread(void)			//\lnlbl{register:b}
- {
- 	int idx = smp_thread_id();
- 
-@@ -199,7 +217,7 @@ void count_register_thread(void)
+ 	int fastpath = 0;
+@@ -170,7 +181,9 @@ int sub_count(unsigned long delta)
  	spin_unlock(&gblcnt_mutex);
+ 	return 1;
  }
++//\end{snippet}
  
--void count_unregister_thread(int nthreadsexpected)
-+void count_unregister_thread(int nthreadsexpected)	//\lnlbl{unregister:b}
++//\begin{snippet}[labelbase=ln:count:count_lim_sig:read,commandchars=\\\@\$]
+ unsigned long read_count(void)
  {
- 	int idx = smp_thread_id();
+ 	int t;
+@@ -184,8 +197,10 @@ unsigned long read_count(void)
+ 	spin_unlock(&gblcnt_mutex);
+ 	return sum;
+ }
++//\end{snippet}
  
-@@ -208,6 +226,7 @@ void count_unregister_thread(int nthreadsexpected)
- 	counterp[idx] = NULL;
+-void count_init(void)
++//\begin{snippet}[labelbase=ln:count:count_lim_sig:initialization,commandchars=\\\@\$]
++void count_init(void)					//\lnlbl{init:b}
+ {
+ 	struct sigaction sa;
+ 
+@@ -196,7 +211,7 @@ void count_init(void)
+ 		perror("sigaction");
+ 		exit(EXIT_FAILURE);
+ 	}
+-}
++}							//\lnlbl{init:e}
+ 
+ void count_register_thread(void)
+ {
+@@ -220,6 +235,7 @@ void count_unregister_thread(int nthreadsexpected)
+ 	theftp[idx] = NULL;
  	spin_unlock(&gblcnt_mutex);
  }
 +//\end{snippet}
@@ -341,417 +275,57 @@ index 491d700..6190a9f 100644
  void count_cleanup(void)
  {
 diff --git a/count/count.tex b/count/count.tex
-index 90d0936..bdda590 100644
+index bdda590..d8d60db 100644
 --- a/count/count.tex
 +++ b/count/count.tex
-@@ -1867,71 +1867,36 @@ represent \co{counter} and the low-order 16 bits to represent
- } \QuickQuizEnd
+@@ -2342,131 +2342,54 @@ The slowpath then sets that thread's \co{theft} state to IDLE.
+ \label{sec:count:Signal-Theft Limit Counter Implementation}
  
  \begin{listing}[tbp]
 -{ \scriptsize
 -\begin{verbbox}
--  1 atomic_t __thread ctrandmax = ATOMIC_INIT(0);
--  2 unsigned long globalcountmax = 10000;
--  3 unsigned long globalcount = 0;
--  4 unsigned long globalreserve = 0;
--  5 atomic_t *counterp[NR_THREADS] = { NULL };
--  6 DEFINE_SPINLOCK(gblcnt_mutex);
--  7 #define CM_BITS (sizeof(atomic_t) * 4)
--  8 #define MAX_COUNTERMAX ((1 << CM_BITS) - 1)
--  9 
-- 10 static void
-- 11 split_ctrandmax_int(int cami, int *c, int *cm)
-- 12 {
-- 13   *c = (cami >> CM_BITS) & MAX_COUNTERMAX;
-- 14   *cm = cami & MAX_COUNTERMAX;
-- 15 }
-- 16 
-- 17 static void
-- 18 split_ctrandmax(atomic_t *cam, int *old,
-- 19                     int *c, int *cm)
-- 20 {
-- 21   unsigned int cami = atomic_read(cam);
-- 22 
-- 23   *old = cami;
-- 24   split_ctrandmax_int(cami, c, cm);
-- 25 }
-- 26 
-- 27 static int merge_ctrandmax(int c, int cm)
-- 28 {
-- 29   unsigned int cami;
-- 30 
-- 31   cami = (c << CM_BITS) | cm;
-- 32   return ((int)cami);
-- 33 }
+-  1 #define THEFT_IDLE  0
+-  2 #define THEFT_REQ   1
+-  3 #define THEFT_ACK   2
+-  4 #define THEFT_READY 3
+-  5 
+-  6 int __thread theft = THEFT_IDLE;
+-  7 int __thread counting = 0;
+-  8 unsigned long __thread counter = 0;
+-  9 unsigned long __thread countermax = 0;
+- 10 unsigned long globalcountmax = 10000;
+- 11 unsigned long globalcount = 0;
+- 12 unsigned long globalreserve = 0;
+- 13 unsigned long *counterp[NR_THREADS] = { NULL };
+- 14 unsigned long *countermaxp[NR_THREADS] = { NULL };
+- 15 int *theftp[NR_THREADS] = { NULL };
+- 16 DEFINE_SPINLOCK(gblcnt_mutex);
+- 17 #define MAX_COUNTERMAX 100
 -\end{verbbox}
 -}
 -\centering
 -\theverbbox
-+\input{CodeSamples/count/count_lim_atomic@var_access.fcv}
- \caption{Atomic Limit Counter Variables and Access Functions}
- \label{lst:count:Atomic Limit Counter Variables and Access Functions}
++\input{CodeSamples/count/count_lim_sig@data.fcv}
+ \caption{Signal-Theft Limit Counter Data}
+ \label{lst:count:Signal-Theft Limit Counter Data}
  \end{listing}
  
-+\begin{lineref}[ln:count:count_lim_atomic:var_access:var]
- The variables and access functions for a simple atomic limit counter
- are shown in
- Listing~\ref{lst:count:Atomic Limit Counter Variables and Access Functions}
- (\path{count_lim_atomic.c}).
- The \co{counter} and \co{countermax} variables in earlier algorithms
--are combined into the single variable \co{ctrandmax} shown on
--line~1, with \co{counter} in the upper half and \co{countermax} in
-+are combined into the single variable \co{counterandmax} shown on
-+line~\lnref{candmax}, with \co{counter} in the upper half and \co{countermax} in
- the lower half.
- This variable is of type \co{atomic_t}, which has an underlying
- representation of \co{int}.
- 
--Lines~2-6 show the definitions for \co{globalcountmax}, \co{globalcount},
-+Lines~\lnref{def:b}-\lnref{def:e} show the definitions for \co{globalcountmax}, \co{globalcount},
- \co{globalreserve}, \co{counterp}, and \co{gblcnt_mutex}, all of which
- take on roles similar to their counterparts in
- Listing~\ref{lst:count:Approximate Limit Counter Variables}.
--Line~7 defines \co{CM_BITS}, which gives the number of bits in each half
--of \co{ctrandmax}, and line~8 defines \co{MAX_COUNTERMAX}, which
-+Line~\lnref{CM_BITS} defines \co{CM_BITS}, which gives the number of bits in each half
-+of \co{counterandmax}, and line~\lnref{MAX_CMAX} defines \co{MAX_COUNTERMAX}, which
- gives the maximum value that may be held in either half of
--\co{ctrandmax}.
-+\co{counterandmax}.
-+\end{lineref}
- 
- \QuickQuiz{}
--	In what way does line~7 of
-+	In what way does
-+        line~\ref{ln:count:count_lim_atomic:var_access:var:CM_BITS} of
- 	Listing~\ref{lst:count:Atomic Limit Counter Variables and Access Functions}
- 	violate the C standard?
- \QuickQuizAnswer{
-@@ -1944,39 +1909,48 @@ gives the maximum value that may be held in either half of
- 	standard?  What drawbacks would it have?)
- } \QuickQuizEnd
- 
--Lines~10-15 show the \co{split_ctrandmax_int()} function, which,
--when given the underlying \co{int} from the \co{atomic_t
--ctrandmax} variable, splits it into its \co{counter} (\co{c})
-+\begin{lineref}[ln:count:count_lim_atomic:var_access:split_int]
-+Lines~\lnref{b}-\lnref{e} show the \co{split_counterandmax_int()}
-+function, which,
-+when given the underlying \co{int} from the
-+\co{atomic_t counterandmax} variable, splits it into its
-+\co{counter} (\co{c})
- and \co{countermax} (\co{cm}) components.
--Line~13 isolates the most-significant half of this \co{int},
-+Line~\lnref{msh} isolates the most-significant half of this \co{int},
- placing the result as specified by argument \co{c},
--and line~14 isolates the least-significant half of this \co{int},
-+and line~\lnref{lsh} isolates the least-significant half of this \co{int},
- placing the result as specified by argument \co{cm}.
-+\end{lineref}
- 
--Lines~17-25 show the \co{split_ctrandmax()} function, which
-+\begin{lineref}[ln:count:count_lim_atomic:var_access:split]
-+Lines~\lnref{b}-\lnref{e} show the \co{split_counterandmax()} function, which
- picks up the underlying \co{int} from the specified variable
--on line~21, stores it as specified by the \co{old} argument on
--line~23, and then invokes \co{split_ctrandmax_int()} to split
--it on line~24.
-+on line~\lnref{int}, stores it as specified by the \co{old} argument on
-+line~\lnref{old}, and then invokes \co{split_counterandmax_int()} to split
-+it on line~\lnref{split_int}.
-+\end{lineref}
- 
- \QuickQuiz{}
--	Given that there is only one \co{ctrandmax} variable,
--	why bother passing in a pointer to it on line~18 of
-+	Given that there is only one \co{counterandmax} variable,
-+	why bother passing in a pointer to it on
-+        line~\ref{ln:count:count_lim_atomic:var_access:split:func} of
- 	Listing~\ref{lst:count:Atomic Limit Counter Variables and Access Functions}?
- \QuickQuizAnswer{
--	There is only one \co{ctrandmax} variable \emph{per thread}.
-+	There is only one \co{counterandmax} variable \emph{per thread}.
- 	Later, we will see code that needs to pass other threads'
--	\co{ctrandmax} variables to \co{split_ctrandmax()}.
-+	\co{counterandmax} variables to \co{split_counterandmax()}.
- } \QuickQuizEnd
- 
--Lines~27-33 show the \co{merge_ctrandmax()} function, which
--can be thought of as the inverse of \co{split_ctrandmax()}.
--Line~31 merges the \co{counter} and \co{countermax}
-+\begin{lineref}[ln:count:count_lim_atomic:var_access:merge]
-+Lines~\lnref{b}-\lnref{e} show the \co{merge_counterandmax()} function, which
-+can be thought of as the inverse of \co{split_counterandmax()}.
-+Line~\lnref{merge} merges the \co{counter} and \co{countermax}
- values passed in \co{c} and \co{cm}, respectively, and returns
- the result.
-+\end{lineref}
- 
- \QuickQuiz{}
--	Why does \co{merge_ctrandmax()} in
-+	Why does \co{merge_counterandmax()} in
- 	Listing~\ref{lst:count:Atomic Limit Counter Variables and Access Functions}
- 	return an \co{int} rather than storing directly into an
- 	\co{atomic_t}?
-@@ -1986,75 +1960,7 @@ the result.
- } \QuickQuizEnd
- 
- \begin{listing}[tbp]
--{ \scriptsize
--\begin{verbbox}
--  1 int add_count(unsigned long delta)
--  2 {
--  3   int c;
--  4   int cm;
--  5   int old;
--  6   int new;
--  7 
--  8   do {
--  9     split_ctrandmax(&ctrandmax, &old, &c, &cm);
-- 10     if (delta > MAX_COUNTERMAX || c + delta > cm)
-- 11       goto slowpath;
-- 12     new = merge_ctrandmax(c + delta, cm);
-- 13   } while (atomic_cmpxchg(&ctrandmax,
-- 14                           old, new) != old);
-- 15   return 1;
-- 16 slowpath:
-- 17   spin_lock(&gblcnt_mutex);
-- 18   globalize_count();
-- 19   if (globalcountmax - globalcount -
-- 20       globalreserve < delta) {
-- 21     flush_local_count();
-- 22     if (globalcountmax - globalcount -
-- 23         globalreserve < delta) {
-- 24       spin_unlock(&gblcnt_mutex);
-- 25       return 0;
-- 26     }
-- 27   }
-- 28   globalcount += delta;
-- 29   balance_count();
-- 30   spin_unlock(&gblcnt_mutex);
-- 31   return 1;
-- 32 }
-- 33 
-- 34 int sub_count(unsigned long delta)
-- 35 {
-- 36   int c;
-- 37   int cm;
-- 38   int old;
-- 39   int new;
-- 40 
-- 41   do {
-- 42     split_ctrandmax(&ctrandmax, &old, &c, &cm);
-- 43     if (delta > c)
-- 44       goto slowpath;
-- 45     new = merge_ctrandmax(c - delta, cm);
-- 46   } while (atomic_cmpxchg(&ctrandmax,
-- 47                           old, new) != old);
-- 48   return 1;
-- 49 slowpath:
-- 50   spin_lock(&gblcnt_mutex);
-- 51   globalize_count();
-- 52   if (globalcount < delta) {
-- 53     flush_local_count();
-- 54     if (globalcount < delta) {
-- 55       spin_unlock(&gblcnt_mutex);
-- 56       return 0;
-- 57     }
-- 58   }
-- 59   globalcount -= delta;
-- 60   balance_count();
-- 61   spin_unlock(&gblcnt_mutex);
-- 62   return 1;
-- 63 }
--\end{verbbox}
--}
--\centering
--\theverbbox
-+\input{CodeSamples/count/count_lim_atomic@add_sub.fcv}
- \caption{Atomic Limit Counter Add and Subtract}
- \label{lst:count:Atomic Limit Counter Add and Subtract}
- \end{listing}
-@@ -2062,33 +1968,42 @@ the result.
- Listing~\ref{lst:count:Atomic Limit Counter Add and Subtract}
- shows the \co{add_count()} and \co{sub_count()} functions.
- 
--Lines~1-32 show \co{add_count()}, whose fastpath spans lines~8-15,
-+\begin{lineref}[ln:count:count_lim_atomic:add_sub:add]
-+Lines~\lnref{b}-\lnref{e} show \co{add_count()}, whose fastpath spans
-+lines~\lnref{fast:b}-\lnref{return:fs},
- with the remainder of the function being the slowpath.
--Lines~8-14 of the fastpath form a compare-and-swap (CAS) loop, with
--the \co{atomic_cmpxchg()} primitives on lines~13-14 performing the
-+Lines~\lnref{fast:b}-\lnref{loop:e} of the fastpath form a compare-and-swap
-+(CAS) loop, with
-+the \co{atomic_cmpxchg()} primitives on
-+lines~\lnref{atmcmpex}-\lnref{loop:e} performing the
- actual CAS.
--Line~9 splits the current thread's \co{ctrandmax} variable into its
-+Line~\lnref{split} splits the current thread's \co{counterandmax} variable into its
- \co{counter} (in \co{c}) and \co{countermax} (in \co{cm}) components,
- while placing the underlying \co{int} into \co{old}.
--Line~10 checks whether the amount \co{delta} can be accommodated
-+Line~\lnref{check} checks whether the amount \co{delta} can be accommodated
- locally (taking care to avoid integer overflow), and if not,
--line~11 transfers to the slowpath.
--Otherwise, line~12 combines an updated \co{counter} value with the
-+line~\lnref{goto} transfers to the slowpath.
-+Otherwise, line~\lnref{merge} combines an updated \co{counter} value with the
- original \co{countermax} value into \co{new}.
--The \co{atomic_cmpxchg()} primitive on lines~13-14 then atomically
--compares this thread's \co{ctrandmax} variable to \co{old},
-+The \co{atomic_cmpxchg()} primitive on
-+lines~\lnref{atmcmpex}-\lnref{loop:e} then atomically
-+compares this thread's \co{counterandmax} variable to \co{old},
- updating its value to \co{new} if the comparison succeeds.
--If the comparison succeeds, line~15 returns success, otherwise,
--execution continues in the loop at line~9.
-+If the comparison succeeds, line~\lnref{return:fs} returns success, otherwise,
-+execution continues in the loop at line~\lnref{fast:b}.
-+\end{lineref}
- 
- \QuickQuiz{}
- 	Yecch!
--	Why the ugly \co{goto} on line~11 of
-+	Why the ugly \co{goto} on
-+        line~\ref{ln:count:count_lim_atomic:add_sub:add:goto} of
- 	Listing~\ref{lst:count:Atomic Limit Counter Add and Subtract}?
- 	Haven't you heard of the \co{break} statement???
- \QuickQuizAnswer{
- 	Replacing the \co{goto} with a \co{break} would require keeping
--	a flag to determine whether or not line~15 should return, which
-+	a flag to determine whether or not
-+        line~\ref{ln:count:count_lim_atomic:add_sub:add:return:fs}
-+        should return, which
- 	is not the sort of thing you want on a fastpath.
- 	If you really hate the \co{goto} that much, your best bet would
- 	be to pull the fastpath into a separate function that returned
-@@ -2098,175 +2013,90 @@ execution continues in the loop at line~9.
- } \QuickQuizEnd
- 
- \QuickQuiz{}
--	Why would the \co{atomic_cmpxchg()} primitive at lines~13-14 of
-+        \begin{lineref}[ln:count:count_lim_atomic:add_sub:add]
-+	Why would the \co{atomic_cmpxchg()} primitive at
-+        lines~\lnref{atmcmpex}-\lnref{loop:e} of
- 	Listing~\ref{lst:count:Atomic Limit Counter Add and Subtract}
- 	ever fail?
--	After all, we picked up its old value on line~9 and have not
-+	After all, we picked up its old value on line~\lnref{split} and have not
- 	changed it!
-+	\end{lineref}
- \QuickQuizAnswer{
-+	\begin{lineref}[ln:count:count_lim_atomic:add_sub:add]
- 	Later, we will see how the \co{flush_local_count()} function in
- 	Listing~\ref{lst:count:Atomic Limit Counter Utility Functions 1}
--	might update this thread's \co{ctrandmax} variable concurrently
--	with the execution of the fastpath on lines~8-14 of
-+	might update this thread's \co{counterandmax} variable concurrently
-+	with the execution of the fastpath on
-+        lines~\lnref{fast:b}-\lnref{loop:e} of
- 	Listing~\ref{lst:count:Atomic Limit Counter Add and Subtract}.
-+	\end{lineref}
- } \QuickQuizEnd
- 
--Lines~16-31 of
-+\begin{lineref}[ln:count:count_lim_atomic:add_sub:add]
-+Lines~\lnref{slow:b}-\lnref{return:ss} of
- Listing~\ref{lst:count:Atomic Limit Counter Add and Subtract}
- show \co{add_count()}'s slowpath, which is protected by \co{gblcnt_mutex},
--which is acquired on line~17 and released on lines~24 and~30.
--Line~18 invokes \co{globalize_count()}, which moves this thread's
-+which is acquired on line~\lnref{acquire} and released on
-+lines~\lnref{release:f} and~\lnref{release:s}.
-+Line~\lnref{globalize} invokes \co{globalize_count()},
-+which moves this thread's
- state to the global counters.
--Lines~19-20 check whether the \co{delta} value can be accommodated by
--the current global state, and, if not, line~21 invokes
-+Lines~\lnref{checkglb:b}-\lnref{checkglb:e} check whether
-+the \co{delta} value can be accommodated by
-+the current global state, and, if not, line~\lnref{flush} invokes
- \co{flush_local_count()} to flush all threads' local state to the
--global counters, and then lines~22-23 recheck whether \co{delta} can
-+global counters, and then
-+lines~\lnref{checkglb:nb}-\lnref{checkglb:ne} recheck whether \co{delta} can
- be accommodated.
- If, after all that, the addition of \co{delta} still cannot be accommodated,
--then line~24 releases \co{gblcnt_mutex} (as noted earlier), and
--then line~25 returns failure.
--
--Otherwise, line~28 adds \co{delta} to the global counter, line~29
--spreads counts to the local state if appropriate, line~30 releases
--\co{gblcnt_mutex} (again, as noted earlier), and finally, line~31
-+then line~\lnref{release:f} releases \co{gblcnt_mutex} (as noted earlier), and
-+then line~\lnref{return:sf} returns failure.
-+
-+Otherwise, line~\lnref{addglb} adds \co{delta} to the global counter,
-+line~\lnref{balance}
-+spreads counts to the local state if appropriate, line~\lnref{release:s} releases
-+\co{gblcnt_mutex} (again, as noted earlier), and finally,
-+line~\lnref{return:ss}
- returns success.
-+\end{lineref}
- 
--Lines~34-63 of
-+\begin{lineref}[ln:count:count_lim_atomic:add_sub:sub]
-+Lines~\lnref{b}-\lnref{e} of
- Listing~\ref{lst:count:Atomic Limit Counter Add and Subtract}
- show \co{sub_count()}, which is structured similarly to
--\co{add_count()}, having a fastpath on lines~41-48 and a slowpath on
--lines~49-62.
-+\co{add_count()}, having a fastpath on
-+lines~\lnref{fast:b}-\lnref{fast:e} and a slowpath on
-+lines~\lnref{slow:b}-\lnref{slow:e}.
- A line-by-line analysis of this function is left as an exercise to
- the reader.
-+\end{lineref}
- 
- \begin{listing}[tbp]
--{ \scriptsize
--\begin{verbbox}
--  1 unsigned long read_count(void)
--  2 {
--  3   int c;
--  4   int cm;
--  5   int old;
--  6   int t;
--  7   unsigned long sum;
--  8 
--  9   spin_lock(&gblcnt_mutex);
-- 10   sum = globalcount;
-- 11   for_each_thread(t)
-- 12     if (counterp[t] != NULL) {
-- 13       split_ctrandmax(counterp[t], &old, &c, &cm);
-- 14       sum += c;
-- 15     }
-- 16   spin_unlock(&gblcnt_mutex);
-- 17   return sum;
-- 18 }
--\end{verbbox}
--}
--\centering
--\theverbbox
-+\input{CodeSamples/count/count_lim_atomic@read.fcv}
- \caption{Atomic Limit Counter Read}
- \label{lst:count:Atomic Limit Counter Read}
- \end{listing}
- 
-+\begin{lineref}[ln:count:count_lim_atomic:read]
- Listing~\ref{lst:count:Atomic Limit Counter Read} shows \co{read_count()}.
--Line~9 acquires \co{gblcnt_mutex} and line~16 releases it.
--Line~10 initializes local variable \co{sum} to the value of
--\co{globalcount}, and the loop spanning lines~11-15 adds the
-+Line~\lnref{acquire} acquires \co{gblcnt_mutex} and
-+line~\lnref{release} releases it.
-+Line~\lnref{initsum} initializes local variable \co{sum} to the value of
-+\co{globalcount}, and the loop spanning
-+lines~\lnref{loop:b}-\lnref{loop:e} adds the
- per-thread counters to this sum, isolating each per-thread counter
--using \co{split_ctrandmax} on line~13.
--Finally, line~17 returns the sum.
-+using \co{split_counterandmax} on line~\lnref{split}.
-+Finally, line~\lnref{return} returns the sum.
++\begin{lineref}[ln:count:count_lim_sig:data]
+ Listing~\ref{lst:count:Signal-Theft Limit Counter Data}
+ (\path{count_lim_sig.c})
+ shows the data structures used by the signal-theft based counter
+ implementation.
+-Lines~1-7 define the states and values for the per-thread theft state machine
++Lines~\lnref{value:b}-\lnref{value:e} define the states and values
++for the per-thread theft state machine
+ described in the preceding section.
+-Lines~8-17 are similar to earlier implementations, with the addition of
+-lines~14 and~15 to allow remote access to a thread's \co{countermax}
++Lines~\lnref{var:b}-\lnref{var:e} are similar to earlier implementations,
++with the addition of
++lines~\lnref{maxp} and~\lnref{theftp} to allow remote access to a
++thread's \co{countermax}
+ and \co{theft} variables, respectively.
 +\end{lineref}
  
  \begin{listing}[tbp]
@@ -759,225 +333,470 @@ index 90d0936..bdda590 100644
 -\begin{verbbox}
 -  1 static void globalize_count(void)
 -  2 {
--  3   int c;
--  4   int cm;
--  5   int old;
--  6 
--  7   split_ctrandmax(&ctrandmax, &old, &c, &cm);
--  8   globalcount += c;
--  9   globalreserve -= cm;
-- 10   old = merge_ctrandmax(0, 0);
-- 11   atomic_set(&ctrandmax, old);
-- 12 }
-- 13 
-- 14 static void flush_local_count(void)
-- 15 {
-- 16   int c;
-- 17   int cm;
-- 18   int old;
-- 19   int t;
-- 20   int zero;
-- 21 
-- 22   if (globalreserve == 0)
-- 23     return;
-- 24   zero = merge_ctrandmax(0, 0);
-- 25   for_each_thread(t)
-- 26     if (counterp[t] != NULL) {
-- 27       old = atomic_xchg(counterp[t], zero);
-- 28       split_ctrandmax_int(old, &c, &cm);
-- 29       globalcount += c;
-- 30       globalreserve -= cm;
-- 31     }
-- 32 }
+-  3   globalcount += counter;
+-  4   counter = 0;
+-  5   globalreserve -= countermax;
+-  6   countermax = 0;
+-  7 }
+-  8 
+-  9 static void flush_local_count_sig(int unused)
+- 10 {
+- 11   if (READ_ONCE(theft) != THEFT_REQ)
+- 12     return;
+- 13   smp_mb();
+- 14   WRITE_ONCE(theft, THEFT_ACK);
+- 15   if (!counting) {
+- 16     WRITE_ONCE(theft, THEFT_READY);
+- 17   }
+- 18   smp_mb();
+- 19 }
+- 20 
+- 21 static void flush_local_count(void)
+- 22 {
+- 23   int t;
+- 24   thread_id_t tid;
+- 25 
+- 26   for_each_tid(t, tid)
+- 27     if (theftp[t] != NULL) {
+- 28       if (*countermaxp[t] == 0) {
+- 29         WRITE_ONCE(*theftp[t], THEFT_READY);
+- 30         continue;
+- 31       }
+- 32       WRITE_ONCE(*theftp[t], THEFT_REQ);
+- 33       pthread_kill(tid, SIGUSR1);
+- 34     }
+- 35   for_each_tid(t, tid) {
+- 36     if (theftp[t] == NULL)
+- 37       continue;
+- 38     while (READ_ONCE(*theftp[t]) != THEFT_READY) {
+- 39       poll(NULL, 0, 1);
+- 40       if (READ_ONCE(*theftp[t]) == THEFT_REQ)
+- 41         pthread_kill(tid, SIGUSR1);
+- 42     }
+- 43     globalcount += *counterp[t];
+- 44     *counterp[t] = 0;
+- 45     globalreserve -= *countermaxp[t];
+- 46     *countermaxp[t] = 0;
+- 47     WRITE_ONCE(*theftp[t], THEFT_IDLE);
+- 48   }
+- 49 }
+- 50 
+- 51 static void balance_count(void)
+- 52 {
+- 53   countermax = globalcountmax -
+- 54     globalcount - globalreserve;
+- 55   countermax /= num_online_threads();
+- 56   if (countermax > MAX_COUNTERMAX)
+- 57     countermax = MAX_COUNTERMAX;
+- 58   globalreserve += countermax;
+- 59   counter = countermax / 2;
+- 60   if (counter > globalcount)
+- 61     counter = globalcount;
+- 62   globalcount -= counter;
+- 63 }
 -\end{verbbox}
 -}
 -\centering
 -\theverbbox
-+\input{CodeSamples/count/count_lim_atomic@utility1.fcv}
- \caption{Atomic Limit Counter Utility Functions 1}
- \label{lst:count:Atomic Limit Counter Utility Functions 1}
++\input{CodeSamples/count/count_lim_sig@migration.fcv}
+ \caption{Signal-Theft Limit Counter Value-Migration Functions}
+ \label{lst:count:Signal-Theft Limit Counter Value-Migration Functions}
+ \end{listing}
+ 
++\begin{lineref}[ln:count:count_lim_sig:migration:globalize]
+ Listing~\ref{lst:count:Signal-Theft Limit Counter Value-Migration Functions}
+ shows the functions responsible for migrating counts between per-thread
+ variables and the global variables.
+-Lines~1-7 shows \co{globalize_count()}, which is identical to earlier
++Lines~\lnref{b}-\lnref{e} shows \co{globalize_count()},
++which is identical to earlier
+ implementations.
+-Lines~9-19 shows \co{flush_local_count_sig()}, which is the signal
++\end{lineref}
++\begin{lineref}[ln:count:count_lim_sig:migration:flush_sig]
++Lines~\lnref{b}-\lnref{e} shows \co{flush_local_count_sig()},
++which is the signal
+ handler used in the theft process.
+-Lines~11 and~12 check to see if the \co{theft} state is REQ, and, if not
++Lines~\lnref{check:REQ} and~\lnref{return:n} check to see if
++the \co{theft} state is REQ, and, if not
+ returns without change.
+-Line~13 executes a memory barrier to ensure that the sampling of the
++Line~\lnref{mb:1} executes a memory barrier to ensure that the sampling of the
+ theft variable happens before any change to that variable.
+-Line~14 sets the \co{theft} state to ACK, and, if line~15 sees that
+-this thread's fastpaths are not running, line~16 sets the \co{theft}
++Line~\lnref{set:ACK} sets the \co{theft} state to ACK, and, if
++line~\lnref{check:fast} sees that
++this thread's fastpaths are not running, line~\lnref{set:READY} sets the \co{theft}
+ state to READY.
++\end{lineref}
+ 
+ \QuickQuiz{}
+ 	In Listing~\ref{lst:count:Signal-Theft Limit Counter Value-Migration Functions}
+@@ -2475,42 +2398,44 @@ state to READY.
+ 	the uses of the
+ 	\co{theft} per-thread variable?
+ \QuickQuizAnswer{
+-	The first one (on line~11) can be argued to be unnecessary.
+-	The last two (lines~14 and~16) are important.
++	\begin{lineref}[ln:count:count_lim_sig:migration:flush_sig]
++	The first one (on line~\lnref{check:REQ}) can be argued to be unnecessary.
++	The last two (lines~\lnref{set:ACK} and~\lnref{set:READY}) are important.
+ 	If these are removed, the compiler would be within its rights
+-	to rewrite lines~14-17 as follows:
+-
+-	\vspace{5pt}
+-	\begin{minipage}[t]{\columnwidth}
+-	\small
+-	\begin{verbatim}
+- 14   theft = THEFT_READY;
+- 15   if (counting) {
+- 16     theft = THEFT_ACK;
+- 17   }
+-	\end{verbatim}
+-	\end{minipage}
+-	\vspace{5pt}
++	to rewrite lines~\lnref{set:ACK}-\lnref{set:READY} as follows:
++	\end{lineref}
++
++\begin{VerbatimN}[firstnumber=14]
++theft = THEFT_READY;
++if (counting) {
++	theft = THEFT_ACK;
++}
++\end{VerbatimN}
+ 
+ 	This would be fatal, as the slowpath might see the transient
+ 	value of \co{THEFT_READY}, and start stealing before the
+ 	corresponding thread was ready.
+ } \QuickQuizEnd
+ 
+-Lines~21-49 shows \co{flush_local_count()}, which is called from the
++\begin{lineref}[ln:count:count_lim_sig:migration:flush]
++Lines~\lnref{b}-\lnref{e} shows \co{flush_local_count()}, which is called from the
+ slowpath to flush all threads' local counts.
+-The loop spanning lines~26-34 advances the \co{theft} state for each
++The loop spanning
++lines~\lnref{loop:b}-{loop:e} advances the \co{theft} state for each
+ thread that has local count, and also sends that thread a signal.
+-Line~27 skips any non-existent threads.
+-Otherwise, line~28 checks to see if the current thread holds any local
+-count, and, if not, line~29 sets the thread's \co{theft} state to READY
+-and line~30 skips to the next thread.
+-Otherwise, line~32 sets the thread's \co{theft} state to REQ and
+-line~33 sends the thread a signal.
++Line~\lnref{skip} skips any non-existent threads.
++Otherwise, line~\lnref{checkmax} checks to see if the current thread holds any local
++count, and, if not, line~\lnref{READY} sets the thread's \co{theft} state to READY
++and line~\lnref{next} skips to the next thread.
++Otherwise, line~\lnref{REQ} sets the thread's \co{theft} state to REQ and
++line~\lnref{signal} sends the thread a signal.
++\end{lineref}
+ 
+ \QuickQuiz{}
+ 	In Listing~\ref{lst:count:Signal-Theft Limit Counter Value-Migration Functions},
+-	why is it safe for line~28 to directly access the other thread's
++	why is it safe for
++        line~\ref{ln:count:count_lim_sig:migration:flush:checkmax}
++        to directly access the other thread's
+ 	\co{countermax} variable?
+ \QuickQuizAnswer{
+ 	Because the other thread is not permitted to change the value
+@@ -2524,7 +2449,9 @@ line~33 sends the thread a signal.
+ 
+ \QuickQuiz{}
+ 	In Listing~\ref{lst:count:Signal-Theft Limit Counter Value-Migration Functions},
+-	why doesn't line~33 check for the current thread sending itself
++	why doesn't
++        line~\ref{ln:count:count_lim_sig:migration:flush:signal}
++        check for the current thread sending itself
+ 	a signal?
+ \QuickQuizAnswer{
+ 	There is no need for an additional check.
+@@ -2544,19 +2471,26 @@ line~33 sends the thread a signal.
+ 	handler and the code interrupted by the signal.
+ } \QuickQuizEnd
+ 
+-The loop spanning lines~35-48 waits until each thread reaches READY state,
++\begin{lineref}[ln:count:count_lim_sig:migration:flush]
++The loop spanning lines~\lnref{loop2:b}-\lnref{loop2:e} waits until each
++thread reaches READY state,
+ then steals that thread's count.
+-Lines~36-37 skip any non-existent threads, and the loop spanning
+-lines~38-42 wait until the current thread's \co{theft} state becomes READY.
+-Line~39 blocks for a millisecond to avoid priority-inversion problems,
+-and if line~40 determines that the thread's signal has not yet arrived,
+-line~41 resends the signal.
+-Execution reaches line~43 when the thread's \co{theft} state becomes
+-READY, so lines~43-46 do the thieving.
+-Line~47 then sets the thread's \co{theft} state back to IDLE.
++Lines~\lnref{skip:nonexist}-\lnref{next2} skip any non-existent threads,
++and the loop spanning
++lines~\lnref{loop3:b}-\lnref{loop3:e} wait until the current
++thread's \co{theft} state becomes READY.
++Line~\lnref{block} blocks for a millisecond to avoid priority-inversion problems,
++and if line~\lnref{check:REQ} determines that the thread's signal has not yet arrived,
++line~\lnref{signal2} resends the signal.
++Execution reaches line~\lnref{thiev:b} when the thread's \co{theft} state becomes
++READY, so lines~\lnref{thiev:b}-\lnref{thiev:e} do the thieving.
++Line~\lnref{IDLE} then sets the thread's \co{theft} state back to IDLE.
++\end{lineref}
+ 
+ \QuickQuiz{}
+-	In Listing~\ref{lst:count:Signal-Theft Limit Counter Value-Migration Functions}, why does line~41 resend the signal?
++	In Listing~\ref{lst:count:Signal-Theft Limit Counter Value-Migration Functions},
++        why does line~\ref{ln:count:count_lim_sig:migration:flush:signal2}
++        resend the signal?
+ \QuickQuizAnswer{
+ 	Because many operating systems over several decades have
+ 	had the property of losing the occasional signal.
+@@ -2568,153 +2502,66 @@ Line~47 then sets the thread's \co{theft} state back to IDLE.
+ 	\emph{Your} user application hanging!
+ } \QuickQuizEnd
+ 
+-Lines~51-63 show \co{balance_count()}, which is similar to that of
++\begin{lineref}[ln:count:count_lim_sig:migration:balance]
++Lines~\lnref{b}-\lnref{e} show \co{balance_count()}, which is similar to that of
+ earlier examples.
++\end{lineref}
+ 
+ \begin{listing}[tbp]
+-{ \scriptsize
+-\begin{verbbox}
+-  1 int add_count(unsigned long delta)
+-  2 {
+-  3   int fastpath = 0;
+-  4 
+-  5   counting = 1;
+-  6   barrier();
+-  7   if (countermax - counter >= delta &&
+-  8       READ_ONCE(theft) <= THEFT_REQ) {
+-  9     counter += delta;
+- 10     fastpath = 1;
+- 11   }
+- 12   barrier();
+- 13   counting = 0;
+- 14   barrier();
+- 15   if (READ_ONCE(theft) == THEFT_ACK) {
+- 16     smp_mb();
+- 17     WRITE_ONCE(theft, THEFT_READY);
+- 18   }
+- 19   if (fastpath)
+- 20     return 1;
+- 21   spin_lock(&gblcnt_mutex);
+- 22   globalize_count();
+- 23   if (globalcountmax - globalcount -
+- 24       globalreserve < delta) {
+- 25     flush_local_count();
+- 26     if (globalcountmax - globalcount -
+- 27         globalreserve < delta) {
+- 28       spin_unlock(&gblcnt_mutex);
+- 29       return 0;
+- 30     }
+- 31   }
+- 32   globalcount += delta;
+- 33   balance_count();
+- 34   spin_unlock(&gblcnt_mutex);
+- 35   return 1;
+- 36 }
+-\end{verbbox}
+-}
+-\centering
+-\theverbbox
++\input{CodeSamples/count/count_lim_sig@add.fcv}
+ \caption{Signal-Theft Limit Counter Add Function}
+ \label{lst:count:Signal-Theft Limit Counter Add Function}
  \end{listing}
  
  \begin{listing}[tb]
 -{ \scriptsize
 -\begin{verbbox}
--  1 static void balance_count(void)
--  2 {
--  3   int c;
--  4   int cm;
--  5   int old;
--  6   unsigned long limit;
--  7 
--  8   limit = globalcountmax - globalcount -
--  9           globalreserve;
-- 10   limit /= num_online_threads();
-- 11   if (limit > MAX_COUNTERMAX)
-- 12     cm = MAX_COUNTERMAX;
-- 13   else
-- 14     cm = limit;
-- 15   globalreserve += cm;
-- 16   c = cm / 2;
-- 17   if (c > globalcount)
-- 18     c = globalcount;
-- 19   globalcount -= c;
-- 20   old = merge_ctrandmax(c, cm);
-- 21   atomic_set(&ctrandmax, old);
-- 22 }
-- 23 
-- 24 void count_register_thread(void)
-- 25 {
-- 26   int idx = smp_thread_id();
-- 27 
-- 28   spin_lock(&gblcnt_mutex);
-- 29   counterp[idx] = &ctrandmax;
-- 30   spin_unlock(&gblcnt_mutex);
-- 31 }
-- 32 
-- 33 void count_unregister_thread(int nthreadsexpected)
-- 34 {
-- 35   int idx = smp_thread_id();
-- 36 
-- 37   spin_lock(&gblcnt_mutex);
-- 38   globalize_count();
-- 39   counterp[idx] = NULL;
-- 40   spin_unlock(&gblcnt_mutex);
-- 41 }
+- 38 int sub_count(unsigned long delta)
+- 39 {
+- 40   int fastpath = 0;
+- 41 
+- 42   counting = 1;
+- 43   barrier();
+- 44   if (counter >= delta &&
+- 45       READ_ONCE(theft) <= THEFT_REQ) {
+- 46     counter -= delta;
+- 47     fastpath = 1;
+- 48   }
+- 49   barrier();
+- 50   counting = 0;
+- 51   barrier();
+- 52   if (READ_ONCE(theft) == THEFT_ACK) {
+- 53     smp_mb();
+- 54     WRITE_ONCE(theft, THEFT_READY);
+- 55   }
+- 56   if (fastpath)
+- 57     return 1;
+- 58   spin_lock(&gblcnt_mutex);
+- 59   globalize_count();
+- 60   if (globalcount < delta) {
+- 61     flush_local_count();
+- 62     if (globalcount < delta) {
+- 63       spin_unlock(&gblcnt_mutex);
+- 64       return 0;
+- 65     }
+- 66   }
+- 67   globalcount -= delta;
+- 68   balance_count();
+- 69   spin_unlock(&gblcnt_mutex);
+- 70   return 1;
+- 71 }
 -\end{verbbox}
 -}
 -\centering
 -\theverbbox
-+\input{CodeSamples/count/count_lim_atomic@utility2.fcv}
- \caption{Atomic Limit Counter Utility Functions 2}
- \label{lst:count:Atomic Limit Counter Utility Functions 2}
++\input{CodeSamples/count/count_lim_sig@sub.fcv}
+ \caption{Signal-Theft Limit Counter Subtract Function}
+ \label{lst:count:Signal-Theft Limit Counter Subtract Function}
  \end{listing}
-@@ -2279,36 +2109,47 @@ shows the utility functions
- \co{balance_count()},
- \co{count_register_thread()}, and
- \co{count_unregister_thread()}.
--The code for \co{globalize_count()} is shown on lines~1-12,
-+\begin{lineref}[ln:count:count_lim_atomic:utility1:globalize]
-+The code for \co{globalize_count()} is shown on
-+lines~\lnref{b}-\lnref{e},
- of Listing~\ref{lst:count:Atomic Limit Counter Utility Functions 1} and
- is similar to that of previous algorithms, with the addition of
--line~7, which is now required to split out \co{counter} and
--\co{countermax} from \co{ctrandmax}.
-+line~\lnref{split}, which is now required to split out \co{counter} and
-+\co{countermax} from \co{counterandmax}.
+ 
++\begin{lineref}[ln:count:count_lim_sig:add]
+ Listing~\ref{lst:count:Signal-Theft Limit Counter Add Function}
+ shows the \co{add_count()} function.
+-The fastpath spans lines~5-20, and the slowpath lines~21-35.
+-Line~5 sets the per-thread \co{counting} variable to 1 so that
++The fastpath spans lines~\lnref{fast:b}-\lnref{return:fs}, and the slowpath
++lines~\lnref{acquire}-\lnref{return:ss}.
++Line~\lnref{fast:b} sets the per-thread \co{counting} variable to 1 so that
+ any subsequent signal handlers interrupting this thread will
+ set the \co{theft} state to ACK rather than READY, allowing this
+ fastpath to complete properly.
+-Line~6 prevents the compiler from reordering any of the fastpath body
++Line~\lnref{barrier:1} prevents the compiler from reordering any of the fastpath body
+ to precede the setting of \co{counting}.
+-Lines~7 and~8 check to see if the per-thread data can accommodate
++Lines~\lnref{check:b} and~\lnref{check:e} check to see
++if the per-thread data can accommodate
+ the \co{add_count()} and if there is no ongoing theft in progress,
+-and if so line~9 does the fastpath addition and line~10 notes that
++and if so line~\lnref{add:f} does the fastpath addition and
++line~\lnref{fasttaken} notes that
+ the fastpath was taken.
+ 
+-In either case, line~12 prevents the compiler from reordering the
+-fastpath body to follow line~13, which permits any subsequent signal
++In either case, line~\lnref{barrier:2} prevents the compiler from reordering the
++fastpath body to follow line~\lnref{clearcnt}, which permits any subsequent signal
+ handlers to undertake theft.
+-Line~14 again disables compiler reordering, and then line~15
++Line~\lnref{barrier:3} again disables compiler reordering, and then
++line~\lnref{check:ACK}
+ checks to see if the signal handler deferred the \co{theft}
+-state-change to READY, and, if so, line~16 executes a memory
+-barrier to ensure that any CPU that sees line~17 setting state to
+-READY also sees the effects of line~9.
+-If the fastpath addition at line~9 was executed, then line~20 returns
++state-change to READY, and, if so, line~\lnref{mb} executes a memory
++barrier to ensure that any CPU that sees line~\lnref{READY} setting state to
++READY also sees the effects of line~\lnref{add:f}.
++If the fastpath addition at line~\lnref{add:f} was executed, then
++line~\lnref{return:fs} returns
+ success.
 +\end{lineref}
  
-+\begin{lineref}[ln:count:count_lim_atomic:utility1:flush]
- The code for \co{flush_local_count()}, which moves all threads' local
--counter state to the global counter, is shown on lines~14-32.
--Line~22 checks to see if the value of \co{globalreserve} permits
--any per-thread counts, and, if not, line~23 returns.
--Otherwise, line~24 initializes local variable \co{zero} to a combined
-+counter state to the global counter, is shown on
-+lines~\lnref{b}-\lnref{e}.
-+Line~\lnref{checkrsv} checks to see if the value of
-+\co{globalreserve} permits
-+any per-thread counts, and, if not, line~\lnref{return:n} returns.
-+Otherwise, line~\lnref{initzero} initializes local variable \co{zero} to a combined
- zeroed \co{counter} and \co{countermax}.
--The loop spanning lines~25-31 sequences through each thread.
--Line~26 checks to see if the current thread has counter state,
--and, if so, lines~27-30 move that state to the global counters.
--Line~27 atomically fetches the current thread's state
-+The loop spanning lines~\lnref{loop:b}-\lnref{loop:e} sequences
-+through each thread.
-+Line~\lnref{checkp} checks to see if the current thread has counter state,
-+and, if so, lines~\lnref{atmxchg}-\lnref{glbrsv} move that state
-+to the global counters.
-+Line~\lnref{atmxchg} atomically fetches the current thread's state
- while replacing it with zero.
--Line~28 splits this state into its \co{counter} (in local variable \co{c})
-+Line~\lnref{split} splits this state into its \co{counter}
-+(in local variable \co{c})
- and \co{countermax} (in local variable \co{cm}) components.
--Line~29 adds this thread's \co{counter} to \co{globalcount}, while
--line~30 subtracts this thread's \co{countermax} from \co{globalreserve}.
-+Line~\lnref{glbcnt} adds this thread's \co{counter} to \co{globalcount}, while
-+line~\lnref{glbrsv} subtracts this thread's \co{countermax} from \co{globalreserve}.
+ \begin{listing}[tbp]
+-{ \scriptsize
+-\begin{verbbox}
+-  1 unsigned long read_count(void)
+-  2 {
+-  3   int t;
+-  4   unsigned long sum;
+-  5 
+-  6   spin_lock(&gblcnt_mutex);
+-  7   sum = globalcount;
+-  8   for_each_thread(t)
+-  9     if (counterp[t] != NULL)
+- 10       sum += *counterp[t];
+- 11   spin_unlock(&gblcnt_mutex);
+- 12   return sum;
+- 13 }
+-\end{verbbox}
+-}
+-\centering
+-\theverbbox
++\input{CodeSamples/count/count_lim_sig@read.fcv}
+ \caption{Signal-Theft Limit Counter Read Function}
+ \label{lst:count:Signal-Theft Limit Counter Read Function}
+ \end{listing}
+ 
+-Otherwise, we fall through to the slowpath starting at line~21.
++\begin{lineref}[ln:count:count_lim_sig:add]
++Otherwise, we fall through to the slowpath starting at line~\lnref{acquire}.
+ The structure of the slowpath is similar to those of earlier examples,
+ so its analysis is left as an exercise to the reader.
++\end{lineref}
+ Similarly, the structure of \co{sub_count()} on
+ Listing~\ref{lst:count:Signal-Theft Limit Counter Subtract Function}
+ is the same
+@@ -2724,52 +2571,13 @@ left as an exercise for the reader, as is the analysis of
+ Listing~\ref{lst:count:Signal-Theft Limit Counter Read Function}.
+ 
+ \begin{listing}[tbp]
+-{ \scriptsize
+-\begin{verbbox}
+-  1 void count_init(void)
+-  2 {
+-  3   struct sigaction sa;
+-  4 
+-  5   sa.sa_handler = flush_local_count_sig;
+-  6   sigemptyset(&sa.sa_mask);
+-  7   sa.sa_flags = 0;
+-  8   if (sigaction(SIGUSR1, &sa, NULL) != 0) {
+-  9     perror("sigaction");
+- 10     exit(-1);
+- 11   }
+- 12 }
+- 13 
+- 14 void count_register_thread(void)
+- 15 {
+- 16   int idx = smp_thread_id();
+- 17 
+- 18   spin_lock(&gblcnt_mutex);
+- 19   counterp[idx] = &counter;
+- 20   countermaxp[idx] = &countermax;
+- 21   theftp[idx] = &theft;
+- 22   spin_unlock(&gblcnt_mutex);
+- 23 }
+- 24 
+- 25 void count_unregister_thread(int nthreadsexpected)
+- 26 {
+- 27   int idx = smp_thread_id();
+- 28 
+- 29   spin_lock(&gblcnt_mutex);
+- 30   globalize_count();
+- 31   counterp[idx] = NULL;
+- 32   countermaxp[idx] = NULL;
+- 33   theftp[idx] = NULL;
+- 34   spin_unlock(&gblcnt_mutex);
+- 35 }
+-\end{verbbox}
+-}
+-\centering
+-\theverbbox
++\input{CodeSamples/count/count_lim_sig@initialization.fcv}
+ \caption{Signal-Theft Limit Counter Initialization Functions}
+ \label{lst:count:Signal-Theft Limit Counter Initialization Functions}
+ \end{listing}
+ 
+-Lines~1-12 of
++\begin{lineref}[ln:count:count_lim_sig:initialization:init]
++Lines~\lnref{b}-\lnref{e} of
+ Listing~\ref{lst:count:Signal-Theft Limit Counter Initialization Functions}
+ show \co{count_init()}, which set up \co{flush_local_count_sig()}
+ as the signal handler for \co{SIGUSR1},
+@@ -2778,6 +2586,7 @@ to invoke \co{flush_local_count_sig()}.
+ The code for thread registry and unregistry is similar to that of
+ earlier examples, so its analysis is left as an exercise for the
+ reader.
 +\end{lineref}
  
- \QuickQuiz{}
- 	What stops a thread from simply refilling its
--	\co{ctrandmax} variable immediately after
--	\co{flush_local_count()} on line~14 of
-+	\co{counterandmax} variable immediately after
-+	\co{flush_local_count()} on
-+        line~\ref{ln:count:count_lim_atomic:utility1:flush:b} of
- 	Listing~\ref{lst:count:Atomic Limit Counter Utility Functions 1}
- 	empties it?
- \QuickQuizAnswer{
--	This other thread cannot refill its \co{ctrandmax}
-+	This other thread cannot refill its \co{counterandmax}
- 	until the caller of \co{flush_local_count()} releases the
- 	\co{gblcnt_mutex}.
- 	By that time, the caller of \co{flush_local_count()} will have
-@@ -2320,8 +2161,9 @@ line~30 subtracts this thread's \co{countermax} from \co{globalreserve}.
- \QuickQuiz{}
- 	What prevents concurrent execution of the fastpath of either
- 	\co{add_count()} or \co{sub_count()} from interfering with
--	the \co{ctrandmax} variable while
--	\co{flush_local_count()} is accessing it on line~27 of
-+	the \co{counterandmax} variable while
-+	\co{flush_local_count()} is accessing it on
-+        line~\ref{ln:count:count_lim_atomic:utility1:flush:atmxchg} of
- 	Listing~\ref{lst:count:Atomic Limit Counter Utility Functions 1}
- 	empties it?
- \QuickQuizAnswer{
-@@ -2329,12 +2171,12 @@ line~30 subtracts this thread's \co{countermax} from \co{globalreserve}.
- 	Consider the following three cases:
- 	\begin{enumerate}
- 	\item	If \co{flush_local_count()}'s \co{atomic_xchg()} executes
--		before the \co{split_ctrandmax()} of either fastpath,
-+		before the \co{split_counterandmax()} of either fastpath,
- 		then the fastpath will see a zero \co{counter} and
- 		\co{countermax}, and will thus transfer to the slowpath
- 		(unless of course \co{delta} is zero).
- 	\item	If \co{flush_local_count()}'s \co{atomic_xchg()} executes
--		after the \co{split_ctrandmax()} of either fastpath,
-+		after the \co{split_counterandmax()} of either fastpath,
- 		but before that fastpath's \co{atomic_cmpxchg()},
- 		then the \co{atomic_cmpxchg()} will fail, causing the
- 		fastpath to restart, which reduces to case~1 above.
-@@ -2342,25 +2184,28 @@ line~30 subtracts this thread's \co{countermax} from \co{globalreserve}.
- 		after the \co{atomic_cmpxchg()} of either fastpath,
- 		then the fastpath will (most likely) complete successfully
- 		before \co{flush_local_count()} zeroes the thread's
--		\co{ctrandmax} variable.
-+		\co{counterandmax} variable.
- 	\end{enumerate}
- 	Either way, the race is resolved correctly.
- } \QuickQuizEnd
+ \subsection{Signal-Theft Limit Counter Discussion}
  
--Lines~1-22 on
-+\begin{lineref}[ln:count:count_lim_atomic:utility2]
-+Lines~\lnref{balance:b}-\lnref{balance:e} on
- Listing~\ref{lst:count:Atomic Limit Counter Utility Functions 2}
- show the code for \co{balance_count()}, which refills
--the calling thread's local \co{ctrandmax} variable.
-+the calling thread's local \co{counterandmax} variable.
- This function is quite similar to that of the preceding algorithms,
--with changes required to handle the merged \co{ctrandmax} variable.
-+with changes required to handle the merged \co{counterandmax} variable.
- Detailed analysis of the code is left as an exercise for the reader,
- as it is with the \co{count_register_thread()} function starting on
--line~24 and the \co{count_unregister_thread()} function starting on
--line~33.
-+line~\lnref{register:b} and the \co{count_unregister_thread()} function starting on
-+line~\lnref{unregister:b}.
-+\end{lineref}
- 
- \QuickQuiz{}
- 	Given that the \co{atomic_set()} primitive does a simple
--	store to the specified \co{atomic_t}, how can line~21 of
-+	store to the specified \co{atomic_t}, how can
-+        line~\ref{ln:count:count_lim_atomic:utility2:balance:atmcset} of
- 	\co{balance_count()} in
- 	Listing~\ref{lst:count:Atomic Limit Counter Utility Functions 2}
- 	work correctly in face of concurrent \co{flush_local_count()}
 -- 
 2.7.4
 
