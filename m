@@ -1,77 +1,153 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33056 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726262AbeJOH72 (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 15 Oct 2018 03:59:28 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9F0DcVx077920
-        for <perfbook@vger.kernel.org>; Sun, 14 Oct 2018 20:16:41 -0400
-Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2n4g47r4gn-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Sun, 14 Oct 2018 20:16:41 -0400
-Received: from localhost
-        by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Sun, 14 Oct 2018 20:16:40 -0400
-Date: Sun, 14 Oct 2018 17:16:39 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH 0/6] count: Employ new code-snippet scheme (cont.)
-Reply-To: paulmck@linux.ibm.com
-References: <a20c67f0-db94-7e03-ed69-d09fd51899dd@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=D3ZYOUdeAie9vqPOCXy+xEZ5zzV0MwE4UAgZIbIFMUI=;
+        b=m1bpR63Blk8zxZCrdZttQ59Mx5uxD1NwmPI/xq7tF7Mn6vVyt5CIOnobuBxU6XSFoE
+         RlDEFwgrHWRvtngRdVhLeBbkUtmoY74gVhlWzPVsjXd2LuKLZn/XjTdsNZ6hKxFf8ich
+         7QzMmUloCwMQbyi6hcmXzTanhV2Eeh5I/Rql1Hw+NZXcHgKFEtkub09Kcp9T9vr0dfx/
+         SeyHjfdub2pzuxOWV+Kz9vpq3jmX6fBIMRWazSh5dTtb+9ka1bYQUiwm36GKL27Vu/ya
+         9MoJQJludLJCOLOpV5gaGu92GjEGreSGjP46zLaOdhpf7qt0zZIaGQp3LY4gTF6QxD2N
+         5CTw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [RFC PATCH] count_lim_sig: Add pair of smp_wmb() and smp_rmb()
+Message-ID: <23166674-838e-b626-4522-6e0709da34b9@gmail.com>
+Date: Tue, 16 Oct 2018 08:04:00 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a20c67f0-db94-7e03-ed69-d09fd51899dd@gmail.com>
-Message-Id: <20181015001639.GO2674@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Oct 13, 2018 at 11:52:50PM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> count_lim_sig.c was a hard one to review for me regarding the usage
-> of READ_ONCE()/WRITE_ONCE(). Patch #5 is my attempt to add several
-> of them. There might be other combination of racy accesses.
-> 
-> Patches #1--#4 are trivial ones.
-> 
-> Patch #6 is the result of quick review of your recent addition to
-> toolsoftrade.  I'm not sure you like the addition of comments
-> "/* BUGGY!!! */" to Lisitngs which look irrelevant to their
-> captions.
-> 
-> Patches #5 and #6 are more likely to need your close look.
+From 7b01fc0f19cfa010536d7eb53e4d0cda1e6b801f Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 15 Oct 2018 23:46:52 +0900
+Subject: RFC [PATCH] count_lim_sig: Add pair of smp_wmb() and smp_rmb()
 
-It looks good from what I can see, though your patch 6/6 should
-limit your confidence in this.  ;-)
+This message-passing pattern requires smp_wmb()--smp_rmb() pairing.
 
-I folded your later 7/6 into 4/6.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
 
-Queued and pushed, thank you!!!
+I'm not sure this addition of memory barriers is actually required,
+but it does look like so.
 
-							Thanx, Paul
+And I'm aware that you have avoided using weaker memory barriers in
+CodeSamples.
 
->         Thanks, Akira
-> --
-> Akira Yokosawa (6):
->   count: Employ new scheme for snippet of count_lim_app
->   count: Fix uses of READ/WRITE_ONCE() in count_lim_app
->   count: Employ new scheme for snippet of count_lim_atomic
->   count: Employ new scheme for snippet of count_lim_sig
->   count: READ/WRITE_ONCE() tweaks for count_lim_sig
->   toolsoftrade: Proofread newly added sections
-> 
->  CodeSamples/count/count_lim_app.c    |  17 +-
->  CodeSamples/count/count_lim_atomic.c | 209 ++++----
->  CodeSamples/count/count_lim_sig.c    | 159 ++++---
->  count/count.tex                      | 892 ++++++++++-------------------------
->  toolsoftrade/toolsoftrade.tex        |  44 +-
->  5 files changed, 494 insertions(+), 827 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
+Thoughts?
+
+        Thanks, Akira
+--
+ CodeSamples/arch-arm/arch-arm.h     |  2 ++
+ CodeSamples/arch-arm64/arch-arm64.h |  2 ++
+ CodeSamples/arch-ppc64/arch-ppc64.h |  2 ++
+ CodeSamples/arch-x86/arch-x86.h     |  2 ++
+ CodeSamples/count/count_lim_sig.c   | 21 +++++++++++++--------
+ 5 files changed, 21 insertions(+), 8 deletions(-)
+
+diff --git a/CodeSamples/arch-arm/arch-arm.h b/CodeSamples/arch-arm/arch-arm.h
+index 065c6f1..6f0707b 100644
+--- a/CodeSamples/arch-arm/arch-arm.h
++++ b/CodeSamples/arch-arm/arch-arm.h
+@@ -41,6 +41,8 @@
+ /* __sync_synchronize() is broken before gcc 4.4.1 on many ARM systems. */
+ #define smp_mb()  __asm__ __volatile__("dmb" : : : "memory")
+ 
++#define smp_rmb() __asm__ __volatile__("dmb ish" : : : "memory")
++#define smp_wmb() __asm__ __volatile__("dmb ishst" : : : "memory")
+ 
+ #include <stdlib.h>
+ #include <sys/time.h>
+diff --git a/CodeSamples/arch-arm64/arch-arm64.h b/CodeSamples/arch-arm64/arch-arm64.h
+index 354f1f2..a6ccf33 100644
+--- a/CodeSamples/arch-arm64/arch-arm64.h
++++ b/CodeSamples/arch-arm64/arch-arm64.h
+@@ -41,6 +41,8 @@
+ /* __sync_synchronize() is broken before gcc 4.4.1 on many ARM systems. */
+ #define smp_mb()  __asm__ __volatile__("dmb ish" : : : "memory")
+ 
++#define smp_rmb() __asm__ __volatile__("dmb ishld" : : : "memory")
++#define smp_wmb() __asm__ __volatile__("dmb ishst" : : : "memory")
+ 
+ #include <stdlib.h>
+ #include <time.h>
+diff --git a/CodeSamples/arch-ppc64/arch-ppc64.h b/CodeSamples/arch-ppc64/arch-ppc64.h
+index 7b0b025..2d6a2b5 100644
+--- a/CodeSamples/arch-ppc64/arch-ppc64.h
++++ b/CodeSamples/arch-ppc64/arch-ppc64.h
+@@ -42,6 +42,8 @@
+ 
+ #define smp_mb()  __asm__ __volatile__("sync" : : : "memory")
+ 
++#define smp_rmb() __asm__ __volatile__("lwsync" : : : "memory")
++#define smp_wmb() __asm__ __volatile__("lwsync" : : : "memory")
+ 
+ /*
+  * Generate 64-bit timestamp.
+diff --git a/CodeSamples/arch-x86/arch-x86.h b/CodeSamples/arch-x86/arch-x86.h
+index 9ea97ca..2765bfc 100644
+--- a/CodeSamples/arch-x86/arch-x86.h
++++ b/CodeSamples/arch-x86/arch-x86.h
+@@ -52,6 +52,8 @@ __asm__ __volatile__(LOCK_PREFIX "orl %0,%1" \
+ __asm__ __volatile__("mfence" : : : "memory")
+ /* __asm__ __volatile__("lock; addl $0,0(%%esp)" : : : "memory") */
+ 
++#define smp_rmb() barrier()
++#define smp_wmb() barrier()
+ 
+ /*
+  * Generate 64-bit timestamp.
+diff --git a/CodeSamples/count/count_lim_sig.c b/CodeSamples/count/count_lim_sig.c
+index c316426..26a2a76 100644
+--- a/CodeSamples/count/count_lim_sig.c
++++ b/CodeSamples/count/count_lim_sig.c
+@@ -89,6 +89,7 @@ static void flush_local_count(void)			//\lnlbl{flush:b}
+ 		*counterp[t] = 0;
+ 		globalreserve -= *countermaxp[t];
+ 		*countermaxp[t] = 0;			//\lnlbl{flush:thiev:e}
++		smp_wmb();				//\lnlbl{flush:wmb}
+ 		WRITE_ONCE(*theftp[t], THEFT_IDLE);	//\lnlbl{flush:IDLE}
+ 	}						//\lnlbl{flush:loop2:e}
+ }							//\lnlbl{flush:e}
+@@ -115,10 +116,12 @@ int add_count(unsigned long delta)			//\lnlbl{b}
+ 
+ 	WRITE_ONCE(counting, 1);			//\lnlbl{fast:b}
+ 	barrier();					//\lnlbl{barrier:1}
+-	if (READ_ONCE(theft) <= THEFT_REQ &&		//\lnlbl{check:b}
+-	    countermax - counter >= delta) {		//\lnlbl{check:e}
+-		WRITE_ONCE(counter, counter + delta);	//\lnlbl{add:f}
+-		fastpath = 1;				//\lnlbl{fasttaken}
++	if (READ_ONCE(theft) <= THEFT_REQ) {		//\lnlbl{check:b}
++		smp_rmb();				//\lnlbl{rmb}
++		if (countermax - counter >= delta) {	//\lnlbl{check:e}
++			WRITE_ONCE(counter, counter + delta);//\lnlbl{add:f}
++			fastpath = 1;			//\lnlbl{fasttaken}
++		}
+ 	}
+ 	barrier();					//\lnlbl{barrier:2}
+ 	WRITE_ONCE(counting, 0);			//\lnlbl{clearcnt}
+@@ -154,10 +157,12 @@ int sub_count(unsigned long delta)
+ 
+ 	WRITE_ONCE(counting, 1);
+ 	barrier();
+-	if (READ_ONCE(theft) <= THEFT_REQ &&
+-	    counter >= delta) {
+-		WRITE_ONCE(counter, counter - delta);
+-		fastpath = 1;
++	if (READ_ONCE(theft) <= THEFT_REQ) {
++		smp_rmb();
++		if (counter >= delta) {
++			WRITE_ONCE(counter, counter - delta);
++			fastpath = 1;
++		}
+ 	}
+ 	barrier();
+ 	WRITE_ONCE(counting, 0);
+-- 
+2.7.4
 
