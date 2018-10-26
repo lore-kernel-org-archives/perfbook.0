@@ -1,74 +1,77 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0QT2LRqdfOk6TFu+jodbjCYQn/PJ3EE0QMXwIe451Lg=;
-        b=Q/BGHA+MKi5IRd0j02hg4/eIf6klYZkmdS2x1vM71GT0PJN1PRM+xh+OHvrmSLwws8
-         h7TG8Ooh4Ko/DrO5zjXRLchiFLhms/4P0m9wRgOi4Q2hptz3vj0CDmiFkA8Zh5v1pUAJ
-         SsRzYYBViGPpE6FcgH4sPus8Zfp7Fv73L7e3Huxg/1sXKM7H1sy3CNbUT9TJGdJ/RzE8
-         bWmftsaYuvFGV4AyVec2eHKwchRjS+sB0XuPZpLKVndnC+7XLrSAE7V6Pkjq7KJ+5uXn
-         YEgP5JNxV+THQk/x+dotJdgliprafVyh7NXRZVQMihSQoFpkdHgArItTewGi8JFJRdYz
-         O0fA==
-Subject: Re: perfbook
-References: <20181025083609.GA6766@andrea>
- <20181025100235.GR4170@linux.ibm.com> <20181026202014.GA4905@andrea>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <8e6bc30b-d35f-e03e-9af4-14398bddf5b1@gmail.com>
-Date: Sat, 27 Oct 2018 06:02:02 +0900
+Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48812 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725947AbeJ0Fgz (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sat, 27 Oct 2018 01:36:55 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9QKsvus014670
+        for <perfbook@vger.kernel.org>; Fri, 26 Oct 2018 16:58:22 -0400
+Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2nc5y0jmh4-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <perfbook@vger.kernel.org>; Fri, 26 Oct 2018 16:58:21 -0400
+Received: from localhost
+        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Fri, 26 Oct 2018 16:58:20 -0400
+Date: Fri, 26 Oct 2018 13:58:15 -0700
+From: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: [PATCH] atomic_cmpxchg: Handle spurious failure of
+ __atomic_compare_exchange_n in Power8 and ARMv8
+Reply-To: paulmck@linux.ibm.com
+References: <1540569805-7066-1-git-send-email-junchangwang@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20181026202014.GA4905@andrea>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: Andrea Parri <andrea.parri@amarulasolutions.com>
-Cc: "Paul E. McKenney" <paulmck@linux.ibm.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1540569805-7066-1-git-send-email-junchangwang@gmail.com>
+Message-Id: <20181026205815.GY4170@linux.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Junchang Wang <junchangwang@gmail.com>
+Cc: akiyks@gmail.com, perfbook@vger.kernel.org
 
-On 2018/10/26 13:58:45 -0700, Andrea Parri wrote:
-> On Thu, Oct 25, 2018 at 03:02:35AM -0700, Paul E. McKenney wrote:
->> On Thu, Oct 25, 2018 at 10:36:09AM +0200, Andrea Parri wrote:
->>> Hi Paul,
->>>
->>> could you forward me the info about perfbook you sent last week
->>> including the PDF?  I did try to compile from the repo but have
->>> not been successful yet: here's the last one.
->>>
->>> sh ./utilities/gen_snippet_d.sh
->>> sh utilities/autodate.sh >autodate.tex
->>> CodeSamples/SMPdesign/smpalloc.canonical.eps --> CodeSamples/SMPdesign/smpalloc.canonical.pdf
->>> Makefile:211: recipe for target 'CodeSamples/SMPdesign/smpalloc.canonical.pdf' failed
->>> make: *** [CodeSamples/SMPdesign/smpalloc.canonical.pdf] Error 255
->>
->> Hello, Andrea,
->>
->> Please see attached for the current PDF.  It looks to me like you are
->> missing one of the required packages, which are listed in FAQ-BUILD.txt
->> in the perfbook repo.
->>
->> Adding the perfbook email list in case someone has more exact advice.  ;-)
+On Sat, Oct 27, 2018 at 12:03:25AM +0800, Junchang Wang wrote:
+> If the 4th parameter (field *weak*) of __atomic_compare_exchange_n is set, it
+> may refuse to perform the CAS operation and return a failure, even if the value
+> of field *old* is equal to the content of the specified memory location. This
+> happens in architectures where LL/SC is used to emulate CAS primitive (e.g., PPC
+> and ARM).
 > 
-> Thanks.
+> This patch returns the *old* value if __atomic_compare_exchange_n has been
+> successfully performed; otherwise, *old*+1 is returned, which forces the caller
+> to retry the CAS loop.
 > 
-> Please let me know if I should provide info about my setup/log.
+> Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+> Signed-off-by: kira Yokosawa <akiyks@gmail.com>
 
-Hello Andrea,
+Very good, queued and pushed with adjustments to the commit log above,
+thank you!!!
 
-The commands involved in the failed recipe is "a2ping".
-It invokes "gs" (Ghostscript) internally.
+Please let me know if further adjustments are required.
 
-Current Makefile does not check the existence of "gs".
-Do your system have Ghostscript installed?
+							Thanx, Paul
 
-        Thanks, Akira
- 
-
+> ---
+>  CodeSamples/api-pthreads/api-gcc.h | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 > 
->   Andrea
-> 
-> 
->>
->> 							Thanx, Paul
-> 
+> diff --git a/CodeSamples/api-pthreads/api-gcc.h b/CodeSamples/api-pthreads/api-gcc.h
+> index 1dd26ca..3afe340 100644
+> --- a/CodeSamples/api-pthreads/api-gcc.h
+> +++ b/CodeSamples/api-pthreads/api-gcc.h
+> @@ -168,9 +168,8 @@ struct __xchg_dummy {
+>  ({ \
+>  	typeof(*ptr) _____actual = (o); \
+>  	\
+> -	(void)__atomic_compare_exchange_n(ptr, (void *)&_____actual, (n), 1, \
+> -					  __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST); \
+> -	_____actual; \
+> +	__atomic_compare_exchange_n(ptr, (void *)&_____actual, (n), 1, \
+> +			__ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? (o) : (o)+1; \
+>  })
+>  
+>  static __inline__ int atomic_cmpxchg(atomic_t *v, int old, int new)
+> -- 
+> 2.7.4
 > 
 
