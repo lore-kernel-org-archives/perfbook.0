@@ -3,18 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zbiKwuKlmWSnkRKWRyJB6SEv1UxZRXlcyVw+dRkzPwQ=;
-        b=AJiS6P93DZZ/S3JZptYSLdTSOF/DdwQHaf67LccFGLWw5MESg64s65WytXvnoi6CVR
-         C3eghJtceZRkkojhVcjJJLRugg7tqy6I0QRicaEcxTfsbwFCLXtzy969JiB5RhSy6NsM
-         rsZRsfrShOorvnYmWz2JNJRIfifTTuJNlSddJ8uskDBPv46zUjtJY+/9gTOTyEwAa8N5
-         fCFQq7DMHELKZqLmXtfn3VpHbLseQj07fpskUiz/OWRjEBX/NBxIaBuvSFHa7CRCvGj3
-         7raoHteRJ8ggEkah/eCSonNslm6d++xcEiArueHdkOC90FUP0irGDNbd3AantFC371K8
-         ERyw==
-Subject: [PATCH 7/7] count: Fix indent in count_lim_atomic.c
+        bh=366Bd5ZnbENJ9hOIuHAZyiKhNiZ6FLhXelwDRy2ipJQ=;
+        b=K8CGizeUu66tz8YRJeIxqHCTE0C1BHJZPPRzwX2oMkCeCVmR6vZXUf3TXz2G1FudmX
+         FSvUvAW7rNll4qdnlPrNoFcmgwvB/XsTfwv2KfrUymKQZszjCPHhHDAO5TpGEXqe2MoT
+         f522JluihsS4RWHUF2mZQUkIOdaRRwmaPdoSGNzPNPsnqLdt6UuHIljjF2RilrrnHPTi
+         iX6z/byY69D/jzmlBuOe1Orx+hvr2x6AyOEDAx2x9jhmf0hlXBquuKc0Wg+tRguvbsOn
+         73CxIB6jqmp8EYp3iOMxZ+FKk8oXSAEGUG2cch5coUQTRRR/hD9rJsbcDNgHQT5u60qV
+         QeFA==
+Subject: Re: [PATCH 0/7] count, toolsoftrade: Employ new code-snippet scheme
+ (cont.)
 References: <f6c72461-722d-71d2-b8a6-a2add234e323@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <6556bde0-fb58-12fc-d160-5a793d8b49bb@gmail.com>
-Date: Sat, 27 Oct 2018 00:30:22 +0900
+Message-ID: <5342e889-ee54-cb5d-c498-b887bcb79863@gmail.com>
+Date: Sat, 27 Oct 2018 00:35:10 +0900
 MIME-Version: 1.0
 In-Reply-To: <f6c72461-722d-71d2-b8a6-a2add234e323@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,33 +25,41 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 453bc63fd38da42f52eb88b4fed0a38b0f431cf9 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 20 Oct 2018 07:50:26 +0900
-Subject: [PATCH 7/7] count: Fix indent in count_lim_atomic.c
+On 2018/10/27 00:22:37 +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> This is a set of simple conversions of code snippets to the new scheme
+> in count and toolsoftrade.  There is no change in the code under CodeSamples,
+> but there are a few visual changes in the pdf output which reflect the
+> actual code samples.
 
-Commit 51e9218ac25e ("count: Employ new scheme for snippet of
-count_lim_atomic") changed indent width by accident.  Fix it.
+I forgot to mention that Patch #3 contains minor changes in the code to
+reduce width of code snippets.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- CodeSamples/count/count_lim_atomic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+        Thanks, Akira
 
-diff --git a/CodeSamples/count/count_lim_atomic.c b/CodeSamples/count/count_lim_atomic.c
-index 6190a9f..02f4e6d 100644
---- a/CodeSamples/count/count_lim_atomic.c
-+++ b/CodeSamples/count/count_lim_atomic.c
-@@ -137,7 +137,7 @@ int sub_count(unsigned long delta)			//\lnlbl{sub:b}
- 	do {						//\lnlbl{sub:fast:b}
- 		split_counterandmax(&counterandmax, &old, &c, &cm);
- 		if (delta > c)
--		  goto slowpath;
-+			goto slowpath;
- 		new = merge_counterandmax(c - delta, cm);
- 	} while (atomic_cmpxchg(&counterandmax,
- 	                        old, new) != old);
--- 
-2.7.4
-
+> 
+> Patch #7 fixes an unintended change in indent width made in the previous
+> patch set.
+> 
+>         Thanks, Akira
+> --
+> Akira Yokosawa (7):
+>   count: Employ new scheme for inline code snippets
+>   toolsoftrade: Use 'VerbatimU' for inline snippets
+>   toolsoftrade: Employ new scheme for snippets of lock.c
+>   toolsoftrade: Employ new scheme for snippet of rwlockscale.c
+>   toolsoftrade: Employ new scheme for snippet of compiler barriers
+>   toolsoftrade: Employ new scheme for snippets of threadcreate.c
+>   count: Fix indent in count_lim_atomic.c
+> 
+>  CodeSamples/api-pthreads/api-pthreads.h |   7 +-
+>  CodeSamples/count/count_lim_atomic.c    |   2 +-
+>  CodeSamples/intro/threadcreate.c        |  20 +-
+>  CodeSamples/toolsoftrade/lock.c         |  76 +++---
+>  CodeSamples/toolsoftrade/rwlockscale.c  |  54 ++--
+>  count/count.tex                         |  89 +++---
+>  toolsoftrade/toolsoftrade.tex           | 460 ++++++++------------------------
+>  7 files changed, 253 insertions(+), 455 deletions(-)
+> 
 
