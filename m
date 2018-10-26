@@ -1,78 +1,80 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46664 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725947AbeJ0FhY (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sat, 27 Oct 2018 01:37:24 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9QKsqmZ030049
-        for <perfbook@vger.kernel.org>; Fri, 26 Oct 2018 16:58:51 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2nca158ut6-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Fri, 26 Oct 2018 16:58:51 -0400
-Received: from localhost
-        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Fri, 26 Oct 2018 16:58:49 -0400
-Date: Fri, 26 Oct 2018 13:58:45 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH 0/7] count, toolsoftrade: Employ new code-snippet scheme
- (cont.)
-Reply-To: paulmck@linux.ibm.com
-References: <f6c72461-722d-71d2-b8a6-a2add234e323@gmail.com>
- <5342e889-ee54-cb5d-c498-b887bcb79863@gmail.com>
+Return-Path: <andrea.parri@amarulasolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=93A9DetcQc9vPRAt8RR6V5wH/wNBVgs9pHFmYoob104=;
+        b=SLjYeN2TyU9QLgsPkqsjwFbT+blE2AQ8O+PzMohRcvKfpHX8QWAX696dJEecUiWs9L
+         zgjQwzHW1BCn/ZF8iPF9vWx+gIp/pZsE1rYjTQHuxycRTjkt4U5snKHhsJMsa3AYguQ+
+         c4ykkUxxX+D65XsvQ9nVamFBczbY9fOWGkqY8=
+Date: Sat, 27 Oct 2018 00:14:02 +0200
+From: Andrea Parri <andrea.parri@amarulasolutions.com>
+Subject: Re: perfbook
+Message-ID: <20181026221402.GA5769@andrea>
+References: <20181025083609.GA6766@andrea>
+ <20181025100235.GR4170@linux.ibm.com>
+ <20181026202014.GA4905@andrea>
+ <8e6bc30b-d35f-e03e-9af4-14398bddf5b1@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5342e889-ee54-cb5d-c498-b887bcb79863@gmail.com>
-Message-Id: <20181026205845.GZ4170@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
+In-Reply-To: <8e6bc30b-d35f-e03e-9af4-14398bddf5b1@gmail.com>
 To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+Cc: "Paul E. McKenney" <paulmck@linux.ibm.com>, perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Sat, Oct 27, 2018 at 12:35:10AM +0900, Akira Yokosawa wrote:
-> On 2018/10/27 00:22:37 +0900, Akira Yokosawa wrote:
-> > Hi Paul,
+On Sat, Oct 27, 2018 at 06:02:02AM +0900, Akira Yokosawa wrote:
+> On 2018/10/26 13:58:45 -0700, Andrea Parri wrote:
+> > On Thu, Oct 25, 2018 at 03:02:35AM -0700, Paul E. McKenney wrote:
+> >> On Thu, Oct 25, 2018 at 10:36:09AM +0200, Andrea Parri wrote:
+> >>> Hi Paul,
+> >>>
+> >>> could you forward me the info about perfbook you sent last week
+> >>> including the PDF?  I did try to compile from the repo but have
+> >>> not been successful yet: here's the last one.
+> >>>
+> >>> sh ./utilities/gen_snippet_d.sh
+> >>> sh utilities/autodate.sh >autodate.tex
+> >>> CodeSamples/SMPdesign/smpalloc.canonical.eps --> CodeSamples/SMPdesign/smpalloc.canonical.pdf
+> >>> Makefile:211: recipe for target 'CodeSamples/SMPdesign/smpalloc.canonical.pdf' failed
+> >>> make: *** [CodeSamples/SMPdesign/smpalloc.canonical.pdf] Error 255
+> >>
+> >> Hello, Andrea,
+> >>
+> >> Please see attached for the current PDF.  It looks to me like you are
+> >> missing one of the required packages, which are listed in FAQ-BUILD.txt
+> >> in the perfbook repo.
+> >>
+> >> Adding the perfbook email list in case someone has more exact advice.  ;-)
 > > 
-> > This is a set of simple conversions of code snippets to the new scheme
-> > in count and toolsoftrade.  There is no change in the code under CodeSamples,
-> > but there are a few visual changes in the pdf output which reflect the
-> > actual code samples.
+> > Thanks.
+> > 
+> > Please let me know if I should provide info about my setup/log.
 > 
-> I forgot to mention that Patch #3 contains minor changes in the code to
-> reduce width of code snippets.
+> Hello Andrea,
+> 
+> The commands involved in the failed recipe is "a2ping".
+> It invokes "gs" (Ghostscript) internally.
+> 
+> Current Makefile does not check the existence of "gs".
+> Do your system have Ghostscript installed?
+
+Hi Akira.  Yes, I have v9.25 (2018-03-21) from ubuntu 18.04.
+
+  Andrea
+
+
 > 
 >         Thanks, Akira
+>  
 > 
 > > 
-> > Patch #7 fixes an unintended change in indent width made in the previous
-> > patch set.
+> >   Andrea
 > > 
-> >         Thanks, Akira
-
-I applied and pushed this series, thank you!
-
-							Thanx, Paul
-
-> > --
-> > Akira Yokosawa (7):
-> >   count: Employ new scheme for inline code snippets
-> >   toolsoftrade: Use 'VerbatimU' for inline snippets
-> >   toolsoftrade: Employ new scheme for snippets of lock.c
-> >   toolsoftrade: Employ new scheme for snippet of rwlockscale.c
-> >   toolsoftrade: Employ new scheme for snippet of compiler barriers
-> >   toolsoftrade: Employ new scheme for snippets of threadcreate.c
-> >   count: Fix indent in count_lim_atomic.c
 > > 
-> >  CodeSamples/api-pthreads/api-pthreads.h |   7 +-
-> >  CodeSamples/count/count_lim_atomic.c    |   2 +-
-> >  CodeSamples/intro/threadcreate.c        |  20 +-
-> >  CodeSamples/toolsoftrade/lock.c         |  76 +++---
-> >  CodeSamples/toolsoftrade/rwlockscale.c  |  54 ++--
-> >  count/count.tex                         |  89 +++---
-> >  toolsoftrade/toolsoftrade.tex           | 460 ++++++++------------------------
-> >  7 files changed, 253 insertions(+), 455 deletions(-)
+> >>
+> >> 							Thanx, Paul
+> > 
 > > 
 > 
 
