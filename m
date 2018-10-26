@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fZ+jZEiYB4nJTgdAj7l4bKIIVGduDgfXSi6vL7L/siY=;
-        b=UbqM9o2Vo9a8AgKHDQk8JeGp8fjwMYl90aHWbmZwIr83U0++4B6yFly11FXzIM6Eud
-         Xw7OfHRXNHiavqAi5I1LHYxBAKgkpN1VwOZX3Q/EwWBLIfYnsnrgxcUzXYe0gNAgRZ1A
-         uP9lx1c2bsVxPdURypZdQJAKpnhRKNkSkOeSwFzW7zKZm+NcIMvL1et2mJbUuON7JIbn
-         DmKiMtzVkOyf9HElZX8B1+uyMbl//k3WlAP5+b70Vy9aeKdahfpbJDh2FttaBuKRYKkP
-         HZMOuJKVNsq+BpwOm6V2yHwDCpK1drFeR4SNeLeA/W5dy5D+6G82mNqtB+hnB0yQfsIT
-         omrw==
-Subject: [PATCH 1/7] count: Employ new scheme for inline code snippets
+        bh=1HG5DIaqLf9w7M9csBEHiP3rtLzwLKPsM3Ewfvm0Ujw=;
+        b=H1FpdTxZPfOnptTOUbB9G7IozLsDp5H0DYL5+XKFR+i5nXX+yP336BVsFVOQ5Rau1+
+         4bovpWij3ivKuoz0vLmcGnamyI5wsoGCH7HUUHpiz7iloCp4tsrKCwh0V9RJj4NbFIZc
+         m5unRQVHBBNcYJUiE3qdTjl1v7vnKRQTn5pya9hgH/Z+Tbu6S6E2wQNFZYb5wXqRXDTZ
+         8sHtQrk2H8gIswQgYwZ0EupOZoVjiraijDDraFqP34Asze7KGp6zzrjDUGgrjzLu3H88
+         9WZ0+80mBHbEFvPWozmz4Ml+HQyr1H3dwO4vegphiVPmVaJDAMRagmHZXu/JTWLV49HQ
+         +BnA==
+Subject: [PATCH 2/7] toolsoftrade: Use 'VerbatimU' for inline snippets
 References: <f6c72461-722d-71d2-b8a6-a2add234e323@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <70901d74-61e2-5319-8328-ffab4c869d47@gmail.com>
-Date: Sat, 27 Oct 2018 00:24:02 +0900
+Message-ID: <7bdd087c-bb71-56d8-e32c-9b000faf3aec@gmail.com>
+Date: Sat, 27 Oct 2018 00:24:52 +0900
 MIME-Version: 1.0
 In-Reply-To: <f6c72461-722d-71d2-b8a6-a2add234e323@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,125 +24,193 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From c8ed9b923cfdc68403998cd154f07f7834ad4edb Mon Sep 17 00:00:00 2001
+From f65277139c063f4b44987edb0eee40ade1957df2 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 14 Oct 2018 10:50:24 +0900
-Subject: [PATCH 1/7] count: Employ new scheme for inline code snippets
+Date: Sun, 14 Oct 2018 14:54:14 +0900
+Subject: [PATCH 2/7] toolsoftrade: Use 'VerbatimU' for inline snippets
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- count/count.tex | 89 +++++++++++++++++++++++++++++----------------------------
- 1 file changed, 46 insertions(+), 43 deletions(-)
+ toolsoftrade/toolsoftrade.tex | 90 ++++++++++---------------------------------
+ 1 file changed, 20 insertions(+), 70 deletions(-)
 
-diff --git a/count/count.tex b/count/count.tex
-index 4d13394..0f35042 100644
---- a/count/count.tex
-+++ b/count/count.tex
-@@ -2679,30 +2679,33 @@ when updating the counter, and to write-acquire that same reader-writer
- lock when checking the counter.
- Code for doing I/O might be as follows:
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 6896997..601829c 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -88,14 +88,9 @@ of \co{cat} execute sequentially.
+ \QuickQuizAnswer{
+ 	One straightforward approach is the shell pipeline:
+ 
+-\begin{minipage}[t]{\columnwidth}
+-\vspace{0.1ex}
+-\small
+-\begin{verbatim}
++\begin{VerbatimU}
+ grep $pattern1 | sed -e 's/a/b/' | sort
+-\end{verbatim}
+-\vspace{0.1ex}
+-\end{minipage}
++\end{VerbatimU}
+ 
+ 	For a sufficiently large input file,
+ 	\co{grep} will pattern-match in parallel with \co{sed}
+@@ -648,15 +643,10 @@ Lines~7-11 create a thread running \co{lock_writer()}.
+ Lines~12-19 wait for both threads to complete.
+ The output of this code fragment is as follows:
+ 
+-\vspace{5pt}
+-\begin{minipage}[t]{\columnwidth}
+-\scriptsize
+-\begin{verbatim}
++\begin{VerbatimU}
+ Creating two threads using same lock:
+ lock_reader(): x = 0
+-\end{verbatim}
+-\end{minipage}
+-\vspace{5pt}
++\end{VerbatimU}
+ 
+ Because both threads are using the same lock, the \co{lock_reader()}
+ thread cannot see any of the intermediate values of \co{x} produced
+@@ -718,18 +708,13 @@ shows a similar code fragment, but this time using different locks:
+ \co{lock_writer()}.
+ The output of this code fragment is as follows:
+ 
+-\vspace{5pt}
+-\begin{minipage}[t]{\columnwidth}
+-\scriptsize
+-\begin{verbatim}
++\begin{VerbatimU}
+ Creating two threads w/different locks:
+ lock_reader(): x = 0
+ lock_reader(): x = 1
+ lock_reader(): x = 2
+ lock_reader(): x = 3
+-\end{verbatim}
+-\end{minipage}
+-\vspace{5pt}
++\end{VerbatimU}
+ 
+ Because the two threads are using different locks, they do not exclude
+ each other, and can run concurrently.
+@@ -1144,16 +1129,11 @@ If you instead need the new value, you can instead use the
+ 	For example, one could implement \co{__sync_nand_and_fetch()}
+ 	in terms of \co{__sync_fetch_and_nand()} as follows:
+ 
+-\vspace{5pt}
+-\begin{minipage}[t]{\columnwidth}
+-\scriptsize
+-\begin{verbatim}
++\begin{VerbatimU}
+ tmp = v;
+ ret = __sync_fetch_and_nand(p, tmp);
+ ret = ~ret & tmp;
+-\end{verbatim}
+-\end{minipage}
+-\vspace{5pt}
++\end{VerbatimU}
+ 
+ 	It is similarly possible to implement \co{__sync_fetch_and_add()},
+ 	\co{__sync_fetch_and_sub()}, and \co{__sync_fetch_and_xor()}
+@@ -1615,16 +1595,11 @@ allowing other threads to acquire it.
+ A spinlock named \co{mutex} may be used to protect a variable
+ \co{counter} as follows:
  
 -\vspace{5pt}
 -\begin{minipage}[t]{\columnwidth}
 -\small
 -\begin{verbatim}
--  1 read_lock(&mylock);
--  2 if (removing) {
--  3   read_unlock(&mylock);
--  4   cancel_io();
--  5 } else {
--  6   add_count(1);
--  7   read_unlock(&mylock);
--  8   do_io();
--  9   sub_count(1);
-- 10 }
++\begin{VerbatimU}
+ spin_lock(&mutex);
+ counter++;
+ spin_unlock(&mutex);
 -\end{verbatim}
 -\end{minipage}
 -\vspace{5pt}
--
--Line~1 read-acquires the lock, and either line~3 or~7 releases it.
--Line~2 checks to see if the device is being removed, and, if so,
--line~3 releases the lock and line~4 cancels the I/O, or takes whatever
-+\begin{linelabel}[ln:count:inline:I/O]
-+\begin{VerbatimN}[commandchars=\\\[\]]
-+read_lock(&mylock);		\lnlbl[acq]
-+if (removing) {			\lnlbl[check]
-+	read_unlock(&mylock);	\lnlbl[rel1]
-+	cancel_io();		\lnlbl[cancel]
-+} else {
-+	add_count(1);		\lnlbl[inc]
-+	read_unlock(&mylock);	\lnlbl[rel2]
-+	do_io();		\lnlbl[do]
-+	sub_count(1);		\lnlbl[dec]
-+}
-+\end{VerbatimN}
-+\end{linelabel}
-+
-+\begin{lineref}[ln:count:inline:I/O]
-+Line~\lnref{acq} read-acquires the lock, and either
-+line~\lnref{rel1} or~\lnref{rel2} releases it.
-+Line~\lnref{check} checks to see if the device is being removed, and, if so,
-+line~\lnref{rel1} releases the lock and
-+line~\lnref{cancel} cancels the I/O, or takes whatever
- action is appropriate given that the device is to be removed.
--Otherwise, line~6 increments the access count, line~7 releases the
--lock, line~8 performs the I/O, and line~9 decrements the access count.
-+Otherwise, line~\lnref{inc} increments the access count,
-+line~\lnref{rel2} releases the
-+lock, line~\lnref{do} performs the I/O, and
-+line~\lnref{dec} decrements the access count.
-+\end{lineref}
++\end{VerbatimU}
  
  \QuickQuiz{}
- 	This is ridiculous!
-@@ -2717,27 +2720,27 @@ lock, line~8 performs the I/O, and line~9 decrements the access count.
- 
- The code to remove the device might be as follows:
+ 	What problems could occur if the variable {\tt counter} were
+@@ -1633,16 +1608,11 @@ spin_unlock(&mutex);
+ 	On CPUs with load-store architectures, incrementing {\tt counter}
+ 	might compile into something like the following:
  
 -\vspace{5pt}
 -\begin{minipage}[t]{\columnwidth}
 -\small
 -\begin{verbatim}
--  1 write_lock(&mylock);
--  2 removing = 1;
--  3 sub_count(mybias);
--  4 write_unlock(&mylock);
--  5 while (read_count() != 0) {
--  6   poll(NULL, 0, 1);
--  7 }
--  8 remove_device();
++\begin{VerbatimU}
+ LOAD counter,r0
+ INC r0
+ STORE r0,counter
 -\end{verbatim}
 -\end{minipage}
 -\vspace{5pt}
--
--Line~1 write-acquires the lock and line~4 releases it.
--Line~2 notes that the device is being removed, and the loop spanning
--lines~5-7 wait for any I/O operations to complete.
--Finally, line~8 does any additional processing needed to prepare for
-+\begin{linelabel}[ln:count:inline:remove]
-+\begin{VerbatimN}[commandchars=\\\[\]]
-+write_lock(&mylock);		\lnlbl[acq]
-+removing = 1;			\lnlbl[note]
-+sub_count(mybias);
-+write_unlock(&mylock);		\lnlbl[rel]
-+while (read_count() != 0) {	\lnlbl[loop:b]
-+	poll(NULL, 0, 1);
-+}				\lnlbl[loop:e]
-+remove_device();		\lnlbl[remove]
-+\end{VerbatimN}
-+\end{linelabel}
-+
-+\begin{lineref}[ln:count:inline:remove]
-+Line~\lnref{acq} write-acquires the lock and
-+line~\lnref{rel} releases it.
-+Line~\lnref{note} notes that the device is being removed, and the loop spanning
-+lines~\lnref{loop:b}-\lnref{loop:e} wait for any I/O operations to complete.
-+Finally, line~\lnref{remove} does any additional processing needed to prepare for
- device removal.
-+\end{lineref}
++\end{VerbatimU}
  
- \QuickQuiz{}
- 	What other issues would need to be accounted for in a real system?
+ 	On such machines, two threads might simultaneously load the
+ 	value of {\tt counter}, each increment it, and each store the
+@@ -2505,51 +2475,31 @@ Section~\ref{sec:count:Statistical Counters},
+ it is helpful to implement such a counter using a per-thread variable.
+ Such a variable can be defined as follows:
+ 
+-\vspace{5pt}
+-\begin{minipage}[t]{\columnwidth}
+-\small
+-\begin{verbatim}
++\begin{VerbatimU}
+ DEFINE_PER_THREAD(int, counter);
+-\end{verbatim}
+-\end{minipage}
+-\vspace{5pt}
++\end{VerbatimU}
+ 
+ The counter must be initialized as follows:
+ 
+-\vspace{5pt}
+-\begin{minipage}[t]{\columnwidth}
+-\small
+-\begin{verbatim}
++\begin{VerbatimU}
+ init_per_thread(counter, 0);
+-\end{verbatim}
+-\end{minipage}
+-\vspace{5pt}
++\end{VerbatimU}
+ 
+ A thread can increment its instance of this counter as follows:
+ 
+-\vspace{5pt}
+-\begin{minipage}[t]{\columnwidth}
+-\small
+-\begin{verbatim}
++\begin{VerbatimU}
+ p_counter = &__get_thread_var(counter);
+ WRITE_ONCE(*p_counter, *p_counter + 1);
+-\end{verbatim}
+-\end{minipage}
+-\vspace{5pt}
++\end{VerbatimU}
+ 
+ The value of the counter is then the sum of its instances.
+ A snapshot of the value of the counter can thus be collected
+ as follows:
+ 
+-\vspace{5pt}
+-\begin{minipage}[t]{\columnwidth}
+-\small
+-\begin{verbatim}
++\begin{VerbatimU}
+ for_each_thread(t)
+   sum += READ_ONCE(per_thread(counter, t));
+-\end{verbatim}
+-\end{minipage}
+-\vspace{5pt}
++\end{VerbatimU}
+ 
+ Again, it is possible to gain a similar effect using other mechanisms,
+ but per-thread variables combine convenience and high performance,
 -- 
 2.7.4
 
