@@ -3,18 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=SJ27r96aSMr5QSydpEp+hYyfX9S5YF8Yiog3SIA6y/k=;
-        b=ssf6TqdorvO0TXMEipvboPnfu5Hd5dwA1CTp0BwuqK+QTeXtQGctQ5rK8FyDaL4fHE
-         um80fYM0WKqhLPMEZB9klhLDJn6cPfFEL5VR2KcWZ7c91LBDKy2b02Vj2QyXs3CEN0rI
-         s9+XXDd1RKuM6sM3xPk6p+4Ui+ZMjbNFGNb8QgwE1QBcT4pyx/PEmZDa83mj+foC/XEn
-         bOzNU8AKNGdkQQQu6UDRt6INPt41bIpcjIET7Q6pUjgQMTNu7C12WbPd7iIkWP/rybT4
-         vLTfhbZgKS38c8e7ZC1Kw9HPg89ubopzDncWkDeUys2GtoEkYyZ8cProXA1SJDsHnKNS
-         Du8Q==
-Subject: [PATCH 3/7] toolsoftrade: Employ new scheme for snippets of lock.c
+        bh=H7vfvkYG7G89mpmV6cn/wpOKxDPL1Yig6K1nDURqIp4=;
+        b=Ck5fqSsEGRqK16xPClGF9nTOrz9kFgHkf4hw2s/M4daoOUCYrMYgLh4aKASG+vhYww
+         FNCtW1PjF0TzDRDTfFBkCuUwmQvJlnvKs4Y6B4lHUJIaK0e20KOk9xwZ81TM+2PD4gWx
+         iD+CXst9BOQB3lZXJxj2LpueYI+epOuu8ut+d/OndWsGajE3ocVBHWLvc1PIACol7HYy
+         5KtU+xmKCz6m8/hMfp3Lys88Hidcnp/rddU/F7ivdc1oj7PoXqJjwg7j+Rq7fcAuhzny
+         FnY4q+kNlhjYhWzQtmNjariCdADvp5NdGROCb5kXYaWTxvC2YA65dXTwGfxzlxoWw1u3
+         kmdA==
+Subject: [PATCH 4/7] toolsoftrade: Employ new scheme for snippet of
+ rwlockscale.c
 References: <f6c72461-722d-71d2-b8a6-a2add234e323@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <3f5b8e5b-fe66-c754-baac-d6962b716990@gmail.com>
-Date: Sat, 27 Oct 2018 00:26:16 +0900
+Message-ID: <579adfe5-3427-8cba-fcd8-d898a216aa82@gmail.com>
+Date: Sat, 27 Oct 2018 00:27:17 +0900
 MIME-Version: 1.0
 In-Reply-To: <f6c72461-722d-71d2-b8a6-a2add234e323@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,427 +25,238 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 4bf3961a5c8501a9983a196119038b74cff7a18d Mon Sep 17 00:00:00 2001
+From 5f85ee80de39323a192da10c4a25ae8ec0f4cd2c Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 14 Oct 2018 16:23:34 +0900
-Subject: [PATCH 3/7] toolsoftrade: Employ new scheme for snippets of lock.c
-
-NOTE: Several "if" statements, which are too wide for 2c layout,
-are divided into a statement to get error code and a simple "if"
-statement.
+Date: Sun, 14 Oct 2018 18:00:26 +0900
+Subject: [PATCH 4/7] toolsoftrade: Employ new scheme for snippet of rwlockscale.c
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/toolsoftrade/lock.c |  76 +++++++++--------
- toolsoftrade/toolsoftrade.tex   | 175 +++++++++++-----------------------------
- 2 files changed, 89 insertions(+), 162 deletions(-)
+ CodeSamples/toolsoftrade/rwlockscale.c | 54 ++++++++++----------
+ toolsoftrade/toolsoftrade.tex          | 93 +++++++++++-----------------------
+ 2 files changed, 57 insertions(+), 90 deletions(-)
 
-diff --git a/CodeSamples/toolsoftrade/lock.c b/CodeSamples/toolsoftrade/lock.c
-index 6bb3c23..7b56c0f 100644
---- a/CodeSamples/toolsoftrade/lock.c
-+++ b/CodeSamples/toolsoftrade/lock.c
-@@ -26,62 +26,64 @@
+diff --git a/CodeSamples/toolsoftrade/rwlockscale.c b/CodeSamples/toolsoftrade/rwlockscale.c
+index affb5a2..b46837e 100644
+--- a/CodeSamples/toolsoftrade/rwlockscale.c
++++ b/CodeSamples/toolsoftrade/rwlockscale.c
+@@ -26,50 +26,52 @@
  #include <errno.h>
  #include "../api.h"
  
--pthread_mutex_t lock_a = PTHREAD_MUTEX_INITIALIZER;
--pthread_mutex_t lock_b = PTHREAD_MUTEX_INITIALIZER;
-+//\begin{snippet}[labelbase=ln:toolsoftrade:lock:reader_writer,commandchars=\$\[\]]
-+pthread_mutex_t lock_a = PTHREAD_MUTEX_INITIALIZER;	//\lnlbl{lock_a}
-+pthread_mutex_t lock_b = PTHREAD_MUTEX_INITIALIZER;	//\lnlbl{lock_b}
+-pthread_rwlock_t rwl = PTHREAD_RWLOCK_INITIALIZER;
+-int holdtime = 0;	/* # loops holding lock. */
+-int thinktime = 0;	/* # loops not holding lock. */
+-long long *readcounts;
+-int nreadersrunning = 0;
++//\begin{snippet}[labelbase=ln:toolsoftrade:rwlockscale:reader,commandchars=\@\^\$]
++pthread_rwlock_t rwl = PTHREAD_RWLOCK_INITIALIZER;	//\lnlbl{rwlock}
++int holdtime = 0;	/* # loops holding lock. */	//\lnlbl{holdtm}
++int thinktime = 0;	/* # loops not holding lock. */	//\lnlbl{thinktm}
++long long *readcounts;					//\lnlbl{rdcnts}
++int nreadersrunning = 0;				//\lnlbl{nrdrun}
  
--int x = 0;
-+int x = 0;						//\lnlbl{x}
+-#define GOFLAG_INIT 0
++#define GOFLAG_INIT 0					//\lnlbl{goflag:b}
+ #define GOFLAG_RUN  1
+ #define GOFLAG_STOP 2
+-char goflag = GOFLAG_INIT;
++char goflag = GOFLAG_INIT;				//\lnlbl{goflag:e}
  
--void *lock_reader(void *arg)
-+void *lock_reader(void *arg)				//\lnlbl{reader:b}
+-void *reader(void *arg)
++void *reader(void *arg)					//\lnlbl{reader:b}
  {
  	int en;
  	int i;
- 	int newx = -1;
- 	int oldx = -1;
--	pthread_mutex_t *pmlp = (pthread_mutex_t *)arg;
-+	pthread_mutex_t *pmlp = (pthread_mutex_t *)arg;	//\lnlbl{reader:cast}
+ 	long long loopcnt = 0;
+ 	long me = (long)arg;
  
--	if ((en = pthread_mutex_lock(pmlp)) != 0) {
-+	if ((en = pthread_mutex_lock(pmlp)) != 0) {	//\lnlbl{reader:acq:b}
- 		fprintf(stderr, "lock_reader:pthread_mutex_lock: %s\n",
- 			strerror(en));
- 		exit(EXIT_FAILURE);
+-	__sync_fetch_and_add(&nreadersrunning, 1);
+-	while (READ_ONCE(goflag) == GOFLAG_INIT) {
++	__sync_fetch_and_add(&nreadersrunning, 1);	//\lnlbl{reader:atmc_inc}
++	while (READ_ONCE(goflag) == GOFLAG_INIT) {	//\lnlbl{reader:wait:b}
+ 		continue;
 -	}
--	for (i = 0; i < 100; i++) {
--		newx = READ_ONCE(x);
-+	}						//\lnlbl{reader:acq:e}
-+	for (i = 0; i < 100; i++) {			//\lnlbl{reader:loop:b}
-+		newx = READ_ONCE(x);			//\lnlbl{reader:read_x}
- 		if (newx != oldx) {
- 			printf("lock_reader(): x = %d\n", newx);
- 		}
- 		oldx = newx;
--		poll(NULL, 0, 1);
+-	while (READ_ONCE(goflag) == GOFLAG_RUN) {
+-		if ((en = pthread_rwlock_rdlock(&rwl)) != 0) {
++	}						//\lnlbl{reader:wait:e}
++	while (READ_ONCE(goflag) == GOFLAG_RUN) {	//\lnlbl{reader:loop:b}
++		if ((en = pthread_rwlock_rdlock(&rwl)) != 0) {	//\lnlbl{reader:acq:b}
+ 			fprintf(stderr,
+-				"pthread_rwlock_rdlock: %s\n", strerror(en));
++			        "pthread_rwlock_rdlock: %s\n", strerror(en));
+ 			exit(EXIT_FAILURE);
+-		}
+-		for (i = 1; i < holdtime; i++) {
++		}						//\lnlbl{reader:acq:e}
++		for (i = 1; i < holdtime; i++) {	//\lnlbl{reader:hold:b}
+ 			barrier();
+-		}
+-		if ((en = pthread_rwlock_unlock(&rwl)) != 0) {
++		}					//\lnlbl{reader:hold:e}
++		if ((en = pthread_rwlock_unlock(&rwl)) != 0) {	//\lnlbl{reader:rel:b}
+ 			fprintf(stderr,
+ 				"pthread_rwlock_unlock: %s\n", strerror(en));
+ 			exit(EXIT_FAILURE);
+-		}
+-		for (i = 1; i < thinktime; i++) {
++		}						//\lnlbl{reader:rel:e}
++		for (i = 1; i < thinktime; i++) {	//\lnlbl{reader:think:b}
+ 			barrier();
+-		}
+-		loopcnt++;
 -	}
--	if ((en = pthread_mutex_unlock(pmlp)) != 0) {
-+		poll(NULL, 0, 1);			//\lnlbl{reader:sleep}
-+	}						//\lnlbl{reader:loop:e}
-+	if ((en = pthread_mutex_unlock(pmlp)) != 0) {	//\lnlbl{reader:rel:b}
- 		fprintf(stderr, "lock_reader:pthread_mutex_lock: %s\n",
- 			strerror(en));
- 		exit(EXIT_FAILURE);
--	}
+-	readcounts[me] = loopcnt;
 -	return NULL;
 -}
-+	}						//\lnlbl{reader:rel:e}
++		}					//\lnlbl{reader:think:e}
++		loopcnt++;				//\lnlbl{reader:count}
++	}						//\lnlbl{reader:loop:e}
++	readcounts[me] = loopcnt;			//\lnlbl{reader:mov_cnt}
 +	return NULL;					//\lnlbl{reader:return}
 +}							//\lnlbl{reader:e}
- 
--void *lock_writer(void *arg)
-+void *lock_writer(void *arg)				//\lnlbl{writer:b}
- {
- 	int en;
- 	int i;
--	pthread_mutex_t *pmlp = (pthread_mutex_t *)arg;
-+	pthread_mutex_t *pmlp = (pthread_mutex_t *)arg;	//\lnlbl{writer:cast}
- 
--	if ((en = pthread_mutex_lock(pmlp)) != 0) {
-+	if ((en = pthread_mutex_lock(pmlp)) != 0) {	//\lnlbl{writer:acq:b}
- 		fprintf(stderr, "lock_writer:pthread_mutex_lock: %s\n",
- 			strerror(en));
- 		exit(EXIT_FAILURE);
--	}
--	for (i = 0; i < 3; i++) {
--		WRITE_ONCE(x, READ_ONCE(x) + 1);
-+	}						//\lnlbl{writer:acq:e}
-+	for (i = 0; i < 3; i++) {			//\lnlbl{writer:loop:b}
-+		WRITE_ONCE(x, READ_ONCE(x) + 1);	//\lnlbl{writer:inc}
- 		poll(NULL, 0, 5);
--	}
--	if ((en = pthread_mutex_unlock(pmlp)) != 0) {
-+	}						//\lnlbl{writer:loop:e}
-+	if ((en = pthread_mutex_unlock(pmlp)) != 0) {	//\lnlbl{writer:rel:b}
- 		fprintf(stderr, "lock_writer:pthread_mutex_lock: %s\n",
- 			strerror(en));
- 		exit(EXIT_FAILURE);
--	}
-+	}						//\lnlbl{writer:rel:e}
- 	return NULL;
--}
-+}							//\lnlbl{writer:e}
 +//\end{snippet}
  
  int main(int argc, char *argv[])
  {
-@@ -90,31 +92,38 @@ int main(int argc, char *argv[])
- 	pthread_t tid2;
- 	void *vp;
- 
-+//\begin{snippet}[labelbase=ln:toolsoftrade:lock:same_lock,commandchars=\$\[\]]
- 	printf("Creating two threads using same lock:\n");
--	if ((en = pthread_create(&tid1, NULL, lock_reader, &lock_a)) != 0) {
-+	en = pthread_create(&tid1, NULL, lock_reader, &lock_a);	//\lnlbl{cr:reader:b}
-+	if (en != 0) {
- 		fprintf(stderr, "pthread_create: %s\n", strerror(en));
- 		exit(EXIT_FAILURE);
--	}
--	if ((en = pthread_create(&tid2, NULL, lock_writer, &lock_a)) != 0) {
-+	}							//\lnlbl{cr:reader:e}
-+	en = pthread_create(&tid2, NULL, lock_writer, &lock_a); //\lnlbl{cr:writer:b}
-+	if (en != 0) {
- 		fprintf(stderr, "pthread_create: %s\n", strerror(en));
- 		exit(EXIT_FAILURE);
--	}
--	if ((en = pthread_join(tid1, &vp)) != 0) {
-+	}							//\lnlbl{cr:writer:e}
-+	if ((en = pthread_join(tid1, &vp)) != 0) {	//\lnlbl{wait:b}
- 		fprintf(stderr, "pthread_join: %s\n", strerror(en));
- 		exit(EXIT_FAILURE);
- 	}
- 	if ((en = pthread_join(tid2, &vp)) != 0) {
- 		fprintf(stderr, "pthread_join: %s\n", strerror(en));
- 		exit(EXIT_FAILURE);
--	}
-+	}						//\lnlbl{wait:e}
-+//\end{snippet}
- 
-+//\begin{snippet}[labelbase=ln:toolsoftrade:lock:diff_lock,commandchars=\$\[\]]
- 	printf("Creating two threads w/different locks:\n");
- 	x = 0;
--	if ((en = pthread_create(&tid1, NULL, lock_reader, &lock_a)) != 0) {
-+	en = pthread_create(&tid1, NULL, lock_reader, &lock_a);
-+	if (en != 0) {
- 		fprintf(stderr, "pthread_create: %s\n", strerror(en));
- 		exit(EXIT_FAILURE);
- 	}
--	if ((en = pthread_create(&tid2, NULL, lock_writer, &lock_b)) != 0) {
-+	en = pthread_create(&tid2, NULL, lock_writer, &lock_b);
-+	if (en != 0) {
- 		fprintf(stderr, "pthread_create: %s\n", strerror(en));
- 		exit(EXIT_FAILURE);
- 	}
-@@ -126,6 +135,7 @@ int main(int argc, char *argv[])
- 		fprintf(stderr, "pthread_join: %s\n", strerror(en));
- 		exit(EXIT_FAILURE);
- 	}
-+//\end{snippet}
- 
- 	return EXIT_SUCCESS;
- }
 diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index 601829c..e699b6e 100644
+index e699b6e..d808df6 100644
 --- a/toolsoftrade/toolsoftrade.tex
 +++ b/toolsoftrade/toolsoftrade.tex
-@@ -460,82 +460,32 @@ lock~\cite{Hoare74}.
- } \QuickQuizEnd
+@@ -722,87 +722,47 @@ However, in practice, we need to know how much additional scalability is
+ provided by reader-writer locks.
  
  \begin{listing}[tbp]
 -{ \scriptsize
 -\begin{verbbox}
--  1 pthread_mutex_t lock_a = PTHREAD_MUTEX_INITIALIZER;
--  2 pthread_mutex_t lock_b = PTHREAD_MUTEX_INITIALIZER;
--  3 int x = 0;
--  4 
--  5 void *lock_reader(void *arg)
--  6 {
--  7   int i;
--  8   int newx = -1;
--  9   int oldx = -1;
-- 10   pthread_mutex_t *pmlp = (pthread_mutex_t *)arg;
+-  1 pthread_rwlock_t rwl = PTHREAD_RWLOCK_INITIALIZER;
+-  2 int holdtime = 0;
+-  3 int thinktime = 0;
+-  4 long long *readcounts;
+-  5 int nreadersrunning = 0;
+-  6 
+-  7 #define GOFLAG_INIT 0
+-  8 #define GOFLAG_RUN  1
+-  9 #define GOFLAG_STOP 2
+- 10 char goflag = GOFLAG_INIT;
 - 11 
-- 12   if (pthread_mutex_lock(pmlp) != 0) {
-- 13     perror("lock_reader:pthread_mutex_lock");
-- 14     exit(EXIT_FAILURE);
-- 15   }
-- 16   for (i = 0; i < 100; i++) {
-- 17     newx = READ_ONCE(x);
-- 18     if (newx != oldx) {
-- 19       printf("lock_reader(): x = %d\n", newx);
-- 20     }
-- 21     oldx = newx;
-- 22     poll(NULL, 0, 1);
-- 23   }
-- 24   if (pthread_mutex_unlock(pmlp) != 0) {
-- 25     perror("lock_reader:pthread_mutex_unlock");
-- 26     exit(EXIT_FAILURE);
-- 27   }
-- 28   return NULL;
-- 29 }
-- 30 
-- 31 void *lock_writer(void *arg)
-- 32 {
-- 33   int i;
-- 34   pthread_mutex_t *pmlp = (pthread_mutex_t *)arg;
-- 35 
-- 36   if (pthread_mutex_lock(pmlp) != 0) {
-- 37     perror("lock_writer:pthread_mutex_lock");
-- 38     exit(EXIT_FAILURE);
-- 39   }
-- 40   for (i = 0; i < 3; i++) {
-- 41     WRITE_ONCE(x, READ_ONCE(x) + 1);
-- 42     poll(NULL, 0, 5);
-- 43   }
-- 44   if (pthread_mutex_unlock(pmlp) != 0) {
-- 45     perror("lock_writer:pthread_mutex_unlock");
-- 46     exit(EXIT_FAILURE);
-- 47   }
-- 48   return NULL;
-- 49 }
+- 12 void *reader(void *arg)
+- 13 {
+- 14   int i;
+- 15   long long loopcnt = 0;
+- 16   long me = (long)arg;
+- 17 
+- 18   __sync_fetch_and_add(&nreadersrunning, 1);
+- 19   while (READ_ONCE(goflag) == GOFLAG_INIT) {
+- 20     continue;
+- 21   }
+- 22   while (READ_ONCE(goflag) == GOFLAG_RUN) {
+- 23     if (pthread_rwlock_rdlock(&rwl) != 0) {
+- 24       perror("pthread_rwlock_rdlock");
+- 25       exit(EXIT_FAILURE);
+- 26     }
+- 27     for (i = 1; i < holdtime; i++) {
+- 28       barrier();
+- 29     }
+- 30     if (pthread_rwlock_unlock(&rwl) != 0) {
+- 31       perror("pthread_rwlock_unlock");
+- 32       exit(EXIT_FAILURE);
+- 33     }
+- 34     for (i = 1; i < thinktime; i++) {
+- 35       barrier();
+- 36     }
+- 37     loopcnt++;
+- 38   }
+- 39   readcounts[me] = loopcnt;
+- 40   return NULL;
+- 41 }
 -\end{verbbox}
 -}
 -\centering
 -\theverbbox
-+\input{CodeSamples/toolsoftrade/lock@reader_writer.fcv}
- \caption{Demonstration of Exclusive Locks}
- \label{lst:toolsoftrade:Demonstration of Exclusive Locks}
++\input{CodeSamples/toolsoftrade/rwlockscale@reader.fcv}
+ \caption{Measuring Reader-Writer Lock Scalability}
+ \label{lst:toolsoftrade:Measuring Reader-Writer Lock Scalability}
  \end{listing}
  
-+\begin{lineref}[ln:toolsoftrade:lock:reader_writer]
- This exclusive-locking property is demonstrated using the code shown in
- Listing~\ref{lst:toolsoftrade:Demonstration of Exclusive Locks}
- (\path{lock.c}).
--Line~1 defines and initializes a POSIX lock named \co{lock_a}, while
--line~2 similarly defines and initializes a lock named \co{lock_b}.
--Line~3 defines and initializes a shared variable~\co{x}.
-+Line~\lnref{lock_a} defines and initializes a POSIX lock named \co{lock_a}, while
-+line~\lnref{lock_b} similarly defines and initializes a lock named \co{lock_b}.
-+Line~\lnref{x} defines and initializes a shared variable~\co{x}.
++\begin{lineref}[ln:toolsoftrade:rwlockscale:reader]
+ Listing~\ref{lst:toolsoftrade:Measuring Reader-Writer Lock Scalability}
+ (\path{rwlockscale.c})
+ shows one way of measuring reader-writer lock scalability.
+-Line~1 shows the definition and initialization of the reader-writer
+-lock, line~2 shows the \co{holdtime} argument controlling the
++Line~\lnref{rwlock} shows the definition and initialization of the reader-writer
++lock, line~\lnref{holdtm} shows the \co{holdtime} argument controlling the
+ time each thread holds the reader-writer lock,
+-line~3 shows the \co{thinktime} argument controlling the time between
++line~\lnref{thinktm} shows the \co{thinktime} argument controlling the time between
+ the release of the reader-writer lock and the next acquisition,
+-line~4 defines the \co{readcounts} array into which each reader thread
++line~\lnref{rdcnts} defines the \co{readcounts} array into which each reader thread
+ places the number of times it acquired the lock, and
+-line~5 defines the \co{nreadersrunning} variable, which
++line~\lnref{nrdrun} defines the \co{nreadersrunning} variable, which
+ determines when all reader threads have started running.
+ 
+-Lines~7-10 define \co{goflag}, which synchronizes the start and the
++Lines~\lnref{goflag:b}-\lnref{goflag:e} define \co{goflag},
++which synchronizes the start and the
+ end of the test.
+ This variable is initially set to \co{GOFLAG_INIT}, then set to
+ \co{GOFLAG_RUN} after all the reader threads have started, and finally
+ set to \co{GOFLAG_STOP} to terminate the test run.
 +\end{lineref}
  
--Lines~5-28 defines a function \co{lock_reader()} which repeatedly
-+\begin{lineref}[ln:toolsoftrade:lock:reader_writer:reader]
-+Lines~\lnref{b}-\lnref{e} defines a function \co{lock_reader()} which repeatedly
- reads the shared variable \co{x} while holding
- the lock specified by \co{arg}.
--Line~10 casts \co{arg} to a pointer to a \co{pthread_mutex_t}, as
-+Line~\lnref{cast} casts \co{arg} to a pointer to a \co{pthread_mutex_t}, as
- required by the \co{pthread_mutex_lock()} and \co{pthread_mutex_unlock()}
- primitives.
+-Lines~12-41 define \co{reader()}, which is the reader thread.
+-Line~18 atomically increments the \co{nreadersrunning} variable
++\begin{lineref}[ln:toolsoftrade:rwlockscale:reader:reader]
++Lines~\lnref{b}-\lnref{e} define \co{reader()}, which is the reader thread.
++Line~\lnref{atmc_inc} atomically increments the \co{nreadersrunning} variable
+ to indicate that this thread is now running, and
+-lines~19-21 wait for the test to start.
++lines~\lnref{wait:b}-\lnref{wait:e} wait for the test to start.
+ The \co{READ_ONCE()} primitive forces the compiler to fetch \co{goflag}
+ on each pass through the loop---the compiler would otherwise be within its
+ rights to assume that the value of \co{goflag} would never change.
 +\end{lineref}
  
  \QuickQuiz{}
- 	Why not simply make the argument to \co{lock_reader()}
--	on line~5 of
-+	on line~\ref{ln:toolsoftrade:lock:reader_writer:reader:b} of
- 	Listing~\ref{lst:toolsoftrade:Demonstration of Exclusive Locks}
- 	be a pointer to a \co{pthread_mutex_t}?
+ 	Instead of using \co{READ_ONCE()} everywhere, why not just
+-	declare \co{goflag} as \co{volatile} on line~10 of
++	declare \co{goflag} as \co{volatile} on
++        line~\ref{ln:toolsoftrade:rwlockscale:reader:goflag:e} of
+ 	Listing~\ref{lst:toolsoftrade:Measuring Reader-Writer Lock Scalability}?
  \QuickQuizAnswer{
-@@ -547,9 +497,12 @@ primitives.
+ 	A \co{volatile} declaration is in fact a reasonable alternative in
+@@ -867,16 +827,21 @@ rights to assume that the value of \co{goflag} would never change.
+ 	\co{__thread} variable in the corresponding element.
  } \QuickQuizEnd
  
- \QuickQuiz{}
--	What is the \co{READ_ONCE()} on lines~17 and~41 and the
--	\co{WRITE_ONCE()} on line~41 of
-+	\begin{lineref}[ln:toolsoftrade:lock:reader_writer]
-+	What is the \co{READ_ONCE()} on
-+        lines~\lnref{reader:read_x} and~\lnref{writer:inc} and the
-+	\co{WRITE_ONCE()} on line~\lnref{writer:inc} of
- 	Listing~\ref{lst:toolsoftrade:Demonstration of Exclusive Locks}?
-+	\end{lineref}
- \QuickQuizAnswer{
- 	These macros constrain the compiler so as to prevent it from
- 	carrying out optimizations that would be problematic for concurrently
-@@ -569,16 +522,21 @@ primitives.
- 	Chapter~\ref{chp:Advanced Synchronization: Memory Ordering}.
- } \QuickQuizEnd
+-The loop spanning lines~22-38 carries out the performance test.
+-Lines~23-26 acquire the lock, lines~27-29 hold the lock for the specified
++\begin{lineref}[ln:toolsoftrade:rwlockscale:reader:reader]
++The loop spanning lines~\lnref{loop:b}-\lnref{loop:e} carries out the performance test.
++Lines~\lnref{acq:b}-\lnref{acq:e} acquire the lock,
++lines~\lnref{hold:b}-\lnref{hold:e} hold the lock for the specified
+ duration (and the \co{barrier()} directive prevents the compiler from
+-optimizing the loop out of existence), lines~30-33 release the lock,
+-and lines~34-36 wait for the specified duration before re-acquiring the
++optimizing the loop out of existence),
++lines~\lnref{rel:b}-\lnref{rel:e} release the lock,
++and lines~\lnref{think:b}-\lnref{think:e} wait for the specified
++duration before re-acquiring the
+ lock.
+-Line~37 counts this lock acquisition.
++Line~\lnref{count} counts this lock acquisition.
  
--Lines~12-15 acquire the specified \co{pthread_mutex_t}, checking
-+\begin{lineref}[ln:toolsoftrade:lock:reader_writer:reader]
-+Lines~\lnref{acq:b}-\lnref{acq:e} acquire the specified
-+\co{pthread_mutex_t}, checking
- for errors and exiting the program if any occur.
--Lines~16-23 repeatedly check the value of \co{x}, printing the new value
-+Lines~\lnref{loop:b}-\lnref{loop:e} repeatedly check the value of \co{x},
-+printing the new value
- each time that it changes.
--Line~22 sleeps for one millisecond, which allows this demonstration
-+Line~\lnref{sleep} sleeps for one millisecond, which allows this demonstration
- to run nicely on a uniprocessor machine.
--Lines~24-27 release the \co{pthread_mutex_t}, again checking for
-+Lines~\lnref{rel:b}-\lnref{rel:e} release the \co{pthread_mutex_t},
-+again checking for
- errors and exiting the program if any occur.
--Finally, line~28 returns \co{NULL}, again to match the function type
-+Finally, line~\lnref{return} returns \co{NULL}, again to match the function type
- required by \co{pthread_create()}.
+-Line~39 moves the lock-acquisition count to this thread's element of the
+-\co{readcounts[]} array, and line~40 returns, terminating this thread.
++Line~\lnref{mov_cnt} moves the lock-acquisition count to this thread's element of the
++\co{readcounts[]} array, and line~\lnref{return} returns, terminating this thread.
 +\end{lineref}
  
- \QuickQuiz{}
- 	Writing four lines of code for each acquisition and release
-@@ -593,55 +551,39 @@ required by \co{pthread_create()}.
- 	\co{spin_lock()} and \co{spin_unlock()} APIs.
- } \QuickQuizEnd
- 
--Lines~31-49 of
-+\begin{lineref}[ln:toolsoftrade:lock:reader_writer:writer]
-+Lines~\lnref{b}-\lnref{e} of
- Listing~\ref{lst:toolsoftrade:Demonstration of Exclusive Locks}
- shows \co{lock_writer()}, which
- periodically update the shared variable \co{x} while holding the
- specified \co{pthread_mutex_t}.
--As with \co{lock_reader()}, line~34 casts \co{arg} to a pointer
--to \co{pthread_mutex_t}, lines~36-39 acquires the specified lock,
--and lines~44-47 releases it.
--While holding the lock, lines~40-43 increment the shared variable \co{x},
-+As with \co{lock_reader()}, line~\lnref{cast} casts \co{arg} to a pointer
-+to \co{pthread_mutex_t},
-+lines~\lnref{acq:b}-\lnref{acq:e} acquires the specified lock,
-+and lines~\lnref{rel:b}-\lnref{rel:e} releases it.
-+While holding the lock, lines~\lnref{loop:b}-\lnref{loop:e}
-+increment the shared variable \co{x},
- sleeping for five milliseconds between each increment.
--Finally, lines~44-47 release the lock.
-+Finally, lines~\lnref{rel:b}-\lnref{rel:e} release the lock.
-+\end{lineref}
- 
- \begin{listing}[tbp]
--{ \scriptsize
--\begin{verbbox}
--  1   printf("Creating two threads using same lock:\n");
--  2   if (pthread_create(&tid1, NULL,
--  3                      lock_reader, &lock_a) != 0) {
--  4     perror("pthread_create");
--  5     exit(EXIT_FAILURE);
--  6   }
--  7   if (pthread_create(&tid2, NULL,
--  8                      lock_writer, &lock_a) != 0) {
--  9     perror("pthread_create");
-- 10     exit(EXIT_FAILURE);
-- 11   }
-- 12   if (pthread_join(tid1, &vp) != 0) {
-- 13     perror("pthread_join");
-- 14     exit(EXIT_FAILURE);
-- 15   }
-- 16   if (pthread_join(tid2, &vp) != 0) {
-- 17     perror("pthread_join");
-- 18     exit(EXIT_FAILURE);
-- 19   }
--\end{verbbox}
--}
--\centering
--\theverbbox
-+\input{CodeSamples/toolsoftrade/lock@same_lock.fcv}
- \caption{Demonstration of Same Exclusive Lock}
- \label{lst:toolsoftrade:Demonstration of Same Exclusive Lock}
- \end{listing}
- 
-+\begin{lineref}[ln:toolsoftrade:lock:same_lock]
- Listing~\ref{lst:toolsoftrade:Demonstration of Same Exclusive Lock}
- shows a code fragment that runs \co{lock_reader()} and
- \co{lock_writer()} as threads using the same lock, namely, \co{lock_a}.
--Lines~2-6 create a thread running \co{lock_reader()}, and then
--Lines~7-11 create a thread running \co{lock_writer()}.
--Lines~12-19 wait for both threads to complete.
-+Lines~\lnref{cr:reader:b}-\lnref{cr:reader:e} create a thread
-+running \co{lock_reader()}, and then
-+Lines~\lnref{cr:writer:b}-\lnref{cr:writer:e} create a thread
-+running \co{lock_writer()}.
-+Lines~\lnref{wait:b}-\lnref{wait:e} wait for both threads to complete.
- The output of this code fragment is as follows:
-+\end{lineref}
- 
- \begin{VerbatimU}
- Creating two threads using same lock:
-@@ -672,32 +614,7 @@ by \co{lock_writer()} while holding the lock.
- } \QuickQuizEnd
- 
- \begin{listing}[tbp]
--{ \scriptsize
--\begin{verbbox}
--  1   printf("Creating two threads w/different locks:\n");
--  2   x = 0;
--  3   if (pthread_create(&tid1, NULL,
--  4                      lock_reader, &lock_a) != 0) {
--  5     perror("pthread_create");
--  6     exit(EXIT_FAILURE);
--  7   }
--  8   if (pthread_create(&tid2, NULL,
--  9                      lock_writer, &lock_b) != 0) {
-- 10     perror("pthread_create");
-- 11     exit(EXIT_FAILURE);
-- 12   }
-- 13   if (pthread_join(tid1, &vp) != 0) {
-- 14     perror("pthread_join");
-- 15     exit(EXIT_FAILURE);
-- 16   }
-- 17   if (pthread_join(tid2, &vp) != 0) {
-- 18     perror("pthread_join");
-- 19     exit(EXIT_FAILURE);
-- 20   }
--\end{verbbox}
--}
--\centering
--\theverbbox
-+\input{CodeSamples/toolsoftrade/lock@diff_lock.fcv}
- \caption{Demonstration of Different Exclusive Locks}
- \label{lst:toolsoftrade:Demonstration of Different Exclusive Locks}
- \end{listing}
-@@ -761,7 +678,7 @@ values of \co{x} stored by \co{lock_writer()}.
- 	so why does it need to be initialized in
- 	Listing~\ref{lst:toolsoftrade:Demonstration of Different Exclusive Locks}?
- \QuickQuizAnswer{
--	See line~3 of
-+	See line~\ref{ln:toolsoftrade:lock:reader_writer:x} of
- 	Listing~\ref{lst:toolsoftrade:Demonstration of Exclusive Locks}.
- 	Because the code in
- 	Listing~\ref{lst:toolsoftrade:Demonstration of Same Exclusive Lock}
+ \begin{figure}[tb]
+ \centering
 -- 
 2.7.4
 
