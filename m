@@ -1,54 +1,56 @@
-Return-Path: <junchangwang@gmail.com>
+Return-Path: <andrea.parri@amarulasolutions.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=aV+DR2n8VEDOI4+E1Qcv3YPjUnamgmHkzYLbDFQqqHw=;
-        b=mIDUr38LLdUlRrJYRtXckzJSd2xPA5i1KY+DN+JTQDBYU+3tsHA/TTan6YMLTYjbxc
-         3Rj/KkuiAaVH5fk5JOtwJ0ICpnLQ/P2wka/B+2nNgqqiO3ZiveLaQuO3svUeJ6AXSgWD
-         9m0xp7jVYeHlOdn4mM7EJClyXtB9v9+shX0tycm5Wt6IS3y+E8cwJ2KTTJxji6Pgu5Lq
-         7zFnQUTd6SC5ndicRpScH5PhU4GvoBrHB25DosZPwlsUhfa+bxm2hviNS4UPhMvIyTvk
-         4q/F9N5/S1aZtmRIntfCsUVS5gyZHBqdcyE2y/WRTwbyHo6ExpYon6E0W7bvEV1p0PhT
-         wPuA==
-From: Junchang Wang <junchangwang@gmail.com>
-Subject: [PATCH] atomic_cmpxchg: Handle spurious failure of __atomic_compare_exchange_n in Power8 and ARMv8
-Date: Sat, 27 Oct 2018 00:03:25 +0800
-Message-Id: <1540569805-7066-1-git-send-email-junchangwang@gmail.com>
-To: paulmck@linux.ibm.com, akiyks@gmail.com, perfbook@vger.kernel.org
-Cc: Junchang Wang <junchangwang@gmail.com>
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=tiMo0OqRtPih92lMuHeexnt8BjgM4blkqoTkijnyOMs=;
+        b=D3B8KFSAJCwiS7B6fjo8Iy84EEzuyMuSHeIlC8By7iRVg2J+bY3M7FemOol925TdQ3
+         VqQlk2413aoebvtYA6deLZVEmE9YknbW8yitr7eLFdF52AmHKNMzD/WHjWcOIE3w7Lyy
+         kNpuWBRH8egjPGwxACqvxiuBlVTeRZKrW4wNU=
+Date: Fri, 26 Oct 2018 22:20:15 +0200
+From: Andrea Parri <andrea.parri@amarulasolutions.com>
+Subject: Re: perfbook
+Message-ID: <20181026202014.GA4905@andrea>
+References: <20181025083609.GA6766@andrea>
+ <20181025100235.GR4170@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181025100235.GR4170@linux.ibm.com>
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-If the 4th parameter (field *weak*) of __atomic_compare_exchange_n is set, it
-may refuse to perform the CAS operation and return a failure, even if the value
-of field *old* is equal to the content of the specified memory location. This
-happens in architectures where LL/SC is used to emulate CAS primitive (e.g., PPC
-and ARM).
+On Thu, Oct 25, 2018 at 03:02:35AM -0700, Paul E. McKenney wrote:
+> On Thu, Oct 25, 2018 at 10:36:09AM +0200, Andrea Parri wrote:
+> > Hi Paul,
+> > 
+> > could you forward me the info about perfbook you sent last week
+> > including the PDF?  I did try to compile from the repo but have
+> > not been successful yet: here's the last one.
+> > 
+> > sh ./utilities/gen_snippet_d.sh
+> > sh utilities/autodate.sh >autodate.tex
+> > CodeSamples/SMPdesign/smpalloc.canonical.eps --> CodeSamples/SMPdesign/smpalloc.canonical.pdf
+> > Makefile:211: recipe for target 'CodeSamples/SMPdesign/smpalloc.canonical.pdf' failed
+> > make: *** [CodeSamples/SMPdesign/smpalloc.canonical.pdf] Error 255
+> 
+> Hello, Andrea,
+> 
+> Please see attached for the current PDF.  It looks to me like you are
+> missing one of the required packages, which are listed in FAQ-BUILD.txt
+> in the perfbook repo.
+> 
+> Adding the perfbook email list in case someone has more exact advice.  ;-)
 
-This patch returns the *old* value if __atomic_compare_exchange_n has been
-successfully performed; otherwise, *old*+1 is returned, which forces the caller
-to retry the CAS loop.
+Thanks.
 
-Signed-off-by: Junchang Wang <junchangwang@gmail.com>
-Signed-off-by: kira Yokosawa <akiyks@gmail.com>
----
- CodeSamples/api-pthreads/api-gcc.h | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Please let me know if I should provide info about my setup/log.
 
-diff --git a/CodeSamples/api-pthreads/api-gcc.h b/CodeSamples/api-pthreads/api-gcc.h
-index 1dd26ca..3afe340 100644
---- a/CodeSamples/api-pthreads/api-gcc.h
-+++ b/CodeSamples/api-pthreads/api-gcc.h
-@@ -168,9 +168,8 @@ struct __xchg_dummy {
- ({ \
- 	typeof(*ptr) _____actual = (o); \
- 	\
--	(void)__atomic_compare_exchange_n(ptr, (void *)&_____actual, (n), 1, \
--					  __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST); \
--	_____actual; \
-+	__atomic_compare_exchange_n(ptr, (void *)&_____actual, (n), 1, \
-+			__ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? (o) : (o)+1; \
- })
- 
- static __inline__ int atomic_cmpxchg(atomic_t *v, int old, int new)
--- 
-2.7.4
+  Andrea
+
+
+> 
+> 							Thanx, Paul
+
 
