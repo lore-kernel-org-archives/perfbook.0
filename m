@@ -1,81 +1,58 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35376 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728784AbeJ1Buw (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sat, 27 Oct 2018 21:50:52 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9RH8xZI169311
-        for <perfbook@vger.kernel.org>; Sat, 27 Oct 2018 13:09:14 -0400
-Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2nchna0yc7-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Sat, 27 Oct 2018 13:09:13 -0400
-Received: from localhost
-        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Sat, 27 Oct 2018 13:09:13 -0400
-Date: Sat, 27 Oct 2018 10:09:09 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: perfbook
-Reply-To: paulmck@linux.ibm.com
-References: <20181025083609.GA6766@andrea>
- <20181025100235.GR4170@linux.ibm.com>
- <20181026202014.GA4905@andrea>
- <8e6bc30b-d35f-e03e-9af4-14398bddf5b1@gmail.com>
- <20181026221402.GA5769@andrea>
- <96dcab56-15ff-0af2-0322-1b95b561c16b@gmail.com>
- <20181027125844.GA6083@andrea>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=23TwlF9jl62trWUUKdRqH2JgH4DmSzlvJNvk7v+oGIo=;
+        b=qi9CKZWKviImktoDAXZRp7qSPUu68Gk7ALZ74l9r0EL4rRGlEx0lXfsmZfJdXP1d2L
+         DlGlAXdhoTaUBYQEC9D2sjfQLGV7i4yu1H3pQroWyoumUUEVXFyUXkUWakVXqt8TKSvr
+         +mPPUtOqCMALnvVlG9AD5NCF/TGr9rjh9kaZVGU2EC3JHmWz/zL4EKQYP+5VjvH3x0/b
+         Z6N9cbL3cmwfGfagz+UH578UtY2cw0CakqWTCEBx1Po6TEfJVAlhRU5rA9oSk3UbzRzq
+         Y7ATw6B3vogn6TllURYMMpvq8Fg7oT8dEIcTj9SVD52VSrsy8LKfORXK7zOm1FNvnRkU
+         lZgg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] CodeSamples: Add api-pthreads/api-gcc.h in depends.mk
+Message-ID: <3244d38a-5ac7-657f-83c4-38d0adf2a7c8@gmail.com>
+Date: Sun, 28 Oct 2018 08:14:37 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181027125844.GA6083@andrea>
-Message-Id: <20181027170908.GC4170@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Andrea Parri <andrea.parri@amarulasolutions.com>
-Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 
-On Sat, Oct 27, 2018 at 02:58:44PM +0200, Andrea Parri wrote:
-> > Just want to make sure the gs version.
-> > 
-> > "gs -v" on my Ubuntu 18.04 says:
-> > 
-> > GPL Ghostscript 9.25 (2018-09-13)
-> > Copyright (C) 2018 Artifex Software, Inc.  All rights reserved.
-> > 
-> > What does your "gs -v" say?
-> 
-> It said:
-> 
-> GPL Ghostscript GIT PRERELEASE 9.25 (2018-03-21)
-> Copyright (C) 2018 Artifex Software, Inc.  All rights reserved.
-> 
-> which suggested that my previous "from ubuntu 18.04" was in fact not
-> matching reality: it looks like I installed gs from sources, only a
-> few months ago, and completely forgot about it. ;/  Mah, I manually
-> removed my binary (/usr/local/bin/gs), and apt-purged-and-installed
-> fig2ps ghostscript ghostscript-x gv.
+From ce0f6785bd5e059a29a3d647287bcf93648f66f8 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 28 Oct 2018 08:02:09 +0900
+Subject: [PATCH] CodeSamples: Add api-pthreads/api-gcc.h in depends.mk
 
-Been there, done that.  ;-)
+While testing change in cmpxchg() commited as cda0234ccd2c
+("atomic_cmpxchg: Handle spurious failure of
+__atomic_compare_exchange_n"), api.h was not updated
+automatically by "make".  Fix this by adding the dependency
+(api-pthreads/api-gcc.h -> api.h)
 
-> Now it says:
-> 
-> GPL Ghostscript 9.25 (2018-09-13)
-> Copyright (C) 2018 Artifex Software, Inc.  All rights reserved.
-> 
-> which seems to match what you reported above.  I was then able to
-> generate perfbook.pdf, even though with a bunch of:
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ CodeSamples/depends.mk | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Very good!  ;-)
-
-> CodeSamples/SMPdesign/smpalloc.canonical.eps --> CodeSamples/SMPdesign/smpalloc.canonical.pdf
-> GPL Ghostscript 9.25: Unrecoverable error, exit code 1
-> 
-> I only had a quick look at the generated .pdf, but I haven't noticed
-> issues.  Are those errors expected?  Any other suggestion?
-
-What Akira said on this one (and thank you, Akira!).  You just need to get
-rid of the diagnostic change that Akira suggested earlier in this thread.
-
-							Thanx, Paul
+diff --git a/CodeSamples/depends.mk b/CodeSamples/depends.mk
+index 31a8daf..a6db993 100644
+--- a/CodeSamples/depends.mk
++++ b/CodeSamples/depends.mk
+@@ -26,7 +26,9 @@ subdir_ub :=
+ endif
+ 
+ api_depend_common := $(top)/linux/common.h \
+-	$(top)/api-pthreads/api-pthreads.h
++	$(top)/api-pthreads/api-pthreads.h \
++	$(top)/api-pthreads/api-gcc.h
++
+ ifeq ($(target),x86)
+ api_depend := $(top)/arch-x86/arch-x86.h
+ arch_depend := $(top)/arch-x86/Makefile.arch
+-- 
+2.7.4
 
