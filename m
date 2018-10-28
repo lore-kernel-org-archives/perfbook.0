@@ -1,190 +1,153 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43220 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727799AbeJ2B3H (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 28 Oct 2018 21:29:07 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9SGdSiW080619
-        for <perfbook@vger.kernel.org>; Sun, 28 Oct 2018 12:43:59 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2nd54kt0gd-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Sun, 28 Oct 2018 12:43:58 -0400
-Received: from localhost
-        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Sun, 28 Oct 2018 12:43:58 -0400
-Date: Sun, 28 Oct 2018 09:43:55 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [Possible BUG] count_lim_atomic.c fails on POWER8
-Reply-To: paulmck@linux.ibm.com
-References: <073797d5-67f7-7426-f895-8004428a84ab@gmail.com>
- <CABoNC828mNgvvqcUm65d+PFdBVB1Pp6FzEyXniPbxo-dUeLxpw@mail.gmail.com>
- <20181025094516.GO4170@linux.ibm.com>
- <CABoNC81fnRn3H3wB+Zx7WG7QPw7qLa13pVcUzxQ-zdX3vtaxuA@mail.gmail.com>
- <444c8f09-b9b3-9564-2418-a7c93198f2e7@gmail.com>
- <ca3f5f62-be71-7cd0-c251-1c544a8170ca@gmail.com>
- <CABoNC80D9bO6bXi5YfOAA6dJzUEwObHKuYihS5P0-9DdOaK0GQ@mail.gmail.com>
- <5c2c8a25-cc15-d262-34fc-ae5eb1f5d6f6@gmail.com>
- <20181028001723.GJ4170@linux.ibm.com>
- <a1bc44c8-1796-42f3-6055-a08fcd77a481@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a1bc44c8-1796-42f3-6055-a08fcd77a481@gmail.com>
-Message-Id: <20181028164355.GL4170@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Return-Path: <junchangwang@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=from:to:cc:subject:date:message-id;
+ bh=6E977E6RTEav6KHMqHqtSXkcjmXDQwkHdHOC50PTwoE=;
+ b=NhsIvgg/mkdoiW1Ux+32nx+YQ4iqa99bmvfUdMfTKdvm1LkYtJi/F1OAAohwOCmQW0
+ V7TFTGdZvCflaiDUZEUwjNeH7RyVZzfPQTt635Hovzt26uX/B62xfetOLXp3w11hgVCO
+ JTENexl3gIEHIgjgC8GauCda6wKQjxZVyKAT8ng46dZj84SkhnQaJ20umlKgvE2WsP2e
+ BMsiqstd4aNSZq/6xwpx6sdfuU6KCQYbF/W5kKaEUP7kL15eTy3nqRe0kvT+2QU1zMLy
+ SHDJwt/+GuVdgLBiKCTNhzplqKD3NpjjzrS1T6iQz6GHOhW1SM7haCAx72SoTLlfUWhn
+ 0ZIw==
+From: Junchang Wang <junchangwang@gmail.com>
+Subject: [PATCH] Let (atomic_)cmpxchg directly return true or false
+Date: Sun, 28 Oct 2018 20:30:20 +0800
+Message-Id: <1540729820-18343-1-git-send-email-junchangwang@gmail.com>
+To: paulmck@linux.vnet.ibm.com, akiyks@gmail.com
+Cc: perfbook@vger.kernel.org, Junchang Wang <junchangwang@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Junchang Wang <junchangwang@gmail.com>, perfbook@vger.kernel.org
 
-On Sun, Oct 28, 2018 at 11:24:41PM +0900, Akira Yokosawa wrote:
-> On 2018/10/27 17:17:23 -0700, Paul E. McKenney wrote:
-> > On Sat, Oct 27, 2018 at 11:56:54PM +0900, Akira Yokosawa wrote:
-> >> On 2018/10/26 08:58:30 +0800, Junchang Wang wrote:
-> >> [...]
-> >>>
-> >>> BTW, I found I'm not good in writing C macro (e.g., cmpxchg). Do you
-> >>> know some specification/document on writing C macro functions in
-> >>> Linux?
-> >>
-> >> Although I'm not qualified as a kernel developer,
-> >> Linux kernel's "coding style" has a section on this. See:
-> >>
-> >> https://www.kernel.org/doc/html/latest/process/coding-style.html#macros-enums-and-rtl
-> >>
-> >> In that regard, macros I added in commit b2acf6239a95
-> >> ("count: Tweak counttorture.h to avoid segfault") do not meet
-> >> the style guide in a couple of ways:
-> >>
-> >>     1) Inline functions are preferable to macros resembling functions
-> >>     2) Macros with multiple statements should be enclosed in a do - while block
-> >>     3) ...
-> >>
-> >> Any idea for improving them is more than welcome!
-> > 
-> > Let's see...
-> > 
-> > #define cmpxchg(ptr, o, n) \
-> > ({ \
-> > 	typeof(*ptr) _____actual = (o); \
-> > 	\
-> > 	__atomic_compare_exchange_n(ptr, (void *)&_____actual, (n), 1, \
-> > 			__ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? (o) : (o)+1; \
-> > })
-> 
-> Oh, my concern was macros I added in counttorture.h to support
-> #ifndef KEEP_GCC_THREAD_LOCAL.
-> 
-> But those macros are used solely in the header file, so the current
-> definition might be good enough.
+To change the definition of (atomic_)cmpxchg. This patch is for code review
+only.
 
-These ones?
+Before the patch:
+old/(old+1) (atomic_)cmpxchg(*ptr, old, new)
 
-#define _wait_all_threads() { \
-	while (READ_ONCE(finalthreadcount) < nthreadsexpected) \
-		poll(NULL, 0, 1);}
-#define _count_unregister_thread(n) count_unregister_thread(n + 1)
-#define final_wait_all_threads() { \
-	WRITE_ONCE(finalthreadcount, nthreadsexpected + 1); \
-	wait_all_threads();}
+After the patch:
+true/false (atomic_)cmpxchg(*ptr, *old, new)
 
-The _count_unregister_thread() is fine.
 
-The _wait_all_threads() and final_wait_all_threads() are fine given their
-current usage.  One not-yet-needed way to future-proof them would be as
-follows:
+Signed-off-by: Junchang@T470s <junchangwang@gmail.com>
+---
+ CodeSamples/advsync/q.c              |  2 +-
+ CodeSamples/advsync/singleq.c        |  3 ++-
+ CodeSamples/api-pthreads/api-gcc.h   | 12 ++++--------
+ CodeSamples/count/count_lim_atomic.c |  8 ++++----
+ CodeSamples/defer/rcu64_atomicgp.c   |  2 +-
+ CodeSamples/defer/route_refcnt.c     |  2 +-
+ 6 files changed, 13 insertions(+), 16 deletions(-)
 
-#define _wait_all_threads() \
-do { \
-	while (READ_ONCE(finalthreadcount) < nthreadsexpected) \
-		poll(NULL, 0, 1); \
-} while (0)
-#define final_wait_all_threads() \
-do { \
-	WRITE_ONCE(finalthreadcount, nthreadsexpected + 1); \
-	wait_all_threads(); \
-} while (0)
+diff --git a/CodeSamples/advsync/q.c b/CodeSamples/advsync/q.c
+index 5fade3e..4e8abd3 100644
+--- a/CodeSamples/advsync/q.c
++++ b/CodeSamples/advsync/q.c
+@@ -51,7 +51,7 @@ struct el *q_pop(struct queue *q)
+ 			pnext = p->next;
+ 			if (pnext == NULL)
+ 				return NULL;
+-		} while (cmpxchg(&q->head, p, pnext) != p);
++		} while (!cmpxchg(&q->head, &p, pnext));
+ 		if (p != &q->dummy)
+ 			return p;
+ 		q_push(&q->dummy, q);
+diff --git a/CodeSamples/advsync/singleq.c b/CodeSamples/advsync/singleq.c
+index 6586561..c56c8d8 100644
+--- a/CodeSamples/advsync/singleq.c
++++ b/CodeSamples/advsync/singleq.c
+@@ -31,7 +31,8 @@ void init_q(struct queue *qp)
 
-Your next question is "why does this matter", to which I would point you
-here: https://kernelnewbies.org/FAQ/DoWhile0  Mostly because I never
-can remember all of the failure cases that led to the Linux-kernel
-coding-style rules.  ;-)
+ int q_push(struct el *ep, struct queue *qp)
+ {
+-	return cmpxchg(&qp->head, NULL, ep) == NULL;
++	void *nil = NULL;
++	return cmpxchg(&qp->head, &nil, ep);
+ }
 
-> OTH, macros defined in api-gcc.h should be made as robust as possible.
-> Hence your review of cmpxchg() is quite instructive to me.
+ struct el *q_pop(struct queue *qp)
+diff --git a/CodeSamples/api-pthreads/api-gcc.h b/CodeSamples/api-pthreads/api-gcc.h
+index 3afe340..9cb5998 100644
+--- a/CodeSamples/api-pthreads/api-gcc.h
++++ b/CodeSamples/api-pthreads/api-gcc.h
+@@ -166,13 +166,11 @@ struct __xchg_dummy {
 
-Glad it helped!
+ #define cmpxchg(ptr, o, n) \
+ ({ \
+-	typeof(*ptr) _____actual = (o); \
+-	\
+-	__atomic_compare_exchange_n(ptr, (void *)&_____actual, (n), 1, \
+-			__ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? (o) : (o)+1; \
++	__atomic_compare_exchange_n(ptr, (void *)(o), (n), 1, \
++			__ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST); \
+ })
 
-> > We cannot do #1 because cmpxchg() is type-generic, and thus cannot be
-> > implemented as a C function.  (C++ could use templates, but we are not
-> > writing C++ here.)
-> > 
-> > We cannot do #2 because cmpxchg() must return a value.
-> 
-> These reasoning might not be obvious to those who are new to
-> C preprocessor programming. Current style guide of kernel doesn't
-> look good enough, partly because of its intended audiences.
+-static __inline__ int atomic_cmpxchg(atomic_t *v, int old, int new)
++static __inline__ int atomic_cmpxchg(atomic_t *v, int *old, int new)
+ {
+ 	return cmpxchg(&v->counter, old, new);
+ }
+@@ -197,10 +195,8 @@ static __inline__ int atomic_cmpxchg(atomic_t *v, int old, int new)
+ 	for (;;) {						\
+ 		if (unlikely(c == (u)))				\
+ 			break;					\
+-		old = atomic_cmpxchg((v), c, c + (a));		\
+-		if (likely(old == c))				\
++		if (likely(atomic_cmpxchg((v), &c, c + (a))))	\
+ 			break;					\
+-		c = old;					\
+ 	}							\
+ 	c != (u);						\
+ })
+diff --git a/CodeSamples/count/count_lim_atomic.c b/CodeSamples/count/count_lim_atomic.c
+index 02f4e6d..72bdb65 100644
+--- a/CodeSamples/count/count_lim_atomic.c
++++ b/CodeSamples/count/count_lim_atomic.c
+@@ -106,8 +106,8 @@ int add_count(unsigned long delta)			//\lnlbl{add:b}
+ 		if (delta > MAX_COUNTERMAX || c + delta > cm)//\lnlbl{add:check}
+ 			goto slowpath;			//\lnlbl{add:goto}
+ 		new = merge_counterandmax(c + delta, cm);//\lnlbl{add:merge}
+-	} while (atomic_cmpxchg(&counterandmax,		//\lnlbl{add:atmcmpex}
+-	                        old, new) != old);	//\lnlbl{add:loop:e}
++	} while (!atomic_cmpxchg(&counterandmax,	//\lnlbl{add:atmcmpex}
++	                        &old, new));		//\lnlbl{add:loop:e}
+ 	return 1;					//\lnlbl{add:return:fs}
+ slowpath:						//\lnlbl{add:slow:b}
+ 	spin_lock(&gblcnt_mutex);			//\lnlbl{add:acquire}
+@@ -139,8 +139,8 @@ int sub_count(unsigned long delta)			//\lnlbl{sub:b}
+ 		if (delta > c)
+ 			goto slowpath;
+ 		new = merge_counterandmax(c - delta, cm);
+-	} while (atomic_cmpxchg(&counterandmax,
+-	                        old, new) != old);
++	} while (!atomic_cmpxchg(&counterandmax,
++	                        &old, new));
+ 	return 1;					//\lnlbl{sub:fast:e}
+  slowpath:						//\lnlbl{sub:slow:b}
+ 	spin_lock(&gblcnt_mutex);
+diff --git a/CodeSamples/defer/rcu64_atomicgp.c b/CodeSamples/defer/rcu64_atomicgp.c
+index f7cb6ff..923df93 100644
+--- a/CodeSamples/defer/rcu64_atomicgp.c
++++ b/CodeSamples/defer/rcu64_atomicgp.c
+@@ -39,7 +39,7 @@ void synchronize_rcu(void)
+ 	 */
 
-To be fair, it doesn't get updated as often as it should.
+ 	oldval = rcu_gp_ctr;
+-	(void)cmpxchg(&rcu_gp_ctr, oldval, oldval - 1);
++	(void)cmpxchg(&rcu_gp_ctr, &oldval, oldval - 1);
+ 	smp_mb();
 
-> > Indentation is not perfect, but given the long names really cannot be
-> > improved all that much, if at all.
-> > 
-> > However, we do have a problem, namely the multiple uses of "o", which
-> > would be very bad if "o" was an expression with side-effects.
-> 
-> I didn't notice this point.
+ 	/*
+diff --git a/CodeSamples/defer/route_refcnt.c b/CodeSamples/defer/route_refcnt.c
+index 8a48faf..c202548 100644
+--- a/CodeSamples/defer/route_refcnt.c
++++ b/CodeSamples/defer/route_refcnt.c
+@@ -68,7 +68,7 @@ retry:
+ 			if (old <= 0)
+ 				goto retry;
+ 			new = old + 1;
+-		} while (atomic_cmpxchg(&rep->re_refcnt, old, new) != old);
++		} while (!atomic_cmpxchg(&rep->re_refcnt, &old, new));
 
-Neither did I earlier in this thread.  ;-)
-
-> > How about the following?
-> > 
-> > #define cmpxchg(ptr, o, n) \
-> > ({ \
-> > 	typeof(*ptr) _____old = (o); \
-> > 	typeof(*ptr) _____actual = _____old; \
-> > 	\
-> > 	__atomic_compare_exchange_n(ptr, (void *)&_____actual, (n), 1, \
-> > 			__ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST)
-> > 			? _____old : _____old + 1; \
-> > })
-> > 
-> > This still might have problems with signed integer overflow, but I am
-> > inclined to ignore that for the moment.
-> 
-> Behavior of overflow of signed integer is undefined in C standard, right?
-
-Exactly.  An alternative approach is to do as the Linux kernel does and
-tell gcc to wrap signed integers on overflow, as the standard mandates
-for unsigned integers.  My preference would be to avoid signed overflow.
-
-> >                                         Because paying attention to it
-> > results in something like this:
-> > 
-> > #define cmpxchg(ptr, o, n) \
-> > ({ \
-> > 	typeof(*ptr) _____old = (o); \
-> > 	typeof(*ptr) _____actual = _____old; \
-> > 	\
-> > 	__atomic_compare_exchange_n(ptr, (void *)&_____actual, (n), 1, \
-> > 			__ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) \
-> > 			? _____old \
-> > 			: _____old > 0 ? _____old - 1; : _____old + 1; \
-> > })
-> > 
-> > Thoughts?  Most especially, any better ideas?
-> 
-> Let me think this over.
-> 
-> BTW, the purpose of using the name "_____old" and the like may not
-> be obvious either.
-> If we use "old" instead, naming collision can happen if "old" is given
-> as an argument to this macro in its call sites. Am I guessing right?
-
-You got it exactly right!  The "old" in the argument is intended to
-refer to something in an outer scope, but it would instead refer to
-the macro's local variable.
-
-							Thanx, Paul
+ 		/* Advance to next. */
+ 		repp = &rep->re_next;
+-- 
+2.7.4
 
