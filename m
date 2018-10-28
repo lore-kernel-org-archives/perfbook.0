@@ -1,153 +1,95 @@
-Return-Path: <junchangwang@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=from:to:cc:subject:date:message-id;
- bh=6E977E6RTEav6KHMqHqtSXkcjmXDQwkHdHOC50PTwoE=;
- b=NhsIvgg/mkdoiW1Ux+32nx+YQ4iqa99bmvfUdMfTKdvm1LkYtJi/F1OAAohwOCmQW0
- V7TFTGdZvCflaiDUZEUwjNeH7RyVZzfPQTt635Hovzt26uX/B62xfetOLXp3w11hgVCO
- JTENexl3gIEHIgjgC8GauCda6wKQjxZVyKAT8ng46dZj84SkhnQaJ20umlKgvE2WsP2e
- BMsiqstd4aNSZq/6xwpx6sdfuU6KCQYbF/W5kKaEUP7kL15eTy3nqRe0kvT+2QU1zMLy
- SHDJwt/+GuVdgLBiKCTNhzplqKD3NpjjzrS1T6iQz6GHOhW1SM7haCAx72SoTLlfUWhn
- 0ZIw==
-From: Junchang Wang <junchangwang@gmail.com>
-Subject: [PATCH] Let (atomic_)cmpxchg directly return true or false
-Date: Sun, 28 Oct 2018 20:30:20 +0800
-Message-Id: <1540729820-18343-1-git-send-email-junchangwang@gmail.com>
-To: paulmck@linux.vnet.ibm.com, akiyks@gmail.com
-Cc: perfbook@vger.kernel.org, Junchang Wang <junchangwang@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57998 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726998AbeJ2CCD (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sun, 28 Oct 2018 22:02:03 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9SHEDWf168429
+        for <perfbook@vger.kernel.org>; Sun, 28 Oct 2018 13:16:48 -0400
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2nd54htrqd-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <perfbook@vger.kernel.org>; Sun, 28 Oct 2018 13:16:48 -0400
+Received: from localhost
+        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Sun, 28 Oct 2018 13:16:47 -0400
+Date: Sun, 28 Oct 2018 10:16:45 -0700
+From: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: Release/edition plans
+Reply-To: paulmck@linux.ibm.com
+References: <20181018203414.GA19175@linux.ibm.com>
+ <929eef9a-f1c7-22a8-b5bc-f95f6f573b4c@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <929eef9a-f1c7-22a8-b5bc-f95f6f573b4c@gmail.com>
+Message-Id: <20181028171645.GM4170@linux.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-To change the definition of (atomic_)cmpxchg. This patch is for code review
-only.
+On Mon, Oct 29, 2018 at 12:19:56AM +0900, Akira Yokosawa wrote:
+> On 2018/10/18 13:34:14 -0700, Paul E. McKenney wrote:
+> > Hello!
+> > 
+> > I would normally have done a perfbook release by now, given that the last
+> > one was in November 2017.  My lame excuse is that creating 340 RCU/LKMM
+> > patches thus far this year turned out to be a bit harder than it looks.
+> > 
+> > My current thought is to get a release out in the next month or two,
+> > and to get the second edition out in 2019.
+> > 
+> > Thoughts?
+> 
+> I'd like to know your rough plan to reflect the LKMM/RCU updates to
+> perfbook. Those updates affect mostly Chapter 15 and Section 9.5.
+> 
+> I understand that perfbook will keep slightly out-of-date because of
+> the always moving goal post. ;-)
 
-Before the patch:
-old/(old+1) (atomic_)cmpxchg(*ptr, old, new)
+Indeed!  My thought was to add the locking portions of LKMM once plain
+accesses have been added, but please see below.  I don't believe that
+perfbook's wording was precise enough to care about the release-acquire
+strengthening.  SRCU and reader-writer locking are on the way, but it
+might be some time.  Anything else that I am missing?
 
-After the patch:
-true/false (atomic_)cmpxchg(*ptr, *old, new)
+I guess I should add RCU litmus tests to the formal-verification chapter
+under the Axiomatic Approaches section, with forward references to the
+memory-ordering chapter, and ditto for locking.  I would then add forward
+references from the locking chapter and RCU section to this material.
 
+On RCU itself, I need to reflect the merging of the bh, preempt, and
+sched flavors (and also provide an updated LWN article on the RCU API).
+Also the disappearance of synchronize_rcu_mult().  I would also like to
+get some material from the Issaquah Challenge incorporated, though no
+promises on that one.  Anything else?  (Yes, I review the Linux-kernel
+API each time to find things.)
 
-Signed-off-by: Junchang@T470s <junchangwang@gmail.com>
----
- CodeSamples/advsync/q.c              |  2 +-
- CodeSamples/advsync/singleq.c        |  3 ++-
- CodeSamples/api-pthreads/api-gcc.h   | 12 ++++--------
- CodeSamples/count/count_lim_atomic.c |  8 ++++----
- CodeSamples/defer/rcu64_atomicgp.c   |  2 +-
- CodeSamples/defer/route_refcnt.c     |  2 +-
- 6 files changed, 13 insertions(+), 16 deletions(-)
+I would not delay a release for any of the above, but I should have a
+fair fraction done for the edition.  There is always a reason to delay,
+so some balance is required.
 
-diff --git a/CodeSamples/advsync/q.c b/CodeSamples/advsync/q.c
-index 5fade3e..4e8abd3 100644
---- a/CodeSamples/advsync/q.c
-+++ b/CodeSamples/advsync/q.c
-@@ -51,7 +51,7 @@ struct el *q_pop(struct queue *q)
- 			pnext = p->next;
- 			if (pnext == NULL)
- 				return NULL;
--		} while (cmpxchg(&q->head, p, pnext) != p);
-+		} while (!cmpxchg(&q->head, &p, pnext));
- 		if (p != &q->dummy)
- 			return p;
- 		q_push(&q->dummy, q);
-diff --git a/CodeSamples/advsync/singleq.c b/CodeSamples/advsync/singleq.c
-index 6586561..c56c8d8 100644
---- a/CodeSamples/advsync/singleq.c
-+++ b/CodeSamples/advsync/singleq.c
-@@ -31,7 +31,8 @@ void init_q(struct queue *qp)
+> Also, update of Style Guide is in my todo list to explain the new scheme
+> of code snippet handled by fancyvrb.  Hopefully, that can be done in a month
+> or so.  
+> 
+> OTOH, actual conversion of code snippets can take much longer. Labeling
+> lines in snippets is not trivial and can only be done one by one.
+> No need to harry in this respect, I suppose.
 
- int q_push(struct el *ep, struct queue *qp)
- {
--	return cmpxchg(&qp->head, NULL, ep) == NULL;
-+	void *nil = NULL;
-+	return cmpxchg(&qp->head, &nil, ep);
- }
+I would not delay a release for either of these, though my travel
+plans make it unlikely that I will release before the end of November
+in any case.  I hope to get significant time to work on perfbook near
+the end of the year as well.
 
- struct el *q_pop(struct queue *qp)
-diff --git a/CodeSamples/api-pthreads/api-gcc.h b/CodeSamples/api-pthreads/api-gcc.h
-index 3afe340..9cb5998 100644
---- a/CodeSamples/api-pthreads/api-gcc.h
-+++ b/CodeSamples/api-pthreads/api-gcc.h
-@@ -166,13 +166,11 @@ struct __xchg_dummy {
+I expect to release an electronic edition first, then a print edition
+a few months later.  The electronic edition convinces some people to
+take a close look, and their feedback improves the print edition.  At
+least that is what happened last time.
 
- #define cmpxchg(ptr, o, n) \
- ({ \
--	typeof(*ptr) _____actual = (o); \
--	\
--	__atomic_compare_exchange_n(ptr, (void *)&_____actual, (n), 1, \
--			__ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? (o) : (o)+1; \
-+	__atomic_compare_exchange_n(ptr, (void *)(o), (n), 1, \
-+			__ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST); \
- })
+Thoughts?
 
--static __inline__ int atomic_cmpxchg(atomic_t *v, int old, int new)
-+static __inline__ int atomic_cmpxchg(atomic_t *v, int *old, int new)
- {
- 	return cmpxchg(&v->counter, old, new);
- }
-@@ -197,10 +195,8 @@ static __inline__ int atomic_cmpxchg(atomic_t *v, int old, int new)
- 	for (;;) {						\
- 		if (unlikely(c == (u)))				\
- 			break;					\
--		old = atomic_cmpxchg((v), c, c + (a));		\
--		if (likely(old == c))				\
-+		if (likely(atomic_cmpxchg((v), &c, c + (a))))	\
- 			break;					\
--		c = old;					\
- 	}							\
- 	c != (u);						\
- })
-diff --git a/CodeSamples/count/count_lim_atomic.c b/CodeSamples/count/count_lim_atomic.c
-index 02f4e6d..72bdb65 100644
---- a/CodeSamples/count/count_lim_atomic.c
-+++ b/CodeSamples/count/count_lim_atomic.c
-@@ -106,8 +106,8 @@ int add_count(unsigned long delta)			//\lnlbl{add:b}
- 		if (delta > MAX_COUNTERMAX || c + delta > cm)//\lnlbl{add:check}
- 			goto slowpath;			//\lnlbl{add:goto}
- 		new = merge_counterandmax(c + delta, cm);//\lnlbl{add:merge}
--	} while (atomic_cmpxchg(&counterandmax,		//\lnlbl{add:atmcmpex}
--	                        old, new) != old);	//\lnlbl{add:loop:e}
-+	} while (!atomic_cmpxchg(&counterandmax,	//\lnlbl{add:atmcmpex}
-+	                        &old, new));		//\lnlbl{add:loop:e}
- 	return 1;					//\lnlbl{add:return:fs}
- slowpath:						//\lnlbl{add:slow:b}
- 	spin_lock(&gblcnt_mutex);			//\lnlbl{add:acquire}
-@@ -139,8 +139,8 @@ int sub_count(unsigned long delta)			//\lnlbl{sub:b}
- 		if (delta > c)
- 			goto slowpath;
- 		new = merge_counterandmax(c - delta, cm);
--	} while (atomic_cmpxchg(&counterandmax,
--	                        old, new) != old);
-+	} while (!atomic_cmpxchg(&counterandmax,
-+	                        &old, new));
- 	return 1;					//\lnlbl{sub:fast:e}
-  slowpath:						//\lnlbl{sub:slow:b}
- 	spin_lock(&gblcnt_mutex);
-diff --git a/CodeSamples/defer/rcu64_atomicgp.c b/CodeSamples/defer/rcu64_atomicgp.c
-index f7cb6ff..923df93 100644
---- a/CodeSamples/defer/rcu64_atomicgp.c
-+++ b/CodeSamples/defer/rcu64_atomicgp.c
-@@ -39,7 +39,7 @@ void synchronize_rcu(void)
- 	 */
-
- 	oldval = rcu_gp_ctr;
--	(void)cmpxchg(&rcu_gp_ctr, oldval, oldval - 1);
-+	(void)cmpxchg(&rcu_gp_ctr, &oldval, oldval - 1);
- 	smp_mb();
-
- 	/*
-diff --git a/CodeSamples/defer/route_refcnt.c b/CodeSamples/defer/route_refcnt.c
-index 8a48faf..c202548 100644
---- a/CodeSamples/defer/route_refcnt.c
-+++ b/CodeSamples/defer/route_refcnt.c
-@@ -68,7 +68,7 @@ retry:
- 			if (old <= 0)
- 				goto retry;
- 			new = old + 1;
--		} while (atomic_cmpxchg(&rep->re_refcnt, old, new) != old);
-+		} while (!atomic_cmpxchg(&rep->re_refcnt, &old, new));
-
- 		/* Advance to next. */
- 		repp = &rep->re_next;
--- 
-2.7.4
+							Thanx, Paul
 
