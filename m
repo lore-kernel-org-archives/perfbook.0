@@ -3,19 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8Klf/AeNjuqiAsyGb9fSdYo1PwRqODTWQ6k8XT2yfXU=;
-        b=hVdGyptebBtdEatWeUYcPDtucMprE/n3gBS7bA0IJ6Jpe2ta6Xjo3A+QKJyrS7RjLX
-         S3wE4CcgPcdGkNvQz/MdhOjXSxwWafo/oT4X597x+i/s/3euVMBLHK28ZHr0hHowabjl
-         KJtSkZ8CLCyVtiZaavhQPu+m8c1jKI8dYdvxGpbf28o2AuKhH7Fsb7pfTBEGC4GkgJ21
-         bgTEEzS46pLJTIApt9ZqCmNUwuQpq9jVKF71KWM33XPvM+X4a0pcFVD/0XX/22i0eiyn
-         w9xgGANh3t3wI5bRZeQVgFNcvHisEyaUAm4BpPzRzrYMtgwZGR6RYqsIckD5YVyZ/Uvo
-         /u8A==
-Subject: [PATCH 3/8] CodeSamples/formal/herd: Add recipe for native .litmus
- tests
+        bh=Qk5YwYZlCg3MjZnnvBUGL6YcYGALLE+2r6jdXIUdp/8=;
+        b=MdVYdq5U32W4/LtCVsgZlFU6ByuX/9ZDO80AMW+n8KHNH6+KjY80IIBylFvPJNKybx
+         LhjkBofPdpYln+DQcSwK2mDvsQLCnxcLanC3nXNensVal6RraXR/3KO8g9IL6xfsM6rz
+         Ie28yzoNRTRarDoVkhC609XyWkbvmcURSzLu8itpm/5nFYDgv+57AYkq9yzgEBMNTWuw
+         cVpcWxaqoTlcv3xBFQcauf1KnJqEgG7P6xMFDd8So3U39UvXYjj9bC+/u/ifpadSjlKM
+         EVApccQkr3cnFOJu2cxNoUGIuTfm9TNW4dtJF9EeNonkGOCZHcxzILT4Dd7Tfpeolzm7
+         +r2Q==
+Subject: [PATCH 4/8] formal/axiomatic: Import snippet from C-RCU-remove.litmus
 References: <a0be104e-0043-36bb-a639-4ecd6db77d59@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <133af9cb-54f7-898a-fcf6-d34a280b82b6@gmail.com>
-Date: Thu, 1 Nov 2018 00:12:00 +0900
+Message-ID: <b4315d5f-dce3-7a4f-9660-b3bc96d5c84a@gmail.com>
+Date: Thu, 1 Nov 2018 00:13:00 +0900
 MIME-Version: 1.0
 In-Reply-To: <a0be104e-0043-36bb-a639-4ecd6db77d59@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,91 +24,75 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 64a22b4d12c77d2a6332b39b82425276125d5f7d Mon Sep 17 00:00:00 2001
+From f7553e5f74241123c3f2a850a870b892176056cf Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 31 Oct 2018 07:41:39 +0900
-Subject: [PATCH 3/8] CodeSamples/formal/herd: Add recipe for native .litmus tests
-
-Also update info on where the kernel memory model resides.
+Date: Wed, 31 Oct 2018 07:55:15 +0900
+Subject: [PATCH 4/8] formal/axiomatic: Import snippet from C-RCU-remove.litmus
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/formal/herd/Makefile | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ formal/axiomatic.tex | 36 ++++--------------------------------
+ 1 file changed, 4 insertions(+), 32 deletions(-)
 
-diff --git a/CodeSamples/formal/herd/Makefile b/CodeSamples/formal/herd/Makefile
-index 3162659..05a8e6d 100644
---- a/CodeSamples/formal/herd/Makefile
-+++ b/CodeSamples/formal/herd/Makefile
-@@ -17,15 +17,16 @@
- #
- # Note: There need to be a symbolic link "memory-model" under
- #       CodeSamples/formal/herd for herd7 to work.
--#       The memory model is available at the git archive:
--#           https://github.com/aparri/memory-model.git.
-+#       The memory model is available at tools/memory-model in
-+#       the source tree of Linux kernel v4.17 (or later).
-+#
- #       Make sure the symbolic link points to the actual directory.
- #       Alternatively, you can copy the files listed in LKMM_FILES to
- #       a subdirectory "memory-model".
- #
- #       klitmus7 doesn't require the memory model.
- #
--# Copyright (C) Akira Yokosawa, 2017
-+# Copyright (C) Akira Yokosawa, 2017, 2018
- #
- # Authors: Akira Yokosawa <akiyks@gmail.com>
+diff --git a/formal/axiomatic.tex b/formal/axiomatic.tex
+index 41af129..8706635 100644
+--- a/formal/axiomatic.tex
++++ b/formal/axiomatic.tex
+@@ -235,40 +235,12 @@ And in this case, the \co{herd} tool's output features the string
+ \label{sec:formal:Axiomatic Approaches and RCU}
  
-@@ -39,12 +40,15 @@ KLITMUS7_CMD := $(shell which klitmus7)
- LITMUS7_TEST := $(notdir $(wildcard ../litmus/*.litmus))
- LITMUS7_HERD_TEST := $(addsuffix .herd,$(LITMUS7_TEST))
- LITMUS7_HERD_OUT  := $(addsuffix .out,$(LITMUS7_TEST))
-+HERD7_LITMUS   := $(wildcard *.litmus)
- TIMEOUT = 15m
- ITER    = 10
- ABSPERF_TEST   := $(wildcard C-SB+l-*.litmus)
- ABSPERF_LONG   := $(wildcard C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u-*.litmus)
- ABSPERF_SHORT  := $(filter-out $(ABSPERF_LONG),$(ABSPERF_TEST))
- ABSPERF_OUT    = absperf.out absperf-all.out
-+HERD7_TEST     := $(filter-out $(ABSPERF_TEST),$(HERD7_LITMUS))
-+HERD7_OUT      := $(HERD7_TEST:%.litmus=%.out)
+ \begin{listing}[tb]
+-\begin{linelabel}[ln:formal:Canonical RCU Removal Litmus Test]
+-\begin{VerbatimL}[commandchars=\\\[\]]
+-C C-RCU-remove
+-
+-{
+-	int *z=1;\lnlbl[tail:2]
+-	int *y=2;\lnlbl[tail:1]
+-	int *x=y;\lnlbl[head]
+-}
+-
+-P0(int *x, int *y, int *z)\lnlbl[P0start]
+-{
+-	rcu_assign_pointer(*x, z);\lnlbl[assignnewtail]
+-	synchronize_rcu();\lnlbl[sync]
+-	WRITE_ONCE(*y, 0);\lnlbl[free]
+-}\lnlbl[P0end]
+-
+-P1(int *x, int *y, int *z)\lnlbl[P1start]
+-{
+-	rcu_read_lock();\lnlbl[rl]
+-	r1 = rcu_dereference(*x);\lnlbl[rderef]
+-	r2 = READ_ONCE(*r1);\lnlbl[read]
+-	rcu_read_unlock();\lnlbl[rul]
+-}\lnlbl[P1end]
+-
+-locations [0:r1; 1:r1; x; y; z]\lnlbl[locations]
+-exists (1:r2=0)\lnlbl[exists]
+-\end{VerbatimL}
+-\end{linelabel}
++\input{CodeSamples/formal/herd/C-RCU-remove@whole.fcv}
+ \caption{Canonical RCU Removal Litmus Test}
+ \label{lst:formal:Canonical RCU Removal Litmus Test}
+ \end{listing}
  
- .PHONY: all clean litmus2herd run-herd7 run-absperf run-absperf-all cross-klitmus
- .PHONY: help
-@@ -56,25 +60,28 @@ litmus2herd: $(LITMUS7_HERD_TEST)
- $(LITMUS7_HERD_TEST): %.herd: ../litmus/%
- 	sh ./litmus2herd.sh $< $@
+-\begin{lineref}[ln:formal:Canonical RCU Removal Litmus Test]
++\begin{lineref}[ln:formal:C-RCU-remove:whole]
+ Axiomatic approaches can also analyze litmus tests involving RCU.
+ To that end,
+ Listing~\ref{lst:formal:Canonical RCU Removal Litmus Test}
+@@ -289,9 +261,9 @@ executes within an RCU read-side critical section
+ picking up the list head (line~\lnref{rderef}) and then
+ loading the next element (line~\lnref{read}).
+ The next element should be non-zero, that is, not yet freed
+-(line~\lnref{exists}).
++(line~\lnref{exists_}).
+ Several other variables are output for debugging purposes
+-(line~\lnref{locations}).
++(line~\lnref{locations_}).
  
--run-herd7: $(LITMUS7_HERD_OUT)
-+run-herd7: $(LITMUS7_HERD_OUT) $(HERD7_OUT)
- run-absperf: absperf.out
- run-absperf-all: absperf-all.out
- 
- $(LKMM_LIST):
- 	@echo "#####################################################"
- 	@echo "### Please prepare Linux Kernel Memory Model.     ###"
--	@echo "### You can get it at the git archive:            ###"
--	@echo "###   https://github.com/aparri/memory-model.git  ###"
-+	@echo "### It is available at tools/memory-model in      ###"
-+	@echo "### the source of Linux kernel v4.17 (or later).  ###"
- 	@echo "###                                               ###"
- 	@echo "### Refer to comment in Makefile for more info.   ###"
- 	@echo "#####################################################"
- 	@exit 1
- 
--$(LITMUS7_HERD_OUT) $(ABSPERF_OUT): $(LKMM_LIST)
-+$(LITMUS7_HERD_OUT) $(ABSPERF_OUT) $(HERD7_OUT): $(LKMM_LIST)
- 
- $(LITMUS7_HERD_OUT): %.out: %.herd
- 	cd $(LKMM_DIR); herd7 -conf linux-kernel.cfg $(HERD_DIR)/$< > $(HERD_DIR)/$@
- 
-+$(HERD7_OUT): %.out: %.litmus
-+	cd $(LKMM_DIR); herd7 -conf linux-kernel.cfg $(HERD_DIR)/$< > $(HERD_DIR)/$@
-+
- absperf.out: ABSPERF_LIST = $(ABSPERF_SHORT)
- absperf.out: $(ABSPERF_SHORT)
- absperf-all.out: ABSPERF_LIST = $(ABSPERF_TEST)
+ The output of the \co{herd} tool when running this litmus test features
+ \co{Never}, indicating that \co{P0()} never accesses a freed element,
 -- 
 2.7.4
 
