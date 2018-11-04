@@ -1,90 +1,53 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58400 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728128AbeKAB1b (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Wed, 31 Oct 2018 21:27:31 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w9VGNcCj102769
-        for <perfbook@vger.kernel.org>; Wed, 31 Oct 2018 12:28:47 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2nfdvypnrr-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Wed, 31 Oct 2018 12:28:43 -0400
-Received: from localhost
-        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Wed, 31 Oct 2018 16:28:41 -0000
-Date: Wed, 31 Oct 2018 09:28:38 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH 0/8] Improve conversion of litmus test snippet
-Reply-To: paulmck@linux.ibm.com
-References: <a0be104e-0043-36bb-a639-4ecd6db77d59@gmail.com>
+Return-Path: <junchangwang@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=Se9MW7AfXNCL39/pC6TI2rag0g0dWq3JynLXjy4cIC0=;
+        b=tpXFkzWjakYCqomk+D3sxGByVwgtp/DcZZdOmlx7B5wEYEsNyeYo6V0QkQTGO165v1
+         x52YpEGrZx/p3fhrDaipStK9LjKfrspRvTqZLnW68XtSjTdp8Ma8U6mRoUXI3OJ+1iwY
+         o7lTy7NMB8MZI8l3OoFRUiFfjazElswIgq2CYMSkErostWDGeG4QWdayhnxI1692eC+H
+         baZ591Ax0KwX0APG5xmQnYFja18dYbc1drFHTAbkJ1me7wEt+Rw5/wn7YgHXVSoVg90/
+         sItrqftKpP43I/vU1bSAxSLc4upeQB30/OfyQDHnsVY/7OhiWVetNy934V9T0XxGqIyJ
+         j1Sg==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a0be104e-0043-36bb-a639-4ecd6db77d59@gmail.com>
-Message-Id: <20181031162838.GB4170@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
+From: Junchang Wang <junchangwang@gmail.com>
+Date: Sun, 4 Nov 2018 20:14:50 +0800
+Message-ID: <CABoNC80N5+fMJViPdNWhXqiDdS6JNwfab=8D2Q0Hfd0wQebj5w@mail.gmail.com>
+Subject: Ask help for litmus tests
+Content-Type: text/plain; charset="UTF-8"
 To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+Cc: Paul McKenney <paulmck@linux.ibm.com>, perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Thu, Nov 01, 2018 at 12:08:02AM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> In snippets of litmus tests you added recently uses "locations"
-> directive. It was not covered by reorder_ltms.pl.
-> This series enhances reorder_ltms.pl to add an option to
-> the meta command "\end[snippet]".
-> 
-> Now you can put C-RCU-remove.litmus and
-> C-RomanPenyanev-list-rcu-rr.litmus under CodeSamples/.
-> 
-> Patch #1 is the enhancement of reorder_ltms.pl.
-> Patch #2 adds C-RCU-remove.litmus in CodeSamples/formal/herd.
-> Note that I modified the choice of characters given to
-> the "commandchars=" option to avoid collision with characters
-> used in snippets.
-> Patch #3 adds recipe in Makefile to run the added tests by
-> "make run-herd7".
-> Patch #4 replaces the inline snippet code with converted one.
-> Patch #5 adds another RCU litmus test in CodeSamples/formal/herd.
-> Patch #6 imports snippet converted from above.
-> Patch #7 converts existing PPC IRIW litmus tests to new scheme
-> It also reduces the width of the snippets to fit in 2c column
-> width.
-> Patch #8 is a trivial typo fix.
-> 
-> I'm afraid commit logs in this series is not descriptive
-> enough, but hopefully the intention of the changes are evident.
+Hi Akira,
 
-They should do.  I queued these and pushed them, thank you!
+Thanks for your email about litmus tests a few weeks ago. I can
+successfully run litmus tests on all three servers I can touch (The
+configurations of the servers are listed below). Everything goes well
+except litmus tests C-CCIRIW+o+o+o-o+o-o (Listing 15.15) and
+C-WRC+o+o-data-o+o-rmb-o (Listing 15.16). The "exists" assertions
+never trigger on all of my servers. I understand that these assertions
+trigger only if the speeds of propagating writing x to different CPU
+cores varies a lot. So I have tried different litmus thread placement
+strategies by adjusting the affinity setting of litmus7. For example:
+$ litmus7 -affinity incr1 ... ...
+$ ./C-WRC+o+o-data-o+o-rmb-o.exe +ra -p 0,1,6
 
-						Thanx, Paul
+But it seems my effort doesn't work; the exist assertions never
+trigger. Did I miss something? What's the right/possible configuration
+to trigger these assertions. I do know you might be very busy. But if
+possible, please give me some hints. These two tests seems very
+interesting :-). Thanks in advance.
 
->         Thanks, Akira
-> -- 
-> Akira Yokosawa (8):
->   reorder_ltms.pl: Add 'locationslabel=' option to \end[snippet]
->   CodeSamples/formal: Add C-RCU-remove.litmus
->   CodeSamples/formal/herd: Add recipe for native .litmus tests
->   formal/axiomatic: Import snippet from C-RCU-remove.litmus
->   CodeSamples/formal: Add C-RomanPenyanev-list-rcu-rr.litmus
->   formal/axiomatic: Import snippet from
->     C-RomanPenyanev-list-rcu-rr.litmus
->   formal/axiomatic: Convert snippets of IRIW tests to new scheme
->   formal/axiomatic: Fill in missing ')'
-> 
->  CodeSamples/formal/herd/C-RCU-remove.litmus        |  27 +++
->  .../formal/herd/C-RomanPenyaev-list-rcu-rr.litmus  |  47 +++++
->  CodeSamples/formal/herd/Makefile                   |  21 ++-
->  formal/axiomatic.tex                               | 201 +++++++--------------
->  utilities/reorder_ltms.pl                          |  15 ++
->  5 files changed, 164 insertions(+), 147 deletions(-)
->  create mode 100644 CodeSamples/formal/herd/C-RCU-remove.litmus
->  create mode 100644 CodeSamples/formal/herd/C-RomanPenyaev-list-rcu-rr.litmus
-> 
-> -- 
-> 2.7.4
-> 
+Regards,
+--Junchang
+
+===
+Three servers I can touch:
+  1. One PPC server which consists of 8 cores. I don's know hardware
+details (e.g. which cores share the same LLC or write buffer) because
+tools such as dmidecode don't work.
+  2. One ARM server with two Cavium CPU. 96 cores in total (no Hyper-threading).
+  3. One Intel server with two Xeon E5-2630 CPUs, each of which
+consists of 12 cores (with Hyper-Threading).
 
