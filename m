@@ -1,63 +1,87 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
- s=20161025;        h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=74RBSALam+wzdaaONjZPHhzwyNACdDTuCWCWHmS8Vmw=;
- b=ifTq2VT7IVwlzblh5hsOQ0Vo3+m6CRE7RmIKzm2p04QHQOYfP2bzG+xOAI1PtY5IeZ
- 1My5bb5tx5DGXckbtbZSLMr3mifRG0ottygI0vAUL/WLdKGPMnvlavzo/nrNevPYtFgM
- zkVGWfR5KFDgQl9m868gxECiF/KyCwR/UgVyGA53RtY1VYQgjQJ3M1qMhuaJn/ojwOA7
- 0p6x7M6pYWZrGOg3aLXYLGAEabc65ThF06NP8UPR04Dw4zWDavdkZLE4hSi1+BFzX+vx
- gOFi/ScMsoBzqbyD3UZRY0m7mZ+ljUsz+o/65WhsAzQ6GNPf1K9CYMWi0hPxRGLeXx4a
- S9Vg==
-Subject: Re: [PATCH 0/2] Updates to Chapter memorder
+Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56244 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725945AbeKFFHD (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 6 Nov 2018 00:07:03 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA5Jek32047221
+        for <perfbook@vger.kernel.org>; Mon, 5 Nov 2018 14:45:47 -0500
+Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2njsed89pj-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <perfbook@vger.kernel.org>; Mon, 05 Nov 2018 14:45:47 -0500
+Received: from localhost
+        by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Mon, 5 Nov 2018 19:45:45 -0000
+Date: Mon, 5 Nov 2018 11:45:42 -0800
+From: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: [PATCH 1/2] memorder: fix typo
+Reply-To: paulmck@linux.ibm.com
 References: <1541330319-14491-1-git-send-email-junchangwang@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <3efe6951-cade-b721-96e3-7d41e1c39734@gmail.com>
-Date: Sun, 4 Nov 2018 21:04:28 +0900
+ <1541330319-14491-2-git-send-email-junchangwang@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1541330319-14491-1-git-send-email-junchangwang@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: Junchang Wang <junchangwang@gmail.com>, paulmck@linux.vnet.ibm.com
-Cc: perfbook@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1541330319-14491-2-git-send-email-junchangwang@gmail.com>
+Message-Id: <20181105194542.GZ4170@linux.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Junchang Wang <junchangwang@gmail.com>
+Cc: akiyks@gmail.com, perfbook@vger.kernel.org
 
-On 2018/11/04 19:18:37 +0800, Junchang Wang wrote:
-> Hi Paul and Akira,
+On Sun, Nov 04, 2018 at 07:18:38PM +0800, Junchang Wang wrote:
+> Fix typos in memorder.tex.
 > 
-> I have read through the first half of Chapter memorder, and here is correction
-> for a few typos. Please take a look.
-> 
-> For the first patch, the last clause I modified still looks confusion to me.
-> Currently the clause is "though only if both \co{r1} and \co{r3} both end up
-> containing the address of \co{x}"; however, my understanding is that prior load
-> or store would also be ordered before the store on line 16, __only if r1 ends up
-> containing the address of x__. That is, it is not necessary to involve r2/r3. Is
-> my understanding correct? Or did I miss anything about this in the book?
+> Signed-off-by: Junchang Wang <junchangwang@gmail.com>
 
-Going back to commit 43236beadb19 ("memorder: Expand on cumulativity and
-{other,} multicopy atomicity"), this paragraph discussed Listing 14.17
-at the time (WWC Litmus Test With Release), which is a different litmus
-test than the current Listing 15.17 (WRC Litmus Test With Release).
-Still line 32 of then Listing 14.17 was an "exists" clause.
-No wonder you can't figure out what is discussed there.
+You know, I have no idea what litmus test I was describing in that
+paragraph, but it certainly wasn't the one in Listing 15.17.  :-/
 
-Paul, can you look into this?
+I adjusted things a bit more, so please see below and let me know if
+I messed anything up.
 
-        Thanks, Akira
+							Thanx, Paul
 
-> 
-> 
-> Thanks,
-> --Junchang
-> 
-> Junchang Wang (2):
->   memorder: fix typo
->   memorybarriercum.svg: fix typo
-> 
->  memorder/memorder.tex         | 8 ++++----
->  memorder/memorybarriercum.svg | 2 +-
->  2 files changed, 5 insertions(+), 5 deletions(-)
-> 
+------------------------------------------------------------------------
+
+commit 73f0f6583b154f2cd9280f321e87dcaabe6b1221
+Author: Junchang Wang <junchangwang@gmail.com>
+Date:   Sun Nov 4 19:18:38 2018 +0800
+
+    memorder: Fix typo
+    
+    Fix typos in memorder.tex, including a very confused paragraph that
+    seems to be referring to some prior version of Listing 15.17.
+    
+    Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+    [ paulmck: Adjusted rewording of Listing 15.17 discussion. ]
+    Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index 8e11e92153e0..5e74a912e15d 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -1364,7 +1364,7 @@ The head pointer is \co{x1}, which initially
+ references the \co{int} variable \co{y} (line~5), which is in turn
+ initialized to the value $1$ (line~4).
+ \co{P0()} updates head pointer \co{x1} to reference \co{x0} (line~12),
+-but only afer initializing it to $2$ (line~10) and forcing ordering
++but only after initializing it to $2$ (line~10) and forcing ordering
+ (line~11).
+ \co{P1()} picks up the head pointer \co{x1} (line~21), and then loads
+ the referenced value (line~22).
+@@ -2294,9 +2294,9 @@ These ordering constraints are depicted graphically in
+ Figure~\ref{fig:memorder:Cumulativity}.
+ Note also that cumulativity is not limited to a single step back in time.
+ If there was another load from \co{x} or store to \co{x} from any thread
+-that came before the store on line~13, that prior load or store would also
+-be ordered before the store on line~32, though only if both \co{r1} and
+-\co{r2} both end up containing the address of \co{x}.
++that came before the store on line~8, that prior load or store would also
++be ordered before the load on line~25, though only if both \co{r1} and
++\co{r2} both end up containing the value \co{1}.
+ 
+ In short, use of cumulative ordering operations can suppress
+ non-multicopy-atomic behaviors in some situations.
 
