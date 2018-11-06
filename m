@@ -3,209 +3,75 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7pvf1IWa724vGGwAH1GMm2QEEW25g+K1b4eGxdKHRcQ=;
-        b=qohZKPA9rBdg1pXxWggxUHCWk5jewbzDzOUwrUwBMmR6TZ0qkm9lkX1CVzVMK+eK4N
-         Xai/PaD0LUq943a0KM4LdosaXBkoTrKYDCPyIdJgqZMLC8yBlNe1Ic86mM+ZF8wUPh9x
-         18qs7lOuwtsJceQdWmkYBOhLH3z6FMVmsfRNBI0R7dkpn+OCEVvFxT38hTPOFA48HK3l
-         TLHEff1X18tFBc9sCxR3A2H2pIa7aDzFOXGHRIkHVNDCnKgRnW7sOvzxLMwuYPTqSaZO
-         Js2rzlO2AUhZRt+OGblqSdObengjkFb9XDGMqNG2mpbJHu+U0Lbf66cbGvXaVPMGYE/j
-         b/LQ==
+        bh=6SOuv+sn+0CZ+SPODtzMNeJhDb7css87ic+1HwPYuNk=;
+        b=XW8dpBMXvqfWI6bQUWUcR0SVHJPHnXoxu+NpjlgjCfDUTEohwXQMAKYM1I1+zqXqAb
+         ULKSkn2otiNDlb/rYR7EyETleziypub3RLp8lbMvyf7e4r0EcHXCC7jxuUg/4RO1lr8/
+         G7JSNeWP0GJZ9pdmZZVS28M+M9002ejHK5JLtpt5JPbBTe0AtdPD0m8mXGSLx0BwSktr
+         wuJbkPV//bJ4/qEox1WaMUvJgCa5M84Bc6zl60o3Gpx8720X0jt9L8FhCBjMJppiB14P
+         WuHa4VmSKgMz+JHoMwYixvCy3F/OaR/jVljSzJEMuFzQwQ1EapkLDjXD2po+U+mgWMh6
+         NTNg==
 MIME-Version: 1.0
-References: <CABoNC80N5+fMJViPdNWhXqiDdS6JNwfab=8D2Q0Hfd0wQebj5w@mail.gmail.com>
- <893a78b7-6110-0644-b20b-107ad1fdc2a2@gmail.com> <CABoNC83HsE5Q22poEW3+ygENqD-CYespnzDNiX2LvswFQ7t2fA@mail.gmail.com>
- <20181105034107.GO4170@linux.ibm.com>
-In-Reply-To: <20181105034107.GO4170@linux.ibm.com>
+References: <1541330319-14491-1-git-send-email-junchangwang@gmail.com>
+ <3efe6951-cade-b721-96e3-7d41e1c39734@gmail.com> <20181105195059.GB4170@linux.ibm.com>
+In-Reply-To: <20181105195059.GB4170@linux.ibm.com>
 From: Junchang Wang <junchangwang@gmail.com>
-Date: Tue, 6 Nov 2018 15:12:26 +0800
-Message-ID: <CABoNC82oDuKVzKMOgk832kTi-75Q7AeDnPZt5qqSKTmhrRg7GQ@mail.gmail.com>
-Subject: Re: Ask help for litmus tests
+Date: Tue, 6 Nov 2018 14:18:58 +0800
+Message-ID: <CABoNC80NzQEkWN0Fu9v94i6reva3FMw++94qcHcJFFkNs0uF4A@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Updates to Chapter memorder
 Content-Type: text/plain; charset="UTF-8"
-To: Paul McKenney <paulmck@linux.ibm.com>
-Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
+To: Paul McKenney <paulmck@linux.ibm.com>, Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-On Mon, Nov 5, 2018 at 11:41 AM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
+On Tue, Nov 6, 2018 at 3:51 AM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
 >
-> On Mon, Nov 05, 2018 at 11:08:15AM +0800, Junchang Wang wrote:
-> > On Sun, Nov 4, 2018 at 10:21 PM Akira Yokosawa <akiyks@gmail.com> wrote:
+> On Sun, Nov 04, 2018 at 09:04:28PM +0900, Akira Yokosawa wrote:
+> > On 2018/11/04 19:18:37 +0800, Junchang Wang wrote:
+> > > Hi Paul and Akira,
 > > >
-> > > On 2018/11/04 20:14:50 +0800, Junchang Wang wrote:
-> > > > Hi Akira,
-> > > >
-> > > > Thanks for your email about litmus tests a few weeks ago. I can
-> > > > successfully run litmus tests on all three servers I can touch (The
-> > > > configurations of the servers are listed below).
+> > > I have read through the first half of Chapter memorder, and here is correction
+> > > for a few typos. Please take a look.
 > > >
-> > > Hi Junchang,
-> > >
-> > > Glad to know it helped you!
-> > >
-> > > >                                                  Everything goes well
-> > > > except litmus tests C-CCIRIW+o+o+o-o+o-o (Listing 15.15) and
-> > > > C-WRC+o+o-data-o+o-rmb-o (Listing 15.16). The "exists" assertions
-> > > > never trigger on all of my servers. I understand that these assertions
-> > > > trigger only if the speeds of propagating writing x to different CPU
-> > > > cores varies a lot. So I have tried different litmus thread placement
-> > > > strategies by adjusting the affinity setting of litmus7. For example:
-> > > > $ litmus7 -affinity incr1 ... ...
-> > > > $ ./C-WRC+o+o-data-o+o-rmb-o.exe +ra -p 0,1,6
-> > >
-> > > By klitmus7, I have seen a low probability "Sometimes" on POWER8 system.
-> > >
-> > > One of the results reads:
-> > >
-> > > ----------------------------------------------------------
-> > > Test C-WRC+o+o-data-o+o-rmb-o Allowed
-> > > Histogram (6 states)
-> > > 60327103:>1:r1=0; 2:r2=0; 2:r3=0;
-> > > 22740026:>1:r1=1; 2:r2=0; 2:r3=0;
-> > > 5       *>1:r1=1; 2:r2=1; 2:r3=0;
-> > > 51117838:>1:r1=0; 2:r2=0; 2:r3=1;
-> > > 55552319:>1:r1=1; 2:r2=0; 2:r3=1;
-> > > 10262709:>1:r1=1; 2:r2=1; 2:r3=1;
-> > > Ok
-> > >
-> > > Witnesses
-> > > Positive: 5, Negative: 199999995
-> > > Condition exists (1:r1=1 /\ 2:r2=1 /\ 2:r3=0) is validated
-> > > Hash=43057833028631b2f87eb65fe95c0ba2
-> > > Observation C-WRC+o+o-data-o+o-rmb-o Sometimes 5 199999995
-> > > Time C-WRC+o+o-data-o+o-rmb-o 68.34
-> > > ----------------------------------------------------------
-> > >
-> > > In theory, litmus7 can also trigger the "exists" clause, but it would
-> > > require a very long runtime.  Also please refer to the Answer to
-> > > Quick Quiz 15.24. (You will find my name is mentioned there.)
-> > >
+> > > For the first patch, the last clause I modified still looks confusion to me.
+> > > Currently the clause is "though only if both \co{r1} and \co{r3} both end up
+> > > containing the address of \co{x}"; however, my understanding is that prior load
+> > > or store would also be ordered before the store on line 16, __only if r1 ends up
+> > > containing the address of x__. That is, it is not necessary to involve r2/r3. Is
+> > > my understanding correct? Or did I miss anything about this in the book?
 > >
-> > Hi Akira,
+> > Going back to commit 43236beadb19 ("memorder: Expand on cumulativity and
+> > {other,} multicopy atomicity"), this paragraph discussed Listing 14.17
+> > at the time (WWC Litmus Test With Release), which is a different litmus
+> > test than the current Listing 15.17 (WRC Litmus Test With Release).
+> > Still line 32 of then Listing 14.17 was an "exists" clause.
+> > No wonder you can't figure out what is discussed there.
 > >
-> > I will try a long runtime. If that doesn't work, I suppose I need to
-> > wait until I get another PPC server which I can physically touch.
-> > Thanks a lot.
-> >
-> > > As Armv8 architecture is other-multicopy-atomic, this "exists" clause
-> > > should never trigger, I suppose.
-> > >
-> >
-> > I'm a bit confused here. Perfbook says "Therefore, a
-> > non-multicopy-atomic platform can have a store reach different threads
-> > at different times." (Page 277 the first paragraph). So my
-> > understanding is that for Listing C-WRC+o+o-data-o+o-rmb-o, the
-> > message of writing y could reach P2 before the message of writing x
-> > could reach there, and hence the "exists" clause could trigger even if
-> > on an ARM server. Is that correct? Or did I misunderstand something?
-> >
-> > Perfbook says "Most CPU vendors interested in providing multicopy
-> > atomicity have therefore instead provided the slightly weaker
-> > other-multicopy atomicity".(Page 277 the first paragraph). My
-> > understanding is that "Most CPU vendors" here implies PPC, ARM, and
-> > x86. In other words, all of the servers I can touch adopt
-> > other-multicopy-atomic? Is that correct?
+> > Paul, can you look into this?
 >
-> ARM and x86 provide other-multicopy atomicity.  IBM mainframe provides
-> fully multicopy atomicity.  PPC doesn't provide multicopy atomicity
-> at all.
+> Indeed, this was quite the mess!  Hopefully now fixed.  ;-)
 >
 
-Thanks a lot!!! This is the first time I know about this. How about we
-add this as a footnote or something to help readers easier to get a
-sense of the use of multicopy atomicity in practice? Does the
-following look OK?
+Great! Thanks to both of you :-).
 
-===
-
-From 8e07ecd836e5b581d2953938a65a395208fe0af3 Mon Sep 17 00:00:00 2001
-From: Junchang Wang <junchangwang@gmail.com>
-Date: Tue, 6 Nov 2018 15:00:31 +0800
-Subject: [PATCH] memorder: Clarify implementation details of multicopy
- atomicity in mainstream architectures
-
-Reported-by: Junchang Wang <junchangwang@gmail.com>
-Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
----
- memorder/memorder.tex | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 5e74a91..5db4971 100644
---- a/memorder/memorder.tex
-+++ b/memorder/memorder.tex
-@@ -1901,7 +1901,9 @@ Most CPU vendors interested in providing
-multicopy atomicity have therefore
- instead provided the slightly weaker
- \emph{other-multicopy atomicity}~\cite[Section B2.3]{ARMv8A:2017},
- which excludes the CPU doing a given store from the requirement that all
--CPUs agree on the order of all stores.
-+CPUs agree on the order of all stores \footnote{As of late 2018, ARM and x86
-+provide other-multicopy atomicity, IBM mainframe provides fully multicopy
-+atomicity, and PPC does not provide multicopy atomicity at all.}.
- This means that if only a subset of CPUs are doing stores, the
- other CPUs will agree on the order of stores, hence the ``other''
- in ``other-multicopy atomicity''.
--- 
-2.7.4
-
-Thanks,
+Cheers,
 --Junchang
 
-
->                                                         Thanx, Paul
+>                                                                 Thanx, Paul
 >
-> > Thanks,
-> > --Junchang
+> >         Thanks, Akira
 > >
-> > > As for C-CCIRIW+o+o+o-o+o-o, herd7 says
 > > >
-> > > ----------------------------------------------------------
-> > > Test C-CCIRIW+o+o+o-o+o-o Allowed
-> > > States 47
-> > > 2:r1=0; 2:r2=0; 3:r3=0; 3:r4=0;
-> > > 2:r1=0; 2:r2=0; 3:r3=0; 3:r4=1;
-> > > 2:r1=0; 2:r2=0; 3:r3=0; 3:r4=2;
-> > > 2:r1=0; 2:r2=0; 3:r3=1; 3:r4=1;
-> > > [...]
-> > > 2:r1=2; 2:r2=2; 3:r3=0; 3:r4=2;
-> > > 2:r1=2; 2:r2=2; 3:r3=1; 3:r4=1;
-> > > 2:r1=2; 2:r2=2; 3:r3=1; 3:r4=2;
-> > > 2:r1=2; 2:r2=2; 3:r3=2; 3:r4=1;
-> > > 2:r1=2; 2:r2=2; 3:r3=2; 3:r4=2;
-> > > No
-> > > Witnesses
-> > > Positive: 0 Negative: 72
-> > > Condition exists (2:r1=1 /\ 2:r2=2 /\ 3:r3=2 /\ 3:r4=1)
-> > > Observation C-CCIRIW+o+o+o-o+o-o Never 0 72
-> > > Time C-CCIRIW+o+o+o-o+o-o 0.06
-> > > Hash=8e54976d74e1bc1ec5b6ce10eda3cb12
-> > > ----------------------------------------------------------
 > > >
-> > > It says "Never", so if you could ever trigger the condition on a
-> > > real machine, it would've meant something wrong in the implementation
-> > > on the platform side (cache coherency).
+> > > Thanks,
+> > > --Junchang
 > > >
-> > > Hope this helps.
+> > > Junchang Wang (2):
+> > >   memorder: fix typo
+> > >   memorybarriercum.svg: fix typo
 > > >
-> > >        Thanks, Akira
-> > >
-> > > >
-> > > > But it seems my effort doesn't work; the exist assertions never
-> > > > trigger. Did I miss something? What's the right/possible configuration
-> > > > to trigger these assertions. I do know you might be very busy. But if
-> > > > possible, please give me some hints. These two tests seems very
-> > > > interesting :-). Thanks in advance.
-> > > >
-> > > > Regards,
-> > > > --Junchang
-> > > >
-> > > > ===
-> > > > Three servers I can touch:
-> > > >   1. One PPC server which consists of 8 cores. I don's know hardware
-> > > > details (e.g. which cores share the same LLC or write buffer) because
-> > > > tools such as dmidecode don't work.
-> > > >   2. One ARM server with two Cavium CPU. 96 cores in total (no Hyper-threading).
-> > > >   3. One Intel server with two Xeon E5-2630 CPUs, each of which
-> > > > consists of 12 cores (with Hyper-Threading).
-> > > >
+> > >  memorder/memorder.tex         | 8 ++++----
+> > >  memorder/memorybarriercum.svg | 2 +-
+> > >  2 files changed, 5 insertions(+), 5 deletions(-)
 > > >
 > >
 >
