@@ -1,92 +1,51 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56256 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727876AbeKLC22 (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 11 Nov 2018 21:28:28 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wABGXxFP141291
-        for <perfbook@vger.kernel.org>; Sun, 11 Nov 2018 11:39:28 -0500
-Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2npd75vqbq-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Sun, 11 Nov 2018 11:39:27 -0500
-Received: from localhost
-        by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Sun, 11 Nov 2018 16:39:26 -0000
-Date: Sun, 11 Nov 2018 08:39:24 -0800
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH] cpu: Fix typos
-Reply-To: paulmck@linux.ibm.com
-References: <1541854161-4556-1-git-send-email-junchangwang@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1541854161-4556-1-git-send-email-junchangwang@gmail.com>
-Message-Id: <20181111163924.GT4170@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Return-Path: <junchangwang@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;        d=gmail.com;
+ s=20161025;        h=from:to:cc:subject:date:message-id;
+ bh=gNpqzqpHWXcvsLPd2DsxoT4qiQrFN/xOItNzR8HWOoU=;
+ b=Z7n/lEw3X0g+/IBu0tJf3wde9pmjJ3A7JinWhjyLAKXAmjtQHl49cF5tr8ODHHm+eX
+ I1YpOhXWh4IpSftjITmAfGWe9C+i1bNdDrxv13+5uPjNw2hGxudqCLIhoaqHmT40qReG
+ mx3wpp+p7iekw386M3Y+xjSTxm4+4Nb6FqAWuyrC3FfAuEVXQ09G4WwKssnjE9eJMM4o
+ M9aK5Z5LaG89hJoN9S4HGZmPyPPwc2iU0J/J+OvIYVjUaTnkeWlszMk2dEFVel+raKn8
+ cYIBsE5d90+vEIFNBUhrjBHyMNrr5joYWUiksny8rAEVBrz9DdTH3qhDotN+xG+Efqml
+ NJWg==
+From: Junchang Wang <junchangwang@gmail.com>
+Subject: [PATCH] tooloftrade: add missing subject of sentence
+Date: Sat, 10 Nov 2018 20:49:58 +0800
+Message-Id: <1541854198-4649-1-git-send-email-junchangwang@gmail.com>
+To: paulmck@linux.vnet.ibm.com
+Cc: perfbook@vger.kernel.org, Junchang Wang <junchangwang@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Junchang Wang <junchangwang@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Nov 10, 2018 at 08:49:21PM +0800, Junchang Wang wrote:
-> 
-> Signed-off-by: Junchang Wang <junchangwang@gmail.com>
 
-Applied and soon to be pushed, thank you!
+Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+---
+Hi Paul,
 
-							Thanx, Paul
+This is the only patch for Chapter Tools of Trade. Please take a look.
 
-> ---
-> Hi Paul,
-> 
-> This is the only patch for Chapter CPU. Please take a look.
-> 
-> 
-> Thanks,
-> --Junchang
-> 
-> --
->  cpu/overheads.tex | 4 ++--
->  cpu/overview.tex  | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/cpu/overheads.tex b/cpu/overheads.tex
-> index 2474cfe..17b120b 100644
-> --- a/cpu/overheads.tex
-> +++ b/cpu/overheads.tex
-> @@ -155,7 +155,7 @@ displayed in
->  Table~\ref{tab:cpu:Performance of Synchronization Mechanisms on 4-CPU 1.8GHz AMD Opteron 844 System}.
->  This system's clock period rounds to 0.6\,ns.
->  Although it is not unusual for modern microprocessors to be able to
-> -retire multiple instructions per clock period, the operations's costs are
-> +retire multiple instructions per clock period, the operations' costs are
->  nevertheless normalized to a clock period in the third column, labeled
->  ``Ratio''.
->  The first thing to note about this table is the large values of many of
-> @@ -360,7 +360,7 @@ It is clear that the combination of speculative execution and cloud
->  computing needs more than a bit of rework!
-> 
->  A fifth hardware optimization is large caches, allowing individual
-> -CPUs to operate on larger datasets without incuring expensive cache
-> +CPUs to operate on larger datasets without incurring expensive cache
->  misses.
->  Although large caches can degrade energy efficiency and cache-miss
->  latency, the ever-growing cache sizes on production microprocessors
-> diff --git a/cpu/overview.tex b/cpu/overview.tex
-> index 071cf7c..9e91a7b 100644
-> --- a/cpu/overview.tex
-> +++ b/cpu/overview.tex
-> @@ -15,7 +15,7 @@ where the race always goes to the swiftest.
->  \ContributedBy{Figure}{fig:cpu:CPU Performance at its Best}{Melissa Broussard}
->  \end{figure}
-> 
-> -Although there are a few CPU-bound benchmarks that approach the ideal
-> +Although there are a few CPU-bound benchmarks that approach the ideal case
->  shown in Figure~\ref{fig:cpu:CPU Performance at its Best},
->  the typical program more closely resembles an obstacle course than
->  a race track.
-> -- 
-> 2.7.4
-> 
+
+Thanks,
+--Junchang
+
+--
+ toolsoftrade/toolsoftrade.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 0844b4c..b4bc46a 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -2043,8 +2043,8 @@ machine-sized and properly aligned.
+ It can also prevent load fusing, store fusing, invented loads, and
+ invented stores.
+ However, although it does prevent the compiler from reordering \co{volatile}
+-accesses with each other, does nothing to prevent the CPU from reordering
+-these accesses.
++accesses with each other, \co{volatile} keyword does nothing to prevent the
++CPU from reordering these accesses.
+ Furthermore, it does nothing to prevent either compiler or CPU from
+ reordering non-\co{volatile} accesses with each other or with
+ \co{volatile} accesses.
+-- 
+2.7.4
 
