@@ -1,140 +1,221 @@
-Return-Path: <junchangwang@gmail.com>
+Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=T5ztlnmVSB9Hvui7wogTPytA8TrxBNAGht8WTXMQy/0=;
-        b=JJOU57voGq4IGRa9TcvdC+pIsTXIfXQ/zEr+mTL5QogSt8pgKPyWgyrIEfxKECSRKK
-         ESbScIMp04xM8kjinQwLU+B9MKILg3ZesIwyOa5mriyD0KrthZRLFOWnzZyRfvb0mGw4
-         tW/zaJC+aKlrO4cnEjZRlt+6Z+TKcEGybG92tdyBeL79i/oj7iD6pwoCnuozaupQoKWA
-         /fs+JOl8mjabhKQEPJr0VnrR8WpAe0+xkFxr7p9AVwEaRg1g74t2tKVqPTOabjmEhVia
-         Hssk6uIQ8UjqAsgfkpXm2u5VIqHKrWa1l6fb3JJf3d3TjZv8O2r6W2Ye12ygDbaJ8Kzv
-         yCoA==
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=/wetg79peYqajzGtkETbYqOBQTu44fOkJWqiH59NDNk=;
+        b=iY3HJZay9KROQojWYbpK43stuFnjEkm0SKQR86RGZDD5W50RILMzzc5wRbeGm1Ig5j
+         Gfim0/YERUkjoNiwz+G1YSmPy5Z80G0XvTRT+U7zjsPIPPMXGHivlQK5nL8U+KeWwJXX
+         VT/RtnITfhSq+9skZD7Eyh7euqarDOIdDANnIm0J+ge+t4DGRidadFPnI+HNfEAwC8Ju
+         BOvYtW2r1njVqV3THMQoqpZ5lBYidVBvtuGPNt4kKBEXjuw3OgA7051UpbrWlG4iZTWE
+         tQqfKiVP8he06fcuD11+41CA2BM48ZKdXeg0kCaVsPqHYRBpn9Nxqv4msl5eAuDI/mxP
+         Ok6Q==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] styleguide: Expand on goal of new snippet scheme
+Message-ID: <d0231222-c4c4-e6ae-e077-69544c3b96aa@gmail.com>
+Date: Sun, 18 Nov 2018 00:17:33 +0900
 MIME-Version: 1.0
-References: <1542356397-14343-1-git-send-email-junchangwang@gmail.com>
- <3cbec794-0a95-2248-adcf-bb35564881ad@gmail.com> <20181116201308.GB4170@linux.ibm.com>
-In-Reply-To: <20181116201308.GB4170@linux.ibm.com>
-From: Junchang Wang <junchangwang@gmail.com>
-Date: Sat, 17 Nov 2018 16:26:13 +0800
-Message-ID: <CABoNC81fKrmiFwKF92UH0Sy9Z5uuxc3SwDTBYaHpjFhn7NcBSA@mail.gmail.com>
-Subject: Re: [PATCH] SMPdesign: fix typos
-Content-Type: text/plain; charset="UTF-8"
-To: Paul McKenney <paulmck@linux.ibm.com>, Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Sat, Nov 17, 2018 at 5:46 AM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
->
-> On Sat, Nov 17, 2018 at 12:01:11AM +0900, Akira Yokosawa wrote:
-> > (Cc: Paul's latest address)
-> > Hi Junchang,
-> >
-> > On 2018/11/16 16:19:57 +0800, Junchang Wang wrote:
-> > > Signed-off-by: Junchang Wang <junchangwang@gmail.com>
-> > > ---
-> > > Hi list,
-> > >
-> > > There are a few typos in Section Partitioning. Please take a look.
-> > >
-> > > Thanks,
-> > > --Junchang
-> > >
-> > > --
-> > >  SMPdesign/SMPdesign.tex | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
-> > > index 7b4f6eb..562c057 100644
-> > > --- a/SMPdesign/SMPdesign.tex
-> > > +++ b/SMPdesign/SMPdesign.tex
-> > > @@ -936,7 +936,7 @@ We could simply assign each CPU one gigabyte of memory, and allow
-> > >  each CPU to access its own private chunk of memory, without the
-> > >  need for locking and its complexities and overheads.
-> > >  Unfortunately, this simple scheme breaks down if an algorithm happens
-> > > -to have CPU~0 allocate all of the memory and CPU~1 the free it, as
-> > > +to have CPU~0 allocate all of the memory and CPU~1 free it, as
-> >
-> > I guess Paul's intention was:
-> >
-> > +to have CPU~0 allocate all of the memory and CPU~1 then free it, as
-> >
-> > ???
->
-> You are right, that was my intention, but there significant room for
-> improvement.  Please see below for an updated version of Junchang's
-> patch.  Thoughts?
->
+From 0590665e74862cbbe59a432313cb36d55f8cee92 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 18 Nov 2018 00:04:46 +0900
+Subject: [PATCH] styleguide: Expand on goal of new snippet scheme
 
-Hi Paul and Akira,
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ appendix/styleguide/samplecodesnippetfcv.tex    |  4 +-
+ appendix/styleguide/samplecodesnippetlst.tex    |  2 +-
+ appendix/styleguide/samplecodesnippetlstlbl.tex |  2 +-
+ appendix/styleguide/styleguide.tex              | 79 +++++++++++++++++--------
+ 4 files changed, 59 insertions(+), 28 deletions(-)
 
-The new patch looks good to me. Thanks a lot for the help.
+diff --git a/appendix/styleguide/samplecodesnippetfcv.tex b/appendix/styleguide/samplecodesnippetfcv.tex
+index 4e03b2a..b47b7f5 100644
+--- a/appendix/styleguide/samplecodesnippetfcv.tex
++++ b/appendix/styleguide/samplecodesnippetfcv.tex
+@@ -1,5 +1,5 @@
+ \begin{listing}[tb]
+-\begin{linelabel}[ln:base1]			%lnlbl~linelabel^
++\begin{linelabel}[ln:base1]			%lnlbl~beg:linelabel^
+ \begin{VerbatimL}[commandchars=\$\[\]]
+ /*
+  * Sample Code Snippet
+@@ -11,7 +11,7 @@ int main(void)
+ 	return 0;			$lnlbl[return]
+ }
+ \end{VerbatimL}
+-\end{linelabel}
++\end{linelabel}					%lnlbl~end:linelabel^
+ \caption{Sample Code Snippet}
+ \label{lst:app:styleguide:Sample Code Snippet}
+ \end{listing}
+diff --git a/appendix/styleguide/samplecodesnippetlst.tex b/appendix/styleguide/samplecodesnippetlst.tex
+index b18922e..43638b6 100644
+--- a/appendix/styleguide/samplecodesnippetlst.tex
++++ b/appendix/styleguide/samplecodesnippetlst.tex
+@@ -1,4 +1,4 @@
+-\begin{listing}
++\begin{listing}[tb]
+ { \scriptsize
+ \begin{verbbox}[\LstLineNo]
+ /*
+diff --git a/appendix/styleguide/samplecodesnippetlstlbl.tex b/appendix/styleguide/samplecodesnippetlstlbl.tex
+index d3e4a95..c0558d8 100644
+--- a/appendix/styleguide/samplecodesnippetlstlbl.tex
++++ b/appendix/styleguide/samplecodesnippetlstlbl.tex
+@@ -1,4 +1,4 @@
+-\begin{listing}
++\begin{listing}[tb]
+ { \scriptsize
+ \begin{verbbox}[\LstLineNo] %lnlbl@lineno$
+ /*				%lnlbl@b$
+diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
+index 0587898..768a0e1 100644
+--- a/appendix/styleguide/styleguide.tex
++++ b/appendix/styleguide/styleguide.tex
+@@ -322,13 +322,30 @@ This section explains the use cases of such macros and environments.
+ \subsubsection{Code Snippet}
+ \label{sec:app:styleguide:Code Snippet}
+ 
+-Because the \qco{verbatim} environment is a primitve way to include
++Because the \qco{verbatim} environment is a primitive way to include
+ listings, we are transitioning to a new scheme which uses
+ the \qco{fancyvrb} package for code snippets.
+ 
+-Three customized environments of \qco{Verbatim} are defined
+-for perfbook.
++The goal of the new scheme is to extract \LaTeX\ sources of
++code snippets directly from code samples under \path{CodeSamples}
++directory.
++It also makes it possible to embed line labels in the code samples,
++which can be referred from the text.
++This will reduce the burden of keeping line numbers
++in the text consistent with those in code snippets.
+ 
++Extraction of code snippets is covered by a couple of
++perl scripts and recipes in Makefile. Embedding line labels is
++realized by using escaping feature provided by the \co{fancyvrb} package.
++
++We used to use the \qco{verbbox} environment provided
++by the \qco{verbatimbox} package. As is described in
++Section~\ref{sec:app:styleguide:Code Snippet (Obsolete)},
++\co{verbbox} has the capability of automatic line numbering.
++However, it is impossible to label lines to refer from the text.
++
++Let's start by looking at how code snippets are coded in the new scheme.
++There are three customized environments of \qco{Verbatim}.
+ \qco{VerbatimL} is for floating snippets within the \qco{listing}
+ environment. \qco{VerbatimN} is for inline snippets with line count
+ enabled. \qco{VerbatimU} is for inline snippets without line count.
+@@ -349,20 +366,6 @@ They are defined in the preamble as shown below:
+     samepage=true,frame=single}
+ \end{VerbatimU}
+ 
+-We used to use the \qco{verbbox} environment provided
+-by the \qco{verbatimbox} package. As will be described later in
+-Section~\ref{sec:app:styleguide:Code Snippet (Obsolete)},
+-\co{verbbox} has the capability of automatic
+-line numbering. However, it is not possible to embed labels on lines
+-in the snippet to refer from the text.
+-
+-The \co{fancyvrb} package allows us to do that by the help of
+-escaping feature.
+-And the \LaTeX\ sources of snippets can be extracted from code samples under
+-the \path{CodeSamples} directory of perfbook tree.
+-
+-Conversion to the new scheme is currently underway.
+-
+ % Another option would be the ``lstlisting'' environment provided
+ %  by the ``listings'' package. We are already using its ``lstinline''
+ %  command in the definition of \co{\\co\{\}} macro.
+@@ -410,13 +413,39 @@ to from text.
+ \end{lineref}
+ \end{quote}
+ 
+-\LaTeX\ source shown in
++Macros \qco{\\lnlbl\{\}} and \qco{\\lnref\{\}} are defined in
++the preamble as follows:
++
++\begin{VerbatimU}
++\newcommand{\lnlblbase}{}
++\newcommand{\lnlbl}[1]{%
++  \phantomsection\label{\lnlblbase:#1}}
++\newcommand{\lnrefbase}{}
++\newcommand{\lnref}[1]{\ref{\lnrefbase:#1}}
++\end{VerbatimU}
++
++Environments \qco{linelabel} and \qco{lineref} are defined as
++shown below:
++
++\begin{VerbatimU}
++\newenvironment{linelabel}[1][]{%
++  \renewcommand{\lnlblbase}{#1}%
++  \ignorespaces}{\ignorespacesafterend}
++\newenvironment{lineref}[1][]{%
++  \renewcommand{\lnrefbase}{#1}%
++  \ignorespaces}{\ignorespacesafterend}
++\end{VerbatimU}
++
++\begin{lineref}[ln:app:styleguide:LaTeX Source of Sample Code Snippet (Current)]
++The main part of \LaTeX\ source shown on
++Lines~\lnref{beg:linelabel}-\lnref{end:linelabel} in
+ Listing~\ref{lst:app:styleguide:LaTeX Source of Sample Code Snippet (Current)}
+ can be extracted from a code sample of
+ Listing~\ref{lst:app:styleguide:Source of Code Sample} by a perl script
+ \path{utilities/fcvextract.pl}. All the relevant rules of extraction
+ are described as recipes in the top level \path{Makefile} and
+ a script to generate dependencies (\path{utilities/gen_snippet_d.pl}).
++\end{lineref}
+ 
+ \begin{listing}[tb]
+ \fvset{fontsize=\scriptsize,numbers=left,numbersep=5pt,xleftmargin=9pt,obeytabs=true,tabsize=8}
+@@ -427,7 +456,7 @@ a script to generate dependencies (\path{utilities/gen_snippet_d.pl}).
+ \end{listing}
+ 
+ As you can see, Listing ~\ref{lst:app:styleguide:Source of Code Sample}
+-has meta commands in comments of C (C++ style). These meta commands
++has meta commands in comments of C (C++ style). Those meta commands
+ are interpreted by \path{utilities/fcvextract.pl}, which distinguishes
+ the type of comment style by the suffix of code sample's file name.
+ 
+@@ -446,15 +475,17 @@ labelbase=<label base string>
+ commandchars=\X\Y\Z
+ \end{VerbatimU}
+ 
+-The string given to \qco{labelbase} will be converted to
++The string given to \qco{labelbase} will be passed to
+ ``\co{\\begin\{linelabel\}[<label base string>]}'' command as shown on
+-line~\ref{ln:app:styleguide:LaTeX Source of Sample Code Snippet (Current):linelabel} of
++line~\ref{ln:app:styleguide:LaTeX Source of Sample Code Snippet (Current):beg:linelabel} of
+ Listing~\ref{lst:app:styleguide:LaTeX Source of Sample Code Snippet (Current)}.
+ \qco{commandchars} option is given to the \co{VerbatimL} environment as is.
+ Other types of options, if any, are also passed to the \co{VerbatimL}
+ environment.
+-The \qco{lnlbl} commands are converted to reflect the escape-character choice
+-along the way.
++The \qco{lnlbl} commands are converted along the way to reflect
++the escape-character choice.\footnote{
++	Characters forming comments are also gobbled up.
++}
+ 
+ There can be multiple pairs of \co{\\begin\{snippet\}} and \co{\\end\{snippet\}}
+ as long as they have unique \qco{labelbase} strings.
+@@ -492,7 +523,7 @@ Comments in this part should be of the form \qco{(* ... *)}.
+ 
+ You can't use \qco{\{} and \qco{\}} in comments in litmus tests, either.
+ 
+-Example of disallowed comments in a litmus test are shown below:
++Examples of disallowed comments in a litmus test are shown below:
+ 
+ \begin{linelabel}[ln:app:styleguide:Bad comments in Litmus Test]
+ \begin{VerbatimN}[tabsize=8]
+-- 
+2.7.4
 
-
-Thanks,
---Junchang
-
-> > >  would happen in a simple producer-consumer workload.
-> > >
-> > >  The other extreme, code locking, suffers from excessive lock contention
-> > > @@ -1017,7 +1017,7 @@ smaller than the number of non-\co{NULL} pointers.
-> > >  The allocation function \co{memblock_alloc()} may be seen in
-> > >  Listing~\ref{lst:SMPdesign:Allocator-Cache Allocator Function}.
-> > >  Line~\lnref{pick} picks up the current thread's per-thread pool,
-> > > -and line~8 check to see if it is empty.
-> > > +and line~\lnref{chk:empty} checks to see if it is empty.
-> >
-> > Nice catch!
->
-> Indeed, thank you both!!!
->
-> >         Thanks, Akira
-> >
-> > >
-> > >  If so, lines~\lnref{ack}-\lnref{rel} attempt to refill it
-> > >  from the global pool
->
-> ------------------------------------------------------------------------
->
-> commit 81c18b03d1aa2d3edc1dc28867e1f84413eb31e3
-> Author: Junchang Wang <junchangwang@gmail.com>
-> Date:   Fri Nov 16 16:19:57 2018 +0800
->
->     SMPdesign: Fix typos
->
->     Signed-off-by: Junchang Wang <junchangwang@gmail.com>
->     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
->     [ paulmck: Rework to clarify original wording. ]
->
-> diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
-> index 7b4f6eb2ba71..fe8f445851e3 100644
-> --- a/SMPdesign/SMPdesign.tex
-> +++ b/SMPdesign/SMPdesign.tex
-> @@ -932,12 +932,11 @@ data ownership to this problem---simply carve up memory so that
->  each CPU owns its share.
->  For example, suppose that a system with two CPUs has two gigabytes
->  of memory (such as the one that I am typing on right now).
-> -We could simply assign each CPU one gigabyte of memory, and allow
-> -each CPU to access its own private chunk of memory, without the
-> -need for locking and its complexities and overheads.
-> -Unfortunately, this simple scheme breaks down if an algorithm happens
-> -to have CPU~0 allocate all of the memory and CPU~1 the free it, as
-> -would happen in a simple producer-consumer workload.
-> +We could simply assign each CPU one gigabyte of memory, and allow each
-> +CPU to allocate from its own gigabyte, without the need for locking and
-> +its complexities and overheads.
-> +Unfortunately, this scheme fails when CPU~0 only allocates memory and
-> +CPU~1 only frees it, as happens in simple producer-consumer workloads.
->
->  The other extreme, code locking, suffers from excessive lock contention
->  and overhead~\cite{McKenney93}.
-> @@ -1017,7 +1016,7 @@ smaller than the number of non-\co{NULL} pointers.
->  The allocation function \co{memblock_alloc()} may be seen in
->  Listing~\ref{lst:SMPdesign:Allocator-Cache Allocator Function}.
->  Line~\lnref{pick} picks up the current thread's per-thread pool,
-> -and line~8 check to see if it is empty.
-> +and line~\lnref{chk:empty} checks to see if it is empty.
->
->  If so, lines~\lnref{ack}-\lnref{rel} attempt to refill it
->  from the global pool
->
 
