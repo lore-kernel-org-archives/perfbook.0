@@ -1,59 +1,46 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34480 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726119AbeKTMLx (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 20 Nov 2018 07:11:53 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wAK1dHJT146586
-        for <perfbook@vger.kernel.org>; Mon, 19 Nov 2018 20:45:17 -0500
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2nv6r8m23v-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Mon, 19 Nov 2018 20:45:16 -0500
-Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Tue, 20 Nov 2018 01:45:16 -0000
-Date: Mon, 19 Nov 2018 17:45:15 -0800
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH 1/7] datastruct: Fix wrong line number
-Reply-To: paulmck@linux.ibm.com
-References: <20181120000057.389-1-sj38.park@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181120000057.389-1-sj38.park@gmail.com>
-Message-Id: <20181120014515.GV4170@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Return-Path: <junchangwang@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=oTqdtSFk0xbXl+uI6bn1YfvgK73wOJeDlPL5x0i69wY=;
+        b=OQKa6K17RNs3dg6SS5ZkM3tTwopk5Q7o4BoiZw1KsAXoHWqb02p+PSYVK2gbJGjZYc
+         SwcxaszElEAmZgurGcIcBqd7g0KJB3oyOpputyDPdh3kz88XaPiEZ7nAFolRDiMAiwAE
+         MWM3CCdSPDExNGwPu6gmRsfIymu7gPbLGFi0rqZa+kfVNH60z/iwbb/Zwtk8k+11CDxb
+         TCWm+RNm1v7DRtprvcfc0xZSVSwHGPQvpZDv4ynTLOmXFdhYiXwr8Vt2l7mrbNEEFmpS
+         JStsbULO9AbuH3hA45JNyvTYINBn7mK/jnNf8EVzaYJwrZwMUs10JX3ybmc551t7jIwN
+         vnVw==
+From: Junchang Wang <junchangwang@gmail.com>
+Subject: [PATCH 0/3] Patches for Section Deferred Processing
+Date: Sat, 24 Nov 2018 17:34:51 +0800
+Message-Id: <1543052094-8306-1-git-send-email-junchangwang@gmail.com>
+To: paulmck@linux.ibm.com
+Cc: perfbook@vger.kernel.org, Junchang Wang <junchangwang@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Nov 20, 2018 at 09:00:51AM +0900, SeongJae Park wrote:
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+Hi Paul,
 
-Good eyes!  I queued and pushed the series, thank you!!!
+This is the patch sets for Section Deferred Processing. Please take a look.
 
-							Thanx, Paul
+The first patch fixes a dependency issue in compiling route_hazptr.c.
 
-> ---
->  datastruct/datastruct.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
-> index 1dc2b49..fb8fc20 100644
-> --- a/datastruct/datastruct.tex
-> +++ b/datastruct/datastruct.tex
-> @@ -1549,7 +1549,7 @@ Line~17 conditionally acquires the top-level \co{->ht_lock}, and if
->  this acquisition fails, line~18 returns \co{-EBUSY} to indicate that
->  a resize is already in progress.
->  Otherwise, line~19 picks up a reference to the current hash table,
-> -and lines~21-24 allocate a new hash table of the desired size.
-> +and lines~20-24 allocate a new hash table of the desired size.
->  If a new set of hash/key functions have been specified, these are
->  used for the new table, otherwise those of the old table are preserved.
->  If line~25 detects memory-allocation failure, line~26 releases \co{->ht_lock}
-> -- 
-> 2.10.0
-> 
+The second patch fixes a memory leak bug in hazptr.c.
+
+The last one fixes a typo in writing.
+
+
+Thanks,
+--Junchang
+
+Junchang Wang (3):
+  route_hazptr: Add dependency to hazptr
+  route_hazptr: Fix a memory leak bug
+  defer: Fix a typo
+
+ CodeSamples/defer/Makefile | 2 +-
+ CodeSamples/defer/hazptr.c | 4 ++++
+ defer/hazptr.tex           | 2 +-
+ 3 files changed, 6 insertions(+), 2 deletions(-)
+
+-- 
+2.7.4
 
