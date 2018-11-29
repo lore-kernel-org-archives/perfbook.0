@@ -1,89 +1,62 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38570 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726027AbeKZJbN (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 26 Nov 2018 04:31:13 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wAPMYLS9137931
-        for <perfbook@vger.kernel.org>; Sun, 25 Nov 2018 17:39:02 -0500
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2nyn6k7wmd-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Sun, 25 Nov 2018 17:39:02 -0500
-Received: from localhost
-        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Sun, 25 Nov 2018 22:39:02 -0000
-Date: Sun, 25 Nov 2018 14:39:01 -0800
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH 0/3] Employ new scheme for code snippets (cont.)
-Reply-To: paulmck@linux.ibm.com
-References: <1c49a5ed-290f-f81c-a768-b2d5d2450b43@gmail.com>
- <20181125170159.GB4170@linux.ibm.com>
- <e91f0cf9-4710-1ef1-705c-ad4deeaf1ccb@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=/3aSSHbQLs+3SSClk3GxJUtCdP7lUX+gzDY2wRSA/gM=;
+        b=SXNXQrfrxV8smfU66zRIL2uyjxfUTskqX0G7s2S94YajuHGsp1Ap5H/fk2r96LTmm/
+         yNjwEGpoab4wxKbqx71Vm/0TKXDz+QmvAdDit4DoNjgg3CEkFfiLvDIGN+wWUVGzZ+0s
+         O0orhUQPkfsmbq1s19ggwOX0ZhSZo3fm9o+6n7AVdnklxuLHC0rQZhAVv7mV0EUkNyDq
+         2apyuvfG3DKkrmQmDhG3r776BuCttaZfbD1H3CPOgGkgX/L+DcxMT6iFxvdPhJN5JtDr
+         8GQFtb58h5XFKZnCmAvhw078TJgUtdkuNdhT/cydW7B2vhBD5j2h49Xvvx9pAVB+OBWg
+         utcQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/4] Update snippets of litmus tests
+Message-ID: <fc9a8cff-4982-e97e-7437-5edcc401ce7f@gmail.com>
+Date: Fri, 30 Nov 2018 07:10:15 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e91f0cf9-4710-1ef1-705c-ad4deeaf1ccb@gmail.com>
-Message-Id: <20181125223901.GF4170@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Nov 26, 2018 at 07:07:12AM +0900, Akira Yokosawa wrote:
-> On 2018/11/25 09:01:59 -0800, Paul E. McKenney wrote:
-> > On Sun, Nov 25, 2018 at 11:44:41PM +0900, Akira Yokosawa wrote:
-> >> >From 4ebe85f38ed5f0e003847854b64bc8773bec8ebb Mon Sep 17 00:00:00 2001
-> >> From: Akira Yokosawa <akiyks@gmail.com>
-> >> Date: Sun, 25 Nov 2018 23:30:16 +0900
-> >> Subject: [PATCH 0/3] Employ new scheme (cont.)
-> >>
-> >> Hi Paul,
-> >>
-> >> This is a set of patches to further apply the new scheme for snippets in
-> >> chapters "owned" and "defer". Further updates in "defer" will be submitted
-> >> shortly.
-> > 
-> > Good stuff, applied, thank you!
-> > 
-> > I also fixed a filename typo (my fault, not yours)
-> 
-> Well, it was *my* typo in 2/3 of the patch set. (There was no mention
-> of the file name.)
+From f07d05ca837a57e07f7a87bcbac2bf034905adab Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Fri, 30 Nov 2018 06:55:25 +0900
+Subject: [PATCH 0/4] Update snippets of litmus tests
 
-True enough.  My typo was instead leaving it out completely.
+Hi Paul,
 
-> Thank you for catching it!
+RCU litmus tests recently added in "formal" did not compile
+by klitmus7. Patch #1 is my attempt to manage them klitmus7
+ready.
 
-And you!  ;-)
+Patch #2 add recipe for klitmus7-ready tests. Such tests need
+to be manually added in a list.
 
-							Thanx, Paul
+In preparing Patch #3, I looked up your "litmus" repository
+and found that comments on "exists" clause are actually allowed
+in the form of "(* ... *)".  Patch #3 updates labels embedded
+in litmus tests. Patch #4 updates styleguide accordingly.
 
-> Akira
-> 
-> >                                                    and expanded a bit
-> > on the topic of mechanical reference counting.
-> > 
-> > 							Thanx, Paul
-> > 
-> >>         Thanks, Akira
-> >> --
-> >> Akira Yokosawa (3):
-> >>   owned: Employ new snippet scheme
-> >>   defer: Employ new snippet scheme for route_seq.c
-> >>   defer: Employ new scheme for snippets of route_refcnt.c
-> >>
-> >>  CodeSamples/defer/route_refcnt.c |  67 +++++++++--------
-> >>  CodeSamples/defer/route_seq.c    |  42 +++++------
-> >>  defer/defer.tex                  |  76 ++++----------------
-> >>  defer/refcnt.tex                 | 152 +++++++++------------------------------
-> >>  owned/owned.tex                  |  19 ++---
-> >>  5 files changed, 115 insertions(+), 241 deletions(-)
-> >>
-> >> -- 
-> >> 2.7.4
-> >>
-> > 
-> 
+        Thanks, Akira
+--
+Akira Yokosawa (4):
+  formal: Make RCU litmus tests klitmus7 ready
+  CodeSamples/formal/herd: Add recipe for klitmus7-ready tests
+  Use '(* ... *)' style comments in epilogue of litmus tests
+  styleguide: Loosen restriction on comment in litmus test
+
+ CodeSamples/formal/herd/C-RCU-remove.litmus        | 18 +++++---
+ .../formal/herd/C-RomanPenyaev-list-rcu-rr.litmus  | 28 ++++++++----
+ .../formal/herd/C-SB+l-o-o-u+l-o-o-u-C.litmus      |  4 +-
+ CodeSamples/formal/herd/Makefile                   |  6 ++-
+ appendix/styleguide/styleguide.tex                 | 25 ++++-------
+ utilities/reorder_ltms.pl                          | 50 ++++++----------------
+ 6 files changed, 57 insertions(+), 74 deletions(-)
+
+-- 
+2.7.4
 
