@@ -3,19 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=eybCe06TNMtHRWwgF0OBHD9GYEFqX+ZiG3/gO8I2fVU=;
-        b=CZ+WtWBVubujbjlgO205TL0nRc/Ltjygr2ZIw/HHCYNq05K99DdywmGSFvdngcHINl
-         +a5ZcsIXyGpOFeCxf6fBJ7o6xLpglBqd73CawybqZxuvqc2iC8pZchfa0f3GW1Zyy+TL
-         Zo4N+489Y9XthIMHsuAzknb5nj3peKExs68fmu/fgy3Lamz77MQsCqExdU3D1plDdwq+
-         anDWxmpHGp7mHSTZ0bm4JlyUgExd+d16toTxp7vz2VyKQMP9vzCA7x2vR0qq9naV15QV
-         /bmHCu9tPkAX5FTs8KxGAdFR1deRDtkqem29FTJsX0GUj4/mPOHvq/J2yvKrN3xrxU6C
-         sifg==
-Subject: [PATCH 2/4] count: Restore 'fig:count:Atomic Increment Scalability on
- Nehalem'
+        bh=Yioaos0WJFjAGytxh7QNuKKZzJrghhMwab2WPM6U4bM=;
+        b=Yy3UNZAROqFtskRkkm2nnpoAQvCvNEhUG40iMSISsMT8V6xFP+njjXRovWKudQaibL
+         Mngx8R18DEiusPh3ofqOA0TLDSMuVPYF2TF1HdaWgTn8V+6ziEb2Km0wnzzUI2E14FjO
+         vactjBHoPoNwBY8wsZVW4pptlGdJYU+iQ1Yo1Q1vzgIosHjj09A+PjM3gUSbNJyk0eOo
+         lx4v3LNra7ViqDybM5zoRzoK8C3WVslp++tCVUwXHwcfeuOkeL4RvKCKQkpsrvBrIOgb
+         F2esrCKXfrBZgb4fCZWelw2cDKPHHk0yOIS/mrgU1WABmNPHC0/UoB8e9W7AeHUEmiJR
+         ticA==
+Subject: [PATCH 3/4] defer: Prevent page/column break in short inline code
+ snippets
 References: <b5e1d894-aed2-0171-7cbc-12a46d67bfb6@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <79909b43-4c5f-2147-ffc1-032e4d89bb54@gmail.com>
-Date: Wed, 5 Dec 2018 00:30:03 +0900
+Message-ID: <07819686-d1a2-f170-c4da-3dd80805a4d2@gmail.com>
+Date: Wed, 5 Dec 2018 00:31:10 +0900
 MIME-Version: 1.0
 In-Reply-To: <b5e1d894-aed2-0171-7cbc-12a46d67bfb6@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,101 +25,99 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From ae18c92aaee6e3212df302294131eca14a4bba4e Mon Sep 17 00:00:00 2001
+From 23fca971d1fe94d7c3e1dd94ea9818e397056e10 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 4 Dec 2018 23:40:20 +0900
-Subject: [PATCH 2/4] count: Restore 'fig:count:Atomic Increment Scalability on Nehalem'
+Date: Tue, 4 Dec 2018 23:40:56 +0900
+Subject: [PATCH 3/4] defer: Prevent page/column break in short inline code snippets
 
-Current "fig:count:Atomic Increment Scalability on Kaby Lake" has
-wrong dashed graph of ideal case. Restore old plot of Nehalem
-for the moment.
+Put "samepage=true" option to such VerbatimN snippets.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- count/count.tex     | 14 +++++++-------
- defer/rcuintro.tex  |  2 +-
- locking/locking.tex |  2 +-
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ defer/rcufundamental.tex | 14 +++++++-------
+ defer/rcuintro.tex       |  2 +-
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/count/count.tex b/count/count.tex
-index c465634..6fd54b5 100644
---- a/count/count.tex
-+++ b/count/count.tex
-@@ -248,9 +248,9 @@ accuracies far greater than 50\,\% are almost always necessary.
+diff --git a/defer/rcufundamental.tex b/defer/rcufundamental.tex
+index 3a5fad2..6cf209c 100644
+--- a/defer/rcufundamental.tex
++++ b/defer/rcufundamental.tex
+@@ -112,7 +112,7 @@ We therefore encapsulate them into a primitive
+ \co{rcu_assign_pointer()} that has publication semantics.
+ The last four lines would then be as follows:
  
- \begin{figure}[tb]
- \centering
--\resizebox{2.5in}{!}{\includegraphics{CodeSamples/count/atomic}}
--\caption{Atomic Increment Scalability on Kaby Lake}
--\label{fig:count:Atomic Increment Scalability on Kaby Lake}
-+\resizebox{2.5in}{!}{\includegraphics{CodeSamples/count/atomic_nehalem}}
-+\caption{Atomic Increment Scalability on Nehalem}
-+\label{fig:count:Atomic Increment Scalability on Nehalem}
- \end{figure}
+-\begin{VerbatimN}
++\begin{VerbatimN}[samepage=true]
+ p->a = 1;
+ p->b = 2;
+ p->c = 3;
+@@ -128,7 +128,7 @@ However, it is not sufficient to only enforce ordering at the
+ updater, as the reader must enforce proper ordering as well.
+ Consider for example the following code fragment:
  
- The straightforward way to count accurately is to use atomic operations,
-@@ -281,7 +281,7 @@ This poor performance should not be a surprise, given the discussion in
- Chapter~\ref{chp:Hardware and its Habits},
- nor should it be a surprise that the performance of atomic increment
- gets slower as the number of CPUs and threads increase, as shown in
--Figure~\ref{fig:count:Atomic Increment Scalability on Kaby Lake}.
-+Figure~\ref{fig:count:Atomic Increment Scalability on Nehalem}.
- In this figure, the horizontal dashed line resting on the x~axis
- is the ideal performance that would be achieved
- by a perfectly scalable algorithm: with such an algorithm, a given
-@@ -350,7 +350,7 @@ global variable, the cache line containing that variable must
- circulate among all the CPUs, as shown by the red arrows.
- Such circulation will take significant time, resulting in
- the poor performance seen in
--Figure~\ref{fig:count:Atomic Increment Scalability on Kaby Lake},
-+Figure~\ref{fig:count:Atomic Increment Scalability on Nehalem},
- which might be thought of as shown in
- Figure~\ref{fig:count:Waiting to Count}.
+-\begin{VerbatimN}
++\begin{VerbatimN}[samepage=true]
+ p = gp;
+ if (p != NULL) {
+ 	do_something_with(p->a, p->b, p->c);
+@@ -163,7 +163,7 @@ directives are required for this purpose:\footnote{
+ 	\co{memory_order_acquire}, thus emitting a needless memory-barrier
+ 	instruction on weakly ordered systems.)}
  
-@@ -2870,7 +2870,7 @@ courtesy of eventual consistency.
- 	``Use the right tool for the job.''
+-\begin{VerbatimN}
++\begin{VerbatimN}[samepage=true]
+ rcu_read_lock();
+ p = rcu_dereference(gp);
+ if (p != NULL) {
+@@ -257,7 +257,7 @@ instance from executing concurrently with RCU readers.
  
- 	As can be seen from
--	Figure~\ref{fig:count:Atomic Increment Scalability on Kaby Lake},
-+	Figure~\ref{fig:count:Atomic Increment Scalability on Nehalem},
- 	single-variable atomic increment need not apply for any job
- 	involving heavy use of parallel updates.
- 	In contrast, the algorithms shown in
-@@ -3156,7 +3156,7 @@ Summarizing the summary:
- \item	Different levels of performance and scalability will affect
- 	algorithm and data-structure design, as do a large number of
- 	other factors.
--	Figure~\ref{fig:count:Atomic Increment Scalability on Kaby Lake}
-+	Figure~\ref{fig:count:Atomic Increment Scalability on Nehalem}
- 	illustrates this point:  Atomic increment might be completely
- 	acceptable for a two-CPU system, but be completely inadequate for an
- 	eight-CPU system.
+ Subscribing to an RCU-protected list is straightforward:
+ 
+-\begin{VerbatimN}
++\begin{VerbatimN}[samepage=true]
+ rcu_read_lock();
+ list_for_each_entry_rcu(p, head, list) {
+ 	do_something_with(p->a, p->b, p->c);
+@@ -340,7 +340,7 @@ mechanism, for example, a lock.
+ Subscribing to an RCU-protected hlist is also similar to the
+ circular list:
+ 
+-\begin{VerbatimN}
++\begin{VerbatimN}[samepage=true]
+ rcu_read_lock();
+ hlist_for_each_entry_rcu(p, head, list) {
+ 	do_something_with(p->a, p->b, p->c);
+@@ -544,7 +544,7 @@ to read as follows:
+ \end{lineref}
+ 
+ \begin{linelabel}[ln:defer:RCU Deletion From Linked List]
+-\begin{VerbatimN}[commandchars=\\\[\]]
++\begin{VerbatimN}[samepage=true,commandchars=\\\[\]]
+ p = search(head, key);
+ if (p != NULL) {
+ 	list_del_rcu(&p->list);		\lnlbl[del_rcu]
+@@ -623,7 +623,7 @@ example shown in
+ Listing~\ref{lst:defer:Canonical RCU Replacement Example}:
+ 
+ \begin{linelabel}[ln:defer:Canonical RCU Replacement Example (2nd)]
+-\begin{VerbatimN}[commandchars=\\\[\],firstnumber=15]
++\begin{VerbatimN}[samepage=true,commandchars=\\\[\],firstnumber=15]
+ q = kmalloc(sizeof(*p), GFP_KERNEL);	\lnlbl[kmalloc]
+ *q = *p;				\lnlbl[copy]
+ q->b = 2;				\lnlbl[update1]
 diff --git a/defer/rcuintro.tex b/defer/rcuintro.tex
-index 3259a19..b93136d 100644
+index b93136d..f42e2e7 100644
 --- a/defer/rcuintro.tex
 +++ b/defer/rcuintro.tex
-@@ -76,7 +76,7 @@ the figure.
- But how can we tell when the readers are finished?
+@@ -146,7 +146,7 @@ with time advancing from the top of the figure to the bottom.
+ Although production-quality implementations of this approach can be
+ quite complex, a toy implementation is exceedingly simple:
  
- It is tempting to consider a reference-counting scheme, but
--Figure~\ref{fig:count:Atomic Increment Scalability on Kaby Lake}
-+Figure~\ref{fig:count:Atomic Increment Scalability on Nehalem}
- in
- Chapter~\ref{chp:Counting}
- shows that this can also result in long delays, just as can
-diff --git a/locking/locking.tex b/locking/locking.tex
-index 874fb3b..ce99007 100644
---- a/locking/locking.tex
-+++ b/locking/locking.tex
-@@ -1534,7 +1534,7 @@ Either way, line~\lnref{rel2} releases the root \co{rcu_node} structure's
- 	but only for relatively small numbers of CPUs.
- 	To see why it is problematic in systems with many hundreds of
- 	CPUs, look at
--	Figure~\ref{fig:count:Atomic Increment Scalability on Kaby Lake}
-+	Figure~\ref{fig:count:Atomic Increment Scalability on Nehalem}
- 	and extrapolate the delay from eight to 1,000 CPUs.
- } \QuickQuizEnd
- 
+-\begin{VerbatimN}
++\begin{VerbatimN}[samepage=true]
+ for_each_online_cpu(cpu)
+ 	run_on(cpu);
+ \end{VerbatimN}
 -- 
 2.7.4
 
