@@ -1,74 +1,66 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53628 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725916AbeLCRdE (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 3 Dec 2018 12:33:04 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wB3HTPaj051636
-        for <perfbook@vger.kernel.org>; Mon, 3 Dec 2018 12:32:57 -0500
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2p58dyhwyd-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Mon, 03 Dec 2018 12:32:56 -0500
-Received: from localhost
-        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Mon, 3 Dec 2018 17:32:56 -0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wB3HWroU16121938
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
-        for <perfbook@vger.kernel.org>; Mon, 3 Dec 2018 17:32:53 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7F3EBB2066
-        for <perfbook@vger.kernel.org>; Mon,  3 Dec 2018 17:32:53 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 61AECB205F
-        for <perfbook@vger.kernel.org>; Mon,  3 Dec 2018 17:32:53 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.38])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP
-        for <perfbook@vger.kernel.org>; Mon,  3 Dec 2018 17:32:53 +0000 (GMT)
-Date: Mon, 3 Dec 2018 09:32:56 -0800
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: FYI, planning a release this Friday (December 7th)
-Reply-To: paulmck@linux.ibm.com
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=g0FZOTBStMg9K427z5qSEmm1gXXm7biLL1C9kZttKC4=;
+        b=Yvb5KVNQFouPtSvF3dTwO4v14Y1tWlJSTkEfAbo1V+hw63A8t1lCgIexAaezE1NiwU
+         DPo06i+4p7p0w7QXXq8YFwiznVlkW6ATXPxsJn/SXjlvtVZ+YHfkZj1cSR6w+qKdEYy2
+         v31H/sxa8t5URV5lLyfEmuIwAOsBjoXMK057IZDKeFVOw+aYJw/O19kWTo71WDzfptTr
+         jkTG/ark37fX3SDTOZaVYIzdBtDaRvbWwA8U/lGeR7IpUYHBd3ld+N7X0ygsg8cbHt0b
+         1xRE5UbWXFDFfcapCDQ/GAViujjsmN2vQCmzCGzDU3X+3+HyiMdUI8qF2y2G46bXUc//
+         uh9w==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/4] Misc updates
+Message-ID: <b5e1d894-aed2-0171-7cbc-12a46d67bfb6@gmail.com>
+Date: Wed, 5 Dec 2018 00:27:34 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-Id: <20181203173256.GA2630@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
 
-Hello!
+From 5471262067bf42e8698c80fee3e1d42a8c576d43 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Wed, 5 Dec 2018 00:10:12 +0900
+Subject: [PATCH 0/4] Misc updates
 
-This is really not a big deal, but I am planning to make a release this
-Friday, or by the end of the weekend at the latest (Pacific Time).
-I really should be doing releases more often, as they are intended not
-so much to be an end product, but rather to be a convenience to readers
-who would like to see something recent, but who do not wish to install
-the LaTeX machinery required to build from source.  In contrast, an
-edition is intended to have consistent look and feel and a minimum of
-"under construction" sections.  I hope to put out an edition around
-the middle of next year (2019).
+Hi Paul,
 
-Being as I am frequently guilty of forgetting this distinction between
-release and edition, I have added the following to FAQ.txt.
+As I reported this September, Figure 5.1 is not complete yet.
+As a workaround, patches #1 and #2 restores the old plot of
+Nehalem for Figure 5.1.  Once we can obtain complete data,
+it should be easy to update again.
 
-Thoughts?
+Patch #3 is a minor tweak in RCU code snippets to prevent
+short code snippets from being page/column broken.
 
-							Thanx, Paul
+Patch #4 fixes a typo in an epigraph you've added recently.
 
-------------------------------------------------------------------------
+Hopefully, this would be a final patch set from me for the
+upcoming release.
 
-10.	What is the difference between a "release" and an "edition"?
+        Thanks, Akira
+--
+Akira Yokosawa (4):
+  CodeSamples/count: Restore atomic125.eps
+  count: Restore 'fig:count:Atomic Increment Scalability on Nehalem'
+  defer: Prevent page/column break in short inline code snippets
+  owned: Fix typo in epigraph
 
-	A.	A release is a snapshot provided for readers who would
-		like something reasonably up to date, but who do not wish
-		to install all the pieces of LaTeX required to build one
-		themselves.  Every few years, there will be a special
-		release with more-consistent look and feel, and with
-		fewer (and preferably no) sections under construction,
-		and these special releases are called "editions".  Also,
-		as noted earlier, each edition has a version that may
-		be more easily printed.
+ CodeSamples/count/atomic125.eps      |  856 +++++++------
+ CodeSamples/count/atomic125.png      |  Bin 3189 -> 3337 bytes
+ CodeSamples/count/atomic_nehalem.eps | 2266 ++++++++++++++++++++++++++++++++++
+ count/count.tex                      |   14 +-
+ defer/rcufundamental.tex             |   14 +-
+ defer/rcuintro.tex                   |    4 +-
+ locking/locking.tex                  |    2 +-
+ owned/owned.tex                      |    2 +-
+ 8 files changed, 2770 insertions(+), 388 deletions(-)
+ create mode 100644 CodeSamples/count/atomic_nehalem.eps
+
+-- 
+2.7.4
 
