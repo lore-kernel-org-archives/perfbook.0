@@ -1,88 +1,190 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62046 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726918AbeLEQfM (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Wed, 5 Dec 2018 11:35:12 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wB5GYPhJ041811
-        for <perfbook@vger.kernel.org>; Wed, 5 Dec 2018 11:35:11 -0500
-Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2p6grk64rv-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Wed, 05 Dec 2018 11:35:10 -0500
-Received: from localhost
-        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Wed, 5 Dec 2018 16:35:09 -0000
-Date: Wed, 5 Dec 2018 08:35:06 -0800
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH] count: Include atomic_nehalem.pdf instead of
- atomic_nehalem.png
-Reply-To: paulmck@linux.ibm.com
-References: <38fa0336-1150-7e92-bc00-b094b959f932@gmail.com>
- <482c35de-949b-9bb1-4d96-dd6972ee3430@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=eTb6EWaluDY2kc3yTTnYEtSoxAECKhxtd43y0nPN1HU=;
+        b=rzbgnKDIMQ48JziyXO8I3TuZy4VwCRCdsrYFBFZwv74ZRaMmD8k/OrsDGYi1Tirb+6
+         rpERLCgMxO4UV/oO5PjnNuSmVVvRZe6tPLJKZcOFZ3UE3roF6pQBLpXXx8yHfYejBtIs
+         QxtZ0eINJVUQl4yqswwI3M0EnBHoKlMCdAtGxVKhUCkitseBZLg72cOAy8xVOddXMxmh
+         +EUbaqr3rYccK3Um0j1J9Ewvoi9Z/EAW2kOV0UpXPs8xSlRe5vA535EU8ZRoLSCC503l
+         N1NcmxgghnB0jLg0Bbl06KkbT14+SiguiENUcL+bkIPEY4pZPvMKxDf774LiB5OwvMHK
+         YqsA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Definition of cmpxchg()
+Message-ID: <daa12711-177f-6f25-09c4-841751365a8f@gmail.com>
+Date: Tue, 11 Dec 2018 00:29:08 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <482c35de-949b-9bb1-4d96-dd6972ee3430@gmail.com>
-Message-Id: <20181205163506.GT4170@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>, Junchang Wang <junchangwang@gmail.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Dec 05, 2018 at 08:56:16PM +0900, Akira Yokosawa wrote:
-> On 2018/12/05 20:00, Akira Yokosawa wrote:
-> > From 213fcdaabb6daa14c1c6cfc6ff780d023478d59f Mon Sep 17 00:00:00 2001
-> > From: Akira Yokosawa <akiyks@gmail.com>
-> > Date: Wed, 5 Dec 2018 19:48:32 +0900
-> > Subject: [PATCH] count: Include atomic_nehalem.pdf instead of atomic_nehalem.png
-> > 
-> > Without any suffix specified, \includegraphics{} prefers .png to .pdf
-> > by default.
-> > 
-> > Fixes: 04e270767c34 ("count: Restore 'fig:count:Atomic Increment Scalability on Nehalem'")
-> > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> > ---
-> > Hi Paul,
-> > 
-> > This is a "minor fix".  Obviously, I missed to check the restored figure
-> > before submitting the previous patch set. ;-)
-> 
-> Looks like this depends on TeX Live version. .png was included on
-> Ubuntu Trusty's TeX Live 2013/Debian.
-> 
-> On Ubuntu Bionic (TeX Live 2017/Debian), .pdf is included both with and
-> without this fix.
+Hi Paul and Junchang,
 
-Queued and pushed, thank you!!!
+This is a continuation of the discussion on the definition of
+cmpxchg() in CodeSamples/api-pthreads/api-gcc.h.
 
-And I must have been blind or something...  It shows up in my setup,
-but miniaturized.  Fixed now, so all is well!  ;-)
+Current definition is as follows:
 
-							Thanx, Paul
+#define cmpxchg(ptr, o, n) \
+({ \
+	typeof(*ptr) _____actual = (o); \
+	\
+	__atomic_compare_exchange_n(ptr, (void *)&_____actual, (n), 1, \
+			__ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? (o) : (o)+1; \
+})
 
->         Thanks, Akira
-> 
-> > 
-> >         Thanks, Akira
-> > --
-> >  count/count.tex | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/count/count.tex b/count/count.tex
-> > index 6fd54b5..bdbc4cd 100644
-> > --- a/count/count.tex
-> > +++ b/count/count.tex
-> > @@ -248,7 +248,7 @@ accuracies far greater than 50\,\% are almost always necessary.
-> >  
-> >  \begin{figure}[tb]
-> >  \centering
-> > -\resizebox{2.5in}{!}{\includegraphics{CodeSamples/count/atomic_nehalem}}
-> > +\resizebox{2.5in}{!}{\includegraphics{CodeSamples/count/atomic_nehalem.pdf}}
-> >  \caption{Atomic Increment Scalability on Nehalem}
-> >  \label{fig:count:Atomic Increment Scalability on Nehalem}
-> >  \end{figure}
-> > 
-> 
+As was already pointed out by Paul, this definition has potential issue
+when an argument with side-effect is given to "o". Also, (o)+1 can overflow.
+
+As a matter of fact, there is another definition of cmpxchg() in
+CodeSamples/formal/litmus/api.h. Currently it is defined as follows:
+
+#define cmpxchg(x, o, n) ({ \
+	typeof(o) __old = (o); \
+	__atomic_compare_exchange_n((x), &__old, (n), 1, __ATOMIC_SEQ_CST, __ATOMIC_RELAXED); \
+	__old; \
+})
+
+Apparently, this definition is not good on PPC or ARM.
+
+Following is a simple litmus test of cmpxchg() (to be executed by litmus7):
+--------------------------------------------
+C C-cmpxchg
+{
+}
+
+{
+#include "api.h"
+}
+
+P0(int *x)
+{
+	int r1;
+
+	r1 = cmpxchg(x, 1, 2);
+}
+
+P1(int *x)
+{
+	int r1;
+
+	r1 = cmpxchg(x, 0, 1);
+}
+
+locations [1:r1]
+exists (0:r1=1 /\ ~x=2)
+---------------------------------
+
+Testing on PPC with the current api.h yields the following:
+---------------------------------
+Test C-cmpxchg Allowed
+Histogram (4 states)
+2789  :>0:r1=0; 1:r1=0; x=0;
+50452053:>0:r1=0; 1:r1=0; x=1;
+36003 *>0:r1=1; 1:r1=0; x=1;
+49509155:>0:r1=1; 1:r1=0; x=2;
+Ok
+
+Witnesses
+Positive: 36003, Negative: 99963997
+Condition exists (0:r1=1 /\ not (x=2)) is validated
+Hash=3f625d680407ff822fb56f1a80834291
+Observation C-cmpxchg Sometimes 36003 99963997
+Time C-cmpxchg 43.37
+----------------------------------
+
+If we change the definition to suppress spurious failure in
+__atomic_compare_exchange_n(), i.e.:
+
+#define cmpxchg(x, o, n) ({ \
+	typeof(o) __old = (o); \
+	__atomic_compare_exchange_n((x), &__old, (n), 0, __ATOMIC_SEQ_CST, __ATOMIC_RELAXED); \
+	__old; \
+})
+
+, litmus7 yields the following:
+----------------------------------
+Test C-cmpxchg Allowed
+Histogram (2 states)
+50766497:>0:r1=0; 1:r1=0; x=1;
+49233503:>0:r1=1; 1:r1=0; x=2;
+No
+
+Witnesses
+Positive: 0, Negative: 100000000
+Condition exists (0:r1=1 /\ not (x=2)) is NOT validated
+Hash=3f625d680407ff822fb56f1a80834291
+Observation C-cmpxchg Never 0 100000000
+Time C-cmpxchg 35.20
+----------------------------------
+
+This matches what herd7 says (with the 2nd pair of {} removed):
+----------------------------------
+Test C-cmpxchg Allowed
+States 2
+0:r1=0; 1:r1=0; x=1;
+0:r1=1; 1:r1=0; x=2;
+No
+Witnesses
+Positive: 0 Negative: 2
+Condition exists (0:r1=1 /\ not (x=2))
+Observation C-cmpxchg Never 0 2
+Time C-cmpxchg 0.01
+Hash=1720691890ea69e35615997626680d6f
+----------------------------------
+
+Also, klitmus7 on PPC says:
+----------------------------------
+Test C-cmpxchg Allowed
+Histogram (2 states)
+2019624 :>0:r1=0; 1:r1=0; x=1;
+1980376 :>0:r1=1; 1:r1=0; x=2;
+No
+
+Witnesses
+Positive: 0, Negative: 4000000
+Condition exists (0:r1=1 /\ not (x=2)) is NOT validated
+Hash=1720691890ea69e35615997626680d6f
+Observation C-cmpxchg Never 0 4000000
+Time C-cmpxchg 0.76
+----------------------------------
+
+If we use the definition in api-gcc.h, litmus7 says:
+----------------------------------
+Test C-cmpxchg Allowed
+Histogram (3 states)
+11388 :>0:r1=2; 1:r1=1; x=0;
+50373528:>0:r1=2; 1:r1=0; x=1;
+49615084:>0:r1=1; 1:r1=0; x=2;
+No
+
+Witnesses
+Positive: 0, Negative: 100000000
+Condition exists (0:r1=1 /\ not (x=2)) is NOT validated
+Hash=3f625d680407ff822fb56f1a80834291
+Observation C-cmpxchg Never 0 100000000
+Time C-cmpxchg 52.06
+----------------------------------
+The result is still "Never", but the statistics look quite different.
+There is no "0:r1=0" observed!
+
+So, at least for litmus test, cmpxchg() should be defined as follows:
+
+#define cmpxchg(x, o, n) ({ \
+	typeof(o) __old = (o); \
+	__atomic_compare_exchange_n((x), &__old, (n), 0, __ATOMIC_SEQ_CST, __ATOMIC_RELAXED); \
+	__old; \
+})
+
+If this is the way to go, I think the definition in api-gcc.h should
+be the same way for consistency, even if it would cause a little
+performance degradation. Then there would be no worry about overflows.
+
+Thoughts?
+
+        Thanks, Akira
 
