@@ -3,22 +3,21 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sIL8+U0rTvkEm2zqCjrxIj31tDex10mSQ5j3WyuGOGc=;
-        b=KhIXiUOBj5zj1Fu2Go/EYYKqBjwsXU0XOlojByf6qd9GHFsRAnPvPBWcxNK4xOLi+s
-         t2osROaHXXD8UAQt8bTf1xH1htifaDX/mai/2xmZdGhOGmsG7KTavZKr54/dfveS9oX+
-         e8WJgroMlXyNC3PECjZEsnTM+RdPuI54I9OZ/IQk5D6K29ut8EoMkgrPFlozR3sZb+/e
-         1NF+ZuFiv0F5WF3hbeJW9heJHKKukxOAGh+y+5K5fqVuiVN/t2+wXxo5BYhoSDFmf/rh
-         7ZP5BVPUbMEpXOCaBgcw1Ga820n/GjWadzTpQO5aIhP5rnWHlw4J8fw7dXvMWovEKoL5
-         4DPA==
-Subject: Re: [PATCH 4/4] EXP CodeSamples: Add weak variant of cmpxchg() as
- cmpxchg_weak()
+        bh=idBSXypMsHdZOZyfC/DnGFQyuNtu6yd/CIV/03TlEeA=;
+        b=n7qOzSGH80ksOMv6OPTwlxm173oaCGu7Hv36SEia0AfnypTrQNeCf5WisH1IZ4C/HP
+         +jzjAHA9H167ZPy6fOVaELczMIUdJKWa2G8VfkYmQSfVrnotcn0hX93gvORT+ZkPq6zK
+         5MxUFO/k/Ssjhj2UCMPSPZLORV2r/ekEVPyto1+ZY3T70EtX7qhzZHjvlQJBen0H4NEc
+         umLd0wcjCSsi1KjlAv/5lljna974x7b5L9zB4Fgzl14CrYRuqFqb/Zp2QxW5Y3ky5F/B
+         +QrLD3ORc/e+e1kcgpthVB2at4tn+EJZlaornWYhQsN7lO7shDjrkUHb3LrjeKI06uZM
+         lHpw==
+Subject: Re: [PATCH 3/4] CodeSamples: Fix definition of cmpxchg() in api-gcc.h
 References: <184fed6d-f9ae-8a0b-e8e8-7bcb3e3acf8e@gmail.com>
- <bd89b29d-ddb2-01b1-905b-e52226695295@gmail.com>
+ <98448fa1-c391-fdfe-22fa-803dacd72749@gmail.com>
 From: Junchang Wang <junchangwang@gmail.com>
-Message-ID: <5c66f54e-045a-683d-da5f-f35601b24dda@gmail.com>
-Date: Wed, 12 Dec 2018 23:48:57 +0800
+Message-ID: <43a14ef6-0fba-7619-b385-475940f244ac@gmail.com>
+Date: Thu, 13 Dec 2018 00:01:33 +0800
 MIME-Version: 1.0
-In-Reply-To: <bd89b29d-ddb2-01b1-905b-e52226695295@gmail.com>
+In-Reply-To: <98448fa1-c391-fdfe-22fa-803dacd72749@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -28,50 +27,40 @@ List-ID: <perfbook.vger.kernel.org>
 
 
 
-On 12/11/18 11:44 PM, Akira Yokosawa wrote:
-> From 61a010b7c34c1b6c05b3883637ccdf2438409408 Mon Sep 17 00:00:00 2001
+On 12/11/18 11:42 PM, Akira Yokosawa wrote:
+> From 7e7c3a20d08831cd64b77a4e8d8f693b4725ef89 Mon Sep 17 00:00:00 2001
 > From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Tue, 11 Dec 2018 21:14:31 +0900
-> Subject: [PATCH 4/4] EXP CodeSamples: Add weak variant of cmpxchg() as cmpxchg_weak()
+> Date: Tue, 11 Dec 2018 21:37:11 +0900
+> Subject: [PATCH 3/4] CodeSamples: Fix definition of cmpxchg() in api-gcc.h
 > 
-> For comparison, add weak (spurious-failure permitting) ones in the
-> names of cmpxchg_weak() and atomic_cmpxchg_weak().
-> count_lim_atomic_weak.c is a copy of count_lim_atomic.c but uses
-> atomic_cmpxchg_weak().
+> Do the same change as CodeSamples/formal/litmus/api.h.
 > 
 > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 > ---
->  CodeSamples/api-pthreads/api-gcc.h        |  14 ++
->  CodeSamples/count/Makefile                |   4 +
->  CodeSamples/count/count_lim_atomic_weak.c | 226 ++++++++++++++++++++++++++++++
->  3 files changed, 244 insertions(+)
->  create mode 100644 CodeSamples/count/count_lim_atomic_weak.c
+>  CodeSamples/api-pthreads/api-gcc.h | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
 > diff --git a/CodeSamples/api-pthreads/api-gcc.h b/CodeSamples/api-pthreads/api-gcc.h
-> index b66f4b9..b27facd 100644
+> index 3afe340..b66f4b9 100644
 > --- a/CodeSamples/api-pthreads/api-gcc.h
 > +++ b/CodeSamples/api-pthreads/api-gcc.h
-> @@ -178,6 +178,20 @@ static __inline__ int atomic_cmpxchg(atomic_t *v, int old, int new)
->  	return cmpxchg(&v->counter, old, new);
->  }
+> @@ -168,8 +168,9 @@ struct __xchg_dummy {
+>  ({ \
+>  	typeof(*ptr) _____actual = (o); \
+>  	\
+> -	__atomic_compare_exchange_n(ptr, (void *)&_____actual, (n), 1, \
+> -			__ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? (o) : (o)+1; \
+> +	__atomic_compare_exchange_n((ptr), (void *)&_____actual, (n), 0, \
+> +			__ATOMIC_SEQ_CST, __ATOMIC_RELAXED); \
+> +	_____actual; \
+>  })
 >  
-> +#define cmpxchg_weak(ptr, o, n) \
-> +({ \
-> +	typeof(*ptr) _____actual = (o); \
-> +	typeof(*ptr) _____o = _____actual; \
-> +	\
-> +	__atomic_compare_exchange_n((ptr), (void *)&_____actual, (n), 1, \
-> +			__ATOMIC_SEQ_CST, __ATOMIC_RELAXED) ? _____o : _____o+1 ; \
-> +})
-> +
 
 Hi Akira,
 
-Quit an interesting topic. I did some experiments and please see below.
+Another reason that the performance of cmpxchg is catching up with cmpxchg_weak is that __ATOMIC_SEQ_CST is replaced by __ATOMIC_RELAXED in this patch. The use of __ATOMIC_RELAXED means if the CAS primitive fails, the relaxed semantic is used, rather than sequential consistent. Following are some experiment results:
 
-We changed the implementation of cmpxchg() heavily. So let's use the latest two versions---count_lim_atomic based on your latest patch [3/4] and count_lim_atomic_weak based on patch [4/4]---to compare apple to apple. I ran these two programs on an 8-core PPC server. The duration of each run is set to 2.4 seconds.
-
-The first observation is that the result reported in your last mail (patch [0/4]) is correct; for each update operation, count_lim_atomic is about 10 nanoseconds faster than count_lim_atomic_weak, no matter how many concurrent updaters are running. For example, when I created 64 updaters, I got the follow results:
+# If __ATOMIC_RELAXED is used for both cmpxchg and cmpxchg_weak
 
 ./count_lim_atomic 64 uperf
 ns/update: 290
@@ -79,284 +68,30 @@ ns/update: 290
 ./count_lim_atomic_weak 64 uperf
 ns/update: 301
 
-Following is my analysis. I found that the first reason is because cmpxchg_weak is using a temporal variable _____o to avoid side-effects of (o). If we switch cmpxchg_weak to the older version (shown below. I know it has flaws, but let's forget about it temporarily :-)), count_lim_atomic_weak runs as fast as count_lim_atomic.
 
-#define cmpxchg_weak(ptr, o, n) \
-({ \
-        typeof(*ptr) _____actual = (o); \
-        \
-        __atomic_compare_exchange_n((ptr), (void *)&_____actual, (n), 1, \
-                        __ATOMIC_SEQ_CST, __ATOMIC_RELAXED) ? (o) : (n) ; \
-})
+# and then if __ATOMIC_SEQ_CST is used for both cmpxchg and cmpxchg_weak
 
-The second possible reason could be more interesting. I discussed that in the reply to your mail [Patch 3/4].
+./count_lim_atomic 64 uperf
+ns/update: 316
 
-Regards,
+./count_lim_atomic_weak 64 uperf
+ns/update: 302
+
+./count_lim_atomic 120 uperf
+ns/update: 630
+
+./count_lim_atomic_weak 120 uperf
+ns/update: 568
+
+The results show that if we want to ensure sequential consistency when the CAS primitive fails, cmpxchg_weak performs better than cmpxchg. It seems that the (type of variation, failure_memorder) pair affects performance. I know that PPC uses LL/SC to simulate CAS. But what's the relationship between a simulated CAS and the memory order. This is interesting because as far as I know, PPC and ARM are using LL/SC to simulate atomic primitives such as CAS and FAA. So FAA might have the same behavior.
+
+In actually, I'm not very clear about the meaning of different types of failure memory orders. For example, when should we use __ATOMIC_RELAXED, rather than __ATOMIC_SEQ_CST, if a CAS fails? What happen if __ATOMIC_RELAXED is used for x86? The one I'm look at is https://gcc.gnu.org/onlinedocs/gcc/_005f_005fatomic-Builtins.html . Do you know some resources about this? I can look into this tomorrow. Thanks.
+
+
 --Junchang
 
 
 
-> +static __inline__ int atomic_cmpxchg_weak(atomic_t *v, int old, int new)
-> +{
-> +	return cmpxchg_weak(&v->counter, old, new);
-> +}
-> +
->  #define xchg(ptr, v) __atomic_exchange_n((ptr), (v), __ATOMIC_SEQ_CST)
->  #define atomic_xchg(ptr, v) \
->  	__atomic_exchange_n(&(ptr)->counter, (v), __ATOMIC_SEQ_CST)
-> diff --git a/CodeSamples/count/Makefile b/CodeSamples/count/Makefile
-> index 481eb3f..52eb466 100644
-> --- a/CodeSamples/count/Makefile
-> +++ b/CodeSamples/count/Makefile
-> @@ -22,6 +22,7 @@ PROGS =	count_atomic \
->  	count_lim \
->  	count_lim_app \
->  	count_lim_atomic \
-> +	count_lim_atomic_weak \
->  	count_lim_sig \
->  	count_limd \
->  	count_nonatomic \
-> @@ -65,6 +66,9 @@ count_lim_app: count_lim_app.c ../api.h limtorture.h
->  count_lim_atomic: count_lim_atomic.c ../api.h limtorture.h
->  	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_lim_atomic count_lim_atomic.c -lpthread
->  
-> +count_lim_atomic_weak: count_lim_atomic_weak.c ../api.h limtorture.h
-> +	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_lim_atomic_weak count_lim_atomic_weak.c -lpthread
-> +
->  count_lim_sig: count_lim_sig.c ../api.h limtorture.h
->  	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_lim_sig count_lim_sig.c -lpthread
->  
-> diff --git a/CodeSamples/count/count_lim_atomic_weak.c b/CodeSamples/count/count_lim_atomic_weak.c
-> new file mode 100644
-> index 0000000..42953f2
-> --- /dev/null
-> +++ b/CodeSamples/count/count_lim_atomic_weak.c
-> @@ -0,0 +1,226 @@
-> +/*
-> + * count_lim_atomic_weak.c: simple limit counter that uses weak variant
-> + *	of atomic operations to steal from other threads.
-> + *
-> + * This program is free software; you can redistribute it and/or modify
-> + * it under the terms of the GNU General Public License as published by
-> + * the Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License
-> + * along with this program; if not, you can access it online at
-> + * http://www.gnu.org/licenses/gpl-2.0.html.
-> + *
-> + * Copyright (c) 2009 Paul E. McKenney, IBM Corporation.
-> + */
-> +
-> +#include "../api.h"
-> +
-> +static void balance_count(void);
-> +
-> +atomic_t __thread counterandmax = ATOMIC_INIT(0);	//\lnlbl{var:candmax}
-> +unsigned long globalcountmax = 1 << 25;			//\lnlbl{var:def:b}
-> +unsigned long globalcount = 0;
-> +unsigned long globalreserve = 0;
-> +atomic_t *counterp[NR_THREADS] = { NULL };
-> +DEFINE_SPINLOCK(gblcnt_mutex);				//\lnlbl{var:def:e}
-> +#define CM_BITS (sizeof(atomic_t) * 4)			//\lnlbl{var:CM_BITS}
-> +#define MAX_COUNTERMAX ((1 << CM_BITS) - 1)		//\lnlbl{var:MAX_CMAX}
-> +
-> +static __inline__ void					//\lnlbl{split_int:b}
-> +split_counterandmax_int(int cami, int *c, int *cm)
-> +{
-> +	*c = (cami >> CM_BITS) & MAX_COUNTERMAX;	//\lnlbl{split_int:msh}
-> +	*cm = cami & MAX_COUNTERMAX;			//\lnlbl{split_int:lsh}
-> +}							//\lnlbl{split_int:e}
-> +
-> +static __inline__ void					//\lnlbl{split:b}
-> +split_counterandmax(atomic_t *cam, int *old, int *c, int *cm)//\lnlbl{split:func}
-> +{
-> +	unsigned int cami = atomic_read(cam);		//\lnlbl{split:int}
-> +
-> +	*old = cami;					//\lnlbl{split:old}
-> +	split_counterandmax_int(cami, c, cm);		//\lnlbl{split:split_int}
-> +}							//\lnlbl{split:e}
-> +
-> +static __inline__ int merge_counterandmax(int c, int cm)//\lnlbl{merge:b}
-> +{
-> +	unsigned int cami;
-> +
-> +	cami = (c << CM_BITS) | cm;			//\lnlbl{merge:merge}
-> +	return ((int)cami);
-> +}							//\lnlbl{merge:e}
-> +
-> +static void globalize_count(void)			//\lnlbl{globalize:b}
-> +{
-> +	int c;
-> +	int cm;
-> +	int old;
-> +
-> +	split_counterandmax(&counterandmax, &old, &c, &cm);//\lnlbl{globalize:split}
-> +	globalcount += c;
-> +	globalreserve -= cm;
-> +	old = merge_counterandmax(0, 0);
-> +	atomic_set(&counterandmax, old);
-> +}							//\lnlbl{globalize:e}
-> +
-> +static void flush_local_count(void)			//\lnlbl{flush:b}
-> +{
-> +	int c;
-> +	int cm;
-> +	int old;
-> +	int t;
-> +	int zero;
-> +
-> +	if (globalreserve == 0)				//\lnlbl{flush:checkrsv}
-> +		return;					//\lnlbl{flush:return:n}
-> +	zero = merge_counterandmax(0, 0);		//\lnlbl{flush:initzero}
-> +	for_each_thread(t)				//\lnlbl{flush:loop:b}
-> +		if (counterp[t] != NULL) {		//\lnlbl{flush:checkp}
-> +			old = atomic_xchg(counterp[t], zero);//\lnlbl{flush:atmxchg}
-> +			split_counterandmax_int(old, &c, &cm);//\lnlbl{flush:split}
-> +			globalcount += c;		//\lnlbl{flush:glbcnt}
-> +			globalreserve -= cm;		//\lnlbl{flush:glbrsv}
-> +		}					//\lnlbl{flush:loop:e}
-> +}							//\lnlbl{flush:e}
-> +
-> +int add_count(unsigned long delta)			//\lnlbl{add:b}
-> +{
-> +	int c;
-> +	int cm;
-> +	int old;
-> +	int new;
-> +
-> +	do {						//\lnlbl{add:fast:b}
-> +		split_counterandmax(&counterandmax, &old, &c, &cm);//\lnlbl{add:split}
-> +		if (delta > MAX_COUNTERMAX || c + delta > cm)//\lnlbl{add:check}
-> +			goto slowpath;			//\lnlbl{add:goto}
-> +		new = merge_counterandmax(c + delta, cm);//\lnlbl{add:merge}
-> +	} while (atomic_cmpxchg_weak(&counterandmax,		//\lnlbl{add:atmcmpex}
-> +	                        old, new) != old);	//\lnlbl{add:loop:e}
-> +	return 1;					//\lnlbl{add:return:fs}
-> +slowpath:						//\lnlbl{add:slow:b}
-> +	spin_lock(&gblcnt_mutex);			//\lnlbl{add:acquire}
-> +	globalize_count();				//\lnlbl{add:globalize}
-> +	if (globalcountmax - globalcount -		//\lnlbl{add:checkglb:b}
-> +	    globalreserve < delta) {			//\lnlbl{add:checkglb:e}
-> +		flush_local_count();			//\lnlbl{add:flush}
-> +		if (globalcountmax - globalcount -	//\lnlbl{add:checkglb:nb}
-> +		    globalreserve < delta) {		//\lnlbl{add:checkglb:ne}
-> +			spin_unlock(&gblcnt_mutex);	//\lnlbl{add:release:f}
-> +			return 0;			//\lnlbl{add:return:sf}
-> +		}
-> +	}
-> +	globalcount += delta;				//\lnlbl{add:addglb}
-> +	balance_count();				//\lnlbl{add:balance}
-> +	spin_unlock(&gblcnt_mutex);			//\lnlbl{add:release:s}
-> +	return 1;					//\lnlbl{add:return:ss}
-> +}							//\lnlbl{add:e}
-> +
-> +int sub_count(unsigned long delta)			//\lnlbl{sub:b}
-> +{
-> +	int c;
-> +	int cm;
-> +	int old;
-> +	int new;
-> +
-> +	do {						//\lnlbl{sub:fast:b}
-> +		split_counterandmax(&counterandmax, &old, &c, &cm);
-> +		if (delta > c)
-> +			goto slowpath;
-> +		new = merge_counterandmax(c - delta, cm);
-> +	} while (atomic_cmpxchg_weak(&counterandmax,
-> +	                        old, new) != old);
-> +	return 1;					//\lnlbl{sub:fast:e}
-> + slowpath:						//\lnlbl{sub:slow:b}
-> +	spin_lock(&gblcnt_mutex);
-> +	globalize_count();
-> +	if (globalcount < delta) {
-> +		flush_local_count();
-> +		if (globalcount < delta) {
-> +			spin_unlock(&gblcnt_mutex);
-> +			return 0;
-> +		}
-> +	}
-> +	globalcount -= delta;
-> +	balance_count();
-> +	spin_unlock(&gblcnt_mutex);
-> +	return 1;					//\lnlbl{sub:slow:e}
-> +}							//\lnlbl{sub:e}
-> +
-> +unsigned long read_count(void)				//\lnlbl{b}
-> +{
-> +	int c;
-> +	int cm;
-> +	int old;
-> +	int t;
-> +	unsigned long sum;
-> +
-> +	spin_lock(&gblcnt_mutex);			//\lnlbl{acquire}
-> +	sum = globalcount;				//\lnlbl{initsum}
-> +	for_each_thread(t)				//\lnlbl{loop:b}
-> +		if (counterp[t] != NULL) {
-> +			split_counterandmax(counterp[t], &old, &c, &cm);//\lnlbl{split}
-> +			sum += c;
-> +		}					//\lnlbl{loop:e}
-> +	spin_unlock(&gblcnt_mutex);			//\lnlbl{release}
-> +	return sum;					//\lnlbl{return}
-> +}							//\lnlbl{e}
-> +
-> +void count_init(void)
-> +{
-> +}
-> +
-> +static void balance_count(void)				//\lnlbl{balance:b}
-> +{
-> +	int c;
-> +	int cm;
-> +	int old;
-> +	unsigned long limit;
-> +
-> +	limit = globalcountmax - globalcount -
-> +	        globalreserve;
-> +	limit /= num_online_threads();
-> +	if (limit > MAX_COUNTERMAX)
-> +		cm = MAX_COUNTERMAX;
-> +	else
-> +		cm = limit;
-> +	globalreserve += cm;
-> +	c = cm / 2;
-> +	if (c > globalcount)
-> +		c = globalcount;
-> +	globalcount -= c;
-> +	old = merge_counterandmax(c, cm);
-> +	atomic_set(&counterandmax, old);		//\lnlbl{balance:atmcset}
-> +}							//\lnlbl{balance:e}
-> +
-> +void count_register_thread(void)			//\lnlbl{register:b}
-> +{
-> +	int idx = smp_thread_id();
-> +
-> +	spin_lock(&gblcnt_mutex);
-> +	counterp[idx] = &counterandmax;
-> +	spin_unlock(&gblcnt_mutex);
-> +}
-> +
-> +void count_unregister_thread(int nthreadsexpected)	//\lnlbl{unregister:b}
-> +{
-> +	int idx = smp_thread_id();
-> +
-> +	spin_lock(&gblcnt_mutex);
-> +	globalize_count();
-> +	counterp[idx] = NULL;
-> +	spin_unlock(&gblcnt_mutex);
-> +}
-> +
-> +void count_cleanup(void)
-> +{
-> +}
-> +
-> +#define NEED_REGISTER_THREAD
-> +#include "limtorture.h"
+>  static __inline__ int atomic_cmpxchg(atomic_t *v, int old, int new)
 > 
 
