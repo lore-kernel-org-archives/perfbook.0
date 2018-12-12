@@ -1,124 +1,362 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51304 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727910AbeLLSp7 (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Wed, 12 Dec 2018 13:45:59 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wBCIhhKX133082
-        for <perfbook@vger.kernel.org>; Wed, 12 Dec 2018 13:45:58 -0500
-Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2pb5y2ddwj-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Wed, 12 Dec 2018 13:45:57 -0500
-Received: from localhost
-        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Wed, 12 Dec 2018 18:45:57 -0000
-Date: Wed, 12 Dec 2018 10:45:55 -0800
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH v2] Makefile: Add recipe to remove obsolete intermediate
- files
-Reply-To: paulmck@linux.ibm.com
-References: <28055f52-bc17-b9b4-b81f-d286b930e096@gmail.com>
- <398dbc5f-7e83-cc5a-0029-b6125fba8f1b@gmail.com>
+Return-Path: <junchangwang@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=sIL8+U0rTvkEm2zqCjrxIj31tDex10mSQ5j3WyuGOGc=;
+        b=KhIXiUOBj5zj1Fu2Go/EYYKqBjwsXU0XOlojByf6qd9GHFsRAnPvPBWcxNK4xOLi+s
+         t2osROaHXXD8UAQt8bTf1xH1htifaDX/mai/2xmZdGhOGmsG7KTavZKr54/dfveS9oX+
+         e8WJgroMlXyNC3PECjZEsnTM+RdPuI54I9OZ/IQk5D6K29ut8EoMkgrPFlozR3sZb+/e
+         1NF+ZuFiv0F5WF3hbeJW9heJHKKukxOAGh+y+5K5fqVuiVN/t2+wXxo5BYhoSDFmf/rh
+         7ZP5BVPUbMEpXOCaBgcw1Ga820n/GjWadzTpQO5aIhP5rnWHlw4J8fw7dXvMWovEKoL5
+         4DPA==
+Subject: Re: [PATCH 4/4] EXP CodeSamples: Add weak variant of cmpxchg() as
+ cmpxchg_weak()
+References: <184fed6d-f9ae-8a0b-e8e8-7bcb3e3acf8e@gmail.com>
+ <bd89b29d-ddb2-01b1-905b-e52226695295@gmail.com>
+From: Junchang Wang <junchangwang@gmail.com>
+Message-ID: <5c66f54e-045a-683d-da5f-f35601b24dda@gmail.com>
+Date: Wed, 12 Dec 2018 23:48:57 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <398dbc5f-7e83-cc5a-0029-b6125fba8f1b@gmail.com>
-Message-Id: <20181212184555.GA4170@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <bd89b29d-ddb2-01b1-905b-e52226695295@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: Akira Yokosawa <akiyks@gmail.com>, "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Wed, Dec 12, 2018 at 08:27:15PM +0900, Akira Yokosawa wrote:
-> >From 33b506548ce3b09cbf7a7e4e8bf1a80496dd9e1a Mon Sep 17 00:00:00 2001
+
+
+On 12/11/18 11:44 PM, Akira Yokosawa wrote:
+> From 61a010b7c34c1b6c05b3883637ccdf2438409408 Mon Sep 17 00:00:00 2001
 > From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Wed, 12 Dec 2018 20:11:21 +0900
-> Subject: [PATCH v2] Makefile: Add recipe to remove obsolete intermediate files
+> Date: Tue, 11 Dec 2018 21:14:31 +0900
+> Subject: [PATCH 4/4] EXP CodeSamples: Add weak variant of cmpxchg() as cmpxchg_weak()
 > 
-> Commit 3ab5541f7404 ("intro: Add containers and hypervisor to
-> "iron triangle" diagram") replaced intro/PPGrelation.fig with
-> intro/PPGrelation.svg.  Left-over intermediate file
-> intro/PPGrelation.eps causes duplicated targets in the Makefile.
-> 
-> Therefore, add a list OBSOLETE_FILES in the Makefile and exclude
-> such files from EPSSOURCES.
-> 
-> Add "extraction" to the list since it was once an empty target
-> and obsolete now.
-> 
-> "make clean" will remove those files.
-> 
-> Also remove PPGrelation.eps from intro/.gitignore.
+> For comparison, add weak (spurious-failure permitting) ones in the
+> names of cmpxchg_weak() and atomic_cmpxchg_weak().
+> count_lim_atomic_weak.c is a copy of count_lim_atomic.c but uses
+> atomic_cmpxchg_weak().
 > 
 > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 > ---
-> Hi Paul,
+>  CodeSamples/api-pthreads/api-gcc.h        |  14 ++
+>  CodeSamples/count/Makefile                |   4 +
+>  CodeSamples/count/count_lim_atomic_weak.c | 226 ++++++++++++++++++++++++++++++
+>  3 files changed, 244 insertions(+)
+>  create mode 100644 CodeSamples/count/count_lim_atomic_weak.c
 > 
-> This is an improved update.
-> 
-> v1 -> v2:
-> 
-> o   To prevent warning of "make" even if the obsolete .eps file
->     exists, exclude OBSOLETE_FILES from EPSSOURCES.
-> 
-> o   "extraction" is also obsolete, so add it to OBSOLETE_FILES.
-> 
->         Thanks, Akira
+> diff --git a/CodeSamples/api-pthreads/api-gcc.h b/CodeSamples/api-pthreads/api-gcc.h
+> index b66f4b9..b27facd 100644
+> --- a/CodeSamples/api-pthreads/api-gcc.h
+> +++ b/CodeSamples/api-pthreads/api-gcc.h
+> @@ -178,6 +178,20 @@ static __inline__ int atomic_cmpxchg(atomic_t *v, int old, int new)
+>  	return cmpxchg(&v->counter, old, new);
+>  }
+>  
+> +#define cmpxchg_weak(ptr, o, n) \
+> +({ \
+> +	typeof(*ptr) _____actual = (o); \
+> +	typeof(*ptr) _____o = _____actual; \
+> +	\
+> +	__atomic_compare_exchange_n((ptr), (void *)&_____actual, (n), 1, \
+> +			__ATOMIC_SEQ_CST, __ATOMIC_RELAXED) ? _____o : _____o+1 ; \
+> +})
+> +
 
-Queued and pushed, and it did get rid of my intro/PPGrelation.eps.  ;-)
-Thank you!
+Hi Akira,
 
-							Thanx, Paul
+Quit an interesting topic. I did some experiments and please see below.
 
-> --
->  Makefile         | 6 +++---
->  intro/.gitignore | 1 -
->  2 files changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index c928c80..79ccd99 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -12,6 +12,7 @@ LATEXSOURCES = \
->  	*/*/*.tex
+We changed the implementation of cmpxchg() heavily. So let's use the latest two versions---count_lim_atomic based on your latest patch [3/4] and count_lim_atomic_weak based on patch [4/4]---to compare apple to apple. I ran these two programs on an 8-core PPC server. The duration of each run is set to 2.4 seconds.
+
+The first observation is that the result reported in your last mail (patch [0/4]) is correct; for each update operation, count_lim_atomic is about 10 nanoseconds faster than count_lim_atomic_weak, no matter how many concurrent updaters are running. For example, when I created 64 updaters, I got the follow results:
+
+./count_lim_atomic 64 uperf
+ns/update: 290
+
+./count_lim_atomic_weak 64 uperf
+ns/update: 301
+
+Following is my analysis. I found that the first reason is because cmpxchg_weak is using a temporal variable _____o to avoid side-effects of (o). If we switch cmpxchg_weak to the older version (shown below. I know it has flaws, but let's forget about it temporarily :-)), count_lim_atomic_weak runs as fast as count_lim_atomic.
+
+#define cmpxchg_weak(ptr, o, n) \
+({ \
+        typeof(*ptr) _____actual = (o); \
+        \
+        __atomic_compare_exchange_n((ptr), (void *)&_____actual, (n), 1, \
+                        __ATOMIC_SEQ_CST, __ATOMIC_RELAXED) ? (o) : (n) ; \
+})
+
+The second possible reason could be more interesting. I discussed that in the reply to your mail [Patch 3/4].
+
+Regards,
+--Junchang
+
+
+
+> +static __inline__ int atomic_cmpxchg_weak(atomic_t *v, int old, int new)
+> +{
+> +	return cmpxchg_weak(&v->counter, old, new);
+> +}
+> +
+>  #define xchg(ptr, v) __atomic_exchange_n((ptr), (v), __ATOMIC_SEQ_CST)
+>  #define atomic_xchg(ptr, v) \
+>  	__atomic_exchange_n(&(ptr)->counter, (v), __ATOMIC_SEQ_CST)
+> diff --git a/CodeSamples/count/Makefile b/CodeSamples/count/Makefile
+> index 481eb3f..52eb466 100644
+> --- a/CodeSamples/count/Makefile
+> +++ b/CodeSamples/count/Makefile
+> @@ -22,6 +22,7 @@ PROGS =	count_atomic \
+>  	count_lim \
+>  	count_lim_app \
+>  	count_lim_atomic \
+> +	count_lim_atomic_weak \
+>  	count_lim_sig \
+>  	count_limd \
+>  	count_nonatomic \
+> @@ -65,6 +66,9 @@ count_lim_app: count_lim_app.c ../api.h limtorture.h
+>  count_lim_atomic: count_lim_atomic.c ../api.h limtorture.h
+>  	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_lim_atomic count_lim_atomic.c -lpthread
 >  
->  LATEXGENERATED = autodate.tex qqz.tex contrib.tex origpub.tex
-> +OBSOLETE_FILES = intro/PPGrelation.eps extraction
+> +count_lim_atomic_weak: count_lim_atomic_weak.c ../api.h limtorture.h
+> +	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_lim_atomic_weak count_lim_atomic_weak.c -lpthread
+> +
+>  count_lim_sig: count_lim_sig.c ../api.h limtorture.h
+>  	$(CC) $(GCC_ARGS) $(CFLAGS) -o count_lim_sig count_lim_sig.c -lpthread
 >  
->  ABBREVTARGETS := tcb 1c hb msns mss mstx msr msn msnt 1csf
->  
-> @@ -38,7 +39,7 @@ EPSSOURCES_DUP := \
->  	$(EPSSOURCES_FROM_DOT) \
->  	$(EPSSOURCES_FROM_FIG)
->  
-> -EPSSOURCES := $(sort $(EPSSOURCES_DUP))
-> +EPSSOURCES := $(sort $(filter-out $(OBSOLETE_FILES),$(EPSSOURCES_DUP)))
->  
->  PDFTARGETS_OF_EPS := $(EPSSOURCES:%.eps=%.pdf)
->  
-> @@ -293,8 +294,7 @@ clean:
->  		-o -name '*.qqz' -o -name '*.toc' -o -name '*.bbl' \
->  		-o -name '*.fcv' -o -name '*.ltms' | xargs rm -f
->  	rm -f perfbook_flat.tex perfbook*.out perfbook-*.tex
-> -	rm -f $(LATEXGENERATED)
-> -	rm -f extraction
-> +	rm -f $(LATEXGENERATED) $(OBSOLETE_FILES)
->  	rm -f CodeSamples/snippets.mk CodeSamples/snippets.d
->  
->  distclean: clean
-> diff --git a/intro/.gitignore b/intro/.gitignore
-> index c29b706..cffadec 100644
-> --- a/intro/.gitignore
-> +++ b/intro/.gitignore
-> @@ -1,4 +1,3 @@
->  FourTaskCategories.eps
->  FourTaskOrder.eps
->  Generality.eps
-> -PPGrelation.eps
-> -- 
-> 2.7.4
-> 
+> diff --git a/CodeSamples/count/count_lim_atomic_weak.c b/CodeSamples/count/count_lim_atomic_weak.c
+> new file mode 100644
+> index 0000000..42953f2
+> --- /dev/null
+> +++ b/CodeSamples/count/count_lim_atomic_weak.c
+> @@ -0,0 +1,226 @@
+> +/*
+> + * count_lim_atomic_weak.c: simple limit counter that uses weak variant
+> + *	of atomic operations to steal from other threads.
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> + * along with this program; if not, you can access it online at
+> + * http://www.gnu.org/licenses/gpl-2.0.html.
+> + *
+> + * Copyright (c) 2009 Paul E. McKenney, IBM Corporation.
+> + */
+> +
+> +#include "../api.h"
+> +
+> +static void balance_count(void);
+> +
+> +atomic_t __thread counterandmax = ATOMIC_INIT(0);	//\lnlbl{var:candmax}
+> +unsigned long globalcountmax = 1 << 25;			//\lnlbl{var:def:b}
+> +unsigned long globalcount = 0;
+> +unsigned long globalreserve = 0;
+> +atomic_t *counterp[NR_THREADS] = { NULL };
+> +DEFINE_SPINLOCK(gblcnt_mutex);				//\lnlbl{var:def:e}
+> +#define CM_BITS (sizeof(atomic_t) * 4)			//\lnlbl{var:CM_BITS}
+> +#define MAX_COUNTERMAX ((1 << CM_BITS) - 1)		//\lnlbl{var:MAX_CMAX}
+> +
+> +static __inline__ void					//\lnlbl{split_int:b}
+> +split_counterandmax_int(int cami, int *c, int *cm)
+> +{
+> +	*c = (cami >> CM_BITS) & MAX_COUNTERMAX;	//\lnlbl{split_int:msh}
+> +	*cm = cami & MAX_COUNTERMAX;			//\lnlbl{split_int:lsh}
+> +}							//\lnlbl{split_int:e}
+> +
+> +static __inline__ void					//\lnlbl{split:b}
+> +split_counterandmax(atomic_t *cam, int *old, int *c, int *cm)//\lnlbl{split:func}
+> +{
+> +	unsigned int cami = atomic_read(cam);		//\lnlbl{split:int}
+> +
+> +	*old = cami;					//\lnlbl{split:old}
+> +	split_counterandmax_int(cami, c, cm);		//\lnlbl{split:split_int}
+> +}							//\lnlbl{split:e}
+> +
+> +static __inline__ int merge_counterandmax(int c, int cm)//\lnlbl{merge:b}
+> +{
+> +	unsigned int cami;
+> +
+> +	cami = (c << CM_BITS) | cm;			//\lnlbl{merge:merge}
+> +	return ((int)cami);
+> +}							//\lnlbl{merge:e}
+> +
+> +static void globalize_count(void)			//\lnlbl{globalize:b}
+> +{
+> +	int c;
+> +	int cm;
+> +	int old;
+> +
+> +	split_counterandmax(&counterandmax, &old, &c, &cm);//\lnlbl{globalize:split}
+> +	globalcount += c;
+> +	globalreserve -= cm;
+> +	old = merge_counterandmax(0, 0);
+> +	atomic_set(&counterandmax, old);
+> +}							//\lnlbl{globalize:e}
+> +
+> +static void flush_local_count(void)			//\lnlbl{flush:b}
+> +{
+> +	int c;
+> +	int cm;
+> +	int old;
+> +	int t;
+> +	int zero;
+> +
+> +	if (globalreserve == 0)				//\lnlbl{flush:checkrsv}
+> +		return;					//\lnlbl{flush:return:n}
+> +	zero = merge_counterandmax(0, 0);		//\lnlbl{flush:initzero}
+> +	for_each_thread(t)				//\lnlbl{flush:loop:b}
+> +		if (counterp[t] != NULL) {		//\lnlbl{flush:checkp}
+> +			old = atomic_xchg(counterp[t], zero);//\lnlbl{flush:atmxchg}
+> +			split_counterandmax_int(old, &c, &cm);//\lnlbl{flush:split}
+> +			globalcount += c;		//\lnlbl{flush:glbcnt}
+> +			globalreserve -= cm;		//\lnlbl{flush:glbrsv}
+> +		}					//\lnlbl{flush:loop:e}
+> +}							//\lnlbl{flush:e}
+> +
+> +int add_count(unsigned long delta)			//\lnlbl{add:b}
+> +{
+> +	int c;
+> +	int cm;
+> +	int old;
+> +	int new;
+> +
+> +	do {						//\lnlbl{add:fast:b}
+> +		split_counterandmax(&counterandmax, &old, &c, &cm);//\lnlbl{add:split}
+> +		if (delta > MAX_COUNTERMAX || c + delta > cm)//\lnlbl{add:check}
+> +			goto slowpath;			//\lnlbl{add:goto}
+> +		new = merge_counterandmax(c + delta, cm);//\lnlbl{add:merge}
+> +	} while (atomic_cmpxchg_weak(&counterandmax,		//\lnlbl{add:atmcmpex}
+> +	                        old, new) != old);	//\lnlbl{add:loop:e}
+> +	return 1;					//\lnlbl{add:return:fs}
+> +slowpath:						//\lnlbl{add:slow:b}
+> +	spin_lock(&gblcnt_mutex);			//\lnlbl{add:acquire}
+> +	globalize_count();				//\lnlbl{add:globalize}
+> +	if (globalcountmax - globalcount -		//\lnlbl{add:checkglb:b}
+> +	    globalreserve < delta) {			//\lnlbl{add:checkglb:e}
+> +		flush_local_count();			//\lnlbl{add:flush}
+> +		if (globalcountmax - globalcount -	//\lnlbl{add:checkglb:nb}
+> +		    globalreserve < delta) {		//\lnlbl{add:checkglb:ne}
+> +			spin_unlock(&gblcnt_mutex);	//\lnlbl{add:release:f}
+> +			return 0;			//\lnlbl{add:return:sf}
+> +		}
+> +	}
+> +	globalcount += delta;				//\lnlbl{add:addglb}
+> +	balance_count();				//\lnlbl{add:balance}
+> +	spin_unlock(&gblcnt_mutex);			//\lnlbl{add:release:s}
+> +	return 1;					//\lnlbl{add:return:ss}
+> +}							//\lnlbl{add:e}
+> +
+> +int sub_count(unsigned long delta)			//\lnlbl{sub:b}
+> +{
+> +	int c;
+> +	int cm;
+> +	int old;
+> +	int new;
+> +
+> +	do {						//\lnlbl{sub:fast:b}
+> +		split_counterandmax(&counterandmax, &old, &c, &cm);
+> +		if (delta > c)
+> +			goto slowpath;
+> +		new = merge_counterandmax(c - delta, cm);
+> +	} while (atomic_cmpxchg_weak(&counterandmax,
+> +	                        old, new) != old);
+> +	return 1;					//\lnlbl{sub:fast:e}
+> + slowpath:						//\lnlbl{sub:slow:b}
+> +	spin_lock(&gblcnt_mutex);
+> +	globalize_count();
+> +	if (globalcount < delta) {
+> +		flush_local_count();
+> +		if (globalcount < delta) {
+> +			spin_unlock(&gblcnt_mutex);
+> +			return 0;
+> +		}
+> +	}
+> +	globalcount -= delta;
+> +	balance_count();
+> +	spin_unlock(&gblcnt_mutex);
+> +	return 1;					//\lnlbl{sub:slow:e}
+> +}							//\lnlbl{sub:e}
+> +
+> +unsigned long read_count(void)				//\lnlbl{b}
+> +{
+> +	int c;
+> +	int cm;
+> +	int old;
+> +	int t;
+> +	unsigned long sum;
+> +
+> +	spin_lock(&gblcnt_mutex);			//\lnlbl{acquire}
+> +	sum = globalcount;				//\lnlbl{initsum}
+> +	for_each_thread(t)				//\lnlbl{loop:b}
+> +		if (counterp[t] != NULL) {
+> +			split_counterandmax(counterp[t], &old, &c, &cm);//\lnlbl{split}
+> +			sum += c;
+> +		}					//\lnlbl{loop:e}
+> +	spin_unlock(&gblcnt_mutex);			//\lnlbl{release}
+> +	return sum;					//\lnlbl{return}
+> +}							//\lnlbl{e}
+> +
+> +void count_init(void)
+> +{
+> +}
+> +
+> +static void balance_count(void)				//\lnlbl{balance:b}
+> +{
+> +	int c;
+> +	int cm;
+> +	int old;
+> +	unsigned long limit;
+> +
+> +	limit = globalcountmax - globalcount -
+> +	        globalreserve;
+> +	limit /= num_online_threads();
+> +	if (limit > MAX_COUNTERMAX)
+> +		cm = MAX_COUNTERMAX;
+> +	else
+> +		cm = limit;
+> +	globalreserve += cm;
+> +	c = cm / 2;
+> +	if (c > globalcount)
+> +		c = globalcount;
+> +	globalcount -= c;
+> +	old = merge_counterandmax(c, cm);
+> +	atomic_set(&counterandmax, old);		//\lnlbl{balance:atmcset}
+> +}							//\lnlbl{balance:e}
+> +
+> +void count_register_thread(void)			//\lnlbl{register:b}
+> +{
+> +	int idx = smp_thread_id();
+> +
+> +	spin_lock(&gblcnt_mutex);
+> +	counterp[idx] = &counterandmax;
+> +	spin_unlock(&gblcnt_mutex);
+> +}
+> +
+> +void count_unregister_thread(int nthreadsexpected)	//\lnlbl{unregister:b}
+> +{
+> +	int idx = smp_thread_id();
+> +
+> +	spin_lock(&gblcnt_mutex);
+> +	globalize_count();
+> +	counterp[idx] = NULL;
+> +	spin_unlock(&gblcnt_mutex);
+> +}
+> +
+> +void count_cleanup(void)
+> +{
+> +}
+> +
+> +#define NEED_REGISTER_THREAD
+> +#include "limtorture.h"
 > 
 
