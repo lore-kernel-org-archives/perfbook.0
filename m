@@ -3,19 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=mOAomiy/3DMl34Pc0NNJu/Yv/DKn6Q1qWDx5T17h/yo=;
-        b=RJyP5BQdJvnUWAGKx1b8OGJJeyLjO5xvYk8idr/midIAOcyLRguSuCpHsTMF7vjwKZ
-         71OohWoe9ESFVmozbJBygeEahQupJmBQ9UK7am7i6q8wsjPlU86BFs9F3DCe4+WBRePJ
-         zQIX91wAmTpJzlXQgWVZXstiLx9yY4z4LjkyU2HMeNlV9nk+T8QXql1R8QraA50Mpn/1
-         rdYMzUsF9clLPyhxCfVLCbQ1SVqy+y2x7G39Pb9nPKczs9Vlj5o9lOA74Kh1pQsyS6yJ
-         oY8uK5BNpVQ+4n45hsfV6pbAtUP6SgOQ9iTbBqOXvpeiGo/CFLPYyJTvfiEYJGMctIqW
-         /Yaw==
-Subject: [PATCH 1/2] defer/rcuapi: Employ new scheme for snippets in Answers
- to Quick Quizzes
+        bh=aN9RometzeXrTvEeOElD3UM8t0XC9PtsTEiDTzBRBwE=;
+        b=Msle7g7jVoJFF9dpN1uTaBTJkT/X0cblGMEsCvBg9CyydRipa2YCeVuOhl+J/5FsB/
+         LK0nV+aMg35EsJtrctGUaoosBiO7i0mYpvTU5QPy5LuOCOOYZ2PAW/e6yKhaqpzk2QwU
+         QLjxZ1JKjJsVINjkcBQYglN9Uj3XKNF3dCobg57I8vgCBl2s9IY6jN2+jYi1OtTd5M0M
+         vFXzeSfUV4VP/RK3+txYVbBYuoiU+GZJYctgqhA41Yb/xzOc5YOCPBp0GA/wGsZPbFqB
+         ee+A5EuRn2D60CQ+oQEnYy6OkCDAHRYyT8uY5BXOSBFQ466VEGvhYOw5ZNIpGJeXGkia
+         DNCw==
+Subject: [PATCH 2/2] memorder: Avoid citing duplicate bib entries
 References: <b34039b3-cf06-ef01-8021-c6839934dbeb@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <8fc2a323-d878-ee17-2267-1f578c3412ec@gmail.com>
-Date: Wed, 19 Dec 2018 00:03:16 +0900
+Message-ID: <de62f2da-665c-4466-0bf5-8a3d318bacba@gmail.com>
+Date: Wed, 19 Dec 2018 00:04:59 +0900
 MIME-Version: 1.0
 In-Reply-To: <b34039b3-cf06-ef01-8021-c6839934dbeb@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,85 +24,33 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 290135eea4ff9f839c48c1ac0dbe4c7adf047e3f Mon Sep 17 00:00:00 2001
+From 3908668ab195e3b0b230eb7a667b03009107ca24 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 15 Dec 2018 22:20:08 +0900
-Subject: [PATCH 1/2] defer/rcuapi: Employ new scheme for snippets in Answers to Quick Quizzes
+Date: Sat, 15 Dec 2018 22:39:02 +0900
+Subject: [PATCH 2/2] memorder: Avoid citing duplicate bib entries
+
+[MDR16a] and [MDR16b] are identical.
+
+Let's consistently use "PaulEMcKenney2016LinuxKernelMMIO".
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- defer/rcuapi.tex | 51 +++++++++++++++++++++------------------------------
- 1 file changed, 21 insertions(+), 30 deletions(-)
+ memorder/memorder.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-index a50dcbe..0b4c812 100644
---- a/defer/rcuapi.tex
-+++ b/defer/rcuapi.tex
-@@ -370,22 +370,17 @@ returns a value that must be passed into the corresponding
- 	could still result in deadlock.
- 
- \begin{listing}[htbp]
--\scriptsize
--{
--\begin{verbbox}
--  1 idx = srcu_read_lock(&ssa);
--  2 synchronize_srcu(&ssb);
--  3 srcu_read_unlock(&ssa, idx);
--  4
--  5 /* . . . */
--  6
--  7 idx = srcu_read_lock(&ssb);
--  8 synchronize_srcu(&ssa);
--  9 srcu_read_unlock(&ssb, idx);
--\end{verbbox}
--}
--\centering
--\theverbbox
-+\begin{VerbatimL}
-+idx = srcu_read_lock(&ssa);
-+synchronize_srcu(&ssb);
-+srcu_read_unlock(&ssa, idx);
-+
-+/* . . . */
-+
-+idx = srcu_read_lock(&ssb);
-+synchronize_srcu(&ssa);
-+srcu_read_unlock(&ssb, idx);
-+\end{VerbatimL}
- \caption{Multistage SRCU Deadlocks}
- \label{lst:defer:Multistage SRCU Deadlocks}
- \end{listing}
-@@ -622,20 +617,16 @@ dereferences are protected by RCU.
- 	Listing~\ref{lst:defer:Diverse RCU Read-Side Nesting}.
- 
- \begin{listing}[htbp]
--{ \scriptsize
--\begin{verbbox}
--  1 rcu_read_lock();
--  2 preempt_disable();
--  3 p = rcu_dereference(global_pointer);
--  4
--  5 /* . . . */
--  6
--  7 preempt_enable();
--  8 rcu_read_unlock();
--\end{verbbox}
--}
--\centering
--\theverbbox
-+\begin{VerbatimL}
-+rcu_read_lock();
-+preempt_disable();
-+p = rcu_dereference(global_pointer);
-+
-+/* . . . */
-+
-+preempt_enable();
-+rcu_read_unlock();
-+\end{VerbatimL}
- \caption{Diverse RCU Read-Side Nesting}
- \label{lst:defer:Diverse RCU Read-Side Nesting}
- \end{listing}
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index ef24095..cb4d037 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -4926,7 +4926,7 @@ defined to be the heavyweight {\tt sync} instruction.
+ However, Linux's \co{smp_wmb()} instruction is never used for MMIO
+ (since a driver must carefully order MMIOs in UP as well as
+ SMP kernels, after all), so it is defined to be the lighter weight
+-\co{eieio} or \co{lwsync} instruction~\cite{PaulEMcKenney2016MMIO}.
++\co{eieio} or \co{lwsync} instruction~\cite{PaulEMcKenney2016LinuxKernelMMIO}.
+ This instruction may well be unique in having a five-vowel mnemonic.
+ The \co{smp_mb()} instruction is also defined to be the {\tt sync}
+ instruction, but both \co{smp_rmb()} and \co{rmb()} are defined to
 -- 
 2.7.4
 
