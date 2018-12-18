@@ -1,57 +1,80 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=aN9RometzeXrTvEeOElD3UM8t0XC9PtsTEiDTzBRBwE=;
-        b=Msle7g7jVoJFF9dpN1uTaBTJkT/X0cblGMEsCvBg9CyydRipa2YCeVuOhl+J/5FsB/
-         LK0nV+aMg35EsJtrctGUaoosBiO7i0mYpvTU5QPy5LuOCOOYZ2PAW/e6yKhaqpzk2QwU
-         QLjxZ1JKjJsVINjkcBQYglN9Uj3XKNF3dCobg57I8vgCBl2s9IY6jN2+jYi1OtTd5M0M
-         vFXzeSfUV4VP/RK3+txYVbBYuoiU+GZJYctgqhA41Yb/xzOc5YOCPBp0GA/wGsZPbFqB
-         ee+A5EuRn2D60CQ+oQEnYy6OkCDAHRYyT8uY5BXOSBFQ466VEGvhYOw5ZNIpGJeXGkia
-         DNCw==
-Subject: [PATCH 2/2] memorder: Avoid citing duplicate bib entries
+Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48926 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726742AbeLRRD4 (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 18 Dec 2018 12:03:56 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wBIGxEll116467
+        for <perfbook@vger.kernel.org>; Tue, 18 Dec 2018 12:03:55 -0500
+Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2pf2gvyjpq-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <perfbook@vger.kernel.org>; Tue, 18 Dec 2018 12:03:55 -0500
+Received: from localhost
+        by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Tue, 18 Dec 2018 17:03:53 -0000
+Date: Tue, 18 Dec 2018 09:03:54 -0800
+From: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: [PATCH 0/2] Update code snippets in QQA of defer/rcuapi
+Reply-To: paulmck@linux.ibm.com
 References: <b34039b3-cf06-ef01-8021-c6839934dbeb@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <de62f2da-665c-4466-0bf5-8a3d318bacba@gmail.com>
-Date: Wed, 19 Dec 2018 00:04:59 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <b34039b3-cf06-ef01-8021-c6839934dbeb@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20181218170354.GR4170@linux.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 3908668ab195e3b0b230eb7a667b03009107ca24 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 15 Dec 2018 22:39:02 +0900
-Subject: [PATCH 2/2] memorder: Avoid citing duplicate bib entries
+On Wed, Dec 19, 2018 at 12:01:07AM +0900, Akira Yokosawa wrote:
+> >From 3908668ab195e3b0b230eb7a667b03009107ca24 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Tue, 18 Dec 2018 23:38:18 +0900
+> Subject: [PATCH 0/2] Update code snippets in QQA of defer/rcuapi
+> 
+> Hi Paul,
+> 
+> Let's resume updating snippets.
+> 
+> Patch #1 updates a couple of snippets in QQA of defer/rcuapi.tex
+> which I missed prior to the latest release.
+> 
+> Patch #2 is an independent fix to avoid duplicate entries in
+> bibliography.
 
-[MDR16a] and [MDR16b] are identical.
+Applied and pushed, thank you!
 
-Let's consistently use "PaulEMcKenney2016LinuxKernelMMIO".
+> It turned out that update of code snippets in datastruct
+> requires some enhancement of fcvextract.pl to handle labels of
+> the form "/* \lnlbl{foo} */".
+> Also, code samples under CodeSamples/datastruct/ have quite
+> a few comment blocks, which should not appear in the resulting
+> code snippets. Putting \fcvexclude for those comment lines would
+> cause the code samples look ugly, so fcvextract.pl should be able to
+> remove them automatically.
+> 
+> I'll submit the update in datastruct once the update of the script
+> becomes ready.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- memorder/memorder.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Very good, looking forward to it!
 
-diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index ef24095..cb4d037 100644
---- a/memorder/memorder.tex
-+++ b/memorder/memorder.tex
-@@ -4926,7 +4926,7 @@ defined to be the heavyweight {\tt sync} instruction.
- However, Linux's \co{smp_wmb()} instruction is never used for MMIO
- (since a driver must carefully order MMIOs in UP as well as
- SMP kernels, after all), so it is defined to be the lighter weight
--\co{eieio} or \co{lwsync} instruction~\cite{PaulEMcKenney2016MMIO}.
-+\co{eieio} or \co{lwsync} instruction~\cite{PaulEMcKenney2016LinuxKernelMMIO}.
- This instruction may well be unique in having a five-vowel mnemonic.
- The \co{smp_mb()} instruction is also defined to be the {\tt sync}
- instruction, but both \co{smp_rmb()} and \co{rmb()} are defined to
--- 
-2.7.4
+							Thanx, Paul
 
+>         Thanks, Akira
+> --
+> Akira Yokosawa (2):
+>   defer/rcuapi: Employ new scheme for snippets in Answers to Quick
+>     Quizzes
+>   memorder: Avoid citing duplicate bib entries
+> 
+>  defer/rcuapi.tex      | 51 +++++++++++++++++++++------------------------------
+>  memorder/memorder.tex |  2 +-
+>  2 files changed, 22 insertions(+), 31 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
