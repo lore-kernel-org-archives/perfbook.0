@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DQjmkmNcLUTEr7VP9637z320xay5NKSRMxUc1joBSUs=;
-        b=IHG90lkbghZmxLdIvPNz6qFC9wKZvXrrDGd106nPipFslPkPVomdsrioMs6wNo8pbW
-         v0KuMj3SB6un32bJEGttDEy3wNETwrPYFfv2ddY8KfDGYrbPrx5WoxJPCz9btwGkZQqA
-         HCQoO1Cz5E4sxy7XXVszllNQ+qYlqhE6cILNr+09k9xtp8izFrJoltL6WCsN9C/HJozJ
-         Az8qmYXv7CbpOomu4/zjtc8P3Ci2aIS7v70CEYesm41O9PJfCHGgEW6sdGed67BpytXG
-         XPTQCK94/XanymgY0Ni1tTw9vQ6Z230gzRDejjWMi6yP9NfnPLctMa/g1IDqoKLBeKKV
-         f3Pg==
-Subject: [PATCH 10/11] Use wider tabsize for snippet in 'listing*'
+        bh=Ga/lUcxz6ZsrOVagfybqZQf0KZzTrV6DljnHFSUV18c=;
+        b=aih7GKMzIe7zUvubENkoOMLpdMABcLF4zluImGi58Ry7GQtiCt04DkSqWx5zo5FIM9
+         wFK1EGEWenQulw3pWlo/UdSuKSurufmjsomE4kIxX1Yey75Kjmy5ABRZ5Q0JS283caan
+         1CVk/dEdt6Rqa1fnS47YK8phN2bMNnitvfeerFHIXo7rC2JhTYLQ6beEY2tF3xPDsFwC
+         R4MvaitjzkxRyc47SDjgktB2+9+g1WJWXzsfSKCuN8+YkRxr5z8ChxF1UhHd29sW34O/
+         ReVr9ytMsJWOsR7sLDY4oNGgY9JQf9DWdps8d+FTlr8qicrVYm1WYoXOJmTOXMlb4YNf
+         mk4A==
+Subject: [PATCH 11/11] datastruct: Tweak hyphenation
 References: <0f522d14-373b-fdee-6779-eeaa04ee5fa4@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <7d7c1650-ee2b-b207-f65b-b7fc4af72bf7@gmail.com>
-Date: Tue, 25 Dec 2018 00:04:53 +0900
+Message-ID: <bb453b65-e6ca-eefc-02a7-246eafc34518@gmail.com>
+Date: Tue, 25 Dec 2018 00:05:48 +0900
 MIME-Version: 1.0
 In-Reply-To: <0f522d14-373b-fdee-6779-eeaa04ee5fa4@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,32 +24,40 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From deac40976c6104677a6ede3b13f8aa4361ecabbd Mon Sep 17 00:00:00 2001
+From 2d807fdaa140d87199167b78bb53e805cae5eb94 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 23 Dec 2018 23:46:38 +0900
-Subject: [PATCH 10/11] Use wider tabsize for snippet in 'listing*'
-
-tabsize=6 looks good for this particular listing.
-tabsize=8 is too wide for 1c layout.
+Date: Mon, 24 Dec 2018 20:02:14 +0900
+Subject: [PATCH 11/11] datastruct: Tweak hyphenation
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/datastruct/hash/hash_resize.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ datastruct/datastruct.tex | 2 +-
+ pfhyphex.tex              | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/CodeSamples/datastruct/hash/hash_resize.c b/CodeSamples/datastruct/hash/hash_resize.c
-index 285075e..662bb90 100644
---- a/CodeSamples/datastruct/hash/hash_resize.c
-+++ b/CodeSamples/datastruct/hash/hash_resize.c
-@@ -262,7 +262,7 @@ void hashtab_del(struct hashtab *htp_master,		//\lnlbl{del:b}
- }							//\lnlbl{del:e}
- //\end{snippet}
+diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
+index f75b42b..f8add0b 100644
+--- a/datastruct/datastruct.tex
++++ b/datastruct/datastruct.tex
+@@ -1031,7 +1031,7 @@ with a resize operation.
  
--//\begin{snippet}[labelbase=ln:datastruct:hash_resize:resize,commandchars=\\\@\$]
-+//\begin{snippet}[labelbase=ln:datastruct:hash_resize:resize,commandchars=\\\@\$,tabsize=6]
- /* Resize a hash table. */
- int hashtab_resize(struct hashtab *htp_master,
-                    unsigned long nbuckets, void *hash_private,
+ Read-side concurrency control is provided by RCU as was shown in
+ Listing~\ref{lst:datastruct:RCU-Protected Hash-Table Read-Side Concurrency Control},
+-but the update-side concurrency-control functions
++but the update-side concurrency\-/control functions
+ \co{hashtab_lock_mod()} and \co{hashtab_unlock_mod()}
+ must now deal with the possibility of a
+ concurrent resize operation as shown in
+diff --git a/pfhyphex.tex b/pfhyphex.tex
+index fbcae67..1f319d4 100644
+--- a/pfhyphex.tex
++++ b/pfhyphex.tex
+@@ -3,4 +3,5 @@
+   COPART
+   GPGPU
+   GPGPUs
++  Schr\"o-din-ger
+ }
 -- 
 2.7.4
 
