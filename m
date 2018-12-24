@@ -1,20 +1,23 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=GeymWravXh0WMX2EpTGKryaLUGttmNUMXizO65P2hN8=;
-        b=MJ7lvItkAQODL9M8eLomuav1TDAZjX3sQfzX2pshYU+QCfy67OHk1SJHjpn9xZTf6b
-         DMJZMrHWivK/pDY2QRUyIkSvHGFuy0kfunKKEIJMRM7d/NYU1n9e//XNg3sNDBImWWjJ
-         dSa6cAvwgUWVlwGtj4p2zsn6wCppbIPcjPuDsOPi8RrdqNVIjK31/XOj1/9UB9RFBEjh
-         eK3wpi+9b/EDxunhSGXGh5jwE6lVt1UsfwYEop3E/2hQUiTIu+s/Wt9Je+OgS93zOTNK
-         7FRtRy+3cWJ/vh0JZQPGStZ4LLUD6ZRrxRYwoO38OH/OobWa8wvNz/FEBdzjYbUxMpsV
-         VKwQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=A4qIsdPiUw8XrSLL7sH9athB7P3h4GxDwuAnINV8Oek=;
+        b=ITa+VbFiln965dIVFgDNgYfCdV4lsBrRWcZ9Zq/SV0WSrPsEStSBbe/ho/zcttxpFI
+         0MfE2ElSnxL2nfVxshgPm561x9nlEBWOmCGzvVm16vznFJDWIC1XEH0ZKBlzWPX2L8sx
+         Wv69muKYGxDHJKAOhqhjyljiFid6mVbCzv/cr3qvV5tRyduPGvMSeekmoKWCFgIs7IxJ
+         iCOnw2pnPY2uG6gI3yMnuul/ei1Z0tGyGMUq4HiTrsn1/tt8XcN5XkYFVOFoAxLGr1mU
+         dXDf1liAVgtV/kqWWN1uic93eYpF9a/67NBhHRUu+ECFVrG+nf4Up7EXYe6o1DSojoiQ
+         pT+Q==
+Subject: [PATCH 01/11] fcvextract.pl: Enhance comment block handling of C
+ source
+References: <0f522d14-373b-fdee-6779-eeaa04ee5fa4@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 00/11] datastruct: Employ new scheme for code snippet
-Message-ID: <0f522d14-373b-fdee-6779-eeaa04ee5fa4@gmail.com>
-Date: Mon, 24 Dec 2018 23:46:23 +0900
+Message-ID: <42308834-adf6-46d9-c40d-9e65da22b6c1@gmail.com>
+Date: Mon, 24 Dec 2018 23:53:55 +0900
 MIME-Version: 1.0
+In-Reply-To: <0f522d14-373b-fdee-6779-eeaa04ee5fa4@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,103 +25,188 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+From b7193f419457aff8b34c4d293f6b747770d1a911 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 23 Dec 2018 09:12:48 +0900
+Subject: [PATCH 01/11] fcvextract.pl: Enhance comment block handling of C source
 
-This patch set consists of enhancement of fcvextract.pl,
-update of snippets in datastruct, and some minor tweaks.
+Add an option "keepcomment" to \begin{snippet} meta command.
+As a first step, default is "keepcomment=yes".
+"keepcomment=no" will suppress comment blocks of the form
+/* ... */ from appearing in the extracted snippet.
 
-fcvextract.pl now suppresses comment blocks in C source and
-supports alternative code for snippets in #ifndef blocks,
-which won't be affected by the suppression of comment blocks.
+The default will be changed to "keepcomment=no" once the
+explicit "keepcomment=yes" options are added where necessary.
 
-Also, labeling of the form /* \lnlbl{label} */ is now supported
-in C snippets.
+Also add code to support "#ifndef FCV_SNIPPET -- #else -- #endif"
+conditional to allow alternative code for snippet,
+which is embedded using a comment block in a couple of code
+samples as follows at the moment:
 
-Patch #1 adds comment block handling to fcvextract.pl, without
-changing the default behavior.
+        <actual code>    //\fcvexclude
+    /* --- begin alternative code for snippet \fcvexclude
+        <alternative code>
+       --- end alternative code for snippet \fcvexclude */
 
-Patch #2 adds a couple of explicit options to snippets which
-have comments to be displayed. It also converts alternative
-code fragments using "#ifndef FCV_EXCLUDE" so that they survive
-comment block suppression.
+This won't work with "keepcomment=no". Instead, it can be embedded
+in the following way:
 
-Patch #3 changes the default to "keepcomment=no".
-This removes a couple of comments in Listings 4.8 and 9.5.
+    #ifndef FCV_SNIPPET
+        <actual code>
+    #else
+        <alternative code>
+    #endif
 
-Patch #4 removes now redundant "\fcvexclude" around comment
-blocks. It also uses "#ifndef FCV_SNIPPET" to reduce \fcvexclude
-uses.
+NOTE 1: "#else" is optional.
+NOTE 2: FCV_SNIPPET should never be defined.
 
-Patch #5 adds support of "/* \lnlbl{label} */" labeling.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ utilities/fcvextract.pl | 82 ++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 77 insertions(+), 5 deletions(-)
 
-Patch #6 updates snippets of hash_bkt.c. "struct hashtab"
-now has the "ht_cmp" field and I updated the text to mention
-it. You might want to do some rewording.
-
-Patch #7 adds the "ht_cmp" field in the hashdiagram figure
-(still in .fig).
-
-Patch #8 updates the rest of snippets in datastruct. It also
-fixes typo in cross references of Listing 10.13.
-By this change, an smp_mb() appears in ht_get_bucket()
-(Listing 10.10).
-
-My guess is that the counterpart barrier is the first
-synchronize_rcu() in hashtab_resize(). It might deserve some
-explanation or a Quick Quiz.  Also, Answer to Quick Quiz 10.13
-might need some expansion, since it looks as though hash_reorder.c
-used something more than the pure RCU protection. But I might be
-completely misreading here...
-
-Patches #9 and #10 are minor tweaks in appearance of
-Listing 10.13. As you can see, tab-space width can be
-adjusted per snippet.
-
-Patch #11 permits more chances of hyphenation.
-
-I'm thinking of globally widening tab space of snippets for
-1C layout.  Let me do some experiment.
-
-        Thanks, Akira
---
-Akira Yokosawa (11):
-  fcvextract.pl: Enhance comment block handling of C source
-  CodeSamples: Add explicit 'keepcomment=yes' options
-  fcvextract.pl: Make 'keepcomment=no' as default
-  CodeSamples: Remove redundant \fcvexclude
-  fcvextract.pl: Support '/* \lnlbl{...} */' style label in C source
-  datastruct: Employ new scheme for snippets of hash_bkt.c
-  datastruct: Update hashdiagram figure
-  datastruct: Employ new scheme for snippets of hash_bkt_rcu and
-    hash_resize
-  Make sure lmtt font is used in 'VerbatimL' and 'Verbatim' env
-  Use wider tabsize for snippet in 'listing*'
-  datastruct: Tweak hyphenation
-
- CodeSamples/SMPdesign/lockhdeq.c           |  11 +-
- CodeSamples/SMPdesign/smpalloc.c           |   8 +-
- CodeSamples/count/count_end.c              |   8 +-
- CodeSamples/count/count_lim.c              |   8 +-
- CodeSamples/count/count_tstat.c            |  10 +-
- CodeSamples/datastruct/hash/hash_bkt.c     |  96 ++--
- CodeSamples/datastruct/hash/hash_bkt_rcu.c |  33 +-
- CodeSamples/datastruct/hash/hash_resize.c  | 232 +++++-----
- CodeSamples/defer/route_hazptr.c           |  20 +-
- CodeSamples/defer/route_rcu.c              |  36 +-
- CodeSamples/defer/route_refcnt.c           |  16 +-
- CodeSamples/defer/route_seq.c              |  18 +-
- CodeSamples/defer/route_seqlock.c          |  14 +-
- CodeSamples/defer/seqlock.h                |  12 +-
- CodeSamples/locking/locked_list.c          |   6 +-
- CodeSamples/toolsoftrade/forkjoinvar.c     |   2 +-
- CodeSamples/toolsoftrade/pcreate.c         |   2 +-
- datastruct/datastruct.tex                  | 687 ++++++++---------------------
- datastruct/hashdiagram.fig                 | 103 ++---
- perfbook.tex                               |   2 +
- pfhyphex.tex                               |   1 +
- utilities/fcvextract.pl                    |  87 +++-
- 22 files changed, 627 insertions(+), 785 deletions(-)
-
+diff --git a/utilities/fcvextract.pl b/utilities/fcvextract.pl
+index ce549d3..2ad201f 100755
+--- a/utilities/fcvextract.pl
++++ b/utilities/fcvextract.pl
+@@ -89,6 +89,22 @@
+ # To omit a line in extracted snippet, put "\fcvexclude" in comment
+ # on the line.
+ #
++# By default, comment blocks of the form "/* ... */" in C language
++# code will be kept in the extracted snippet. To omit those blocks,
++# put an option "keepcomment=no" to \begin{snippet} meta command.
++#
++# Also, this script recognizes #ifndef -- #else -- #endif conditional
++# of the following form to allow alternative code for snippet:
++#
++#	#ifndef FCV_SNIPPET
++#		<actual code>
++#	#else
++#		<alternative code for snippet>
++#	#endif
++#
++# NOTE: "#ifdef FCV_SNIPPET" is not recognized.
++#	"#else" can be omitted.
++#
+ # Copyright (C) Akira Yokosawa, 2018
+ #
+ # Authors: Akira Yokosawa <akiyks@gmail.com>
+@@ -97,6 +113,7 @@ use strict;
+ use warnings;
+ 
+ my $src_file;
++my $c_src = 0;
+ my $lnlbl_re;
+ my $line;
+ my $edit_line;
+@@ -113,6 +130,9 @@ my $file_name;
+ my $func_name;
+ my $label;
+ my $env_name = "VerbatimL" ;
++my $keepcomment = 1;
++my $incomment = 0;
++my $ifndef = 0;
+ my $other_opts;
+ 
+ $src_file = $ARGV[0];
+@@ -121,8 +141,9 @@ $extract_labelbase = $ARGV[1];
+ $begin_re = qr/\\begin\{snippet\}.*labelbase=[^,\]]*$extract_labelbase[,\]]/ ;
+ $end_re = qr/\\end\{snippet\}/;
+ 
+-if ($src_file =~ /.*\.h$/ ) {
++if ($src_file =~ /.*\.[ch]$/ ) {
+     $lnlbl_re = qr!(.*?)(\s*//\s*)\\lnlbl\{(.*)}\s*$!;
++    $c_src = 1;
+ } elsif ($src_file =~ /.*\.c$/ ) {
+     $lnlbl_re = qr!(.*?)(\s*//\s*)\\lnlbl\{(.*)}\s*$!;
+ } elsif ($src_file =~ /.*\.spin$/ ) {
+@@ -143,14 +164,57 @@ while($line = <>) {
+ 	last;
+     }
+     if ($extracting == 2) {
+-	if (($line =~ /$end_re/) && ($extracting == 2)) {
++	if ($line =~ /$end_re/) {
+ 	    last;
+ 	}
+ 	if ($line =~ /\\fcvexclude/) {
+-	    # skip this line
+-	} elsif ($line =~ m!$lnlbl_re!) {
++	    next; # skip this line
++	}
++	if ($c_src && !$keepcomment) {
++	    if ($incomment) {
++		if ($line =~ /\*\/(.*$)/) {
++		    $line = $1;
++		    $incomment = 0;
++		} else {
++		    $line = "";
++		}
++	    } else {
++		if ($line =~ /(.*)\/\*.*\*\/(.*)/) {
++		    $line = $1 . $2;
++		    if ($line =~ /\S/) {
++			$line = $line . "\n";
++		    } else {
++			next;
++		    }
++		} elsif ($line =~ /(.*)\/\*.*/) {
++		    $line = $1;
++		    $incomment = 1;
++		}
++	    }
++	}
++	if ($ifndef == 1) {
++	    if ($line =~ /\#else/) {
++		$ifndef = 2;
++	    } elsif ($line =~ /\#endif/) {
++		$ifndef = 0;
++	    }
++	    next;
++	}
++	if ($ifndef == 2) {
++	    if ($line =~ /\#endif/ ) {
++		$ifndef = 0;
++		next;
++	    }
++	}
++	if ($c_src && $line =~ /\#ifndef\s+FCV_SNIPPET/) {
++	    $ifndef = 1;
++	    next;
++	}
++	if ($line =~ m!$lnlbl_re!) {
+ 	    $edit_line = $1 . $esc_bsl . "lnlbl" . $esc_open . $3 . $esc_close ;
+ 	    print $edit_line . "\n" ;
++	} elsif ($line eq "") {
++	    next;
+ 	} else {
+ 	    print $line ;
+         }
+@@ -158,7 +222,7 @@ while($line = <>) {
+     if ($extracting == 1) {
+ 	print "% Do not edit!\n" ;
+ 	print "% Generated by utilities/fcvextract.pl.\n" ;
+-	if ($line =~ /labelbase=([^,]+)/) {
++	if ($line =~ /labelbase=([^,\]]+)/) {
+ 	    print "\\begin\{linelabel}\[$1\]\n" ;
+ 	    $_ = $line ;
+ 	    s/labelbase=[^,\]]+,?// ;
+@@ -191,6 +255,14 @@ while($line = <>) {
+ 	    $esc_open = "\{" ;
+ 	    $esc_close = "\}" ;
+ 	}
++	if ($line =~ /keepcomment=([^,\]]+).\]/) {
++	    if ($1 eq "no") {
++		$keepcomment = 0;
++	    }
++	    $_ = $line;
++	    s/keepcomment=[^,\]]+,?// ;
++	    $line = $_ ;
++	}
+ 	if ($line =~ /\[(.*)\]$/) {
+ 	    $_ = $1 ;
+ 	    s/,$// ;
 -- 
 2.7.4
+
 
