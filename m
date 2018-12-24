@@ -3,19 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1+YUSHDqtTpdHwKq3qZ0o/2sz/TBOQn982pvfyHGET4=;
-        b=a4ovVgu+d8o8DeYMg9avPDn8/GoJbgGgUhatHJUo/T06chwlmN9p7MJoZiBiUJzjhE
-         W2wXbRhxkc7OasKjVMHWDVfvpAK7lcaH1Is0ChqXPxkkL043wgcex/63SZkZp8pdvwsu
-         5Yha4WeLvhm4liqcJIh4lRBK+RLSjfOV5lqcJfA4KkvNo/lwBq1yKDZEqCh9CX3Vpi+Q
-         x9GWNIN7l9sBgierqqQt0OxuUxqwqx2Uj6J5J9tSDlOuExLEChuQ4hspdU3P0ZuY0oB+
-         LSwKJLmApgYaUMDi5tTvs1ouYR00gDkPzwS1dAYH3DmH7+R97IW6zjAcdUheGywCf/mX
-         e8Sw==
-Subject: [PATCH 09/11] Make sure lmtt font is used in 'VerbatimL' and
- 'Verbatim' env
+        bh=DQjmkmNcLUTEr7VP9637z320xay5NKSRMxUc1joBSUs=;
+        b=IHG90lkbghZmxLdIvPNz6qFC9wKZvXrrDGd106nPipFslPkPVomdsrioMs6wNo8pbW
+         v0KuMj3SB6un32bJEGttDEy3wNETwrPYFfv2ddY8KfDGYrbPrx5WoxJPCz9btwGkZQqA
+         HCQoO1Cz5E4sxy7XXVszllNQ+qYlqhE6cILNr+09k9xtp8izFrJoltL6WCsN9C/HJozJ
+         Az8qmYXv7CbpOomu4/zjtc8P3Ci2aIS7v70CEYesm41O9PJfCHGgEW6sdGed67BpytXG
+         XPTQCK94/XanymgY0Ni1tTw9vQ6Z230gzRDejjWMi6yP9NfnPLctMa/g1IDqoKLBeKKV
+         f3Pg==
+Subject: [PATCH 10/11] Use wider tabsize for snippet in 'listing*'
 References: <0f522d14-373b-fdee-6779-eeaa04ee5fa4@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <b57d2403-be10-a74b-b961-bf28083b536f@gmail.com>
-Date: Tue, 25 Dec 2018 00:03:51 +0900
+Message-ID: <7d7c1650-ee2b-b207-f65b-b7fc4af72bf7@gmail.com>
+Date: Tue, 25 Dec 2018 00:04:53 +0900
 MIME-Version: 1.0
 In-Reply-To: <0f522d14-373b-fdee-6779-eeaa04ee5fa4@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,29 +24,32 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 6267c0822e5286667e3cc0dc873e79bafd4b4bb6 Mon Sep 17 00:00:00 2001
+From deac40976c6104677a6ede3b13f8aa4361ecabbd Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 23 Dec 2018 23:45:40 +0900
-Subject: [PATCH 09/11] Make sure lmtt font is used in 'VerbatimL' and 'Verbatim' env
+Date: Sun, 23 Dec 2018 23:46:38 +0900
+Subject: [PATCH 10/11] Use wider tabsize for snippet in 'listing*'
+
+tabsize=6 looks good for this particular listing.
+tabsize=8 is too wide for 1c layout.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- perfbook.tex | 2 ++
- 1 file changed, 2 insertions(+)
+ CodeSamples/datastruct/hash/hash_resize.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/perfbook.tex b/perfbook.tex
-index 6784771..ce85570 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -129,6 +129,8 @@
- \AtBeginEnvironment{tabularx}{\renewcommand{\ttdefault}{lmtt}}
- \AtBeginEnvironment{minipage}{\renewcommand{\ttdefault}{lmtt}}
- \AtBeginEnvironment{listing}{\renewcommand{\ttdefault}{lmtt}}
-+\AtBeginEnvironment{Verbatim}{\renewcommand{\ttdefault}{lmtt}}
-+\AtBeginEnvironment{VerbatimL}{\renewcommand{\ttdefault}{lmtt}}
- \AtBeginEnvironment{VerbatimN}{\renewcommand{\ttdefault}{lmtt}}
- \AtBeginEnvironment{VerbatimU}{\renewcommand{\ttdefault}{lmtt}}
- }{}
+diff --git a/CodeSamples/datastruct/hash/hash_resize.c b/CodeSamples/datastruct/hash/hash_resize.c
+index 285075e..662bb90 100644
+--- a/CodeSamples/datastruct/hash/hash_resize.c
++++ b/CodeSamples/datastruct/hash/hash_resize.c
+@@ -262,7 +262,7 @@ void hashtab_del(struct hashtab *htp_master,		//\lnlbl{del:b}
+ }							//\lnlbl{del:e}
+ //\end{snippet}
+ 
+-//\begin{snippet}[labelbase=ln:datastruct:hash_resize:resize,commandchars=\\\@\$]
++//\begin{snippet}[labelbase=ln:datastruct:hash_resize:resize,commandchars=\\\@\$,tabsize=6]
+ /* Resize a hash table. */
+ int hashtab_resize(struct hashtab *htp_master,
+                    unsigned long nbuckets, void *hash_private,
 -- 
 2.7.4
 
