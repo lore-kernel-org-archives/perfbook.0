@@ -1,27 +1,29 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kZ/X+nucGTJ0F3YWxifVVghIROK/HcMrl6CqOML2Xjo=;
-        b=nOOkW62gPahAWk0bteFg2qZhKNw75377bCgxI0K2vn5wQhPk96bqL9wF6S7o9hB+qu
-         xkD/AOqcrk7QLCrDI+QhW++fkRwtm3yKi9ypal5ya3RJvzPne7ItUCS9q5kDHQIXeOyD
-         v/i6ibgQrGTmJutHyYRKZuv7LMlF/fGhH7xCG6+WbFSnL5LdQn7U/gdrr1/vTIqSRevW
-         f1jDLHVLYAZfY4MR7fe3Ouw17tbJuREtUp1s3MLDxo8CAdfNtMsxMR/5ivjo2ECqtZ1j
-         Cd9JZXVKiPBO6Z+4BstWrLfxeS032tO3thv9ExTl5Q/bHxzwO2o4Wdh/vpmGaYVLyiZh
-         eQ/Q==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: Sporadic SIGSEGV in hash_bkt_rcu and hash_resize (was Re: [PATCH]
- gen_snippet_d.pl: Add rules to ignore editor's backup files)
+        bh=nydCcKmzOujD1rXj5SQrTOAI2fD5StODA8B7whkbewI=;
+        b=MpMAHxk7YZCjYF35dlPnakEMzsA4+qNC+J21tTkVjKcgPnVENMluZlED6FmW9cWoNb
+         i8T+qseI8wZwMUAdOemVWe7qCawDKfBKhSQaBlgKi5+JAMvUqBRKGV5gZL1H9sIEwfRG
+         Pi7AmusAfHtRclnszYdyClBM9CtOgc2RVTjNMbaz0hdtZgH6aCPzgcskyc+QJB4zYjsK
+         BoUT3INuqB5hbRWTwUPSIEaP5m5iz+Hh4v+qPMb/3/02ilw6zr66pRI/fN2WEXoqLYR/
+         l+iELR4hE51hC71aFDEjRLULEOG4YpyXGAhADb324+GZdg6+lkiRuCqXTvDvGwZrEIG7
+         WBQg==
+Subject: Re: [PATCH] EXP hashtorture.h: Avoid sporadic SIGSEGV in hash_bkt_rcu
 References: <0f522d14-373b-fdee-6779-eeaa04ee5fa4@gmail.com>
  <20181224235832.GW4170@linux.ibm.com> <20181225005315.GA20719@linux.ibm.com>
  <1e5209af-3c37-fb23-6c95-e3103b211076@gmail.com>
  <5a07540a-7bf0-e0fc-9a02-9eb2314506d6@gmail.com>
  <20181226150018.GY4170@linux.ibm.com>
-Message-ID: <d7db020f-b296-97b6-3c2c-5ff31ca142ab@gmail.com>
-Date: Mon, 31 Dec 2018 13:37:29 +0900
+ <d7db020f-b296-97b6-3c2c-5ff31ca142ab@gmail.com>
+ <c80b3564-ce7c-8ebe-23a4-6cf6d584dfa0@gmail.com>
+ <20181231210307.GU4170@linux.ibm.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <6ebd05a2-62be-478f-ab47-78862824072e@gmail.com>
+Date: Tue, 1 Jan 2019 09:27:41 +0900
 MIME-Version: 1.0
-In-Reply-To: <20181226150018.GY4170@linux.ibm.com>
+In-Reply-To: <20181231210307.GU4170@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -29,100 +31,193 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2018/12/26 07:00:19 -0800, Paul E. McKenney wrote:
-> On Wed, Dec 26, 2018 at 11:31:03PM +0900, Akira Yokosawa wrote:
->> >From 6c0e6e632bbf234de340bcf51acf2007d8e3ac8b Mon Sep 17 00:00:00 2001
+On 2018/12/31 13:03:07 -0800, Paul E. McKenney wrote:
+> On Tue, Jan 01, 2019 at 12:15:23AM +0900, Akira Yokosawa wrote:
+>> >From 52f5d218442eb64f2798335d56a1838f90d96d5f Mon Sep 17 00:00:00 2001
 >> From: Akira Yokosawa <akiyks@gmail.com>
->> Date: Wed, 26 Dec 2018 23:11:26 +0900
->> Subject: [PATCH] gen_snippet_d.pl: Add rules to ignore editor's backup files
+>> Date: Mon, 30 Dec 2018 22:54:43 +0900
+>> Subject: [PATCH] EXP hashtorture.h: Avoid sporadic SIGSEGV in hash_bkt_rcu
 >>
->> Excerpt from Paul's report:
->>     $ make
->>     sh ./utilities/gen_snippet_d.sh
->>     sh utilities/autodate.sh >autodate.tex
->>     CodeSamples/datastruct/hash/hash_resize.c --> CodeSamples/datastruct/hash/hash_resize@data.fcv
->>     [...]
->>     CodeSamples/datastruct/hash/.hash_resize.c.swp --> CodeSamples/datastruct/hash/CodeSamples/datastruct/hash.fcv
->>     utilities/fcvextract.pl CodeSamples/datastruct/hash/.hash_resize.c.swp hash > CodeSamples/datastruct/hash/CodeSamples/datastruct/hash.fcv
->>     /bin/bash: CodeSamples/datastruct/hash/CodeSamples/datastruct/hash.fcv: No such file or directory
->>     make: *** [CodeSamples/datastruct/hash/CodeSamples/datastruct/hash.fcv] Error 1
+>> Commit 4e22bdc905ff ("Wait at end of test for call_rcu() to finish")
+>> added a couple of synchronize_rcu()s in perftest_update()
+>> and zoo_reader().
 >>
->> .hash_resize.c.swp is a swap file of vim, which causes an invalid
->> dependency rule to be emitted.
+>> However, there still remains sporadic SIGSEGV in
 >>
->> To prevent such errors, ignore .swp files as well as emacs' backup
->> files ending in "~" and "#" from the search results in
->> gen_snippet_d.pl.
+>>     $ ./hash_bkt_rcu --perftest --nupdaters 3
 >>
->> Reported-by: Paul E. McKenney <paulmck@linux.ibm.com>
->> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->> ---
->> Paul,
+>> On the other hand,
 >>
->> This should ignore .swp files in the dependency file.
->> Can you test "make" while opening hash_resize.c in vim?
+>>     $ ./hash_bkt_rcu --schroedinger --nupdaters 3
 >>
->>         Thanks, Akira
+>> does not show such issue. Just moving synchronize_rcu()s in
+>> zoo_reader() to zoo_updater() does not resolve the
+>> SIGSEGV.
 >>
->> PS:
 >>
->> I'll comment on the update of Quick Quiz 10.13 later this week.
+>> This commit defines rcu_barrier() if not available,
+>> and puts them at both before and after the final loop
+>> of perftest_updater() and zoo_updater().
+>>
+>> It looks like this change can fix the above mentioned
+>> SIGSEGV in "--perftest".
+>>
+>> [Tested on Ubuntu Xenial with liburcu-dev/xenial,now 0.9.1-3 and
+>> liburcu4/xenial,now 0.9.1-3 installed.]
+>>
+>> NOTE:
+>>
+>>     $ ./hash_resize --schroedinger --resizemult 2 --duration 20
 > 
-> Works great, thank you!!!
-> 
-> It does not handle the case where you are concurrently editing the same
-> file with two different instances of "vim", but that could be considered
-> a feature rather than a bug.  ;-)  So no need to modify further.
-> 
-> Queued, will push with the QQ 10.13 update.
-> 
-> And have a great week, especially if this is holiday time for you!
+> I get SIGSEGV and hangs from time to time, so I am looking into this.
+> Thank you for calling it to my attention!
 
-Thank you!
-Wish we could have a calm new year!
+I've found some suspicious code in hash_resize.c
 
-Before commenting on QQ 10.13, I thought I needed to grasp the whole
-framework under CodeSamples/datastruct/hash/ and reviewed hashtorture.h.
+hashtab_lock_mod() takes care of ongoing resizing and spin_lock()
+new bucket if necessary. This is good for add, but for delete
+we may still need to lock old bucket.
 
-Just wanted to make sure, I ran the tests with a variety of sets of arguments.
+And hashtab_unlock_mod() doesn't care ongoing resizing, so
+there can be mismatch of spin_lock() -- spin_unlock().
 
-    [NOTE: I ran them on Ubuntu Xenial with
-    liburcu-dev/xenial,now 0.9.1-3 and liburcu4/xenial,now 0.9.1-3
-    installed. On Trusty with liburcu-dev/trusty,now 0.7.12-0ubuntu2 and
-    liburcu1/trusty,now 0.7.12-0ubuntu2 installed, hash_bkt_rcu fails
-    differently.]
+Also, htp_master->ht_cur can change during the
+hashtab_lock_mod() -- hashtab_unlock_mod() critical section
+because the update of the pointer by rcu_assign_pointer()
+is ahead of synchronize_rcu().
 
-Some of them sporadically end up in SIGSEGV.
-Following is a list of command lines which caused SIGSEGV in 10000 iteration each:
+Given the resizing is infrequent, the simplest way might be to
+block hashtab_lock_mod while resizing is going on.
 
-./hash_bkt_rcu --perftest --nreaders 1 --nupdaters 2 --duration 10
-./hash_bkt_rcu --perftest --nreaders 1 --nupdaters 3 --duration 10
-./hash_bkt_rcu --perftest --nreaders 1 --nupdaters 4 --duration 10
-./hash_bkt_rcu --perftest --nreaders 2 --nupdaters 2 --duration 10
-./hash_bkt_rcu --perftest --nreaders 2 --nupdaters 3 --duration 10
-./hash_bkt_rcu --perftest --nreaders 2 --nupdaters 4 --duration 10
-./bash_resize --perftest --nreaders 1 --nupdaters 2 --duration 10
-./bash_resize --perftest --nreaders 1 --nupdaters 2 --resizemult 2 --duration 20
-./bash_resize --schroidinger --nreaders 1 --nupdaters 1 --resizemult 2 --duration 20
-
-bash_resize looks identical to bash_bkt_rcu as long as resizing is disabled.
-
-So it looks like "--perftest" has some racing issue when "nupderters > 1"
-in these tests.
-
-"--schroedinger" works fine as long as resizing is disabled, but does have
-issues when resizing is enabled. Is "--schroedinger" supposed to work
-with resizing?
-
-I'm not that good at multi-thread debugging, and I've not looked into
-the details.
-
-It's not at all urgent, but it would be great if you could look
-into them.
+There can be a better way to keep concurrent add/del/resize, though.
+Happy hacking! ;-) 
 
         Thanks, Akira
-
 > 
-> 							Thanx, Paul
-> [...]
+>> still fails with SIGSEGV frequently in zoo_del(). GDB says:
+>>
+>>     (gdb) where
+>>     #0  0x0000000000402b27 in cds_list_del_rcu (elem=0x7ff8fc0138f0)
+>>         at /usr/include/urcu/rculist.h:71
+>>     #1  hashtab_del (htep=0x7ff8fc0138d0, htp_master=<optimized out>)
+>>         at hash_resize.c:261
+>>     #2  zoo_del (zhep=0x7ff8fc0138d0) at hashtorture.h:1007
+>>     #3  zoo_updater (arg=0x1e8b298) at hashtorture.h:1153
+>>     #4  0x00007ff9057d16ba in start_thread (arg=0x7ff903fed700)
+>>         at pthread_create.c:333
+>>     #5  0x00007ff9050f741d in clone ()
+>>         at ../sysdeps/unix/sysv/linux/x86_64/clone.S:109
+>>
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> 
+> Good catch, queue and pushed, thank you!
+> 
+> With one small modification -- given that liburcu has had rcu_barrier()
+> for some years now, I removed the "training wheels" (and unreliable)
+> use of the wait and pair of synchronize_rcu() calls.
+> 
+>> ---
+>> Hi Paul,
+>>
+>> This is a partial fix, but it resolves SIGSEGV in "--perftest" of
+>> hash_bkt_rcu and hash_resize.
+>>
+>> "--schroedinger" of hash_resize with resizing enabled still seg faults
+>> as mentioned in the commit log.
+>>
+>> By the way, what version of liburcu are you using?
+> 
+> It is about two years old, but it does have rcu_barrier().
+> 
+> 								Thanx, Paul
+> 
+>>         Thanks, Akira
+>> --
+>>  CodeSamples/datastruct/hash/hashtorture.h | 24 ++++++++++++++++--------
+>>  1 file changed, 16 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/CodeSamples/datastruct/hash/hashtorture.h b/CodeSamples/datastruct/hash/hashtorture.h
+>> index 0e90220..9ae3dfa 100644
+>> --- a/CodeSamples/datastruct/hash/hashtorture.h
+>> +++ b/CodeSamples/datastruct/hash/hashtorture.h
+>> @@ -55,6 +55,15 @@ void (*defer_del_done)(struct ht_elem *htep) = NULL;
+>>  #ifndef quiescent_state
+>>  #define quiescent_state() do ; while (0)
+>>  #define synchronize_rcu() do ; while (0)
+>> +#define rcu_barrier() do ; while (0)
+>> +#else
+>> +#ifndef rcu_barrier
+>> +#define rcu_barrier() do { \
+>> +		synchronize_rcu(); \
+>> +		poll(NULL, 0, 100); \
+>> +		synchronize_rcu(); \
+>> +	} while (0)
+>> +#endif /* #ifndef rcu_barrier */
+>>  #endif /* #ifndef quiescent_state */
+>>  
+>>  /*
+>> @@ -765,6 +774,7 @@ void *perftest_reader(void *arg)
+>>  		if (i >= ne)
+>>  			i = i % ne + offset;
+>>  	}
+>> +
+>>  	pap->nlookups = nlookups;
+>>  	pap->nlookupfails = nlookupfails;
+>>  	hash_unregister_thread();
+>> @@ -839,6 +849,7 @@ void *perftest_updater(void *arg)
+>>  			quiescent_state();
+>>  	}
+>>  
+>> +	rcu_barrier();
+>>  	/* Test over, so remove all our elements from the hash table. */
+>>  	for (i = 0; i < elperupdater; i++) {
+>>  		if (thep[i].in_table != 1)
+>> @@ -846,10 +857,7 @@ void *perftest_updater(void *arg)
+>>  		BUG_ON(!perftest_lookup(thep[i].data));
+>>  		perftest_del(&thep[i]);
+>>  	}
+>> -	/* Really want rcu_barrier(), but missing from old liburcu versions. */
+>> -	synchronize_rcu();
+>> -	poll(NULL, 0, 100);
+>> -	synchronize_rcu();
+>> +	rcu_barrier();
+>>  
+>>  	hash_unregister_thread();
+>>  	free(thep);
+>> @@ -1048,10 +1056,6 @@ void *zoo_reader(void *arg)
+>>  		if (i >= ne)
+>>  			i = i % ne + offset;
+>>  	}
+>> -	/* Really want rcu_barrier(), but missing from old liburcu versions. */
+>> -	synchronize_rcu();
+>> -	poll(NULL, 0, 100);
+>> -	synchronize_rcu();
+>>  
+>>  	pap->nlookups = nlookups;
+>>  	pap->nlookupfails = nlookupfails;
+>> @@ -1136,15 +1140,19 @@ void *zoo_updater(void *arg)
+>>  			quiescent_state();
+>>  	}
+>>  
+>> +	rcu_barrier();
+>>  	/* Test over, so remove all our elements from the hash table. */
+>>  	for (i = 0; i < elperupdater; i++) {
+>>  		if (!zheplist[i])
+>>  			continue;
+>>  		zoo_del(zheplist[i]);
+>>  	}
+>> +	rcu_barrier();
+>> +
+>>  	hash_unregister_thread();
+>>  	pap->nadds = nadds;
+>>  	pap->ndels = ndels;
+>> +	free(zheplist);
+>>  	return NULL;
+>>  }
+>>  
+>> -- 
+>> 2.7.4
+>>
+>>
+> 
 
