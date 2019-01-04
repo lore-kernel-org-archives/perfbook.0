@@ -3,14 +3,15 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Hku/D19VhsUG5QzHZeZjbrrvPIOJgGZwqHaF3W/cEWM=;
-        b=bLzBuwF+VmNlZyqG/7m+9ItLuppCH3th1LnES7BJX8dXpHBvCqeSCdRdwNfTo3iR1O
-         W0Ov16qYmWLyAT+3u/x2n/hrgck7BTV4p62czbl4rCRKsWNFPhPfzqZoHF9dt05UPk+7
-         3imN3BaoVMYyxoNJzS7/pLlEBjmbRP3W6XyWTCFCpBfVPm7SLVkESfsvbUETlBEVGURi
-         Bu0J9I36dmFh0VQZw9h5lRH4tuSFBnPwQuINkKbm/vFFuTYzzBlyubE7hoXUp0f/rIKT
-         Ucc37Mrehmyv4KZeIv6KjZ/nGWjSbEpwfE53PKAMDR6OOJqPjFvX09D4VQRFDOO+ZgZq
-         fAcQ==
-Subject: [PATCH 1/2] datastruct/hash: Tweak indent of folded line in snippet
+        bh=wRF++khqNzeS6B+RtMgN1OF1IqA9b3Bm/tlYVwgIfdI=;
+        b=D4txCOWOphoLE/lrKnWK3n0aP76bbWsyhjX2q1v3SjzfRs9RLaiAvt9/7dGs589HsZ
+         D5S3pfc2R6OfISgpnvPjXGeNprtBYdj0YVkp1R3tcFKP1zZdjqukSmkzwJThJ/O1uyJY
+         5Kednu7fnxKy2NxZ/2WSYslvPIqSy8HqPGeOZ73pdDw94Ck0+XStxNGUFd1xUP95ZdSA
+         9YRU9mlLNytFceWET+PqnXAx9s0+QMNuxyEclksOYe/4/kG5GAUZRQqjUAvtQUq4GHD4
+         PB1vJ2EuW+pcxfhRCsh5LBbDhBIPIEJ2s0jv3/BPECc2GcAfp6wPT4f17f8lWQEJ22OQ
+         PwhQ==
+Subject: [PATCH 2/2] datastruct/hash: Annotate racy accesses with
+ READ_ONCE/WRITE_ONCE
 References: <20181226150018.GY4170@linux.ibm.com>
  <d7db020f-b296-97b6-3c2c-5ff31ca142ab@gmail.com>
  <c80b3564-ce7c-8ebe-23a4-6cf6d584dfa0@gmail.com>
@@ -24,8 +25,8 @@ References: <20181226150018.GY4170@linux.ibm.com>
  <69a2dffb-056c-29e3-fdfb-df61b705d416@gmail.com>
  <faebf12a-02f1-df23-574c-8efe0385038c@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <175d530e-1ec5-abed-a07f-209eba35e048@gmail.com>
-Date: Sat, 5 Jan 2019 00:39:56 +0900
+Message-ID: <422fd7bf-e025-66ab-e6dd-cc833cb8e83b@gmail.com>
+Date: Sat, 5 Jan 2019 00:41:25 +0900
 MIME-Version: 1.0
 In-Reply-To: <faebf12a-02f1-df23-574c-8efe0385038c@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -35,39 +36,64 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 426fa84ef7b5c6d0200dbd79d213e02ae31badad Mon Sep 17 00:00:00 2001
+From ed528d05b7800d651ef5e36de37732a06b456462 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 4 Jan 2019 23:40:14 +0900
-Subject: [PATCH 1/2] datastruct/hash: Tweak indent of folded line in snippet
+Date: Sat, 5 Jan 2019 00:15:47 +0900
+Subject: [PATCH 2/2] datastruct/hash: Annotate racy accesses with READ_ONCE/WRITE_ONCE
 
-For a folded line to be properly indented in the Listing environment,
-it has to have the same number of tab characters as the previous
-line in the code. If the folded line has a deeper indent to align
-with some construct of the previous line, remaining indent depth
-should be represented by space characters.
-
-Apply this rule to the function prototype of resize_lock_mod().
-In this case, as the previous line doesn't have any tab characters,
-space characters should be used for all of its indent.
+ht_get_bucket() runs concurrently with hash_resize().
+As a defensive coding rule to survive compiler optimization,
+accesses to (*htp)->ht_resize_cur, (*htp)->ht_new, and
+(*htp)->ht_idx should be annotated by READ_ONCE/WRITE_ONCE.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/datastruct/hash/hash_resize.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ CodeSamples/datastruct/hash/hash_resize.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/CodeSamples/datastruct/hash/hash_resize.c b/CodeSamples/datastruct/hash/hash_resize.c
-index 475a2ab..57c75c1 100644
+index 57c75c1..e1d92a6 100644
 --- a/CodeSamples/datastruct/hash/hash_resize.c
 +++ b/CodeSamples/datastruct/hash/hash_resize.c
-@@ -163,7 +163,7 @@ static void hashtab_unlock_lookup(struct hashtab *htp_master, void *key)
- /* Update-side lock/unlock functions. */
- static void						//\lnlbl{lock:b}
- resize_lock_mod(struct hashtab *htp_master, void *key,
--		struct ht_lock_state *lsp)
-+                struct ht_lock_state *lsp)
- {
- 	long b;
- 	struct ht *htp;
+@@ -137,13 +137,13 @@ ht_get_bucket(struct ht **htp, void *key, long *b, int *i)
+ 
+ 	htbp = ht_get_bucket_single(*htp, key, b);	//\lnlbl{call_single}
+ 								//\fcvexclude
+-	if (*b <= (*htp)->ht_resize_cur) {		//\lnlbl{resized}
++	if (*b <= READ_ONCE((*htp)->ht_resize_cur)) {	//\lnlbl{resized}
+ 		smp_mb(); /* order ->ht_resize_cur before ->ht_new. */
+-		*htp = (*htp)->ht_new;			//\lnlbl{newtable}
++		*htp = READ_ONCE((*htp)->ht_new);	//\lnlbl{newtable}
+ 		htbp = ht_get_bucket_single(*htp, key, b); //\lnlbl{newbucket}
+ 	}
+ 	if (i)						//\lnlbl{chk_i}
+-		*i = (*htp)->ht_idx;			//\lnlbl{set_idx}
++		*i = READ_ONCE((*htp)->ht_idx);		//\lnlbl{set_idx}
+ 	return htbp;					//\lnlbl{return}
+ }							//\lnlbl{e}
+ //\end{snippet}
+@@ -301,10 +301,10 @@ int hashtab_resize(struct hashtab *htp_master,
+ 		spin_unlock(&htp_master->ht_lock);		//\lnlbl{rel_nomem}
+ 		return -ENOMEM;					//\lnlbl{ret_nomem}
+ 	}
+-	htp->ht_new = htp_new;					//\lnlbl{set_newtbl}
++	WRITE_ONCE(htp->ht_new, htp_new);			//\lnlbl{set_newtbl}
+ 	synchronize_rcu();					//\lnlbl{sync_rcu}
+ 	idx = htp->ht_idx;					//\lnlbl{get_curidx}
+-	htp_new->ht_idx = !idx;
++	WRITE_ONCE(htp_new->ht_idx, !idx);
+ 	for (i = 0; i < htp->ht_nbuckets; i++) {		//\lnlbl{loop:b}
+ 		htbp = &htp->ht_bkt[i];				//\lnlbl{get_oldcur}
+ 		spin_lock(&htbp->htb_lock);			//\lnlbl{acq_oldcur}
+@@ -315,7 +315,7 @@ int hashtab_resize(struct hashtab *htp_master,
+ 			spin_unlock(&htbp_new->htb_lock);
+ 		}						//\lnlbl{loop_list:e}
+ 		smp_mb(); /* Fill new buckets before claiming them. */
+-		htp->ht_resize_cur = i;				//\lnlbl{update_resize}
++		WRITE_ONCE(htp->ht_resize_cur, i);		//\lnlbl{update_resize}
+ 		spin_unlock(&htbp->htb_lock);			//\lnlbl{rel_oldcur}
+ 	}							//\lnlbl{loop:e}
+ 	rcu_assign_pointer(htp_master->ht_cur, htp_new);	//\lnlbl{rcu_assign}
 -- 
 2.7.4
 
