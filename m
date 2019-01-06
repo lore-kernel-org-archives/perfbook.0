@@ -3,88 +3,184 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=to:cc:from:subject:message-id:date:user-agent:mime-version
          :content-language:content-transfer-encoding;
-        bh=O7KnSu4Q5j9Eh0NDoo/qyRsuamby98WaAp1tk+AC6C0=;
-        b=jAZneARp8qlWBfePDXvPjKxjNdfi98pQvmLszBg077HtQeuH9Tb6NNIXnkh0LSBYog
-         yDF4tBTRtMYJOnSoVmuB+gAQn+3gxDANhoNRwQ/nUNRYJWsijvbh7LsLrJzVRKnf9zJd
-         1h0pvDfPrpM8OXx6B/vk1Ucrd20YIWXteRROXWyZTfj1oqn81dZrXhE7vJ3YANHxs8Yt
-         ulU6bf2QKxFD2jEkBEAyaKv0181fqbB+g6p+m92xHjU51+1LOt6Nxqp6sHFvkL5owNu5
-         oErPgN/dyGmYhySiNJTIpV3a9Sfhny9HJiAVpfgkQdUA/mTQA2dmJxaV4Dt0C2w/HrwN
-         FQnQ==
+        bh=QmWGY9wrGlqwbTMmC0Jk1tTWRBde7zC40uYu82HXZTo=;
+        b=LTXyeQ5dhOLlSau/FuaCrsuBhNr7MSBg5l0h/2vEkTi4XkZ6B5ENLuc+lveFg558hE
+         dUM1ovhsULLy8BLgAuRA2YGjRbURin0KqLsQpyQuVYajomtXgoJK+FvGCVQy2NTuePRD
+         uOEU5v2nFjrnQoPHUA/uMWa+h5NYpynTsnIHTcWVCz3tE5ucHaQucF6xb5ySxOOwjfhO
+         1NObiwT/Ca45K+MnaNhUTW5EDzSoVDmvlMrM5pzvx1K4qUxUcuMDbequ3CbRy+oM/KZ7
+         7GxMDKx46XhSTkfaQWvpwcJ3++omV+apjwHpkmWFML+wRNCzrdHWLPP76zeE/fkNnfLs
+         jTzQ==
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] debugging: Define and use '\lopt' macro in description
- heading
-Message-ID: <4f6647ef-05cb-d911-a233-eeb3c382f8af@gmail.com>
-Date: Sun, 6 Jan 2019 09:11:13 +0900
+Subject: [PATCH] datastruct/hash: Fix trivial typo
+Message-ID: <e06562fd-e309-7cf8-a19f-370fc758cbed@gmail.com>
+Date: Sun, 6 Jan 2019 16:47:53 +0900
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc: SeongJae Park <sj38.park@gmail.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 0b95993bbe36699a9e5fcc19cf28bcbba2decc06 Mon Sep 17 00:00:00 2001
+From e098b7a00c75e0a1605e7986c0b48e8a9a56dc8c Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 6 Jan 2019 08:40:33 +0900
-Subject: [PATCH] debugging: Define and use '\lopt' macro in description heading
+Date: Sun, 6 Jan 2019 15:39:47 +0900
+Subject: [PATCH] datastruct/hash: Fix trivial typo
 
-Reduce "ugliness" of workaround in commit 66b12d0a4b87 ("debugging:
-Leave double dashes in description headings") using a macro.
+List of fixes:
+
+    o Non-breakable spaces for single letter parameters such as
+      "parameter b" and "parameter h"
+
+    o Trivial typo ("ths" -> "the")
+
+    o Remnant of the old way of presenting code snippets
+      ("figure" -> "listing")
+
+    o Missing \ref{} command
+
+    o Redundant words: ("be be"), ("the each")
+
+    o Missing "are" in passive voice
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: SeongJae Park <sj38.park@gmail.com>
 ---
-Hi,
+Hi Paul,
 
-I'm wondering why I didn't notice the conversion to endash when I
-submitted commit 7842c988b1d5 ("debugging: Convert to 'description'").
+I've read through the updated Section 10.4.2.
+It becomes much easier to follow, partly because I have a better
+understanding of the code now. Quick Quizzes 10.12 and 10.13 make
+a lot of sense.
 
-While \tco{} is already a workaround, it should be a better approach
-to define a macro when you do the same thing repeatedly.
-
-I'll update the style guide to mention this workaround.
+This patch fixes what I noticed while reading.
+It might not necessarily reflect your intention, though.
+For example, "ths" can be "this" rather than "the".
+Feel free to make any adjustment.
 
         Thanks, Akira
 --
- debugging/debugging.tex | 6 +++---
- perfbook.tex            | 1 +
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ datastruct/datastruct.tex | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/debugging/debugging.tex b/debugging/debugging.tex
-index 5b2ce27..37d9022 100644
---- a/debugging/debugging.tex
-+++ b/debugging/debugging.tex
-@@ -2287,15 +2287,15 @@ and output consists of one line for each input line, with fields as follows:
- This script takes three optional arguments as follows:
+diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
+index f9685d8..5c61bf5 100644
+--- a/datastruct/datastruct.tex
++++ b/datastruct/datastruct.tex
+@@ -973,23 +973,23 @@ The \co{ht_get_bucket_single()} function returns a reference to the bucket
+ corresponding to the specified key in the specified hash table, without
+ making any allowances for resizing.
+ It also stores the bucket index corresponding to the key into the location
+-referenced by parameter \co{b} on
++referenced by parameter~\co{b} on
+ line~\lnref{single:gethash}, and the corresponding
+ hash value corresponding to the key into the location
+-referenced by parameter \co{h} (if non-\co{NULL}) on line~\lnref{single:h}.
++referenced by parameter~\co{h} (if non-\co{NULL}) on line~\lnref{single:h}.
+ Line~\lnref{single:return} then returns a reference to the corresponding bucket.
  
- \begin{description}
--\item	[\tco{-}\tco{-divisor}\nf{:}] Number of segments to divide the list
-+\item	[\lopt{divisor}\nf{:}] Number of segments to divide the list
- 	into, for example, a divisor of four means that the first quarter of
- 	the data elements will be assumed to be good.
- 	This defaults to three.
--\item	[\tco{-}\tco{-relerr}\nf{:}] Relative measurement error.  The script
-+\item	[\lopt{relerr}\nf{:}] Relative measurement error.  The script
- 	assumes that values that differ by less than this error are for all
- 	intents and purposes equal.
- 	This defaults to 0.01, which is equivalent to 1\,\%.
--\item	[\tco{-}\tco{-trendbreak}\nf{:}] Ratio of inter-element spacing
-+\item	[\lopt{trendbreak}\nf{:}] Ratio of inter-element spacing
- 	constituting a break in the trend of the data.
- 	For example, if the average spacing in the data accepted so far
- 	is 1.5, then if the trend-break ratio is 2.0, then if the next
-diff --git a/perfbook.tex b/perfbook.tex
-index ce85570..1799bfb 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -159,6 +159,7 @@
- \newcommand{\qco}[1]{``\nbco{#1}''} % \nbco with quotation marks
- \newcommand{\tco}[1]{\texttt{\detokenize{#1}}} % for code in tabular environment
- % \tco{} will break at spaces but not at underscores
-+\newcommand{\lopt}[1]{\tco{-}\tco{-}\tco{#1}} % to avoid "--" to endash conversion
- \newcommand{\nf}[1]{\textnormal{#1}} % to return to normal font
- \newcommand{\qop}[1]{{\sffamily #1}} % QC operator such as H, T, S, etc.
+ The \co{ht_get_bucket()} function handles hash-table selection, invoking
+ \co{ht_get_bucket_single()} on
+ line~\lnref{call_single} to select the bucket
+ corresponding to the hash in the current
+-hash table, storing the hash value through parameter \co{b}.
++hash table, storing the hash value through parameter~\co{b}.
+ If line~\lnref{resized} determines that the table is being resized and that
+ line~\lnref{call_single}'s bucket has already been distributed across the new hash
+ table, then line~\lnref{newtable} selects the new hash table and
+ line~\lnref{newbucket}
+ selects the bucket corresponding to the hash in the new hash table,
+-again storing the hash value through parameter \co{b}.
++again storing the hash value through parameter~\co{b}.
+ \end{lineref}
  
+ \QuickQuiz{}
+@@ -1005,7 +1005,7 @@ again storing the hash value through parameter \co{b}.
+ } \QuickQuizEnd
+ 
+ \begin{lineref}[ln:datastruct:hash_resize:get_bucket]
+-If line~\lnref{chk_i} finds that parameter \co{i} is non-\co{NULL}, then
++If line~\lnref{chk_i} finds that parameter~\co{i} is non-\co{NULL}, then
+ line~\lnref{set_idx} stores the pointer-set index for the selected hash table.
+ Finally, line~\lnref{return} returns a reference to the selected hash bucket.
+ \end{lineref}
+@@ -1053,7 +1053,7 @@ resizing operation from distributing that bucket, though of course it
+ will have no effect if that bucket has already been distributed.
+ Lines~\lnref{lsp0b}-\lnref{lsp0e} store the bucket pointer,
+ pointer-set index, and hash value into their respective fields in the
+-\co{ht_lock_state} structure, which communicates ths information to
++\co{ht_lock_state} structure, which communicates the information to
+ \co{hashtab_add()}, \co{hashtab_del()}, and \co{hashtab_unlock_mod()}.
+ Line~\lnref{ifresized} then checks to see if a concurrent resize
+ operation has already distributed this bucket across the new hash table,
+@@ -1068,7 +1068,7 @@ line~\lnref{get_newbkt} selects the bucket corresponding to the key,
+ and line~\lnref{acq_newbkt} acquires the bucket's lock.
+ Lines~\lnref{lsp1b}-\lnref{lsp1e} store the bucket pointer,
+ pointer-set index, and hash value into their respective fields in the
+-\co{ht_lock_state} structure, which communicates ths information to
++\co{ht_lock_state} structure, which communicates the information to
+ \co{hashtab_add()}, \co{hashtab_del()}, and \co{hashtab_unlock_mod()}.
+ Note that in this case, two locks are held, one in the old \co{ht_bucket}
+ structure to prevent resizing that bucket (if not already resized),
+@@ -1105,7 +1105,7 @@ section.
+ 	Furthermore, the insertion operation takes place within an
+ 	RCU read-side critical section.
+ 	As we will see when we examine the \co{hashtab_resize()}
+-	function, this means that the each resize operation uses
++	function, this means that each resize operation uses
+ 	\co{synchronize_rcu()} invocations to wait for the insertion's
+ 	read-side critical section to complete.
+ } \QuickQuizEnd
+@@ -1119,12 +1119,12 @@ section.
+ Now that we have bucket selection and concurrency control in place,
+ we are ready to search and update our resizable hash table.
+ The \co{hashtab_lookup()}, \co{hashtab_add()}, and \co{hashtab_del()}
+-functions shown in
++functions are shown in
+ Listing~\ref{lst:datastruct:Resizable Hash-Table Access Functions}.
+ 
+ \begin{lineref}[ln:datastruct:hash_resize:access:lkp]
+ The \co{hashtab_lookup()} function on
+-lines~\lnref{b}-\lnref{e} of the figure does
++lines~\lnref{b}-\lnref{e} of the listing does
+ hash lookups.
+ Line~\lnref{get_curtbl} fetches the current hash table and
+ line~\lnref{get_curbkt} obtains a reference
+@@ -1163,7 +1163,7 @@ failure.
+ } \QuickQuizEnd
+ 
+ \begin{lineref}[ln:datastruct:hash_resize:access:add]
+-The \co{hashtab_add()} function on lines~\lnref{b}-\lnref{e} of the figure adds
++The \co{hashtab_add()} function on lines~\lnref{b}-\lnref{e} of the listing adds
+ new data elements to the hash table.
+ Line~\lnref{new} determines whether a resize was in progress and the
+ corresponding old bucket has already been distributed (value of one)
+@@ -1181,7 +1181,7 @@ The caller is required to handle concurrency, for example, by invoking
+ 
+ \begin{lineref}[ln:datastruct:hash_resize:access:del]
+ The \co{hashtab_del()} function on
+-lines~\lnref{b}-\lnref{e} of the figure removes
++lines~\lnref{b}-\lnref{e} of the listing removes
+ an existing element from the hash table.
+ Line~\lnref{i} picks up the index of the pointer pair
+ and line~\lnref{del} removes the specified element.
+@@ -1278,7 +1278,7 @@ and line~\lnref{acq_oldcur} acquires that bucket's spinlock.
+ 	\co{hashtab_del()} functions must nevertheless be enclosed
+ 	in RCU read-side critical sections, courtesy of
+ 	\co{hashtab_lock_mod()} and \co{hashtab_unlock_mod()} in
+-	Listing{lst:datastruct:Resizable Hash-Table Update-Side Concurrency
++	Listing~\ref{lst:datastruct:Resizable Hash-Table Update-Side Concurrency
+ 	Control}.
+ 	\end{lineref}
+ } \QuickQuizEnd
+@@ -1382,7 +1382,7 @@ somewhat due to the cache misses causes by the updates to each element's
+ pointers, and this effect is most pronounced when the hash-tables
+ bucket lists are short.
+ This indicates that hash tables should be resized by substantial amounts,
+-and that hysteresis should be be applied to prevent performance degradation
++and that hysteresis should be applied to prevent performance degradation
+ due to too-frequent resize operations.
+ In memory-rich environments, hash-table sizes should furthermore
+ be increased much more aggressively than they are decreased.
 -- 
 2.7.4
 
