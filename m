@@ -1,66 +1,90 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34008 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726360AbfAEX17 (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sat, 5 Jan 2019 18:27:59 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x05NNehw084581
-        for <perfbook@vger.kernel.org>; Sat, 5 Jan 2019 18:27:57 -0500
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2pu64f87er-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Sat, 05 Jan 2019 18:27:57 -0500
-Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Sat, 5 Jan 2019 23:27:56 -0000
-Date: Sat, 5 Jan 2019 15:28:15 -0800
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH 1/2] memorder: Fix typos
-Reply-To: paulmck@linux.ibm.com
-References: <20190105191957.3050-1-sj38.park@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=O7KnSu4Q5j9Eh0NDoo/qyRsuamby98WaAp1tk+AC6C0=;
+        b=jAZneARp8qlWBfePDXvPjKxjNdfi98pQvmLszBg077HtQeuH9Tb6NNIXnkh0LSBYog
+         yDF4tBTRtMYJOnSoVmuB+gAQn+3gxDANhoNRwQ/nUNRYJWsijvbh7LsLrJzVRKnf9zJd
+         1h0pvDfPrpM8OXx6B/vk1Ucrd20YIWXteRROXWyZTfj1oqn81dZrXhE7vJ3YANHxs8Yt
+         ulU6bf2QKxFD2jEkBEAyaKv0181fqbB+g6p+m92xHjU51+1LOt6Nxqp6sHFvkL5owNu5
+         oErPgN/dyGmYhySiNJTIpV3a9Sfhny9HJiAVpfgkQdUA/mTQA2dmJxaV4Dt0C2w/HrwN
+         FQnQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] debugging: Define and use '\lopt' macro in description
+ heading
+Message-ID: <4f6647ef-05cb-d911-a233-eeb3c382f8af@gmail.com>
+Date: Sun, 6 Jan 2019 09:11:13 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190105191957.3050-1-sj38.park@gmail.com>
-Message-Id: <20190105232815.GP4170@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: SeongJae Park <sj38.park@gmail.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Jan 06, 2019 at 04:19:56AM +0900, SeongJae Park wrote:
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+From 0b95993bbe36699a9e5fcc19cf28bcbba2decc06 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 6 Jan 2019 08:40:33 +0900
+Subject: [PATCH] debugging: Define and use '\lopt' macro in description heading
 
-Good catches, applied and pushed both, thank you!
+Reduce "ugliness" of workaround in commit 66b12d0a4b87 ("debugging:
+Leave double dashes in description headings") using a macro.
 
-							Thanx, Paul
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: SeongJae Park <sj38.park@gmail.com>
+---
+Hi,
 
-> ---
->  memorder/memorder.tex | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-> index cb4d037..56786fa 100644
-> --- a/memorder/memorder.tex
-> +++ b/memorder/memorder.tex
-> @@ -541,13 +541,13 @@ Blank cells indicate that no ordering is supplied.
->  The ``Store'' row also covers the store portion of an atomic RMW operation.
->  In addition, the ``Load'' row covers the load
->  component of a successful value-returning \co{_relaxed()} RMW atomic
-> -operation, although the combined ``\co{_relaxed()} RMW Operations''
-> +operation, although the combined ``\co{_relaxed()} RMW operation''
->  line provides a convenient combined reference in the value-returning case.
->  A CPU executing unsuccessful value-returning atomic RMW operations must
->  invalidate the corresponding variable from all other CPUs' caches.
->  Therefore, oddly enough, unsuccessful value-returning atomic RMW
->  operations have many of the properties of a store, which means that the
-> -``\co{_relaxed()} RMW Operations'' line also applies to unsuccessful
-> +``\co{_relaxed()} RMW operation'' line also applies to unsuccessful
->  value-returning atomic RMW operations.
->  
->  The \co{*_acquire} row covers \co{smp_load_acquire()},
-> -- 
-> 2.10.0
-> 
+I'm wondering why I didn't notice the conversion to endash when I
+submitted commit 7842c988b1d5 ("debugging: Convert to 'description'").
+
+While \tco{} is already a workaround, it should be a better approach
+to define a macro when you do the same thing repeatedly.
+
+I'll update the style guide to mention this workaround.
+
+        Thanks, Akira
+--
+ debugging/debugging.tex | 6 +++---
+ perfbook.tex            | 1 +
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/debugging/debugging.tex b/debugging/debugging.tex
+index 5b2ce27..37d9022 100644
+--- a/debugging/debugging.tex
++++ b/debugging/debugging.tex
+@@ -2287,15 +2287,15 @@ and output consists of one line for each input line, with fields as follows:
+ This script takes three optional arguments as follows:
+ 
+ \begin{description}
+-\item	[\tco{-}\tco{-divisor}\nf{:}] Number of segments to divide the list
++\item	[\lopt{divisor}\nf{:}] Number of segments to divide the list
+ 	into, for example, a divisor of four means that the first quarter of
+ 	the data elements will be assumed to be good.
+ 	This defaults to three.
+-\item	[\tco{-}\tco{-relerr}\nf{:}] Relative measurement error.  The script
++\item	[\lopt{relerr}\nf{:}] Relative measurement error.  The script
+ 	assumes that values that differ by less than this error are for all
+ 	intents and purposes equal.
+ 	This defaults to 0.01, which is equivalent to 1\,\%.
+-\item	[\tco{-}\tco{-trendbreak}\nf{:}] Ratio of inter-element spacing
++\item	[\lopt{trendbreak}\nf{:}] Ratio of inter-element spacing
+ 	constituting a break in the trend of the data.
+ 	For example, if the average spacing in the data accepted so far
+ 	is 1.5, then if the trend-break ratio is 2.0, then if the next
+diff --git a/perfbook.tex b/perfbook.tex
+index ce85570..1799bfb 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -159,6 +159,7 @@
+ \newcommand{\qco}[1]{``\nbco{#1}''} % \nbco with quotation marks
+ \newcommand{\tco}[1]{\texttt{\detokenize{#1}}} % for code in tabular environment
+ % \tco{} will break at spaces but not at underscores
++\newcommand{\lopt}[1]{\tco{-}\tco{-}\tco{#1}} % to avoid "--" to endash conversion
+ \newcommand{\nf}[1]{\textnormal{#1}} % to return to normal font
+ \newcommand{\qop}[1]{{\sffamily #1}} % QC operator such as H, T, S, etc.
+ 
+-- 
+2.7.4
 
