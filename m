@@ -1,41 +1,34 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42172 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727117AbfAGXse (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 7 Jan 2019 18:48:34 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x07NiAOm092903
-        for <perfbook@vger.kernel.org>; Mon, 7 Jan 2019 18:48:31 -0500
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2pvgkb8d1d-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Mon, 07 Jan 2019 18:48:31 -0500
-Received: from localhost
-        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Mon, 7 Jan 2019 23:48:31 -0000
-Date: Mon, 7 Jan 2019 15:48:50 -0800
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: Question regarding hash_resize
-Reply-To: paulmck@linux.ibm.com
-References: <CABoNC81XkNKv6=g2GUq4pNkwc4mcZ1FyZbjreD9KRfxQQUuPYg@mail.gmail.com>
- <20190107183317.GB1215@linux.ibm.com>
- <63181ff3-bcfa-0819-460a-867e438a22f7@gmail.com>
- <6d75361a-8a7f-1190-0c34-dccb7e2dea01@gmail.com>
+Return-Path: <junchangwang@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aWvrzQHEuPuAP5lGnXsHS6g8mBzfD0tdV0WQVs4Ap7U=;
+        b=CIOZ9os/D+zAsQRaLgFO49sACC3J8uhmZfV59YVbh0a25jojECERqzLJt2tDJgD2+D
+         Sv/G5LAXcVwnGdrazo6qg+/UmQmIEMGaVPaWeHELnBCSFownCtr4RX88X6d+rQwv9A84
+         xOyVyMw9iNPKCx2nzCE81/1pk3rbav6OH89SHniekmEbrZIynNSJtIhO9rDTx0e6Rew9
+         BS/Hk9k0ml176jZR42J2958kvD3x9bg9IBLtO3pUN0RKeWwrQRAODGD1OPQBTcZNgsfY
+         1DTNF5/zlCACfbElGt6Y8KOr+QY7QdJUkNd/7XTs9k4A/iwSaMMGdXRM8516zJ+bmKFj
+         H1yA==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <CABoNC81XkNKv6=g2GUq4pNkwc4mcZ1FyZbjreD9KRfxQQUuPYg@mail.gmail.com>
+ <20190107183317.GB1215@linux.ibm.com> <63181ff3-bcfa-0819-460a-867e438a22f7@gmail.com>
+ <6d75361a-8a7f-1190-0c34-dccb7e2dea01@gmail.com>
 In-Reply-To: <6d75361a-8a7f-1190-0c34-dccb7e2dea01@gmail.com>
-Message-Id: <20190107234850.GJ1215@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
+From: Junchang Wang <junchangwang@gmail.com>
+Date: Tue, 8 Jan 2019 09:56:57 +0800
+Message-ID: <CABoNC81zQw-qfd-7=RGNssos004f9+dp+nZvRGh4Udjc=j5YYQ@mail.gmail.com>
+Subject: Re: Question regarding hash_resize
+Content-Type: text/plain; charset="UTF-8"
 To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Junchang Wang <junchangwang@gmail.com>, perfbook@vger.kernel.org
+Cc: "Paul E. McKenney" <paulmck@linux.ibm.com>, perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Tue, Jan 08, 2019 at 08:06:51AM +0900, Akira Yokosawa wrote:
+On Tue, Jan 8, 2019 at 7:06 AM Akira Yokosawa <akiyks@gmail.com> wrote:
+>
 > On 2019/01/08 07:54:16 +0900, Akira Yokosawa wrote:
-> > Hi Paul, 
-> > 
+> > Hi Paul,
+> >
 > > On 2019/01/07 10:33:17 -0800, Paul E. McKenney wrote:
 > >> On Mon, Jan 07, 2019 at 09:49:19PM +0800, Junchang Wang wrote:
 > >>> Hi all,
@@ -59,10 +52,10 @@ On Tue, Jan 08, 2019 at 08:06:51AM +0900, Akira Yokosawa wrote:
 > >>
 > >> Ah, but hashtab_lock_mod() is invoked within an RCU read-side critical
 > >> section
-> > 
+> >
 > > You mean "rcu_read_lock() at the beginning of hashtab_lock_mod() starts
 > > an RCU read-side critical section", don't you?
-> > 
+> >
 > >>         and there is a synchronize_rcu() between the update to ->ht_new
 > >> and the updates to ->ht_resize_cur.  For more details on how this works,
 > >> please see https://lwn.net/Articles/573497/.
@@ -161,7 +154,7 @@ On Tue, Jan 08, 2019 at 08:06:51AM +0900, Akira Yokosawa wrote:
 > >> optimizing for the race with hashtab_resize() doesn't make a whole lot
 > >> of sense.  Please see the patch below.  Thoughts?
 > >>
-> >> 							Thanx, Paul
+> >>                                                      Thanx, Paul
 > >>
 > >> ------------------------------------------------------------------------
 > >>
@@ -170,7 +163,7 @@ On Tue, Jan 08, 2019 at 08:06:51AM +0900, Akira Yokosawa wrote:
 > >> Date:   Mon Jan 7 10:29:14 2019 -0800
 > >>
 > >>     datastruct/hash: Simplify hashtab_lookup()
-> >>     
+> >>
 > >>     Because resizing leaves the old hash table intact, and because lookups
 > >>     are carried out within RCU read-side critical sections (which prevent
 > >>     a second resizing operation from starting), there is no need for a
@@ -178,11 +171,11 @@ On Tue, Jan 08, 2019 at 08:06:51AM +0900, Akira Yokosawa wrote:
 > >>     case, there is no resize, so there is no new hash table.  Therefore,
 > >>     eliminating the check for resizing speeds things up in the common
 > >>     case.  In addition, this simplifies the code.
-> >>     
+> >>
 > >>     This commit therefore eliminates the ht_get_bucket() function,
 > >>     renames the ht_get_bucket_single() function to ht_get_bucket(),
 > >>     and modifies callers appropriately.
-> >>     
+> >>
 > >>     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
 > >>
 > >> diff --git a/CodeSamples/datastruct/hash/hash_resize.c b/CodeSamples/datastruct/hash/hash_resize.c
@@ -192,89 +185,236 @@ On Tue, Jan 08, 2019 at 08:06:51AM +0900, Akira Yokosawa wrote:
 > >> @@ -124,8 +124,7 @@ void hashtab_free(struct hashtab *htp_master)
 > >>  //\begin{snippet}[labelbase=ln:datastruct:hash_resize:get_bucket,commandchars=\\\@\$]
 > >>  /* Get hash bucket corresponding to key, ignoring the possibility of resize. */
-> >>  static struct ht_bucket *				//\lnlbl{single:b}
+> >>  static struct ht_bucket *                           //\lnlbl{single:b}
 > >> -ht_get_bucket_single(struct ht *htp, void *key, long *b,
 > >> -                     unsigned long *h)
 > >> +ht_get_bucket(struct ht *htp, void *key, long *b, unsigned long *h)
 > >>  {
-> >>  	unsigned long hash = htp->ht_gethash(key);
-> >>  
+> >>      unsigned long hash = htp->ht_gethash(key);
+> >>
 > >> @@ -134,24 +133,6 @@ ht_get_bucket_single(struct ht *htp, void *key, long *b,
-> >>  		*h = hash;				//\lnlbl{single:h}
-> >>  	return &htp->ht_bkt[*b];			//\lnlbl{single:return}
-> >>  }							//\lnlbl{single:e}
+> >>              *h = hash;                              //\lnlbl{single:h}
+> >>      return &htp->ht_bkt[*b];                        //\lnlbl{single:return}
+> >>  }                                                   //\lnlbl{single:e}
 > >> -
 > >> -/* Get hash bucket correesponding to key, accounting for resize. */
-> >> -static struct ht_bucket *				//\lnlbl{b}
+> >> -static struct ht_bucket *                           //\lnlbl{b}
 > >> -ht_get_bucket(struct ht **htp, void *key, long *b, int *i)
 > >> -{
-> >> -	struct ht_bucket *htbp;
+> >> -    struct ht_bucket *htbp;
 > >> -
-> >> -	htbp = ht_get_bucket_single(*htp, key, b, NULL); //\lnlbl{call_single}
-> >> -								//\fcvexclude
-> >> -	if (*b <= READ_ONCE((*htp)->ht_resize_cur)) {	//\lnlbl{resized}
-> >> -		smp_mb(); /* order ->ht_resize_cur before ->ht_new. */
-> > 
+> >> -    htbp = ht_get_bucket_single(*htp, key, b, NULL); //\lnlbl{call_single}
+> >> -                                                            //\fcvexclude
+> >> -    if (*b <= READ_ONCE((*htp)->ht_resize_cur)) {   //\lnlbl{resized}
+> >> -            smp_mb(); /* order ->ht_resize_cur before ->ht_new. */
+> >
 > > If we can remove this memory barrier, the counterpart smp_mb() in
 > > hashtab_resize() becomes unnecessary, doesn't it?
-> 
+>
 > And the WRITE_ONCE() in the following line.
+>
+>         Thanks, Akira
+> >
+> >         Thanks, Akira
+> >
+> >> -            *htp = rcu_dereference((*htp)->ht_new); //\lnlbl{newtable}
+> >> -            htbp = ht_get_bucket_single(*htp, key, b, NULL); //\lnlbl{newbucket}
+> >> -    }
+> >> -    if (i)                                          //\lnlbl{chk_i}
+> >> -            *i = (*htp)->ht_idx;                    //\lnlbl{set_idx}
+> >> -    return htbp;                                    //\lnlbl{return}
+> >> -}                                                   //\lnlbl{e}
+> >>  //\end{snippet}
+> >>
+> >>  /* Read-side lock/unlock functions. */
+> >> @@ -178,7 +159,7 @@ hashtab_lock_mod(struct hashtab *htp_master, void *key,
+> >>
+> >>      rcu_read_lock();                                //\lnlbl{l:rcu_lock}
+> >>      htp = rcu_dereference(htp_master->ht_cur);      //\lnlbl{l:refhashtbl}
+> >> -    htbp = ht_get_bucket_single(htp, key, &b, &h);  //\lnlbl{l:refbucket}
+> >> +    htbp = ht_get_bucket(htp, key, &b, &h);         //\lnlbl{l:refbucket}
+> >>      spin_lock(&htbp->htb_lock);                     //\lnlbl{l:acq_bucket}
+> >>      lsp->hbp[0] = htbp;                             //\lnlbl{l:lsp0b}
+> >>      lsp->hls_idx[0] = htp->ht_idx;
+> >> @@ -188,7 +169,7 @@ hashtab_lock_mod(struct hashtab *htp_master, void *key,
+> >>              return;                                 //\lnlbl{l:fastret1}
+> >>      }
+> >>      htp = rcu_dereference(htp->ht_new);             //\lnlbl{l:new_hashtbl}
+> >> -    htbp = ht_get_bucket_single(htp, key, &b, &h);  //\lnlbl{l:get_newbkt}
+> >> +    htbp = ht_get_bucket(htp, key, &b, &h);         //\lnlbl{l:get_newbkt}
+> >>      spin_lock(&htbp->htb_lock);                     //\lnlbl{l:acq_newbkt}
+> >>      lsp->hbp[1] = htbp;                             //\lnlbl{l:lsp1b}
+> >>      lsp->hls_idx[1] = htp->ht_idx;
+> >> @@ -223,16 +204,15 @@ struct ht_elem *                                       //\lnlbl{lkp:b}
+> >>  hashtab_lookup(struct hashtab *htp_master, void *key)
+> >>  {
+> >>      long b;
+> >> -    int i;
+> >>      struct ht *htp;
+> >>      struct ht_elem *htep;
+> >>      struct ht_bucket *htbp;
+> >>
+> >>      htp = rcu_dereference(htp_master->ht_cur);      //\lnlbl{lkp:get_curtbl}
+> >> -    htbp = ht_get_bucket(&htp, key, &b, &i);        //\lnlbl{lkp:get_curbkt}
+> >> +    htbp = ht_get_bucket(htp, key, &b, NULL);       //\lnlbl{lkp:get_curbkt}
+> >>      cds_list_for_each_entry_rcu(htep,               //\lnlbl{lkp:loop:b}
+> >>                                  &htbp->htb_head,
+> >> -                                hte_next[i]) {
+> >> +                                hte_next[htp->ht_idx]) {
+> >>              if (htp->ht_cmp(htep, key))             //\lnlbl{lkp:match}
+> >>                      return htep;                    //\lnlbl{lkp:ret_match}
+> >>      }                                               //\lnlbl{lkp:loop:e}
+> >> @@ -303,7 +283,7 @@ int hashtab_resize(struct hashtab *htp_master,
+> >>              htbp = &htp->ht_bkt[i];                 //\lnlbl{get_oldcur}
+> >>              spin_lock(&htbp->htb_lock);             //\lnlbl{acq_oldcur}
+> >>              cds_list_for_each_entry(htep, &htbp->htb_head, hte_next[idx]) { //\lnlbl{loop_list:b}
+> >> -                    htbp_new = ht_get_bucket_single(htp_new, htp_new->ht_getkey(htep), &b, NULL);
+> >> +                    htbp_new = ht_get_bucket(htp_new, htp_new->ht_getkey(htep), &b, NULL);
+> >>                      spin_lock(&htbp_new->htb_lock);
+> >>                      cds_list_add_rcu(&htep->hte_next[!idx], &htbp_new->htb_head);
+> >>                      spin_unlock(&htbp_new->htb_lock);
+> >> diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
+> >> index 5c61bf5e2389..0152437c274e 100644
+> >> --- a/datastruct/datastruct.tex
+> >> +++ b/datastruct/datastruct.tex
+> >> @@ -966,10 +966,8 @@ the old table.
+> >>  \begin{lineref}[ln:datastruct:hash_resize:get_bucket]
+> >>  Bucket selection is shown in
+> >>  Listing~\ref{lst:datastruct:Resizable Hash-Table Bucket Selection},
+> >> -which shows \co{ht_get_bucket_single()} on
+> >> -lines~\lnref{single:b}-\lnref{single:e} and
+> >> -\co{ht_get_bucket()} on lines~\lnref{b}-\lnref{e}.
+> >> -The \co{ht_get_bucket_single()} function returns a reference to the bucket
+> >> +which shows \co{ht_get_bucket()}.
+> >> +This function returns a reference to the bucket
+> >>  corresponding to the specified key in the specified hash table, without
+> >>  making any allowances for resizing.
+> >>  It also stores the bucket index corresponding to the key into the location
+> >> @@ -978,36 +976,6 @@ line~\lnref{single:gethash}, and the corresponding
+> >>  hash value corresponding to the key into the location
+> >>  referenced by parameter~\co{h} (if non-\co{NULL}) on line~\lnref{single:h}.
+> >>  Line~\lnref{single:return} then returns a reference to the corresponding bucket.
+> >> -
+> >> -The \co{ht_get_bucket()} function handles hash-table selection, invoking
+> >> -\co{ht_get_bucket_single()} on
+> >> -line~\lnref{call_single} to select the bucket
+> >> -corresponding to the hash in the current
+> >> -hash table, storing the hash value through parameter~\co{b}.
+> >> -If line~\lnref{resized} determines that the table is being resized and that
+> >> -line~\lnref{call_single}'s bucket has already been distributed across the new hash
+> >> -table, then line~\lnref{newtable} selects the new hash table and
+> >> -line~\lnref{newbucket}
+> >> -selects the bucket corresponding to the hash in the new hash table,
+> >> -again storing the hash value through parameter~\co{b}.
+> >> -\end{lineref}
+> >> -
+> >> -\QuickQuiz{}
+> >> -    The code in
+> >> -    Listing~\ref{lst:datastruct:Resizable Hash-Table Bucket Selection}
+> >> -    computes the hash twice!
+> >> -    Why this blatant inefficiency?
+> >> -\QuickQuizAnswer{
+> >> -    The reason is that the old and new hash tables might have
+> >> -    completely different hash functions, so that a hash computed
+> >> -    for the old table might be completely irrelevant to the
+> >> -    new table.
+> >> -} \QuickQuizEnd
+> >> -
+> >> -\begin{lineref}[ln:datastruct:hash_resize:get_bucket]
+> >> -If line~\lnref{chk_i} finds that parameter~\co{i} is non-\co{NULL}, then
+> >> -line~\lnref{set_idx} stores the pointer-set index for the selected hash table.
+> >> -Finally, line~\lnref{return} returns a reference to the selected hash bucket.
+> >>  \end{lineref}
+> >>
+> >>  \QuickQuiz{}
+> >> @@ -1021,10 +989,8 @@ Finally, line~\lnref{return} returns a reference to the selected hash bucket.
+> >>      functions described next.
+> >>  } \QuickQuizEnd
+> >>
+> >> -This implementation of
+> >> -\co{ht_get_bucket_single()} and \co{ht_get_bucket()}
+> >> -permit lookups and modifications to run concurrently
+> >> -with a resize operation.
+> >> +This implementation of \co{ht_get_bucket()} permits lookups and
+> >> +modifications to run concurrently with a resize operation.
+> >>
+> >>  \begin{listing}[tb]
+> >>  \input{CodeSamples/datastruct/hash/hash_resize@lock_unlock_mod.fcv}
+> >> @@ -1129,11 +1095,6 @@ hash lookups.
+> >>  Line~\lnref{get_curtbl} fetches the current hash table and
+> >>  line~\lnref{get_curbkt} obtains a reference
+> >>  to the bucket corresponding to the specified key.
+> >> -This bucket will be located in a new resized hash table when a
+> >> -resize operation has progressed past the bucket in the old hash
+> >> -table that contained the desired data element.
+> >> -Note that line~\lnref{get_curbkt} also passes back the index that will be
+> >> -used to select the correct set of pointers from the pair in each element.
+> >>  The loop spanning lines~\lnref{loop:b}-\lnref{loop:e} searches the bucket,
+> >>  so that if line~\lnref{match}
+> >>  detects a match,
+> >> @@ -1144,22 +1105,17 @@ failure.
+> >>  \end{lineref}
+> >>
+> >>  \QuickQuiz{}
+> >> -    In the \co{hashtab_lookup()} function in
+> >> -    Listing~\ref{lst:datastruct:Resizable Hash-Table Access Functions},
+> >> -    the code carefully finds the right bucket in the new hash table
+> >> -    if the element to be looked up has already been distributed
+> >> -    by a concurrent resize operation.
+> >> -    This seems wasteful for RCU-protected lookups.
+> >> -    Why not just stick with the old hash table in this case?
+> >> +    \begin{lineref}[ln:datastruct:hash_resize:access:lkp]
+> >> +    What if execution reaches line~\lnref{loop:b}
+> >> +    of \co{hashtab_lookup()} in
+> >> +    Listing~\ref{lst:datastruct:Resizable Hash-Table Access Functions}
+> >> +    just after this bucket has been resized.
+> >> +    Won't that result in lookup failures?
+> >> +    \end{lineref}
+> >>  \QuickQuizAnswer{
+> >> -    Suppose that a resize operation begins and distributes half of
+> >> -    the old table's buckets to the new table.
+> >> -    Suppose further that a thread adds a new element that goes into
+> >> -    one of the already-distributed buckets, and that this same thread
+> >> -    now looks up this newly added element.
+> >> -    If lookups unconditionally traversed only the old hash table,
+> >> -    this thread would get a lookup failure for the element that it
+> >> -    just added, which certainly sounds like a bug to me!
+> >> +    No, it won't.
+> >> +    Resizing into the new hash table leaves the old hash table
+> >> +    intact, courtesy of the pointer pairs.
+> >>  } \QuickQuizEnd
+> >>
+> >>  \begin{lineref}[ln:datastruct:hash_resize:access:add]
+> >>
 
-Actually, that must stay.  It is true that the bucket lock is held by
-hashtab_unlock_mod(), and that this prevents concurrent resizing of that
-bucket, but other buckets might well be resized, which results in the
-possibiliity of concurrent reads and writes for ->ht_resize_cur.
+Hi Paul and Akira,
 
-Anyway, here is the resulting commit.  Thoughts?
+Thanks a lot for the comments, which I need some more time to look
+into. For Paul's patch, I have a few concerns. Please take a look.
 
-							Thanx, Paul
+My understanding is that with this path, during the time period when
+the resizing thread is running, an updater may insert/delete an item
+into/from the new hash table, while readers are still looking up data
+in the old one, resulting the readers are unaware of
+insertions/deletions happening simultaneously. For example, it seems
+the following sequence could happen.
 
-------------------------------------------------------------------------
+1. The resizing thread starts.
+2. The resizing thread successfully passes bucket *B* of the old hash table.
+3. An updater wants to insert a new item *I* which should be inserted
+into bucket *B*.
+4. The updater will select the new hash table and insert the item *I*
+into the new hash table.
+5. A read request comes in and wants to lookup item *I*. The lookup
+request will check the old hash table and fail. Doesn't it?
+6. The resizing thread exits.
+7. Now subsequent read requests can successfully find item *I*.
 
-commit 1aac0c703482c90c2ce4092b2cc604d474f5a44b
-Author: Paul E. McKenney <paulmck@linux.ibm.com>
-Date:   Mon Jan 7 15:39:40 2019 -0800
+Is my understanding correct? Please let me know if I misunderstood
+anything. Give the truth that this patch can accelerate the fast path,
+I think it should be OK because resizing is typically happen rarely.
+Just want to make sure I fully understand the algorithm.
 
-    datastruct/hash: Remove extraneous barrier from hashtab_resize()
-    
-    Now that hashtab_lookup() is iresizing-agnostic, all non-initialization
-    accesses to ->ht_resize-cur are protected by locking in the restricted
-    sense that any change to ->ht_resize_cur that would change the value
-    of the "if" condition cannot happen while the lock is held on the old
-    bucket.  This means that the memory barrier may be removed.  However,
-    the READ_ONCE() and WRITE_ONCE() markings on non-initialization accesses
-    to ->ht_resize_cur must remain because reads from ->ht_resize_cur really
-    can race with writes, just not is a way to change the "if" conditions.
-    
-    Reported-by: Akira Yokosawa <akiyks@gmail.com>
-    Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-
-diff --git a/CodeSamples/datastruct/hash/hash_resize.c b/CodeSamples/datastruct/hash/hash_resize.c
-index be4157959b83..9f68a00dabe3 100644
---- a/CodeSamples/datastruct/hash/hash_resize.c
-+++ b/CodeSamples/datastruct/hash/hash_resize.c
-@@ -288,7 +288,6 @@ int hashtab_resize(struct hashtab *htp_master,
- 			cds_list_add_rcu(&htep->hte_next[!idx], &htbp_new->htb_head);
- 			spin_unlock(&htbp_new->htb_lock);
- 		}					//\lnlbl{loop_list:e}
--		smp_mb(); /* Fill new buckets before claiming them. */
- 		WRITE_ONCE(htp->ht_resize_cur, i);	//\lnlbl{update_resize}
- 		spin_unlock(&htbp->htb_lock);		//\lnlbl{rel_oldcur}
- 	}						//\lnlbl{loop:e}
-diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
-index 0152437c274e..e2159330790f 100644
---- a/datastruct/datastruct.tex
-+++ b/datastruct/datastruct.tex
-@@ -1245,10 +1245,7 @@ lines~\lnref{loop_list:b}-\lnref{loop_list:e} adds one data element
- from the current old-table bucket to the corresponding new-table bucket,
- holding the new-table bucket's lock during the add operation.
- Line~\lnref{update_resize} updates
--\co{->ht_resize_cur} to indicate that this bucket has been distributed,
--and is preceded by a full memory barrier that pairs with the one in
--\co{ht_get_bucket()} shown in
--Listing~\ref{lst:datastruct:Resizable Hash-Table Bucket Selection}.
-+\co{->ht_resize_cur} to indicate that this bucket has been distributed.
- Finally, line~\lnref{rel_oldcur} releases the old-table bucket lock.
- 
- \QuickQuiz{}
+Thanks,
+--Junchang
 
