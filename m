@@ -1,307 +1,84 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45102 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726371AbfAKX2b (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Fri, 11 Jan 2019 18:28:31 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0BNNnMi041299
-        for <perfbook@vger.kernel.org>; Fri, 11 Jan 2019 18:28:29 -0500
-Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2pxyqpfuvq-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Fri, 11 Jan 2019 18:28:29 -0500
-Received: from localhost
-        by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Fri, 11 Jan 2019 23:28:28 -0000
-Date: Fri, 11 Jan 2019 15:28:24 -0800
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: Question regarding hash_resize
-Reply-To: paulmck@linux.ibm.com
-References: <20190108152846.GN1215@linux.ibm.com>
- <b7ccf8ed-dc55-0b44-af2c-be2d31c7f6fd@gmail.com>
- <20190108183931.GR1215@linux.ibm.com>
- <288a7aca-75ba-d9ba-297b-5bbd98054d5f@gmail.com>
- <20190109001959.GS1215@linux.ibm.com>
- <20190109025913.GA7904@linux.ibm.com>
- <20190111040822.GA23716@linux.ibm.com>
- <a367c4fa-a085-4470-1d48-a3a517bb9fb1@gmail.com>
- <20190111154314.GC1215@linux.ibm.com>
- <3f79128d-2f4b-ae99-6b83-dabbad47f125@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=OcbQYpJzOpVOiX/00fFxhOZ0ck2wPn1XZyaKV71Dg+I=;
+        b=YWwPQtZ8O8sDbu4Fbxl1F0RFlwQKs1TcLVkaYPDLR0U/R68U306GxVV474smwAFoVq
+         nuAwOEqteTyMBGMwWWpjzFKM7rM4JYrRwk17KIbqpfywQeH0XD75hBgqxtveCdtijnrA
+         lrz+ufmWjZmUVc6Y7vf+Jc/bkqFnR5xtwMtdyFqVeMdogWRta/aSgiqP1+w5uNvxrsLS
+         R6nFhnMCSrlJ4XgCRRU39F9oN5reN+eoC3QBEJ1z1syZjg7YmlxWjxBhTVdCxDZvoUM0
+         Gqps3QPMbCk6ZDTYyg6Lm5SlHye2zD/v7CSYjQ/U3MdyixhFJ3kG9r3qO5LO41IFJGFL
+         4ejQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/6] Simplify hash_resize.c
+Message-ID: <dff55e7c-6e93-8f4a-79fd-f400ed3b38f8@gmail.com>
+Date: Mon, 14 Jan 2019 08:28:27 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3f79128d-2f4b-ae99-6b83-dabbad47f125@gmail.com>
-Message-Id: <20190111232824.GN1215@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Junchang Wang <junchangwang@gmail.com>, perfbook@vger.kernel.org
 
-On Sat, Jan 12, 2019 at 07:56:48AM +0900, Akira Yokosawa wrote:
-> On 2019/01/11 07:43:14 -0800, Paul E. McKenney wrote:
-> > On Fri, Jan 11, 2019 at 11:25:18PM +0900, Akira Yokosawa wrote:
-> >> On 2019/01/11 13:08, Paul E. McKenney wrote:
-> >>> On Tue, Jan 08, 2019 at 06:59:13PM -0800, Paul E. McKenney wrote:
-> >>>> On Tue, Jan 08, 2019 at 04:19:59PM -0800, Paul E. McKenney wrote:
-> >>>>> On Wed, Jan 09, 2019 at 07:16:05AM +0900, Akira Yokosawa wrote:
-> >>>>>> On 2019/01/08 10:39:31 -0800, Paul E. McKenney wrote:
-> >>>>>>> On Wed, Jan 09, 2019 at 12:35:37AM +0900, Akira Yokosawa wrote:
-> >>>>>>>> On 2019/01/09 0:28, Paul E. McKenney wrote:
-> >>>>>>>>> On Tue, Jan 08, 2019 at 09:56:57AM +0800, Junchang Wang wrote:
-> >>>>>>>>>> On Tue, Jan 8, 2019 at 7:06 AM Akira Yokosawa <akiyks@gmail.com> wrote:
-> >>>>>>>>>>> On 2019/01/08 07:54:16 +0900, Akira Yokosawa wrote:
-> >>>>>
-> >>>>> [ . . . ]
-> >>>>>
-> >>>>>>>>>> Hi Paul and Akira,
-> >>>>>>>>>>
-> >>>>>>>>>> Thanks a lot for the comments, which I need some more time to look
-> >>>>>>>>>> into. For Paul's patch, I have a few concerns. Please take a look.
-> >>>>>>>>>>
-> >>>>>>>>>> My understanding is that with this path, during the time period when
-> >>>>>>>>>> the resizing thread is running, an updater may insert/delete an item
-> >>>>>>>>>> into/from the new hash table, while readers are still looking up data
-> >>>>>>>>>> in the old one, resulting the readers are unaware of
-> >>>>>>>>>> insertions/deletions happening simultaneously. For example, it seems
-> >>>>>>>>>> the following sequence could happen.
-> >>>>>>>>>>
-> >>>>>>>>>> 1. The resizing thread starts.
-> >>>>>>>>>> 2. The resizing thread successfully passes bucket *B* of the old hash table.
-> >>>>>>>>>> 3. An updater wants to insert a new item *I* which should be inserted
-> >>>>>>>>>> into bucket *B*.
-> >>>>>>>>>> 4. The updater will select the new hash table and insert the item *I*
-> >>>>>>>>>> into the new hash table.
-> >>>>>>>>>> 5. A read request comes in and wants to lookup item *I*. The lookup
-> >>>>>>>>>> request will check the old hash table and fail. Doesn't it?
-> >>>>>>>>>> 6. The resizing thread exits.
-> >>>>>>>>>> 7. Now subsequent read requests can successfully find item *I*.
-> >>>>>>>>>
-> >>>>>>>>> Yes, this can happen.
-> >>>>>>>>>
-> >>>>>>>>>> Is my understanding correct? Please let me know if I misunderstood
-> >>>>>>>>>> anything. Give the truth that this patch can accelerate the fast path,
-> >>>>>>>>>> I think it should be OK because resizing is typically happen rarely.
-> >>>>>>>>>> Just want to make sure I fully understand the algorithm.
-> >>>>>>>>>
-> >>>>>>>>> It is a design choice, and some users would prefer not to fail to see
-> >>>>>>>>> new items during a resize.  One approach would be to revert back to
-> >>>>>>>>> the old-style checking, and another would be to provide a separate
-> >>>>>>>>> lookup interface that synchronizes with adds and deletes.
-> >>>>>>>>>
-> >>>>>>>>> So, I could add a quick quiz with this information, I could revert the
-> >>>>>>>>> change, or I could add another lookup function that provided more timely
-> >>>>>>>>> information.  Left to myself, I would provide a quick quiz, but what
-> >>>>>>>>> do you guys think?
-> >>>>>>>>
-> >>>>>>>> Hi, I was composing a message, but now I'm replying to this one.
-> >>>>>>>> I think adding a quick quiz would be a good idea.
-> >>>>>>>
-> >>>>>>> But in the meantime, it occurred to me that I was looking at the
-> >>>>>>> problem in the wrong way.  I believe that the following patch makes
-> >>>>>>> hashtab_lookup() find elements recently added by hashtab_add(), even
-> >>>>>>> during a resize, and without the need for memory barriers.
-> >>>>>>>
-> >>>>>>> The scenario that convinced me to take this approach is when a thread
-> >>>>>>> does hashtab_add(), then immediately searches for the newly added element.
-> >>>>>>> Failing to find it would be quite a surprise to most people.
-> >>>>>>
-> >>>>>> When a thread does hashtab_del() and immediately checks the deletion,
-> >>>>>> it still finds the deleted element while resizing is in progress.
-> >>>>>> This would also be a surprise. Current version looks less consistent
-> >>>>>> than the simpler one did.
-> >>>>>
-> >>>>> I bet I can fix that...  Famous last words!  ;-)
-> >>>>>
-> >>>>> But please see below and tell me what you think.
-> >>>>
-> >>>> Well, that is not quite right, but close.  Working on it...
-> >>>
-> >>> Seems to be stable.  I have not yet updated the text.  I am currently
-> >>> looking into whether I can get rid of ->ht_resize_cur.
-> >>
-> >> Without ->ht_resize_cur, it would be hard (or impossible) for
-> >> hashtab_lock_mod() to see if bucket in the new table needs
-> >> to be locked, wouldn't it?
-> > 
-> > The thought is to just unconditionally lock the buckets in both tables
-> > when resizing.  This would of course result in added locking overhead
-> > for adds and deletes, but only during resizing.
-> > 
-> >> I have another idea to simplify the code, with the possibility of
-> >> increasing update-side cost during resizing.
-> >>
-> >> By keeping updating ->cur hashtab until the resizing finished,
-> >> hashtab_lookup() only needs to see ->cur.
-> >> hashtab_add() and hashtab_del() update both buckets if hashtab_lock_mod()
-> >> has locked two buckets.
-> > 
-> > Now that hashtab_lookup() does a lookup in both buckets, it should not be
-> > necessary to add to both buckets.  But you are right that it should not
-> > hurt, given that there is no API for iterating over the entire hash table.
-> > And I do see how it reduces the non-resize-time cost of failed lookups,
-> > which is a good thing.
-> > 
-> > So this is a promising approach!  One question interspersed below.
-> > 
-> > 							Thanx, Paul
-> > 
-> >> I've added the code as the alternative code to avoid messing line lables.
-> >> The diff is appended below.
-> >>
-> >> Thoughts?
-> >>
-> >> Note: By adding a "-DFCV_SNIPPET" flag to the compiler, you can compile
-> >> your version of the code.
-> >>
-> >>         Thanks, Akira
-> >>
-> >>>                                                        In theory, this
-> >>> would make it trivial to make the resizing "pause", releasing the lock
-> >>> from time to time.
-> >>>
-> >>> For whatever it is worth...
-> >>>
-> >>> 							Thanx, Paul
-> >>>
-> >>
-> >> diff --git a/CodeSamples/datastruct/hash/hash_resize.c b/CodeSamples/datastruct/hash/hash_resize.c
-> >> index 9f9fe8c..35bc847 100644
-> >> --- a/CodeSamples/datastruct/hash/hash_resize.c
-> >> +++ b/CodeSamples/datastruct/hash/hash_resize.c
-> >> @@ -30,7 +30,11 @@
-> >>  struct ht_elem {
-> >>  	struct rcu_head rh;
-> >>  	struct cds_list_head hte_next[2];		//\lnlbl{ht_elem:next}
-> >> +#ifndef FCV_SNIPPET
-> >> +	unsigned long hte_hash[2];
-> >> +#else /* #ifndef FCV_SNIPPET */
-> >>  	unsigned long hte_hash;
-> >> +#endif /* #ifndef FCV_SNIPPET */
-> >>  };
-> >>  
-> >>  /* Hash-table bucket element. */
-> >> @@ -230,12 +234,16 @@ hashtab_lookup(struct hashtab *htp_master, void *key)
-> >>  
-> >>  	htp = rcu_dereference(htp_master->ht_cur);	//\lnlbl{lkp:get_curtbl}
-> >>  	htep = ht_search_bucket(htp, key);		//\lnlbl{lkp:get_curbkt}
-> >> +#ifndef FCV_SNIPPET
-> >> +	return htep;
-> >> +#else /* #ifndef FCV_SNIPPET */
-> >>  	if (htep)					//\lnlbl{lkp:entchk}
-> >>  		return htep;				//\lnlbl{lkp:ret_match}
-> >>  	htp = rcu_dereference(htp->ht_new);		//\lnlbl{lkp:get_nxttbl}
-> >>  	if (!htp)					//\lnlbl{lkp:htpchk}
-> >>  		return NULL;				//\lnlbl{lkp:noresize}
-> >>  	return ht_search_bucket(htp, key);		//\lnlbl{lkp:ret_nxtbkt}
-> >> +#endif /* #ifndef FCV_SNIPPET */
-> >>  }							//\lnlbl{lkp:e}
-> >>  
-> >>  /*
-> >> @@ -248,9 +256,18 @@ void hashtab_add(struct ht_elem *htep,			//\lnlbl{add:b}
-> >>  	struct ht_bucket *htbp = lsp->hbp[0];		//\lnlbl{add:htbp}
-> >>  	int i = lsp->hls_idx[0];			//\lnlbl{add:i}
-> >>  
-> >> +#ifndef FCV_SNIPPET
-> >> +	htep->hte_hash[0] = lsp->hls_hash[0];
-> >> +	cds_list_add_rcu(&htep->hte_next[i], &htbp->htb_head);
-> >> +	if ((htbp = lsp->hbp[1])) {
-> >> +	  htep->hte_hash[1] = lsp->hls_hash[1];
-> >> +	  cds_list_add_rcu(&htep->hte_next[!i], &htbp->htb_head);
-> >> +	}
-> >> +#else /* #ifndef FCV_SNIPPET */
-> >>  	htep->hte_hash = lsp->hls_hash[0];		//\lnlbl{add:hash}
-> >>  	htep->hte_next[!i].prev = NULL;			//\lnlbl{add:initp}
-> >>  	cds_list_add_rcu(&htep->hte_next[i], &htbp->htb_head); //\lnlbl{add:add}
-> >> +#endif /* #ifndef FCV_SNIPPET */
-> >>  }							//\lnlbl{add:e}
-> >>  
-> >>  /*
-> >> @@ -262,6 +279,11 @@ void hashtab_del(struct ht_elem *htep,			//\lnlbl{del:b}
-> >>  {
-> >>  	int i = lsp->hls_idx[0];			//\lnlbl{del:i}
-> >>  
-> >> +#ifndef FCV_SNIPPET
-> >> +	cds_list_del_rcu(&htep->hte_next[i]);
-> >> +	if (lsp->hbp[1])
-> >> +	  cds_list_del_rcu(&htep->hte_next[!i]);
-> > 
-> > What if the element was added before the resize started, so that it is not
-> > in the new version of the table?  Or are we initializing each element's
-> > pointers to point to themselves somewhere that I am currently blind to?
-> 
-> You are considering unconditionally locking both buckets, but
-> this version relies on the update of ->ht_resize_cur.
-> 
-> That hashtab_lock_mod() returns a pointer in lsp->hbp[1] means
-> the resizing has distributed the bucket to new table. Therefore,
-> the element is assured to be in the new bucket.
+From 7b69a9b37ba9a73a50aad5cbb097235ddfe75870 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 14 Jan 2019 07:25:14 +0900
+Subject: [PATCH 0/6] Simplify hash_resize.c
 
-Ah, got it!
+Hi Paul,
 
-> And it looks like I used indent by 2 spaces in the added code
-> in the diff. I'll fix them if you'd like to take this approach.
+This patch set updates hash_resize.c, which you suggested for me to
+take over, and the related text.
 
-Well, your taking this code over would have the advantage of my getting
-back to reworking Section 9.5, section-level epigraphs, and so on.  The
-only downside of your approach that I see is if we ever want to iterate
-over the hash table, but that can be dealt with when and if.
+I added a couple of Quick Quizzes as well, and in one of them,
+I included your version of hash_resize.c.
 
-Therefore, I am all for your approach.  ;-)
+Patch #1 updates hash_resize.c in the way I suggested. Note that
+in this update, "#ifndef FCV_SNIPPET" blocks are used to hide
+code for debugging (hash value checks) in code snippets.
+This code can actually be compiled with "-DFCV_SNIPPET" to see
+the performance without hash value checks.
 
-							Thanx, Paul
+Patch #2 adds a couple of Quick Quizzes. Your version of hash_resize.c
+is added as hash_resize_s.c.
 
->         Thanks, Akira
-> 
-> > 
-> >> +#else /* #ifndef FCV_SNIPPET */
-> >>  	if (htep->hte_next[i].prev) {			//\lnlbl{del:if}
-> >>  		cds_list_del_rcu(&htep->hte_next[i]);	//\lnlbl{del:del}
-> >>  		htep->hte_next[i].prev = NULL;		//\lnlbl{del:init}
-> >> @@ -270,6 +292,7 @@ void hashtab_del(struct ht_elem *htep,			//\lnlbl{del:b}
-> >>  		cds_list_del_rcu(&htep->hte_next[!i]);	//\lnlbl{del:delnew}
-> >>  		htep->hte_next[!i].prev = NULL;		//\lnlbl{del:initnew}
-> >>  	}
-> >> +#endif /* #ifndef FCV_SNIPPET */
-> >>  }							//\lnlbl{del:e}
-> >>  //\end{snippet}
-> >>  
-> >> @@ -350,5 +373,9 @@ void defer_del_rcu(struct rcu_head *rhp)
-> >>  
-> >>  #define quiescent_state() rcu_quiescent_state()
-> >>  
-> >> +#ifndef FCV_SNIPPET
-> >> +#define check_hash() (htep->hte_hash[0] != hash && htep->hte_hash[1] != hash)
-> >> +#endif /* #ifndef FCV_SNIPPET */
-> >> +
-> >>  #include "hashtorture.h"
-> >>  #endif /* #ifdef TEST_HASH */
-> >> diff --git a/CodeSamples/datastruct/hash/hashtorture.h b/CodeSamples/datastruct/hash/hashtorture.h
-> >> index 6f47baa..d6345cc 100644
-> >> --- a/CodeSamples/datastruct/hash/hashtorture.h
-> >> +++ b/CodeSamples/datastruct/hash/hashtorture.h
-> >> @@ -62,6 +62,10 @@ void (*defer_del_done)(struct ht_elem *htep) = NULL;
-> >>  #define rcu_barrier() do ; while (0)
-> >>  #endif /* #ifndef quiescent_state */
-> >>  
-> >> +#ifndef check_hash
-> >> +#define check_hash() (htep->hte_hash != hash)
-> >> +#endif /* #ifndef check_hash */
-> >> +
-> >>  /*
-> >>   * Test variables.
-> >>   */
-> >> @@ -988,7 +992,7 @@ int zoo_lookup(char *key)
-> >>  	htep = hashtab_lookup(perftest_htp, hash, key);
-> >>  	zhep = container_of(htep, struct zoo_he, zhe_e);
-> >>  	BUG_ON(htep &&
-> >> -	       (htep->hte_hash != hash ||
-> >> +	       (check_hash() ||
-> >>  	        strncmp(zhep->name, (char *)key, ZOO_NAMELEN) != 0));
-> >>  	hashtab_unlock_lookup(perftest_htp, hash);
-> >>  	hashtab_lookup_done(htep);
-> >>
-> >>
-> > 
-> 
+Patch #3 removes unnecessary folding in a code snippet.
+
+Patch #4 adjusts a few sentence to the simpler approach.
+
+Patch #5 adds another Quick Quiz.
+
+Patch #6 adds an "#error" directive for the lack of rcu_barrier().
+
+All of the updates in text would need your native eyes to be polished.
+
+        Thanks, Akira
+
+PS:
+
+I couldn't make out your concern of "if we ever want to iterate over
+the hash table". Can you elaborate it?
+
+--
+Akira Yokosawa (6):
+  datastruct/hash: Simplify hash_resize.c
+  datastruct/hash: Add a couple of Quick Quizzes regarding hash_resize.c
+  datastruct/hash: Fix unnecessary folding in code snippet
+  datastruct/hash: Adjust context to updated code in hash_resize.c
+  datastruct/hash: Add Quick Quiz on READ_ONCE/WRITE_ONCE in
+    hash_resize.c
+  datastruct/hash: Display error msg if rcu_barrier() is not available
+
+ CodeSamples/datastruct/hash/Makefile        |   5 +-
+ CodeSamples/datastruct/hash/hash_resize.c   |  62 +++--
+ CodeSamples/datastruct/hash/hash_resize_s.c | 365 ++++++++++++++++++++++++++++
+ CodeSamples/datastruct/hash/hashtorture.h   |  11 +-
+ datastruct/datastruct.tex                   | 146 +++++++----
+ 5 files changed, 513 insertions(+), 76 deletions(-)
+ create mode 100644 CodeSamples/datastruct/hash/hash_resize_s.c
+
+-- 
+2.7.4
 
