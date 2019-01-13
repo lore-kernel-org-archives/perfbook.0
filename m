@@ -3,18 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=M9rxY+SsMGLhftuyqu4GYe/jJ+2cJXxQkk3sohHh3Nk=;
-        b=M1mZ7TBfeBrJhFxC2pukR9Va6VumYkcT2hhW4KKhpGP/5IOnZqC6A1Ww55qfAHwXlf
-         07KcDSnRvhRYAB0C6JFDHpU6yZwcOVBX7+yp6udkBfCKZ0/VoNSS0ugrCpCX6Czi1rU6
-         KWQ286fKfvH8KG/VAHCNsvc7YWuakp2rzpUNOmos122MjrszbwG8NAMEQj0B6ARoNK/L
-         QJiBEfiVofEU+31IApf2UEMI2tZaJTgZ2PFAAJQeRAA063uXJKug/39Cw0LI60BhXfH2
-         1aDF7/seMqOMv1AVyGolGT8autgKwGSkeTX/fVhLPwnyx0coRwn8AvtX5ibK6LHhnTbc
-         DJdA==
-Subject: [PATCH 1/6] datastruct/hash: Simplify hash_resize.c
+        bh=ioRYH1YB/i70U411jlL0ZCQ6f8/cHc4BWUrW/16m844=;
+        b=nyyQVCnMoMBpbl2fo+RVts8hGWEEV79aX83NeAohel7litfL4SertTL8jEBlg65jOL
+         ijxn9JtG2gfl6IXpzsSkaBlPahGE9e5R0sdEn25zH1DsKKSItaadtdi/zoPC2+HSkfj2
+         RqItveye/IFpBVZDJAXTV4TEeSWLm9OUTu9+CdIiSyghzMowZOdj2xC/u2nnkppqnC4V
+         nW75vAae1g5jmWIQkyL3AoOtipUN1eR68OnSpGJUhGOVG2gSKdSM6Pb56NKtrIRA6JWd
+         P0QTf9jq+TeTKutGmCus5Y2Q/0aW4s1MSRUQvFiTkz9qU+tm3fQIP4lfaHwnS8Ew7mUZ
+         MG5Q==
+Subject: [PATCH 2/6] datastruct/hash: Add a couple of Quick Quizzes regarding
+ hash_resize.c
 References: <dff55e7c-6e93-8f4a-79fd-f400ed3b38f8@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <7155cb3d-fb2c-f848-a183-1c8dcc0bafa5@gmail.com>
-Date: Mon, 14 Jan 2019 08:31:27 +0900
+Message-ID: <28a96d5f-8c39-74a0-1d2d-745f29c267b8@gmail.com>
+Date: Mon, 14 Jan 2019 08:32:48 +0900
 MIME-Version: 1.0
 In-Reply-To: <dff55e7c-6e93-8f4a-79fd-f400ed3b38f8@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,299 +25,510 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 1ffe7edfb90cbb8efb2a33d2ae8c3e855e684acf Mon Sep 17 00:00:00 2001
+From f937854c677547147ac16b492c57c1961ff372c7 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 13 Jan 2019 19:47:23 +0900
-Subject: [PATCH 1/6] datastruct/hash: Simplify hash_resize.c
+Date: Sun, 13 Jan 2019 19:56:22 +0900
+Subject: [PATCH 2/6] datastruct/hash: Add a couple of Quick Quizzes regarding hash_resize.c
 
-By keeping updating the current (old) hash table until resizing
-completes, hashtab_lookup() only needs to see the current hash table.
-Instead, hashtab_add() and hashtab_del() need to update the bucket in
-the current hash table as well as that in the new hash table if
-hashtab_lock_mod() has locked the new bucket.
-
-This simplifies the lookup side and no performance degradation
-is expected as long as no resizing is in progress.
-
-Note that during resize operation, the cost of updates can be
-doubled in the worst case.
+Also copy hash_resize.c as of commit 180bd693751b ("datastruct/hash:
+Always place to-be-added-to bucket in [0]") to hash_size_s.c and
+include listings of its access functions and the update-side locking
+function in an answer to one of the added quick quizzes.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/datastruct/hash/hash_resize.c | 56 ++++++++++++++-----------
- CodeSamples/datastruct/hash/hashtorture.h |  6 ++-
- datastruct/datastruct.tex                 | 69 ++++++++++---------------------
- 3 files changed, 59 insertions(+), 72 deletions(-)
+ CodeSamples/datastruct/hash/Makefile        |   5 +-
+ CodeSamples/datastruct/hash/hash_resize.c   |   3 +-
+ CodeSamples/datastruct/hash/hash_resize_s.c | 365 ++++++++++++++++++++++++++++
+ datastruct/datastruct.tex                   |  60 +++++
+ 4 files changed, 431 insertions(+), 2 deletions(-)
+ create mode 100644 CodeSamples/datastruct/hash/hash_resize_s.c
 
+diff --git a/CodeSamples/datastruct/hash/Makefile b/CodeSamples/datastruct/hash/Makefile
+index 4f1c2f5..758d574 100644
+--- a/CodeSamples/datastruct/hash/Makefile
++++ b/CodeSamples/datastruct/hash/Makefile
+@@ -16,7 +16,7 @@
+ 
+ include ../../Makefile.arch
+ 
+-PROGS =	hash_bkt hash_bkt_hazptr hash_bkt_rcu hash_global hash_resize
++PROGS =	hash_bkt hash_bkt_hazptr hash_bkt_rcu hash_global hash_resize hash_resize_s
+ 
+ top := ../..
+ include $(top)/depends.mk
+@@ -49,5 +49,8 @@ hash_global: hash_global.c ../../api.h hashtorture.h
+ hash_resize: hash_resize.c ../../api.h hashtorture.h
+ 	cc $(GCC_ARGS) -DTEST_HASH -o hash_resize hash_resize.c -lpthread -lurcu -lurcu-signal
+ 
++hash_resize_s: hash_resize_s.c ../../api.h hashtorture.h
++	cc $(GCC_ARGS) -DTEST_HASH -o hash_resize_s hash_resize_s.c -lpthread -lurcu -lurcu-signal
++
+ clean:
+ 	rm -f $(PROGS)
 diff --git a/CodeSamples/datastruct/hash/hash_resize.c b/CodeSamples/datastruct/hash/hash_resize.c
-index 9f9fe8c..e475910 100644
+index e475910..68fdc12 100644
 --- a/CodeSamples/datastruct/hash/hash_resize.c
 +++ b/CodeSamples/datastruct/hash/hash_resize.c
-@@ -30,7 +30,9 @@
- struct ht_elem {
- 	struct rcu_head rh;
- 	struct cds_list_head hte_next[2];		//\lnlbl{ht_elem:next}
--	unsigned long hte_hash;
+@@ -16,7 +16,8 @@
+  * along with this program; if not, you can access it online at
+  * http://www.gnu.org/licenses/gpl-2.0.html.
+  *
+- * Copyright (c) 2013 Paul E. McKenney, IBM Corporation.
++ * Copyright (c) 2013-2019 Paul E. McKenney, IBM Corporation.
++ * Copyright (c) 2019 Akira Yokosawa
+  */
+ 
+ #define _GNU_SOURCE
+diff --git a/CodeSamples/datastruct/hash/hash_resize_s.c b/CodeSamples/datastruct/hash/hash_resize_s.c
+new file mode 100644
+index 0000000..755a8c7
+--- /dev/null
++++ b/CodeSamples/datastruct/hash/hash_resize_s.c
+@@ -0,0 +1,365 @@
++/*
++ * hash_resize_s.c: Resizable hash table protected by a per-bucket lock for
++ *	updates and RCU for lookups (less bucket updates).
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, you can access it online at
++ * http://www.gnu.org/licenses/gpl-2.0.html.
++ *
++ * Copyright (c) 2013-2019 Paul E. McKenney, IBM Corporation.
++ */
++
++#define _GNU_SOURCE
++#define _LGPL_SOURCE
++#define RCU_SIGNAL
++#include <urcu.h>
++#include "../../api.h"
++
++/* Hash-table element to be included in structures in a hash table. */
++struct ht_elem {
++	struct rcu_head rh;
++	struct cds_list_head hte_next[2];		//\lnlbl{ht_elem:next}
 +#ifndef FCV_SNIPPET
-+	unsigned long hte_hash[2];
++	unsigned long hte_hash;
 +#endif /* #ifndef FCV_SNIPPET */
- };
- 
- /* Hash-table bucket element. */
-@@ -41,7 +43,9 @@ struct ht_bucket {
- 
- struct ht_lock_state {					//\lnlbl{hls:b}
- 	struct ht_bucket *hbp[2];
++};
++
++/* Hash-table bucket element. */
++struct ht_bucket {
++	struct cds_list_head htb_head;
++	spinlock_t htb_lock;
++};
++
++struct ht_lock_state {					//\lnlbl{hls:b}
++	struct ht_bucket *hbp[2];
 +#ifndef FCV_SNIPPET
- 	unsigned long hls_hash[2];
++	unsigned long hls_hash[2];
 +#endif /* #ifndef FCV_SNIPPET */
- 	int hls_idx[2];
- };							//\lnlbl{hls:e}
- 
-@@ -181,8 +185,10 @@ hashtab_lock_mod(struct hashtab *htp_master, void *key,
- 	htbp = ht_get_bucket(htp, key, &b, &h);		//\lnlbl{l:refbucket}
- 	spin_lock(&htbp->htb_lock);			//\lnlbl{l:acq_bucket}
- 	lsp->hbp[0] = htbp;				//\lnlbl{l:lsp0b}
--	lsp->hls_idx[0] = htp->ht_idx;
--	lsp->hls_hash[0] = h;				//\lnlbl{l:lsp0e}
-+	lsp->hls_idx[0] = htp->ht_idx;			//\lnlbl{l:lsp0e}
-+#ifndef FCV_SNIPPET
-+	lsp->hls_hash[0] = h;
-+#endif /* #ifndef FCV_SNIPPET */
- 	if (b > READ_ONCE(htp->ht_resize_cur)) {	//\lnlbl{l:ifresized}
- 		lsp->hbp[1] = NULL;			//\lnlbl{l:lsp1_1}
- 		return;					//\lnlbl{l:fastret1}
-@@ -190,12 +196,11 @@ hashtab_lock_mod(struct hashtab *htp_master, void *key,
- 	htp = rcu_dereference(htp->ht_new);		//\lnlbl{l:new_hashtbl}
- 	htbp = ht_get_bucket(htp, key, &b, &h);		//\lnlbl{l:get_newbkt}
- 	spin_lock(&htbp->htb_lock);			//\lnlbl{l:acq_newbkt}
--	lsp->hbp[1] = lsp->hbp[0];			//\lnlbl{l:lsp1b}
--	lsp->hls_idx[1] = lsp->hls_idx[0];
--	lsp->hls_hash[1] = lsp->hls_hash[0];
--	lsp->hbp[0] = htbp;
--	lsp->hls_idx[0] = htp->ht_idx;
--	lsp->hls_hash[0] = h;				//\lnlbl{l:lsp1e}
-+	lsp->hbp[1] = htbp;				//\lnlbl{l:lsp1b}
-+	lsp->hls_idx[1] = htp->ht_idx;			//\lnlbl{l:lsp1e}
-+#ifndef FCV_SNIPPET
-+	lsp->hls_hash[1] = h;
-+#endif /* #ifndef FCV_SNIPPET */
- }							//\lnlbl{l:e}
- 
- static void						//\lnlbl{ul:b}
-@@ -230,12 +235,7 @@ hashtab_lookup(struct hashtab *htp_master, void *key)
- 
- 	htp = rcu_dereference(htp_master->ht_cur);	//\lnlbl{lkp:get_curtbl}
- 	htep = ht_search_bucket(htp, key);		//\lnlbl{lkp:get_curbkt}
--	if (htep)					//\lnlbl{lkp:entchk}
--		return htep;				//\lnlbl{lkp:ret_match}
--	htp = rcu_dereference(htp->ht_new);		//\lnlbl{lkp:get_nxttbl}
--	if (!htp)					//\lnlbl{lkp:htpchk}
--		return NULL;				//\lnlbl{lkp:noresize}
--	return ht_search_bucket(htp, key);		//\lnlbl{lkp:ret_nxtbkt}
-+	return htep;					//\lnlbl{lkp:ret}
- }							//\lnlbl{lkp:e}
- 
- /*
-@@ -248,9 +248,16 @@ void hashtab_add(struct ht_elem *htep,			//\lnlbl{add:b}
- 	struct ht_bucket *htbp = lsp->hbp[0];		//\lnlbl{add:htbp}
- 	int i = lsp->hls_idx[0];			//\lnlbl{add:i}
- 
--	htep->hte_hash = lsp->hls_hash[0];		//\lnlbl{add:hash}
--	htep->hte_next[!i].prev = NULL;			//\lnlbl{add:initp}
-+#ifndef FCV_SNIPPET
-+	htep->hte_hash[0] = lsp->hls_hash[0];
-+#endif /* #ifndef FCV_SNIPPET */
- 	cds_list_add_rcu(&htep->hte_next[i], &htbp->htb_head); //\lnlbl{add:add}
-+	if ((htbp = lsp->hbp[1])) {			//\lnlbl{add:ifnew}
-+#ifndef FCV_SNIPPET
-+		htep->hte_hash[1] = lsp->hls_hash[1];
-+#endif /* #ifndef FCV_SNIPPET */
-+		cds_list_add_rcu(&htep->hte_next[!i], &htbp->htb_head); //\lnlbl{add:addnew}
++	int hls_idx[2];
++};							//\lnlbl{hls:e}
++
++/* Hash-table instance, duplicated at resize time. */
++struct ht {						//\lnlbl{ht:b}
++	long ht_nbuckets;				//\lnlbl{ht:nbuckets}
++	long ht_resize_cur;				//\lnlbl{ht:resize_cur}
++	struct ht *ht_new;				//\lnlbl{ht:new}
++	int ht_idx;					//\lnlbl{ht:idx}
++	int (*ht_cmp)(struct ht_elem *htep,		//\lnlbl{ht:cmp}
++	              void *key);
++	unsigned long (*ht_gethash)(void *key);
++	void *(*ht_getkey)(struct ht_elem *htep);	//\lnlbl{ht:getkey}
++	struct ht_bucket ht_bkt[0];			//\lnlbl{ht:bkt}
++};							//\lnlbl{ht:e}
++
++/* Top-level hash-table data structure, including buckets. */
++struct hashtab {					//\lnlbl{hashtab:b}
++	struct ht *ht_cur;
++	spinlock_t ht_lock;
++};							//\lnlbl{hashtab:e}
++
++/* Allocate a hash-table instance. */
++struct ht *
++ht_alloc(unsigned long nbuckets,
++	 int (*cmp)(struct ht_elem *htep, void *key),
++	 unsigned long (*gethash)(void *key),
++	 void *(*getkey)(struct ht_elem *htep))
++{
++	struct ht *htp;
++	int i;
++
++	htp = malloc(sizeof(*htp) + nbuckets * sizeof(struct ht_bucket));
++	if (htp == NULL)
++		return NULL;
++	htp->ht_nbuckets = nbuckets;
++	htp->ht_resize_cur = -1;
++	htp->ht_new = NULL;
++	htp->ht_idx = 0;
++	htp->ht_cmp = cmp;
++	htp->ht_gethash = gethash;
++	htp->ht_getkey = getkey;
++	for (i = 0; i < nbuckets; i++) {
++		CDS_INIT_LIST_HEAD(&htp->ht_bkt[i].htb_head);
++		spin_lock_init(&htp->ht_bkt[i].htb_lock);
 +	}
- }							//\lnlbl{add:e}
- 
- /*
-@@ -262,14 +269,9 @@ void hashtab_del(struct ht_elem *htep,			//\lnlbl{del:b}
- {
- 	int i = lsp->hls_idx[0];			//\lnlbl{del:i}
- 
--	if (htep->hte_next[i].prev) {			//\lnlbl{del:if}
--		cds_list_del_rcu(&htep->hte_next[i]);	//\lnlbl{del:del}
--		htep->hte_next[i].prev = NULL;		//\lnlbl{del:init}
--	}
--	if (lsp->hbp[1] && htep->hte_next[!i].prev) {	//\lnlbl{del:ifnew}
-+	cds_list_del_rcu(&htep->hte_next[i]);		//\lnlbl{del:del}
-+	if (lsp->hbp[1])				//\lnlbl{del:ifnew}
- 		cds_list_del_rcu(&htep->hte_next[!i]);	//\lnlbl{del:delnew}
--		htep->hte_next[!i].prev = NULL;		//\lnlbl{del:initnew}
--	}
- }							//\lnlbl{del:e}
- //\end{snippet}
- 
-@@ -350,5 +352,11 @@ void defer_del_rcu(struct rcu_head *rhp)
- 
- #define quiescent_state() rcu_quiescent_state()
- 
++	return htp;
++}
++
++/* Allocate a full hash table, master plus instance. */
++struct hashtab *
++hashtab_alloc(unsigned long nbuckets,
++	      int (*cmp)(struct ht_elem *htep, void *key),
++	      unsigned long (*gethash)(void *key),
++	      void *(*getkey)(struct ht_elem *htep))
++{
++	struct hashtab *htp_master;
++
++	htp_master = malloc(sizeof(*htp_master));
++	if (htp_master == NULL)
++		return NULL;
++	htp_master->ht_cur =
++		ht_alloc(nbuckets, cmp, gethash, getkey);
++	if (htp_master->ht_cur == NULL) {
++		free(htp_master);
++		return NULL;
++	}
++	spin_lock_init(&htp_master->ht_lock);
++	return htp_master;
++}
++
++/* Free a full hash table, master plus instance. */
++void hashtab_free(struct hashtab *htp_master)
++{
++	free(htp_master->ht_cur);
++	free(htp_master);
++}
++
++/* Get hash bucket corresponding to key, ignoring the possibility of resize. */
++static struct ht_bucket *				//\lnlbl{single:b}
++ht_get_bucket(struct ht *htp, void *key,
++              long *b, unsigned long *h)
++{
++	unsigned long hash = htp->ht_gethash(key);
++
++	*b = hash % htp->ht_nbuckets;			//\lnlbl{single:gethash}
++	if (h)
++		*h = hash;				//\lnlbl{single:h}
++	return &htp->ht_bkt[*b];			//\lnlbl{single:return}
++}							//\lnlbl{single:e}
++
++/* Search the bucket for the specfied key in the specified ht structure. */
++static struct ht_elem *					//\lnlbl{hsb:b}
++ht_search_bucket(struct ht *htp, void *key)
++{
++	long b;
++	struct ht_elem *htep;
++	struct ht_bucket *htbp;
++
++	htbp = ht_get_bucket(htp, key, &b, NULL);	//\lnlbl{hsb:get_curbkt}
++	cds_list_for_each_entry_rcu(htep,		//\lnlbl{hsb:loop:b}
++	                            &htbp->htb_head,
++	                            hte_next[htp->ht_idx]) {
++		if (htp->ht_cmp(htep, key)) 		//\lnlbl{hsb:match}
++			return htep;			//\lnlbl{hsb:ret_match}
++	}						//\lnlbl{hsb:loop:e}
++	return NULL;					//\lnlbl{hsb:ret_NULL}
++}							//\lnlbl{hsb:e}
++
++/* Read-side lock/unlock functions. */
++static void hashtab_lock_lookup(struct hashtab *htp_master, void *key)
++{
++	rcu_read_lock();
++}
++
++static void hashtab_unlock_lookup(struct hashtab *htp_master, void *key)
++{
++	rcu_read_unlock();
++}
++
++//\begin{snippet}[labelbase=ln:datastruct:hash_resize_s:lock_mod,commandchars=\\\@\$]
++/* Update-side lock/unlock functions. */
++static void						//\lnlbl{l:b}
++hashtab_lock_mod(struct hashtab *htp_master, void *key,
++                 struct ht_lock_state *lsp)
++{
++	long b;
++	unsigned long h;
++	struct ht *htp;
++	struct ht_bucket *htbp;
++
++	rcu_read_lock();				//\lnlbl{l:rcu_lock}
++	htp = rcu_dereference(htp_master->ht_cur);	//\lnlbl{l:refhashtbl}
++	htbp = ht_get_bucket(htp, key, &b, &h);		//\lnlbl{l:refbucket}
++	spin_lock(&htbp->htb_lock);			//\lnlbl{l:acq_bucket}
++	lsp->hbp[0] = htbp;				//\lnlbl{l:lsp0b}
++	lsp->hls_idx[0] = htp->ht_idx;
 +#ifndef FCV_SNIPPET
-+#define check_hash() (htep->hte_hash[0] != hash && htep->hte_hash[1] != hash)
-+#else
++	lsp->hls_hash[0] = h;				//\lnlbl{l:lsp0e}
++#endif /* #ifndef FCV_SNIPPET */
++	if (b > READ_ONCE(htp->ht_resize_cur)) {	//\lnlbl{l:ifresized}
++		lsp->hbp[1] = NULL;			//\lnlbl{l:lsp1_1}
++		return;					//\lnlbl{l:fastret1}
++	}
++	htp = rcu_dereference(htp->ht_new);		//\lnlbl{l:new_hashtbl}
++	htbp = ht_get_bucket(htp, key, &b, &h);		//\lnlbl{l:get_newbkt}
++	spin_lock(&htbp->htb_lock);			//\lnlbl{l:acq_newbkt}
++	lsp->hbp[1] = lsp->hbp[0];			//\lnlbl{l:lsp1b}
++	lsp->hls_idx[1] = lsp->hls_idx[0];
++#ifndef FCV_SNIPPET
++	lsp->hls_hash[1] = lsp->hls_hash[0];
++#endif /* #ifndef FCV_SNIPPET */
++	lsp->hbp[0] = htbp;
++	lsp->hls_idx[0] = htp->ht_idx;
++#ifndef FCV_SNIPPET
++	lsp->hls_hash[0] = h;				//\lnlbl{l:lsp1e}
++#endif /* #ifndef FCV_SNIPPET */
++}							//\lnlbl{l:e}
++//\end{snippet}
++
++static void						//\lnlbl{ul:b}
++hashtab_unlock_mod(struct ht_lock_state *lsp)
++{
++	spin_unlock(&lsp->hbp[0]->htb_lock);		//\lnlbl{ul:relbkt0}
++	if (lsp->hbp[1])				//\lnlbl{ul:ifbkt1}
++		spin_unlock(&lsp->hbp[1]->htb_lock);	//\lnlbl{ul:relbkt1}
++	rcu_read_unlock();				//\lnlbl{ul:rcu_unlock}
++}							//\lnlbl{ul:e}
++
++/*
++ * Finished using a looked up hashtable element.
++ */
++void hashtab_lookup_done(struct ht_elem *htep)
++{
++}
++
++//\begin{snippet}[labelbase=ln:datastruct:hash_resize_s:access,commandchars=\\\@\$]
++/*
++ * Look up a key.  Caller must have acquired either a read-side or update-side
++ * lock via either hashtab_lock_lookup() or hashtab_lock_mod().  Note that
++ * the return is a pointer to the ht_elem: Use offset_of() or equivalent
++ * to get a pointer to the full data structure.
++ */
++struct ht_elem *					//\lnlbl{lkp:b}
++hashtab_lookup(struct hashtab *htp_master, void *key)
++{
++	struct ht *htp;
++	struct ht_elem *htep;
++
++	htp = rcu_dereference(htp_master->ht_cur);	//\lnlbl{lkp:get_curtbl}
++	htep = ht_search_bucket(htp, key);		//\lnlbl{lkp:get_curbkt}
++	if (htep)					//\lnlbl{lkp:entchk}
++		return htep;				//\lnlbl{lkp:ret_match}
++	htp = rcu_dereference(htp->ht_new);		//\lnlbl{lkp:get_nxttbl}
++	if (!htp)					//\lnlbl{lkp:htpchk}
++		return NULL;				//\lnlbl{lkp:noresize}
++	return ht_search_bucket(htp, key);		//\lnlbl{lkp:ret_nxtbkt}
++}							//\lnlbl{lkp:e}
++
++/*
++ * Add an element to the hash table.  Caller must have acquired the
++ * update-side lock via hashtab_lock_mod().
++ */
++void hashtab_add(struct ht_elem *htep,			//\lnlbl{add:b}
++                 struct ht_lock_state *lsp)
++{
++	struct ht_bucket *htbp = lsp->hbp[0];		//\lnlbl{add:htbp}
++	int i = lsp->hls_idx[0];			//\lnlbl{add:i}
++
++#ifndef FCV_SNIPPET
++	htep->hte_hash = lsp->hls_hash[0];		//\lnlbl{add:hash}
++#endif /* #ifndef FCV_SNIPPET */
++	htep->hte_next[!i].prev = NULL;			//\lnlbl{add:initp}
++	cds_list_add_rcu(&htep->hte_next[i], &htbp->htb_head); //\lnlbl{add:add}
++}							//\lnlbl{add:e}
++
++/*
++ * Remove the specified element from the hash table.  Caller must have
++ * acquired the update-side lock via hashtab_lock_mod().
++ */
++void hashtab_del(struct ht_elem *htep,			//\lnlbl{del:b}
++                 struct ht_lock_state *lsp)
++{
++	int i = lsp->hls_idx[0];			//\lnlbl{del:i}
++
++	if (htep->hte_next[i].prev) {			//\lnlbl{del:if}
++		cds_list_del_rcu(&htep->hte_next[i]);	//\lnlbl{del:del}
++		htep->hte_next[i].prev = NULL;		//\lnlbl{del:init}
++	}
++	if (lsp->hbp[1] && htep->hte_next[!i].prev) {	//\lnlbl{del:ifnew}
++		cds_list_del_rcu(&htep->hte_next[!i]);	//\lnlbl{del:delnew}
++		htep->hte_next[!i].prev = NULL;		//\lnlbl{del:initnew}
++	}
++}							//\lnlbl{del:e}
++//\end{snippet}
++
++/* Resize a hash table. */
++int hashtab_resize(struct hashtab *htp_master,
++                   unsigned long nbuckets,
++                   int (*cmp)(struct ht_elem *htep, void *key),
++                   unsigned long (*gethash)(void *key),
++                   void *(*getkey)(struct ht_elem *htep))
++{
++	struct ht *htp;
++	struct ht *htp_new;
++	int i;
++	int idx;
++	struct ht_elem *htep;
++	struct ht_bucket *htbp;
++	struct ht_bucket *htbp_new;
++	long b;
++
++	if (!spin_trylock(&htp_master->ht_lock))	//\lnlbl{trylock}
++		return -EBUSY;				//\lnlbl{ret_busy}
++	htp = htp_master->ht_cur;			//\lnlbl{get_curtbl}
++	htp_new = ht_alloc(nbuckets,			//\lnlbl{alloc:b}
++	                   cmp ? cmp : htp->ht_cmp,
++	                   gethash ? gethash : htp->ht_gethash,
++	                   getkey ? getkey : htp->ht_getkey); //\lnlbl{alloc:e}
++	if (htp_new == NULL) {				//\lnlbl{chk_nomem}
++		spin_unlock(&htp_master->ht_lock);	//\lnlbl{rel_nomem}
++		return -ENOMEM;				//\lnlbl{ret_nomem}
++	}
++	idx = htp->ht_idx;				//\lnlbl{get_curidx}
++	htp_new->ht_idx = !idx;				//\lnlbl{put_curidx}
++	rcu_assign_pointer(htp->ht_new, htp_new);	//\lnlbl{set_newtbl}
++	synchronize_rcu();				//\lnlbl{sync_rcu}
++	for (i = 0; i < htp->ht_nbuckets; i++) {	//\lnlbl{loop:b}
++		htbp = &htp->ht_bkt[i];			//\lnlbl{get_oldcur}
++		spin_lock(&htbp->htb_lock);		//\lnlbl{acq_oldcur}
++		cds_list_for_each_entry(htep, &htbp->htb_head, hte_next[idx]) { //\lnlbl{loop_list:b}
++			htbp_new = ht_get_bucket(htp_new, htp_new->ht_getkey(htep), &b, NULL);
++			spin_lock(&htbp_new->htb_lock);
++			cds_list_add_rcu(&htep->hte_next[!idx], &htbp_new->htb_head);
++			spin_unlock(&htbp_new->htb_lock);
++		}					//\lnlbl{loop_list:e}
++		WRITE_ONCE(htp->ht_resize_cur, i);	//\lnlbl{update_resize}
++		spin_unlock(&htbp->htb_lock);		//\lnlbl{rel_oldcur}
++	}						//\lnlbl{loop:e}
++	rcu_assign_pointer(htp_master->ht_cur, htp_new); //\lnlbl{rcu_assign}
++	synchronize_rcu();				//\lnlbl{sync_rcu_2}
++	spin_unlock(&htp_master->ht_lock);		//\lnlbl{rel_master}
++	free(htp);					//\lnlbl{free}
++	return 0;					//\lnlbl{ret_success}
++}
++
++
++#define hash_register_thread() rcu_register_thread()
++#define hash_unregister_thread() rcu_unregister_thread()
++#define hashtab_lock_lookup(htp, i) hashtab_lock_lookup((htp), (void *)(i))
++#define hashtab_unlock_lookup(htp, i) hashtab_unlock_lookup((htp), (void *)(i))
++#define hashtab_lock_mod(htp, i, h) hashtab_lock_mod((htp), (void *)(i), h)
++#define hashtab_lock_mod_zoo(htp, k, i, h) hashtab_lock_mod((htp), k, h)
++#define hashtab_unlock_mod(htp, i, h) hashtab_unlock_mod(h)
++#define hashtab_lookup(htp, h, k) hashtab_lookup((htp), (k))
++#define hashtab_add(htp, h, htep, s) hashtab_add((htep), (s))
++#define hashtab_del(htep,s) hashtab_del((htep), (s))
++#define hash_resize_test(htp, n) hashtab_resize((htp), (n), NULL, NULL, NULL)
++
++void (*defer_del_done)(struct ht_elem *htep) = NULL;
++
++void defer_del_rcu(struct rcu_head *rhp)
++{
++	defer_del_done((struct ht_elem *)rhp);
++}
++
++#ifdef TEST_HASH
++#define defer_del(p)	call_rcu(&(p)->rh, defer_del_rcu)
++
++#define quiescent_state() rcu_quiescent_state()
++
++#ifndef FCV_SNIPPET
++#else /* #ifndef FCV_SNIPPET */
 +#define check_hash() (0)
 +#endif /* #ifndef FCV_SNIPPET */
 +
- #include "hashtorture.h"
- #endif /* #ifdef TEST_HASH */
-diff --git a/CodeSamples/datastruct/hash/hashtorture.h b/CodeSamples/datastruct/hash/hashtorture.h
-index 6f47baa..d6345cc 100644
---- a/CodeSamples/datastruct/hash/hashtorture.h
-+++ b/CodeSamples/datastruct/hash/hashtorture.h
-@@ -62,6 +62,10 @@ void (*defer_del_done)(struct ht_elem *htep) = NULL;
- #define rcu_barrier() do ; while (0)
- #endif /* #ifndef quiescent_state */
- 
-+#ifndef check_hash
-+#define check_hash() (htep->hte_hash != hash)
-+#endif /* #ifndef check_hash */
-+
- /*
-  * Test variables.
-  */
-@@ -988,7 +992,7 @@ int zoo_lookup(char *key)
- 	htep = hashtab_lookup(perftest_htp, hash, key);
- 	zhep = container_of(htep, struct zoo_he, zhe_e);
- 	BUG_ON(htep &&
--	       (htep->hte_hash != hash ||
-+	       (check_hash() ||
- 	        strncmp(zhep->name, (char *)key, ZOO_NAMELEN) != 0));
- 	hashtab_unlock_lookup(perftest_htp, hash);
- 	hashtab_lookup_done(htep);
++#include "hashtorture.h"
++#endif /* #ifdef TEST_HASH */
 diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
-index 175056c..c5898cd 100644
+index c5898cd..f344842 100644
 --- a/datastruct/datastruct.tex
 +++ b/datastruct/datastruct.tex
-@@ -887,7 +887,8 @@ which is the subject of the next section.
- Resizing is accomplished by the classic approach of inserting a level
- of indirection, in this case, the \co{ht} structure shown on
- lines~\lnref{ht:b}-\lnref{ht:e} of
--Listing~\ref{lst:datastruct:Resizable Hash-Table Data Structures}.
-+Listing~\ref{lst:datastruct:Resizable Hash-Table Data Structures}
-+(\path{hash_resize.c}).
- The \co{hashtab} structure shown on
- lines~\lnref{hashtab:b}-\lnref{hashtab:e} contains only a
- pointer to the current \co{ht} structure along with a spinlock that
-@@ -1030,8 +1031,8 @@ corresponding to the key.
- Line~\lnref{acq_bucket} acquires that bucket's lock, which will prevent any concurrent
- resizing operation from distributing that bucket, though of course it
- will have no effect if that bucket has already been distributed.
--Lines~\lnref{lsp0b}-\lnref{lsp0e} store the bucket pointer,
--pointer-set index, and hash value into their respective fields in the
-+Lines~\lnref{lsp0b}-\lnref{lsp0e} store the bucket pointer and
-+pointer-set index into their respective fields in the
- \co{ht_lock_state} structure, which communicates the information to
- \co{hashtab_add()}, \co{hashtab_del()}, and \co{hashtab_unlock_mod()}.
- Line~\lnref{ifresized} then checks to see if a concurrent resize
-@@ -1045,8 +1046,8 @@ Otherwise, a concurrent resize operation has already distributed this
- bucket, so line~\lnref{new_hashtbl} proceeds to the new hash table,
- line~\lnref{get_newbkt} selects the bucket corresponding to the key,
- and line~\lnref{acq_newbkt} acquires the bucket's lock.
--Lines~\lnref{lsp1b}-\lnref{lsp1e} store the bucket pointer,
--pointer-set index, and hash value into their respective fields in the
-+Lines~\lnref{lsp1b}-\lnref{lsp1e} store the bucket pointer and
-+pointer-set index into their respective fields in the
- \co{ht_lock_state} structure, which communicates the information to
- \co{hashtab_add()}, \co{hashtab_del()}, and \co{hashtab_unlock_mod()}.
- Note that in this case, two locks are held, one in the old \co{ht_bucket}
-@@ -1108,28 +1109,20 @@ hash lookups.
- Line~\lnref{get_curtbl} fetches the current hash table and
- line~\lnref{get_curbkt} searches the bucket corresponding to the
- specified key.
--If line~\lnref{entchk} determines that the search was successful,
--line~\lnref{ret_match} returns a pointer to the element that was located.
--Otherwise, line~\lnref{get_nxttbl} picks up a pointer to the next version,
--and if line~\lnref{htpchk} determines that there is no resize in progress,
--line~\lnref{noresize} returns \co{NULL}.
--When there is a resize in progress, execution reaches
--line~\lnref{ret_nxtbkt}, which returns the result of searching the
--bucket corresponding to \co{key} in the new version.
-+Line~\lnref{ret} returns a pointer to the element that was located
-+or \co{NULL} when the search failed.
+@@ -1113,6 +1113,20 @@ Line~\lnref{ret} returns a pointer to the element that was located
+ or \co{NULL} when the search failed.
  \end{lineref}
  
++\QuickQuiz{}
++	The \co{hashtab_lookup()} function in
++	Listing~\ref{lst:datastruct:Resizable Hash-Table Access Functions}
++	searches only the current hash bucket.
++	Doesn't this mean that readers might miss a newly added
++	element?
++\QuickQuizAnswer{
++	No.
++	As will be described soon,
++	The \co{hashtab_add()} and \co{hashtab_del()} functions
++	keep updating the current hash table while resizing is
++	progressing.
++} \QuickQuizEnd
++
  \begin{lineref}[ln:datastruct:hash_resize:access:add]
  The \co{hashtab_add()} function on lines~\lnref{b}-\lnref{e} of the listing adds
  new data elements to the hash table.
--Line~\lnref{new} determines whether a resize was in progress and the
--corresponding old bucket has already been distributed (value of one)
--or not (value of zero).
--Line~\lnref{htbp} picks up the \co{ht_bucket} structure into which the
-+Line~\lnref{htbp} picks up the current \co{ht_bucket} structure into which the
- new element is to be added, and line~\lnref{i} picks up the index of
- the pointer pair.
--Line~\lnref{hash} stores the hash value in the to-be-added element
--for debug purposes,
--Finally, line~\lnref{add} adds the new element to the proper hash bucket.
-+Line~\lnref{add} adds the new element to the current hash bucket.
-+Then line~\lnref{ifnew} determines if the bucket has been distributed to
-+a new hash table, and if so,
-+line~\lnref{addnew} adds the new element to the bucket in the new hash table.
- The caller is required to handle concurrency, for example, by invoking
- \co{hashtab_lock_mod()} before the call to \co{hashtab_add()} and invoking
- \co{hashtab_unlock_mod()} afterwards.
-@@ -1140,34 +1133,16 @@ The \co{hashtab_del()} function on
- lines~\lnref{b}-\lnref{e} of the listing removes
- an existing element from the hash table.
- Line~\lnref{i} picks up the index of the pointer pair
--and line~\lnref{del} removes the specified element.
-+and line~\lnref{del} removes the specified element from the current table.
-+Then line~\lnref{ifnew} determines if the bucket has been distributed to
-+a new hash table, and if so,
-+line~\lnref{delnew} removes the sepcified element from the bucket in
-+the new table.
- As with \co{hashtab_add()}, the caller is responsible for concurrency
- control and this concurrency control suffices for synchronizing with
+@@ -1143,6 +1157,52 @@ control and this concurrency control suffices for synchronizing with
  a concurrent resize operation.
  \end{lineref}
  
--\QuickQuiz{}
--	The \co{hashtab_del()} function in
--	Listing~\ref{lst:datastruct:Resizable Hash-Table Access Functions}
--	might not remove the element from the old hash table.
--	Doesn't this mean that readers might access this newly removed
--	element after it has been freed?
--\QuickQuizAnswer{
--	No.
--	The \co{hashtab_del()} function omits removing the element
--	from the old hash table only if the resize operation has
--	already progressed beyond the bucket containing the just-deleted
--	element.
--	But this means that new \co{hashtab_lookup()} operations will
--	use the new hash table when looking up that element.
--	Therefore, only old \co{hashtab_lookup()} operations that started
--	before the \co{hashtab_del()} might encounter the newly
--	removed element.
--	This means that \co{hashtab_del()} need only wait for an
--	RCU grace period to avoid inconveniencing
--	\co{hashtab_lookup()} operations.
--} \QuickQuizEnd
--
++\QuickQuiz{}
++	The \co{hashtab_add()} and \co{hashtab_del()} functions in
++	Listing~\ref{lst:datastruct:Resizable Hash-Table Access Functions}
++	can update two hash buckets while a resize operation is progressing.
++	This might cause a poor performance if the frequency of resize operation
++	is not negligible.
++	Isn't it possible to reduce the cost of updates in such cases?
++\QuickQuizAnswer{
++	Yes.
++	If you can tollerate a slight increase in the cost of
++	\co{hashtab_lookup()}, there are several approaches
++	to reduce the number of updates in \co{hashtab_add()} and
++	\co{hashtab_del()}.
++	An alternative implementation of these three functions and the
++	update-side locking function is shown in
++	Listings~\ref{lst:datastruct:Resizable Hash-Table Access Functions
++	(Less Updates)}
++	and~\ref{lst:datastruct:Resizable Hash-Table Update-Side Locking
++	Function (Less Updates)} (\path{hash_resize_s.c}).
++
++\begin{listing}[tbh]
++\input{CodeSamples/datastruct/hash/hash_resize_s@access.fcv}
++\caption{Resizable Hash-Table Access Functions (Less Updates)}
++\label{lst:datastruct:Resizable Hash-Table Access Functions (Less Updates)}
++\end{listing}
++
++\begin{listing}[tbh]
++\input{CodeSamples/datastruct/hash/hash_resize_s@lock_mod.fcv}
++\caption{Resizable Hash-Table Update-Side Locking Function (Less Updates)}
++\label{lst:datastruct:Resizable Hash-Table Update-Side Locking Function (Less Updates)}
++\end{listing}
++
++	This version of \co{hashtab_add()} adds an element to
++	either the old bucket if it is not resized yet, or to the new
++	bucket if it has been resized. \co{hashtab_del()} removes
++	the specified element from the buckets it has been inserted.
++	\co{hashtab_lookup()} searches the new bucket if the search
++	of the old bucket fails.
++	The alternative \co{hashtab_lock_mod()} returns the locking
++	state of the new bucket in \co{->hbp[0]} and \co{->hls_idx[0]}
++	if resize operation is in progress. This reordering simplifies
++	\co{hashtab_add()}.
++
++	Further analysis of the code is left as an exercise for the reader.
++} \QuickQuizEnd
++
  \begin{listing*}[tb]
  \input{CodeSamples/datastruct/hash/hash_resize@resize.fcv}
  \caption{Resizable Hash-Table Resizing}
-@@ -1211,10 +1186,10 @@ and line~\lnref{acq_oldcur} acquires that bucket's spinlock.
- 	Listing~\ref{lst:datastruct:Resizable Hash-Table Resizing},
- 	what guarantees that the update to \co{->ht_new} on line~\lnref{set_newtbl}
- 	will be seen as happening before the update to \co{->ht_resize_cur}
--	on line~\lnref{update_resize} from the perspective of \co{hashtab_lookup()},
--	\co{hashtab_add()}, and \co{hashtab_del()}?
--	In other words, what prevents \co{hashtab_lookup()},
--	\co{hashtab_add()}, and \co{hashtab_del()}, from dereferencing
-+	on line~\lnref{update_resize} from the perspective of
-+	\co{hashtab_add()} and \co{hashtab_del()}?
-+	In other words, what prevents \co{hashtab_add()}
-+	and \co{hashtab_del()} from dereferencing
- 	a NULL pointer loaded from \co{->ht_new}?
- 	\end{lineref}
- \QuickQuizAnswer{
 -- 
 2.7.4
 
