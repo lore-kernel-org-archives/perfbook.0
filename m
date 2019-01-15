@@ -1,104 +1,99 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35376 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727397AbfAOAaL (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 14 Jan 2019 19:30:11 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0F0PgCN183392
-        for <perfbook@vger.kernel.org>; Mon, 14 Jan 2019 19:30:10 -0500
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2q14ybg35t-1
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54600 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726769AbfAOBdi (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Mon, 14 Jan 2019 20:33:38 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0F1SuoN087330
+        for <perfbook@vger.kernel.org>; Mon, 14 Jan 2019 20:33:37 -0500
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2q15nmgka9-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Mon, 14 Jan 2019 19:30:09 -0500
+        for <perfbook@vger.kernel.org>; Mon, 14 Jan 2019 20:33:37 -0500
 Received: from localhost
-        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Tue, 15 Jan 2019 00:30:09 -0000
-Date: Mon, 14 Jan 2019 16:30:06 -0800
+        Tue, 15 Jan 2019 01:33:36 -0000
+Date: Mon, 14 Jan 2019 17:33:37 -0800
 From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH 1/2] Makefile: Automate OBSOLETE_FILES definition
+Subject: Re: [PATCH 0/6] Simplify hash_resize.c
 Reply-To: paulmck@linux.ibm.com
-References: <91c8ec61-e42c-9768-150f-39db5ac2280d@gmail.com>
+References: <dff55e7c-6e93-8f4a-79fd-f400ed3b38f8@gmail.com>
+ <20190114021024.GP1215@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <91c8ec61-e42c-9768-150f-39db5ac2280d@gmail.com>
-Message-Id: <20190115003006.GW1215@linux.ibm.com>
+In-Reply-To: <20190114021024.GP1215@linux.ibm.com>
+Message-Id: <20190115013337.GA25108@linux.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 To: Akira Yokosawa <akiyks@gmail.com>
 Cc: perfbook@vger.kernel.org
 
-On Tue, Jan 15, 2019 at 07:24:22AM +0900, Akira Yokosawa wrote:
-> >From 96dd811c7e084d97cbf4ef3b4b3f68099f6e15eb Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Tue, 15 Jan 2019 07:10:15 +0900
-> Subject: [PATCH 1/2] Makefile: Automate OBSOLETE_FILES definition
+On Sun, Jan 13, 2019 at 06:10:24PM -0800, Paul E. McKenney wrote:
+> On Mon, Jan 14, 2019 at 08:28:27AM +0900, Akira Yokosawa wrote:
+> > >From 7b69a9b37ba9a73a50aad5cbb097235ddfe75870 Mon Sep 17 00:00:00 2001
+> > From: Akira Yokosawa <akiyks@gmail.com>
+> > Date: Mon, 14 Jan 2019 07:25:14 +0900
+> > Subject: [PATCH 0/6] Simplify hash_resize.c
+> > 
+> > Hi Paul,
+> > 
+> > This patch set updates hash_resize.c, which you suggested for me to
+> > take over, and the related text.
+> > 
+> > I added a couple of Quick Quizzes as well, and in one of them,
+> > I included your version of hash_resize.c.
+> > 
+> > Patch #1 updates hash_resize.c in the way I suggested. Note that
+> > in this update, "#ifndef FCV_SNIPPET" blocks are used to hide
+> > code for debugging (hash value checks) in code snippets.
+> > This code can actually be compiled with "-DFCV_SNIPPET" to see
+> > the performance without hash value checks.
+> > 
+> > Patch #2 adds a couple of Quick Quizzes. Your version of hash_resize.c
+> > is added as hash_resize_s.c.
+> > 
+> > Patch #3 removes unnecessary folding in a code snippet.
+> > 
+> > Patch #4 adjusts a few sentence to the simpler approach.
+> > 
+> > Patch #5 adds another Quick Quiz.
+> > 
+> > Patch #6 adds an "#error" directive for the lack of rcu_barrier().
+> > 
+> > All of the updates in text would need your native eyes to be polished.
 > 
-> Commit 2da175371873 ('defer/rcu: Rework "Introduction to RCU"')
-> obsoleted .eps files used to be generated from the removed .fig
-> files. Instead of manually updating the variable in Makefile,
-> automate the definition of OBSOLETE_FILES for replacements of
-> ".fig -> .svg".
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Nice!  Queued and pushed, thank you!  I will review and send any
+> needed update by end of tomorrow, Pacific Time.
 
-Nice automation!  I queued and pushed this plus the .gitignore update,
-thank you!!!
+Here is a summary of changes:
+
+o	Move the ht_lock_state structure definition to follow the ht
+	structure, matching the order of discussion in the text.
+	Everything seems to build and run OK with this change.
+	Also illustrates the advantages of line labels!  ;-)
+
+o	I considered inlining ht_search_bucket() into its only caller
+	in hashtab_lookup(), but decided against it.  More flexibility
+	for change with it as is.
+
+o	I added ht_search_bucket() to the in-text list of things
+	permitting lookups and modifications to run concurrently with
+	a resize operation.
+
+o	I tweaked the description of hashtab_lock_mod(), hashtab_unlock_mod(),
+	hashtab_add(), and hashtab_del().
+
+o	I tweaked the QQ asking about searches missing adds during resizes.
+
+o	English is strange, so "Less Changes" must become "Fewer Changes".
+
+o	I put the long labels on a single line out of paranoia.
+
+I pushed these out on a working branch named paulmck.2019.01.14a.  Please
+let me know whether I messed anything up, and once it looks good to you,
+I will pull these two commits into the master branch.
 
 							Thanx, Paul
-
-> ---
->  Makefile | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 79ccd99..b76eea0 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -12,7 +12,6 @@ LATEXSOURCES = \
->  	*/*/*.tex
->  
->  LATEXGENERATED = autodate.tex qqz.tex contrib.tex origpub.tex
-> -OBSOLETE_FILES = intro/PPGrelation.eps extraction
->  
->  ABBREVTARGETS := tcb 1c hb msns mss mstx msr msn msnt 1csf
->  
-> @@ -32,6 +31,12 @@ FIGSOURCES := $(wildcard */*.fig) $(wildcard */*/*.fig)
->  
->  EPSSOURCES_FROM_FIG := $(FIGSOURCES:%.fig=%.eps)
->  
-> +SVGSOURCES := $(wildcard */*.svg)
-> +FAKE_EPS_FROM_SVG := $(SVGSOURCES:%.svg=%.eps)
-> +PDFTARGETS_OF_SVG := $(SVGSOURCES:%.svg=%.pdf)
-> +
-> +OBSOLETE_FILES = extraction $(FAKE_EPS_FROM_SVG)
-> +
->  EPSSOURCES_DUP := \
->  	$(wildcard */*.eps) \
->  	$(wildcard */*/*.eps) \
-> @@ -51,9 +56,6 @@ PDFTARGETS_OF_EPSOTHER := $(filter-out $(PDFTARGETS_OF_EPSORIG),$(PDFTARGETS_OF_
->  
->  BIBSOURCES := bib/*.bib alphapf.bst
->  
-> -SVGSOURCES := $(wildcard */*.svg)
-> -PDFTARGETS_OF_SVG := $(SVGSOURCES:%.svg=%.pdf)
-> -
->  DOT := $(shell which dot 2>/dev/null)
->  FIG2EPS := $(shell which fig2eps 2>/dev/null)
->  A2PING := $(shell which a2ping 2>/dev/null)
-> @@ -294,8 +296,9 @@ clean:
->  		-o -name '*.qqz' -o -name '*.toc' -o -name '*.bbl' \
->  		-o -name '*.fcv' -o -name '*.ltms' | xargs rm -f
->  	rm -f perfbook_flat.tex perfbook*.out perfbook-*.tex
-> -	rm -f $(LATEXGENERATED) $(OBSOLETE_FILES)
-> +	rm -f $(LATEXGENERATED)
->  	rm -f CodeSamples/snippets.mk CodeSamples/snippets.d
-> +	@rm -f $(OBSOLETE_FILES)
->  
->  distclean: clean
->  	sh utilities/cleanpdf.sh
-> -- 
-> 2.7.4
-> 
 
