@@ -1,170 +1,137 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57754 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727060AbfAPAGM (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 15 Jan 2019 19:06:12 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0FNwuFK109904
-        for <perfbook@vger.kernel.org>; Tue, 15 Jan 2019 19:06:11 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43164 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729297AbfAPAH5 (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 15 Jan 2019 19:07:57 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0FNxnlA061289
+        for <perfbook@vger.kernel.org>; Tue, 15 Jan 2019 19:07:56 -0500
 Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2q1rm2b4ha-1
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2q1q2byrbt-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Tue, 15 Jan 2019 19:06:10 -0500
+        for <perfbook@vger.kernel.org>; Tue, 15 Jan 2019 19:07:56 -0500
 Received: from localhost
         by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Wed, 16 Jan 2019 00:06:10 -0000
-Date: Tue, 15 Jan 2019 16:06:07 -0800
+        Wed, 16 Jan 2019 00:07:55 -0000
+Date: Tue, 15 Jan 2019 16:07:52 -0800
 From: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Subject: Re: [PATCH 0/6] Simplify hash_resize.c
 Reply-To: paulmck@linux.ibm.com
 References: <dff55e7c-6e93-8f4a-79fd-f400ed3b38f8@gmail.com>
  <20190114021024.GP1215@linux.ibm.com>
- <20190115013337.GA25108@linux.ibm.com>
- <fa8f579d-d14e-1be5-35f7-8f20a22021d6@gmail.com>
- <20190115174304.GB1215@linux.ibm.com>
- <239642cb-8c5a-980f-5512-ea2b8cce09ed@gmail.com>
+ <8dcb7b16-d7c2-b336-de97-469fd944f72c@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <239642cb-8c5a-980f-5512-ea2b8cce09ed@gmail.com>
-Message-Id: <20190116000607.GD1215@linux.ibm.com>
+In-Reply-To: <8dcb7b16-d7c2-b336-de97-469fd944f72c@gmail.com>
+Message-Id: <20190116000751.GE1215@linux.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 To: Akira Yokosawa <akiyks@gmail.com>
 Cc: perfbook@vger.kernel.org
 
-On Wed, Jan 16, 2019 at 07:15:15AM +0900, Akira Yokosawa wrote:
-> On 2019/01/15 09:43:04 -0800, Paul E. McKenney wrote:
-> > On Wed, Jan 16, 2019 at 12:32:52AM +0900, Akira Yokosawa wrote:
-> >> On 2019/01/14 17:33:37 -0800, Paul E. McKenney wrote:
-> >>> On Sun, Jan 13, 2019 at 06:10:24PM -0800, Paul E. McKenney wrote:
-> >>>> On Mon, Jan 14, 2019 at 08:28:27AM +0900, Akira Yokosawa wrote:
-> >>>>> >From 7b69a9b37ba9a73a50aad5cbb097235ddfe75870 Mon Sep 17 00:00:00 2001
-> >>>>> From: Akira Yokosawa <akiyks@gmail.com>
-> >>>>> Date: Mon, 14 Jan 2019 07:25:14 +0900
-> >>>>> Subject: [PATCH 0/6] Simplify hash_resize.c
-> >>>>>
-> >>>>> Hi Paul,
-> >>>>>
-> >>>>> This patch set updates hash_resize.c, which you suggested for me to
-> >>>>> take over, and the related text.
-> >>>>>
-> >>>>> I added a couple of Quick Quizzes as well, and in one of them,
-> >>>>> I included your version of hash_resize.c.
-> >>>>>
-> >>>>> Patch #1 updates hash_resize.c in the way I suggested. Note that
-> >>>>> in this update, "#ifndef FCV_SNIPPET" blocks are used to hide
-> >>>>> code for debugging (hash value checks) in code snippets.
-> >>>>> This code can actually be compiled with "-DFCV_SNIPPET" to see
-> >>>>> the performance without hash value checks.
-> >>>>>
-> >>>>> Patch #2 adds a couple of Quick Quizzes. Your version of hash_resize.c
-> >>>>> is added as hash_resize_s.c.
-> >>>>>
-> >>>>> Patch #3 removes unnecessary folding in a code snippet.
-> >>>>>
-> >>>>> Patch #4 adjusts a few sentence to the simpler approach.
-> >>>>>
-> >>>>> Patch #5 adds another Quick Quiz.
-> >>>>>
-> >>>>> Patch #6 adds an "#error" directive for the lack of rcu_barrier().
-> >>>>>
-> >>>>> All of the updates in text would need your native eyes to be polished.
-> >>>>
-> >>>> Nice!  Queued and pushed, thank you!  I will review and send any
-> >>>> needed update by end of tomorrow, Pacific Time.
-> >>>
-> >>> Here is a summary of changes:
-> >>>
-> >>> o	Move the ht_lock_state structure definition to follow the ht
-> >>> 	structure, matching the order of discussion in the text.
-> >>> 	Everything seems to build and run OK with this change.
-> >>> 	Also illustrates the advantages of line labels!  ;-)
-> >>>
-> >>> o	I considered inlining ht_search_bucket() into its only caller
-> >>> 	in hashtab_lookup(), but decided against it.  More flexibility
-> >>> 	for change with it as is.
-> >>>
-> >>> o	I added ht_search_bucket() to the in-text list of things
-> >>> 	permitting lookups and modifications to run concurrently with
-> >>> 	a resize operation.
-> >>>
-> >>> o	I tweaked the description of hashtab_lock_mod(), hashtab_unlock_mod(),
-> >>> 	hashtab_add(), and hashtab_del().
-> >>>
-> >>> o	I tweaked the QQ asking about searches missing adds during resizes.
-> >>>
-> >>> o	English is strange, so "Less Changes" must become "Fewer Changes".
+On Wed, Jan 16, 2019 at 07:29:53AM +0900, Akira Yokosawa wrote:
+> On 2019/01/13 18:10:24 -0800, Paul E. McKenney wrote:
+> > On Mon, Jan 14, 2019 at 08:28:27AM +0900, Akira Yokosawa wrote:
+> >> >From 7b69a9b37ba9a73a50aad5cbb097235ddfe75870 Mon Sep 17 00:00:00 2001
+> >> From: Akira Yokosawa <akiyks@gmail.com>
+> >> Date: Mon, 14 Jan 2019 07:25:14 +0900
+> >> Subject: [PATCH 0/6] Simplify hash_resize.c
 > >>
-> >> Sigh, I thought I knew this rule... Thanks for the fix.
+> >> Hi Paul,
 > >>
-> >>>
-> >>> o	I put the long labels on a single line out of paranoia.
-> >>>
-> >>> I pushed these out on a working branch named paulmck.2019.01.14a.  Please
-> >>> let me know whether I messed anything up, and once it looks good to you,
-> >>> I will pull these two commits into the master branch.
+> >> This patch set updates hash_resize.c, which you suggested for me to
+> >> take over, and the related text.
 > >>
-> >> There is an irrelevant clause added in an answer to a QQ.
-> >> See below for my suggestion. It doesn't sound fluent enough, though.
+> >> I added a couple of Quick Quizzes as well, and in one of them,
+> >> I included your version of hash_resize.c.
+> >>
+> >> Patch #1 updates hash_resize.c in the way I suggested. Note that
+> >> in this update, "#ifndef FCV_SNIPPET" blocks are used to hide
+> >> code for debugging (hash value checks) in code snippets.
+> >> This code can actually be compiled with "-DFCV_SNIPPET" to see
+> >> the performance without hash value checks.
+> >>
+> >> Patch #2 adds a couple of Quick Quizzes. Your version of hash_resize.c
+> >> is added as hash_resize_s.c.
+> >>
+> >> Patch #3 removes unnecessary folding in a code snippet.
+> >>
+> >> Patch #4 adjusts a few sentence to the simpler approach.
+> >>
+> >> Patch #5 adds another Quick Quiz.
+> >>
+> >> Patch #6 adds an "#error" directive for the lack of rcu_barrier().
+> >>
+> >> All of the updates in text would need your native eyes to be polished.
 > > 
-> > Good catch!
+> > Nice!  Queued and pushed, thank you!  I will review and send any
+> > needed update by end of tomorrow, Pacific Time.
 > > 
-> > How does the following amended patch look?
+> > Just FYI, this also pushed out a couple of commits starting my rework
+> > of Section 9.5.1.
+> > 
+> >>         Thanks, Akira
+> >>
+> >> PS:
+> >>
+> >> I couldn't make out your concern of "if we ever want to iterate over
+> >> the hash table". Can you elaborate it?
+> > 
+> > Consider a hash_iterate() function that takes a pointer to a function.
+> > Then hash_iterate() would invoke this function on each element currently
+> > in the hash table, for a relatively relaxed definition of "currently".
+> > With your hash table, a naive implementation might iterate over some
+> > data items twice due to their being in both the old and the new tables.
 > 
-> It looks perfect!
+> If we stick to the old table, which is kept updated during resizing,
+> there shouldn't be any duplication of items.
+> 
+> What am I missing?
 
-Very good, thank you!  I have merged it and pushed the result.
+Fair point.  Please accept my apologies for my confusion.  I think that
+the right person is now maintaining hash_resize.c.  ;-)
 
 							Thanx, Paul
 
 >         Thanks, Akira
 > 
 > > 
+> > But this is not hard to fix, for example, by creating some sort of list
+> > of elements and the eliminating duplicates, then invoking the specified
+> > function on each of them.  Of course, this entire process would need to
+> > be carried out within an RCU read-side critical section.
+> > 
+> > This assumes that iteration over the entire hash table is rare, which
+> > I would certainly expect it to be, given how expensive it is.
+> > 
+> > Plus, we currently don't support iteration, so it isn't currently a
+> > problem anyway.  ;-)
+> > 
 > > 							Thanx, Paul
 > > 
-> > ------------------------------------------------------------------------
-> > 
-> > commit 731c855ab11b9601a40324c6ef6b5ced6d7833e9
-> > Author: Akira Yokosawa <akiyks@gmail.com>
-> > Date:   Tue Jan 15 23:52:27 2019 +0900
-> > 
-> >     datastruct/hash: Fix irrelevant clause in answer to quick quiz
-> >     
-> >     hashtab_lookup() is not affected by the reordering of ->hbp[] and
-> >     ->hls_idx[]. Instead, mention the increase of cost at the earlier
-> >     explanation of hashtab_lookup().
-> >     
-> >     Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> >     [ paulmck: Wordsmithing. ]
-> >     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-> > 
-> > diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
-> > index d1fde2c7535e..985021e927a8 100644
-> > --- a/datastruct/datastruct.tex
-> > +++ b/datastruct/datastruct.tex
-> > @@ -1189,13 +1189,15 @@ a concurrent resize operation.
-> >  	either the old bucket if it is not resized yet, or to the new
-> >  	bucket if it has been resized, and \co{hashtab_del()} removes
-> >  	the specified element from any buckets into which it has been inserted.
-> > -	\co{hashtab_lookup()} searches the new bucket if the search
-> > -	of the old bucket fails.
-> > +	The \co{hashtab_lookup()} function searches the new bucket
-> > +	if the search of the old bucket fails, which has the disadvantage
-> > +	of adding overhead to the lookup fastpath.
-> >  	The alternative \co{hashtab_lock_mod()} returns the locking
-> >  	state of the new bucket in \co{->hbp[0]} and \co{->hls_idx[0]}
-> > -	if resize operation is in progress.
-> > -	This reordering simplifies \co{hashtab_add()}, but at the expense
-> > -	of an extra check in \co{hashtab_lookup()}.
-> > +	if resize operation is in progress, instead of the perhaps
-> > +	more natural choice of \co{->hbp[1]} and \co{->hls_idx[1]}.
-> > +	However, this less-natural choice has the advantage of simplifying
-> > +	\co{hashtab_add()}.
-> >  
-> >  	Further analysis of the code is left as an exercise for the reader.
-> >  } \QuickQuizEnd
+> >> --
+> >> Akira Yokosawa (6):
+> >>   datastruct/hash: Simplify hash_resize.c
+> >>   datastruct/hash: Add a couple of Quick Quizzes regarding hash_resize.c
+> >>   datastruct/hash: Fix unnecessary folding in code snippet
+> >>   datastruct/hash: Adjust context to updated code in hash_resize.c
+> >>   datastruct/hash: Add Quick Quiz on READ_ONCE/WRITE_ONCE in
+> >>     hash_resize.c
+> >>   datastruct/hash: Display error msg if rcu_barrier() is not available
+> >>
+> >>  CodeSamples/datastruct/hash/Makefile        |   5 +-
+> >>  CodeSamples/datastruct/hash/hash_resize.c   |  62 +++--
+> >>  CodeSamples/datastruct/hash/hash_resize_s.c | 365 ++++++++++++++++++++++++++++
+> >>  CodeSamples/datastruct/hash/hashtorture.h   |  11 +-
+> >>  datastruct/datastruct.tex                   | 146 +++++++----
+> >>  5 files changed, 513 insertions(+), 76 deletions(-)
+> >>  create mode 100644 CodeSamples/datastruct/hash/hash_resize_s.c
+> >>
+> >> -- 
+> >> 2.7.4
+> >>
 > > 
 > 
 
