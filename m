@@ -1,93 +1,103 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=U7trbG29eSvyDmt2GWuj46tSGzocs1hTrLbbPU9qHNg=;
-        b=B1fh6FCz6AX9EInz2Clngm7J3/BZ9E/rfA0kg7452OvYR2P3Rh7eju+4L+CkXw/EYT
-         4OJ7L912r+bEnOxX3mIzHGtNZJ9OawscmSPvfLnmnRBuK+0IH6HlMBQQaTjs9MK7L9bd
-         YbwvEMLcyFaskZ9NeEta7Egbskh2vjj/2ck0DqJVkjZ5C1XhBiYdcuQLwu9Fh937lW7B
-         Qfo7KTMG7xqRTgVy+QyePOLHDgT2rs7TPYEtm0fx9UEj+NxqCYin2JC+VWRr1NZpOUU6
-         aTUzJMk/hGhpe8Q/Km2bFknb9HT1AC9UFUPZpIxvDF2HtcbHj6uYfI1XIPw12sFBIR51
-         Nseg==
-Subject: [PATCH 6/6] formal/spinhint: Use \co{...} rather than {\tt ...}
+Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55316 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726183AbfBBRlc (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sat, 2 Feb 2019 12:41:32 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x12HYACG136501
+        for <perfbook@vger.kernel.org>; Sat, 2 Feb 2019 12:41:31 -0500
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2qda4tb7eu-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <perfbook@vger.kernel.org>; Sat, 02 Feb 2019 12:41:30 -0500
+Received: from localhost
+        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Sat, 2 Feb 2019 17:41:30 -0000
+Date: Sat, 2 Feb 2019 09:34:37 -0800
+From: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: [PATCH 0/6] formal/spinhint: Update code snippet
+Reply-To: paulmck@linux.ibm.com
 References: <db974b96-dd4f-dce2-44a5-1b33f5ed495e@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <fc164e74-1187-1ea5-f1d1-6d360522a7d6@gmail.com>
-Date: Sun, 3 Feb 2019 00:15:47 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <db974b96-dd4f-dce2-44a5-1b33f5ed495e@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20190202173437.GO4240@linux.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 211a647f0530d7c7fbdab93ae5e76e71e04295f6 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 2 Feb 2019 20:00:36 +0900
-Subject: [PATCH 6/6] formal/spinhint: Use \co{...} rather than {\tt ...}
+On Sun, Feb 03, 2019 at 12:05:32AM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> Here is another round of code snippet update, with modernization
+> of outputs of Spin and tables of state search results.
+> 
+> Patch #1 updates fcvextract.pl so that .spin files are handled
+> as the same as C source files.
+> 
+> Patch #2 applies the new scheme to code snippets. It also contains
+> minor changes for better typesetting.
+> 
+> Patch #3 replaces captures of Spin outputs with those obtained
+> from Spin version 6.4.8. This commit adds outputs as .lst files
+> under CodeSamples/formal/promela/. They are added to the dependency
+> in the top level Makefile.
+> 
+> Patch #4 updates tables of Spin result.  For qrcu.spin, I used
+> the compiler flag -DCOLLAPSE to complete the state search for
+> updaters=3 readers=2 on a machine with 16GB memory. As far as
+> I understand correctly, this compiler flag does not affect the
+> completeness of state search. So I added some explanation in the text
+> to mention the flag and the argument -mN of ./pan to increase the
+> limit of search depth.
+> 
+> Patch #5 tweaks footnote on a cell in a table.
+> 
+> Patch #6 is a nitpick patch to consistently use \co{}.
+> 
+> I'm wondering if Patch #4 is OK from your perspective.
+> Any feedback is welcome!
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- formal/spinhint.tex | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Very good, applied and pushed!  I added a small patch on top of Patch #4
+updating the extrapolation.  It was about a terabyte, and is now about
+half that.  I agree that -DCOLLAPSE is a pure optimization, so it should
+be OK.  If we trust the documentation, anyway!  ;-)
 
-diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-index a13374a..d99254e 100644
---- a/formal/spinhint.tex
-+++ b/formal/spinhint.tex
-@@ -99,9 +99,9 @@ we lose no verification coverage by making them atomic.
- 
- The \co{do-od} construct on lines~\lnref{dood1:b}-\lnref{dood1:e}
- implements a Promela loop,
--which can be thought of as a C {\tt for (;;)} loop containing a
-+which can be thought of as a C \co{for (;;)} loop containing a
- \co{switch} statement that allows expressions in case labels.
--The condition blocks (prefixed by {\tt ::})
-+The condition blocks (prefixed by \co{::})
- are scanned non-deterministically,
- though in this case only one of the conditions can possibly hold at a given
- time.
-@@ -190,7 +190,7 @@ It is easy to fix this example by placing the body of the incrementer
- processes in an atomic blocks as shown in
- Listing~\ref{lst:analysis:Promela Code for Atomic Increment}.
- One could also have simply replaced the pair of statements with
--{\tt counter = counter + 1}, because Promela statements are
-+\co{counter = counter + 1}, because Promela statements are
- atomic.
- Either way, running this modified model gives us an error-free traversal
- of the state space, as shown in
-@@ -223,7 +223,7 @@ Listing~\ref{lst:analysis:Atomic Increment spin Output}.
- Table~\ref{tab:advsync:Memory Usage of Increment Model}
- shows the number of states and memory consumed
- as a function of number of incrementers modeled
--(by redefining {\tt NUMPROCS}):
-+(by redefining \co{NUMPROCS}):
- 
- Running unnecessarily large models is thus subtly discouraged, although
- 882\,MB is well within the limits of modern desktop and laptop machines.
-@@ -571,15 +571,15 @@ As expected, this run has no assertion failures (``errors: 0'').
- \QuickQuizAnswer{
- 	There are several:
- 	\begin{enumerate}
--	\item	The declaration of {\tt sum} should be moved to within
-+	\item	The declaration of \co{sum} should be moved to within
- 		the init block, since it is not used anywhere else.
- 	\item	The assertion code should be moved outside of the
- 		initialization loop.  The initialization loop can
- 		then be placed in an atomic block, greatly reducing
- 		the state space (by how much?).
- 	\item	The atomic block covering the assertion code should
--		be extended to include the initialization of {\tt sum}
--		and {\tt j}, and also to cover the assertion.
-+		be extended to include the initialization of \co{sum}
-+		and \co{j}, and also to cover the assertion.
- 		This also reduces the state space (again, by how
- 		much?).
- 	\end{enumerate}
--- 
-2.7.4
+							Thanx, Paul
 
+>         Thanks, Akira
+> --
+> Akira Yokosawa (6):
+>   fcvextract.pl: Treat '.spin' files as C sources
+>   formal/spinhint: Employ new scheme for code snippet
+>   formal/spinhint: Update output lists of spin
+>   formal/spinhint: Update tables of memory usage of Spin
+>   formal/spinhint: Put footnote on header in table
+>   formal/spinhint: Use \co{...} rather than {\tt ...}
+> 
+>  CodeSamples/formal/promela/atomicincrement.spin    |   2 +
+>  .../formal/promela/atomicincrement.spin.lst        |  28 +
+>  CodeSamples/formal/promela/increment.spin          |  46 +-
+>  CodeSamples/formal/promela/increment.spin.lst      |  28 +
+>  .../formal/promela/increment.spin.trail.lst        |  42 +
+>  CodeSamples/formal/promela/lock.h                  |  16 +-
+>  CodeSamples/formal/promela/lock.spin               |  46 +-
+>  CodeSamples/formal/promela/lock.spin.lst           |  29 +
+>  CodeSamples/formal/promela/qrcu.spin               |  95 ++-
+>  Makefile                                           |   4 +-
+>  formal/spinhint.tex                                | 874 ++++++---------------
+>  perfbook.tex                                       |   1 +
+>  utilities/fcvextract.pl                            |   8 +-
+>  13 files changed, 502 insertions(+), 717 deletions(-)
+>  create mode 100644 CodeSamples/formal/promela/atomicincrement.spin.lst
+>  create mode 100644 CodeSamples/formal/promela/increment.spin.lst
+>  create mode 100644 CodeSamples/formal/promela/increment.spin.trail.lst
+>  create mode 100644 CodeSamples/formal/promela/lock.spin.lst
+> 
+> -- 
+> 2.7.4
+> 
 
