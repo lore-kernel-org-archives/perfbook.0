@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=9KB0NByrlJiF3FpAJroztDWawSX1FrEPZqCyBpF18NM=;
-        b=BXLH3Dsr7uJfDhvdSQyja9q9CyfVrbuoDnR5lR/J6iAyU4sqhoGxEK0Ld7uoz+tb+I
-         FRjaJpQkU4X5jyUO5VnoN2KCbk1zDIzcBKzKIAuvPv+9G9r3cCAHdhKPJzHGys7VGqSO
-         06EkVsehPAEvR0mvdpnpDkf/2cXe/S2T2SZW7QQq7V64Ti5JQy0ncadmw9YOudgYHblS
-         pWwGHPsBnawvYQVErCMc3mkzeSEDwlLid+aR6QWuyX8KquA3ConZcahGVD5++X4qAo+5
-         lArhxiixV4L+uMLrIju0qa//GHTd44Ee3QjQuI2p0lTF2LuieQcAJoEZ6xiUuF6sXlAE
-         tbsw==
-Subject: [PATCH 5/6] formal/spinhint: Put footnote on header in table
+        bh=U7trbG29eSvyDmt2GWuj46tSGzocs1hTrLbbPU9qHNg=;
+        b=B1fh6FCz6AX9EInz2Clngm7J3/BZ9E/rfA0kg7452OvYR2P3Rh7eju+4L+CkXw/EYT
+         4OJ7L912r+bEnOxX3mIzHGtNZJ9OawscmSPvfLnmnRBuK+0IH6HlMBQQaTjs9MK7L9bd
+         YbwvEMLcyFaskZ9NeEta7Egbskh2vjj/2ck0DqJVkjZ5C1XhBiYdcuQLwu9Fh937lW7B
+         Qfo7KTMG7xqRTgVy+QyePOLHDgT2rs7TPYEtm0fx9UEj+NxqCYin2JC+VWRr1NZpOUU6
+         aTUzJMk/hGhpe8Q/Km2bFknb9HT1AC9UFUPZpIxvDF2HtcbHj6uYfI1XIPw12sFBIR51
+         Nseg==
+Subject: [PATCH 6/6] formal/spinhint: Use \co{...} rather than {\tt ...}
 References: <db974b96-dd4f-dce2-44a5-1b33f5ed495e@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <2319e154-fe35-40a2-cb28-e9ea6d348da5@gmail.com>
-Date: Sun, 3 Feb 2019 00:14:45 +0900
+Message-ID: <fc164e74-1187-1ea5-f1d1-6d360522a7d6@gmail.com>
+Date: Sun, 3 Feb 2019 00:15:47 +0900
 MIME-Version: 1.0
 In-Reply-To: <db974b96-dd4f-dce2-44a5-1b33f5ed495e@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,73 +24,69 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 5db712d3f30c38dc5e2dbc6bf0ad68dd0b24870b Mon Sep 17 00:00:00 2001
+From 211a647f0530d7c7fbdab93ae5e76e71e04295f6 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 31 Jan 2019 00:14:56 +0900
-Subject: [PATCH 5/6] formal/spinhint: Put footnote on header in table
-
-The "savenotes" environment provided by the "footnote" package
-allows us to put a footnote in a table whose text is placed at
-the bottom of the page.
-
-Also wordsmith the footnote's text.
+Date: Sat, 2 Feb 2019 20:00:36 +0900
+Subject: [PATCH 6/6] formal/spinhint: Use \co{...} rather than {\tt ...}
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- formal/spinhint.tex | 10 ++++++----
- perfbook.tex        |  1 +
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ formal/spinhint.tex | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-index 9c56b00..a13374a 100644
+index a13374a..d99254e 100644
 --- a/formal/spinhint.tex
 +++ b/formal/spinhint.tex
-@@ -842,6 +842,7 @@ cc -DSAFETY [-DCOLLAPSE] -o pan pan.c
- ./pan [-mN]
- \end{VerbatimU}
+@@ -99,9 +99,9 @@ we lose no verification coverage by making them atomic.
  
-+\begin{savenotes}
- \begin{table}
- \rowcolors{1}{}{lightgray}
- \renewcommand*{\arraystretch}{1.2}
-@@ -853,7 +854,9 @@ cc -DSAFETY [-DCOLLAPSE] -o pan pan.c
- 	\multicolumn{1}{r}{updaters} &
- 	    \multicolumn{1}{r}{readers} &
- 		\multicolumn{1}{r}{\# states} &
--		    \multicolumn{1}{r}{MB} \\
-+		    \multicolumn{1}{r}{MB\footnote{
-+			Obtained with the compiler flag \co{-DCOLLAPSE}
-+			specified.}} \\
- 	\midrule
- 	1 & 1 &         376 &    128.7 \\
- 	1 & 2 &       6 177 &    128.9 \\
-@@ -868,12 +871,11 @@ cc -DSAFETY [-DCOLLAPSE] -o pan pan.c
- \caption{Memory Usage of QRCU Model}
- \label{tab:advsync:Memory Usage of QRCU Model}
- \end{table}
-+\end{savenotes}
+ The \co{do-od} construct on lines~\lnref{dood1:b}-\lnref{dood1:e}
+ implements a Promela loop,
+-which can be thought of as a C {\tt for (;;)} loop containing a
++which can be thought of as a C \co{for (;;)} loop containing a
+ \co{switch} statement that allows expressions in case labels.
+-The condition blocks (prefixed by {\tt ::})
++The condition blocks (prefixed by \co{::})
+ are scanned non-deterministically,
+ though in this case only one of the conditions can possibly hold at a given
+ time.
+@@ -190,7 +190,7 @@ It is easy to fix this example by placing the body of the incrementer
+ processes in an atomic blocks as shown in
+ Listing~\ref{lst:analysis:Promela Code for Atomic Increment}.
+ One could also have simply replaced the pair of statements with
+-{\tt counter = counter + 1}, because Promela statements are
++\co{counter = counter + 1}, because Promela statements are
+ atomic.
+ Either way, running this modified model gives us an error-free traversal
+ of the state space, as shown in
+@@ -223,7 +223,7 @@ Listing~\ref{lst:analysis:Atomic Increment spin Output}.
+ Table~\ref{tab:advsync:Memory Usage of Increment Model}
+ shows the number of states and memory consumed
+ as a function of number of incrementers modeled
+-(by redefining {\tt NUMPROCS}):
++(by redefining \co{NUMPROCS}):
  
- The resulting output shows that this model passes all of the cases
- shown in
--Table~\ref{tab:advsync:Memory Usage of QRCU Model}.\footnote{
--	Figures in the table are obtained with the \co{-DCOLLAPSE}
--	compiler flag specified.}
-+Table~\ref{tab:advsync:Memory Usage of QRCU Model}.
- Now, it would be nice to run the case with three readers and three
- updaters, however, simple extrapolation indicates that this will
- require on the order of a terabyte of memory best case.
-diff --git a/perfbook.tex b/perfbook.tex
-index 2eb4cd8..c740619 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -52,6 +52,7 @@
- \usepackage[bottom]{footmisc} % place footnotes under floating figures/tables
- \usepackage{tabularx}
- \usepackage[hyphens]{url}
-+\usepackage{footnote}
- \usepackage[bookmarks=true,bookmarksnumbered=true,pdfborder={0 0 0}]{hyperref}
- \usepackage{footnotebackref} % to enable cross-ref of footnote
- \usepackage[all]{hypcap} % for going to the top of figure and table
+ Running unnecessarily large models is thus subtly discouraged, although
+ 882\,MB is well within the limits of modern desktop and laptop machines.
+@@ -571,15 +571,15 @@ As expected, this run has no assertion failures (``errors: 0'').
+ \QuickQuizAnswer{
+ 	There are several:
+ 	\begin{enumerate}
+-	\item	The declaration of {\tt sum} should be moved to within
++	\item	The declaration of \co{sum} should be moved to within
+ 		the init block, since it is not used anywhere else.
+ 	\item	The assertion code should be moved outside of the
+ 		initialization loop.  The initialization loop can
+ 		then be placed in an atomic block, greatly reducing
+ 		the state space (by how much?).
+ 	\item	The atomic block covering the assertion code should
+-		be extended to include the initialization of {\tt sum}
+-		and {\tt j}, and also to cover the assertion.
++		be extended to include the initialization of \co{sum}
++		and \co{j}, and also to cover the assertion.
+ 		This also reduces the state space (again, by how
+ 		much?).
+ 	\end{enumerate}
 -- 
 2.7.4
 
