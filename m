@@ -3,26 +3,24 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6vmB5bcwtkSkTLG16RTeOXFOa47wu2Jp4PlsOgR93vQ=;
-        b=BEv6NNCni0aJ6LzXQv608l9cQCnxAkwpHPpP/CZdPUu8nF4zhBhSf1/O2wAXXQAfzX
-         U86WqEqOkEGaT2ZKhmTxYWyPstWkew59Cxu3hGs+fE41F8xfRLDI/S0gb2z8iMOgy1XZ
-         W0bRey1AIBr4x8lcxXrBdlTIEfgq0ZACan96azGVvyYMCfGpbCpK2znhpAXFEtPxfxne
-         Lo+UsMUJbXvY6ELjyQrOgIUjPqNeaTkPo9r6J0Tu0b8goHiEqJBxii3EsCy9GQsR2VVp
-         /Z36lFK4kWH5XFODHHmCbGglHW3sZCzfGq42M3O366GVa5sdW0amd4lMDpwPxuGVb2q1
-         M5HQ==
-Subject: Re: [PATCH 1/3] formal/spinhint: Add result of 3 readers 3 updaters
- QRCU Spin run
+        bh=vefaEiBGt/7lwp+0ItPxyvxSfnqHBsDLWflFgrijepw=;
+        b=qZh7oWjsOG9kR8dTXyEHdz7tbAbDr/sdoWp/U2POFF6z7wPte3vimOqpFBeH7okgCB
+         3+cfYqEb4bLs3yEFktzFg5fqfFvaGAgJM+EYiCSZAQ/V8FeA7xsyyjXycbueyia+2Rp/
+         vgcVwNqqlxLiVNdU78HmOs5XU8ValQzD2bEw6SMNrq4y1P0hSYfEfZLUSfy0dqVgO6yy
+         BoxQhjalG5XE4SGLOdceA9UDQ62ByCFpJJbmmOTVzyM8ir7dOR+L72+6t97y1zUvqVSn
+         OJr5ewlXyP0UfAVfS9XVgGcvXYsBA3cEpLoofx7iw+TLQst/FeQUAUXaRNitUJ//c01E
+         4AeA==
+Subject: [PATCH 2/3] formal/spinhint: Add column of search depth in Table 12.2
 References: <db974b96-dd4f-dce2-44a5-1b33f5ed495e@gmail.com>
  <20190202173437.GO4240@linux.ibm.com>
  <d48a0e7f-6869-86ac-6edf-a47c33cdaeb7@gmail.com>
  <20190207091757.GE4240@linux.ibm.com>
  <152110af-bf63-2b7b-d48a-52484589de9d@gmail.com>
- <a83e948f-d241-be30-733b-87975452fd1a@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <c5ee9c83-e89a-c3d2-e293-21396acb7db8@gmail.com>
-Date: Tue, 12 Feb 2019 00:28:12 +0900
+Message-ID: <c7a17586-0807-f0cc-ff5e-207d9f70a277@gmail.com>
+Date: Tue, 12 Feb 2019 00:12:26 +0900
 MIME-Version: 1.0
-In-Reply-To: <a83e948f-d241-be30-733b-87975452fd1a@gmail.com>
+In-Reply-To: <152110af-bf63-2b7b-d48a-52484589de9d@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -30,47 +28,62 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Paul,
+From 5c56bad538021adfb91fbb6b65ff0b5544f4e849 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 11 Feb 2019 08:44:25 +0900
+Subject: [PATCH 2/3] formal/spinhint: Add column of search depth in Table 12.2
 
-There was a typo in the commit log.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ formal/spinhint.tex | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-On 2019/02/12 00:11:23 +0900, Akira Yokosawa wrote:
-> From fe701731c7296b90deae52747f5f3be556511289 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sun, 10 Feb 2019 00:02:26 +0900
-> Subject: [PATCH 1/3] formal/spinhint: Add result of 3 readers 3 updaters QRCU Spin run
-> 
-> By using the compiler flag "-DMA=N", run of qrcu.spin with 3 readers
-> and 3 updaters can be completed with the memory usage of 6.5GHz.
+diff --git a/formal/spinhint.tex b/formal/spinhint.tex
+index bbbaa10..deddbbc 100644
+--- a/formal/spinhint.tex
++++ b/formal/spinhint.tex
+@@ -856,26 +856,27 @@ cc -DSAFETY [-DCOLLAPSE] -o pan pan.c
+ \begin{table}
+ \rowcolors{1}{}{lightgray}
+ \renewcommand*{\arraystretch}{1.2}
+-\small
++\footnotesize
+ \centering
+ \begin{tabular}{S[table-format = 1.0]S[table-format = 1.0]S[table-format = 9.0]
+-		S[table-format = 5.1]}
++		S[table-format = 6.0]S[table-format = 5.1]}
+ 	\toprule
+ 	\multicolumn{1}{r}{updaters} &
+ 	    \multicolumn{1}{r}{readers} &
+ 		\multicolumn{1}{r}{\# states} &
+-		    \multicolumn{1}{r}{MB\footnote{
+-			Obtained with the compiler flag \co{-DCOLLAPSE}
+-			specified.}} \\
++		    \multicolumn{1}{r}{depth} &
++			\multicolumn{1}{r}{memory (MB)\footnote{
++				Obtained with the compiler flag \co{-DCOLLAPSE}
++				specified.}} \\
+ 	\midrule
+-	1 & 1 &         376 &    128.7 \\
+-	1 & 2 &       6 177 &    128.9 \\
+-	1 & 3 &      99 728 &    132.6 \\
+-	2 & 1 &      29 399 &    129.8 \\
+-	2 & 2 &   1 071 181 &    169.6 \\
+-	2 & 3 &  33 866 736 &  1 540.8 \\
+-	3 & 1 &   2 749 453 &    236.6 \\
+-	3 & 2 & 186 202 860 & 10 483.7 \\
++	1 & 1 &         376 &      95 &    128.7 \\
++	1 & 2 &       6 177 &     218 &    128.9 \\
++	1 & 3 &      99 728 &     385 &    132.6 \\
++	2 & 1 &      29 399 &     859 &    129.8 \\
++	2 & 2 &   1 071 181 &   2 352 &    169.6 \\
++	2 & 3 &  33 866 736 &  12 857 &  1 540.8 \\
++	3 & 1 &   2 749 453 &  53 809 &    236.6 \\
++	3 & 2 & 186 202 860 & 328 014 & 10 483.7 \\
+ 	\bottomrule
+ \end{tabular}
+ \caption{Memory Usage of QRCU Model}
+-- 
+2.7.4
 
-                                                              ^^^^
-                                                           6.5GB.
-
-Can you amend it for me?
-
-        Thanks, Akira
-
-> 
-> This commit adds the result and the command used to run the
-> verification. A Quick Quiz is added to present an indirect
-> evidence of search completeness.
-> 
-> As the compiler flag "-DCOLLAPSE" generates much faster code,
-> memory usage table with "-DCOLLAPSE" is kept. The complete
-> table for the runs with the flag "-DMA=N" is added as another
-> table.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
->  .../formal/promela/atomicincrement.spin.lst        |   2 +-
->  CodeSamples/formal/promela/increment.spin.lst      |   2 +-
->  CodeSamples/formal/promela/lock.spin.lst           |   2 +-
->  CodeSamples/formal/promela/qrcu.spin.33ma.lst      |  37 +++++
->  .../formal/promela/qrcu.spin.col-ma.diff.lst       |  48 +++++++
->  formal/spinhint.tex                                | 150 ++++++++++++++++++++-
->  6 files changed, 234 insertions(+), 7 deletions(-)
->  create mode 100644 CodeSamples/formal/promela/qrcu.spin.33ma.lst
->  create mode 100644 CodeSamples/formal/promela/qrcu.spin.col-ma.diff.lst
-> 
-[...]
 
