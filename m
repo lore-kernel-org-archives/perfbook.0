@@ -1,92 +1,83 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=SaSDj3jScuje8rYofDZlsKhLnmm9ZpM3h8G2dLnwPro=;
-        b=KcMo9OMZ4Q1YZ8FKPN5lmgY3kmzt+hqltPgOXmAQWQUCmrC730D7GNjXZeXZJ3jZBU
-         dkSMtOiwfdmbgodicw2IczS55DZIKqIOZKOIVjgZr0pOiy1O3N3fHL976M4cbVxaqfGF
-         43W63a8RCP1/pjnLoISDIy77AWiGVE75vT5NI2bm3lRfII5c9Pyd8m0BghthArczEICT
-         ZcA92t1bJvwVPWbTeqTSowc0hV8OGgn6q5fDsY0Ge4mMhUSpo02zqoYg45LPtEnyL960
-         bFEz6MDGPMcHNx0t72x4nkBJckyVLhYi//wAr4up38cQGIB20gP4f//jCvKfJXwv5Sbw
-         BNGg==
-Subject: [PATCH 3/4] Change monospace font of snippets for targets 'mss',
- 'msns', and 'msn'
+Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37932 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728829AbfBLQio (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 12 Feb 2019 11:38:44 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x1CGXwS7127983
+        for <perfbook@vger.kernel.org>; Tue, 12 Feb 2019 11:38:42 -0500
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2qm0rsuh9b-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <perfbook@vger.kernel.org>; Tue, 12 Feb 2019 11:38:42 -0500
+Received: from localhost
+        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Tue, 12 Feb 2019 16:38:42 -0000
+Date: Tue, 12 Feb 2019 08:38:40 -0800
+From: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: [PATCH 0/4] formal/spinhint: Clarify hashtable sizes used in
+ tables
+Reply-To: paulmck@linux.ibm.com
 References: <1b7c8489-cf0a-d959-f307-e3eadae4998c@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <20b087bd-af9e-96bd-91e2-25f8cd2d1600@gmail.com>
-Date: Wed, 13 Feb 2019 00:37:05 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <1b7c8489-cf0a-d959-f307-e3eadae4998c@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Message-Id: <20190212163840.GN4240@linux.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From f696c13873b1458800d56f0151885e49abf5d5ec Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 12 Feb 2019 21:06:28 +0900
-Subject: [PATCH 3/4] Change monospace font of snippets for targets 'mss', 'msns', and 'msn'
+On Wed, Feb 13, 2019 at 12:31:22AM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> In your wordsmithing, there was confusion of hashtable sizes used in
+> Tables 12.2 and 12.3. Patch #1 attempts to clarify the point. It also
+> adds a footnote and fixes a few trivial typos.
+> 
+> Patch #2 is a minor tweak to use "lmtt" font for code snippets
+> imported by \VerbatimInput{} command. This fixes font of Listing 12.3
+> for experimental targets such as "msnt" and "1csf".
+> 
+> Patch #3 fixes font choice of snippets in experimental targets "msns"
+> (original monospace font of "courier") and "mss" (previous monospace
+> font choice of "scaled courier"), which have kept using those fonts for code
+> snippets. As is mentioned in the change log, there are a lot of overfills
+> in code snippets. On the other hand, the font used in the target "msn"
+> (monospace narrow) is narrower than the "lmtt" font and it should be OK
+> to use it in code snippets.
+> 
+> Patch #4 resolves the warning from "make" due to a stray litmus test
+> "C-SB+o-rcusync-o+rl-rul-o.litmus". My guess is that this file was
+> unintentionally sneaked into the repository in commit 4a6337b85633
+> ("memorder: Cover litmus tests for accesses outside of RCU readers").
+> But you may have an idea what the test of that name should look like.
+> If this is the case, please update the test instead of applying this
+> patch.
 
-Now that code snippets assume "lmtt" (Latin Modern Typewriter)
-font to decide where to fold long lines, "mss" and "msns" targets
-have frequent overfulls of snippets in 2c layout.
-Remove on-the-fly sed script keeping \ttdefault unchanged for
-snippets in these two targets.
+I applied #1 with tweaks and #2 and #3 as is.  I am holding off on #4
+for the moment because it looks to me that it is being used.  So please
+check my tweaks to #1 and my reasoning on #4.
 
-"msn" target's monospace font "nimbusmononarrow" (Narrow Courier
-Clone) is narrower than "lmtt". This font can be a good candidate
-for code snippets in the future. To allow us to see how it looks
-like, add the on-the-fly sed script to "msn" instead.
+							Thanx, Paul
 
-Note: "nimbusmonoarrow" is not available on TeX Live 2013/Debian.
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- Makefile | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index c15678b..7a6d156 100644
---- a/Makefile
-+++ b/Makefile
-@@ -159,12 +159,10 @@ perfbook-hb.tex: perfbook.tex
- 	sed -e 's/,twocolumn/&,letterpaperhb/' -e 's/setboolean{hardcover}{false}/setboolean{hardcover}{true}/' < $< > $@
- 
- perfbook-msns.tex: perfbook.tex
--	sed -e 's/%msfontstub/\\usepackage{courier}/' \
--	    -e 's/{lmttforcode}{true}/{lmttforcode}{false}/' < $< > $@
-+	sed -e 's/%msfontstub/\\usepackage{courier}/' < $< > $@
- 
- perfbook-mss.tex: perfbook.tex
--	sed -e 's/%msfontstub/\\usepackage[scaled=.94]{couriers}/' \
--	    -e 's/{lmttforcode}{true}/{lmttforcode}{false}/' < $< > $@
-+	sed -e 's/%msfontstub/\\usepackage[scaled=.94]{couriers}/' < $< > $@
- 
- perfbook-mstx.tex: perfbook.tex
- 	sed -e 's/%msfontstub/\\renewcommand*\\ttdefault{txtt}/' < $< > $@
-@@ -174,7 +172,8 @@ perfbook-msr.tex: perfbook.tex
- 	@echo "## This target requires font package nimbus15. ##"
- 
- perfbook-msn.tex: perfbook.tex
--	sed -e 's/%msfontstub/\\usepackage{nimbusmononarrow}/' < $< > $@
-+	sed -e 's/%msfontstub/\\usepackage{nimbusmononarrow}/' \
-+	    -e 's/{lmttforcode}{true}/{lmttforcode}{false}/' < $< > $@
- 	@echo "## This target requires font package nimbus15. ##"
- 
- perfbook-msnt.tex: perfbook.tex
-@@ -291,7 +290,7 @@ help:
- 	@echo "  \"msn\" doesn't cover bold face for monospace."
- 	@echo "  \"1csf\" requires \"newtxsf\"."
- 	@echo
--	@echo "All targets except for \"msns\" and \"mss\" use \"Latin Modern Typewriter\" font"
-+	@echo "All targets except for \"msn\" use \"Latin Modern Typewriter\" font"
- 	@echo "for code snippets."
- 
- clean:
--- 
-2.7.4
-
+>         Thanks, Akira
+> --
+> Akira Yokosawa (4):
+>   formal/spinhint: Clarify hashtable sizes used in Tables 12.2 and 12.3
+>   Set default fontfamily for snippets of 'fancyvrb'
+>   Change monospace font of snippets for targets 'mss', 'msns', and 'msn'
+>   memorder: Remove 'snippet' meta command in stray litmus test
+> 
+>  CodeSamples/formal/herd/C-SB+o-rcusync-o+rl-rul-o.litmus |  2 --
+>  Makefile                                                 | 11 +++++------
+>  formal/spinhint.tex                                      | 14 ++++++++------
+>  perfbook.tex                                             |  5 +----
+>  4 files changed, 14 insertions(+), 18 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
