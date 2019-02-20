@@ -1,50 +1,64 @@
-Return-Path: <akiyks@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=MfM5It26w5Y6XzevqoEsz+zROMznks274pnAqumOBto=;
-        b=m/4fjYSDYtl19ZP23993ur2tH+dzPVVEvIzWNBPSVu9GfMXiwWDLCDpTXJocaXI5v3
-         HrrQdSripQzc7YzW4dW9Vhskbkzj+8uVzEIQ52ztT6emMOEvq/r950bPBuaotqZz3F6f
-         izamR/3q+Lz+zhGzR76wG84C6QQ3WmkJnXaNEU774WVLt/O0c3t+NwTge1Fj4J1r1txr
-         P4Kp1Y8AdXOyp0UBoTUih0aSw1zor8kJgLde/jZE+fY9hcfJHcWNUhZdHLVai7lwHRUn
-         UtA+JORZlKnDPYxemJ+lZUGcnzF9VlLowQREroCIcCCNNYWWDdTsbhrxvEkYz1/n0TYx
-         Mumg==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] defer/rcuapi: Fix typo in Table 9.3
-Message-ID: <0c37be8f-b406-9f93-32f7-42bd40a509d6@gmail.com>
-Date: Wed, 20 Feb 2019 07:12:32 +0900
+Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42352 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725616AbfBTBqF (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 19 Feb 2019 20:46:05 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x1K1i0w9134894
+        for <perfbook@vger.kernel.org>; Tue, 19 Feb 2019 20:46:04 -0500
+Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2qrqrj57qh-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <perfbook@vger.kernel.org>; Tue, 19 Feb 2019 20:46:04 -0500
+Received: from localhost
+        by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Wed, 20 Feb 2019 01:46:03 -0000
+Date: Tue, 19 Feb 2019 17:45:58 -0800
+From: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: [PATCH] defer/rcuapi: Fix typo in Table 9.3
+Reply-To: paulmck@linux.ibm.com
+References: <0c37be8f-b406-9f93-32f7-42bd40a509d6@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0c37be8f-b406-9f93-32f7-42bd40a509d6@gmail.com>
+Message-Id: <20190220014558.GB11787@linux.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From d33317bade3316f46fe01bd7dec3f6c8b0bf9e09 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 19 Feb 2019 22:30:05 +0900
-Subject: [PATCH] defer/rcuapi: Fix typo in Table 9.3
+On Wed, Feb 20, 2019 at 07:12:32AM +0900, Akira Yokosawa wrote:
+> >From d33317bade3316f46fe01bd7dec3f6c8b0bf9e09 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Tue, 19 Feb 2019 22:30:05 +0900
+> Subject: [PATCH] defer/rcuapi: Fix typo in Table 9.3
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- defer/rcuapi.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Queued and pushed, good eyes, thank you!
 
-diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-index 5620eb1..a98b5e8 100644
---- a/defer/rcuapi.tex
-+++ b/defer/rcuapi.tex
-@@ -801,7 +801,7 @@ Section~\ref{sec:defer:Maintain Multiple Versions of Recently Updated Objects}.
- 			      \tco{hlist_next_rcu()}
- 			      \tco{hlist_pprev_rcu()}} &
- 	\tco{hlist_nulls_first_rcu()}
--	\tco{hlist_nulls_first_rcu()} &
-+	\tco{hlist_nulls_next_rcu()} &
- 	    \tco{hlist_bl_first_rcu()} \\
- \multicolumn{4}{l}{{\bf Add}} \\
- \multicolumn{1}{p{1.2in}}{\tco{list_add_rcu()}
--- 
-2.7.4
+							Thanx, Paul
+
+> ---
+>  defer/rcuapi.tex | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+> index 5620eb1..a98b5e8 100644
+> --- a/defer/rcuapi.tex
+> +++ b/defer/rcuapi.tex
+> @@ -801,7 +801,7 @@ Section~\ref{sec:defer:Maintain Multiple Versions of Recently Updated Objects}.
+>  			      \tco{hlist_next_rcu()}
+>  			      \tco{hlist_pprev_rcu()}} &
+>  	\tco{hlist_nulls_first_rcu()}
+> -	\tco{hlist_nulls_first_rcu()} &
+> +	\tco{hlist_nulls_next_rcu()} &
+>  	    \tco{hlist_bl_first_rcu()} \\
+>  \multicolumn{4}{l}{{\bf Add}} \\
+>  \multicolumn{1}{p{1.2in}}{\tco{list_add_rcu()}
+> -- 
+> 2.7.4
+> 
 
