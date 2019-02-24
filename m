@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=s6E1Pe/ktyle6+UBBrbdxh+YqNRmmV5e8lWUKR6Zpnc=;
-        b=vTtjKRd6yfCU0LaAy53Mv6vdy/nkWY1GIu/kn3HSBl5D3IsQYtPDuuNBFAKkhkpfbq
-         eq+8fCrap42X9cj8jlVCAShMQU5bR6EvW+FlmfMwURzUPZDd1vX++1uQp+WOK/t6L3nL
-         5Qq1yJl+zJSH5BmQwEh8fbgLBR0OTKTQK5goexfOoA16G4BhbmanZf1reIBQh1LuNzAF
-         Sg9FtsrXUzVmwoIloI9dVXKaIGi/EgOqYH3fPnlRC5aatlz7K7EBS42M3bw/iqMLH4Sp
-         a+iBhJVYzWkKkXg5CTDvsAxX7PLzu3lmuwYHI/5g/jGrM9LWSTMPiovC9M1tEPHhtmXs
-         6M3Q==
-Subject: [PATCH 2/8] Makefile: Fix recipe of target 'perfbook-msn.pdf'
+        bh=sfTYp8IWEvEO62iw8ccpssyprFml04N1jhXxCAODf1Y=;
+        b=CUDqXEOSXTMJ24DZLduQhbtODHB56qg6jN04yocAnXONuNLAyjAxDNjLHVq2aE8KVg
+         IimB+MpGGIq4lF3qRuIBQfC63biOYD7tYUmNFYdZQA8NlqTW04o/LKt2r6xKzQ3qLfms
+         jqBmh141Y3Sms2CV5mm4WdPYja/S4Ha/s7TjrvaIFkodLLX05vCLdpMAeDmEAbQS55Qd
+         qb/KCC/CvQQJv2oCo+SGb6y3CJF5bsyBZhze0Uifjq8poxffhig4CJDbfaTPdTl6EZym
+         WX/Jwlw/nHMio4NTs1HnXYPQXo4HierbgthMj8UkwCWPnhG4iu5hCSirvGE9Xg9ZRy5V
+         2txg==
+Subject: [PATCH 3/8] Makefile: Add check of font package availability
 References: <3c30eb79-c675-2686-e2a1-1d0db5469178@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <ab628d58-62ab-fc2b-faae-4f6d888d51b1@gmail.com>
-Date: Sun, 24 Feb 2019 09:01:33 +0900
+Message-ID: <64c78cdc-abf9-bc50-2c17-e910069a1f2e@gmail.com>
+Date: Sun, 24 Feb 2019 09:05:51 +0900
 MIME-Version: 1.0
 In-Reply-To: <3c30eb79-c675-2686-e2a1-1d0db5469178@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,39 +24,107 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 2a6f16a97317ef5fc9f21edfa7351cef1d950e6d Mon Sep 17 00:00:00 2001
+From 81b62c1185e0e9439bf201bca5921742f786efca Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 22 Feb 2019 20:39:24 +0900
-Subject: [PATCH 2/8] Makefile: Fix recipe of target 'perfbook-msn.pdf'
+Date: Fri, 22 Feb 2019 20:59:22 +0900
+Subject: [PATCH 3/8] Makefile: Add check of font package availability
 
-Commit ff9ddf1a7a8f ("defer/rcuapi: Tweak Table 9.3 with
-nimbusmononarrow font") botched target 'perfbook-msn.pdf'
-and "lmtt" became the default monospace font.
-This is because the second "\usepackage{nimbusmononarrow}
-in the preamble does nothing.
+Add existence check of relatively recent font packages required for
+experimental targets.
 
-This can be fixed by removing "\renewcommand*\ttdefault{lmtt}"
-instead of adding the redundant "\usepackage{nimbusmononarrow}".
+Those targets used to just print info on required font, and to run
+"pdflatex".  Now "make" aborts with a message indicating where to
+see if any of required font packages is missing.
 
-Fixes: ff9ddf1a7a8f ("defer/rcuapi: Tweak Table 9.3 with nimbusmononarrow font")
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Makefile | 42 +++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 37 insertions(+), 5 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 4547256..89abea2 100644
+index 89abea2..338669a 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -173,7 +173,7 @@ perfbook-msr.tex: perfbook.tex
- 	@echo "## This target requires font package nimbus15. ##"
+@@ -58,14 +58,30 @@ PDFTARGETS_OF_EPSOTHER := $(filter-out $(PDFTARGETS_OF_EPSORIG),$(PDFTARGETS_OF_
+ 
+ BIBSOURCES := bib/*.bib alphapf.bst
+ 
++# required commands
+ DOT := $(shell which dot 2>/dev/null)
+ FIG2EPS := $(shell which fig2eps 2>/dev/null)
+ A2PING := $(shell which a2ping 2>/dev/null)
+ INKSCAPE := $(shell which inkscape 2>/dev/null)
+ LATEXPAND := $(shell which latexpand 2>/dev/null)
++
++# required fonts
+ STEELFONT := $(shell fc-list | grep -c -i steel)
+ URWPS := $(shell fc-list | grep "Nimbus Mono PS" | wc -l)
+ 
++# required font packages
++FONTPACKAGES := $(shell kpsewhich nimbusmono.sty newtxtt.sty newtxsf.sty inconsolata.sty)
++NIMBUSMONO := $(findstring nimbusmono,$(FONTPACKAGES))
++NEWTXTT := $(findstring newtxtt,$(FONTPACKAGES))
++NEWTXSF := $(findstring newtxsf,$(FONTPACKAGES))
++INCONSOLATA := $(findstring inconsolata,$(FONTPACKAGES))
++
++# for line break in error text
++define n
++
++
++endef
++
+ ifeq ($(URWPS),0)
+ FIXSVGFONTS   = utilities/fixsvgfonts.sh
+ FIXANEPSFONTS = utilities/fixanepsfonts.sh
+@@ -168,27 +184,43 @@ perfbook-mstx.tex: perfbook.tex
+ 	sed -e 's/%msfontstub/\\renewcommand*\\ttdefault{txtt}/' < $< > $@
+ 
+ perfbook-msr.tex: perfbook.tex
++ifeq ($(NIMBUSMONO),)
++	$(error Font package 'nimbus15' not found. See #9 in FAQ-BUILD.txt)
++endif
+ 	sed -e 's/%msfontstub/\\usepackage[scaled=.94]{nimbusmono}/' \
+ 	    -e 's/{nimbusavail}{false}/{nimbusavail}{true}/' < $< > $@
+-	@echo "## This target requires font package nimbus15. ##"
  
  perfbook-msn.tex: perfbook.tex
--	sed -e 's/%msfontstub/\\usepackage{nimbusmononarrow}/' \
-+	sed -e 's/\\renewcommand\*\\ttdefault{lmtt}//' \
++ifeq ($(NIMBUSMONO),)
++	$(error Font package 'nimbus15' not found. See #9 in FAQ-BUILD.txt)
++endif
+ 	sed -e 's/\\renewcommand\*\\ttdefault{lmtt}//' \
  	    -e 's/{lmttforcode}{true}/{lmttforcode}{false}/' \
  	    -e 's/{nimbusavail}{false}/{nimbusavail}{true}/' < $< > $@
- 	@echo "## This target requires font package nimbus15. ##"
+-	@echo "## This target requires font package nimbus15. ##"
+ 
+ perfbook-msnt.tex: perfbook.tex
++ifeq ($(NEWTXTT),)
++	$(error Font package 'newtxtt' not found.$nInstall it or try 'make mstx' instead. See #9 in FAQ-BUILD.txt)
++endif
++ifeq ($(NIMBUSMONO),)
++	$(error Font package 'nimbus15' not found. See #9 in FAQ-BUILD.txt)
++endif
+ 	sed -e 's/%msfontstub/\\usepackage[zerostyle=a]{newtxtt}/' \
+ 	    -e 's/{nimbusavail}{false}/{nimbusavail}{true}/' < $< > $@
+-	@echo "## This target requires font packages newtxtt and nimbus15. ##"
+-	@echo "## If build fails, try target 'mstx' instead.               ##"
+ 
+ perfbook-1csf.tex: perfbook-1c.tex
++ifeq ($(NEWTXSF),)
++	$(error Font package 'newtxsf' not found. See #9 in FAQ-BUILD.txt)
++endif
++ifeq ($(INCONSOLATA),)
++	$(error Font package 'inconsolata' not found. See #9 in FAQ-BUILD.txt)
++endif
++ifeq ($(NIMBUSMONO),)
++	$(error Font package 'nimbus15' not found. See #9 in FAQ-BUILD.txt)
++endif
+ 	sed -e 's/setboolean{sansserif}{false}/setboolean{sansserif}{true}/' \
+ 	    -e 's/{nimbusavail}{false}/{nimbusavail}{true}/' \
+ 	    -e 's/%msfontstub/\\usepackage[var0]{inconsolata}[2013\/07\/17]/' < $< > $@
+-	@echo "## This target requires math font packages newtxsf and nimbus15. ##"
+ 
+ # Rules related to perfbook_html are removed as of May, 2016
+ 
 -- 
 2.7.4
 
