@@ -3,19 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=iUCH7LUHdVaqukEeGSLFThUKvv/bqhbQSc7otk55rwc=;
-        b=tPJWvt8ko55fZ4lQpka369IMA6Yln+2x+SGvhGO8miEtgcejfhHs2XtAEPF4428nyi
-         NJMpgBxD+Q/tiMuNB+VlEETO5XYhmNE9/DomXi6XqcZsdNklELFMp9RNI8eAGN4jbA1V
-         6BNiq7tDP0ZCviri77Ml3/QgO26tTd8Y85TJBYy464NQiDKS6RhZYdYDKyUAFR6GIKVJ
-         IDuHc6hGL4l6JKAfGJiu869kenRJ4fCHCSJuxkh71TDLxVM7AAzEmpM5rMF125hIZ7Jp
-         LU869t5fww6jdpb9S+7pssnoJ0L6j+XI+HMaB5sdD4Tn0nKyEObdVN7A+iY7lsOKSw9b
-         fX1Q==
-Subject: [PATCH 6/8] Makefile: Add optional recipe to detect conflict in page
- group object
+        bh=yH050uDPK6+ka2PYIiGGlJQk0UZ61pRifL8RxD1tj7M=;
+        b=iv0QaSgm7dQXoyaBy/wG0fjiCWubtlPTCyU7er3oKmUSjAc04OzVbVaWCTXiCxRQJx
+         vC6XApbH2ZDHHFjnoskuaTXPhRR39+gqc30HRf3qHqlzmnoUGoJcpQDtkOESNCMO2pi/
+         qh6rCCbMb1RgK4GoddWJLWx7uPNwRdCJ/QmVsnLq+skydqZVr68l/+gr/idsE3J17h4J
+         cxUmibzfhyetbR5niAWTepHy53UE/fwN8xQomHNl4SsE4vMQF29DaWFAd/+QxALRY62X
+         TEOY603OHM6hWYIhNUIYOyMcfeT8mF7cSPFU7K/9qWvTFBlLEwulwzRFv4kyufMGlhnM
+         tszA==
+Subject: [PATCH 7/8] Makefile: Don't remove .fcv and .ltms files in target
+ 'clean'
 References: <3c30eb79-c675-2686-e2a1-1d0db5469178@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <96d17aa2-0b35-de39-c43b-357d0b00d728@gmail.com>
-Date: Sun, 24 Feb 2019 09:14:57 +0900
+Message-ID: <d214ff5e-d006-62ec-3672-7ff9ce1d64a6@gmail.com>
+Date: Sun, 24 Feb 2019 09:16:35 +0900
 MIME-Version: 1.0
 In-Reply-To: <3c30eb79-c675-2686-e2a1-1d0db5469178@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,149 +25,54 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 91e7ad2b3e5dfae239d3f4e64d92b7c21ba9ed75 Mon Sep 17 00:00:00 2001
+From e0bedfe0587f182db5401fe7c244e4b8487aaab9 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 23 Feb 2019 19:26:57 +0900
-Subject: [PATCH 6/8] Makefile: Add optional recipe to detect conflict in page group object
+Date: Sat, 23 Feb 2019 19:40:38 +0900
+Subject: [PATCH 7/8] Makefile: Don't remove .fcv and .ltms files in target 'clean'
 
-As long as "page group objects" are identical, setting
-\pdfsuppresswarningpagegroup variable done in the previous commit
-is safe.
+In the case of a build error due to out-of-date CodeSamples/snippets.d,
+Removing the outdated file suffices. .fcv and .ltms files need not
+be removed.  Defer their removal to the target 'distclean'.
 
-This commit adds an optional recipe in ".svn -> .pdf"
-transformation to extract page group object from the generated .pdf
-file, and to compare it with the expected one given in "pagegroup".
-
-The added recipe is enabled only when an environment variable
-"PERFBOOK_CHKPAGEGROUP" is set "on". The check requires a command
-named "qpdf", which is available on most Linux distributions.
+While we are here, add CodeSamples/snippets.mk to OBSOLETE_FILES.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- .gitignore                |  2 ++
- Makefile                  | 16 +++++++++++++++-
- pagegroup                 |  6 ++++++
- utilities/extpagegroup.pl | 37 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 60 insertions(+), 1 deletion(-)
- create mode 100644 pagegroup
- create mode 100755 utilities/extpagegroup.pl
+ Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-index 34bbb85..ebd5e98 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -18,6 +18,8 @@
- *.svgi
- *.fcv
- *.ltms
-+*.pdfp
-+*.pdfq
- perfbook_flat.tex
- qqz.tex
- contrib.tex
 diff --git a/Makefile b/Makefile
-index 338669a..648091a 100644
+index 648091a..c07dde0 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -64,6 +64,7 @@ FIG2EPS := $(shell which fig2eps 2>/dev/null)
- A2PING := $(shell which a2ping 2>/dev/null)
- INKSCAPE := $(shell which inkscape 2>/dev/null)
- LATEXPAND := $(shell which latexpand 2>/dev/null)
-+QPDF := $(shell which qpdf 2>/dev/null)
+@@ -37,7 +37,7 @@ SVGSOURCES := $(wildcard */*.svg)
+ FAKE_EPS_FROM_SVG := $(SVGSOURCES:%.svg=%.eps)
+ PDFTARGETS_OF_SVG := $(SVGSOURCES:%.svg=%.pdf)
  
- # required fonts
- STEELFONT := $(shell fc-list | grep -c -i steel)
-@@ -115,6 +116,8 @@ else
- 	targ = $(default)
- endif
+-OBSOLETE_FILES = extraction $(FAKE_EPS_FROM_SVG)
++OBSOLETE_FILES = extraction $(FAKE_EPS_FROM_SVG) CodeSamples/snippets.mk
  
-+chkpagegroup = $(PERFBOOK_CHKPAGEGROUP)
-+
- .PHONY: all touchsvg clean distclean neatfreak 2c ls-unused $(ABBREVTARGETS) mslm perfbook-mslm.pdf mslmmsg help
- all: $(targ)
- 
-@@ -285,6 +288,16 @@ else
- endif
- 	@inkscape --export-pdf=$@ $<i > /dev/null 2>&1
- 	@rm -f $<i
-+ifeq ($(chkpagegroup),on)
-+ifndef QPDF
-+	$(error qpdf not found. Please install it)
-+endif
-+	@echo "checking page group in $@"
-+	@qpdf --qdf $@ $@q
-+	@./utilities/extpagegroup.pl < $@q > $@p
-+	@diff -q -w $@p pagegroup
-+	@rm -f $@q $@p
-+endif
- 
- CodeSamples/snippets.d: $(SOURCES_OF_SNIPPET) $(GEN_SNIPPET_D)
- 	sh ./utilities/gen_snippet_d.sh
-@@ -333,7 +346,8 @@ clean:
+ EPSSOURCES_DUP := \
+ 	$(wildcard */*.eps) \
+@@ -346,16 +346,16 @@ clean:
  	find . -name '*.aux' -o -name '*.blg' \
  		-o -name '*.dvi' -o -name '*.log' \
  		-o -name '*.qqz' -o -name '*.toc' -o -name '*.bbl' \
--		-o -name '*.fcv' -o -name '*.ltms' | xargs rm -f
-+		-o -name '*.fcv' -o -name '*.ltms' \
-+		-o -name '*.pdfp' -o -name '*.pdfq' | xargs rm -f
+-		-o -name '*.fcv' -o -name '*.ltms' \
+ 		-o -name '*.pdfp' -o -name '*.pdfq' | xargs rm -f
  	rm -f perfbook_flat.tex perfbook*.out perfbook-*.tex
  	rm -f $(LATEXGENERATED)
- 	rm -f CodeSamples/snippets.mk CodeSamples/snippets.d
-diff --git a/pagegroup b/pagegroup
-new file mode 100644
-index 0000000..4cc4650
---- /dev/null
-+++ b/pagegroup
-@@ -0,0 +1,6 @@
-+  /Group <<
-+    /CS /DeviceRGB
-+    /I true
-+    /S /Transparency
-+    /Type /Group
-+  >>
-diff --git a/utilities/extpagegroup.pl b/utilities/extpagegroup.pl
-new file mode 100755
-index 0000000..67c206d
---- /dev/null
-+++ b/utilities/extpagegroup.pl
-@@ -0,0 +1,37 @@
-+#!/usr/bin/perl
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Extract "page group object" in PDF generated by Inkscape
-+#
-+# Copyright (C) Akira Yokosawa, 2019
-+#
-+# Authors: Akira Yokosawa <akiyks@gmail.com>
-+
-+use strict;
-+use warnings;
-+
-+my $line;
-+my $in_pagegroup = 0;
-+
-+while($line = <>) {
-+    if ($in_pagegroup == 3) {
-+	$in_pagegroup = 0;
-+	print $line;
-+    }
-+    if ($in_pagegroup == 2) {
-+	if ($line =~ /\/Group/) {
-+	    $in_pagegroup = 3;
-+	}
-+	print $line;
-+    }
-+    if ($in_pagegroup == 1) {
-+	if ($line =~ /\/Group/) {
-+	    $in_pagegroup = 2;
-+	    print $line;
-+	}
-+    }
-+    if ($in_pagegroup == 0 && $line =~ /\/Contents/) {
-+	$in_pagegroup = 1;
-+    }
-+    if (eof) { last; }
-+}
+-	rm -f CodeSamples/snippets.mk CodeSamples/snippets.d
++	rm -f CodeSamples/snippets.d
+ 	@rm -f $(OBSOLETE_FILES)
+ 
+ distclean: clean
+ 	sh utilities/cleanpdf.sh
+ 	rm -f $(EPSSOURCES_FROM_DOT) $(EPSSOURCES_FROM_TEX) $(EPSSOURCES_FROM_FIG)
++	find . -name '*.fcv' -o -name '*.ltms' | xargs rm -f
+ 
+ touchsvg:
+ 	find . -name '*.svg' | xargs touch
 -- 
 2.7.4
 
