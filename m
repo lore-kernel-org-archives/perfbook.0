@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=gcsO2+r7EvQOEi3g1wvwKexNwRncIGDWg4P16qAsVzU=;
-        b=YraYLr78b7zq2sgJ6zy1i/NY10eJIYWKoyz7IIoHamIjUsBPm5lyNN5CLzK/JB1xQt
-         FAKoPwZ8NujRGvM+WLRpyD2Xy13d9MT+cfDcL+taUDzcymCmQXAu3kx8PawItz9CO+w6
-         qQf3II4kxDlj4eUvTXR1h64drueRliRYpZA3QiZOYyBL56Ids/uIIef+RTsFDxKkT0Ld
-         BN2OoU+K2InkEzCFv2L9MXGSald9qbQRfJGGqRggK+s67aQWMVy5u+0MGByjzNnUMFPa
-         6WBIrp/nooVFS/muY9WyXCed3UuaBJ/xH4F2dOGzxFkqEr0YSqsp4PDV9IguAsMLdN+S
-         30Cw==
-Subject: [PATCH 1/8] defer/rcuapi: Force break between two API in Table 9.3
+        bh=s6E1Pe/ktyle6+UBBrbdxh+YqNRmmV5e8lWUKR6Zpnc=;
+        b=vTtjKRd6yfCU0LaAy53Mv6vdy/nkWY1GIu/kn3HSBl5D3IsQYtPDuuNBFAKkhkpfbq
+         eq+8fCrap42X9cj8jlVCAShMQU5bR6EvW+FlmfMwURzUPZDd1vX++1uQp+WOK/t6L3nL
+         5Qq1yJl+zJSH5BmQwEh8fbgLBR0OTKTQK5goexfOoA16G4BhbmanZf1reIBQh1LuNzAF
+         Sg9FtsrXUzVmwoIloI9dVXKaIGi/EgOqYH3fPnlRC5aatlz7K7EBS42M3bw/iqMLH4Sp
+         a+iBhJVYzWkKkXg5CTDvsAxX7PLzu3lmuwYHI/5g/jGrM9LWSTMPiovC9M1tEPHhtmXs
+         6M3Q==
+Subject: [PATCH 2/8] Makefile: Fix recipe of target 'perfbook-msn.pdf'
 References: <3c30eb79-c675-2686-e2a1-1d0db5469178@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <569ad396-1bd8-3a8d-28ca-4743b9f57f03@gmail.com>
-Date: Sun, 24 Feb 2019 09:00:33 +0900
+Message-ID: <ab628d58-62ab-fc2b-faae-4f6d888d51b1@gmail.com>
+Date: Sun, 24 Feb 2019 09:01:33 +0900
 MIME-Version: 1.0
 In-Reply-To: <3c30eb79-c675-2686-e2a1-1d0db5469178@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,38 +24,39 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 815908256598842f8d62259a0bd1398495fd859b Mon Sep 17 00:00:00 2001
+From 2a6f16a97317ef5fc9f21edfa7351cef1d950e6d Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 22 Feb 2019 20:30:43 +0900
-Subject: [PATCH 1/8] defer/rcuapi: Force break between two API in Table 9.3
+Date: Fri, 22 Feb 2019 20:39:24 +0900
+Subject: [PATCH 2/8] Makefile: Fix recipe of target 'perfbook-msn.pdf'
 
-The column width specified in commit ff9ddf1a7a8f ("defer/rcuapi:
-Tweak Table 9.3 with nimbusmononarrow font") allows both APIs
-in this cell to appear without a break between them.
-Force the break by specifying a narrower column width for the
-cell.
+Commit ff9ddf1a7a8f ("defer/rcuapi: Tweak Table 9.3 with
+nimbusmononarrow font") botched target 'perfbook-msn.pdf'
+and "lmtt" became the default monospace font.
+This is because the second "\usepackage{nimbusmononarrow}
+in the preamble does nothing.
+
+This can be fixed by removing "\renewcommand*\ttdefault{lmtt}"
+instead of adding the redundant "\usepackage{nimbusmononarrow}".
 
 Fixes: ff9ddf1a7a8f ("defer/rcuapi: Tweak Table 9.3 with nimbusmononarrow font")
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- defer/rcuapi.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-index 644a937..93b9767 100644
---- a/defer/rcuapi.tex
-+++ b/defer/rcuapi.tex
-@@ -824,8 +824,8 @@ Section~\ref{sec:defer:Maintain Multiple Versions of Recently Updated Objects}.
- 	    \tco{hlist_bl_set_first_rcu()} \\
- \multicolumn{4}{l}{{\bf Delete}} \\
- \tco{list_del_rcu()} &
--    \tco{hlist_del_rcu()}
--    \tco{hlist_del_init_rcu()} &
-+    \multicolumn{1}{p{1.2in}}{\tco{hlist_del_rcu()}
-+			      \tco{hlist_del_init_rcu()}} &
- 	\tco{hlist_nulls_del_rcu()}
- 	\tco{hlist_nulls_del_init_rcu()} &
- 	    \tco{hlist_bl_del_rcu()}
+diff --git a/Makefile b/Makefile
+index 4547256..89abea2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -173,7 +173,7 @@ perfbook-msr.tex: perfbook.tex
+ 	@echo "## This target requires font package nimbus15. ##"
+ 
+ perfbook-msn.tex: perfbook.tex
+-	sed -e 's/%msfontstub/\\usepackage{nimbusmononarrow}/' \
++	sed -e 's/\\renewcommand\*\\ttdefault{lmtt}//' \
+ 	    -e 's/{lmttforcode}{true}/{lmttforcode}{false}/' \
+ 	    -e 's/{nimbusavail}{false}/{nimbusavail}{true}/' < $< > $@
+ 	@echo "## This target requires font package nimbus15. ##"
 -- 
 2.7.4
 
