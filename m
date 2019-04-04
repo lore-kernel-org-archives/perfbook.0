@@ -1,68 +1,184 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34916 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731369AbfDBNcX (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 2 Apr 2019 09:32:23 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x32DQCZO135503
-        for <perfbook@vger.kernel.org>; Tue, 2 Apr 2019 09:32:21 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2rm7kavaj1-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Tue, 02 Apr 2019 09:32:21 -0400
-Received: from localhost
-        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Tue, 2 Apr 2019 14:32:19 +0100
-Date: Tue, 2 Apr 2019 06:32:22 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH] memorder: Fix two trivial typos
-Reply-To: paulmck@linux.ibm.com
-References: <20190402001457.31848-1-sj38.park@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=XWnb2LogpqlLKkSg34OBClgsfdMbqNnRbDsdiBRK98g=;
+        b=b7R/g6zeFfnhur5GfU0DOfuhxN8df6dWC4hkR8iiKMftr03bRHV2F2piWmFxOgJKd7
+         1Fdef8RpkdD5+q5xHfjpzLm7mz+5CZY7K/0qS7yHJMxwrVDy4LD9Mu5T3zN8XxEuE4eJ
+         p7E73FSU9pq2BDCIZIABFLpeBBjmzCLq5ZxahJ54FhLn8knnzTuY+jDx2dz4IzEazi4F
+         QqpL1LsmRrtmM5jllLIs19sn9ihfEaxDnk0JM6dHsRRa2HlIGJu06iJExt6CcSotsQlQ
+         0Ts/BvS56qZD08SLSd1vTdULhhy8WU5wEui5m2ctZUhtgJap8pZwMupEqwJZE37AQp3h
+         /ZTg==
+Subject: [GIT PULL v2] formal/dynticks: Employ new scheme for code snippets
+References: <0245f4c8-5ab2-4622-3e88-a13d64dfccdd@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <2a97a294-4628-6ec8-0404-493b5c69b9da@gmail.com>
+Date: Fri, 5 Apr 2019 00:20:20 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190402001457.31848-1-sj38.park@gmail.com>
-Message-Id: <20190402133222.GY4102@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <0245f4c8-5ab2-4622-3e88-a13d64dfccdd@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Apr 02, 2019 at 09:14:57AM +0900, SeongJae Park wrote:
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+Hi Paul,
 
-Good catch, queued and pushed, thank you!
-
-							Thanx, Paul
-
-> ---
->  memorder/memorder.tex | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, 3 Apr 2019 00:48:09 +0900, Akira Yokosawa wrote:
+> Hi Paul,
 > 
-> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-> index 1649ce9..bb380ad 100644
-> --- a/memorder/memorder.tex
-> +++ b/memorder/memorder.tex
-> @@ -3125,7 +3125,7 @@ Sections~\ref{sec:toolsoftrade:A Volatile Solution}-\ref{sec:toolsoftrade:Avoidi
->  	cause the compiler to discard a previously loaded value from
->  	its register, and then reload it later on.
->  	Invented loads can be prevented by using \co{READ_ONCE()} or by
-> -	enforcing ordering as callout out above between the load and a
-> +	enforcing ordering as called out above between the load and a
->  	later use of its value using \co{barrier()}.
->  \item	Stores can be invented before a plain store, for example, by
->  	using the stored-to location as temporary storage.
-> @@ -3160,7 +3160,7 @@ optimizing your parallel algorithm out of existence.
->  Compilers are starting to provide other mechanisms for avoiding
->  load and store tearing, for example, \co{memory_order_relaxed}
->  atomic loads and stores, however, work is still
-> -needed~/\cite{JonathanCorbet2016C11atomics}
-> +needed~\cite{JonathanCorbet2016C11atomics}.
->  In addition, compiler issues aside, \co{volatile} is still needed
->  to avoid fusing and invention of accesses, including C11 atomic accesses.
->  
-> -- 
-> 2.10.0
+> The updates of code snippets in formal/dynticks has become a long branch,
+> and I'm sending this as a pull request.
 > 
+> Short summary of the changes follows.
+> 
+> Patch #1 is an independent update of mpostcheck.sh to suppress false
+> positives on TeX Live 2019, soon to be released this month.
+> 
+> Patch #2 updates inline (not extracted from CodeSamples) snippets.
+> 
+> Patches #3 and #4 enhance fcvextract.pl to easily suppress brank lines
+> from resulting snippets.
+> 
+> Patch #5 updates code snippets extracted from CodeSamples.
+> 
+> Patch #6 updates dyntickRCU-base-sl-busted.spin.trail.txt so that
+> the line counts in the output matches thoes in the updated .spin source.
+> 
+> Patches #7--#9 are cosmetic fixes and tweaks.
+> 
+> Patches #10--#14 are workaround tweaks to keep first paragraphs
+> in sections non-indented when such sections have a floating listing
+> environment at the beginning. This was an unfortunate regression
+> in the conversion of schemes using verbbox to those using VerbatimL.
+> Another option would be to indent every paragraph including the first
+> one in sections. My preference is to keep first paragraph non-indented.
+> The use of "\NoIndentAfterThis" just below the section command looks
+> acceptable to me. Note that it is not robust enough, and there are
+> two occasions where I need to use \noindent in front of the text of
+> first paragraphs.
+> 
+> Patch #15 adds a trivial nbsp.
+> 
+> Any feedback is welcome!
+> 
+>         Thanks, Akira
+> --
+> 
+> The following changes since commit 71ac1532e501033d9cf6e72d596a307b7df3df4a:
+> 
+>   toolsoftrade: Fix code listing 4.22 in Chapter 4 (2019-03-19 08:15:52 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://github.com/akiyks/perfbook.git formal-dyntick-snippet-update-r4
+> 
+> for you to fetch changes up to 5e2615cf082480f7a0c79f6b873f37c379c24722:
+> 
+>   formal/dyntickrcu: Add nbsp (2019-04-02 07:53:31 +0900)
+> 
+> ----------------------------------------------------------------
+> Akira Yokosawa (15):
+>       Update mpostcheck.sh to get ready for TeX Live 2019
+>       formal/dyntickrcu: Employ new scheme for inline snippets
+>       fcvextract.pl: Add rule to ignore white spaces around comment block
+>       fcvextract.pl: Add rule for option 'gobbleblank'
+>       formal/dyntickrcu: Employ new scheme for code snippets
+>       formal/promela/dyntick: Update .spin.trail.txt file
+>       treewide: Define and use \rt macro for '-rt'
+>       formal/dyntickrcu: Tweak appearance
+>       formal/dyntickrcu: Remove '()' in state names
+>       formal/dyntickrcu: Tweak indent behind 'listing' environment
+>       count: Tweak indent behind 'listing' environment
+>       SMPdesing, locking: Tweak indent behind 'listing' environment
+>       datastruct, defer: Tweak indent behind 'listing' environment
+>       formal/spinhint: Tweak indent behind 'listing' environment
+>       formal/dyntickrcu: Add nbsp
+> 
+>  .../formal/promela/dyntick/dyntickRCU-base-s.spin  |   37 +-
+>  .../promela/dyntick/dyntickRCU-base-sl-busted.spin |   35 +-
+>  .../dyntickRCU-base-sl-busted.spin.trail.txt       |  144 +-
+>  .../formal/promela/dyntick/dyntickRCU-base-sl.spin |   17 +-
+>  .../formal/promela/dyntick/dyntickRCU-base.spin    |   46 +-
+>  .../promela/dyntick/dyntickRCU-irq-nmi-ssl.spin    |   60 +-
+>  .../formal/promela/dyntick/dyntickRCU-irq-ssl.spin |   41 +-
+>  .../promela/dyntick/dyntickRCU-irqnn-ssl.spin      |   91 +-
+>  SMPdesign/beyond.tex                               |    1 +
+>  advsync/rt.tex                                     |   30 +-
+>  count/count.tex                                    |    5 +
+>  datastruct/datastruct.tex                          |    5 +-
+>  defer/rcuapi.tex                                   |    6 +-
+>  defer/rcuusage.tex                                 |    3 +-
+>  formal/dyntickrcu.tex                              | 1733 +++++++-------------
+>  formal/spinhint.tex                                |    3 +
+>  locking/locking.tex                                |    3 +
+>  perfbook.tex                                       |    1 +
+>  utilities/fcvextract.pl                            |   25 +
+>  utilities/mpostcheck.sh                            |   16 +-
+>  20 files changed, 897 insertions(+), 1405 deletions(-)
+> 
+
+There was an unnecessary \NoIndentAfterThis in patch #10 in front of
+a figure environment.
+
+I have removed it and rebased the branch to the current master.
+The updated pull request follows.
+
+If you'd like too see the changes as patches, please let me know.
+
+        Thanks, Akira
+-- 
+The following changes since commit b1ac0aab72275b8410254d4fb23e0b965a0fe5c6:
+
+  memorder: Fix two trivial typos (2019-04-02 06:31:12 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/akiyks/perfbook formal-dyntick-snippet-update-r5
+
+for you to fetch changes up to 146213952600d0a6afcc3de09cde7be0a7055700:
+
+  formal/dyntickrcu: Add nbsp (2019-04-05 00:01:13 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (15):
+      Update mpostcheck.sh to get ready for TeX Live 2019
+      formal/dyntickrcu: Employ new scheme for inline snippets
+      fcvextract.pl: Add rule to ignore white spaces around comment block
+      fcvextract.pl: Add rule for option 'gobbleblank'
+      formal/dyntickrcu: Employ new scheme for code snippets
+      formal/promela/dyntick: Update .spin.trail.txt file
+      treewide: Define and use \rt macro for '-rt'
+      formal/dyntickrcu: Tweak appearance
+      formal/dyntickrcu: Remove '()' in state names
+      formal/dyntickrcu: Tweak indent behind 'listing' environment
+      count: Tweak indent behind 'listing' environment
+      SMPdesing, locking: Tweak indent behind 'listing' environment
+      datastruct, defer: Tweak indent behind 'listing' environment
+      formal/spinhint: Tweak indent behind 'listing' environment
+      formal/dyntickrcu: Add nbsp
+
+ .../formal/promela/dyntick/dyntickRCU-base-s.spin  |   37 +-
+ .../promela/dyntick/dyntickRCU-base-sl-busted.spin |   35 +-
+ .../dyntickRCU-base-sl-busted.spin.trail.txt       |  144 +-
+ .../formal/promela/dyntick/dyntickRCU-base-sl.spin |   17 +-
+ .../formal/promela/dyntick/dyntickRCU-base.spin    |   46 +-
+ .../promela/dyntick/dyntickRCU-irq-nmi-ssl.spin    |   60 +-
+ .../formal/promela/dyntick/dyntickRCU-irq-ssl.spin |   41 +-
+ .../promela/dyntick/dyntickRCU-irqnn-ssl.spin      |   91 +-
+ SMPdesign/beyond.tex                               |    1 +
+ advsync/rt.tex                                     |   30 +-
+ count/count.tex                                    |    5 +
+ datastruct/datastruct.tex                          |    5 +-
+ defer/rcuapi.tex                                   |    6 +-
+ defer/rcuusage.tex                                 |    3 +-
+ formal/dyntickrcu.tex                              | 1732 +++++++-------------
+ formal/spinhint.tex                                |    3 +
+ locking/locking.tex                                |    3 +
+ perfbook.tex                                       |    1 +
+ utilities/fcvextract.pl                            |   25 +
+ utilities/mpostcheck.sh                            |   16 +-
+ 20 files changed, 896 insertions(+), 1405 deletions(-)
 
