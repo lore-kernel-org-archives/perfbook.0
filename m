@@ -1,226 +1,158 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54158 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728669AbfDDXaU (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Thu, 4 Apr 2019 19:30:20 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x34NNhTs092873
-        for <perfbook@vger.kernel.org>; Thu, 4 Apr 2019 19:30:18 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2rns8hd82t-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Thu, 04 Apr 2019 19:30:18 -0400
-Received: from localhost
-        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Fri, 5 Apr 2019 00:30:18 +0100
-Date: Thu, 4 Apr 2019 16:30:16 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [GIT PULL v2] formal/dynticks: Employ new scheme for code
- snippets
-Reply-To: paulmck@linux.ibm.com
-References: <0245f4c8-5ab2-4622-3e88-a13d64dfccdd@gmail.com>
- <2a97a294-4628-6ec8-0404-493b5c69b9da@gmail.com>
- <20190404192121.GK14111@linux.ibm.com>
- <1e8d50f0-6aad-898f-b44a-ec80be401896@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=2lj9jB+eAIXrAwgrBCo1coloMNPL3WqP97SeFyG1nSM=;
+        b=CgnoR0q52y6lIWmJQ2m0I0xZu0M1LaSF17aYyanK56dpfkPFdPGI2CUY5pkbkJpnUL
+         mJGgNX/pGFZBw3ZcVapMdbs52mT8tlFSfkuFsjCteJF4qwwwcCMFN0NXGSh8BQtj08hO
+         YuPF49LkpWgRRzD1g7oqlywhg30TK744YSNM7oNKkGxY9ygZyXIubbIHLeGYt1ebKPAs
+         nOcJFd9E1tcbm6GW50O0G+HsatXnfojXaoPzRY3vzw844r4NwVSC6weq/4Huh3Q/9cuy
+         IuKXnJIuGMnSS75Dp8xgdUb9+E6P0PqBp1V8PwZtWir1Tf6L2XFPsr0KY0mP4KZ7TSts
+         68TA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] formal/dyntickrcu: Mitigate ugliness of tall inline snippets
+Message-ID: <1b15d6d0-55da-0fc6-67bb-0f30b4eb5fa9@gmail.com>
+Date: Sat, 6 Apr 2019 09:31:03 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1e8d50f0-6aad-898f-b44a-ec80be401896@gmail.com>
-Message-Id: <20190404233016.GR14111@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Fri, Apr 05, 2019 at 07:37:24AM +0900, Akira Yokosawa wrote:
-> On Thu, 4 Apr 2019 12:21:21 -0700, Paul E. McKenney wrote:
-> > On Fri, Apr 05, 2019 at 12:20:20AM +0900, Akira Yokosawa wrote:
-> >> Hi Paul,
-> >>
-> >> On Wed, 3 Apr 2019 00:48:09 +0900, Akira Yokosawa wrote:
-> >>> Hi Paul,
-> >>>
-> >>> The updates of code snippets in formal/dynticks has become a long branch,
-> >>> and I'm sending this as a pull request.
-> >>>
-> >>> Short summary of the changes follows.
-> >>>
-> >>> Patch #1 is an independent update of mpostcheck.sh to suppress false
-> >>> positives on TeX Live 2019, soon to be released this month.
-> >>>
-> >>> Patch #2 updates inline (not extracted from CodeSamples) snippets.
-> >>>
-> >>> Patches #3 and #4 enhance fcvextract.pl to easily suppress brank lines
-> >>> from resulting snippets.
-> >>>
-> >>> Patch #5 updates code snippets extracted from CodeSamples.
-> >>>
-> >>> Patch #6 updates dyntickRCU-base-sl-busted.spin.trail.txt so that
-> >>> the line counts in the output matches thoes in the updated .spin source.
-> >>>
-> >>> Patches #7--#9 are cosmetic fixes and tweaks.
-> >>>
-> >>> Patches #10--#14 are workaround tweaks to keep first paragraphs
-> >>> in sections non-indented when such sections have a floating listing
-> >>> environment at the beginning. This was an unfortunate regression
-> >>> in the conversion of schemes using verbbox to those using VerbatimL.
-> >>> Another option would be to indent every paragraph including the first
-> >>> one in sections. My preference is to keep first paragraph non-indented.
-> >>> The use of "\NoIndentAfterThis" just below the section command looks
-> >>> acceptable to me. Note that it is not robust enough, and there are
-> >>> two occasions where I need to use \noindent in front of the text of
-> >>> first paragraphs.
-> >>>
-> >>> Patch #15 adds a trivial nbsp.
-> >>>
-> >>> Any feedback is welcome!
-> >>>
-> >>>         Thanks, Akira
-> >>> --
-> >>>
-> >>> The following changes since commit 71ac1532e501033d9cf6e72d596a307b7df3df4a:
-> >>>
-> >>>   toolsoftrade: Fix code listing 4.22 in Chapter 4 (2019-03-19 08:15:52 -0700)
-> >>>
-> >>> are available in the Git repository at:
-> >>>
-> >>>   https://github.com/akiyks/perfbook.git formal-dyntick-snippet-update-r4
-> >>>
-> >>> for you to fetch changes up to 5e2615cf082480f7a0c79f6b873f37c379c24722:
-> >>>
-> >>>   formal/dyntickrcu: Add nbsp (2019-04-02 07:53:31 +0900)
-> >>>
-> >>> ----------------------------------------------------------------
-> >>> Akira Yokosawa (15):
-> >>>       Update mpostcheck.sh to get ready for TeX Live 2019
-> >>>       formal/dyntickrcu: Employ new scheme for inline snippets
-> >>>       fcvextract.pl: Add rule to ignore white spaces around comment block
-> >>>       fcvextract.pl: Add rule for option 'gobbleblank'
-> >>>       formal/dyntickrcu: Employ new scheme for code snippets
-> >>>       formal/promela/dyntick: Update .spin.trail.txt file
-> >>>       treewide: Define and use \rt macro for '-rt'
-> >>>       formal/dyntickrcu: Tweak appearance
-> >>>       formal/dyntickrcu: Remove '()' in state names
-> >>>       formal/dyntickrcu: Tweak indent behind 'listing' environment
-> >>>       count: Tweak indent behind 'listing' environment
-> >>>       SMPdesing, locking: Tweak indent behind 'listing' environment
-> >>>       datastruct, defer: Tweak indent behind 'listing' environment
-> >>>       formal/spinhint: Tweak indent behind 'listing' environment
-> >>>       formal/dyntickrcu: Add nbsp
-> >>>
-> >>>  .../formal/promela/dyntick/dyntickRCU-base-s.spin  |   37 +-
-> >>>  .../promela/dyntick/dyntickRCU-base-sl-busted.spin |   35 +-
-> >>>  .../dyntickRCU-base-sl-busted.spin.trail.txt       |  144 +-
-> >>>  .../formal/promela/dyntick/dyntickRCU-base-sl.spin |   17 +-
-> >>>  .../formal/promela/dyntick/dyntickRCU-base.spin    |   46 +-
-> >>>  .../promela/dyntick/dyntickRCU-irq-nmi-ssl.spin    |   60 +-
-> >>>  .../formal/promela/dyntick/dyntickRCU-irq-ssl.spin |   41 +-
-> >>>  .../promela/dyntick/dyntickRCU-irqnn-ssl.spin      |   91 +-
-> >>>  SMPdesign/beyond.tex                               |    1 +
-> >>>  advsync/rt.tex                                     |   30 +-
-> >>>  count/count.tex                                    |    5 +
-> >>>  datastruct/datastruct.tex                          |    5 +-
-> >>>  defer/rcuapi.tex                                   |    6 +-
-> >>>  defer/rcuusage.tex                                 |    3 +-
-> >>>  formal/dyntickrcu.tex                              | 1733 +++++++-------------
-> >>>  formal/spinhint.tex                                |    3 +
-> >>>  locking/locking.tex                                |    3 +
-> >>>  perfbook.tex                                       |    1 +
-> >>>  utilities/fcvextract.pl                            |   25 +
-> >>>  utilities/mpostcheck.sh                            |   16 +-
-> >>>  20 files changed, 897 insertions(+), 1405 deletions(-)
-> >>>
-> >>
-> >> There was an unnecessary \NoIndentAfterThis in patch #10 in front of
-> >> a figure environment.
-> >>
-> >> I have removed it and rebased the branch to the current master.
-> >> The updated pull request follows.
-> >>
-> >> If you'd like too see the changes as patches, please let me know.
-> >>
-> >>         Thanks, Akira
-> >> -- 
-> >> The following changes since commit b1ac0aab72275b8410254d4fb23e0b965a0fe5c6:
-> >>
-> >>   memorder: Fix two trivial typos (2019-04-02 06:31:12 -0700)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>   https://github.com/akiyks/perfbook formal-dyntick-snippet-update-r5
-> >>
-> >> for you to fetch changes up to 146213952600d0a6afcc3de09cde7be0a7055700:
-> >>
-> >>   formal/dyntickrcu: Add nbsp (2019-04-05 00:01:13 +0900)
-> >>
-> >> ----------------------------------------------------------------
-> >> Akira Yokosawa (15):
-> >>       Update mpostcheck.sh to get ready for TeX Live 2019
-> >>       formal/dyntickrcu: Employ new scheme for inline snippets
-> >>       fcvextract.pl: Add rule to ignore white spaces around comment block
-> >>       fcvextract.pl: Add rule for option 'gobbleblank'
-> >>       formal/dyntickrcu: Employ new scheme for code snippets
-> >>       formal/promela/dyntick: Update .spin.trail.txt file
-> >>       treewide: Define and use \rt macro for '-rt'
-> >>       formal/dyntickrcu: Tweak appearance
-> >>       formal/dyntickrcu: Remove '()' in state names
-> >>       formal/dyntickrcu: Tweak indent behind 'listing' environment
-> >>       count: Tweak indent behind 'listing' environment
-> >>       SMPdesing, locking: Tweak indent behind 'listing' environment
-> >>       datastruct, defer: Tweak indent behind 'listing' environment
-> >>       formal/spinhint: Tweak indent behind 'listing' environment
-> >>       formal/dyntickrcu: Add nbsp
-> >>
-> >>  .../formal/promela/dyntick/dyntickRCU-base-s.spin  |   37 +-
-> >>  .../promela/dyntick/dyntickRCU-base-sl-busted.spin |   35 +-
-> >>  .../dyntickRCU-base-sl-busted.spin.trail.txt       |  144 +-
-> >>  .../formal/promela/dyntick/dyntickRCU-base-sl.spin |   17 +-
-> >>  .../formal/promela/dyntick/dyntickRCU-base.spin    |   46 +-
-> >>  .../promela/dyntick/dyntickRCU-irq-nmi-ssl.spin    |   60 +-
-> >>  .../formal/promela/dyntick/dyntickRCU-irq-ssl.spin |   41 +-
-> >>  .../promela/dyntick/dyntickRCU-irqnn-ssl.spin      |   91 +-
-> >>  SMPdesign/beyond.tex                               |    1 +
-> >>  advsync/rt.tex                                     |   30 +-
-> >>  count/count.tex                                    |    5 +
-> >>  datastruct/datastruct.tex                          |    5 +-
-> >>  defer/rcuapi.tex                                   |    6 +-
-> >>  defer/rcuusage.tex                                 |    3 +-
-> >>  formal/dyntickrcu.tex                              | 1732 +++++++-------------
-> >>  formal/spinhint.tex                                |    3 +
-> >>  locking/locking.tex                                |    3 +
-> >>  perfbook.tex                                       |    1 +
-> >>  utilities/fcvextract.pl                            |   25 +
-> >>  utilities/mpostcheck.sh                            |   16 +-
-> >>  20 files changed, 896 insertions(+), 1405 deletions(-)
-> > 
-> > Pull, thank you!!!
-> > 
-> > Apologies for the delay, but one of my children who lives across the
-> > Pacific was in town for a visit.
-> 
-> Family matter first! :-)
+From 8f49523f66fb2281b4337ce57f6502400f0dcb9c Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sat, 6 Apr 2019 08:53:12 +0900
+Subject: [PATCH] formal/dyntickrcu: Mitigate ugliness of tall inline snippets
 
-;-) ;-) ;-)
+In two-column layout, frames around snippets by \VerbatimN cause
+column breaks of snippets look somewhat ugly.
 
-> > One nit: The inline listings that break across a column now stick out a
-> > bit more.
-> 
-> You mean the surrounding frames disturb you?
+As a mitigation, disable frame of \VerbatimN in this particular
+section. Also use \VerbatimU for patch snippets to prevent
+them from breaking other inline snippets in one-column layout.
 
-They do make it more obvious that something is amiss.  ;-)
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
 
-> >            One approach would be to convert them to floating listings.
-> > Is that the best approach, or would something else work better?
-> 
-> Too may floating listings would overwhelm LaTeX. And long listings over
-> 70 (or 75?) lines can't be made floating.
-> 
-> Disabling frames of VerbatimN in this section should be possible.
-> let me try.
+I know this is not ideal for you, but in one-column layout, the
+column breaks of long snippets does not disturb me so much.
 
-Or maybe I should break up the excessively long listings.  There are not
-all that many of them.  Alternatively, force them into their own column.
+So this patch disables frame around \VerbatimN for two-column layout
+to restore the looks in the old scheme.
 
-							Thanx, Paul
+Isn't this approach acceptable to you, at least as a workaround?
+
+        Thanks, Akira
+--
+ formal/dyntickrcu.tex | 67 ++++++++++++++++++++++++-------------------
+ 1 file changed, 38 insertions(+), 29 deletions(-)
+
+diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
+index c73cdd2f..94093ee9 100644
+--- a/formal/dyntickrcu.tex
++++ b/formal/dyntickrcu.tex
+@@ -1,5 +1,14 @@
+ % formal/dyntickrcu.tex
+ 
++% Disable frame around VerbatimN in two-column layout
++\IfTwoColumn{
++\RecustomVerbatimEnvironment{VerbatimN}{Verbatim}%
++{numbers=left,numbersep=5pt,xleftmargin=10pt,xrightmargin=0pt,frame=none}
++\AtBeginEnvironment{VerbatimN}{%
++\renewcommand{\lnlbl}[1]{\raisebox{0pt}{\phantomsection\label{\lnlblbase:#1}}}%
++}
++}{}
++
+ \subsection{Promela Parable: dynticks and Preemptible RCU}
+ \label{sec:formal:Promela Parable: dynticks and Preemptible RCU}
+ 
+@@ -1114,10 +1123,19 @@ states, passing without errors.
+ 
+ \subsubsection{Lessons (Re)Learned}
+ \label{sec:formal:Lessons (Re)Learned}
+-\NoIndentAfterThis
+ 
+-\begin{listing}[tbp]
+-\begin{VerbatimL}[numbers=none]
++This effort provided some lessons (re)learned:
++
++\begin{enumerate}
++\item	{\bf Promela and Spin can verify interrupt\slash NMI\-/handler
++	interactions.}
++\item	{\bf Documenting code can help locate bugs.}
++	In this case, the documentation effort located
++	a misplaced memory barrier in
++	\co{rcu_enter_nohz()} and \co{rcu_exit_nohz()},
++	as shown by the following patch.
++
++\begin{VerbatimU}
+  static inline void rcu_enter_nohz(void)
+  {
+ +       mb();
+@@ -1131,38 +1149,20 @@ states, passing without errors.
+         __get_cpu_var(dynticks_progress_counter)++;
+ +       mb();
+  }
+-\end{VerbatimL}
+-\caption{Memory-Barrier Fix Patch}
+-\label{lst:formal:Memory-Barrier Fix Patch}
+-\end{listing}
+-
+-\begin{listing}[tbp]
+-\begin{VerbatimL}[numbers=none]
+--       if ((curr - snap) > 2 || (snap & 0x1) == 0)
+-+       if ((curr - snap) > 2 || (curr & 0x1) == 0)
+-\end{VerbatimL}
+-\caption{Variable-Name-Typo Fix Patch}
+-\label{lst:formal:Variable-Name-Typo Fix Patch}
+-\end{listing}
+-
+-This effort provided some lessons (re)learned:
++\end{VerbatimU}
+ 
+-\begin{enumerate}
+-\item	{\bf Promela and Spin can verify interrupt\slash NMI\-/handler
+-	interactions.}
+-\item	{\bf Documenting code can help locate bugs.}
+-	In this case, the documentation effort located
+-	a misplaced memory barrier in
+-	\co{rcu_enter_nohz()} and \co{rcu_exit_nohz()},
+-	as shown by the patch in
+-	Listing~\ref{lst:formal:Memory-Barrier Fix Patch}.
+ \item	{\bf Validate your code early, often, and up to the point
+ 	of destruction.}
+ 	This effort located one subtle bug in
+ 	\co{rcu_try_flip_waitack_needed()}
+ 	that would have been quite difficult to test or debug, as
+-	shown by the patch in
+-	Listing~\ref{lst:formal:Variable-Name-Typo Fix Patch}.
++	shown by the following patch.
++
++\begin{VerbatimU}
++-       if ((curr - snap) > 2 || (snap & 0x1) == 0)
+++       if ((curr - snap) > 2 || (curr & 0x1) == 0)
++\end{VerbatimU}
++
+ \item	{\bf Always verify your verification code.}
+ 	The usual way to do this is to insert a deliberate bug
+ 	and verify that the verification code catches it.  Of course,
+@@ -1621,3 +1621,12 @@ where an NMI might change shared state at any point during execution of
+ the \IRQ\ functions.
+ 
+ Verification can be a good thing, but simplicity is even better.
++
++% Restore frame around VerbatimN in two-column layout
++\IfTwoColumn{
++\RecustomVerbatimEnvironment{VerbatimN}{Verbatim}%
++{numbers=left,numbersep=3pt,xleftmargin=5pt,xrightmargin=5pt,frame=single}
++\AtBeginEnvironment{VerbatimN}{%
++\renewcommand{\lnlbl}[1]{\raisebox{9pt}{\phantomsection\label{\lnlblbase:#1}}}%
++}
++}{}
+-- 
+2.17.1
 
