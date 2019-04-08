@@ -3,19 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=dvYJfMvOKRB15KCweWqeCWOtG1puSRSGsEk5SFpQNEk=;
-        b=CRnphM8IVnlzf4Y1qGMnUyRWFHpU4NR/wp75fxgJTNvmeHprLUBjRGNOdkX7u04W/0
-         zmxqcmSaCNmkW0s80ydIP3BCSHa/QBFfTz0EVq/slW38NhTRGr9DE4f5DXbCTB1BxTAO
-         B28vL2sk7/IV9Bf4lmXUFeZZKmcVylCcvyrMuzI/Kqi0T9AjQLdT/26hTm4I2RazlcL+
-         Kh8RB6/gv2n7zJ9L0lJqa8bsyFZOCuTHxyo4irP/L9OwBBFzLl4AusMFkdSWVBj0uBHT
-         ulCOTPh0AoGDkDG4oO3BAy2DwzEVVqHE9J+pYtRgvkeeErSIglpM6owS3M295BYOkr3S
-         D/jw==
-Subject: [PATCH 1/3] formal/dyntickrcu: Fix the way to redefine VerbatimN
+        bh=LD8iNVqGFqfUPJlgu/EwQmTgSJ8yV9zQlRsomZtXRuY=;
+        b=R5g20YkY7cYNZBPQNny+SxDaET8boffqggeeV2e00Y/OokYu565TjFpOZU1CbczIRg
+         b4QRXlMoc43OEHbNWbBQnQ7Fgh5n5HkQbTL7mZosMuBcJjDyTeQQcZu9swJmE9D7HW5n
+         SgrQcIZx/+hUkYtAEHSqzgBPLP50z4SmUCdJf/ZOPmcC4VSZY1mdKhYjZV2wl6jka++y
+         vT0VTO6shAai3WYa4tKZBJkU7+RhPXoSahL6BaqddV3/eZmXiDopGuJUIqsp2xk6dPoK
+         PjAF2xoPZKI5VkoSvDRmO7r00SNkPaXOiv5mFctLkJ91TYCFhy0YTvPjN6qiD15Xvpui
+         LLzw==
+Subject: [PATCH 2/3] RCU.bib: Add entries of git commits of dyntickrcu fixes
 References: <1b15d6d0-55da-0fc6-67bb-0f30b4eb5fa9@gmail.com>
  <36421da6-4c59-597a-660f-f7ddf1d8835c@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <b30a88d7-ccb6-bf78-6c18-3ebffb179f8c@gmail.com>
-Date: Tue, 9 Apr 2019 00:46:44 +0900
+Message-ID: <5fd595c5-fc1d-757f-76e8-b38fee44f9d1@gmail.com>
+Date: Tue, 9 Apr 2019 00:47:50 +0900
 MIME-Version: 1.0
 In-Reply-To: <36421da6-4c59-597a-660f-f7ddf1d8835c@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,65 +25,49 @@ To: "Paul E. McKenney" <paulmck@linux.ibm.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 111d908f713435dfd62384eb1cc29a24268537ea Mon Sep 17 00:00:00 2001
+From eca275e44ff447bdbd397411f363d816bcab25a4 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 8 Apr 2019 21:20:14 +0900
-Subject: [PATCH 1/3] formal/dyntickrcu: Fix the way to redefine VerbatimN
+Date: Tue, 9 Apr 2019 00:06:53 +0900
+Subject: [PATCH 2/3] RCU.bib: Add entries of git commits of dyntickrcu fixes
 
-It turns out the \AtBeginEnvironment{} command accumulates specified
-commands in a hook. By using a length variable within the patching
-command, just setting the length is good enough in dyntickruc.tex.
-
-"9pt" in the old code was a typo. It should have been "6pt".
+These are to be cited in formal/dyntickrcu.tex.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Fixes: xxxxxxxxxxxx ("formal/dyntickrcu: Mitigate ugliness around tall inline snippets")
 ---
- formal/dyntickrcu.tex | 8 ++------
- perfbook.tex          | 5 ++++-
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ bib/RCU.bib | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
-index 94093ee9..0c09d1ce 100644
---- a/formal/dyntickrcu.tex
-+++ b/formal/dyntickrcu.tex
-@@ -4,9 +4,7 @@
- \IfTwoColumn{
- \RecustomVerbatimEnvironment{VerbatimN}{Verbatim}%
- {numbers=left,numbersep=5pt,xleftmargin=10pt,xrightmargin=0pt,frame=none}
--\AtBeginEnvironment{VerbatimN}{%
--\renewcommand{\lnlbl}[1]{\raisebox{0pt}{\phantomsection\label{\lnlblbase:#1}}}%
--}
-+\setlength{\lnlblraise}{0pt}
- }{}
- 
- \subsection{Promela Parable: dynticks and Preemptible RCU}
-@@ -1626,7 +1624,5 @@ Verification can be a good thing, but simplicity is even better.
- \IfTwoColumn{
- \RecustomVerbatimEnvironment{VerbatimN}{Verbatim}%
- {numbers=left,numbersep=3pt,xleftmargin=5pt,xrightmargin=5pt,frame=single}
--\AtBeginEnvironment{VerbatimN}{%
--\renewcommand{\lnlbl}[1]{\raisebox{9pt}{\phantomsection\label{\lnlblbase:#1}}}%
--}
-+\setlength{\lnlblraise}{6pt}
- }{}
-diff --git a/perfbook.tex b/perfbook.tex
-index dd4a8d42..641df90a 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -251,8 +251,11 @@
- %\fvset{fontsize=\scriptsize,numbers=left,numbersep=5pt,xleftmargin=9pt,obeytabs=true,tabsize=2}
- \newcommand{\lnlblbase}{}
- \newcommand{\lnlbl}[1]{\phantomsection\label{\lnlblbase:#1}}
-+\newlength{\lnlblraise}
-+\setlength{\lnlblraise}{6pt}
- \AtBeginEnvironment{VerbatimN}{%
--\renewcommand{\lnlbl}[1]{\raisebox{6pt}{\phantomsection\label{\lnlblbase:#1}}}%
-+\renewcommand{\lnlbl}[1]{%
-+\raisebox{\lnlblraise}{\phantomsection\label{\lnlblbase:#1}}}%
+diff --git a/bib/RCU.bib b/bib/RCU.bib
+index 7f0204f7..073b89ef 100644
+--- a/bib/RCU.bib
++++ b/bib/RCU.bib
+@@ -3063,3 +3063,25 @@ Read-Copy-Update {(RCU)}"
+ ,year="2019"
+ ,note="\url{https://lkml.org/lkml/2019/2/27/829}"
  }
- \newcommand{\lnrefbase}{}
- \newcommand{\lnref}[1]{\ref{\lnrefbase:#1}}
++
++@unpublished{PaulEMcKenney2008commit:d7c0651390b6
++,Author="Paul E. McKenney"
++,Title="rcu: fix \co{rcu_try_flip_waitack_needed()} to prevent grace-period stall"
++,month="May"
++,day="12"
++,year="2008"
++,note="Git commit:
++\url{https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d7c0651390b6}"
++,lastchecked="April 6, 2019"
++}
++
++@unpublished{PaulEMcKenney2008commit:ae66be9b71b1
++,Author="Paul E. McKenney"
++,Title="rcu: fix misplaced \co{mb()} in \co{rcu_enter/exit_nohz()}"
++,month="March"
++,day="19"
++,year="2008"
++,note="Git commit:
++\url{https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ae66be9b71b1}"
++,lastchecked="April 6, 2019"
++}
+\ No newline at end of file
 -- 
 2.17.1
 
