@@ -1,43 +1,61 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34774 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726211AbfDSSUh (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Fri, 19 Apr 2019 14:20:37 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3JI5Cp6001974
-        for <perfbook@vger.kernel.org>; Fri, 19 Apr 2019 14:20:36 -0400
-Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2ryjv7h8b8-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Fri, 19 Apr 2019 14:20:36 -0400
-Received: from localhost
-        by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Fri, 19 Apr 2019 19:20:35 +0100
-Date: Fri, 19 Apr 2019 11:20:34 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: On recent update in defer/rcuintro
-Reply-To: paulmck@linux.ibm.com
-References: <b9b585b4-5822-9cc3-2662-eece0dfd113c@gmail.com>
+Return-Path: <akiyks@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=i8euMYw/OgPIkqTb/fgtrX5Df+di6sNjWMvlpaLPJ8I=;
+        b=R3pG2aCeS0SIT5LDcnuCS6wnuVHJpePW1f5zAg03IVxW5Si1YQeHUl3sBUl6rASb1X
+         FsWUqysNO09cHw13pGER7TYxubZW5uHau+umDZPoV2/XmpJzly+ZhECR4rlC3nt56Ckc
+         XyEvP5yB8WbbEeqEUhAJrzxe10PyHZe2sjj15WuYJsRAWa5SBdyDo1YzyPsIvPU4Z1nR
+         ARmX6/mrNbG48qLeCF8NkJ8TtQdnoy4XKu9fX0Ks2geY5S1302SjfUVk8fJZBDToifOr
+         XIa55leZJqWxzMLPXbKmJ59Zhtjp3t6MbEyPlbR8OQpkHeawAzISO9OXaopMfumKQ/SR
+         DlIQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/4] Updates and fixes in defer/hazptr and formal/dyntickrcu
+Message-ID: <6cf9cea0-09ad-7a66-34b1-5ee5f52258bc@gmail.com>
+Date: Sun, 21 Apr 2019 19:03:35 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b9b585b4-5822-9cc3-2662-eece0dfd113c@gmail.com>
-Message-Id: <20190419182034.GE14111@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Apr 20, 2019 at 12:27:23AM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> You might have already noticed, but your fix of Figure 9.7 has 
-> made Quick Quiz 9.20 pointless. And there remains another use of
-> WRITE_ONCE() in Figure 9.8 and its discussion in the text.
+Hi Paul,
 
-I do have several areas half-done, don't I?  I fixed this with your
-Reported-by, thank you!
+Your latest commit 50c5b95d30bc ("defer/hazptr: Add discussion of
+hazptr_free_later()") embeds a code snippet in .tex which can be
+extracted from hazptr.c.  My guess is it was easier for you to do so
+rather than to tame fcvextract.pl to do what you wanted.
+There is an option "gobbleblank=yes" to suppress blank/empty lines
+from appearing in the resulting snippet. I couldn't help doing
+it myself.
 
-							Thanx, Paul
+Patch #1 does the necessary changes in hazptr.c and embedding of
+line labels.
+Patch #2 is a trivial typo fix I noticed along the way.
+
+If you encounter any conflict, please skip patch #1.
+
+Patches #3 and #4 are the followup changes to formal/dyntickrcu,
+including the addition of Linux kernel version info. Please refer to
+the change log of patch #4.
+
+        Thanks, Akira
+--
+Akira Yokosawa (4):
+  defer/hazptr: Extract snippet from hazptr.c
+  defer/hazptr: Fix trivial typo
+  RCU.bib: Add entry of git commit of Tree RCU
+  formal/dyntickrcu: Adjust context and fix typo
+
+ CodeSamples/defer/hazptr.c |  77 +++++++++++++------------
+ bib/RCU.bib                |  11 ++++
+ defer/hazptr.tex           | 113 ++++++++++++-------------------------
+ formal/dyntickrcu.tex      |  31 ++++++----
+ 4 files changed, 108 insertions(+), 124 deletions(-)
+
+-- 
+2.17.1
 
