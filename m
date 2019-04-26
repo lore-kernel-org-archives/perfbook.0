@@ -1,49 +1,48 @@
 Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=y8nTF3WfFRQFBxTE849f4AmMaCJLGudVdozFiMDJTd4=;
-        b=jREYmm7+RmhdqyWe1o72rgvo+mexFHuhq80WvWl1Q4E92nAUtUa0n4vm48QHbrbPNJ
-         7nfhc9EdaM1ElYhzd/XCBTHAtaIQKHEawsybuxNcMccy8UToRw5JQz1Vpz7UToRh8CPA
-         v0PGwh4pBKtJUC8KCjgpnAT5y4hzAyGzZTMxiLzDjHArr8RLICIKd1vpwYNgE+zgZtYG
-         hACg/rMd+R7vFFWJvZQnDdF/itUv8z3+Wq+hwIXXAMtPIJZs5oYoft3AfLnFJDTrSMiR
-         1FsPeXSZyH7TSNLURGToBcIVLreZGkj6MFv8HFcRWLMlF2os7ya0wKsndHqLVovgSMRR
-         S9eA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=CkQTArRj++sZfv6/WcaV+o2AhZItMHPzdE8L16LzUQQ=;
+        b=bDQxxS0DZ8IKIM3uu9wVUBnLl9azghnNqd594SJUO/Jh9j9p95pIvmxVJfuihXfd+s
+         xMvUB9XHqpH3qLCNtpfO4q56r4KxQhgUBW2PTpMZCm7yvPg5p95gyBWpnJxuRTyD57BY
+         poZL8f0gkiEuFy8gH9/U27bk2YJ51mpAw5J+Z2tlx8evBRjrxaCWeLij1htd4A5lukxn
+         Lik5gw7BJWt5z7shKhho6s0zNKqmlIyN1DwJq1CX7Q8WIgslXOLMCIqdaJFu7ZbTvAxf
+         6cyHdD6a7XDkq/5LYyhoe+R+hx7x883PltdGXNOqoLFCJVRKVcdehFjNW6BdfUievRBy
+         UO2A==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH] memorder: Fix two trivial typos
-Date: Fri, 26 Apr 2019 09:56:59 +0900
-Message-Id: <20190426005704.10952-1-sj38.park@gmail.com>
+Subject: [PATCH 1/5] toolsoftrade: Polish an ambiguous sentence
+Date: Fri, 26 Apr 2019 09:57:00 +0900
+Message-Id: <20190426005704.10952-2-sj38.park@gmail.com>
+In-Reply-To: <20190426005704.10952-1-sj38.park@gmail.com>
+References: <20190426005704.10952-1-sj38.park@gmail.com>
 To: paulmck@linux.ibm.com
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
+A sentence calls a 'signal or interrupt handler' as 'interrupt handler'.
+This commit modifies the sentence to call it just a handler to minimize
+any confusion.
+
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- memorder/memorder.tex | 4 ++--
+ toolsoftrade/toolsoftrade.tex | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 1649ce9..bb380ad 100644
---- a/memorder/memorder.tex
-+++ b/memorder/memorder.tex
-@@ -3125,7 +3125,7 @@ Sections~\ref{sec:toolsoftrade:A Volatile Solution}-\ref{sec:toolsoftrade:Avoidi
- 	cause the compiler to discard a previously loaded value from
- 	its register, and then reload it later on.
- 	Invented loads can be prevented by using \co{READ_ONCE()} or by
--	enforcing ordering as callout out above between the load and a
-+	enforcing ordering as called out above between the load and a
- 	later use of its value using \co{barrier()}.
- \item	Stores can be invented before a plain store, for example, by
- 	using the stored-to location as temporary storage.
-@@ -3160,7 +3160,7 @@ optimizing your parallel algorithm out of existence.
- Compilers are starting to provide other mechanisms for avoiding
- load and store tearing, for example, \co{memory_order_relaxed}
- atomic loads and stores, however, work is still
--needed~/\cite{JonathanCorbet2016C11atomics}
-+needed~\cite{JonathanCorbet2016C11atomics}.
- In addition, compiler issues aside, \co{volatile} is still needed
- to avoid fusing and invention of accesses, including C11 atomic accesses.
- 
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 4e0764d..1cf118b 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -2365,8 +2365,8 @@ for other accesses to that same variable:
+ 	All other code must use \co{READ_ONCE()} and \co{WRITE_ONCE()}.
+ \item	A shared variable is only accessed by a given CPU or thread
+ 	and by a signal or interrupt handler running in that CPU's
+-	or thread's context, and the interrupt handler always restores
+-	the values of any variables that it has written before return.
++	or thread's context, and the handler always restores the values of any
++	variables that it has written before return.
+ 	The handler can use plain loads and stores, as can any code
+ 	that has prevented the handler from being invoked, that is,
+ 	code that has blocked signals and/or interrupts.
 -- 
 2.10.0
 
