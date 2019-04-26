@@ -1,50 +1,66 @@
-Return-Path: <sj38.park@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ejQkYYc8+bV8LOWaqZHHQWpFcx69B23TrtVNzI5h7yg=;
-        b=kesbfjd7oOwoC1XgE9a7YAiUekKobKkRymrvLgrv+bDg3xFTbiNuqEjjwUCkQ8b13S
-         JZ9EsY/qzU5B+X6vlQ0DLBLbKHzUe+KOwsp9O++6nEYQJJ2Uk3zO6LLxfj9SzhUQBSRr
-         K1wiUJLXTTBXpKPaxAkZMyvI+jxNxvGCI6nWl3YfsjHJWoxH/0CldNZdyOOOudFylxTO
-         3gLIzoLPypBVV3JE3iVUBdIBFYa5KgCAsQ70kBcO97poZZb3HwC5mMyk358R+EOEdRue
-         Z6ILooZ4OftLIxug34IsB6xPgeo4ZKQRhmckjw44PN/gro6h+hNvq/QHfLRfjnpxQNV7
-         KqPg==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 5/5] defer: Use 'Go' instead of 'golang'
-Date: Fri, 26 Apr 2019 09:57:04 +0900
-Message-Id: <20190426005704.10952-6-sj38.park@gmail.com>
-In-Reply-To: <20190426005704.10952-1-sj38.park@gmail.com>
+Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49598 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726060AbfDZOR5 (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Fri, 26 Apr 2019 10:17:57 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3QEEtcn079498
+        for <perfbook@vger.kernel.org>; Fri, 26 Apr 2019 10:17:56 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2s42mdm7uj-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <perfbook@vger.kernel.org>; Fri, 26 Apr 2019 10:17:56 -0400
+Received: from localhost
+        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Fri, 26 Apr 2019 15:17:55 +0100
+Date: Fri, 26 Apr 2019 07:17:50 -0700
+From: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: [PATCH 1/5] toolsoftrade: Polish an ambiguous sentence
+Reply-To: paulmck@linux.ibm.com
 References: <20190426005704.10952-1-sj38.park@gmail.com>
-To: paulmck@linux.ibm.com
-Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+ <20190426005704.10952-2-sj38.park@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190426005704.10952-2-sj38.park@gmail.com>
+Message-Id: <20190426141750.GE3923@linux.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: SeongJae Park <sj38.park@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-'golang' is an abbreviation for 'Go programming language'.  Thus, the
-term 'golang programming language', which is used in the 'defer' chapter
-has unnecessary duplication.  This patch modifies the sentences to use
-'Go' instead of 'golang' in general.
+On Fri, Apr 26, 2019 at 09:57:00AM +0900, SeongJae Park wrote:
+> A sentence calls a 'signal or interrupt handler' as 'interrupt handler'.
+> This commit modifies the sentence to call it just a handler to minimize
+> any confusion.
+> 
+> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- defer/whichtochoose.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Good eyes!!!  All five applied and pushed, thank you!
 
-diff --git a/defer/whichtochoose.tex b/defer/whichtochoose.tex
-index a0af68f..15df46a 100644
---- a/defer/whichtochoose.tex
-+++ b/defer/whichtochoose.tex
-@@ -493,9 +493,9 @@ QSBR and epoch-based reclamation
- both of which are types of implementations of RCU.
- 
- Sheth et al.~\cite{HarshalSheth2016goRCU}
--demonstrated the value of leveraging golang's garbage
-+demonstrated the value of leveraging Go's garbage
- collector to provide RCU-like functionality, and
--the golang programming language provides a \co{Value} type that can
-+the Go programming language provides a \co{Value} type that can
- provide this functionality.\footnote{
- 	See \url{https://golang.org/pkg/sync/atomic/\#Value}, particularly
- 	the ``Example (ReadMostly)''.}
--- 
-2.10.0
+							Thanx, Paul
+
+> ---
+>  toolsoftrade/toolsoftrade.tex | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+> index 4e0764d..1cf118b 100644
+> --- a/toolsoftrade/toolsoftrade.tex
+> +++ b/toolsoftrade/toolsoftrade.tex
+> @@ -2365,8 +2365,8 @@ for other accesses to that same variable:
+>  	All other code must use \co{READ_ONCE()} and \co{WRITE_ONCE()}.
+>  \item	A shared variable is only accessed by a given CPU or thread
+>  	and by a signal or interrupt handler running in that CPU's
+> -	or thread's context, and the interrupt handler always restores
+> -	the values of any variables that it has written before return.
+> +	or thread's context, and the handler always restores the values of any
+> +	variables that it has written before return.
+>  	The handler can use plain loads and stores, as can any code
+>  	that has prevented the handler from being invoked, that is,
+>  	code that has blocked signals and/or interrupts.
+> -- 
+> 2.10.0
+> 
 
