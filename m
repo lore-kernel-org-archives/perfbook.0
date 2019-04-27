@@ -3,123 +3,173 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=uEP+sSsSGtkysBATBCBAlQi2PqCuLQwfFCHC5RU6YjE=;
-        b=Hb1gvA18vu8CtB9ybE/yNRa93acWyl4RCRnWhAZznPhlvekYZYUjk1rF/C99co67y9
-         lqhmbSzebIoCN1HZ+blydLzBM+cWz6ToGEk/a2fz5uPPAe51uzFE53K0Z2p+snhlq1IV
-         aewIuRZlpe1yF6mK1GSlkzja2Y+t2B4JqWF8AYKh2PUF3S4oScdTGyyuNDMRzv8efm+V
-         WoIlhUgpByasGtinlg3KZLg26N/BAltSRJRf2J9Ll0GsqleDjJcPhO3baJjBYFKEq4Mo
-         vKPtYzSnUofgsXM+tssI/DNU0ndVUSuhXPk0bAXdwCYb3rC9kz3/WmM2ggcTL8xk5hrC
-         NspQ==
+        bh=RAEbhJv/Gm0hsOsKoM5OrsXmB/D/t3/PzqVdfSev+54=;
+        b=X5gLy6TQq1N24IRHtiIrNphU32msdBSSTvCJJWrzPMJs1PsfcalFv4CmBh2Xc//Fg6
+         T67XKgAhAn1zJTx1l3wD+17loiE1A0Jw307jrALCBKoBKapHBLlc0VjJwFx59XQZGPEk
+         L7xd1Ql4gxURPgK0hLXTe77a/ENhReQ/EwUGuQ9UnQ3NwSMG6BW8hcBJSZ3ADdAH42yt
+         9+A+IDo1/pN/PeF0IerjeYj2xud65IwWeBexrIi5N/ZNr5SrucUFDJkE706vy91zji4W
+         n2+aKl2Qj8hAENta7xlgQauJi7oDP8n9PRfjbMS9VAnQfFIqV57Cf7bPksfo6DkdK589
+         PIgg==
 MIME-Version: 1.0
-References: <CAJbg=FVgUTZqD2Xda17Lbk-6xc_GkRX8c_iqYx8W-vuBnfyutA@mail.gmail.com>
- <5ed234bd-dcc8-692f-544e-50413cffa73d@gmail.com> <7b419fda-7543-04a7-eb4a-3e93090a3b2a@gmail.com>
-In-Reply-To: <7b419fda-7543-04a7-eb4a-3e93090a3b2a@gmail.com>
+References: <CAJbg=FWZhjXARBNou6XZ55fdvRsgABR19p8pytYB+SrKFtwWxQ@mail.gmail.com>
+ <20190427174534.GS3923@linux.ibm.com>
+In-Reply-To: <20190427174534.GS3923@linux.ibm.com>
 From: Elad Lahav <e2lahav@gmail.com>
-Date: Sat, 27 Apr 2019 21:54:07 -0400
-Message-ID: <CAJbg=FUgizOon1+s0bVVaotq7P+XhwsJqNPAnGFuvF1p2rFUwg@mail.gmail.com>
-Subject: Re: POSIX Proess Creation and Destruction nit-picking
+Date: Sat, 27 Apr 2019 16:24:36 -0400
+Message-ID: <CAJbg=FXhWBMgHenuaBya5iCLbbxZh1US73WBHewcXEQQdb-T-A@mail.gmail.com>
+Subject: Re: Cost of atomic operations on new hardware
 Content-Type: text/plain; charset="UTF-8"
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@linux.ibm.com>
+To: paulmck@linux.ibm.com
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Akira,
+Hi Paul,
 
-The patch looks fine, but is indeed unrelated to my comments.
+Here's a quick-n-dirty experiment I have just tried.
+The following code performs some integer arithmetic. The inc_by_one()
+function can be toggled between a simple increment instruction and an
+atomic version:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+static inline void
+inc_by_one(int * const p)
+{
+#ifdef USE_ATOMIC
+    __sync_fetch_and_add(p, 1);
+#else
+    (*p)++;
+#endif
+}
+
+static int
+do_calc(int x)
+{
+    x <<= 2;
+    x /= 17;
+    inc_by_one(&x);
+    x *= 5;
+    x -= 31;
+    x >>= 1;
+    return x;
+}
+
+int
+main(int argc, char **argv)
+{
+    int x = rand();
+
+    struct timespec ts_start;
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+
+    for (int i = 0; i < 10000000; i++) {
+        x = do_calc(x);
+    }
+
+    struct timespec ts_end;
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+
+    printf("x=%d\n", x);
+
+    time_t const start_ms = ts_start.tv_sec * 1000 + ts_start.tv_nsec / 1000000;
+    time_t const end_ms = ts_end.tv_sec * 1000 + ts_end.tv_nsec / 1000000;
+
+    printf("Calculation took %ldms\n", end_ms - start_ms);
+    return 0;
+}
+
+(The use of rand() at the beginning is just to ensure the compiler
+doesn't figure out the result, so I didn't bother seeding the PRNG).
+I compiled both versions for the aarch64 architecture. Disassembling
+the code shows that it indeed performs the calculations as expected.
+
+Non-atomic version:
+...
+  44:    531e7661     lsl    w1, w19, #2
+  48:    71000442     subs    w2, w2, #0x1
+  4c:    9b237c20     smull    x0, w1, w3
+  50:    9363fc00     asr    x0, x0, #35
+  54:    4b817c00     sub    w0, w0, w1, asr #31
+  58:    11000400     add    w0, w0, #0x1
+  5c:    0b000800     add    w0, w0, w0, lsl #2
+  60:    51007c01     sub    w1, w0, #0x1f
+  64:    13017c33     asr    w19, w1, #1
+...
+
+Atomic version:
+...
+  48:    531e7660     lsl    w0, w19, #2
+  4c:    9b247c01     smull    x1, w0, w4
+  50:    9363fc21     asr    x1, x1, #35
+  54:    4b807c20     sub    w0, w1, w0, asr #31
+  58:    b90027a0     str    w0, [x29,#36]
+  5c:    885f7c60     ldxr    w0, [x3]
+  60:    11000400     add    w0, w0, #0x1
+  64:    8801fc60     stlxr    w1, w0, [x3]
+  68:    35ffffa1     cbnz    w1, 5c <main+0x5c>
+  6c:    d5033bbf     dmb    ish
+  70:    b94027a0     ldr    w0, [x29,#36]
+  74:    71000442     subs    w2, w2, #0x1
+  78:    0b000800     add    w0, w0, w0, lsl #2
+  7c:    51007c00     sub    w0, w0, #0x1f
+  80:    13017c13     asr    w19, w0, #1
+...
+
+I then ran the program on a dual-cluster machine, once on the older
+and simpler A53 core and once on the newer A72 core.
+
+Non-atomic version:
+# on -C 0 /tmp/atomic_cost
+x=-28
+Calculation took 116ms
+# on -C 4 /tmp/atomic_cost
+x=-28
+Calculation took 75ms
+
+Atomic version:
+# on -C 0 /tmp/atomic_cost
+x=-28
+Calculation took 283ms
+
+# on -C 4 /tmp/atomic_cost
+x=-28
+Calculation took 364ms
+
+I was actually expecting the results to only be worse on the A72 core
+in the relative sense (i.e., higher penalty but still faster). The
+fact that the test took longer to complete on the A72 core shows that
+the situation is even worse than I had expected, which may be due to
+the barrier.
 
 --Elad
 
-On Sat, 27 Apr 2019 at 19:00, Akira Yokosawa <akiyks@gmail.com> wrote:
+On Sat, 27 Apr 2019 at 13:45, Paul E. McKenney <paulmck@linux.ibm.com> wrote:
 >
-> On Sun, 28 Apr 2019 01:19:25 +0900, Akira Yokosawa wrote:
-> > Hello Elad,
+> On Fri, Apr 26, 2019 at 07:06:10AM -0400, Elad Lahav wrote:
+> > Hello,
 > >
-> > On Fri, 26 Apr 2019 07:23:20 -0400, Elad Lahav wrote:
-> >> The following issues may not be deemed important enough to fix, but
-> >> I'll point them out nevertheless:
-> >>
-> > [...]
-> >> - Listing 4.2 could have just used waitpid() instead of the loop.
+> > Section 3.1.3 contains the following statement:
 > >
-> > Listing 4.2 shows our implementation of waitall() function used under
-> > CodeSamples/ directory of perfbook's repository.
-> > Your feedback prompted me to review the listing and I noticed that
-> > the name of the function is missing there.
+> > "Fortunately, CPU designers have focused heavily on atomic operations,
+> > so that as of early 2014 they have greatly reduced their overhead."
 > >
-> > I fixed the position of extraction markers in api-pthreads.h
-> >
-> > Please find the patch below.
+> > My experience with very recent hardware is that the *relative* cost of
+> > atomic operations has actually increased significantly. It seems that
+> > hardware designers, in their attempt to optimize performance for
+> > certain workloads, have produced hardware in which the "anomalous"
+> > conditions (atomic operations, cache misses, barriers, exceptions)
+> > incur much higher penalties than in the past. I assume that this is
+> > primarily the result of more intensive speculation and prediction.
 >
-> Hi Elad,
+> Some of the early 2000s systems had -really- atomic operations, but I
+> have not kept close track since 2014.
 >
-> I might not be clear enough, but could you let me know if you think
-> the patch looks reasonable.  I mean, if you think this change is not
-> related to your feed back, I'll drop the Reported-by tag.
+> How would you suggest that this be measured?  Do you have access to
+> a range of hardweare that would permit us to include something more
+> definite and measurable?
 >
->         Thanks, Akira
->
-> >
-> >> If I were really a nit-picking person I would have pointed out the
-> >> various places in chapters 2 and 3 where infinitives are being split,
-> >> but I'm not so I won't ;-).
-> >
-> > As far as I am concerned, I like the colloquial tone of perfbook
-> > and have no trouble seeing split infinitives as long as they are easy
-> > to understand. Just a non-native speaker's opinion.
-> >
-> >         Thanks, Akira
-> >
-> >> --Elad
-> >>
-> >
-> > ----------8<------------------
-> > From fec0187d2cb12fdf13a8c040c447c37c1bd5e183 Mon Sep 17 00:00:00 2001
-> > From: Akira Yokosawa <akiyks@gmail.com>
-> > Date: Sun, 28 Apr 2019 00:41:02 +0900
-> > Subject: [PATCH] toolsoftrade: Fix extraction range of waitall()
-> >
-> > Commit 29d0c7c185f2 ("toolsoftrade: Add labels in code samples as
-> > comments") failed to include the function name and the closing brace
-> > in the snippet of waitall() extracted from api-pthreads.h.
-> >
-> > The original snippet removed in commit a62cf8469280 ("toolsoftrade:
-> > Reference line in code snippets by label") contained those
-> > lines.
-> >
-> > Restore them by repositioning meta commands in api-pthreads.h
-> >
-> > Reported-by: Elad Lahav <e2lahav@gmail.com>
-> > Fixes: 29d0c7c185f2 ("toolsoftrade: Add labels in code samples as comments")
-> > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> > ---
-> >  CodeSamples/api-pthreads/api-pthreads.h | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/CodeSamples/api-pthreads/api-pthreads.h b/CodeSamples/api-pthreads/api-pthreads.h
-> > index f5510f01..5d17a9bd 100644
-> > --- a/CodeSamples/api-pthreads/api-pthreads.h
-> > +++ b/CodeSamples/api-pthreads/api-pthreads.h
-> > @@ -287,9 +287,9 @@ static __inline__ void wait_all_threads(void)
-> >  /*
-> >   * Wait on all child processes.
-> >   */
-> > +// \begin{snippet}[labelbase=ln:api-pthreads:api-pthreads:waitall,commandchars=\%\[\]]
-> >  static __inline__ void waitall(void)
-> >  {
-> > -// \begin{snippet}[labelbase=ln:api-pthreads:api-pthreads:waitall,commandchars=\%\[\]]
-> >       int pid;
-> >       int status;
-> >
-> > @@ -303,8 +303,8 @@ static __inline__ void waitall(void)
-> >               }
-> >               poll(NULL, 0, 1);               //\fcvexclude
-> >       }                                       //\lnlbl{loopb}
-> > -// \end{snippet}
-> >  }
-> > +// \end{snippet}
-> >
-> >  static __inline__ void run_on(int cpu)
-> >  {
-> >
+>                                                         Thanx, Paul
 >
 
