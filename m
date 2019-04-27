@@ -1,44 +1,56 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mail-it1-f182.google.com ([209.85.166.182]:32904 "EHLO
-        mail-it1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726026AbfDZLGZ (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Fri, 26 Apr 2019 07:06:25 -0400
-Received: by mail-it1-f182.google.com with SMTP id v8so4345697itf.0
-        for <perfbook@vger.kernel.org>; Fri, 26 Apr 2019 04:06:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=ZuiRcHGL/VEdJ++fRd/T9JUNKN/JCOS1Jt5nZgiRurI=;
-        b=EzcQ/MtXjL48jHbOavFtDlcOFCLIv2sR1Z/C4cLw+9WvNRMWhir/mS0qszK0DLd3bE
-         wKYAma6EfMzbesrbiHiq0N4kFZ/pxzt/1wKoUnkn2VNv4uICkkB/3SoUt/P1+KHgA2tB
-         4MtG5NvlgU8qmWyPvZg+FuMHnJfl4V+d6UuBe+7ObL3/tNwXXzmv6sr9IzarJ6k6nAhj
-         W1y36jZGxMm1bbjK7fMCFND8OVAPZofM3ctmEYY5QT0u7O9sEvl1VtrJi1iEC98pV24V
-         YhBoN6pKQvIPansdaPaoXWSrN+8Wo33BVolttlbAgLz5MbWAkZxHIUqSFobNkJWVcrNa
-         uSgg==
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38940 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725942AbfD0Rpk (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sat, 27 Apr 2019 13:45:40 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3RHhCMp013798
+        for <perfbook@vger.kernel.org>; Sat, 27 Apr 2019 13:45:39 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2s4kkmbhgq-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <perfbook@vger.kernel.org>; Sat, 27 Apr 2019 13:45:39 -0400
+Received: from localhost
+        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Sat, 27 Apr 2019 18:45:37 +0100
+Date: Sat, 27 Apr 2019 10:45:34 -0700
+From: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: Cost of atomic operations on new hardware
+Reply-To: paulmck@linux.ibm.com
+References: <CAJbg=FWZhjXARBNou6XZ55fdvRsgABR19p8pytYB+SrKFtwWxQ@mail.gmail.com>
 MIME-Version: 1.0
-From: Elad Lahav <e2lahav@gmail.com>
-Date: Fri, 26 Apr 2019 07:06:10 -0400
-Message-ID: <CAJbg=FWZhjXARBNou6XZ55fdvRsgABR19p8pytYB+SrKFtwWxQ@mail.gmail.com>
-Subject: Cost of atomic operations on new hardware
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJbg=FWZhjXARBNou6XZ55fdvRsgABR19p8pytYB+SrKFtwWxQ@mail.gmail.com>
+Message-Id: <20190427174534.GS3923@linux.ibm.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
+To: Elad Lahav <e2lahav@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Hello,
+On Fri, Apr 26, 2019 at 07:06:10AM -0400, Elad Lahav wrote:
+> Hello,
+> 
+> Section 3.1.3 contains the following statement:
+> 
+> "Fortunately, CPU designers have focused heavily on atomic operations,
+> so that as of early 2014 they have greatly reduced their overhead."
+> 
+> My experience with very recent hardware is that the *relative* cost of
+> atomic operations has actually increased significantly. It seems that
+> hardware designers, in their attempt to optimize performance for
+> certain workloads, have produced hardware in which the "anomalous"
+> conditions (atomic operations, cache misses, barriers, exceptions)
+> incur much higher penalties than in the past. I assume that this is
+> primarily the result of more intensive speculation and prediction.
 
-Section 3.1.3 contains the following statement:
+Some of the early 2000s systems had -really- atomic operations, but I
+have not kept close track since 2014.
 
-"Fortunately, CPU designers have focused heavily on atomic operations,
-so that as of early 2014 they have greatly reduced their overhead."
+How would you suggest that this be measured?  Do you have access to
+a range of hardweare that would permit us to include something more
+definite and measurable?
 
-My experience with very recent hardware is that the *relative* cost of
-atomic operations has actually increased significantly. It seems that
-hardware designers, in their attempt to optimize performance for
-certain workloads, have produced hardware in which the "anomalous"
-conditions (atomic operations, cache misses, barriers, exceptions)
-incur much higher penalties than in the past. I assume that this is
-primarily the result of more intensive speculation and prediction.
-
---Elad
+							Thanx, Paul
 
