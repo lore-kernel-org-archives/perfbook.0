@@ -1,168 +1,211 @@
-Return-Path: <junchangwang@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xqZgF0UnCCMbJhw1SuTBCkzrkOON2nDa7GUwD2GUVws=;
-        b=BgYgrR5lR0Z7OseoA93vib/x8QoJp68bpJm9HonM4iZXvAPI52V8cjU6tQI7l1y8M8
-         UYH+AA+OIi1+7Zatd5BjZ0jLrn24oveZUQXbTK8tm27j0l0MPkan7RjOj5t3qBseaXcl
-         +3Upv3t/NpkMRfSKzBbGXKhY33EvX97IqxwScpU7Rr7tOtRmz7+PZNI5kjh4I1sY+gD0
-         1QXrrHSsZzpjHYyoKNXlSMQFHjJPn1MIhH/KJ/ozSCyQx7oMwfLT+AJRC9LvTCVciju/
-         MNEi+sYh1aFpjWW3/ejQPcLb8EzQqtiTmXTkCKnUwU5dTwAwa70ljJsdH6S3/sIdbmn6
-         Jarg==
+Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37700 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726023AbfD1GLK (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sun, 28 Apr 2019 02:11:10 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3S68qJG026343
+        for <perfbook@vger.kernel.org>; Sun, 28 Apr 2019 02:11:08 -0400
+Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2s54f4k100-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <perfbook@vger.kernel.org>; Sun, 28 Apr 2019 02:11:08 -0400
+Received: from localhost
+        by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Sun, 28 Apr 2019 07:11:07 +0100
+Date: Sat, 27 Apr 2019 23:11:05 -0700
+From: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: Cost of atomic operations on new hardware
+Reply-To: paulmck@linux.ibm.com
+References: <CAJbg=FWZhjXARBNou6XZ55fdvRsgABR19p8pytYB+SrKFtwWxQ@mail.gmail.com>
+ <20190427174534.GS3923@linux.ibm.com>
+ <CAJbg=FXhWBMgHenuaBya5iCLbbxZh1US73WBHewcXEQQdb-T-A@mail.gmail.com>
 MIME-Version: 1.0
-References: <1556180994-16131-1-git-send-email-junchangwang@gmail.com>
- <95b306ce-9ddb-0ac5-ee5c-077cb4a9a27e@gmail.com> <20190426134342.GC3923@linux.ibm.com>
- <030dde15-d2c0-a77b-dcbc-ea67567c6386@gmail.com>
-In-Reply-To: <030dde15-d2c0-a77b-dcbc-ea67567c6386@gmail.com>
-From: Junchang Wang <junchangwang@gmail.com>
-Date: Sun, 28 Apr 2019 22:57:02 +0800
-Message-ID: <CABoNC80tyCmCT8FgavoyiijbT=QmCVhOWhXK-k=Nz7r4DwEXTw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] Toyrcu: replace plain accesses with READ_ONCE() and
-Content-Type: text/plain; charset="UTF-8"
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: "Paul E. McKenney" <paulmck@linux.ibm.com>, perfbook@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJbg=FXhWBMgHenuaBya5iCLbbxZh1US73WBHewcXEQQdb-T-A@mail.gmail.com>
+Message-Id: <20190428061105.GF3923@linux.ibm.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Elad Lahav <e2lahav@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-On Sat, Apr 27, 2019 at 10:27 PM Akira Yokosawa <akiyks@gmail.com> wrote:
->
-> Hi Junchang, Paul,
->
-> On Fri, 26 Apr 2019 06:43:42 -0700, Paul E. McKenney wrote:
-> > On Fri, Apr 26, 2019 at 12:38:40AM +0900, Akira Yokosawa wrote:
-> >> Hi Junchang,
-> >>
-> >> On Thu, 25 Apr 2019 16:29:51 +0800, Junchang Wang wrote:
-> >>> Hi Paul and Akira,
-> >>>
-> >>> This patch set replaces plain accesses and ACCESS_ONCE() with READ_ONCE()
-> >>> and WRITE_ONCE() in Toy RCU examples. I will send another patch updating
-> >>> tex file accordingly on top of this patch set.
-> >>
-> >> As far as accesses to rcu_gp_ctr, this patch set looks good to me.
-> >>
-> >> In updating toyrcu.tex file, I suggested to extract the snippets from
-> >> code under CodeSamples/defer, but some snippets in toyrcu.tex consist of
-> >> code from both .h and .c. Current scheme does not support such merging
-> >> of snippets from multiple source files.
->
-> As a matter of fact, it turns out this is actually possible.
->
-> Please see the patch below, which converts Listing B.1.
->
-> Junchang, if it is not too late, you can use the same approach to
-> snippets from rcu.[ch] and rcu_nest.[ch].
->
+On Sat, Apr 27, 2019 at 04:24:36PM -0400, Elad Lahav wrote:
+> Hi Paul,
+> 
+> Here's a quick-n-dirty experiment I have just tried.
+> The following code performs some integer arithmetic. The inc_by_one()
+> function can be toggled between a simple increment instruction and an
+> atomic version:
+> 
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <time.h>
+> 
+> static inline void
+> inc_by_one(int * const p)
+> {
+> #ifdef USE_ATOMIC
+>     __sync_fetch_and_add(p, 1);
+> #else
+>     (*p)++;
+> #endif
+> }
+> 
+> static int
+> do_calc(int x)
+> {
+>     x <<= 2;
+>     x /= 17;
+>     inc_by_one(&x);
+>     x *= 5;
+>     x -= 31;
+>     x >>= 1;
+>     return x;
+> }
+> 
+> int
+> main(int argc, char **argv)
+> {
+>     int x = rand();
+> 
+>     struct timespec ts_start;
+>     clock_gettime(CLOCK_MONOTONIC, &ts_start);
+> 
+>     for (int i = 0; i < 10000000; i++) {
+>         x = do_calc(x);
+>     }
+> 
+>     struct timespec ts_end;
+>     clock_gettime(CLOCK_MONOTONIC, &ts_end);
+> 
+>     printf("x=%d\n", x);
+> 
+>     time_t const start_ms = ts_start.tv_sec * 1000 + ts_start.tv_nsec / 1000000;
+>     time_t const end_ms = ts_end.tv_sec * 1000 + ts_end.tv_nsec / 1000000;
+> 
+>     printf("Calculation took %ldms\n", end_ms - start_ms);
+>     return 0;
+> }
+> 
+> (The use of rand() at the beginning is just to ensure the compiler
+> doesn't figure out the result, so I didn't bother seeding the PRNG).
+> I compiled both versions for the aarch64 architecture. Disassembling
+> the code shows that it indeed performs the calculations as expected.
+> 
+> Non-atomic version:
+> ...
+>   44:    531e7661     lsl    w1, w19, #2
+>   48:    71000442     subs    w2, w2, #0x1
+>   4c:    9b237c20     smull    x0, w1, w3
+>   50:    9363fc00     asr    x0, x0, #35
+>   54:    4b817c00     sub    w0, w0, w1, asr #31
+>   58:    11000400     add    w0, w0, #0x1
+>   5c:    0b000800     add    w0, w0, w0, lsl #2
+>   60:    51007c01     sub    w1, w0, #0x1f
+>   64:    13017c33     asr    w19, w1, #1
+> ...
+> 
+> Atomic version:
+> ...
+>   48:    531e7660     lsl    w0, w19, #2
+>   4c:    9b247c01     smull    x1, w0, w4
+>   50:    9363fc21     asr    x1, x1, #35
+>   54:    4b807c20     sub    w0, w1, w0, asr #31
+>   58:    b90027a0     str    w0, [x29,#36]
+>   5c:    885f7c60     ldxr    w0, [x3]
+>   60:    11000400     add    w0, w0, #0x1
+>   64:    8801fc60     stlxr    w1, w0, [x3]
+>   68:    35ffffa1     cbnz    w1, 5c <main+0x5c>
+>   6c:    d5033bbf     dmb    ish
+>   70:    b94027a0     ldr    w0, [x29,#36]
+>   74:    71000442     subs    w2, w2, #0x1
+>   78:    0b000800     add    w0, w0, w0, lsl #2
+>   7c:    51007c00     sub    w0, w0, #0x1f
+>   80:    13017c13     asr    w19, w0, #1
+> ...
+> 
+> I then ran the program on a dual-cluster machine, once on the older
+> and simpler A53 core and once on the newer A72 core.
+> 
+> Non-atomic version:
+> # on -C 0 /tmp/atomic_cost
+> x=-28
+> Calculation took 116ms
+> # on -C 4 /tmp/atomic_cost
+> x=-28
+> Calculation took 75ms
+> 
+> Atomic version:
+> # on -C 0 /tmp/atomic_cost
+> x=-28
+> Calculation took 283ms
+> 
+> # on -C 4 /tmp/atomic_cost
+> x=-28
+> Calculation took 364ms
+> 
+> I was actually expecting the results to only be worse on the A72 core
+> in the relative sense (i.e., higher penalty but still faster). The
+> fact that the test took longer to complete on the A72 core shows that
+> the situation is even worse than I had expected, which may be due to
+> the barrier.
 
-Hi Akira,
+Interesting, and thank you very much for running this test!
 
-Thanks for the patch, which works well for rcu.[ch]. I can apply this
-scheme to other examples and submit the patch set tomorrow.
+It looks like the compiler did some optimization, given that there is
+only the one dmb in the loop.  So the relative performance of atomics
+and normal instructions will be varying across CPU families as well
+as over time.  Which should not be a surprise.  But comparing and
+contrasting CPU families at that level of detail could result in all
+sorts of interesting issues that I would prefer to avoid.  ;-)
 
-Thanks,
---Junchang
+It might be possible to make some sort of general comparison.  But how
+about the following, which simply notes the possibility of hardware
+optimizations?
 
->         Thanks, Akira
->
-> -----8<-----------------------
-> From 3b3c6d99bcd580385175bf2a062dcb038f0cfc9e Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sat, 27 Apr 2019 22:34:40 +0900
-> Subject: [PATCH] toyrcu: Convert Listing B.1 to new scheme
->
-> This commit is an example where code extracted from two source
-> files under CodeSamples/ is merged into a code snippet.
-> Extra vertical space needs to be canceled by the \vspace*{} command
-> between the two \input{} commands.
-> \fvset{firstnumber=last} is to continue line numbering.
-> \fvset{firstnumber=auto} restores the default setting.
->
-> Also tweak positioning option of listing environment.
->
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
->  CodeSamples/defer/rcu_lock.c |  2 ++
->  CodeSamples/defer/rcu_lock.h |  2 ++
->  appendix/toyrcu/toyrcu.tex   | 26 ++++----------------------
->  3 files changed, 8 insertions(+), 22 deletions(-)
->
-> diff --git a/CodeSamples/defer/rcu_lock.c b/CodeSamples/defer/rcu_lock.c
-> index 8d45ac89..08b87fbd 100644
-> --- a/CodeSamples/defer/rcu_lock.c
-> +++ b/CodeSamples/defer/rcu_lock.c
-> @@ -20,12 +20,14 @@
->
->  #include "../api.h"
->  #include "rcu_lock.h"
-> +//\begin{snippet}[labelbase=ln:defer:rcu_lock:synchronize,commandchars=\\\[\]]
->
->  void synchronize_rcu(void)
->  {
->         spin_lock(&rcu_gp_lock);
->         spin_unlock(&rcu_gp_lock);
->  }
-> +//\end{snippet}
->
->  #ifdef TEST
->  #include "rcutorture.h"
-> diff --git a/CodeSamples/defer/rcu_lock.h b/CodeSamples/defer/rcu_lock.h
-> index 224ea0e4..bf6f9b3c 100644
-> --- a/CodeSamples/defer/rcu_lock.h
-> +++ b/CodeSamples/defer/rcu_lock.h
-> @@ -26,6 +26,7 @@ static void rcu_init(void)
->  {
->  }
->
-> +//\begin{snippet}[labelbase=ln:defer:rcu_lock:lock_unlock,commandchars=\\\[\]]
->  static void rcu_read_lock(void)
->  {
->         spin_lock(&rcu_gp_lock);
-> @@ -35,5 +36,6 @@ static void rcu_read_unlock(void)
->  {
->         spin_unlock(&rcu_gp_lock);
->  }
-> +//\end{snippet}
->
->  extern void synchronize_rcu(void);
-> diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
-> index c0a45a85..f7d6ec7f 100644
-> --- a/appendix/toyrcu/toyrcu.tex
-> +++ b/appendix/toyrcu/toyrcu.tex
-> @@ -30,29 +30,11 @@ provides a summary and a list of desirable RCU properties.
->
->  \section{Lock-Based RCU}
->  \label{sec:app:toyrcu:Lock-Based RCU}
-> +\NoIndentAfterThis
->
-> -\begin{listing}[bp]
-> -{ \scriptsize
-> -\begin{verbbox}
-> -  1 static void rcu_read_lock(void)
-> -  2 {
-> -  3   spin_lock(&rcu_gp_lock);
-> -  4 }
-> -  5
-> -  6 static void rcu_read_unlock(void)
-> -  7 {
-> -  8   spin_unlock(&rcu_gp_lock);
-> -  9 }
-> - 10
-> - 11 void synchronize_rcu(void)
-> - 12 {
-> - 13   spin_lock(&rcu_gp_lock);
-> - 14   spin_unlock(&rcu_gp_lock);
-> - 15 }
-> -\end{verbbox}
-> -}
-> -\centering
-> -\theverbbox
-> +\begin{listing}[htbp]
-> +\input{CodeSamples/defer/rcu_lock@lock_unlock.fcv}\vspace*{-11pt}\fvset{firstnumber=last}
-> +\input{CodeSamples/defer/rcu_lock@synchronize.fcv}\fvset{firstnumber=auto}
->  \caption{Lock-Based RCU Implementation}
->  \label{lst:app:toyrcu:Lock-Based RCU Implementation}
->  \end{listing}
-> --
-> 2.17.1
->
+	In contrast, when executing a non-atomic operation, the
+	CPU can load values from cachelines as they appear and
+	place the results in the store buffer, without the need to
+	wait for cacheline ownership. Although there are a number of
+	hardware optimizations that can sometimes hide cache latencies,
+	the resulting effect on performance is all too often as
+	depicted in Figure 3.5.
+
+I have a prototype commit to this effect, with your Reported-by.
+Thank you again for testing this!
+
+							Thanx, Paul
+
+> --Elad
+> 
+> On Sat, 27 Apr 2019 at 13:45, Paul E. McKenney <paulmck@linux.ibm.com> wrote:
+> >
+> > On Fri, Apr 26, 2019 at 07:06:10AM -0400, Elad Lahav wrote:
+> > > Hello,
+> > >
+> > > Section 3.1.3 contains the following statement:
+> > >
+> > > "Fortunately, CPU designers have focused heavily on atomic operations,
+> > > so that as of early 2014 they have greatly reduced their overhead."
+> > >
+> > > My experience with very recent hardware is that the *relative* cost of
+> > > atomic operations has actually increased significantly. It seems that
+> > > hardware designers, in their attempt to optimize performance for
+> > > certain workloads, have produced hardware in which the "anomalous"
+> > > conditions (atomic operations, cache misses, barriers, exceptions)
+> > > incur much higher penalties than in the past. I assume that this is
+> > > primarily the result of more intensive speculation and prediction.
+> >
+> > Some of the early 2000s systems had -really- atomic operations, but I
+> > have not kept close track since 2014.
+> >
+> > How would you suggest that this be measured?  Do you have access to
+> > a range of hardweare that would permit us to include something more
+> > definite and measurable?
+> >
+> >                                                         Thanx, Paul
+> >
+> 
 
