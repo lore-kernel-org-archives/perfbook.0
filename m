@@ -1,121 +1,220 @@
-Return-Path: <junchangwang@gmail.com>
+Return-Path: <e2lahav@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=weptJ7g4YquJAwCLWhfMH+nsZTyJaFrBMkoP50X0qRw=;
-        b=n/NWeRKujEX7vg4LJaIxIebZbJtW8l+u/d4ACnXbDSTpzfhsj8fApBZD615utBro5P
-         cnJ3v1Z3aFGu68w4KrM+RWnlus032K3n4m328yM6QDZuCk/nHj0P3qg+32kk/2HzcCOW
-         prAPZr8+s+EIGtuFqs3UelSqktCA/dSXwWJqOxTB4qZGApEEswOsRYUdPuanv1ZPzboD
-         H2jF2SlNlRqGxVZCg9nAwNuNbzLWcFhjZon+08Eb/aoUznnohdsc25gkRpQ1MugOUNLD
-         PuvcMfdj8WTjb5EktNIklm4ZenfV1G+Bv/aEOUUgg0X8uR2RC/fkdiWRHP4Q4Az4idLN
-         QW6g==
-From: Junchang Wang <junchangwang@gmail.com>
-Subject: [PATCH] rcu_nest: fix concurrency issues 
-Date: Tue, 30 Apr 2019 12:02:39 +0800
-Message-Id: <1556596959-11571-1-git-send-email-junchangwang@gmail.com>
-To: paulmck@linux.ibm.com, akiyks@gmail.com
-Cc: perfbook@vger.kernel.org, Junchang Wang <junchangwang@gmail.com>
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oRUvmnWQJXXmTH+yWunM58RLBSZXW3Bg6u7ilBL78QM=;
+        b=BDpyiKtYQ1eR5wYV63D6C7jBrCtVuJECkteZ4XwutTfEwTmnnMCZ8p2wrgl58LyPSC
+         mwcxOv/7Uq7yLCBHPw8jY+xM84q3icadRt8zDkJJXK64Qo0rqkk6qORHmUCjzWutQgtK
+         w0W7AUV4ikbdm3UkeFA1FrE69UAw70bYHG8tmgqHfDKSXeGDeRFqekiDj6mTxNixAXca
+         7rsUc1t/SS1feggd56Sl5Q7K0UIA89/LJ3oMoImvGzPLgkAiQu4Yl3I8Te4GvEjlfbFH
+         yRQgDzIkozg3QmEwklqMKUh/nPQ6654FoWR6ASRZK2JWggYErpfFS7HIWDjDDX4K4MhD
+         7gcQ==
+MIME-Version: 1.0
+References: <CAJbg=FWZhjXARBNou6XZ55fdvRsgABR19p8pytYB+SrKFtwWxQ@mail.gmail.com>
+ <20190427174534.GS3923@linux.ibm.com> <CAJbg=FXhWBMgHenuaBya5iCLbbxZh1US73WBHewcXEQQdb-T-A@mail.gmail.com>
+ <20190428061105.GF3923@linux.ibm.com>
+In-Reply-To: <20190428061105.GF3923@linux.ibm.com>
+From: Elad Lahav <e2lahav@gmail.com>
+Date: Mon, 29 Apr 2019 06:51:24 -0400
+Message-ID: <CAJbg=FVYYjHWpQTcYhBvHE=v8iHYou-bfN9v7NB52+5+4t3CbQ@mail.gmail.com>
+Subject: Re: Cost of atomic operations on new hardware
+Content-Type: text/plain; charset="UTF-8"
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-Variable "rcu_gp_ctr" is incremented by the updater and is fetched by
-readers concurrently. So protect this variable by using READ_ONCE()
-and WRITE_ONCE().
+Hi Paul,
 
-Per-thread variable "rcu_read_gp" is updated by the reader and is read
-by the updater. So protect it by using READ_ONCE() and WRITE_ONCE().
+Looks good, but the point I was trying to make is a bit more explicit:
+with better optimizations for the "normal" stream of execution come an
+increase in the relative cost for the "abnormal" cases. We can
+therefore expect (at least in the short term) that the penalty for
+atomic operations, cache misses, memory barriers and exceptions will
+keep rising.
+Working on a microkernel-based OS with 2018/2019 hardware has made
+this woefully clear.
 
-The type of "rcu_gp_ctr" is changed to unsigned long because the behavior
-of the overflow of a signed long integer is not well defined in C yet.
+--Elad
 
-Refine the code snippet in "rcu_read_lock" that allows a reader to start
-over. In this version, we add micro MAX_GP_ADV_DISTANCE which is by
-default set to (RCU_GP_CTR_NEST_MASK << 8). Once a reader notices that
-MAX_GP_ADV_DISTANCE grace-periods have elapsed since fetching the value of
-"rcu_reader_gp", the reader starts over.
-
- 
-Signed-off-by: Junchang Wang <junchangwang@gmail.com>
----
- CodeSamples/defer/rcu_nest.c |  5 +++--
- CodeSamples/defer/rcu_nest.h | 25 +++++++++++++++++--------
- 2 files changed, 20 insertions(+), 10 deletions(-)
-
-diff --git a/CodeSamples/defer/rcu_nest.c b/CodeSamples/defer/rcu_nest.c
-index 64e4087..362f466 100644
---- a/CodeSamples/defer/rcu_nest.c
-+++ b/CodeSamples/defer/rcu_nest.c
-@@ -35,7 +35,7 @@ void synchronize_rcu(void)
- 
- 	/* Advance to a new grace-period number, enforce ordering. */
- 
--	rcu_gp_ctr += RCU_GP_CTR_BOTTOM_BIT;
-+	WRITE_ONCE(rcu_gp_ctr, rcu_gp_ctr + RCU_GP_CTR_BOTTOM_BIT);
- 	smp_mb();
- 
- 	/*
-@@ -45,7 +45,8 @@ void synchronize_rcu(void)
- 
- 	for_each_thread(t) {
- 		while (rcu_gp_ongoing(t) &&
--		       ((per_thread(rcu_reader_gp, t) - rcu_gp_ctr) < 0)) {
-+		       ((READ_ONCE(per_thread(rcu_reader_gp, t)) -
-+			 rcu_gp_ctr) < 0)) {
- 			/*@@@ poll(NULL, 0, 10); */
- 			barrier();
- 		}
-diff --git a/CodeSamples/defer/rcu_nest.h b/CodeSamples/defer/rcu_nest.h
-index bcc4cde..65ce203 100644
---- a/CodeSamples/defer/rcu_nest.h
-+++ b/CodeSamples/defer/rcu_nest.h
-@@ -24,8 +24,9 @@ DEFINE_SPINLOCK(rcu_gp_lock);
- #define RCU_GP_CTR_SHIFT 7
- #define RCU_GP_CTR_BOTTOM_BIT (1 << RCU_GP_CTR_SHIFT)
- #define RCU_GP_CTR_NEST_MASK (RCU_GP_CTR_BOTTOM_BIT - 1)
--long rcu_gp_ctr = 0;	/* increment by RCU_GP_CTR_BOTTOM_BIT each gp. */
--DEFINE_PER_THREAD(long, rcu_reader_gp);
-+#define MAX_GP_ADV_DISTANCE (RCU_GP_CTR_NEST_MASK << 8)
-+unsigned long rcu_gp_ctr = 0;	/* increment by RCU_GP_CTR_BOTTOM_BIT each gp. */
-+DEFINE_PER_THREAD(unsigned long, rcu_reader_gp);
- 
- static inline int rcu_gp_ongoing(int cpu)
- {
-@@ -39,8 +40,8 @@ static void rcu_init(void)
- 
- static void rcu_read_lock(void)
- {
--	long tmp;
--	long *rrgp;
-+	unsigned long tmp;
-+	unsigned long *rrgp;
- 
- 	/*
- 	 * If this is the outermost RCU read-side critical section,
-@@ -52,13 +53,21 @@ static void rcu_read_lock(void)
- retry:
- 	tmp = *rrgp;
- 	if ((tmp & RCU_GP_CTR_NEST_MASK) == 0)
--		tmp = rcu_gp_ctr;
-+		tmp = READ_ONCE(rcu_gp_ctr);
- 	tmp++;
--	*rrgp = tmp;
-+	WRITE_ONCE(*rrgp, tmp);
- 	smp_mb();
-+
-+	/*
-+	 * A reader could be suspended in between fetching the value of *rrgp
-+	 * and writting the updated value back into *rrgp. During this
-+	 * time period, the grace-period counter might have advanced very far.
-+	 * In this case, we force the reader to start over.
-+	 */
-+
- 	if (((tmp & RCU_GP_CTR_NEST_MASK) == 1) &&
--	    ((rcu_gp_ctr - tmp) > (RCU_GP_CTR_NEST_MASK << 8)) != 0) {
--		(*rrgp)--;
-+	    (READ_ONCE(rcu_gp_ctr) > tmp + MAX_GP_ADV_DISTANCE)) {
-+		WRITE_ONCE(*rrgp, *rrgp - 1);
- 		goto retry;
- 	}
- }
--- 
-2.7.4
+On Sun, 28 Apr 2019 at 02:11, Paul E. McKenney <paulmck@linux.ibm.com> wrote:
+>
+> On Sat, Apr 27, 2019 at 04:24:36PM -0400, Elad Lahav wrote:
+> > Hi Paul,
+> >
+> > Here's a quick-n-dirty experiment I have just tried.
+> > The following code performs some integer arithmetic. The inc_by_one()
+> > function can be toggled between a simple increment instruction and an
+> > atomic version:
+> >
+> > #include <stdio.h>
+> > #include <stdlib.h>
+> > #include <time.h>
+> >
+> > static inline void
+> > inc_by_one(int * const p)
+> > {
+> > #ifdef USE_ATOMIC
+> >     __sync_fetch_and_add(p, 1);
+> > #else
+> >     (*p)++;
+> > #endif
+> > }
+> >
+> > static int
+> > do_calc(int x)
+> > {
+> >     x <<= 2;
+> >     x /= 17;
+> >     inc_by_one(&x);
+> >     x *= 5;
+> >     x -= 31;
+> >     x >>= 1;
+> >     return x;
+> > }
+> >
+> > int
+> > main(int argc, char **argv)
+> > {
+> >     int x = rand();
+> >
+> >     struct timespec ts_start;
+> >     clock_gettime(CLOCK_MONOTONIC, &ts_start);
+> >
+> >     for (int i = 0; i < 10000000; i++) {
+> >         x = do_calc(x);
+> >     }
+> >
+> >     struct timespec ts_end;
+> >     clock_gettime(CLOCK_MONOTONIC, &ts_end);
+> >
+> >     printf("x=%d\n", x);
+> >
+> >     time_t const start_ms = ts_start.tv_sec * 1000 + ts_start.tv_nsec / 1000000;
+> >     time_t const end_ms = ts_end.tv_sec * 1000 + ts_end.tv_nsec / 1000000;
+> >
+> >     printf("Calculation took %ldms\n", end_ms - start_ms);
+> >     return 0;
+> > }
+> >
+> > (The use of rand() at the beginning is just to ensure the compiler
+> > doesn't figure out the result, so I didn't bother seeding the PRNG).
+> > I compiled both versions for the aarch64 architecture. Disassembling
+> > the code shows that it indeed performs the calculations as expected.
+> >
+> > Non-atomic version:
+> > ...
+> >   44:    531e7661     lsl    w1, w19, #2
+> >   48:    71000442     subs    w2, w2, #0x1
+> >   4c:    9b237c20     smull    x0, w1, w3
+> >   50:    9363fc00     asr    x0, x0, #35
+> >   54:    4b817c00     sub    w0, w0, w1, asr #31
+> >   58:    11000400     add    w0, w0, #0x1
+> >   5c:    0b000800     add    w0, w0, w0, lsl #2
+> >   60:    51007c01     sub    w1, w0, #0x1f
+> >   64:    13017c33     asr    w19, w1, #1
+> > ...
+> >
+> > Atomic version:
+> > ...
+> >   48:    531e7660     lsl    w0, w19, #2
+> >   4c:    9b247c01     smull    x1, w0, w4
+> >   50:    9363fc21     asr    x1, x1, #35
+> >   54:    4b807c20     sub    w0, w1, w0, asr #31
+> >   58:    b90027a0     str    w0, [x29,#36]
+> >   5c:    885f7c60     ldxr    w0, [x3]
+> >   60:    11000400     add    w0, w0, #0x1
+> >   64:    8801fc60     stlxr    w1, w0, [x3]
+> >   68:    35ffffa1     cbnz    w1, 5c <main+0x5c>
+> >   6c:    d5033bbf     dmb    ish
+> >   70:    b94027a0     ldr    w0, [x29,#36]
+> >   74:    71000442     subs    w2, w2, #0x1
+> >   78:    0b000800     add    w0, w0, w0, lsl #2
+> >   7c:    51007c00     sub    w0, w0, #0x1f
+> >   80:    13017c13     asr    w19, w0, #1
+> > ...
+> >
+> > I then ran the program on a dual-cluster machine, once on the older
+> > and simpler A53 core and once on the newer A72 core.
+> >
+> > Non-atomic version:
+> > # on -C 0 /tmp/atomic_cost
+> > x=-28
+> > Calculation took 116ms
+> > # on -C 4 /tmp/atomic_cost
+> > x=-28
+> > Calculation took 75ms
+> >
+> > Atomic version:
+> > # on -C 0 /tmp/atomic_cost
+> > x=-28
+> > Calculation took 283ms
+> >
+> > # on -C 4 /tmp/atomic_cost
+> > x=-28
+> > Calculation took 364ms
+> >
+> > I was actually expecting the results to only be worse on the A72 core
+> > in the relative sense (i.e., higher penalty but still faster). The
+> > fact that the test took longer to complete on the A72 core shows that
+> > the situation is even worse than I had expected, which may be due to
+> > the barrier.
+>
+> Interesting, and thank you very much for running this test!
+>
+> It looks like the compiler did some optimization, given that there is
+> only the one dmb in the loop.  So the relative performance of atomics
+> and normal instructions will be varying across CPU families as well
+> as over time.  Which should not be a surprise.  But comparing and
+> contrasting CPU families at that level of detail could result in all
+> sorts of interesting issues that I would prefer to avoid.  ;-)
+>
+> It might be possible to make some sort of general comparison.  But how
+> about the following, which simply notes the possibility of hardware
+> optimizations?
+>
+>         In contrast, when executing a non-atomic operation, the
+>         CPU can load values from cachelines as they appear and
+>         place the results in the store buffer, without the need to
+>         wait for cacheline ownership. Although there are a number of
+>         hardware optimizations that can sometimes hide cache latencies,
+>         the resulting effect on performance is all too often as
+>         depicted in Figure 3.5.
+>
+> I have a prototype commit to this effect, with your Reported-by.
+> Thank you again for testing this!
+>
+>                                                         Thanx, Paul
+>
+> > --Elad
+> >
+> > On Sat, 27 Apr 2019 at 13:45, Paul E. McKenney <paulmck@linux.ibm.com> wrote:
+> > >
+> > > On Fri, Apr 26, 2019 at 07:06:10AM -0400, Elad Lahav wrote:
+> > > > Hello,
+> > > >
+> > > > Section 3.1.3 contains the following statement:
+> > > >
+> > > > "Fortunately, CPU designers have focused heavily on atomic operations,
+> > > > so that as of early 2014 they have greatly reduced their overhead."
+> > > >
+> > > > My experience with very recent hardware is that the *relative* cost of
+> > > > atomic operations has actually increased significantly. It seems that
+> > > > hardware designers, in their attempt to optimize performance for
+> > > > certain workloads, have produced hardware in which the "anomalous"
+> > > > conditions (atomic operations, cache misses, barriers, exceptions)
+> > > > incur much higher penalties than in the past. I assume that this is
+> > > > primarily the result of more intensive speculation and prediction.
+> > >
+> > > Some of the early 2000s systems had -really- atomic operations, but I
+> > > have not kept close track since 2014.
+> > >
+> > > How would you suggest that this be measured?  Do you have access to
+> > > a range of hardweare that would permit us to include something more
+> > > definite and measurable?
+> > >
+> > >                                                         Thanx, Paul
+> > >
+> >
+>
 
