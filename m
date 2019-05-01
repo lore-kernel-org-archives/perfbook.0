@@ -1,220 +1,390 @@
-Return-Path: <e2lahav@gmail.com>
+Return-Path: <junchangwang@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=oRUvmnWQJXXmTH+yWunM58RLBSZXW3Bg6u7ilBL78QM=;
-        b=BDpyiKtYQ1eR5wYV63D6C7jBrCtVuJECkteZ4XwutTfEwTmnnMCZ8p2wrgl58LyPSC
-         mwcxOv/7Uq7yLCBHPw8jY+xM84q3icadRt8zDkJJXK64Qo0rqkk6qORHmUCjzWutQgtK
-         w0W7AUV4ikbdm3UkeFA1FrE69UAw70bYHG8tmgqHfDKSXeGDeRFqekiDj6mTxNixAXca
-         7rsUc1t/SS1feggd56Sl5Q7K0UIA89/LJ3oMoImvGzPLgkAiQu4Yl3I8Te4GvEjlfbFH
-         yRQgDzIkozg3QmEwklqMKUh/nPQ6654FoWR6ASRZK2JWggYErpfFS7HIWDjDDX4K4MhD
-         7gcQ==
+        bh=TPxTqceHqD0vqWHk50X75oWKPh2cZdkycWaD9rI4OFI=;
+        b=mIRYQoXE32y+jx1y1E7/lbbcAApbB6lajqCE13Tt+/c6GdS/pwy9J3Ym2D8iE0cbeS
+         l0aAlISt8yV2W7dvBduy2Z0DQF8aG7VS5lAHN6EukeeT/mVCx+9qQm/0Pm7kOl2irx8C
+         kqq9KcYCun1bRAxO75JKpRtZKXSV6KZCvi+7vKw0lu4ty1fDXMF2v/iEEd7CGxckpxQk
+         e0I/8wCwreoNp/fywIH5JeVAk8LsJnfGEALMw53/UuegmNAXdpkHSK8EGBKe2dNn3aX3
+         Ycca0rGsr0QjfprAQ0t5KQpIjbVa4thKknxrgm4UorCqGyLjVKGStGGGHL7eLa8PsG1V
+         nbmA==
 MIME-Version: 1.0
-References: <CAJbg=FWZhjXARBNou6XZ55fdvRsgABR19p8pytYB+SrKFtwWxQ@mail.gmail.com>
- <20190427174534.GS3923@linux.ibm.com> <CAJbg=FXhWBMgHenuaBya5iCLbbxZh1US73WBHewcXEQQdb-T-A@mail.gmail.com>
- <20190428061105.GF3923@linux.ibm.com>
-In-Reply-To: <20190428061105.GF3923@linux.ibm.com>
-From: Elad Lahav <e2lahav@gmail.com>
-Date: Mon, 29 Apr 2019 06:51:24 -0400
-Message-ID: <CAJbg=FVYYjHWpQTcYhBvHE=v8iHYou-bfN9v7NB52+5+4t3CbQ@mail.gmail.com>
-Subject: Re: Cost of atomic operations on new hardware
+References: <1556548724-17844-1-git-send-email-junchangwang@gmail.com>
+ <1556548724-17844-2-git-send-email-junchangwang@gmail.com> <c0ca810b-f63b-f390-99c3-3fc656927fdb@gmail.com>
+In-Reply-To: <c0ca810b-f63b-f390-99c3-3fc656927fdb@gmail.com>
+From: Junchang Wang <junchangwang@gmail.com>
+Date: Wed, 1 May 2019 21:13:12 +0800
+Message-ID: <CABoNC81uwH0TQ4VSoiAzFQ4pX6kg5XJF3TiKyVAtLWAFCkLbRA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] rcu: Use READ_ONCE() and WRITE_ONCE() for shared
+ variable rcu_gp_ctr
 Content-Type: text/plain; charset="UTF-8"
-To: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc: perfbook@vger.kernel.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: "Paul E. McKenney" <paulmck@linux.ibm.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+On Tue, Apr 30, 2019 at 4:19 PM Akira Yokosawa <akiyks@gmail.com> wrote:
+>
+> Hi Junchang,
+>
+> Please see inline comments below:
+>
+> On Mon, 29 Apr 2019 22:38:43 +0800, Junchang Wang wrote:
+> > Replace the plain accesses with READ_ONCE()/WRITE_ONCE(). And then update
+>
+> How about:
+>
+> s/the plain/racy plain/
+>
+> ?
+>
+> > the tex file accordingly. A new scheme, which directly extracts snippet
+> > from rcu.[hc], is applied.
+> >
+> > Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+> > Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+> > ---
+> >  CodeSamples/defer/rcu.c    | 30 ++++++++-------
+> >  CodeSamples/defer/rcu.h    | 21 ++++++----
+> >  appendix/toyrcu/toyrcu.tex | 95 +++++++++++++++++++---------------------------
+> >  3 files changed, 68 insertions(+), 78 deletions(-)
+> >
+> > diff --git a/CodeSamples/defer/rcu.c b/CodeSamples/defer/rcu.c
+> > index 4b868cc..4ca2739 100644
+> > --- a/CodeSamples/defer/rcu.c
+> > +++ b/CodeSamples/defer/rcu.c
+> > @@ -21,45 +21,47 @@
+> >  #include "../api.h"
+> >  #include "rcu.h"
+> >
+> > -void synchronize_rcu(void)
+> > +//\begin{snippet}[labelbase=ln:defer:rcu:synchronize,gobbleblank=yes,commandchars=\%\@\$]
+> > +void synchronize_rcu(void)                   //\lnlbl{syn:b}
+> >  {
+> >       int t;
+> >
+>
+> We need a "//\fcvblank" here.
+>
+> >       /* Memory barrier ensures mutation seen before grace period. */
+> >
+> > -     smp_mb();
+> > +     smp_mb();                               //\lnlbl{syn:mb1}
+> >
+> >       /* Only one synchronize_rcu() at a time. */
+> >
+> > -     spin_lock(&rcu_gp_lock);
+> > +     spin_lock(&rcu_gp_lock);                //\lnlbl{syn:spinlock}
+> >
+> >       /* Advance to a new grace-period number, enforce ordering. */
+> >
+> > -     rcu_gp_ctr += 2;
+> > -     smp_mb();
+> > +     WRITE_ONCE(rcu_gp_ctr, rcu_gp_ctr + 2); //\lnlbl{syn:increasegp}
+> > +     smp_mb();                               //\lnlbl{syn:mb2}
+> >
+> >       /*
+> >        * Wait until all threads are either out of their RCU read-side
+> >        * critical sections or are aware of the new grace period.
+> >        */
+> >
+> > -     for_each_thread(t) {
+> > -             while ((per_thread(rcu_reader_gp, t) & 0x1) &&
+> > -                    ((per_thread(rcu_reader_gp, t) - rcu_gp_ctr) < 0)) {
+> > +     for_each_thread(t) {                    //\lnlbl{syn:scan:b}
+> > +             while ((per_thread(rcu_reader_gp, t) & 0x1) &&//\lnlbl{syn:even}
+> > +                    ((per_thread(rcu_reader_gp, t) - //\lnlbl{syn:gt1}
+> > +                      rcu_gp_ctr) < 0)) {            //\lnlbl{syn:gt2}
+> >                       /*@@@ poll(NULL, 0, 10); */
+>
+> The original snippet in toyrcu.tex corresponds to this poll() call.
+>
+> > -                     barrier();
+> > +                     barrier();              //\lnlbl{syn:barrier}
+> So one way to keep the snippet consistent with the text is to use the
+> following construct.
+>
+> #ifndef FCV_SNIPPET
+>                         /*@@@ poll(NULL, 0, 10); */
+>                         barrier();
+> #else
+>                         poll(NULL, 0, 10);      //\lnlbl{syn:poll}
+> #endif
+>
+> >               }
+> > -     }
+> > +     }                                       //\lnlbl{syn:scan:e}
+> >
+> >       /* Let other synchronize_rcu() instances move ahead. */
+> >
+> > -     spin_unlock(&rcu_gp_lock);
+> > +     spin_unlock(&rcu_gp_lock);              //\lnlbl{syn:spinunlock}
+> >
+> >       /* Ensure that any subsequent free()s happen -after- above checks. */
+> >
+> > -     smp_mb();
+> > -}
+> > -
+> > +     smp_mb();                               //\lnlbl{syn:mb3}
+> > +}                                            //\lnlbl{syn:e}
+> > +//\end{snippet}
+> >  #ifdef TEST
+> >  #include "rcutorture.h"
+> >  #endif /* #ifdef TEST */
+> > diff --git a/CodeSamples/defer/rcu.h b/CodeSamples/defer/rcu.h
+> > index f493f8b..3641c33 100644
+> > --- a/CodeSamples/defer/rcu.h
+> > +++ b/CodeSamples/defer/rcu.h
+> > @@ -31,7 +31,8 @@ static inline void rcu_init(void)
+> >       init_per_thread(rcu_reader_gp_snap, 0);
+> >  }
+> >
+> > -static inline void rcu_read_lock(void)
+> > +//\begin{snippet}[labelbase=ln:defer:rcu:read_lock_unlock,gobbleblank=yes,commandchars=\%\@\$]
+> > +static inline void rcu_read_lock(void)                       //\lnlbl{lock:b}
+> >  {
+> >       /*
+> >        * Copy the current GP counter to this thread's counter, setting
+> > @@ -41,11 +42,12 @@ static inline void rcu_read_lock(void)
+> >        * periodic per-thread processing.)
+> >        */
+> >
+> > -     __get_thread_var(rcu_reader_gp) = rcu_gp_ctr + 1;
+> > -     smp_mb();
+> > -}
+> > -
+> > -static inline void rcu_read_unlock(void)
+> > +     __get_thread_var(rcu_reader_gp) =               //\lnlbl{lock:gp1}
+> > +             READ_ONCE(rcu_gp_ctr) + 1;              //\lnlbl{lock:gp2}
+> > +     smp_mb();                                       //\lnlbl{lock:mb}
+> > +}                                                    //\lnlbl{lock:e}
+> > +                                                             //\fcvblank
+> > +static inline void rcu_read_unlock(void)             //\lnlbl{unlock:b}
+> >  {
+> >       /*
+> >        * Copy the current GP counter to this thread's counter, but
+> > @@ -54,8 +56,11 @@ static inline void rcu_read_unlock(void)
+> >        * the memory barrier requires periodic per-thread processing.)
+> >        */
+> >
+> > -     smp_mb();
+> > -     __get_thread_var(rcu_reader_gp) = rcu_gp_ctr;
+> > +     smp_mb();                                       //\lnlbl{unlock:mb}
+> > +     __get_thread_var(rcu_reader_gp) =               //\lnlbl{unlock:gp1}
+> > +             READ_ONCE(rcu_gp_ctr);                  //\lnlbl{unlock:gp2}
+> >  }
+> > +                                                             //\fcvblank
+> > +//\end{snippet}
+> >
+> >  extern void synchronize_rcu(void);
+> > diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
+> > index c0a45a8..f7fc07b 100644
+> > --- a/appendix/toyrcu/toyrcu.tex
+> > +++ b/appendix/toyrcu/toyrcu.tex
+> > @@ -1218,44 +1218,8 @@ thread-local accesses to one, as is done in the next section.
+> >  \end{listing}
+> >
+> >  \begin{listing}[tbp]
+> > -{ \scriptsize
+> > -\begin{verbbox}
+> > - 1 static void rcu_read_lock(void)
+> > - 2 {
+> > - 3   __get_thread_var(rcu_reader_gp) =
+> > - 4     ACCESS_ONCE(rcu_gp_ctr) + 1;
+> > - 5   smp_mb();
+> > - 6 }
+> > - 7
+> > - 8 static void rcu_read_unlock(void)
+> > - 9 {
+> > -10   smp_mb();
+> > -11   __get_thread_var(rcu_reader_gp) =
+> > -12     ACCESS_ONCE(rcu_gp_ctr);
+> > -13 }
+> > -14
+> > -15 void synchronize_rcu(void)
+> > -16 {
+> > -17   int t;
+> > -18
+> > -19   smp_mb();
+> > -20   spin_lock(&rcu_gp_lock);
+> > -21   ACCESS_ONCE(rcu_gp_ctr) += 2;
+> > -22   smp_mb();
+> > -23   for_each_thread(t) {
+> > -24     while ((per_thread(rcu_reader_gp, t) & 0x1) &&
+> > -25             ((per_thread(rcu_reader_gp, t) -
+> > -26               ACCESS_ONCE(rcu_gp_ctr)) < 0)) {
+> > -27       poll(NULL, 0, 10);
+> > -28     }
+> > -29   }
+> > -30   spin_unlock(&rcu_gp_lock);
+> > -31   smp_mb();
+> > -32 }
+> > -\end{verbbox}
+> > -}
+> > -\centering
+> > -\theverbbox
+> > +\input{CodeSamples/defer/rcu@read_lock_unlock.fcv}\vspace*{-11pt}\fvset{firstnumber=last}
+> > +\input{CodeSamples/defer/rcu@synchronize.fcv}\fvset{firstnumber=auto}
+> >  \caption{Free-Running Counter Using RCU}
+> >  \label{lst:app:toyrcu:Free-Running Counter Using RCU}
+> >  \end{listing}
+> > @@ -1267,25 +1231,34 @@ that takes on only even-numbered values, with data shown in
+> >  Listing~\ref{lst:app:toyrcu:Data for Free-Running Counter Using RCU}.
+> >  The resulting \co{rcu_read_lock()} implementation is extremely
+> >  straightforward.
+> > -Lines~3 and~4 simply add one to the global free-running \co{rcu_gp_ctr}
+> > +\begin{lineref}[ln:defer:rcu:read_lock_unlock:lock]
+> > +Lines~\lnref{gp1} and~\lnref{gp2} simply
+> > +add one to the global free-running \co{rcu_gp_ctr}
+> >  variable and stores the resulting odd-numbered value into the
+> >  \co{rcu_reader_gp} per-thread variable.
+> > -Line~5 executes a memory barrier to prevent the content of the
+> > +Line~\lnref{mb} executes a memory barrier to prevent the content of the
+> >  subsequent RCU read-side critical section from ``leaking out''.
+> > +\end{lineref}
+> >
+> > +\begin{lineref}[ln:defer:rcu:read_lock_unlock:unlock]
+> >  The \co{rcu_read_unlock()} implementation is similar.
+> > -Line~10 executes a memory barrier, again to prevent the prior RCU
+> > +Line~\lnref{mb} executes a memory barrier, again to prevent the prior RCU
+> >  read-side critical section from ``leaking out''.
+> > -Lines~11 and~12 then copy the \co{rcu_gp_ctr} global variable to the
+> > +Lines~\lnref{gp1} and~\lnref{gp2} then
+> > +copy the \co{rcu_gp_ctr} global variable to the
+> >  \co{rcu_reader_gp} per-thread variable, leaving this per-thread
+> >  variable with an even-numbered value so that a concurrent instance
+> >  of \co{synchronize_rcu()} will know to ignore it.
+> > +\end{lineref}
+> >
+> >  \QuickQuiz{}
+> > +     \begin{lineref}[ln:defer:rcu:read_lock_unlock:unlock]
+> >       If any even value is sufficient to tell \co{synchronize_rcu()}
+> > -     to ignore a given task, why don't lines~10 and~11 of
+> > +     to ignore a given task, why don't lines~\lnref{gp1}
+> > +     and~\lnref{gp2} of
+> >       Listing~\ref{lst:app:toyrcu:Free-Running Counter Using RCU}
+> >       simply assign zero to \co{rcu_reader_gp}?
+> > +     \end{lineref}
+> >  \QuickQuizAnswer{
+> >       Assigning zero (or any other even-numbered constant)
+> >       would in fact work, but assigning the value of
+> > @@ -1294,39 +1267,46 @@ of \co{synchronize_rcu()} will know to ignore it.
+> >       thread last exited an RCU read-side critical section.
+> >  } \QuickQuizEnd
+> >
+> > +\begin{lineref}[ln:defer:rcu:synchronize:syn]
+> >  Thus, \co{synchronize_rcu()} could wait for all of the per-thread
+> >  \co{rcu_reader_gp} variables to take on even-numbered values.
+> >  However, it is possible to do much better than that because
+> >  \co{synchronize_rcu()} need only wait on \emph{pre-existing}
+> >  RCU read-side critical sections.
+> > -Line~19 executes a memory barrier to prevent prior manipulations
+> > +Line~\lnref{mb1} executes a memory barrier to prevent prior manipulations
+> >  of RCU-protected data structures from being reordered (by either
+> > -the CPU or the compiler) to follow the increment on line~21.
+> > -Line~20 acquires the \co{rcu_gp_lock} (and line~30 releases it)
+> > +the CPU or the compiler) to follow the increment on
+> > +line~\lnref{increasegp}.
+> > +Line~\lnref{spinlock} acquires the \co{rcu_gp_lock}
+> > +(and line~\lnref{spinunlock} releases it)
+> >  in order to prevent multiple
+> >  \co{synchronize_rcu()} instances from running concurrently.
+> > -Line~21 then increments the global \co{rcu_gp_ctr} variable by
+> > +Line~\lnref{increasegp} then increments the global \co{rcu_gp_ctr} variable by
+> >  two, so that all pre-existing RCU read-side critical sections will
+> >  have corresponding per-thread \co{rcu_reader_gp} variables with
+> >  values less than that of \co{rcu_gp_ctr}, modulo the machine's
+> >  word size.
+> >  Recall also that threads with even-numbered values of \co{rcu_reader_gp}
+> >  are not in an RCU read-side critical section,
+> > -so that lines~23-29 scan the \co{rcu_reader_gp} values until they
+> > -all are either even (line~24) or are greater than the global
+> > -\co{rcu_gp_ctr} (lines~25-26).
+> > -Line~27 blocks for a short period of time to wait for a
+> > +so that lines~\lnref{scan:b}-\lnref{scan:e}
+> > +scan the \co{rcu_reader_gp} values until they
+> > +all are either even (line~\lnref{even}) or are greater than the global
+> > +\co{rcu_gp_ctr} (lines~\lnref{gt1}-\lnref{gt2}).
+> > +Line~\lnref{barrier} blocks for a short period of time to wait for a
+>
+> s/\lnref{barrier}/\lnref{poll}/
+> "poll" is the label used in the "#ifndef FCV_SNIPPET" construct suggested above.
+>
+> >  pre-existing RCU read-side critical section, but this can be replaced with
+> >  a spin-loop if grace-period latency is of the essence.
+> > -Finally, the memory barrier at line~31 ensures that any subsequent
+> > +Finally, the memory barrier at line~\lnref{mb3} ensures that any subsequent
+> >  destruction will not be reordered into the preceding loop.
+> > +\end{lineref}
+> >
+> >  \QuickQuiz{}
+> > -     Why are the memory barriers on lines~19 and~31 of
+> > +     \begin{lineref}[ln:defer:rcu:synchronize:syn]
+> > +     Why are the memory barriers on lines~\lnref{mb1} and~\lnref{mb3} of
+> >       Listing~\ref{lst:app:toyrcu:Free-Running Counter Using RCU}
+> >       needed?
+> >       Aren't the memory barriers inherent in the locking
+> > -     primitives on lines~20 and~30 sufficient?
+> > +     primitives on lines~\lnref{spinlock} and~\lnref{spinunlock} sufficient?
+> > +     \end{lineref}
+> >  \QuickQuizAnswer{
+> >       These memory barriers are required because the locking
+> >       primitives are only guaranteed to confine the critical
+> > @@ -1355,11 +1335,12 @@ such CPUs.
+> >       This work is left as an exercise for the reader.
+> >  } \QuickQuizEnd
+> >
+> > +\begin{lineref}[ln:defer:rcu:read_lock_unlock:lock]
+> >  This implementation suffers from some serious shortcomings in
+> >  addition to the high update-side overhead noted earlier.
+> >  First, it is no longer permissible to nest RCU read-side critical
+> >  sections, a topic that is taken up in the next section.
+> > -Second, if a reader is preempted at line~3 of
+> > +Second, if a reader is preempted at line~\lnref{gp1} of
+> >  Listing~\ref{lst:app:toyrcu:Free-Running Counter Using RCU} after fetching from
+> >  \co{rcu_gp_ctr} but before storing to \co{rcu_reader_gp},
+> >  and if the \co{rcu_gp_ctr} counter then runs through more than half
+> > @@ -1371,7 +1352,8 @@ variables.
+>
+> Please put \end{lineref} ahead of \QuickQuiz{}.
+> \QuickQuiz{} should have its own pair of \begin{lineref} and \end{lineref}.
+> It looks like you have figured this out and taken care of the paring in 2/2
+> of this patch set, but it is desirable to make sure each commit builds properly.
+>
 
-Looks good, but the point I was trying to make is a bit more explicit:
-with better optimizations for the "normal" stream of execution come an
-increase in the relative cost for the "abnormal" cases. We can
-therefore expect (at least in the short term) that the penalty for
-atomic operations, cache misses, memory barriers and exceptions will
-keep rising.
-Working on a microkernel-based OS with 2018/2019 hardware has made
-this woefully clear.
+Hi Akira,
 
---Elad
+Thanks a lot for reviewing the patch set. I will submit a new version soon.
 
-On Sun, 28 Apr 2019 at 02:11, Paul E. McKenney <paulmck@linux.ibm.com> wrote:
+Thanks,
+--Junchang
+
+> >
+> >  \QuickQuiz{}
+> >       Is the possibility of readers being preempted in
+> > -     lines~3-4 of Listing~\ref{lst:app:toyrcu:Free-Running Counter Using RCU}
+> > +     lines~\lnref{gp1}-\lnref{gp2} of
+> > +     Listing~\ref{lst:app:toyrcu:Free-Running Counter Using RCU}
+> >       a real problem, in other words, is there a real sequence
+> >       of events that could lead to failure?
+> >       If not, why not?
+> > @@ -1388,6 +1370,7 @@ variables.
+> >       added in that section greatly reduces the time required to
+> >       overflow the counter.
+> >  } \QuickQuizEnd
+> > +\end{lineref}
 >
-> On Sat, Apr 27, 2019 at 04:24:36PM -0400, Elad Lahav wrote:
-> > Hi Paul,
-> >
-> > Here's a quick-n-dirty experiment I have just tried.
-> > The following code performs some integer arithmetic. The inc_by_one()
-> > function can be toggled between a simple increment instruction and an
-> > atomic version:
-> >
-> > #include <stdio.h>
-> > #include <stdlib.h>
-> > #include <time.h>
-> >
-> > static inline void
-> > inc_by_one(int * const p)
-> > {
-> > #ifdef USE_ATOMIC
-> >     __sync_fetch_and_add(p, 1);
-> > #else
-> >     (*p)++;
-> > #endif
-> > }
-> >
-> > static int
-> > do_calc(int x)
-> > {
-> >     x <<= 2;
-> >     x /= 17;
-> >     inc_by_one(&x);
-> >     x *= 5;
-> >     x -= 31;
-> >     x >>= 1;
-> >     return x;
-> > }
-> >
-> > int
-> > main(int argc, char **argv)
-> > {
-> >     int x = rand();
-> >
-> >     struct timespec ts_start;
-> >     clock_gettime(CLOCK_MONOTONIC, &ts_start);
-> >
-> >     for (int i = 0; i < 10000000; i++) {
-> >         x = do_calc(x);
-> >     }
-> >
-> >     struct timespec ts_end;
-> >     clock_gettime(CLOCK_MONOTONIC, &ts_end);
-> >
-> >     printf("x=%d\n", x);
-> >
-> >     time_t const start_ms = ts_start.tv_sec * 1000 + ts_start.tv_nsec / 1000000;
-> >     time_t const end_ms = ts_end.tv_sec * 1000 + ts_end.tv_nsec / 1000000;
-> >
-> >     printf("Calculation took %ldms\n", end_ms - start_ms);
-> >     return 0;
-> > }
-> >
-> > (The use of rand() at the beginning is just to ensure the compiler
-> > doesn't figure out the result, so I didn't bother seeding the PRNG).
-> > I compiled both versions for the aarch64 architecture. Disassembling
-> > the code shows that it indeed performs the calculations as expected.
-> >
-> > Non-atomic version:
-> > ...
-> >   44:    531e7661     lsl    w1, w19, #2
-> >   48:    71000442     subs    w2, w2, #0x1
-> >   4c:    9b237c20     smull    x0, w1, w3
-> >   50:    9363fc00     asr    x0, x0, #35
-> >   54:    4b817c00     sub    w0, w0, w1, asr #31
-> >   58:    11000400     add    w0, w0, #0x1
-> >   5c:    0b000800     add    w0, w0, w0, lsl #2
-> >   60:    51007c01     sub    w1, w0, #0x1f
-> >   64:    13017c33     asr    w19, w1, #1
-> > ...
-> >
-> > Atomic version:
-> > ...
-> >   48:    531e7660     lsl    w0, w19, #2
-> >   4c:    9b247c01     smull    x1, w0, w4
-> >   50:    9363fc21     asr    x1, x1, #35
-> >   54:    4b807c20     sub    w0, w1, w0, asr #31
-> >   58:    b90027a0     str    w0, [x29,#36]
-> >   5c:    885f7c60     ldxr    w0, [x3]
-> >   60:    11000400     add    w0, w0, #0x1
-> >   64:    8801fc60     stlxr    w1, w0, [x3]
-> >   68:    35ffffa1     cbnz    w1, 5c <main+0x5c>
-> >   6c:    d5033bbf     dmb    ish
-> >   70:    b94027a0     ldr    w0, [x29,#36]
-> >   74:    71000442     subs    w2, w2, #0x1
-> >   78:    0b000800     add    w0, w0, w0, lsl #2
-> >   7c:    51007c00     sub    w0, w0, #0x1f
-> >   80:    13017c13     asr    w19, w0, #1
-> > ...
-> >
-> > I then ran the program on a dual-cluster machine, once on the older
-> > and simpler A53 core and once on the newer A72 core.
-> >
-> > Non-atomic version:
-> > # on -C 0 /tmp/atomic_cost
-> > x=-28
-> > Calculation took 116ms
-> > # on -C 4 /tmp/atomic_cost
-> > x=-28
-> > Calculation took 75ms
-> >
-> > Atomic version:
-> > # on -C 0 /tmp/atomic_cost
-> > x=-28
-> > Calculation took 283ms
-> >
-> > # on -C 4 /tmp/atomic_cost
-> > x=-28
-> > Calculation took 364ms
-> >
-> > I was actually expecting the results to only be worse on the A72 core
-> > in the relative sense (i.e., higher penalty but still faster). The
-> > fact that the test took longer to complete on the A72 core shows that
-> > the situation is even worse than I had expected, which may be due to
-> > the barrier.
+> Ditto.
 >
-> Interesting, and thank you very much for running this test!
+> With those fixed,
 >
-> It looks like the compiler did some optimization, given that there is
-> only the one dmb in the loop.  So the relative performance of atomics
-> and normal instructions will be varying across CPU families as well
-> as over time.  Which should not be a surprise.  But comparing and
-> contrasting CPU families at that level of detail could result in all
-> sorts of interesting issues that I would prefer to avoid.  ;-)
+> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
 >
-> It might be possible to make some sort of general comparison.  But how
-> about the following, which simply notes the possibility of hardware
-> optimizations?
->
->         In contrast, when executing a non-atomic operation, the
->         CPU can load values from cachelines as they appear and
->         place the results in the store buffer, without the need to
->         wait for cacheline ownership. Although there are a number of
->         hardware optimizations that can sometimes hide cache latencies,
->         the resulting effect on performance is all too often as
->         depicted in Figure 3.5.
->
-> I have a prototype commit to this effect, with your Reported-by.
-> Thank you again for testing this!
->
->                                                         Thanx, Paul
->
-> > --Elad
+>         Thanks, Akira
 > >
-> > On Sat, 27 Apr 2019 at 13:45, Paul E. McKenney <paulmck@linux.ibm.com> wrote:
-> > >
-> > > On Fri, Apr 26, 2019 at 07:06:10AM -0400, Elad Lahav wrote:
-> > > > Hello,
-> > > >
-> > > > Section 3.1.3 contains the following statement:
-> > > >
-> > > > "Fortunately, CPU designers have focused heavily on atomic operations,
-> > > > so that as of early 2014 they have greatly reduced their overhead."
-> > > >
-> > > > My experience with very recent hardware is that the *relative* cost of
-> > > > atomic operations has actually increased significantly. It seems that
-> > > > hardware designers, in their attempt to optimize performance for
-> > > > certain workloads, have produced hardware in which the "anomalous"
-> > > > conditions (atomic operations, cache misses, barriers, exceptions)
-> > > > incur much higher penalties than in the past. I assume that this is
-> > > > primarily the result of more intensive speculation and prediction.
-> > >
-> > > Some of the early 2000s systems had -really- atomic operations, but I
-> > > have not kept close track since 2014.
-> > >
-> > > How would you suggest that this be measured?  Do you have access to
-> > > a range of hardweare that would permit us to include something more
-> > > definite and measurable?
-> > >
-> > >                                                         Thanx, Paul
-> > >
+> >  \section{Nestable RCU Based on Free-Running Counter}
+> >  \label{sec:app:toyrcu:Nestable RCU Based on Free-Running Counter}
 > >
 >
 
