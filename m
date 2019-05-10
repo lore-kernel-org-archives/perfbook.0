@@ -1,156 +1,55 @@
 Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49186 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726704AbfEIXSu (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Thu, 9 May 2019 19:18:50 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x49NH7sa034129
-        for <perfbook@vger.kernel.org>; Thu, 9 May 2019 19:18:49 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2scuysbfwg-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Thu, 09 May 2019 19:18:49 -0400
-Received: from localhost
-        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Fri, 10 May 2019 00:18:48 +0100
-Date: Thu, 9 May 2019 16:18:46 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH v2] rcu_nest: fix concurrency issues
-Reply-To: paulmck@linux.ibm.com
-References: <1557325561-8506-1-git-send-email-junchangwang@gmail.com>
+Received: from mail-it1-f174.google.com ([209.85.166.174]:37856 "EHLO
+        mail-it1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727144AbfEJLfO (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Fri, 10 May 2019 07:35:14 -0400
+Received: by mail-it1-f174.google.com with SMTP id l7so8617244ite.2
+        for <perfbook@vger.kernel.org>; Fri, 10 May 2019 04:35:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=I49+/4awst+K32HfnvGzaLYaFH7Kx56NhEMaw9UyfRU=;
+        b=cxMEINFyZnRzICYax8OZqDm7rV93z8a9c48bNXnKOTgRo8E1HH7ry042lC5JcZVbEN
+         e5tagr7SUBXRb2sk9mvdY5d2CfFoL4ktlnRum49Cfb+MSL+fa4SXRtIZygWqiuQq4RlB
+         K0X6uAnr/BoxvVBG8oK4wO6thz9Qn06tqVMWXdYwIO2p+drqUU0Vvb0EZ4PB1c8G4bT9
+         XIMui6EjXbUwj18od5vXmxqFsnmf2IfH9S8u4a02IxNkRyZYsWe94wD26BiibfTkaTo4
+         kbvQV2+5Uc6iiNARnK4+eDwL41EjAJpvbv5mhGQl9CnGy8kEPZdkOdlKdD62KSm5M/FV
+         7YIg==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1557325561-8506-1-git-send-email-junchangwang@gmail.com>
-Message-Id: <20190509231846.GO3923@linux.ibm.com>
+From: Elad Lahav <e2lahav@gmail.com>
+Date: Fri, 10 May 2019 07:35:02 -0400
+Message-ID: <CAJbg=FWSV6akb4g7Kt8-sNt-mnLUZ25MHZ=bPQuEfd6PEUY0NQ@mail.gmail.com>
+Subject: Single-threaded accesses and signal handlers
+Content-Type: text/plain; charset="UTF-8"
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Junchang Wang <junchangwang@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: perfbook@vger.kernel.org
 
-On Wed, May 08, 2019 at 10:26:01PM +0800, Junchang Wang wrote:
-> Variable "rcu_gp_ctr" is incremented by the updater and is fetched by
-> readers concurrently. So protect this variable by using READ_ONCE()
-> and WRITE_ONCE().
-> 
-> Per-thread variable "rcu_read_gp" is updated by the reader and is read
-> by the updater. So protect it by using READ_ONCE() and WRITE_ONCE().
-> 
-> The type of "rcu_gp_ctr" is changed to unsigned long because the behavior
-> of the overflow of a signed long integer is not well defined in C yet.
-> "rcu_gp_ctr" could wrap around. To compare it to "rcu_reader_gp" correctly,
-> helper function ULONG_CMP_GE() is used.
-> 
-> Refine the code snippet in "rcu_read_lock" that allows a reader to start
-> over. In this version, we add micro MAX_GP_ADV_DISTANCE which is by
-> default set to (RCU_GP_CTR_NEST_MASK << 8). Once a reader notices that
-> MAX_GP_ADV_DISTANCE grace-periods have elapsed since fetching the value of
-> "rcu_reader_gp", the reader starts over.
-> 
-> Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+Hello,
 
-Queued and pushed, thank you!!!
+In a few places in Chapter 4 it is mentioned that a certain access
+pattern is safe in a single-threaded program. In many (most?)
+Unix-like operating systems signal handlers in an otherwise
+single-threaded process execute in the context of that single thread.
+Nevertheless the signal handler represents a conceptually separate
+stream of execution that is subject to similar race conditions as
+those that occur in "true" multi-threaded programs. The situation is
+even worse with signal handlers as standard locks typically cannot be
+used to protect the access to shared data.
+It may be worthwhile to mention this pitfall.
 
-							Thanx, Paul
+Also, a small typo in "Shared-Variable Shenanigans":
 
-> ---
-> Changes from v1:
->  - Use ULONG_CMP_GE() to compare variables correctly.
-> 
-> 
->  CodeSamples/defer/rcu_nest.c |  5 +++--
->  CodeSamples/defer/rcu_nest.h | 32 ++++++++++++++++++++++++--------
->  2 files changed, 27 insertions(+), 10 deletions(-)
-> 
-> diff --git a/CodeSamples/defer/rcu_nest.c b/CodeSamples/defer/rcu_nest.c
-> index 64e4087..362f466 100644
-> --- a/CodeSamples/defer/rcu_nest.c
-> +++ b/CodeSamples/defer/rcu_nest.c
-> @@ -35,7 +35,7 @@ void synchronize_rcu(void)
->  
->  	/* Advance to a new grace-period number, enforce ordering. */
->  
-> -	rcu_gp_ctr += RCU_GP_CTR_BOTTOM_BIT;
-> +	WRITE_ONCE(rcu_gp_ctr, rcu_gp_ctr + RCU_GP_CTR_BOTTOM_BIT);
->  	smp_mb();
->  
->  	/*
-> @@ -45,7 +45,8 @@ void synchronize_rcu(void)
->  
->  	for_each_thread(t) {
->  		while (rcu_gp_ongoing(t) &&
-> -		       ((per_thread(rcu_reader_gp, t) - rcu_gp_ctr) < 0)) {
-> +		       ((READ_ONCE(per_thread(rcu_reader_gp, t)) -
-> +			 rcu_gp_ctr) < 0)) {
->  			/*@@@ poll(NULL, 0, 10); */
->  			barrier();
->  		}
-> diff --git a/CodeSamples/defer/rcu_nest.h b/CodeSamples/defer/rcu_nest.h
-> index bcc4cde..7e7b7de 100644
-> --- a/CodeSamples/defer/rcu_nest.h
-> +++ b/CodeSamples/defer/rcu_nest.h
-> @@ -20,12 +20,17 @@
->  
->  #include "rcu_pointer.h"
->  
-> +/* Borrow from rcupdate.h in Linux kernel */
-> +#define ULONG_CMP_GE(a, b)      (ULONG_MAX / 2 >= (a) - (b))
-> +#define ULONG_CMP_LT(a, b)      (ULONG_MAX / 2 < (a) - (b))
-> +
->  DEFINE_SPINLOCK(rcu_gp_lock);
->  #define RCU_GP_CTR_SHIFT 7
->  #define RCU_GP_CTR_BOTTOM_BIT (1 << RCU_GP_CTR_SHIFT)
->  #define RCU_GP_CTR_NEST_MASK (RCU_GP_CTR_BOTTOM_BIT - 1)
-> -long rcu_gp_ctr = 0;	/* increment by RCU_GP_CTR_BOTTOM_BIT each gp. */
-> -DEFINE_PER_THREAD(long, rcu_reader_gp);
-> +#define MAX_GP_ADV_DISTANCE (RCU_GP_CTR_NEST_MASK << 8)
-> +unsigned long rcu_gp_ctr = 0;	/* increment by RCU_GP_CTR_BOTTOM_BIT each gp. */
-> +DEFINE_PER_THREAD(unsigned long, rcu_reader_gp);
->  
->  static inline int rcu_gp_ongoing(int cpu)
->  {
-> @@ -39,8 +44,8 @@ static void rcu_init(void)
->  
->  static void rcu_read_lock(void)
->  {
-> -	long tmp;
-> -	long *rrgp;
-> +	unsigned long tmp;
-> +	unsigned long *rrgp;
->  
->  	/*
->  	 * If this is the outermost RCU read-side critical section,
-> @@ -52,13 +57,24 @@ static void rcu_read_lock(void)
->  retry:
->  	tmp = *rrgp;
->  	if ((tmp & RCU_GP_CTR_NEST_MASK) == 0)
-> -		tmp = rcu_gp_ctr;
-> +		tmp = READ_ONCE(rcu_gp_ctr);
->  	tmp++;
-> -	*rrgp = tmp;
-> +	WRITE_ONCE(*rrgp, tmp);
->  	smp_mb();
-> +
-> +	/*
-> +	 * A reader could be suspended in between fetching the value of *rrgp
-> +	 * and writting the updated value back into *rrgp. During this
-> +	 * time period, the grace-period counter might have advanced very far.
-> +	 * In this case, we force the reader to start over. One special case
-> +	 * is that "rcu_gp_ctr" may have wrapped around while "tmp" is close to
-> +	 * ULONG_MAX. To handle this correctly, we adopt the helper function
-> +	 * ULONG_CMP_GE.
-> +	 */
-> +
->  	if (((tmp & RCU_GP_CTR_NEST_MASK) == 1) &&
-> -	    ((rcu_gp_ctr - tmp) > (RCU_GP_CTR_NEST_MASK << 8)) != 0) {
-> -		(*rrgp)--;
-> +	     ULONG_CMP_GE(READ_ONCE(rcu_gp_ctr), tmp + MAX_GP_ADV_DISTANCE)) {
-> +		WRITE_ONCE(*rrgp, *rrgp - 1);
->  		goto retry;
->  	}
->  }
-> -- 
-> 2.7.4
-> 
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -1550,7 +1550,7 @@ Of course, where practical, the primitives described in
+ Section~\ref{sec:toolsoftrade:Atomic Operations (gcc Classic)}
+ or (especially)
+ Section~\ref{sec:toolsoftrade:Atomic Operations (C11)}
+-should be instead be used to avoid data races, that is, to ensure
++should instead be used to avoid data races, that is, to ensure
+ that if there are multiple concurrent accesses to a given
+ variable, all of those accesses are loads.
+
+--Elad
 
