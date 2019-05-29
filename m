@@ -1,255 +1,357 @@
-Return-Path: <paulmckrcu+caf_=paulmck=linux.ibm.com@gmail.com>
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43150 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726909AbfELUwH (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 12 May 2019 16:52:07 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4CKptBr094594
-        for <perfbook@vger.kernel.org>; Sun, 12 May 2019 16:52:05 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2setavrq8j-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <perfbook@vger.kernel.org>; Sun, 12 May 2019 16:52:04 -0400
-Received: from localhost
-        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <perfbook@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Sun, 12 May 2019 21:52:04 +0100
-Date: Sun, 12 May 2019 13:52:03 -0700
-From: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: Cost of atomic operations on new hardware
-Reply-To: paulmck@linux.ibm.com
-References: <CAJbg=FWZhjXARBNou6XZ55fdvRsgABR19p8pytYB+SrKFtwWxQ@mail.gmail.com>
- <20190427174534.GS3923@linux.ibm.com>
- <CAJbg=FXhWBMgHenuaBya5iCLbbxZh1US73WBHewcXEQQdb-T-A@mail.gmail.com>
- <20190428061105.GF3923@linux.ibm.com>
- <CAJbg=FVYYjHWpQTcYhBvHE=v8iHYou-bfN9v7NB52+5+4t3CbQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJbg=FVYYjHWpQTcYhBvHE=v8iHYou-bfN9v7NB52+5+4t3CbQ@mail.gmail.com>
-Message-Id: <20190512205203.GH3923@linux.ibm.com>
-Sender: perfbook-owner@vger.kernel.org
+Return-Path: <junchangwang@gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=R3tu0mM11mYyT8h0lmL6h7AeCdEXOrusXE6l9+tHAgE=;
+        b=Orv3E4INtzRLl5Y/WSDD9Xd3ZncVnyBkbfBFsDPhsU5+AtokkSm2MxVhaiIMg1yv/O
+         VOTe2/lrUUYgwduHoWdZLsaxBnDq4tFDco8R1BbR60sS27RYObsxMICJgBCFFlYtU1ZY
+         xDxhpuvCS20C2T1a9pBSrOFuZh2ZKC06bibDYJgQOdDVgdjfmfqLyjlIwipbdktoiKvE
+         +fzIZ1RjBov2cTbVWx2XI4Gcmmcstb2w3DOoRTuQla4xQ9wx/NCR+qea8fBw05FQKSoj
+         aXBshvwEIxLtPN/1rcf8wpDyMDZfCUG8+FcHawCrGuBmt1NCCXEHSdbcPkZvkrlHnJp2
+         JRIA==
+From: Junchang Wang <junchangwang@gmail.com>
+Subject: [PATCH] rcu_nest: Update description of rcu_nest.[hc]
+Date: Wed, 29 May 2019 12:47:42 +0800
+Message-Id: <1559105262-6502-1-git-send-email-junchangwang@gmail.com>
+To: paulmck@linux.ibm.com, akiyks@gmail.com
+Cc: perfbook@vger.kernel.org, Junchang Wang <junchangwang@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Elad Lahav <e2lahav@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-Hello, Elad,
+Commit 61e0eb9cdb89 ("rcu_nest: Fix concurrency issues") fixes a few
+concurrency issues in rcu_nest.h and rcu_nest.c. This patch accordingly
+updates the description in Appendix B Toy RCU Implementations. Besides, the
+new scheme, which directly extracts snippet from rcu_nest.[hc], is applied.
 
-This is a special case of a much more general tradeoff between:
 
-1.	Single-threaded performance.
-2.	Shared-memory operation latency, for example, the atomic
-	read-modify-write operations and memory-barrier instructions
-	we were discussing.
-3.	Aggregate throughput across the entire system.
-4.	Energy efficiency.
-5.	Production cost.
-6.	Die area (which is vaguely related to reliability).
-7.	Who knows what all else.
+Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+---
 
-Your CPUs seem to be going for #1.  Other CPU families put more emphasis
-on #2.  GPGPUs major in #3.  CPUs designed for battery-powered operation
-emphasize #4, though not as much as do CPUs designed for low-end satellites.
-High unit-volume CPUs (smartphones, toys, ...) focus on #5, which often
-also implies #6.
+Thanks again for writing and sharing perfbook. I can always find great
+pleasure in reading through a chapter of this book :-).
 
-Any thoughts on how much detail is appropriate at this point in the book?
+ CodeSamples/defer/rcu_nest.c |  35 ++++++++------
+ CodeSamples/defer/rcu_nest.h |  36 +++++++++------
+ appendix/toyrcu/toyrcu.tex   | 108 +++++++++++++++----------------------------
+ 3 files changed, 81 insertions(+), 98 deletions(-)
 
-							Thanx, Paul
-
-On Mon, Apr 29, 2019 at 06:51:24AM -0400, Elad Lahav wrote:
-> Hi Paul,
-> 
-> Looks good, but the point I was trying to make is a bit more explicit:
-> with better optimizations for the "normal" stream of execution come an
-> increase in the relative cost for the "abnormal" cases. We can
-> therefore expect (at least in the short term) that the penalty for
-> atomic operations, cache misses, memory barriers and exceptions will
-> keep rising.
-> Working on a microkernel-based OS with 2018/2019 hardware has made
-> this woefully clear.
-> 
-> --Elad
-> 
-> On Sun, 28 Apr 2019 at 02:11, Paul E. McKenney <paulmck@linux.ibm.com> wrote:
-> >
-> > On Sat, Apr 27, 2019 at 04:24:36PM -0400, Elad Lahav wrote:
-> > > Hi Paul,
-> > >
-> > > Here's a quick-n-dirty experiment I have just tried.
-> > > The following code performs some integer arithmetic. The inc_by_one()
-> > > function can be toggled between a simple increment instruction and an
-> > > atomic version:
-> > >
-> > > #include <stdio.h>
-> > > #include <stdlib.h>
-> > > #include <time.h>
-> > >
-> > > static inline void
-> > > inc_by_one(int * const p)
-> > > {
-> > > #ifdef USE_ATOMIC
-> > >     __sync_fetch_and_add(p, 1);
-> > > #else
-> > >     (*p)++;
-> > > #endif
-> > > }
-> > >
-> > > static int
-> > > do_calc(int x)
-> > > {
-> > >     x <<= 2;
-> > >     x /= 17;
-> > >     inc_by_one(&x);
-> > >     x *= 5;
-> > >     x -= 31;
-> > >     x >>= 1;
-> > >     return x;
-> > > }
-> > >
-> > > int
-> > > main(int argc, char **argv)
-> > > {
-> > >     int x = rand();
-> > >
-> > >     struct timespec ts_start;
-> > >     clock_gettime(CLOCK_MONOTONIC, &ts_start);
-> > >
-> > >     for (int i = 0; i < 10000000; i++) {
-> > >         x = do_calc(x);
-> > >     }
-> > >
-> > >     struct timespec ts_end;
-> > >     clock_gettime(CLOCK_MONOTONIC, &ts_end);
-> > >
-> > >     printf("x=%d\n", x);
-> > >
-> > >     time_t const start_ms = ts_start.tv_sec * 1000 + ts_start.tv_nsec / 1000000;
-> > >     time_t const end_ms = ts_end.tv_sec * 1000 + ts_end.tv_nsec / 1000000;
-> > >
-> > >     printf("Calculation took %ldms\n", end_ms - start_ms);
-> > >     return 0;
-> > > }
-> > >
-> > > (The use of rand() at the beginning is just to ensure the compiler
-> > > doesn't figure out the result, so I didn't bother seeding the PRNG).
-> > > I compiled both versions for the aarch64 architecture. Disassembling
-> > > the code shows that it indeed performs the calculations as expected.
-> > >
-> > > Non-atomic version:
-> > > ...
-> > >   44:    531e7661     lsl    w1, w19, #2
-> > >   48:    71000442     subs    w2, w2, #0x1
-> > >   4c:    9b237c20     smull    x0, w1, w3
-> > >   50:    9363fc00     asr    x0, x0, #35
-> > >   54:    4b817c00     sub    w0, w0, w1, asr #31
-> > >   58:    11000400     add    w0, w0, #0x1
-> > >   5c:    0b000800     add    w0, w0, w0, lsl #2
-> > >   60:    51007c01     sub    w1, w0, #0x1f
-> > >   64:    13017c33     asr    w19, w1, #1
-> > > ...
-> > >
-> > > Atomic version:
-> > > ...
-> > >   48:    531e7660     lsl    w0, w19, #2
-> > >   4c:    9b247c01     smull    x1, w0, w4
-> > >   50:    9363fc21     asr    x1, x1, #35
-> > >   54:    4b807c20     sub    w0, w1, w0, asr #31
-> > >   58:    b90027a0     str    w0, [x29,#36]
-> > >   5c:    885f7c60     ldxr    w0, [x3]
-> > >   60:    11000400     add    w0, w0, #0x1
-> > >   64:    8801fc60     stlxr    w1, w0, [x3]
-> > >   68:    35ffffa1     cbnz    w1, 5c <main+0x5c>
-> > >   6c:    d5033bbf     dmb    ish
-> > >   70:    b94027a0     ldr    w0, [x29,#36]
-> > >   74:    71000442     subs    w2, w2, #0x1
-> > >   78:    0b000800     add    w0, w0, w0, lsl #2
-> > >   7c:    51007c00     sub    w0, w0, #0x1f
-> > >   80:    13017c13     asr    w19, w0, #1
-> > > ...
-> > >
-> > > I then ran the program on a dual-cluster machine, once on the older
-> > > and simpler A53 core and once on the newer A72 core.
-> > >
-> > > Non-atomic version:
-> > > # on -C 0 /tmp/atomic_cost
-> > > x=-28
-> > > Calculation took 116ms
-> > > # on -C 4 /tmp/atomic_cost
-> > > x=-28
-> > > Calculation took 75ms
-> > >
-> > > Atomic version:
-> > > # on -C 0 /tmp/atomic_cost
-> > > x=-28
-> > > Calculation took 283ms
-> > >
-> > > # on -C 4 /tmp/atomic_cost
-> > > x=-28
-> > > Calculation took 364ms
-> > >
-> > > I was actually expecting the results to only be worse on the A72 core
-> > > in the relative sense (i.e., higher penalty but still faster). The
-> > > fact that the test took longer to complete on the A72 core shows that
-> > > the situation is even worse than I had expected, which may be due to
-> > > the barrier.
-> >
-> > Interesting, and thank you very much for running this test!
-> >
-> > It looks like the compiler did some optimization, given that there is
-> > only the one dmb in the loop.  So the relative performance of atomics
-> > and normal instructions will be varying across CPU families as well
-> > as over time.  Which should not be a surprise.  But comparing and
-> > contrasting CPU families at that level of detail could result in all
-> > sorts of interesting issues that I would prefer to avoid.  ;-)
-> >
-> > It might be possible to make some sort of general comparison.  But how
-> > about the following, which simply notes the possibility of hardware
-> > optimizations?
-> >
-> >         In contrast, when executing a non-atomic operation, the
-> >         CPU can load values from cachelines as they appear and
-> >         place the results in the store buffer, without the need to
-> >         wait for cacheline ownership. Although there are a number of
-> >         hardware optimizations that can sometimes hide cache latencies,
-> >         the resulting effect on performance is all too often as
-> >         depicted in Figure 3.5.
-> >
-> > I have a prototype commit to this effect, with your Reported-by.
-> > Thank you again for testing this!
-> >
-> >                                                         Thanx, Paul
-> >
-> > > --Elad
-> > >
-> > > On Sat, 27 Apr 2019 at 13:45, Paul E. McKenney <paulmck@linux.ibm.com> wrote:
-> > > >
-> > > > On Fri, Apr 26, 2019 at 07:06:10AM -0400, Elad Lahav wrote:
-> > > > > Hello,
-> > > > >
-> > > > > Section 3.1.3 contains the following statement:
-> > > > >
-> > > > > "Fortunately, CPU designers have focused heavily on atomic operations,
-> > > > > so that as of early 2014 they have greatly reduced their overhead."
-> > > > >
-> > > > > My experience with very recent hardware is that the *relative* cost of
-> > > > > atomic operations has actually increased significantly. It seems that
-> > > > > hardware designers, in their attempt to optimize performance for
-> > > > > certain workloads, have produced hardware in which the "anomalous"
-> > > > > conditions (atomic operations, cache misses, barriers, exceptions)
-> > > > > incur much higher penalties than in the past. I assume that this is
-> > > > > primarily the result of more intensive speculation and prediction.
-> > > >
-> > > > Some of the early 2000s systems had -really- atomic operations, but I
-> > > > have not kept close track since 2014.
-> > > >
-> > > > How would you suggest that this be measured?  Do you have access to
-> > > > a range of hardweare that would permit us to include something more
-> > > > definite and measurable?
-> > > >
-> > > >                                                         Thanx, Paul
-> > > >
-> > >
-> >
-> 
+diff --git a/CodeSamples/defer/rcu_nest.c b/CodeSamples/defer/rcu_nest.c
+index 362f466..7e36866 100644
+--- a/CodeSamples/defer/rcu_nest.c
++++ b/CodeSamples/defer/rcu_nest.c
+@@ -21,45 +21,52 @@
+ #include "../api.h"
+ #include "rcu_nest.h"
+ 
+-void synchronize_rcu(void)
++//\begin{snippet}[labelbase=ln:defer:rcu_nest:synchronize,gobbleblank=yes,commandchars=\%\@\$]
++void synchronize_rcu(void)				//\lnlbl{syn:b}
+ {
+ 	int t;
+-
++								//\fcvblank
+ 	/* Memory barrier ensures mutation seen before grace period. */
+ 
+-	smp_mb();
++	smp_mb();					//\lnlbl{syn:mb1}
+ 
+ 	/* Only one synchronize_rcu() at a time. */
+ 
+-	spin_lock(&rcu_gp_lock);
++	spin_lock(&rcu_gp_lock);			//\lnlbl{syn:spinlock}
+ 
+ 	/* Advance to a new grace-period number, enforce ordering. */
+ 
+-	WRITE_ONCE(rcu_gp_ctr, rcu_gp_ctr + RCU_GP_CTR_BOTTOM_BIT);
+-	smp_mb();
++	WRITE_ONCE(rcu_gp_ctr, rcu_gp_ctr +		//\lnlbl{syn:incgp1}
++			RCU_GP_CTR_BOTTOM_BIT);		//\lnlbl{syn:incgp2}
++	smp_mb();					//\lnlbl{syn:mb2}
+ 
+ 	/*
+ 	 * Wait until all threads are either out of their RCU read-side
+ 	 * critical sections or are aware of the new grace period.
+ 	 */
+ 
+-	for_each_thread(t) {
+-		while (rcu_gp_ongoing(t) &&
+-		       ((READ_ONCE(per_thread(rcu_reader_gp, t)) -
+-			 rcu_gp_ctr) < 0)) {
++	for_each_thread(t) {				//\lnlbl{syn:scan:b}
++		while (rcu_gp_ongoing(t) &&		//\lnlbl{syn:ongoing}
++		       ((READ_ONCE(per_thread(rcu_reader_gp, t)) -//\lnlbl{syn:lt1}
++		          rcu_gp_ctr) < 0)) {		//\lnlbl{syn:lt2}
++#ifndef FCV_SNIPPET
+ 			/*@@@ poll(NULL, 0, 10); */
+ 			barrier();
++#else
++			poll(NULL, 0, 10);      	//\lnlbl{syn:poll}
++#endif
+ 		}
+-	}
++	}						//\lnlbl{syn:scan:e}
+ 
+ 	/* Let other synchronize_rcu() instances move ahead. */
+ 
+-	spin_unlock(&rcu_gp_lock);
++	spin_unlock(&rcu_gp_lock);			//\lnlbl{syn:spinunlock}
+ 
+ 	/* Ensure that any subsequent free()s happen -after- above checks. */
+ 
+-	smp_mb();
+-}
++	smp_mb();					//\lnlbl{syn:mb3}
++}							//\lnlbl{syn:e}
++//\end{snippet}
+ 
+ #ifdef TEST
+ #define RCU_READ_NESTABLE
+diff --git a/CodeSamples/defer/rcu_nest.h b/CodeSamples/defer/rcu_nest.h
+index 7e7b7de..19a0956 100644
+--- a/CodeSamples/defer/rcu_nest.h
++++ b/CodeSamples/defer/rcu_nest.h
+@@ -42,25 +42,28 @@ static void rcu_init(void)
+ 	init_per_thread(rcu_reader_gp, 0);
+ }
+ 
+-static void rcu_read_lock(void)
++//\begin{snippet}[labelbase=ln:defer:rcu_nest:read_lock_unlock,gobbleblank=yes,commandchars=\%\@\$]
++static void rcu_read_lock(void)				//\lnlbl{lock:b}
+ {
+ 	unsigned long tmp;
+ 	unsigned long *rrgp;
+-
++								//\fcvblank
+ 	/*
+ 	 * If this is the outermost RCU read-side critical section,
+ 	 * copy the global grace-period counter.  In either case,
+ 	 * increment the nesting count held in the low-order bits.
+ 	 */
+ 
+-	rrgp = &__get_thread_var(rcu_reader_gp);
++	rrgp = &__get_thread_var(rcu_reader_gp);	//\lnlbl{lock:readgp}
++#ifndef FCV_SNIPPET
+ retry:
+-	tmp = *rrgp;
+-	if ((tmp & RCU_GP_CTR_NEST_MASK) == 0)
+-		tmp = READ_ONCE(rcu_gp_ctr);
+-	tmp++;
+-	WRITE_ONCE(*rrgp, tmp);
+-	smp_mb();
++#endif
++	tmp = *rrgp;					//\lnlbl{lock:wtmp1}
++	if ((tmp & RCU_GP_CTR_NEST_MASK) == 0)		//\lnlbl{lock:checktmp}
++		tmp = READ_ONCE(rcu_gp_ctr);		//\lnlbl{lock:wtmp2}
++	tmp++;						//\lnlbl{lock:inctmp}
++	WRITE_ONCE(*rrgp, tmp);				//\lnlbl{lock:writegp}
++	smp_mb();					//\lnlbl{lock:mb1}
+ 
+ 	/*
+ 	 * A reader could be suspended in between fetching the value of *rrgp
+@@ -71,14 +74,15 @@ retry:
+ 	 * ULONG_MAX. To handle this correctly, we adopt the helper function
+ 	 * ULONG_CMP_GE.
+ 	 */
+-
++#ifndef FCV_SNIPPET
+ 	if (((tmp & RCU_GP_CTR_NEST_MASK) == 1) &&
+ 	     ULONG_CMP_GE(READ_ONCE(rcu_gp_ctr), tmp + MAX_GP_ADV_DISTANCE)) {
+ 		WRITE_ONCE(*rrgp, *rrgp - 1);
+ 		goto retry;
+ 	}
++#endif
+ }
+-
++								//\fcvblank
+ static void rcu_read_unlock(void)
+ {
+ 	/*
+@@ -86,11 +90,15 @@ static void rcu_read_unlock(void)
+ 	 * which had better not initially be zero.
+ 	 */
+ 
+-	smp_mb();
++	smp_mb();					//\lnlbl{unlock:mb1}
++#ifndef FCV_SNIPPET
+ #ifdef DEBUG_EXTREME
+ 	BUG_ON((__get_thread_var(rcu_reader_gp) & RCU_GP_CTR_NEST_MASK) != 0);
+-#endif /* #ifdef DEBUG_EXTREME */
+-	__get_thread_var(rcu_reader_gp)--;
++#endif /* #ifdef DEBUG_EXTREME */				//\fcvexclude
++#endif
++	__get_thread_var(rcu_reader_gp)--;		//\lnlbl{unlock:decgp}
+ }
++								//\fcvblank
++//\end{snippet}
+ 
+ extern void synchronize_rcu(void);
+diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
+index ded754d..0e84b05 100644
+--- a/appendix/toyrcu/toyrcu.tex
++++ b/appendix/toyrcu/toyrcu.tex
+@@ -1395,60 +1395,15 @@ variables.
+ \end{listing}
+ 
+ \begin{listing}[tb]
+-{ \scriptsize
+-\begin{verbbox}
+- 1 static void rcu_read_lock(void)
+- 2 {
+- 3   long tmp;
+- 4   long *rrgp;
+- 5 
+- 6   rrgp = &__get_thread_var(rcu_reader_gp);
+- 7   tmp = *rrgp;
+- 8   if ((tmp & RCU_GP_CTR_NEST_MASK) == 0)
+- 9     tmp = ACCESS_ONCE(rcu_gp_ctr);
+-10   tmp++;
+-11   *rrgp = tmp;
+-12   smp_mb();
+-13 }
+-14 
+-15 static void rcu_read_unlock(void)
+-16 {
+-17   long tmp;
+-18 
+-19   smp_mb();
+-20   __get_thread_var(rcu_reader_gp)--;
+-21 }
+-22 
+-23 void synchronize_rcu(void)
+-24 {
+-25   int t;
+-26 
+-27   smp_mb();
+-28   spin_lock(&rcu_gp_lock);
+-29   ACCESS_ONCE(rcu_gp_ctr) +=
+-30     RCU_GP_CTR_BOTTOM_BIT;
+-31   smp_mb();
+-32   for_each_thread(t) {
+-33     while (rcu_gp_ongoing(t) &&
+-34            ((per_thread(rcu_reader_gp, t) -
+-35              rcu_gp_ctr) < 0)) {
+-36       poll(NULL, 0, 10);
+-37     }
+-38   }
+-39   spin_unlock(&rcu_gp_lock);
+-40   smp_mb();
+-41 }
+-\end{verbbox}
+-}
+-\centering
+-\theverbbox
++\input{CodeSamples/defer/rcu_nest@read_lock_unlock.fcv}\vspace*{-11pt}\fvset{firstnumber=last}
++\input{CodeSamples/defer/rcu_nest@synchronize.fcv}\fvset{firstnumber=auto}
+ \caption{Nestable RCU Using a Free-Running Counter}
+ \label{lst:app:toyrcu:Nestable RCU Using a Free-Running Counter}
+ \end{listing}
+ 
+ Listing~\ref{lst:app:toyrcu:Nestable RCU Using a Free-Running Counter}
+ (\path{rcu_nest.h} and \path{rcu_nest.c})
+-show an RCU implementation based on a single global free-running counter,
++shows an RCU implementation based on a single global free-running counter,
+ but that permits nesting of RCU read-side critical sections.
+ This nestability is accomplished by reserving the low-order bits of the
+ global \co{rcu_gp_ctr} to count nesting, using the definitions shown in
+@@ -1472,23 +1427,28 @@ reserves seven bits, for a maximum RCU read-side critical-section
+ nesting depth of 127, which should be well in excess of that needed
+ by most applications.
+ 
++\begin{lineref}[ln:defer:rcu_nest:read_lock_unlock:lock]
+ The resulting \co{rcu_read_lock()} implementation is still reasonably
+ straightforward.
+-Line~6 places a pointer to this thread's instance of \co{rcu_reader_gp}
++Line~\lnref{readgp} places a pointer to
++this thread's instance of \co{rcu_reader_gp}
+ into the local variable \co{rrgp}, minimizing the number of expensive
+ calls to the pthreads thread-local-state API.
+-Line~7 records the current value of \co{rcu_reader_gp} into another
+-local variable \co{tmp}, and line~8 checks to see if the low-order
+-bits are zero, which would indicate that this is the outermost
+-\co{rcu_read_lock()}.
+-If so, line~9 places the global \co{rcu_gp_ctr} into \co{tmp} because
+-the current value previously fetched by line~7 is likely to be obsolete.
+-In either case, line~10 increments the nesting depth, which you will
+-recall is stored in the seven low-order bits of the counter.
+-Line~11 stores the updated counter back into this thread's instance
+-of \co{rcu_reader_gp}, and, finally, line~12 executes a memory
+-barrier to prevent the RCU read-side critical section from bleeding out
++Line~\lnref{wtmp1} records the current value of \co{rcu_reader_gp}
++into another local variable \co{tmp}, and line~\lnref{checktmp} checks
++to see if the low-order bits are zero, which would indicate that
++this is the outermost \co{rcu_read_lock()}.
++If so, line~\lnref{wtmp2} places the global \co{rcu_gp_ctr}
++into \co{tmp} because the current value previously fetched by
++line~\lnref{wtmp1} is likely to be obsolete.
++In either case, line~\lnref{inctmp} increments the nesting depth,
++which you will recall is stored in the seven low-order bits of the counter.
++Line~\lnref{writegp} stores the updated counter back into this thread's
++instance of \co{rcu_reader_gp}, and,
++finally, line~\lnref{mb1} executes a memory barrier
++to prevent the RCU read-side critical section from bleeding out
+ into the code preceding the call to \co{rcu_read_lock()}.
++\end{lineref}
+ 
+ In other words, this implementation of \co{rcu_read_lock()} picks up a copy
+ of the global \co{rcu_gp_ctr} unless the current invocation of
+@@ -1499,29 +1459,35 @@ Either way, it increments whatever value it fetched in order to record
+ an additional nesting level, and stores the result in the current
+ thread's instance of \co{rcu_reader_gp}.
+ 
++\begin{lineref}[ln:defer:rcu_nest:read_lock_unlock:unlock]
+ Interestingly enough, despite their \co{rcu_read_lock()} differences,
+ the implementation of \co{rcu_read_unlock()}
+ is broadly similar to that shown in
+ Section~\ref{sec:app:toyrcu:RCU Based on Free-Running Counter}.
+-Line~19 executes a memory barrier in order to prevent the RCU read-side
++Line~\lnref{mb1} executes a memory barrier
++in order to prevent the RCU read-side
+ critical section from bleeding out into code following the call
+ to \co{rcu_read_unlock()}, and
+-line~20 decrements this thread's instance of \co{rcu_reader_gp},
++line~\lnref{decgp} decrements this thread's instance of \co{rcu_reader_gp},
+ which has the effect of decrementing the nesting count contained in
+ \co{rcu_reader_gp}'s low-order bits.
+ Debugging versions of this primitive would check (before decrementing!)
+ that these low-order bits were non-zero.
++\end{lineref}
+ 
++\begin{lineref}[ln:defer:rcu_nest:synchronize:syn]
+ The implementation of \co{synchronize_rcu()} is quite similar to
+ that shown in
+ Section~\ref{sec:app:toyrcu:RCU Based on Free-Running Counter}.
+ There are two differences.
+-The first is that lines~29 and~30 adds \co{RCU_GP_CTR_BOTTOM_BIT}
+-to the global \co{rcu_gp_ctr} instead of adding the constant ``2'',
+-and the second is that the comparison on line~33 has been abstracted
+-out to a separate function, where it checks the bit indicated
+-by \co{RCU_GP_CTR_BOTTOM_BIT} instead of unconditionally checking
+-the low-order bit.
++The first is that lines~\lnref{incgp1} and~\lnref{incgp2}
++adds \co{RCU_GP_CTR_BOTTOM_BIT} to the global \co{rcu_gp_ctr}
++instead of adding the constant ``2'',
++and the second is that the comparison on line~\lnref{ongoing}
++has been abstracted out to a separate function,
++where it checks the bit indicated by \co{RCU_GP_CTR_BOTTOM_BIT}
++instead of unconditionally checking the low-order bit.
++\end{lineref}
+ 
+ This approach achieves read-side performance almost equal to that
+ shown in
+@@ -1562,10 +1528,12 @@ overhead.
+ 	how could you double the time required to overflow the global
+ 	\co{rcu_gp_ctr}?
+ \QuickQuizAnswer{
++	\begin{lineref}[ln:defer:rcu_nest:synchronize:syn]
+ 	One way would be to replace the magnitude comparison on
+-	lines~33 and 34 with an inequality check of the per-thread
+-	\co{rcu_reader_gp} variable against
++	lines~\lnref{lt1} and \lnref{lt2} with an inequality check of
++	the per-thread \co{rcu_reader_gp} variable against
+ 	\co{rcu_gp_ctr+RCU_GP_CTR_BOTTOM_BIT}.
++	\end{lineref}
+ } \QuickQuizEnd
+ 
+ \QuickQuiz{}
+-- 
+2.7.4
 
