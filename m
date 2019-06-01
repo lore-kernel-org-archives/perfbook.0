@@ -1,40 +1,42 @@
 Return-Path: <sj38.park@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=XQcmuuI0y6tQ2sVLEOWVjXoxV7T6QPmr7J3CDh278dc=;
-        b=oKFyabemKAX3FugtCyyk0SQY1kSnp1cQhAND48noNSJZ6wufYWRVdrjsSNMZIHZhuY
-         XftFNtMKEUtvtW1fdmdLUZAyKOVpz6lmLhoFI1bQLI8nautjHE2G1dp1QwKzwx15ovUl
-         kaHnw3wMv27ETo5is6jwfmYiehQFgRT+S7n04Qf1Vd5QK+GICX/IS+ttHcaLCh7CsuRO
-         MgZzSK2a3aEQCAU2y0RTOcIhqwKsSGa2f0PpHmQeBgI3EnxajtTDZcxGPD4eTNKYYhF2
-         QRgelZ9D3bIgJQemzoq6VyxZaABiFA/4w1UQuu3ZX8lcqLoAY8xm4j0mTwq2ts8oW7Jz
-         y0Hw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=NAAuYrbDeH8EaRaWoNkL5LDOV2dYAysVm8QT9ZhmqrM=;
+        b=JEYGTDzxiy1nZRUT272dm9YUyrS9C8p5XWcHcuQJzqq/rTJxlzWTk0YTPH7ti7/nOa
+         juU0yXV03HDZ8Io1nNKpj/z5qTuprPvvvHLZ7SK8ILENnnRI7JwCeM0vnI37MoilMjP6
+         u5C4JyC8cqcmtDONCo3quywKV+CN7ddek+YQSDCfZR77VtrYEGcAaBVwL3lYyiaUgjKK
+         bLI1MHeUkfXnXZV0cfsjtmv6E2md5agzRIy5CbzBmzsOO7WoZg8TNwStYsopqMVZGFKk
+         Twrs51+Z5zxKS1biZOT2Jpu0tMlAaoGAS9o9DRQfX8j86X+FR/0nIEv5G0P9PYXtvh8Q
+         Vb6w==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 1/2] defer/hazptr: Fix a typo: updatesa -> updates
-Date: Sat,  1 Jun 2019 09:54:24 +0900
-Message-Id: <20190601005425.22065-1-sj38.park@gmail.com>
+Subject: [PATCH 2/2] together: Fix a wrong number of lines
+Date: Sat,  1 Jun 2019 09:54:25 +0900
+Message-Id: <20190601005425.22065-2-sj38.park@gmail.com>
+In-Reply-To: <20190601005425.22065-1-sj38.park@gmail.com>
+References: <20190601005425.22065-1-sj38.park@gmail.com>
 To: paulmck@linux.ibm.com
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- defer/hazptr.tex | 2 +-
+ together/applyrcu.tex | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/defer/hazptr.tex b/defer/hazptr.tex
-index b491c59..be93342 100644
---- a/defer/hazptr.tex
-+++ b/defer/hazptr.tex
-@@ -332,7 +332,7 @@ object traversed.
- Therefore, hazard pointers's performance is far short of ideal.
- On the other hand, unlike naive approaches to concurrent reference-counting,
- hazard pointers do operate correctly for workloads
--involving concurrent updatesa.
-+involving concurrent updates.
- Additional performance comparisons with other mechanisms may be found in
- Chapter~\ref{chp:Data Structures}
- and in other publications~\cite{ThomasEHart2007a,McKenney:2013:SDS:2483852.2483867,MagedMichael04a}.
+diff --git a/together/applyrcu.tex b/together/applyrcu.tex
+index 9ee770c..d0b1c5d 100644
+--- a/together/applyrcu.tex
++++ b/together/applyrcu.tex
+@@ -283,7 +283,7 @@ Line~69 can then safely free the old \co{countarray} structure.
+ \QuickQuiz{}
+ 	Wow!
+ 	Listing~\ref{lst:together:RCU and Per-Thread Statistical Counters}
+-	contains 69 lines of code, compared to only 42 in
++	contains 70 lines of code, compared to only 42 in
+ 	Listing~\ref{lst:count:Per-Thread Statistical Counters}.
+ 	Is this extra complexity really worth it?
+ \QuickQuizAnswer{
 -- 
 2.10.0
 
