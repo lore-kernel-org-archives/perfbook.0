@@ -3,56 +3,72 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=s1sQ2HmADTi6+oiw5x4acyfXDsQiPStZ0rdhd9YgPKw=;
-        b=AQwfIlY8jWjHS6XYFN3weRo+PX3tPPcL6DTUIfRAyNNAMaJ6ygszFXFZeUDhbapMgM
-         YPSSb5ms/71295ugm+yznV01R0fTzwWYWsNSB/xfH1fxjq436/C4TGvk02SBUkpKnDI8
-         zOtrsPrCkbQswSj47UpG5MoVSPTveqIOestaUgLAD5o2iNrd8tFPydwavZBhM/a5yLhZ
-         J3E50lAiigzmHVTNZ0oOZwC5SVeF1OtGmETQJB0yd9CSUeNQT5O3WqhCH5vLznUj5DKa
-         nxexQAjD1te/jXaSf5cOR8ZYtMbzWrfTK4eCX/yQaX5hZJO6M36qFR0ui22TvN6pVo2Q
-         pbAg==
-Subject: [PATCH 3/7] toolsoftrade: Fix typo
+        bh=u53r9fjPidIFOS52tkvEoCXF6lh0Iq04eWn3pJ8WzIY=;
+        b=WGaBKpo4h+j3cyWfw0H1qotAPf5yF3j1M5Wp9iDNaEgCMj1Gbz7WXauCKHe3YdQI0t
+         d0+j0p5NirbthR/pYPgfGXmlIOpk/2KiXZkXe/Hcmy+tlg+QEA3GQI+cp4KIOcFq67an
+         /TWyxE8LbuHvlKUDnXJwgfCQATCpwktalLRQ63oc6hy47/q003wPSItPu71LguGN9hw6
+         kZew9EPWbqbOE0+jUD3sv35/Iz3q5HGgiOOJ4UvZ68hzS+yujPC2RdDgRSZFtRjNH4bs
+         B9g6VrjUhZL4gapfaYHlxL3iSRQfXcp1CIRDU7RakrsNE5erG3EJLw3kMa9xUSeO4BiX
+         UPXA==
+Subject: [PATCH 4/7] FAQ-BUILD: Update for recent Fedora releases
 References: <7ad345a2-05a4-d512-bde2-b949f68d5145@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <512a0a15-b41e-9f6c-2310-71fc0046c801@gmail.com>
-Date: Sun, 21 Jul 2019 09:07:21 +0900
+Message-ID: <6306166b-4bd8-4a92-b540-7d11cca6ec97@gmail.com>
+Date: Sun, 21 Jul 2019 09:08:47 +0900
 MIME-Version: 1.0
 In-Reply-To: <7ad345a2-05a4-d512-bde2-b949f68d5145@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc: Elad Lahav <e2lahav@gmail.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Cc: Junchang Wang <junchangwang@gmail.com>, Elad Lahav <e2lahav@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-From 66874f5a6cd1b758cdc442084e28289ef12aa082 Mon Sep 17 00:00:00 2001
+From 4ae74b9f60e29298d3d67736db9a2baa19655842 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 2 Jun 2019 23:21:02 +0900
-Subject: [PATCH 3/7] toolsoftrade: Fix typo
+Date: Sun, 5 May 2019 00:22:28 +0900
+Subject: [PATCH 4/7] FAQ-BUILD: Update for recent Fedora releases
 
-Elad reported this typo quite a while ago [1]. Given that it hasn't
-been taken care of, let's fix it.
+Also remove info for Ubuntu Trusty.
 
-[1]: https://www.spinics.net/lists/perfbook/msg02318.html
-
-Reported-by: Elad Lahav <e2lahav@gmail.com>
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- toolsoftrade/toolsoftrade.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ FAQ-BUILD.txt | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index 9f636931..6ad5ebb6 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -1550,7 +1550,7 @@ Of course, where practical, the primitives described in
- Section~\ref{sec:toolsoftrade:Atomic Operations (gcc Classic)}
- or (especially)
- Section~\ref{sec:toolsoftrade:Atomic Operations (C11)}
--should be instead be used to avoid data races, that is, to ensure
-+should instead be used to avoid data races, that is, to ensure
- that if there are multiple concurrent accesses to a given
- variable, all of those accesses are loads.
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index 012a1d69..82cca6e8 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -44,9 +44,6 @@
+ 			texlive-science texlive-bibtex-extra
+ 			gnuplot-x11 xfig inkscape graphviz fig2ps
  
+-		On Ubuntu Trusty, in addition to the above, you need:
+-			texlive-humanities
+-
+ 		On Ubuntu Bionic, the following list should cover
+ 		necessary packages (except for -doc packages):
+ 			texlive-publishers texlive-pstricks
+@@ -57,16 +54,14 @@
+ 		compatible with updated Ghostscript (not limited to
+ 		Ubuntu Bionic). See #7 below.
+ 
+-		On Fedora 28 and 27, installing the following set of
++		On Fedora 30 and 29, installing the following set of
+ 		packages suffices:
++			texlive-collection-plaingeneric
+ 			texlive-collection-binextra
+ 			texlive-collection-latexextra
+ 			texlive-collection-fontsextra
+ 			fig2ps graphviz inkscape
+ 
+-		You need to install a version of a2ping compatible
+-		with Ghostscript 9.22 or later. See #7 below.
+-
+ 		On other Linux distributions such as RHEL/CentOS and
+ 		Scientific Linux, where support of TeX Live packages
+ 		is insufficient, manually installing TeX Live should
 -- 
 2.17.1
 
