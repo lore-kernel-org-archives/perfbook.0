@@ -3,53 +3,82 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=E965HggFgkmD4ucdW9FY2Ps+GlkIg3Gcb3EAWIPBMnU=;
-        b=oQD/YDn09N4a14X5QL/DaXnPWw+rtJdLLuHxOryLtLqOy533apxbiV9j/+iyscEBmn
-         +bCzV20CIYPela+5PcoTMzRTIkcKwzuPK0+p8f9D9q+DkKY8W3lq/Tk/a27Q4kuj6fbH
-         18Amj3nQffQmfR4P7d8aXjYYXGIWwo7Z1roCvjGXQabg1W3b1YgZABqW2wGxnzvo1Jkd
-         /pT9f6VeyMQJQ6dsFr2mJ5DZIddqdyDr//DqFiR8exHrbHE+3KgnJ9EuPJwZE1QQ4MRJ
-         SHrvDYQt/2UfR7fhZRcGV6ESdKtSszbXo5YpMEJBZlGf1qf7Vyo+timCHz0RFbDkek+m
-         +CRg==
-Subject: [PATCH 5/7] howto: Stop mentioning quantum computing
+        bh=cwAF7sbTcjR8d46k6X+KE4qtAY+cZvuSXUx9Q+guJKE=;
+        b=GZHeFTlaC/mez9uq40OetJ3zwwUwKJrw1FjbLfgmvZBjiBbWYFe2lvYVGFv1DUJfBL
+         lY2dQRLx9pVkPEBajKBfKP5XRf7QO0lnLNMhfnocKeWBzCK9B0JPOpO6vmRIz3hrrCwc
+         jebMfKoeWnItsbuvfqaCXxLRt2+fYM7uMqIFB8MX8ZsQFzipH0mKPv925FNfUdWB7wls
+         zfYRsk+5X85n0mz9mALUE7jBs1+WCqfJka52+pIsUqe3muMtzY1wQwGqOXYOyzL/17Ly
+         tksP9RfUdMCfH6O8KUfTHCfNU0XttkGARFKQrjfnQ3iHDcl0V+4m+6FX9a7TP1PBa/Qn
+         tTNA==
+Subject: [PATCH 6/7] toyrcu: Extract Listing B.13 from rcu.h
 References: <7ad345a2-05a4-d512-bde2-b949f68d5145@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <13bf28c8-9a8c-74c9-1ea4-009fa44f6697@gmail.com>
-Date: Sun, 21 Jul 2019 09:10:37 +0900
+Message-ID: <84ebfab3-1c39-295e-19b4-86063f230018@gmail.com>
+Date: Sun, 21 Jul 2019 09:12:04 +0900
 MIME-Version: 1.0
 In-Reply-To: <7ad345a2-05a4-d512-bde2-b949f68d5145@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Cc: Junchang Wang <junchangwang@gmail.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 2aadd71518c8dda2748541618038c495903ee9da Mon Sep 17 00:00:00 2001
+From f37685cb3821daf0d9ee55a538ec462e5de0a6a8 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 6 May 2019 00:02:22 +0900
-Subject: [PATCH 5/7] howto: Stop mentioning quantum computing
+Date: Tue, 4 Jun 2019 00:35:02 +0900
+Subject: [PATCH 6/7] toyrcu: Extract Listing B.13 from rcu.h
 
-Paul gave up tracing quantum computing as of commit 972946a5298a
-("future/QC: Remove quantum-computing section"). Remove it.
+Commit 686f3f3b721c ("rcu: Use READ_ONCE() and WRITE_ONCE() for
+shared variable rcu_gp_ctr") updated B.14 to reflect the changes
+in rcu.[hc]. For consistency, extract Listing B.13 from rcu.h.
 
+Cc: Junchang Wang <junchangwang@gmail.com>
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- howto/howto.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ CodeSamples/defer/rcu.h    |  2 ++
+ appendix/toyrcu/toyrcu.tex | 11 +----------
+ 2 files changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/howto/howto.tex b/howto/howto.tex
-index 5fcc1e5e..3bdec595 100644
---- a/howto/howto.tex
-+++ b/howto/howto.tex
-@@ -119,7 +119,7 @@ Chapter~\ref{chp:Ease of Use} follows up with some ease-of-use advice.
- Finally, Chapter~\ref{chp:Conflicting Visions of the Future}
- looks at a few possible future directions, including
- shared-memory parallel system design, software and hardware transactional
--memory, functional programming for parallelism, and quantum computing.
-+memory, and functional programming for parallelism.
+diff --git a/CodeSamples/defer/rcu.h b/CodeSamples/defer/rcu.h
+index 3641c33a..b3c3e2c4 100644
+--- a/CodeSamples/defer/rcu.h
++++ b/CodeSamples/defer/rcu.h
+@@ -20,10 +20,12 @@
  
- This chapter is followed by a number of appendices.
- The most popular of these appears to be
+ #include "rcu_pointer.h"
+ 
++//\begin{snippet}[labelbase=ln:defer:rcu:define,commandchars=\%\@\$]
+ DEFINE_SPINLOCK(rcu_gp_lock);
+ long rcu_gp_ctr = 0;	/* always even, +=2 at start of each grace period. */
+ DEFINE_PER_THREAD(long, rcu_reader_gp);
+ DEFINE_PER_THREAD(long, rcu_reader_gp_snap);
++//\end{snippet}
+ 
+ static inline void rcu_init(void)
+ {
+diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
+index 81f222c6..f6ce2bee 100644
+--- a/appendix/toyrcu/toyrcu.tex
++++ b/appendix/toyrcu/toyrcu.tex
+@@ -1185,16 +1185,7 @@ thread-local accesses to one, as is done in the next section.
+ \label{sec:app:toyrcu:RCU Based on Free-Running Counter}
+ 
+ \begin{listing}[tbp]
+-{ \scriptsize
+-\begin{verbbox}
+-  1 DEFINE_SPINLOCK(rcu_gp_lock);
+-  2 long rcu_gp_ctr = 0;
+-  3 DEFINE_PER_THREAD(long, rcu_reader_gp);
+-  4 DEFINE_PER_THREAD(long, rcu_reader_gp_snap);
+-\end{verbbox}
+-}
+-\centering
+-\theverbbox
++\input{CodeSamples/defer/rcu@define.fcv}
+ \caption{Data for Free-Running Counter Using RCU}
+ \label{lst:app:toyrcu:Data for Free-Running Counter Using RCU}
+ \end{listing}
 -- 
 2.17.1
 
