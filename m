@@ -1,191 +1,72 @@
 Return-Path: <akiyks@gmail.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KM/G6LRsmgWPc2NOFoFjuxwFeEmdRG815fZDkqcWDjw=;
-        b=WffEjBOH4xvK3loaOG5cMpeQOIHIy8bZqGAPYzVj53X73h48CWnJvSYl627ltSSYNO
-         DqlLbKAUdm8updq6xsDci/uTIGRsURgeSeaL2Lc78JwJHcP6vTcvqVzSvBHTKGIXz+xK
-         9L6ZFU3x6ZyWjE+NcSnY/wRkV6xu4ZVkAAHIbT4gllKHxgWhoCsKaz5mKeI//4rQSOPJ
-         w74BuKAJu+arQXMuLC/ZeruiGLw8oXxNsLpd1owYCEpPXDCsPgv60sDIe485UIyy8HEn
-         qok4EkhAPZhgWzPjD2eWOBZR/US3zmJJbNrUCs5cWDnaHxMPllLnqkDv85jM6CGYiO0v
-         2luQ==
-Subject: Re: [PATCH 1/7] toyrcu: Convert Listing B.1 to new scheme
-References: <7ad345a2-05a4-d512-bde2-b949f68d5145@gmail.com>
- <1cd27b04-dd6c-984a-9bce-56d3f6148e7d@gmail.com>
- <CABoNC80vzXtMx2_jW4Ln9c8JxSsAdT4uq2fxaFW=-HLvQtNhhA@mail.gmail.com>
- <20190722123407.GC14271@linux.ibm.com>
- <2ca1bb7b-531a-0ada-a0a8-8f4455888c93@gmail.com>
- <20190722162816.GL14271@linux.ibm.com>
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=q+a0FMqPhOSOpfgzaQ+UFb5fwnQN48uBHJKbIy3hBmY=;
+        b=HegnPez+ABvCtd6GNhkTRutVkY27vFX5M9s3yQt2HJTLFMDxEH+ECUmcazUePoNFzK
+         1wT4eClr2qRXlz4LgGkw4SCPTEYGDIyapw3cxyx+EicD5znhUaVgPdWnBjOx8syneJG5
+         eS+bn+qBhprYrQ8Ypq5ychbcd+e95YxtM3P/ExaQksANK+xmw84Nx3JkKQMVqZ/5vI1J
+         WmWCEeHy4ejEql0+OsXJmUwME1bCvuTHcf+jVotERXBxI2mv66ZhAgF+pFQiO68jph35
+         8BmLcMWOKxdIslu1mVrrnxsTOV0pZf5ENY08k6Rkkb2BCR+EaLVUHUdEgJSeyn7wKv82
+         uefg==
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <0227e252-bf63-201b-43e5-d3f3f8c869a4@gmail.com>
-Date: Thu, 25 Jul 2019 00:04:44 +0900
+Subject: [PATCH] api-pthreads: Fold defines too wide for code snippet
+Message-ID: <0e75f45c-712b-29f5-9688-cc8dacece2bf@gmail.com>
+Date: Thu, 25 Jul 2019 00:10:57 +0900
 MIME-Version: 1.0
-In-Reply-To: <20190722162816.GL14271@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-To: paulmck@linux.ibm.com
-Cc: Junchang Wang <junchangwang@gmail.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+To: "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2019/07/23 1:28, Paul E. McKenney wrote:
-> On Tue, Jul 23, 2019 at 12:12:04AM +0900, Akira Yokosawa wrote:
->> On Mon, 22 Jul 2019 05:34:07 -0700, Paul E. McKenney wrote:
->>> On Sun, Jul 21, 2019 at 08:07:11PM +0800, Junchang Wang wrote:
->>>> Hi Akira,
->>>>
->>>> Thanks for the patch. The new scheme worked great as a good example of
->>>> composing my commits. So,
->>>>
->>>> Acked-by: Junchang Wang <junchangwang@gmail.com>
->>>
->>> Thank you both!  I have queued and pushed this series, with Junchang's
->>> ack on this patch.
->>
->> Paul, could you also pick up Junchang's other acks on patches 2/7 and 6/7 ?
-> 
-> Ah, I didn't see Acked-by on those two.
+From 33370f703c421a7537c75989d81266d48c045575 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Wed, 24 Jul 2019 23:31:45 +0900
+Subject: [PATCH] api-pthreads: Fold defines too wide for code snippet
 
-Umm, I _thought_ I had seen them, but apparently I might have been daydreaming
-or something :-)
+Changes in commit 82b158acfedf ("api-pthreads: Prohibit using
+WRITE_ONCE() return value") caused Listing 4.9 to get too wide
+in two-column layout.
 
-Sorry for the noise.
+Fold the defines and add "xleftmargin=0pt" option to the
+"\begin{snippet}" meta-command.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
+
+Another option would be to use the "listing*" environment for this one.
+Which one do you like?
 
         Thanks, Akira
+--
+ CodeSamples/api-pthreads/api-pthreads.h | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-> 
-> Junchang, you are OK with my adding your Acked-by on those as well?
-> 
-> One labor-saving device you can use is something like this:
-> 
-> 	For 1/7, 2/7, and 6/7:
-> 
-> 	Acked-by: Your Name <your@email.address>
-> 
-> 							Thanx, Paul
-> 
->>         Thanks, Akira
->>
->>>
->>> 							Thanx, Paul
->>>
->>>> Thanks,
->>>> --Junchang
->>>>
->>>> On Sun, Jul 21, 2019 at 8:02 AM Akira Yokosawa <akiyks@gmail.com> wrote:
->>>>>
->>>>> From 245899f43fd007aa344180c0089515cd90f84db2 Mon Sep 17 00:00:00 2001
->>>>> From: Akira Yokosawa <akiyks@gmail.com>
->>>>> Date: Sat, 27 Apr 2019 21:04:40 +0900
->>>>> Subject: [PATCH 1/7] toyrcu: Convert Listing B.1 to new scheme
->>>>>
->>>>> This commit was originally presented to Junchang as an example where
->>>>> code fragments extracted from two source files under CodeSamples/ are
->>>>> merged into a code snippet.
->>>>>
->>>>> Junchan employed this scheme in commits 686f3f3b721c ("rcu: Use
->>>>> READ_ONCE() and WRITE_ONCE() for shared variable rcu_gp_ctr"),
->>>>> a26c1625bb0d ("rcu_qs: Use READ_ONCE() AND WRITE_ONCE() for shared
->>>>> variable rcu_gp_ctr"), and b9696a4a456f ("rcu_nest: Update description
->>>>> of rcu_nest.[hc]").
->>>>>
->>>>> Extra vertical space needs to be canceled by the \vspace*{} command
->>>>> between the two \input{} commands.
->>>>> \fvset{firstnumber=last} is to continue line numbering.
->>>>> \fvset{firstnumber=auto} restores the default setting.
->>>>>
->>>>> Also tweak positioning option of the listing environment.
->>>>>
->>>>> Cc: Junchang Wang <junchangwang@gmail.com>
->>>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->>>>> ---
->>>>>  CodeSamples/defer/rcu_lock.c |  2 ++
->>>>>  CodeSamples/defer/rcu_lock.h |  2 ++
->>>>>  appendix/toyrcu/toyrcu.tex   | 26 ++++----------------------
->>>>>  3 files changed, 8 insertions(+), 22 deletions(-)
->>>>>
->>>>> diff --git a/CodeSamples/defer/rcu_lock.c b/CodeSamples/defer/rcu_lock.c
->>>>> index 8d45ac89..08b87fbd 100644
->>>>> --- a/CodeSamples/defer/rcu_lock.c
->>>>> +++ b/CodeSamples/defer/rcu_lock.c
->>>>> @@ -20,12 +20,14 @@
->>>>>
->>>>>  #include "../api.h"
->>>>>  #include "rcu_lock.h"
->>>>> +//\begin{snippet}[labelbase=ln:defer:rcu_lock:synchronize,commandchars=\\\[\]]
->>>>>
->>>>>  void synchronize_rcu(void)
->>>>>  {
->>>>>         spin_lock(&rcu_gp_lock);
->>>>>         spin_unlock(&rcu_gp_lock);
->>>>>  }
->>>>> +//\end{snippet}
->>>>>
->>>>>  #ifdef TEST
->>>>>  #include "rcutorture.h"
->>>>> diff --git a/CodeSamples/defer/rcu_lock.h b/CodeSamples/defer/rcu_lock.h
->>>>> index 224ea0e4..bf6f9b3c 100644
->>>>> --- a/CodeSamples/defer/rcu_lock.h
->>>>> +++ b/CodeSamples/defer/rcu_lock.h
->>>>> @@ -26,6 +26,7 @@ static void rcu_init(void)
->>>>>  {
->>>>>  }
->>>>>
->>>>> +//\begin{snippet}[labelbase=ln:defer:rcu_lock:lock_unlock,commandchars=\\\[\]]
->>>>>  static void rcu_read_lock(void)
->>>>>  {
->>>>>         spin_lock(&rcu_gp_lock);
->>>>> @@ -35,5 +36,6 @@ static void rcu_read_unlock(void)
->>>>>  {
->>>>>         spin_unlock(&rcu_gp_lock);
->>>>>  }
->>>>> +//\end{snippet}
->>>>>
->>>>>  extern void synchronize_rcu(void);
->>>>> diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
->>>>> index 0e84b058..d876595b 100644
->>>>> --- a/appendix/toyrcu/toyrcu.tex
->>>>> +++ b/appendix/toyrcu/toyrcu.tex
->>>>> @@ -30,29 +30,11 @@ provides a summary and a list of desirable RCU properties.
->>>>>
->>>>>  \section{Lock-Based RCU}
->>>>>  \label{sec:app:toyrcu:Lock-Based RCU}
->>>>> +\NoIndentAfterThis
->>>>>
->>>>> -\begin{listing}[bp]
->>>>> -{ \scriptsize
->>>>> -\begin{verbbox}
->>>>> -  1 static void rcu_read_lock(void)
->>>>> -  2 {
->>>>> -  3   spin_lock(&rcu_gp_lock);
->>>>> -  4 }
->>>>> -  5
->>>>> -  6 static void rcu_read_unlock(void)
->>>>> -  7 {
->>>>> -  8   spin_unlock(&rcu_gp_lock);
->>>>> -  9 }
->>>>> - 10
->>>>> - 11 void synchronize_rcu(void)
->>>>> - 12 {
->>>>> - 13   spin_lock(&rcu_gp_lock);
->>>>> - 14   spin_unlock(&rcu_gp_lock);
->>>>> - 15 }
->>>>> -\end{verbbox}
->>>>> -}
->>>>> -\centering
->>>>> -\theverbbox
->>>>> +\begin{listing}[htbp]
->>>>> +\input{CodeSamples/defer/rcu_lock@lock_unlock.fcv}\vspace*{-11pt}\fvset{firstnumber=last}
->>>>> +\input{CodeSamples/defer/rcu_lock@synchronize.fcv}\fvset{firstnumber=auto}
->>>>>  \caption{Lock-Based RCU Implementation}
->>>>>  \label{lst:app:toyrcu:Lock-Based RCU Implementation}
->>>>>  \end{listing}
->>>>> --
->>>>> 2.17.1
->>>>>
->>>>>
->>>>
->>>
->>
+diff --git a/CodeSamples/api-pthreads/api-pthreads.h b/CodeSamples/api-pthreads/api-pthreads.h
+index 5421b610..1f7a7b2b 100644
+--- a/CodeSamples/api-pthreads/api-pthreads.h
++++ b/CodeSamples/api-pthreads/api-pthreads.h
+@@ -132,10 +132,12 @@ static __inline__ int spin_is_locked(spinlock_t *sp)
+ #define spin_lock_irqsave(l, f) do { f = 1; spin_lock(l); } while (0)
+ #define spin_unlock_irqrestore(l, f) do { f = 0; spin_unlock(l); } while (0)
+ 
+-//\begin{snippet}[labelbase=ln:api-pthreads:api-pthreads:compiler_barrier,commandchars=\@\[\],numbers=none]
++//\begin{snippet}[labelbase=ln:api-pthreads:api-pthreads:compiler_barrier,commandchars=\@\[\],numbers=none,xleftmargin=0pt]
+ #define ACCESS_ONCE(x) (*(volatile typeof(x) *)&(x))
+-#define READ_ONCE(x) ({ typeof(x) ___x = ACCESS_ONCE(x); ___x; })
+-#define WRITE_ONCE(x, val) do { ACCESS_ONCE(x) = (val); } while (0)
++#define READ_ONCE(x) \
++                ({ typeof(x) ___x = ACCESS_ONCE(x); ___x; })
++#define WRITE_ONCE(x, val) \
++                do { ACCESS_ONCE(x) = (val); } while (0)
+ #define barrier() __asm__ __volatile__("": : :"memory")
+ //\end{snippet}
+ #ifndef unlikely
+-- 
+2.17.1
+
 
