@@ -1,69 +1,137 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail-pl1-f177.google.com ([209.85.214.177]:36711 "EHLO
-        mail-pl1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725775AbfIOWWA (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 15 Sep 2019 18:22:00 -0400
-Received: by mail-pl1-f177.google.com with SMTP id f19so15901472plr.3
-        for <perfbook@vger.kernel.org>; Sun, 15 Sep 2019 15:21:59 -0700 (PDT)
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:44524 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725850AbfIPJdr (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Mon, 16 Sep 2019 05:33:47 -0400
+Received: by mail-pl1-f193.google.com with SMTP id k1so16664557pls.11
+        for <perfbook@vger.kernel.org>; Mon, 16 Sep 2019 02:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=84/rIf1m13wqCttp6VBj9nkMFvPV4I/MOaMfhDg4jV4=;
-        b=XHmqbNACFYXWTZHaCQdCZVR3SSQ27UK9U0YtWuoFEAGk/7A1VFS7TAjo7RbzTfBB4N
-         jLvHIJDoSuYV3dPkoe27g/+vhShJ+jGNAGS5OdizoSfGd57zBszdX7XCcpE9uifIG6Wx
-         3mtZg2C2XOcqm3FoFaMNH/sASCxuhvMkr7jaxjYHjQtrk5GiBXm0w9zDSKy7mCAsesF+
-         fkeA6cWRxSq3tLSRuOPq4G/BrNJOLc38DKKu4rulosbYq4vL33UeCTaQ3PAZKQtgAah+
-         atyiAeyCaoF7TyvHfoVwXVmDnZSBrWg8xRCsUh8+qufLh2JBpMMi/hx5GBoxP1RkPOSv
-         B5nA==
-From: Balbir Singh <bsingharora@gmail.com>
-Subject: Fix pdflatex ToC
-Message-ID: <aeaa1b9d-1917-a177-3396-da8dd736889c@gmail.com>
-Date: Mon, 16 Sep 2019 08:21:54 +1000
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=eIvm2+3MAQv2bVLG/bWlD+NiOi9Ati6bXfJPxZajXjo=;
+        b=WaHoAc3MZx3gdzO4WEJEnthjMgsXCqklmV4vKAa4SkLOT0N3Yc/Hyq5BeDWrwponLf
+         T+2HJsYFaxYEmQadwqiLSSML0r+gVPAlktD8PqRAo/vT42xUTT3S4AL5vDVdYuCqw50R
+         XIfQ381wNO3OeoSg4eVg+eQkqFgWdzKf2jCaXwfFkvNL+RQ5O8M4/pgWEMq2RvQgQK4R
+         boRkUIvcDJL1PMK3IVuihIoOPozfpEwfiSY7+bEV6svaZJ3iPRd2YRzw2sLmQLmZlrba
+         AsWPUeCOi+SkylC0i1cTsWUchTxbczU8XYqCICKUiDPnQrjgH8dpd0s9Z4eVLJHW1oyq
+         Rjvg==
+Subject: Re: Fix pdflatex ToC
+References: <aeaa1b9d-1917-a177-3396-da8dd736889c@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <36156427-7c2b-130b-41b6-a18b425eff2e@gmail.com>
+Date: Mon, 16 Sep 2019 18:33:39 +0900
 MIME-Version: 1.0
+In-Reply-To: <aeaa1b9d-1917-a177-3396-da8dd736889c@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
-Cc: paulmck@linux.vnet.ibm.com
+To: Balbir Singh <bsingharora@gmail.com>
+Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@linux.ibm.com>, Akira Yokosawa <akiyks@gmail.com>
 
-From df15e226d96614ffbdedfd517f8a6d7afc1c0fee Mon Sep 17 00:00:00 2001
-From: Balbir singh <bsingharora@gmail.com>
-Date: Sun, 15 Sep 2019 21:14:53 +1000
-Subject: [PATCH] Make hyperlinks colorful and a browsable pdf TOC
+(CC to Paul's current address)
+Hi Balbir,
 
-Without these changes the the PDF does not provide
-a browsable TOC to choose for navigation, also add
-a bit of color to the links to make them screen
-friendly.
+On Mon, 16 Sep 2019 08:21:54 +1000, Balbir Singh wrote:
+> From df15e226d96614ffbdedfd517f8a6d7afc1c0fee Mon Sep 17 00:00:00 2001
+> From: Balbir singh <bsingharora@gmail.com>
+> Date: Sun, 15 Sep 2019 21:14:53 +1000
+> Subject: [PATCH] Make hyperlinks colorful and a browsable pdf TOC
+> 
+> Without these changes the the PDF does not provide
+> a browsable TOC to choose for navigation, also add
+> a bit of color to the links to make them screen
+> friendly.
 
-Also add synctex=-1 to prevent pdf readers like
-evince from complaining to the pdflatex command
-line
+Well, it may not be obvious, but hyperlinks have been there in the TOC.
+You mean you want them colored blue?
 
-Signed-off-by: Balbir singh <bsingharora@gmail.com>
+For TOC, they may be OK.
+
+But I'm afraid that to color all the hyperlinks in the whole textbook
+could be too aggressive, as can be seen for example in Section 5.2.4
+(below Listing 5.5). Frequent colored line numbers can look too
+fancy/noisy for some people.
+
+Does adding an experimental target to make hyperlinks colored work with
+you (similar to -1csf, -msnt, and the like)? If so, which layout do you
+prefer, 1c or 2c?
+
+> 
+> Also add synctex=-1 to prevent pdf readers like
+> evince from complaining to the pdflatex command
+> line
+
+As for SyncTeX support, how about the approach in the patch
+below?
+
+        Thanks, Akira
+
+> 
+> Signed-off-by: Balbir singh <bsingharora@gmail.com>
+> ---
+
+-----8<-------------------------------
+From 6a509df0aef50309d8ec1ae5e709b7cee29df3ad Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 16 Sep 2019 18:20:05 +0900
+Subject: [PATCH] Add optional flag 'LATEX_OPT' in run{first}latex.sh
+
+Balbir reported that SyncTeX-aware viewers complain in opening
+perfbook.pdf [1].
+
+Instead of always generating .synctex{.gz} files, add an optional
+flag to pdflatex commands in run{first}latex.sh scripts.
+
+.synctex files can be generated by defining an environment variable
+"LATEX_OPT", e.g.:
+
+    $ export LATEX_OPT="--synctex=-1"
+
+, and run "make".
+
+Update .gitignore and "claen" in Makefile as well to ignore/remove
+SyncTeX files.
+
+[1]: https://www.spinics.net/lists/perfbook/msg02350.html
+
+Reported-by: Balbir Singh <bsingharora@gmail.com>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- perfbook.tex               | 1 +
+ .gitignore                 | 1 +
+ Makefile                   | 1 +
  utilities/runfirstlatex.sh | 2 +-
  utilities/runlatex.sh      | 2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ 4 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/perfbook.tex b/perfbook.tex
-index 85696333..a9a0d813 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -70,6 +70,7 @@
- \usepackage{multirow}
- \usepackage{noindentafter}
- \NoIndentAfterCmd{\epigraph}
-+\hypersetup{pdftex, colorlinks=true, allcolors=blue}
+diff --git a/.gitignore b/.gitignore
+index ebd5e98c..dfeb9e1b 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -20,6 +20,7 @@
+ *.ltms
+ *.pdfp
+ *.pdfq
++*.synctex*
+ perfbook_flat.tex
+ qqz.tex
+ contrib.tex
+diff --git a/Makefile b/Makefile
+index 13eddfc8..236b0bb2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -350,6 +350,7 @@ clean:
+ 	rm -f perfbook_flat.tex perfbook*.out perfbook-*.tex
+ 	rm -f $(LATEXGENERATED)
+ 	rm -f CodeSamples/snippets.d
++	rm -f *.synctex*
+ 	@rm -f $(OBSOLETE_FILES)
  
- % custom packages
- 
+ distclean: clean
 diff --git a/utilities/runfirstlatex.sh b/utilities/runfirstlatex.sh
-index 1a2a7a58..019d60d8 100644
+index 1a2a7a58..2b25b9f1 100644
 --- a/utilities/runfirstlatex.sh
 +++ b/utilities/runfirstlatex.sh
 @@ -40,7 +40,7 @@ fi
@@ -71,12 +139,12 @@ index 1a2a7a58..019d60d8 100644
  
  echo "pdflatex 1 for $basename.pdf"
 -pdflatex $basename > /dev/null 2>&1 < /dev/null || :
-+pdflatex --synctex=-1 $basename > /dev/null 2>&1 < /dev/null || :
++pdflatex $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null || :
  if grep -q '! Emergency stop.' $basename.log
  then
  	grep -B 15 -A 5 '! Emergency stop.' $basename.log
 diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
-index 289364d7..2a168a8d 100644
+index 289364d7..18dd7fd6 100644
 --- a/utilities/runlatex.sh
 +++ b/utilities/runlatex.sh
 @@ -51,7 +51,7 @@ identical_warnings () {
@@ -84,10 +152,10 @@ index 289364d7..2a168a8d 100644
  
  iterate_latex () {
 -	pdflatex $basename > /dev/null 2>&1 < /dev/null || :
-+	pdflatex --synctex=-1 $basename > /dev/null 2>&1 < /dev/null || :
++	pdflatex $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null || :
  	if grep -q '! Emergency stop.' $basename.log
  	then
  		grep -B 15 -A 5 '! Emergency stop.' $basename.log
 -- 
-2.20.1
+2.17.1
 
