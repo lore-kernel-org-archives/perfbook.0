@@ -1,180 +1,124 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:36430 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725270AbfIQLGJ (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 17 Sep 2019 07:06:09 -0400
-Received: by mail-yb1-f193.google.com with SMTP id m9so1233583ybm.3
-        for <perfbook@vger.kernel.org>; Tue, 17 Sep 2019 04:06:07 -0700 (PDT)
+Received: from mail-pg1-f169.google.com ([209.85.215.169]:33906 "EHLO
+        mail-pg1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726305AbfIQP2j (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 17 Sep 2019 11:28:39 -0400
+Received: by mail-pg1-f169.google.com with SMTP id n9so2226324pgc.1
+        for <perfbook@vger.kernel.org>; Tue, 17 Sep 2019 08:28:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sHIYbyZ54gYcRq0X8uw411v0RqGtsIg8dbKWQ6sI0xA=;
-        b=ky2QYdR0Xz5RIVP0D/CpemWU/hzcMUozDupylvpftTZ/5D1CcLsUaqXz3vETiIp9uY
-         XUjEXfvGo3orfbIP5l3C9BSO/AL6Q3cXj0qIzySp1BZnW2uek4h4G9PDvuwfxcKq9J15
-         uZ+k6C8X+X4yO36an+sJGmahOWihw0a0Xn5jRF5RjRoQIRpVBjRiCTNMjoeSiHzsmotP
-         J9UE3dRhJ3jg7QBGWz+VrynByRKfrhlIrgVwVU9hP/WAl9iGvEg6njSzxI5mpIfB9GLF
-         DU1YVOiEn4I+Zni1R2LHad9Xt52F6x+wKiyWUgRsLhGMJJenwE4l6bNtHUCQZ7KFZIhV
-         tmiw==
-MIME-Version: 1.0
-References: <aeaa1b9d-1917-a177-3396-da8dd736889c@gmail.com> <36156427-7c2b-130b-41b6-a18b425eff2e@gmail.com>
-In-Reply-To: <36156427-7c2b-130b-41b6-a18b425eff2e@gmail.com>
-From: Balbir Singh <bsingharora@gmail.com>
-Date: Tue, 17 Sep 2019 21:05:55 +1000
-Message-ID: <CAKTCnz=8penAT4UJUFvxjx8sXFHKAdP2oCuQDX2H2oo6o5mQ0g@mail.gmail.com>
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=37JjCyamJU7fPCIXwNuDpaneKqB5a6DTw5ZDgw2iarY=;
+        b=fdaI9cMym5i3y6OcvCyktajiiOtT6Y8jV+C/ZzlzsE76v2znJ3SzcWV1QoGRPqvB1/
+         cFcvHM5NEy7IyjifW9uxBp1WnxMdiDE3hUP1La2+oTAfpRrvZ0DTuiWZJj4qDf5GbeK2
+         7AYcZfJik7nuOXV1MWk2M2NjIJwEcuIJcys97x+PmEF5GjwJaODa9nOJoVwd57P8/7ny
+         gMgr0FvMRHOK5hD+B/U2+tRUpCoStSnrOdU2XFRyPad59LjbhW89HivDAjDMRRpPKkkn
+         16x7eZ9ZaKhWscZbiDNk1CTAJuH0xNCKhIDsOC5XkaOx8Y5+e9mu/SxmUvOPHGleNX+s
+         DVnQ==
 Subject: Re: Fix pdflatex ToC
-Content-Type: text/plain; charset="UTF-8"
+References: <aeaa1b9d-1917-a177-3396-da8dd736889c@gmail.com>
+ <36156427-7c2b-130b-41b6-a18b425eff2e@gmail.com>
+ <CAKTCnz=8penAT4UJUFvxjx8sXFHKAdP2oCuQDX2H2oo6o5mQ0g@mail.gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <a161e1ba-37c0-4edf-da13-463ad2f3eb6a@gmail.com>
+Date: Wed, 18 Sep 2019 00:28:32 +0900
+MIME-Version: 1.0
+In-Reply-To: <CAKTCnz=8penAT4UJUFvxjx8sXFHKAdP2oCuQDX2H2oo6o5mQ0g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@linux.ibm.com>
+To: Balbir Singh <bsingharora@gmail.com>
+Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@linux.ibm.com>, Akira Yokosawa <akiyks@gmail.com>
 
-On Mon, Sep 16, 2019 at 7:33 PM Akira Yokosawa <akiyks@gmail.com> wrote:
->
-> (CC to Paul's current address)
-> Hi Balbir,
->
-> On Mon, 16 Sep 2019 08:21:54 +1000, Balbir Singh wrote:
-> > From df15e226d96614ffbdedfd517f8a6d7afc1c0fee Mon Sep 17 00:00:00 2001
-> > From: Balbir singh <bsingharora@gmail.com>
-> > Date: Sun, 15 Sep 2019 21:14:53 +1000
-> > Subject: [PATCH] Make hyperlinks colorful and a browsable pdf TOC
-> >
-> > Without these changes the the PDF does not provide
-> > a browsable TOC to choose for navigation, also add
-> > a bit of color to the links to make them screen
-> > friendly.
->
-> Well, it may not be obvious, but hyperlinks have been there in the TOC.
-> You mean you want them colored blue?
->
+On Tue, 17 Sep 2019 21:05:55 +1000, Balbir Singh wrote:
+> On Mon, Sep 16, 2019 at 7:33 PM Akira Yokosawa <akiyks@gmail.com> wrote:
+>>
+>> (CC to Paul's current address)
+>> Hi Balbir,
+>>
+>> On Mon, 16 Sep 2019 08:21:54 +1000, Balbir Singh wrote:
+>>> From df15e226d96614ffbdedfd517f8a6d7afc1c0fee Mon Sep 17 00:00:00 2001
+>>> From: Balbir singh <bsingharora@gmail.com>
+>>> Date: Sun, 15 Sep 2019 21:14:53 +1000
+>>> Subject: [PATCH] Make hyperlinks colorful and a browsable pdf TOC
+>>>
+>>> Without these changes the the PDF does not provide
+>>> a browsable TOC to choose for navigation, also add
+>>> a bit of color to the links to make them screen
+>>> friendly.
+>>
+>> Well, it may not be obvious, but hyperlinks have been there in the TOC.
+>> You mean you want them colored blue?
+>>
+> 
+> Yes, but they've been a bit hidden (largely bold text between section headings
+> and references, I have to move my mouse to get know if it is a hyperlink)
+> 
+>> For TOC, they may be OK.
+>>
+>> But I'm afraid that to color all the hyperlinks in the whole textbook
+>> could be too aggressive, as can be seen for example in Section 5.2.4
+>> (below Listing 5.5). Frequent colored line numbers can look too
+>> fancy/noisy for some people.
+>>
+> 
+> I see what you mean, how about a gentler color like gray, but I am not 100%
+> sure how that would look in print.
 
-Yes, but they've been a bit hidden (largely bold text between section headings
-and references, I have to move my mouse to get know if it is a hyperlink)
+"DarkBlue" via svgnames option looks less fancy.
+How it looks depends on the display/printer setting and individual color sense,
+though.
 
-> For TOC, they may be OK.
->
-> But I'm afraid that to color all the hyperlinks in the whole textbook
-> could be too aggressive, as can be seen for example in Section 5.2.4
-> (below Listing 5.5). Frequent colored line numbers can look too
-> fancy/noisy for some people.
->
+> 
+>> Does adding an experimental target to make hyperlinks colored work with
+>> you (similar to -1csf, -msnt, and the like)? If so, which layout do you
+>> prefer, 1c or 2c?
+>>
+> I prefer 1c, but I think the print will always be 2c for saving paper.
+> But please
+> bear in mind, adding too many targets makes it confusing when Paul tries
+> to release this to the world, no?
 
-I see what you mean, how about a gentler color like gray, but I am not 100%
-sure how that would look in print.
+Actually speaking, I was the one who added all those experimental targets.
 
-> Does adding an experimental target to make hyperlinks colored work with
-> you (similar to -1csf, -msnt, and the like)? If so, which layout do you
-> prefer, 1c or 2c?
->
-I prefer 1c, but I think the print will always be 2c for saving paper.
-But please
-bear in mind, adding too many targets makes it confusing when Paul tries
-to release this to the world, no? I am OK skipping colors to keep the PDF
-uniform
+As 1c is mainly for PDF viewers, I think coloring hyperlinks in 1c layout
+should be acceptable. It should also help those who view on tablets (without
+mice). 2c layouts won't be affected by the change.
 
-> >
-> > Also add synctex=-1 to prevent pdf readers like
-> > evince from complaining to the pdflatex command
-> > line
->
-> As for SyncTeX support, how about the approach in the patch
-> below?
->
+So, I'll prepare a patch to do it. Please give me a short while.
 
-Yep that work!
+>                                   I am OK skipping colors to keep the PDF
+> uniform
+> 
+>>>
+>>> Also add synctex=-1 to prevent pdf readers like
+>>> evince from complaining to the pdflatex command
+>>> line
+>>
+>> As for SyncTeX support, how about the approach in the patch
+>> below?
+>>
+> 
+> Yep that work!
 
-Balbir Singh.
+Nice!
 
->         Thanks, Akira
->
-> >
-> > Signed-off-by: Balbir singh <bsingharora@gmail.com>
-> > ---
->
-> -----8<-------------------------------
-> From 6a509df0aef50309d8ec1ae5e709b7cee29df3ad Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Mon, 16 Sep 2019 18:20:05 +0900
-> Subject: [PATCH] Add optional flag 'LATEX_OPT' in run{first}latex.sh
->
-> Balbir reported that SyncTeX-aware viewers complain in opening
-> perfbook.pdf [1].
->
-> Instead of always generating .synctex{.gz} files, add an optional
-> flag to pdflatex commands in run{first}latex.sh scripts.
->
-> .synctex files can be generated by defining an environment variable
-> "LATEX_OPT", e.g.:
->
->     $ export LATEX_OPT="--synctex=-1"
->
-> , and run "make".
->
-> Update .gitignore and "claen" in Makefile as well to ignore/remove
-> SyncTeX files.
->
-> [1]: https://www.spinics.net/lists/perfbook/msg02350.html
->
-> Reported-by: Balbir Singh <bsingharora@gmail.com>
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
->  .gitignore                 | 1 +
->  Makefile                   | 1 +
->  utilities/runfirstlatex.sh | 2 +-
->  utilities/runlatex.sh      | 2 +-
->  4 files changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/.gitignore b/.gitignore
-> index ebd5e98c..dfeb9e1b 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -20,6 +20,7 @@
->  *.ltms
->  *.pdfp
->  *.pdfq
-> +*.synctex*
->  perfbook_flat.tex
->  qqz.tex
->  contrib.tex
-> diff --git a/Makefile b/Makefile
-> index 13eddfc8..236b0bb2 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -350,6 +350,7 @@ clean:
->         rm -f perfbook_flat.tex perfbook*.out perfbook-*.tex
->         rm -f $(LATEXGENERATED)
->         rm -f CodeSamples/snippets.d
-> +       rm -f *.synctex*
->         @rm -f $(OBSOLETE_FILES)
->
->  distclean: clean
-> diff --git a/utilities/runfirstlatex.sh b/utilities/runfirstlatex.sh
-> index 1a2a7a58..2b25b9f1 100644
-> --- a/utilities/runfirstlatex.sh
-> +++ b/utilities/runfirstlatex.sh
-> @@ -40,7 +40,7 @@ fi
->  basename=`echo $1 | sed -e 's/\.tex$//'`
->
->  echo "pdflatex 1 for $basename.pdf"
-> -pdflatex $basename > /dev/null 2>&1 < /dev/null || :
-> +pdflatex $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null || :
->  if grep -q '! Emergency stop.' $basename.log
->  then
->         grep -B 15 -A 5 '! Emergency stop.' $basename.log
-> diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
-> index 289364d7..18dd7fd6 100644
-> --- a/utilities/runlatex.sh
-> +++ b/utilities/runlatex.sh
-> @@ -51,7 +51,7 @@ identical_warnings () {
->  }
->
->  iterate_latex () {
-> -       pdflatex $basename > /dev/null 2>&1 < /dev/null || :
-> +       pdflatex $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null || :
->         if grep -q '! Emergency stop.' $basename.log
->         then
->                 grep -B 15 -A 5 '! Emergency stop.' $basename.log
-> --
-> 2.17.1
->
+I'll submit a v2 of the patch with a proper change log to clarify that
+you are the original author. I don't think the" Reported-by:" tag is
+good enough. To be honest, I had no idea of the -synctex option before.
+
+        Thanks, Akira
+
+> 
+> Balbir Singh.
+> 
+>>         Thanks, Akira
+>>
+>>>
+>>> Signed-off-by: Balbir singh <bsingharora@gmail.com>
+>>> ---
+
+[...]
