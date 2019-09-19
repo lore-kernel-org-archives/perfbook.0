@@ -1,41 +1,35 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:36155 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727317AbfIRWzA (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Wed, 18 Sep 2019 18:55:00 -0400
-Received: by mail-pg1-f195.google.com with SMTP id m29so708913pgc.3
-        for <perfbook@vger.kernel.org>; Wed, 18 Sep 2019 15:55:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0EvEQ5AQY4MgFnPHonO58QqQdAaHkosMLeO9MtoXl/8=;
-        b=Zkw+y+YXBFTtW5KD1wmSQIOmcHZOWoh0DFLQ98Bi+6n/Kmi5JzghHIIKURPNn5UTrn
-         ygBaOSv86K+tmc9O/GZkQS77yfuuD4LRv+Q6SIK/DwfgE2HMD3FNxP+Q7+prH2Ksoa0Q
-         2FXvvyZBXURbIIMJsOX8J0krJeOHu46kMDUGbe+8Bzp9u8Y0onLdHdMtPSIF3t2GwOVi
-         K83tqS1Kkbt0H1yrd1htsqljIMDIRgzjbXMmqJQCUY5jMhtfkMaOSzHd0NUWLqUkWK3+
-         Ns7qDrz2QiSSzYjvWOKg7rc5inTmT0dg86KJ3BbnPwMs9XgPlXbbHLsv6DVDsyR5gmZy
-         Ihbg==
+Received: from mail.kernel.org ([198.145.29.99]:46690 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389041AbfISOsQ (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Thu, 19 Sep 2019 10:48:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568904495;
+        bh=2KnmnA3TYeIvlvjzh2l8QliF3plDYuazCkuPpn51eh8=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=zm71tO4Xt21o86WDl6rtnuFAvmOboOzcicLaMKXyN5GT7hKC2GN5lOWhzQerdnOlE
+         9l+t0AzneM9aW1mtN8KKxTohyc/GwcCindGdByRRtzMnTRqiSFeisvk8dtlI92gI3Q
+         9UjOrYE0/yPoON9jgbtvHdtm8FRkw6R2oyixIqE4=
+Date: Thu, 19 Sep 2019 07:48:10 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
 Subject: Re: [EXP PATCH] Make hyperlinks colorful and browsable in PDF viewer
+Message-ID: <20190919144810.GM30224@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 References: <aeaa1b9d-1917-a177-3396-da8dd736889c@gmail.com>
  <36156427-7c2b-130b-41b6-a18b425eff2e@gmail.com>
  <CAKTCnz=8penAT4UJUFvxjx8sXFHKAdP2oCuQDX2H2oo6o5mQ0g@mail.gmail.com>
  <a161e1ba-37c0-4edf-da13-463ad2f3eb6a@gmail.com>
  <c8228db6-1ebd-2b77-2b7c-bd100068d367@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <5684b902-5c1a-5cf2-bda3-7c91037b9730@gmail.com>
-Date: Thu, 19 Sep 2019 07:54:56 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <c8228db6-1ebd-2b77-2b7c-bd100068d367@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Balbir Singh <bsingharora@gmail.com>, "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Balbir Singh <bsingharora@gmail.com>, "Paul E. McKenney" <paulmck@linux.ibm.com>, perfbook@vger.kernel.org
 
-On 2019/09/19 7:52, Akira Yokosawa wrote:
+On Thu, Sep 19, 2019 at 07:52:05AM +0900, Akira Yokosawa wrote:
 > From: Balbir Singh <bsingharora@gmail.com>
 > 
 > Without these changes the PDF does not provide a browsable TOC
@@ -66,11 +60,81 @@ On 2019/09/19 7:52, Akira Yokosawa wrote:
 > 
 > This is an experimental patch.
 > Does the links in "DarkBlue" acceptable (in 1c layout) to you?
-
-Oops, obviously I meant "Do the links ...".
-
 > Any suggestion of color choice is welcome!
-> 
+
+Being as I am red-green colorblind, I must defer to the two of you on
+color choices.  Looks just fine to me, but...  ;-)
+
+							Thanx, Paul
+
 >         Thanks, Akira
 > --
-[...]
+>  appendix/appendix.tex |  8 ++++++--
+>  perfbook.tex          | 16 ++++++++++++++--
+>  2 files changed, 20 insertions(+), 4 deletions(-)
+> 
+> diff --git a/appendix/appendix.tex b/appendix/appendix.tex
+> index d246a7f7..7b0d5c76 100644
+> --- a/appendix/appendix.tex
+> +++ b/appendix/appendix.tex
+> @@ -14,9 +14,13 @@
+>  }{
+>    \bibliographystyle{alphapf} % Use alpha style customized by urlbst with --inlinelinks option
+>  }
+> -\hypersetup{pdfborder=0 0 1,urlbordercolor=0.4 1 1}
+> +\IfColorLinks{}{
+> +  \hypersetup{pdfborder=0 0 1,urlbordercolor=0.4 1 1}
+> +}
+>  \bibliography{bib/RCU,bib/WFS,bib/hw,bib/os,bib/parallelsys,bib/patterns,bib/perfmeas,bib/refs,bib/syncrefs,bib/search,bib/swtools,bib/realtime,bib/TM,bib/standards,bib/OSS,bib/maze,bib/energy,bib/QC,bib/NP}
+> -\hypersetup{pdfborder=0 0 0}
+> +\IfColorLinks{}{
+> +  \hypersetup{pdfborder=0 0 0}
+> +}
+>  \IfTwoColumn{
+>    \end{adjustwidth*}\twocolumn
+>  }{
+> diff --git a/perfbook.tex b/perfbook.tex
+> index 85696333..a0805831 100644
+> --- a/perfbook.tex
+> +++ b/perfbook.tex
+> @@ -42,7 +42,7 @@
+>  \setlist[description]{style=unboxed}
+>  %\usepackage{enumerate}
+>  \usepackage{ifthen}
+> -\usepackage[table]{xcolor}
+> +\usepackage[table,svgnames]{xcolor}
+>  \usepackage[shortcuts]{extdash}
+>  \usepackage{changepage}
+>  \usepackage{listings}
+> @@ -58,7 +58,7 @@
+>  \usepackage{tabularx}
+>  \usepackage[hyphens]{url}
+>  \usepackage{threeparttable}
+> -\usepackage[bookmarks=true,bookmarksnumbered=true,pdfborder={0 0 0}]{hyperref}
+> +\usepackage[bookmarks=true,bookmarksnumbered=true,pdfborder={0 0 0},linktoc=all]{hyperref}
+>  \usepackage{footnotebackref} % to enable cross-ref of footnote
+>  \usepackage[all]{hypcap} % for going to the top of figure and table
+>  \usepackage{epigraph}
+> @@ -100,6 +100,18 @@
+>  \setboolean{nimbusavail}{false}
+>  \newcommand{\IfNimbusAvail}[2]{\ifthenelse{\boolean{nimbusavail}}{#1}{#2}}
+>  
+> +\newboolean{colorlinks}
+> +\setboolean{colorlinks}{false}
+> +\newcommand{\IfColorLinks}[2]{\ifthenelse{\boolean{colorlinks}}{#1}{#2}}
+> +
+> +\IfTwoColumn{}{
+> +\setboolean{colorlinks}{true}
+> +}
+> +
+> +\IfColorLinks{
+> +\hypersetup{colorlinks=true,allcolors=DarkBlue}
+> +}{}
+> +
+>  \IfNimbusAvail{
+>  \usepackage{nimbusmononarrow}
+>  }{}
+> -- 
+> 2.17.1
+> 
+> 
