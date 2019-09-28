@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ocKvsMIk9mHRlRaKWRVX09277b0ldlNE5Eb+U/37Csw=;
-        b=ct8R3mKg8CrEFpJuOQ8NTGFp+0gb8s/MPid85HI+q+hhE0BlG4P+U3mXQMIUDhAzaj
-         iyUqbthHRr/jUjXV1qFWDdkpAH94jsqYXj/M4q63INKWFJZNr49M+EpLDapT4U7DOQb1
-         a4S2IGYdinelInPsIiJJvhPrzty2UyRV3q8DxAA3zSCmgFYvlI7JXkNF8RNgxm5xiJTy
-         PJy6bgdjEzW5QOKGfTOU+F80vwkOx4+WKd5d/kjOl1FG2+UiHqGnMX9n2szf4eSHoASQ
-         LlPAvv6myMaQSCyakg2bYg2yPsZwhxYfu0CeTk0B45MJStf5F68L+d/HUs6g4nHiudw3
-         lMYw==
-Subject: [PATCH 3/6] bib/swtools: Add refereneces to PowerPC atomic RMW fixes
+        bh=uLFouZFAIhSIIPVmdFzutzWWzjzukMSTImcj+jIGVkc=;
+        b=XtJUUatAA3XZvTopMWRmz6EMr2xu2Kx3g/xw9I2OSSx/sHBlCipTRVcOFPF12cAfqb
+         g0lfdSd2ZuEhOAn7yu2WFUHqR0bi1DORCvmx1I+5PXRSsbegObi2eUq+cy8y0Dbqd9cT
+         pmsUl6sct/q4DnbgXOCTRWxjntO24SV/rUVS2ia/wDRbd1ssgDqlkh1T9m4AzqbNbiqt
+         9+h3NRAXTvvQabBOYFn1kPbfKIeTcFkHhOg4BvP64cHGcsGSmwt7IAuN3uy2nU6IeQxV
+         bBlWrWT6T84+XQtwMLudvVIaMnOVHSuI1RVCcOimIzwh/HVxYg8wnyZ4z5mc4pnky2ZI
+         HiDQ==
+Subject: [PATCH 4/6] ppcmem: Cite Git commit of PowerPC atomic_xxx_return fix
 References: <4ae0f35c-d968-0a34-2d93-32f395d90d9a@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <e9e0d1cf-d497-31c5-6890-fdbdd8a1ffa1@gmail.com>
-Date: Sat, 28 Sep 2019 11:01:34 +0900
+Message-ID: <4539d0b6-17b8-bdc0-f45f-0a3a91a27fcd@gmail.com>
+Date: Sat, 28 Sep 2019 11:02:38 +0900
 MIME-Version: 1.0
 In-Reply-To: <4ae0f35c-d968-0a34-2d93-32f395d90d9a@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,76 +24,30 @@ To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 8db4e623387758479ffcf2ba1c50587f3acef283 Mon Sep 17 00:00:00 2001
+From 9f0e3855ed4b366167248ae8a4398920c8ac3a40 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 27 Sep 2019 21:56:39 +0900
-Subject: [PATCH 3/6] bib/swtools: Add refereneces to PowerPC atomic RMW fixes
-
-BenjaminHerrenschmidt2011:powerpc:atomic_return is the commit
-replacing "isync" with "sync".
-
-Paulmck2015:powerpc:value-returning-atomics points to an email
-thread on the use of "lwsync".
-
-BoqunFeng2015:powerpc:value-returning-atomics is the commit
-replacing "lwsync" with "sync".
+Date: Fri, 27 Sep 2019 21:58:20 +0900
+Subject: [PATCH 4/6] ppcmem: Cite Git commit of PowerPC atomic_xxx_return fix
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- bib/swtools.bib | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ formal/ppcmem.tex | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/bib/swtools.bib b/bib/swtools.bib
-index 55356664..c9c159b1 100644
---- a/bib/swtools.bib
-+++ b/bib/swtools.bib
-@@ -197,6 +197,17 @@
- ,keywords = {compiler optimizations, relaxed memory models, semantics}
- }
- 
-+@unpublished{BenjaminHerrenschmidt2011:powerpc:atomic_return
-+,Author="Benjamin Herrenschmidt"
-+,Title="powerpc: Fix atomic\_xxx\_return barrier semantics"
-+,month="November"
-+,day="16"
-+,year="2011"
-+,note="Git commit:
-+\url{https://git.kernel.org/linus/b97021f85517}"
-+,lastchecked="August 7, 2019"
-+}
-+
- @unpublished{RexBlack2012SQA
- ,author="Rex Black and Capers Jones"
- ,title="Economics of Software Quality: An Interview with {Capers} {Jones}, Part 1 of 2 (Podcast Transcript)"
-@@ -884,6 +895,28 @@ Michalis Kokologiannakis"
- ,note="\url{http://www.rdrop.com/users/paulmck/scalability/paper/Validation.2016.04.06e.SpecMtg.pdf}"
- }
- 
-+@unpublished{Paulmck2015:powerpc:value-returning-atomics
-+,Author="Paul E. McKenney"
-+,Title="Re: [PATCH tip/locking/core v4 1/6] powerpc: atomic: Make *xchg and *cmpxchg a full barrier"
-+,month="October"
-+,day="14"
-+,year="2015"
-+,note="Email thread:
-+\url{https://lore.kernel.org/lkml/20151014201916.GB3910@linux.vnet.ibm.com/}"
-+,lastchecked="August 7, 2019"
-+}
-+
-+@unpublished{BoqunFeng2015:powerpc:value-returning-atomics
-+,Author="Boqun Feng"
-+,Title="powerpc: Make value-returning atomics fully ordered"
-+,month="November"
-+,day="2"
-+,year="2015"
-+,note="Git commit:
-+\url{https://git.kernel.org/linus/49e9cf3f0c04}"
-+,lastchecked="August 7, 2019"
-+}
-+
- @misc{PeterZijlstra2016aLKMM
- ,author = {Peter Zijlstra}
- ,title = {{[tip:perf/urgent]} perf/core: Fix sys\_perf\_event\_open() vs. hotplug}
+diff --git a/formal/ppcmem.tex b/formal/ppcmem.tex
+index a5cb90e3..d292b7da 100644
+--- a/formal/ppcmem.tex
++++ b/formal/ppcmem.tex
+@@ -322,7 +322,8 @@ cannot happen.
+ 	ARM does not have this particular bug because that it places
+ 	\co{smp_mb()} before and after the \co{atomic_add_return()}
+ 	function's assembly-language implementation.
+-	PowerPC no longer has this bug; it has long since been fixed.
++	PowerPC no longer has this bug; it has long since been
++	fixed~\cite{BenjaminHerrenschmidt2011:powerpc:atomic_return}.
+ 	Finding any other bugs that the Linux kernel might have is left
+ 	as an exercise for the reader.
+ } \QuickQuizEnd
 -- 
 2.17.1
 
