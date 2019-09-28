@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uLFouZFAIhSIIPVmdFzutzWWzjzukMSTImcj+jIGVkc=;
-        b=XtJUUatAA3XZvTopMWRmz6EMr2xu2Kx3g/xw9I2OSSx/sHBlCipTRVcOFPF12cAfqb
-         g0lfdSd2ZuEhOAn7yu2WFUHqR0bi1DORCvmx1I+5PXRSsbegObi2eUq+cy8y0Dbqd9cT
-         pmsUl6sct/q4DnbgXOCTRWxjntO24SV/rUVS2ia/wDRbd1ssgDqlkh1T9m4AzqbNbiqt
-         9+h3NRAXTvvQabBOYFn1kPbfKIeTcFkHhOg4BvP64cHGcsGSmwt7IAuN3uy2nU6IeQxV
-         bBlWrWT6T84+XQtwMLudvVIaMnOVHSuI1RVCcOimIzwh/HVxYg8wnyZ4z5mc4pnky2ZI
-         HiDQ==
-Subject: [PATCH 4/6] ppcmem: Cite Git commit of PowerPC atomic_xxx_return fix
+        bh=Ko3+WHnqKrBscMHIo6jA6m6DgDzA7o2Fn60uBAeCkcc=;
+        b=omGMNinNfOU3lroBVjcObicKl3Xd/aTuCbWcWRk/EawgObHFDOY1JlWYMd/s4JbZsF
+         yzZqzdBurOeK7Fq+MAkVJwDUPgOKE5BFKNTp4Ml4Z1IVcAWBP9gsKeDnvN+DBZxNfAAq
+         Pw8TtWE1dViIZZEQRsMEI7P/GwZ2nLVKLUc4Yqv3kE9csmr5O7qN5EgTIKOB0LkBXbnZ
+         UK+XIsgCP3II33NkaH6jF0UQz0LcJc647zzJALvC0BqY3zMUaNecOPmR9XvRAv8rDirH
+         P4D6/P2mU5fbaioMcy0uNkE/lvsUccXaImUB0SE2j4OXTFWe6SBgj5VKmk/rgTvMFCtx
+         dlVA==
+Subject: [PATCH 5/6] ppcmem: Add Quick Quiz on lwsync in Listing 12.23
 References: <4ae0f35c-d968-0a34-2d93-32f395d90d9a@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <4539d0b6-17b8-bdc0-f45f-0a3a91a27fcd@gmail.com>
-Date: Sat, 28 Sep 2019 11:02:38 +0900
+Message-ID: <50d17c59-3236-a836-b377-f6fd23d053a6@gmail.com>
+Date: Sat, 28 Sep 2019 11:03:51 +0900
 MIME-Version: 1.0
 In-Reply-To: <4ae0f35c-d968-0a34-2d93-32f395d90d9a@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,30 +24,49 @@ To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 9f0e3855ed4b366167248ae8a4398920c8ac3a40 Mon Sep 17 00:00:00 2001
+From 305c387fd4b8e6d3c5599b4ddbd67a03d939f832 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 27 Sep 2019 21:58:20 +0900
-Subject: [PATCH 4/6] ppcmem: Cite Git commit of PowerPC atomic_xxx_return fix
+Date: Fri, 27 Sep 2019 22:02:41 +0900
+Subject: [PATCH 5/6] ppcmem: Add Quick Quiz on lwsync in Listing 12.23
+
+The "lwsync" in front of ll-sc in atomic_add_return() is not
+good enough for Linux kernel's semantics.
+Add a Quick Quiz on the use of lwsync.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- formal/ppcmem.tex | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ formal/ppcmem.tex | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/formal/ppcmem.tex b/formal/ppcmem.tex
-index a5cb90e3..d292b7da 100644
+index d292b7da..a1960e2d 100644
 --- a/formal/ppcmem.tex
 +++ b/formal/ppcmem.tex
-@@ -322,7 +322,8 @@ cannot happen.
- 	ARM does not have this particular bug because that it places
- 	\co{smp_mb()} before and after the \co{atomic_add_return()}
- 	function's assembly-language implementation.
--	PowerPC no longer has this bug; it has long since been fixed.
-+	PowerPC no longer has this bug; it has long since been
-+	fixed~\cite{BenjaminHerrenschmidt2011:powerpc:atomic_return}.
- 	Finding any other bugs that the Linux kernel might have is left
+@@ -328,6 +328,24 @@ cannot happen.
  	as an exercise for the reader.
  } \QuickQuizEnd
+ 
++\QuickQuiz{}
++	\begin{lineref}[ln:formal:PPCMEM Litmus Test]
++	Is the \co{lwsync} on \clnref{P0lwsync} in
++	\cref{lst:formal:PPCMEM Litmus Test} good enough?
++	\end{lineref}
++\QuickQuizAnswer{
++	It depends on the semantics you expect.
++	As is discussed in
++	\cref{chp:Advanced Synchronization: Memory Ordering},
++	Linux kernel's momory consistency model requires
++	value-returning atomic RMW operations to be fully ordered
++	on both sides. \co{lwsync} is insufficient in this case and
++	should be \co{sync} instead. It has since been fixed~%
++	\cite{BoqunFeng2015:powerpc:value-returning-atomics}
++	as a result of an email thread on a couple of other litmus
++	tests~\cite{Paulmck2015:powerpc:value-returning-atomics}.
++} \QuickQuizEnd
++
+ \subsection{PPCMEM Discussion}
+ \label{sec:formal:PPCMEM Discussion}
+ 
 -- 
 2.17.1
 
