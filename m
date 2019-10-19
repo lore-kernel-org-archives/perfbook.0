@@ -1,137 +1,148 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:57530 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730211AbfJPDby (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Tue, 15 Oct 2019 23:31:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571196712;
-        bh=IGMPiFDulsFu/xfzHXGLc+nh+bczCicaEm+JS7yYHYs=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=pPV1vzLv4gRs2BrdqTwsbn697ozyId01dLipkzRawoeCCN9j9yM4U8KhFqGcuCP8c
-         Eww6uUoWh+r2oUSD9HglgbZk3DysbL6Wx9coe4nKb6ON8EIP3D15RQroQsAioTbTMq
-         h4Atlv3fcMFjG0ttVn+/OsWdhxg7oTef7KUeevLQ=
-Date: Tue, 15 Oct 2019 20:31:50 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] Fix indents in code snippets
-Message-ID: <20191016033150.GV2689@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <cfb000d6-4374-3af6-4fec-2e8ed92e3f7e@gmail.com>
+Return-Path: <SRS0=CnNL=YM=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=6RAgSZY7z6umiEArDNUSOFhv7vX6KmvWIJWvftd0830=;
+        b=VDy0SfzvnhC3c/UyUvOFkKRj9D2/eEg3k1nRtSLhyoFuSt8rxxi9oVkX69ruxsUHxP
+         h4EcLZACZr4k4HYKVvJ7RaBFluf02ChuuG/PMyii1DSj8k0CbRg8l0KWCs2yxuwpr7tu
+         CO+nWV0lQD91W8TVtTt6qiJJf9DOBbbXFBbg4VsazJH6Iuwviym5utT4VAtA5Ov2xo3y
+         NHXeQ7y3ELIlkUdBbG7Mp0TuB7HwPW0lgAHLWoexHWRXSU6UYU3T2JXZx+vH5QaFybDV
+         5LBVnNpHHzTJxGSabmLQXWqbswjwJnZjpt9ECHPp9mG/VRWAkZosMRTtzQ2+PFrPf7y/
+         A3VQ==
+Subject: Re: [PATCH v2] Always generate perfbook.synctex.gz
+References: <fac2cbbb-492c-acde-14a8-15ee04b95ea9@gmail.com>
+ <2d2eb3d6-d050-6f0c-aca5-b0cc76e8e0ec@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <289dfc39-6aec-bbaa-040d-1c06b932949f@gmail.com>
+Date: Sat, 19 Oct 2019 20:43:39 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cfb000d6-4374-3af6-4fec-2e8ed92e3f7e@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <2d2eb3d6-d050-6f0c-aca5-b0cc76e8e0ec@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: paulmck@kernel.org
+Cc: perfbook@vger.kernel.org, Balbir Singh <bsingharora@gmail.com>, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Oct 16, 2019 at 12:06:53AM +0900, Akira Yokosawa wrote:
-> >From d88490b0bbfa75dfde50144a420193500160ec1e Mon Sep 17 00:00:00 2001
+On Fri, 18 Oct 2019 00:27:36 +0900, Akira Yokosawa wrote:
+> From 41473d36c8bfaf96c4d0d0b3ca04f688ae6d4739 Mon Sep 17 00:00:00 2001
 > From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Tue, 15 Oct 2019 23:59:28 +0900
-> Subject: [PATCH] Fix indents in code snippets
+> Date: Fri, 18 Oct 2019 00:12:24 +0900
+> Subject: [PATCH v2] Always generate perfbook.synctex.gz
 > 
-> Fix inconsistencies in leading spaces.
-> Some were errors during conversion to the new scheme (inline snippets),
-> others emerged now that they are extracted from code samples.
+> Commit 8458f7572335 ("Add optional flag 'LATEX_OPT' in run{first}latex.sh")
+> was ment to support optinal generation of .synctex files.
+> It turns out that evince and gedit pair supports both the forward
+> (.tex -> PDF) and the inverse (PDF -> .tex) searches [1].
+> I find this mechanism helps a lot in perfbook, because of its
+> nested LaTeX source structure.
 > 
+> For forward search (.tex -> PDF) to work, each sub-sources needs
+> to have a pointer to main file in the first/last 3 lines. This
+> commit therefor adds the pointers to top level perfbook.tex.
+> 
+> Also add an entry in FAQ-BUILD.txt as an introduction of the
+> capability.
+> 
+> Note: As SyncTeX search will work only for perfbook.pdf, other
+> targets do not generate .synctex.gz.
+> 
+> [1]: https://help.gnome.org/users/evince/stable/synctex-search.html.en
+> 
+> Cc: Balbir Singh <bsingharora@gmail.com>
 > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-
-Applied and pushed, thank you!
-
-							Thanx, Paul
-
 > ---
->  CodeSamples/defer/rcu_nest.c  | 4 ++--
->  CodeSamples/defer/rcu_rcpl.h  | 2 +-
->  CodeSamples/defer/rcu_rcpls.h | 2 +-
->  memorder/memorder.tex         | 4 ++--
->  together/refcnt.tex           | 2 +-
->  5 files changed, 7 insertions(+), 7 deletions(-)
+> Changes from v1:
 > 
-> diff --git a/CodeSamples/defer/rcu_nest.c b/CodeSamples/defer/rcu_nest.c
-> index 7e368662..516f5921 100644
-> --- a/CodeSamples/defer/rcu_nest.c
-> +++ b/CodeSamples/defer/rcu_nest.c
-> @@ -37,7 +37,7 @@ void synchronize_rcu(void)				//\lnlbl{syn:b}
->  	/* Advance to a new grace-period number, enforce ordering. */
->  
->  	WRITE_ONCE(rcu_gp_ctr, rcu_gp_ctr +		//\lnlbl{syn:incgp1}
-> -			RCU_GP_CTR_BOTTOM_BIT);		//\lnlbl{syn:incgp2}
-> +	           RCU_GP_CTR_BOTTOM_BIT);		//\lnlbl{syn:incgp2}
->  	smp_mb();					//\lnlbl{syn:mb2}
->  
->  	/*
-> @@ -48,7 +48,7 @@ void synchronize_rcu(void)				//\lnlbl{syn:b}
->  	for_each_thread(t) {				//\lnlbl{syn:scan:b}
->  		while (rcu_gp_ongoing(t) &&		//\lnlbl{syn:ongoing}
->  		       ((READ_ONCE(per_thread(rcu_reader_gp, t)) -//\lnlbl{syn:lt1}
-> -		          rcu_gp_ctr) < 0)) {		//\lnlbl{syn:lt2}
-> +		         rcu_gp_ctr) < 0)) {		//\lnlbl{syn:lt2}
->  #ifndef FCV_SNIPPET
->  			/*@@@ poll(NULL, 0, 10); */
->  			barrier();
-> diff --git a/CodeSamples/defer/rcu_rcpl.h b/CodeSamples/defer/rcu_rcpl.h
-> index de08eee3..1d4dee8a 100644
-> --- a/CodeSamples/defer/rcu_rcpl.h
-> +++ b/CodeSamples/defer/rcu_rcpl.h
-> @@ -65,7 +65,7 @@ static void rcu_read_unlock(void)
->  	smp_mb();
->  	n = __get_thread_var(rcu_nesting);
->  	if (n == 1) {
-> -		 i = __get_thread_var(rcu_read_idx);
-> +		i = __get_thread_var(rcu_read_idx);
->  		__get_thread_var(rcu_refcnt)[i]--;
->  	}
->  	__get_thread_var(rcu_nesting) = n - 1;
-> diff --git a/CodeSamples/defer/rcu_rcpls.h b/CodeSamples/defer/rcu_rcpls.h
-> index f0a84b55..1af5d13b 100644
-> --- a/CodeSamples/defer/rcu_rcpls.h
-> +++ b/CodeSamples/defer/rcu_rcpls.h
-> @@ -66,7 +66,7 @@ static void rcu_read_unlock(void)
->  	smp_mb();
->  	n = __get_thread_var(rcu_nesting);
->  	if (n == 1) {
-> -		 i = __get_thread_var(rcu_read_idx);
-> +		i = __get_thread_var(rcu_read_idx);
->  		__get_thread_var(rcu_refcnt)[i]--;
->  	}
->  	__get_thread_var(rcu_nesting) = n - 1;
-> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-> index e901d33c..c686beb9 100644
-> --- a/memorder/memorder.tex
-> +++ b/memorder/memorder.tex
-> @@ -1218,7 +1218,7 @@ P0(int* x0, int** x1) {
->  P1(int** x1) {
->  
->  	int *r2;
-> -        int r3;
-> +	int r3;
->  
->  	r2 = lockless_dereference(*x1); // Obsolete @lnlbl[deref]
->  	r3 = READ_ONCE(*r2);			    @lnlbl[read]
-> @@ -2693,7 +2693,7 @@ void reader(void)		\lnlbl[read:b]
->  		return;			\lnlbl[read:nulret]
->  	r1 = p->b;			\lnlbl[read:pb]
->  	q = rcu_dereference(gp1);	\lnlbl[read:gp1]
-> -        if (p == q) {			\lnlbl[read:equ]
-> +	if (p == q) {			\lnlbl[read:equ]
->  		r2 = p->c;		\lnlbl[read:pc]
->  	}
->  	do_something_with(r1, r2);
-> diff --git a/together/refcnt.tex b/together/refcnt.tex
-> index 3bfb7139..aaecad4e 100644
-> --- a/together/refcnt.tex
-> +++ b/together/refcnt.tex
-> @@ -274,7 +274,7 @@ kref_sub(struct kref *kref, unsigned int count,
->  	WARN_ON(release == NULL);
->  
->  	if (atomic_sub_and_test((int) count,		\lnlbl[check]
-> -                                &kref->refcount)) {
-> +	                        &kref->refcount)) {
->  		release(kref);				\lnlbl[rel]
->  		return 1;				\lnlbl[ret:1]
->  	}
-> -- 
-> 2.17.1
+> o Simplify setting of LATEX_OPT in Makefile. The behavior is the same as v1.
+> o Add Cc: to Balbir.
 > 
+> I'd like to know this change has no regression with Balbir's workflow.
+> I'm assuming Balbir's viewer and editor combination is something
+> other than evince and gedit.
+
+Paul, this change does have regression in that the inverse search
+(PDF -> .tex) stops working other than perfbook.pdf.
+
+Current master allows inverse search from any of perfbook*.pdf.
+
+So, please hold off this one.
+
+Let me try another round to enable forward search of SyncTeX.
+
+        Thanks, Akira
+
+> 
+>         Thanks, Akira
+> --
+>  FAQ-BUILD.txt                             | 21 +++++++++++++++++++++
+>  Makefile                                  |  5 +++++
+>  SMPdesign/SMPdesign.tex                   |  2 ++
+>  SMPdesign/beyond.tex                      |  4 +++-
+>  SMPdesign/criteria.tex                    |  1 +
+>  SMPdesign/partexercises.tex               |  2 ++
+>  advsync/advsync.tex                       |  2 ++
+>  advsync/rcu.tex                           |  2 ++
+>  advsync/rt.tex                            |  2 ++
+>  appendix/ack/ack.tex                      |  1 +
+>  appendix/appendix.tex                     |  1 +
+>  appendix/questions/after.tex              |  2 ++
+>  appendix/questions/concurrentparallel.tex |  1 +
+>  appendix/questions/questions.tex          |  1 +
+>  appendix/questions/time.tex               |  1 +
+>  appendix/styleguide/styleguide.tex        |  1 +
+>  appendix/toyrcu/toyrcu.tex                |  2 ++
+>  appendix/whymb/whymemorybarriers.tex      |  2 ++
+>  count/count.tex                           |  2 ++
+>  cpu/cpu.tex                               |  1 +
+>  cpu/hwfreelunch.tex                       |  1 +
+>  cpu/overheads.tex                         |  1 +
+>  cpu/overview.tex                          |  2 ++
+>  cpu/swdesign.tex                          |  1 +
+>  datastruct/datastruct.tex                 |  2 ++
+>  debugging/debugging.tex                   |  2 ++
+>  defer/defer.tex                           |  1 +
+>  defer/hazptr.tex                          |  1 +
+>  defer/rcu.tex                             |  3 ++-
+>  defer/rcuapi.tex                          |  4 +++-
+>  defer/rcuexercises.tex                    |  1 +
+>  defer/rcufundamental.tex                  |  2 ++
+>  defer/rcuintro.tex                        |  2 ++
+>  defer/rcurelated.tex                      |  2 ++
+>  defer/rcuusage.tex                        |  2 ++
+>  defer/refcnt.tex                          |  2 ++
+>  defer/seqlock.tex                         |  2 ++
+>  defer/updates.tex                         |  3 ++-
+>  defer/whichtochoose.tex                   |  1 +
+>  easy/easy.tex                             |  1 +
+>  formal/axiomatic.tex                      |  2 ++
+>  formal/dyntickrcu.tex                     |  2 ++
+>  formal/formal.tex                         |  1 +
+>  formal/ppcmem.tex                         |  4 +++-
+>  formal/sat.tex                            |  1 +
+>  formal/spinhint.tex                       |  2 ++
+>  formal/stateless.tex                      |  1 +
+>  future/cpu.tex                            |  1 +
+>  future/formalregress.tex                  |  1 +
+>  future/future.tex                         |  1 +
+>  future/htm.tex                            |  2 ++
+>  future/tm.tex                             |  2 ++
+>  glossary.tex                              |  1 +
+>  howto/howto.tex                           |  2 ++
+>  intro/intro.tex                           |  1 +
+>  legal.tex                                 |  1 +
+>  locking/locking-existence.tex             |  4 +++-
+>  locking/locking.tex                       |  2 ++
+>  memalloc/memalloc.tex                     |  1 +
+>  memorder/memorder.tex                     |  2 ++
+>  owned/owned.tex                           |  2 ++
+>  together/applyrcu.tex                     |  2 ++
+>  together/count.tex                        |  1 +
+>  together/hash.tex                         |  1 +
+>  together/refcnt.tex                       |  2 ++
+>  together/together.tex                     |  1 +
+>  toolsoftrade/toolsoftrade.tex             |  2 ++
+>  67 files changed, 131 insertions(+), 6 deletions(-)
+> 
+[...]
