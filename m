@@ -1,65 +1,167 @@
-Return-Path: <SRS0=bx9V=YP=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=yLFzB5OpGK9NNoqAQagZ6LDSEa7wDBiV2a23lzkTsXI=;
-        b=oGMJsQKgAEIbBBh5w2m8FjGMwok2zQjXxsaSvxzMw80GWQPGkhvcc2nDD7Cka14mAA
-         WDi/kpMB7IbvBi1MTbx33+ZqmslxDw84fuiCvEYBl6vXAwq92H2B2UhS90arc/3O4Xbi
-         f2EMw5gn2FrPfdAowE9ahx7xrLAsSuVEkEYaOj60FDWfg9pAxFuXxKAJraDFyh5cXXrU
-         2gxu1CSFHnEo2zdi41zU0bx/I6RDkmOusK+wGxWT4zZ0UNW5ssuhIMSe7ua0Dd5ALNJh
-         q89tp3nLa00fGv10EzYdbT8RUzZNjxfzXufR6U7aQa+VgjfHrFap1cspy8+HN6dBWgTa
-         yG7w==
-Subject: [PATCH v3 6/6] defer/rcuapi: Tweak horizontal spacing of wide tables
- in 1c layout
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:39972 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388246AbfJVMFg (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Tue, 22 Oct 2019 08:05:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571745935;
+        bh=mkafYyO4/ZHVYI/r7toX1BqE/1Bh61ov7mFTzbIjDDE=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=unVivcbfU+3lWg2q3zTOBdXmLoLUCpSu99s7pYlcc5k1mrb8SLTTTM6sEMsN0F9df
+         hRlSZFsEuBj0pdQzU+uOvkMQDR9OdqTlFzm0sGEKJS9NZ3V8F0aAnRzhyb+ufmmGnB
+         ktN0Qa6RYaEexLJGHRK0d/k1MxDA5uI9N9uJihA8=
+Date: Tue, 22 Oct 2019 05:05:33 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v3 0/6] Enable SyncTeX forward (.tex -> .pdf) search
+Message-ID: <20191022120533.GE2479@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 References: <fac2cbbb-492c-acde-14a8-15ee04b95ea9@gmail.com>
  <2d2eb3d6-d050-6f0c-aca5-b0cc76e8e0ec@gmail.com>
  <eda1f6d1-50ef-8447-1eab-5db776eb3981@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <3c269d73-207c-589f-2fce-59a67b41ff7f@gmail.com>
-Date: Tue, 22 Oct 2019 20:24:21 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <eda1f6d1-50ef-8447-1eab-5db776eb3981@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Balbir Singh <bsingharora@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org, Balbir Singh <bsingharora@gmail.com>
 
-From cdc88c7afb93f5c9c867b474e3be14d8e9161657 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 22 Oct 2019 12:57:05 +0900
-Subject: [PATCH v3 6/6] defer/rcuapi: Tweak horizontal spacing of wide tables in 1c layout
+On Tue, Oct 22, 2019 at 08:15:43PM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> Here is another attempt to enable SyncTeX forward search in perfbook.
+> 
+> This time, perfbook.synctex.gz will be generated only if you
+> set the environment variable LATEX_OPT=-synctex=1. The behavior
+> is not changed from current master.
+> 
+> I said in my reply to v2:
+> 
+>     ... this change does have regression in that the inverse search
+>     (PDF -> .tex) stops working other than perfbook.pdf.
+> 
+> It tuned out this was my misconception. Inverse search works
+> from other than perfbook.pdf with the "% mainfile: ...perfbook.tex"
+> lines added to sub .tex files.
+> 
+> So, patch #1 adds the "mainfile:" tags (pointing perfbook.tex) in
+> sub .tex files.
+> Patch #2 adds a script to retarget the destination of forward search
+> by modifying the "mainfile:" tags. It does nothing when LATEX_OPT
+> has no "synctex" setting.  For the details of the script, please
+> refer to the update of FAQ-BUILD.txt in patch #4.
+> Patch #3 adds "mainfile:" lines in extracted .tex files (qqz.tex,
+> origpub.tex, and contrib.tex).
+> Patch #4 updates FAQ-BUILD.txt to mention SyncTeX support in
+> perfbook.
+> 
+> Patches #5 and #6 update minor issues I noticed during the test
+> of SyncTeX search with perfbook-1c.pdf.
+> 
+> I don't think gedit is your choice of editor, but SyncTeX surely
+> helps in locating a particular .tex file you'd like to see.
+> 
+> Forward search is not complete in that it doesn't work in
+> .fcv files. It looks like gedit's SyncTeX support is sensitive
+> to suffix of .tex. I tried to add "mainfile" tags in .fcv files
+> on the fly, but ended up in vain.  Inverse search to .fcv files
+> works as expected.  There is a room of improvement to show where
+> those .fcv files come from. I'll see what can be done.
+> 
+>         Thanks, Akira
+> --
+> Akira Yokosawa (6):
+>   treewide: Add '% mainfile:' tags in headers in sub .tex files
+>   Add synctex-forward.sh
+>   Add output of '% mainfile: perfbook.tex' tags in extraction scripts
+>   FAQ-BUILD: Mention how to enable SyncTeX support
+>   defer/rcuintro: Convert snippet to new scheme
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- defer/rcuapi.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Very nice, applied and queued, thank you!
 
-diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-index 47bb2da2..1c9d0365 100644
---- a/defer/rcuapi.tex
-+++ b/defer/rcuapi.tex
-@@ -26,7 +26,7 @@ presents concluding remarks.
- \centering
- \caption{RCU Wait-to-Finish APIs}
- \label{tab:defer:RCU Wait-to-Finish APIs}
--\footnotesize
-+\footnotesize\OneColumnHSpace{-.9in}
- \begin{tabularx}{6.5in}{>{\raggedright\arraybackslash}p{1.08in}
-     >{\raggedright\arraybackslash}X
-     >{\raggedright\arraybackslash}X
-@@ -423,7 +423,7 @@ that Linux supports~\cite{Spraul01}.
- \begin{table*}[tb]
- \renewcommand*{\arraystretch}{1.15}
- \footnotesize
--\centering
-+\centering\OneColumnHSpace{-.4in}
- \begin{tabular}{llp{2.2in}}
- \toprule
- Category &
--- 
-2.17.1
+With the exception of defer/rcuintro.tex, which collided with one of
+my cleanups.  I believe that the fix is straightforward, just accounting
+for the line I added, but I figured that I should check.
 
+							Thanx, Paul
 
+>   defer/rcuapi: Tweak horizontal spacing of wide tables in 1c layout
+> 
+>  FAQ-BUILD.txt                             | 39 ++++++++++
+>  SMPdesign/SMPdesign.tex                   |  2 +
+>  SMPdesign/beyond.tex                      |  4 +-
+>  SMPdesign/criteria.tex                    |  1 +
+>  SMPdesign/partexercises.tex               |  2 +
+>  advsync/advsync.tex                       |  2 +
+>  advsync/rcu.tex                           |  2 +
+>  advsync/rt.tex                            |  2 +
+>  appendix/ack/ack.tex                      |  1 +
+>  appendix/appendix.tex                     |  1 +
+>  appendix/questions/after.tex              |  2 +
+>  appendix/questions/concurrentparallel.tex |  1 +
+>  appendix/questions/questions.tex          |  1 +
+>  appendix/questions/time.tex               |  1 +
+>  appendix/styleguide/styleguide.tex        |  1 +
+>  appendix/toyrcu/toyrcu.tex                |  2 +
+>  appendix/whymb/whymemorybarriers.tex      |  2 +
+>  count/count.tex                           |  2 +
+>  cpu/cpu.tex                               |  1 +
+>  cpu/hwfreelunch.tex                       |  1 +
+>  cpu/overheads.tex                         |  1 +
+>  cpu/overview.tex                          |  2 +
+>  cpu/swdesign.tex                          |  1 +
+>  datastruct/datastruct.tex                 |  2 +
+>  debugging/debugging.tex                   |  2 +
+>  defer/defer.tex                           |  1 +
+>  defer/hazptr.tex                          |  1 +
+>  defer/rcu.tex                             |  3 +-
+>  defer/rcuapi.tex                          |  6 +-
+>  defer/rcuexercises.tex                    |  1 +
+>  defer/rcufundamental.tex                  |  2 +
+>  defer/rcuintro.tex                        | 58 +++++++--------
+>  defer/rcurelated.tex                      |  2 +
+>  defer/rcuusage.tex                        |  2 +
+>  defer/refcnt.tex                          |  2 +
+>  defer/seqlock.tex                         |  2 +
+>  defer/updates.tex                         |  3 +-
+>  defer/whichtochoose.tex                   |  1 +
+>  easy/easy.tex                             |  1 +
+>  formal/axiomatic.tex                      |  2 +
+>  formal/dyntickrcu.tex                     |  2 +
+>  formal/formal.tex                         |  1 +
+>  formal/ppcmem.tex                         |  4 +-
+>  formal/sat.tex                            |  1 +
+>  formal/spinhint.tex                       |  2 +
+>  formal/stateless.tex                      |  1 +
+>  future/cpu.tex                            |  1 +
+>  future/formalregress.tex                  |  1 +
+>  future/future.tex                         |  1 +
+>  future/htm.tex                            |  2 +
+>  future/tm.tex                             |  2 +
+>  glossary.tex                              |  1 +
+>  howto/howto.tex                           |  2 +
+>  intro/intro.tex                           |  1 +
+>  legal.tex                                 |  1 +
+>  locking/locking-existence.tex             |  4 +-
+>  locking/locking.tex                       |  2 +
+>  memalloc/memalloc.tex                     |  1 +
+>  memorder/memorder.tex                     |  2 +
+>  owned/owned.tex                           |  2 +
+>  together/applyrcu.tex                     |  2 +
+>  together/count.tex                        |  1 +
+>  together/hash.tex                         |  1 +
+>  together/refcnt.tex                       |  2 +
+>  together/together.tex                     |  1 +
+>  toolsoftrade/toolsoftrade.tex             |  2 +
+>  utilities/extractcontrib.sh               |  1 +
+>  utilities/extractorigpub.sh               |  1 +
+>  utilities/extractqqz.sh                   |  1 +
+>  utilities/synctex-forward.sh              | 91 +++++++++++++++++++++++
+>  70 files changed, 266 insertions(+), 36 deletions(-)
+>  create mode 100755 utilities/synctex-forward.sh
+> 
+> -- 
+> 2.17.1
+> 
+> 
