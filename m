@@ -3,20 +3,21 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=u9SnYSHkNwCbIyrHVywHqCBzgh57oGDDj4JcWx7Tkfk=;
-        b=SwKBJEJ6ie1h3hry8RPOR6BUG1ZFV7BGlguz4ine/PqsuKl49Wkw8OvFWwMlatUnFK
-         9Zi3gI54z+2D68pY4fX1QErZSrrF5KQ9fGFpbn7Elhz+E+j1wSjouCCJbPuEbxqNQrx6
-         rVd4SYen4yFAnQM/2kLtsix+qfXwxH+a3TREB6FDxShD84f8iqq8dxO5HNbpc827U/uN
-         4Lvz6bLI0CagOI7i0Hqy5axzZIM8Ql2qMZ3A6880UbjmpRWsL26KUd14vHFDVyHCyPqe
-         yqNHzHXlduXP7j+HPXEtRUDlV7G1xD3VYQ3bUqE2LZHjrcqxUU+EigmqDbxAf7EuZuqS
-         1Hjg==
-Subject: [PATCH v3 5/6] defer/rcuintro: Convert snippet to new scheme
+        bh=yLFzB5OpGK9NNoqAQagZ6LDSEa7wDBiV2a23lzkTsXI=;
+        b=oGMJsQKgAEIbBBh5w2m8FjGMwok2zQjXxsaSvxzMw80GWQPGkhvcc2nDD7Cka14mAA
+         WDi/kpMB7IbvBi1MTbx33+ZqmslxDw84fuiCvEYBl6vXAwq92H2B2UhS90arc/3O4Xbi
+         f2EMw5gn2FrPfdAowE9ahx7xrLAsSuVEkEYaOj60FDWfg9pAxFuXxKAJraDFyh5cXXrU
+         2gxu1CSFHnEo2zdi41zU0bx/I6RDkmOusK+wGxWT4zZ0UNW5ssuhIMSe7ua0Dd5ALNJh
+         q89tp3nLa00fGv10EzYdbT8RUzZNjxfzXufR6U7aQa+VgjfHrFap1cspy8+HN6dBWgTa
+         yG7w==
+Subject: [PATCH v3 6/6] defer/rcuapi: Tweak horizontal spacing of wide tables
+ in 1c layout
 References: <fac2cbbb-492c-acde-14a8-15ee04b95ea9@gmail.com>
  <2d2eb3d6-d050-6f0c-aca5-b0cc76e8e0ec@gmail.com>
  <eda1f6d1-50ef-8447-1eab-5db776eb3981@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <bf3f3451-fc71-8cc4-d4a4-2551730286f9@gmail.com>
-Date: Tue, 22 Oct 2019 20:23:19 +0900
+Message-ID: <3c269d73-207c-589f-2fce-59a67b41ff7f@gmail.com>
+Date: Tue, 22 Oct 2019 20:24:21 +0900
 MIME-Version: 1.0
 In-Reply-To: <eda1f6d1-50ef-8447-1eab-5db776eb3981@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -26,100 +27,38 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Balbir Singh <bsingharora@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From f4ecbf9683111d67e70fc32bfed737ac556bfaf5 Mon Sep 17 00:00:00 2001
+From cdc88c7afb93f5c9c867b474e3be14d8e9161657 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 22 Oct 2019 12:53:00 +0900
-Subject: [PATCH v3 5/6] defer/rcuintro: Convert snippet to new scheme
-
-This snippet was added using the verbatimbox scheme.
-Convert it using VerbatimL.
+Date: Tue, 22 Oct 2019 12:57:05 +0900
+Subject: [PATCH v3 6/6] defer/rcuapi: Tweak horizontal spacing of wide tables in 1c layout
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- defer/rcuintro.tex | 56 ++++++++++++++++++++++------------------------
- 1 file changed, 27 insertions(+), 29 deletions(-)
+ defer/rcuapi.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/defer/rcuintro.tex b/defer/rcuintro.tex
-index b9b9400e..000c61a7 100644
---- a/defer/rcuintro.tex
-+++ b/defer/rcuintro.tex
-@@ -370,49 +370,47 @@ has executed a context switch, which in turn guarantees that
- all pre-existing reader threads have completed.
- 
- \begin{listing}[tbp]
--{ \scriptsize
--\begin{verbbox}[\LstLineNo]
-+\begin{linelabel}[ln:defer:Insertion and Deletion With Concurrent Readers]
-+\begin{VerbatimL}[commandchars=\\\[\]]
- struct route *gptr;
- 
- int access_route(int (*f)(struct route *rp))
- {
--  int ret = -1;
--  struct route *rp;
--
--  rcu_read_lock();
--  rp = rcu_dereference(gptr);
--  if (rp)
--  	ret = f(rp);
--  rcu_read_unlock();
--  return ret;
-+	int ret = -1;
-+	struct route *rp;
-+
-+	rcu_read_lock();
-+	rp = rcu_dereference(gptr);
-+	if (rp)
-+		ret = f(rp);
-+	rcu_read_unlock();
-+	return ret;
- }
- 
- struct route *ins_route(struct route *rp)
- {
--  struct route *old_rp;
-+	struct route *old_rp;
- 
--  spin_lock(&route_lock);
--  old_rp = gptr;
--  rcu_assign_pointer(gptr, rp);
--  spin_unlock(&route_lock);
-+	spin_lock(&route_lock);
-+	old_rp = gptr;
-+	rcu_assign_pointer(gptr, rp);
-+	spin_unlock(&route_lock);
- }
- 
- int del_route(void)
- {
--  struct route *old_rp;
--
--  spin_lock(&route_lock);
--  old_rp = gptr;
--  RCU_INIT_POINTER(gptr, NULL);
--  spin_unlock(&route_lock);
--  synchronize_rcu();
--  free(old_rp);
--  return !!old_rp;
-+	struct route *old_rp;
-+
-+	spin_lock(&route_lock);
-+	old_rp = gptr;
-+	RCU_INIT_POINTER(gptr, NULL);
-+	spin_unlock(&route_lock);
-+	synchronize_rcu();
-+	free(old_rp);
-+	return !!old_rp;
- }
--\end{verbbox}
--}
+diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+index 47bb2da2..1c9d0365 100644
+--- a/defer/rcuapi.tex
++++ b/defer/rcuapi.tex
+@@ -26,7 +26,7 @@ presents concluding remarks.
+ \centering
+ \caption{RCU Wait-to-Finish APIs}
+ \label{tab:defer:RCU Wait-to-Finish APIs}
+-\footnotesize
++\footnotesize\OneColumnHSpace{-.9in}
+ \begin{tabularx}{6.5in}{>{\raggedright\arraybackslash}p{1.08in}
+     >{\raggedright\arraybackslash}X
+     >{\raggedright\arraybackslash}X
+@@ -423,7 +423,7 @@ that Linux supports~\cite{Spraul01}.
+ \begin{table*}[tb]
+ \renewcommand*{\arraystretch}{1.15}
+ \footnotesize
 -\centering
--\theverbbox
-+\end{VerbatimL}
-+\end{linelabel}
- \caption{Insertion and Deletion With Concurrent Readers}
- \label{lst:defer:Insertion and Deletion With Concurrent Readers}
- \end{listing}
++\centering\OneColumnHSpace{-.4in}
+ \begin{tabular}{llp{2.2in}}
+ \toprule
+ Category &
 -- 
 2.17.1
 
