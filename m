@@ -1,149 +1,55 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:47324 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730141AbfJVPvl (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Tue, 22 Oct 2019 11:51:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571759500;
-        bh=qdHN4yDQ+rEH8E6L10MefUUp7DDys0k+x/z5hVYSNRc=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Th+duWmy5JDcZ5yLpyNqzZ2DRe5G1omCxde7k/JegZWZZeQ8kbdf2vmGGW3aht6mQ
-         GLTXPl+g+kLam5hgyXMcUSb4ePOAG57QBTDAaUkN6kj7PPx3BXLhtV5wSu9HlOBdd9
-         ERtuvVGKu0gu7pDWVvsiHUlEwmkJr/2C4eNRLERU=
-Date: Tue, 22 Oct 2019 08:51:37 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH v4 5/6] defer/rcuintro: Convert snippet to new scheme
-Message-ID: <20191022155137.GF2479@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <fac2cbbb-492c-acde-14a8-15ee04b95ea9@gmail.com>
- <2d2eb3d6-d050-6f0c-aca5-b0cc76e8e0ec@gmail.com>
- <eda1f6d1-50ef-8447-1eab-5db776eb3981@gmail.com>
- <20191022120533.GE2479@paulmck-ThinkPad-P72>
- <67a02888-6011-faef-985f-f2cad86a091c@gmail.com>
+Return-Path: <SRS0=Pw6/=YQ=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=qoGfl+NTFCr0YYs2j5TmO32eWqv05pSpa9CDeXVSwfk=;
+        b=tOcKbdQqVyxAHVwgmkBEBhk0ynKz84S43YWiEZiT+y09mrS15PPMhXQEvSFXQrfk6/
+         Ox5m/Rkg13fr1zGGORel7rBpEl4zSTDGaUSg8QzUwAfOEGzyVVDL2mgNoKk+y7P3JTZa
+         cTt+ppSOGkaO7ox2Zec87ZA8b7cgRDSqvP6pj6kYLWxfYD6ea9au6Bl7eLCdq48xQauh
+         3+0Uk9cHRhihvgr5TWnd7DSCAq5BJHs4oddDR8fl7x/Vre/lXs/HhQB7gyhKO2FL3+TX
+         In+tA+d9l+Uvnl7ZWdsQzpOfm64E4z4klx9LLXknfvkcm8ecjnLnXdK4sRiDpZ7+Cz0S
+         KHlQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] defer/rcuintro: Substitute smp_store_release() for
+ WRITE_ONCE()
+Message-ID: <f1c9dec1-89c6-841e-ddbd-6d4b500413cf@gmail.com>
+Date: Thu, 24 Oct 2019 00:29:04 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67a02888-6011-faef-985f-f2cad86a091c@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org, Balbir Singh <bsingharora@gmail.com>
 
-On Tue, Oct 22, 2019 at 11:34:48PM +0900, Akira Yokosawa wrote:
-> >From 6a9e5e96a0dd94b6f20052ab741d2606e79dc80f Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Tue, 22 Oct 2019 23:23:42 +0900
-> Subject: [PATCH v4 5/6] defer/rcuintro: Convert snippet to new scheme
-> 
-> This snippet was added using the verbatimbox scheme.
-> Convert it using VerbatimL.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
-> Hi Paul,
-> 
-> > With the exception of defer/rcuintro.tex, which collided with one of
-> > my cleanups.  I believe that the fix is straightforward, just accounting
-> > for the line I added, but I figured that I should check.
-> 
-> FWIW, this is the result of my rebase of the patch.
+From 6845d0f978a81ef17d0011bebb500087f39f9a45 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Thu, 24 Oct 2019 00:19:13 +0900
+Subject: [PATCH] defer/rcuintro: Substitute smp_store_release() for WRITE_ONCE()
 
-Queued and pushed, thank you!
+This change corresponds to the update of Figure 9.7 by commit
+6bc87460e2ad ("defer/rcuintro: Fix colors, fonts, and primitives
+in Figures 9.6 and 9.7").
 
-							Thanx, Paul
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ defer/rcuintro.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->         Thanks, Akira
-> > 
-> > 							Thanx, Paul
-> 
-> --
->  defer/rcuintro.tex | 58 ++++++++++++++++++++++------------------------
->  1 file changed, 28 insertions(+), 30 deletions(-)
-> 
-> diff --git a/defer/rcuintro.tex b/defer/rcuintro.tex
-> index ed7ff0b0..dc750326 100644
-> --- a/defer/rcuintro.tex
-> +++ b/defer/rcuintro.tex
-> @@ -375,50 +375,48 @@ has executed a context switch, which in turn guarantees that
->  all pre-existing reader threads have completed.
->  
->  \begin{listing}[tbp]
-> -{ \scriptsize
-> -\begin{verbbox}[\LstLineNo]
-> +\begin{linelabel}[ln:defer:Insertion and Deletion With Concurrent Readers]
-> +\begin{VerbatimL}[commandchars=\\\[\]]
->  struct route *gptr;
->  
->  int access_route(int (*f)(struct route *rp))
->  {
-> -  int ret = -1;
-> -  struct route *rp;
-> -
-> -  rcu_read_lock();
-> -  rp = rcu_dereference(gptr);
-> -  if (rp)
-> -  	ret = f(rp);
-> -  rcu_read_unlock();
-> -  return ret;
-> +	int ret = -1;
-> +	struct route *rp;
-> +
-> +	rcu_read_lock();
-> +	rp = rcu_dereference(gptr);
-> +	if (rp)
-> +		ret = f(rp);
-> +	rcu_read_unlock();
-> +	return ret;
->  }
->  
->  struct route *ins_route(struct route *rp)
->  {
-> -  struct route *old_rp;
-> +	struct route *old_rp;
->  
-> -  spin_lock(&route_lock);
-> -  old_rp = gptr;
-> -  rcu_assign_pointer(gptr, rp);
-> -  spin_unlock(&route_lock);
-> -  return old_rp;
-> +	spin_lock(&route_lock);
-> +	old_rp = gptr;
-> +	rcu_assign_pointer(gptr, rp);
-> +	spin_unlock(&route_lock);
-> +	return old_rp;
->  }
->  
->  int del_route(void)
->  {
-> -  struct route *old_rp;
-> -
-> -  spin_lock(&route_lock);
-> -  old_rp = gptr;
-> -  RCU_INIT_POINTER(gptr, NULL);
-> -  spin_unlock(&route_lock);
-> -  synchronize_rcu();
-> -  free(old_rp);
-> -  return !!old_rp;
-> +	struct route *old_rp;
-> +
-> +	spin_lock(&route_lock);
-> +	old_rp = gptr;
-> +	RCU_INIT_POINTER(gptr, NULL);
-> +	spin_unlock(&route_lock);
-> +	synchronize_rcu();
-> +	free(old_rp);
-> +	return !!old_rp;
->  }
-> -\end{verbbox}
-> -}
-> -\centering
-> -\theverbbox
-> +\end{VerbatimL}
-> +\end{linelabel}
->  \caption{Insertion and Deletion With Concurrent Readers}
->  \label{lst:defer:Insertion and Deletion With Concurrent Readers}
->  \end{listing}
-> -- 
-> 2.17.1
-> 
-> 
+diff --git a/defer/rcuintro.tex b/defer/rcuintro.tex
+index dc750326..6702153a 100644
+--- a/defer/rcuintro.tex
++++ b/defer/rcuintro.tex
+@@ -295,7 +295,7 @@ Again, this same constraint is imposed on reader threads dereferencing
+ they are done using the pointed-to data item.
+ Returning to the second row of
+ Figure~\ref{fig:defer:Deletion With Concurrent Readers},
+-where the updater has just completed executing the \co{WRITE_ONCE()},
++where the updater has just completed executing the \co{smp_store_release()},
+ imagine that CPU~0 executes a context switch.
+ Because readers are not permitted to block while traversing the linked
+ list, we are guaranteed that all prior readers that might have been running on
+-- 
+2.17.1
+
