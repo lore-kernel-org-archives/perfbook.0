@@ -1,20 +1,23 @@
 Return-Path: <SRS0=nXUX=YT=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=e6dQkIWBKmODcu1wcUjwWOWn2ZQXwXo0mKx9YaKQRAk=;
-        b=iVbZ2utJODq2tEEZCgxxHXDvhZW7Eh1ukmHtHjQ1I1RHJ+rv1Ilr0IpYlY6tYz1q9X
-         DqeZrU4yKcpUmCWiddlefMuILHhpQ5RU0PVG4ixkIC3iDzpkEv5jyYz955B4ITY74R9A
-         e8OwlrpxAnWpvboQw630/W3qupKaduuB06DNFysXlWmjsQK8ZTN3iS7ppby5bgcnEMOg
-         TjasDi12yFEGZ9a7T4DU+XwuSkJyq5zQPwa4xdNfkrUWpfDq4mOb761znuKbxQHEDxo7
-         Fl5/MyO3KMsbZDo7URICdzerUl2h8Sx6VoUXFr8bY7vIP6Hi3+nKpnbW5xybuDG7yoGK
-         2OKg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=j4gstFXzWPq2VLFep1N9ZD0CFvxsfEdQCyW+njt5BU4=;
+        b=nIOFQ7p618W8fHuiUes3r2QeUz8ShNScznr8OxkMVKCB2QeI0ogPWIp8dg/PTQQgLE
+         Zd7a/N1ym7Fk60VH7Xh+kQvUkPkV1rlShXgzkymtv9V1Mexxmq6axlC4GAoKLUQBUgV+
+         IWYf6v/Ra9GMYFWAeaP+kVe730rhvw0VBb+wVaBpiBXmO8ob9QmKXHFP7z87DUq/V/lF
+         XCjnAZ0Kyf2plXHj7kLtZ4D6xk107DJsJU05wDwGLYcjmgXcw7iDAXkRTEdp+B5f7svT
+         6E5upOM0nCp9QVzJohzJc/VegTL/WGENPDSa35BsnxkOgBf462Gd8gLxXGfK8XGMftdH
+         8JFw==
+Subject: [PATCH 1/3] count: Tweak horizontal spacing of wide tables in 1c
+ layout
+References: <74f205ba-a530-288b-d211-8ef8db70f365@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/3] Fixes to recent updates in count
-Message-ID: <74f205ba-a530-288b-d211-8ef8db70f365@gmail.com>
-Date: Sat, 26 Oct 2019 09:18:27 +0900
+Message-ID: <6f1bf882-4dc7-f597-d5d3-61186cf0beb5@gmail.com>
+Date: Sat, 26 Oct 2019 09:19:31 +0900
 MIME-Version: 1.0
+In-Reply-To: <74f205ba-a530-288b-d211-8ef8db70f365@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,36 +25,51 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+From 0a2fa3b2687fc4ca1d79856fa30825f3cbea76f4 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sat, 26 Oct 2019 00:07:26 +0900
+Subject: [PATCH 1/3] count: Tweak horizontal spacing of wide tables in 1c layout
 
-So you had (or still have?) a chance to run the parallel count algorithms
-on the large x86 (224-core with HT) system. Interesting data.
+These tables got wider than the width of 1c layout by recent
+update using the results obtained on a larger system.
 
-This patch set is to adjust a few contexts with existing contents.
+Also adjust "table-format" specifiers to the digit counts
+in the table (now grown to 6 digits).
 
-Patch #1 adjusts horizontal spacing of tables getting wider than 1c
-column width.
-Patch #2 adds a dashed line mentioned in Quick Quiz 5.8.
-Patch #3 substitutes "x86" for "POWER6".
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ count/count.tex | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-If you have conflicting local updates, I'd be happy to rebase.
-
-Also, you might want to add a Quick Quiz on the slope changes in
-Figure 5.1 at number of CPUs 2 and 28. I think you know what I mean.
-
-        Thanks, Akira
---
-Akira Yokosawa (3):
-  count: Tweak horizontal spacing of wide tables in 1c layout
-  count: Add dashed line indicating ideal time of (non-atomic) increment
-  count: Update CPU type/system
-
- CodeSamples/count/atomic_hps.eps | 111 ++++++++++++++++++++++++++++++-
- CodeSamples/count/atomic_hps.png | Bin 3113 -> 3120 bytes
- CodeSamples/count/plots.sh       |   2 +-
- count/count.tex                  |  12 ++--
- 4 files changed, 117 insertions(+), 8 deletions(-)
-
+diff --git a/count/count.tex b/count/count.tex
+index 9735a89c..4b01bc75 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -2817,8 +2817,9 @@ will expand on these lessons.
+ \rowcolors{4}{}{lightgray}
+ \renewcommand*{\arraystretch}{1.1}
+ \small
+-\centering
+-\begin{tabular}{lrS[table-format = 2.1]S[table-format = 3.0]S[table-format = 5.0]S[table-format = 5.0]S[table-format = 5.0]}
++\centering\OneColumnHSpace{-.25in}
++\begin{tabular}{lrS[table-format=1.1]S[table-format=3.0]S[table-format=4.0]
++		  S[table-format=6.0]S[table-format=6.0]}
+ 	\toprule
+ 	& & & \multicolumn{4}{c}{Reads (ns)} \\
+ 	\cmidrule{4-7}
+@@ -2904,8 +2905,9 @@ courtesy of eventual consistency.
+ \rowcolors{4}{}{lightgray}
+ \renewcommand*{\arraystretch}{1.1}
+ \small
+-\centering
+-\begin{tabular}{lrcS[table-format = 2.1]S[table-format = 3.0]S[table-format = 5.0]S[table-format = 5.0]S[table-format = 5.0]}
++\centering\OneColumnHSpace{-.4in}
++\begin{tabular}{lrcS[table-format=2.1]S[table-format=3.0]S[table-format=4.0]
++		   S[table-format=6.0]S[table-format=6.0]}
+ 	\toprule
+ 	& & & & \multicolumn{4}{c}{Reads (ns)} \\
+ 	\cmidrule{5-8}
 -- 
 2.17.1
+
 
