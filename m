@@ -1,99 +1,127 @@
-Return-Path: <SRS0=lrlX=YV=gmail.com=xiaonan830818@kernel.org>
+Return-Path: <SRS0=Pd2e=YV=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=jPPTioNn/icL4amNjjCr1Uxltkw+949jMJJB05Y0xTI=;
-        b=j+WCMaVuEfdAadjkyXpjU9krRRMjX1cNwOrOpg+8Jp/ieiuBf+AKblYxSwm1hAPHll
-         VvxJBGIETCr2amgfULf/JgXWrzNDqClXcMa83QTz2CVKnirJs7IHBHA3a6Q40cqIbls0
-         6xjAMooH7/SwyUT4VlcPH0ck0yLZf5NE3TXPfb7cCBjoEOwwICZlcVPDEUhFBwbZY8nG
-         Wp9rnFty91JI+OIDWdkudReSFlwMFIX0Z1B4eX9PVsXo68NpeQRtQSzY4uMj+UKijTY6
-         rbMt4szcJGKZiDENqmNYlM4LyGyv1IZ8vKnacNS5UM9YHViA3Jhevpu0W4h1GDxmg1i7
-         0cJw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=2KU5jpH/u5FhMX9tGLTRDrwAn3fiBbw+lzY9b93sftk=;
+        b=nfXQDgND+TUajzJ8wrCahtJDaskfXf9MibbtXNmJrajdCYt7ORQ/SouzqJFYfO15tC
+         fg3lB420pnIQZr2H0Ie8YHFtczdf1d+KA6oXVMgVXOFy1iNZASNHBqiuJxImVbNr1Eel
+         +HUIMayTl8vZi7UxQF2RC5mEb8iK2wuVzbNiYRA9BAl6luYHV5TAJQzD5RCHeQEdcKOl
+         //8iRjePJLjaxcQoGeE+NkC1Gc2I7gQZtCJ/NVY7IU2QNxI/atGAxwAcaBars3BkKJRM
+         f1UAAVPypm9+3zb8UN/22EkmrIt6+BmBWm18+j8M4KmD6Vqf0QFii2V3nKu4tFoLX/ex
+         MljQ==
+Subject: [PATCH] count: Reduce width of performance table
+References: <74f205ba-a530-288b-d211-8ef8db70f365@gmail.com>
+ <20191026230424.GF4465@paulmck-ThinkPad-P72>
+ <950010b1-3788-6763-b7cc-eea6933863c6@gmail.com>
+ <20191027170922.GG4465@paulmck-ThinkPad-P72>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <589947e7-268c-707c-8968-30bfa82ad2fa@gmail.com>
+Date: Mon, 28 Oct 2019 23:44:27 +0900
 MIME-Version: 1.0
-References: <CA+MhoaNUYKgS02EOjNGQi1+5D_Uzw4aWf2_y_gxtBF9ZU8muKA@mail.gmail.com>
- <6622b6a2-b23a-b72f-8ab8-bf38e39d2bc8@gmail.com> <20191027171103.GH4465@paulmck-ThinkPad-P72>
-In-Reply-To: <20191027171103.GH4465@paulmck-ThinkPad-P72>
-From: Nan Xiao <xiaonan830818@gmail.com>
-Date: Mon, 28 Oct 2019 10:47:49 +0800
-Message-ID: <CA+MhoaNOkgWTR7zw8ge_Zyj1h6MVAmy3=FAWQpx016D9exrBhQ@mail.gmail.com>
-Subject: Re: Question about volatile usage
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-To: paulmck@kernel.org
-Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
+In-Reply-To: <20191027170922.GG4465@paulmck-ThinkPad-P72>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Akira & Paul,
+From a4f6e08b2ef23b39eed420e0f1595affbb624c5f Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 28 Oct 2019 22:29:17 +0900
+Subject: [PATCH] count: Reduce width of performance table
 
-Thanks very much for your time and explanation!
+Reperesent algorithm names by unique part of their path names.
+To shrink vertical spaces in the heading, use "picture" environment
+and tweak placement manually.
 
-Best Regards
-Nan Xiao
+By this change, the table now fits the 1c width and we can get rid
+of \OneColumnHSpace{}.
 
-On Mon, Oct 28, 2019 at 1:11 AM Paul E. McKenney <paulmck@kernel.org> wrote=
-:
->
-> On Sun, Oct 27, 2019 at 11:45:07AM +0900, Akira Yokosawa wrote:
-> > (Added explicit CC: to Paul)
-> >
-> > Hello!
-> >
-> > On Fri, 25 Oct 2019 21:32:35 +0800, Nan Xiao wrote:
-> > > Hi Paul and perfbook members,
-> > >
-> > > Greetings from me!
-> > >
-> > > I have a question about 4.3.4.2 A Volatile Solution:
-> > >
-> > >> To summarize, the volatile keyword can prevent load tearing and stor=
-e tearing in cases where the loads and stores are machine-sized and properl=
-y aligned. It can also prevent load fusing, store fusing, invented loads, a=
-nd invented stores. However, although it does prevent the compiler from reo=
-rdering volatile accesses with each other, it does nothing to prevent the C=
-PU from reordering these accesses. Furthermore, it does nothing to prevent =
-either compiler or CPU from reordering non-volatile accesses with each othe=
-r or with volatile accesses. Preventing these types of reordering requires =
-the techniques described in the next section.
-> > >
-> > > Does this summary apply for both C and C++? Or C only=EF=BC=9F
-> >
-> > IIUC, it applies to both C and C++.
-> >
-> > There is an article on LWN (Linux Weekly News) based on this section at=
-:
-> >
-> >     https://lwn.net/Articles/793253/
-> >
-> > The article and comments from readers there might be of your interest.
-> >
-> > If your main concern is application code developed on modern C/C++ comp=
-ilers
-> > (C11/C++11 or later), it might be a good idea to use standard language
-> > features which support concurrent code rather than to use volatile/vola=
-tile
-> > casting.  (There can be changes in C/C++ standards in future, though.)
-> >
-> > Annotation of racy accesses by READ_ONCE()/WRITE_ONCE() to prevent
-> > compiler optimizations can be seen as abusing of volatile from the
-> > view point of compiler developers. But it survives generations of
-> > compilers (with occasional regression reported as bugs in compiler
-> > optimization).
->
-> All good points!
->
-> And one reason that volatile survives is that it absolutely must have
-> certain properties in order for device drivers to work, and none of our
-> modern computing infrastructure will work without device drivers.
->
->                                                         Thanx, Paul
->
-> >         Thanks, Akira
-> >
-> > >
-> > > Thanks very much in advance!
-> > >
-> > > Best Regards
-> > > Nan Xiao
-> > >
-> >
+Suggested-by: Paul E. McKenney <paulmck@kernel.org>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+On Sun, 27 Oct 2019 10:09:22 -0700, Paul E. McKenney wrote:
+
+> Another thing would be to make the "Algorithms" heading be something
+> like "Algorithms: \co{count_*.c}", then trim the leading "count_" and
+> trailing ".c" from each row's first column.  Would that make sense?
+
+This patch manages to do the tweak.
+It might be over-engineering to do this level of tuning in the header.
+But at least it looks much better than what it would do without using
+\multirow{} and "picture" environment.
+
+As you said, there might be alternative to do this at a higher level
+of LaTeX code. I'll see to it (with lower priority).
+
+        Thanks, Akira
+
+> 
+> 							Thanx, Paul
+--
+ count/count.tex | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
+
+diff --git a/count/count.tex b/count/count.tex
+index 1a8d7bf3..3820a551 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -2817,36 +2817,40 @@ will expand on these lessons.
+ \rowcolors{4}{}{lightgray}
+ \renewcommand*{\arraystretch}{1.1}
+ \small
+-\centering\OneColumnHSpace{-.35in}
++\centering
+ \newcommand{\NA}{\cellcolor{white}}
+ \begin{tabular}{lrcS[table-format=2.1]S[table-format=3.0]S[table-format=4.0]
+ 		  S[table-format=6.0]S[table-format=6.0]}
+ 	\toprule
+-	& & \multirow{2}{*}{\begin{picture}(6,50)(0,-24)\rotatebox{90}{Exact?}\end{picture}} &
+-		\multicolumn{1}{c}{Updates} & \multicolumn{4}{c}{Reads (ns)} \\
++	\multirow{2}{*}{\begin{picture}(60,15)(0,-3)\put(0,0){Algorithm}
++			\put(14,-10){(\path{count_*.c})}\end{picture}} &
++	    & \multirow{2}{*}{\begin{picture}(6,50)(0,-24)\rotatebox{90}{Exact?}\end{picture}} &
++		\multicolumn{1}{c}{\multirow{2}{*}{\begin{picture}(30,15)(0,-3)
++			\put(0,0){Updates}\put(15,-10){(ns)}\end{picture}}} &
++			\multicolumn{4}{c}{Reads (ns)} \\
+ 	\cmidrule{5-8}
+-	Algorithm & Section & & \multicolumn{1}{c}{(ns)} &
++	    & Section & & &
+ 				   \multicolumn{1}{r}{1 CPU} &
+ 				      \multicolumn{1}{r}{8 CPUs} &
+ 					 \multicolumn{1}{r}{64 CPUs} &
+ 					    \multicolumn{1}{r}{420 CPUs} \\
+ 		\midrule
+-		\path{count_stat.c} & \ref{sec:count:Array-Based Implementation} & \NA &
++		\path{stat} & \ref{sec:count:Array-Based Implementation} & \NA &
+ 		 6.3 & 294 & 303   & 315     &    612 \\
+-	\path{count_stat_eventual.c} & \ref{sec:count:Eventually Consistent Implementation} & \NA &
++	\path{stat_eventual} & \ref{sec:count:Eventually Consistent Implementation} & \NA &
+ 		 6.4 &   1 &   1   &   1     &      1 \\
+-	\path{count_end.c} & \ref{sec:count:Per-Thread-Variable-Based Implementation} & \NA &
++	\path{end} & \ref{sec:count:Per-Thread-Variable-Based Implementation} & \NA &
+ 		 2.9 & 301 & 6 309 & 147 594 & 239 683 \\
+-	\path{count_end_rcu.c} & \ref{sec:together:RCU and Per-Thread-Variable-Based Statistical Counters} & \NA &
++	\path{end_rcu} & \ref{sec:together:RCU and Per-Thread-Variable-Based Statistical Counters} & \NA &
+ 		 2.9 & 454 &   481 &     508 &   2 317 \\
+ 	\midrule
+-	\path{count_lim.c} & \ref{sec:count:Simple Limit Counter Implementation} &
++	\path{lim} & \ref{sec:count:Simple Limit Counter Implementation} &
+ 		N &  3.2 & 435 & 6 678 & 156 175 & 239 422 \\
+-	\path{count_lim_app.c} & \ref{sec:count:Approximate Limit Counter Implementation} &
++	\path{lim_app} & \ref{sec:count:Approximate Limit Counter Implementation} &
+ 		N &  2.4 & 485 & 7 041 & 173 108 & 239 682 \\
+-	\path{count_lim_atomic.c} & \ref{sec:count:Atomic Limit Counter Implementation} &
++	\path{lim_atomic} & \ref{sec:count:Atomic Limit Counter Implementation} &
+ 		Y & 19.7 & 513 & 7 085 & 199 957 & 239 450 \\
+-	\path{count_lim_sig.c} & \ref{sec:count:Signal-Theft Limit Counter Implementation} &
++	\path{lim_sig} & \ref{sec:count:Signal-Theft Limit Counter Implementation} &
+ 		Y &  4.7 & 519 & 6 805 & 120 000 & 238 811 \\
+ 	\bottomrule
+ \end{tabular}
+-- 
+2.17.1
+
+
