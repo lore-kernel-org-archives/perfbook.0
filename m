@@ -1,116 +1,104 @@
-Return-Path: <SRS0=NWWy=ZM=foxmail.com=laokz@kernel.org>
-Message-ID: <5dd4ad20.1c69fb81.c4f54.8814SMTPIN_ADDED_BROKEN@mx.google.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1574219027;
-	bh=NXrIfgXdFUmiYJfLRJMxf8KQkGI0mFC4P16KNP5fAnc=;
-	h=Message-ID:Subject:From:To:Date:MIME-Version;
-	b=yYaFwy3E6oH9xBleAzETHwgbp8SGFTCZnX+44FFwrLwiWeiZXkgcI+ZF8RvQ5ct8C
-	 4BlWH8BUK2Z1wNJjqjCuKy6yu08lZJZCXxMv4eox4LF0cg/K7stzU231dNpF56dJdf
-	 hOpjjMYautpXCUY73rdu7mLG+G3LUijjt6YBII6U=
-Subject: Re: how to understand cpu in-order commit
-From: laokz <laokz@foxmail.com>
-Date: Wed, 20 Nov 2019 11:03:44 +0800
-In-Reply-To: <20191119211117.GG2889@paulmck-ThinkPad-P72>
-References: <5dd3f840.1c69fb81.26205.0055SMTPIN_ADDED_BROKEN@mx.google.com>
-	 <20191119144421.GU2889@paulmck-ThinkPad-P72>
-	 <5dd40e5c.1c69fb81.4c51.e557SMTPIN_ADDED_BROKEN@mx.google.com>
-	 <20191119211117.GG2889@paulmck-ThinkPad-P72>
-Content-Type: text/plain; charset="utf-8"
+Return-Path: <SRS0=ySBD=ZQ=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=gm4ttlPlvhkEZ7aUd8nB5NZDdpwMSbqnqFD81HfKwl8=;
+        b=BrZCJBcLZUBV+Focc+xuGWJ7AwKBKu0klFdg5j4IobQctc08Z+r96CD59vaH6oUQEy
+         wYaELEpwnc4RmmdFjcRkKpBdey/6+zPB271+ochfHS8h6gzEHSTh2/rtuIXx/IgvWMy4
+         IAqUiqtItoDht3SJIeLYnk6goYViPGBI0nh4AUYHmDCistq6d4XpBWa0Yeu6Pk4kn9s2
+         uetvax97AYzUnZb4v9p+OcYn58JNF558aSGDis1AFktwHn6woZZTwK9STgJ6flaETr+/
+         AEdmS6riC8dB10ejMMGzGGeJim4H+2vh8uhJNv2+4Xu2a5Rp0NSOigi/Vtei9lBTj26i
+         4bog==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [perfbook GIT PULL] Use \clnrefragne to reference range of lines
+Message-ID: <9e1089f7-0b30-bd84-3ef3-5fc454a923bf@gmail.com>
+Date: Sun, 24 Nov 2019 16:21:48 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To: paulmck@kernel.org
-Cc: perfbook mailing list <perfbook@vger.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hello Paul,
+Hi Paul,
 
-Thank you so much for all the information.
+This pull request consists of changes to use \clnrefrange to reference
+range of lines in snippets. The motivation is to use endashes (--)
+consistently (as much as possible) for ranges of numbers throughout perfbook.
 
-Best regards,
-laokz
+NOTE: What character to use in \crefrange and \clnrefrange is specified
+      in perfbook.tex using a couple of macro definitions.
+      E.g.: "\newcommand{\crefrangeconjunction}{--}" and
+      "\newcommand{\clnrefrange}[2]{lines~\lnref{#1}--\lnref{#2}}"
 
-在 2019-11-19二的 13:11 -0800，Paul E. McKenney写道：
-> On Tue, Nov 19, 2019 at 11:45:03PM +0800, laokz wrote:
-> > Hello paul,
-> > 
-> > 在 2019-11-19二的 06:44 -0800，Paul E. McKenney写道：
-> > > On Tue, Nov 19, 2019 at 10:11:48PM +0800, laokz wrote:
-> > > > But wonder how about cpu in-order commit. So I removed smp_mb(), the
-> > > > litmus
-> > > > test showed the result exist! This confused me. In my understanding, cpu
-> > > > in-
-> > > > order commit means out-of-order-execution results commit to
-> > > > register/memory
-> > > > in compiled program order. That is cpu P1 must retire r0=y first then
-> > > > x=1,
-> > > > thus P0 can see P1's update of x. So P1's r0 should never be 1.
-> > > > 
-> > > > Is this caused by LKMM's compatibility with out-of-order commit
-> > > > architectures? Or what's wrong with me?
-> > > 
-> > > Nothing is wrong with you.  You are just going through a common phase
-> > > in learning about memory models.  ;-)
-> > > 
-> > > So you modified P1() as follows, correct?
-> > > 
-> > > 	P1(int *x, int *y)
-> > > 	{
-> > > 		int r0;
-> > > 
-> > > 		r0 = READ_ONCE(*y);
-> > > 		WRITE_ONCE(*x, 1);
-> > > 	}
-> > > 
-> > > The compiler is free to rearrange this code as follows:
-> > > 
-> > > 	P1(int *x, int *y)
-> > > 	{
-> > > 		int r0;
-> > > 
-> > > 		WRITE_ONCE(*x, 1);
-> > > 		r0 = READ_ONCE(*y);
-> > > 	}
-> > > 
-> > > This can clearly satisfy the exists clause:  P1() does its write,
-> > > P0() does its read and its write, and finally P1() does its read.
-> > 
-> > Compiler is one big deal. It seems that seldom compilers obey C11
-> > standard strictly. "Accesses to volatile objects are evaluated strictly
-> > according to the rules of the abstract machine." at least means they should
-> > not change the sequence point.
-> 
-> Yes, you are right, the volatile nature of READ_ONCE() and WRITE_ONCE()
-> would prohibit the reordering above.  On the other hand, the C++11
-> standard really does allow relaxed atomic loads and stores to be
-> reordered.  And since I was at a C++ standards committee a few weeks
-> ago, I had relaxed atomics on my brain.  Apologies for my confusion.
-> 
-> > > But suppose we prevented the compiler from moving the code:
-> > > 
-> > > 	P1(int *x, int *y)
-> > > 	{
-> > > 		int r0;
-> > > 
-> > > 		r0 = READ_ONCE(*y);
-> > > 		barrier();
-> > > 		WRITE_ONCE(*x, 1);
-> > > 	}
-> > > 
-> > > Then, as you say, weakly ordered CPUs might still reorder P1()'s
-> > > read and write.  So LKMM must still say that the exists clause is
-> > > satisfied.
-> > 
-> > Legacy resource is another big deal.
-> 
-> I will let you argue the "Legacy resource" point with the vendors still
-> selling weakly ordered CPUs.  ;-)
-> 
-> > Thanks your quick reply. It really clears my head.
-> 
-> ;-) ;-) ;-)
-> 
-> 							Thanx, Paul
-> 
+The final (15th) commit uses \crefrange for ranges of figure numbers.
 
+After these changes, there remain only a couple of tens of dashes (-)
+which represent ranges of numbers in the LaTeX sources of perfbook.
 
+Other possible changes to use \cref{} and its variants do not affect
+the resulting PDF in most cases. Such changes are error prone as are evident
+in fixes by commits 7b327fa2fe97 ("miscellaneous: Fix numerous typos") and
+a35705b57c70 ("advsync/rt: Fix usage of \clnref{}"). 
+So they are not included in this request. Such changes can wait until
+there is some other change nearby.
 
+        Thanks, Akira
+--
+The following changes since commit cfc525d6386e17dbe7ec6e5e658678139e60ee2b:
+
+  Typo fixes: "and and" and light-weight->lightweight (2019-11-23 11:23:01 -0800)
+
+are available in the Git repository at:
+
+  https://github.com/akiyks/perfbook.git tags/for-paul-2019.11.24b
+
+for you to fetch changes up to 38eec3194c9aac87a63568ef42f1e626408bb5dd:
+
+  Use \crefrange{}{} for range of figures (2019-11-24 13:44:41 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (15):
+      toolsoftrade: Use \clnrefrange{}{} for range of lines in snippets
+      toolsoftrade: Add cross reference to lines in snippets
+      count: Use \clnrefrange{}{} for range of lines in snippets
+      SMPdesign: Use \clnrefrange{}{} for ranges of lines in snippets
+      SMPdesign: Add cross references to lines in snippets
+      locking: Use \clnrefrange{}{} to reference range of lines in snippets
+      defer: Use \clnrefrange{}{} to refernece range of lines in snippets
+      defer/rcufundamental: Add cross refernece to line in snippet
+      datastruct: Use \clnrefrange{}{} to refernece range of lines in snippets
+      debugging: Use \clnrefrange{}{} to refernece range of lines in snippets
+      formal: Use \clnrefrange{}{} to refernece range of lines in snippets
+      together: Fix singular/plural verb form
+      advsync/rt: Fix usage of \clnref{}
+      Add cross references to lines in snippets of count_lim and count_stat_eventual
+      Use \crefrange{}{} for range of figures
+
+ CodeSamples/count/count_stat_eventual.c |   4 +-
+ CodeSamples/toolsoftrade/rwlockscale.c  |   2 +-
+ SMPdesign/SMPdesign.tex                 |  10 +--
+ SMPdesign/beyond.tex                    |  27 ++++---
+ SMPdesign/partexercises.tex             |  18 ++---
+ advsync/rt.tex                          |   4 +-
+ count/count.tex                         | 135 ++++++++++++++++----------------
+ datastruct/datastruct.tex               |  67 ++++++++--------
+ debugging/debugging.tex                 |  14 ++--
+ defer/defer.tex                         |   8 +-
+ defer/hazptr.tex                        |  18 ++---
+ defer/rcufundamental.tex                |  11 ++-
+ defer/rcuintro.tex                      |   2 +-
+ defer/rcuusage.tex                      |   8 +-
+ defer/refcnt.tex                        |   8 +-
+ defer/seqlock.tex                       |  12 +--
+ formal/axiomatic.tex                    |  20 ++---
+ formal/dyntickrcu.tex                   |   2 +-
+ formal/spinhint.tex                     |  60 +++++++-------
+ locking/locking-existence.tex           |   2 +-
+ locking/locking.tex                     |  16 ++--
+ owned/owned.tex                         |  16 ++--
+ together/applyrcu.tex                   |   2 +-
+ toolsoftrade/toolsoftrade.tex           |  66 +++++++++-------
+ 24 files changed, 279 insertions(+), 253 deletions(-)
