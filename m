@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=NKAKEJnTag+FsJUa5C5fUTnPy4DyoL9wegnnY8pda4U=;
-        b=tdlZoFitVQnDM0V875kTDdrXRN/fDBnOFHL9MY7QrqkFSkiLh6PAz3v/wvawskJ0Z2
-         Iui/jSBlqruyEBom3VZ7L7xAGTGtJrfAO5dlWa1fUE8O5k6E1TDFhfANMsmm6zWQaEUg
-         L8FELaXp9ZafDEzuXP7Fo6ntmAb7H6fm4cn0CQOVyuS7wxHp4lwe5mJDuEUHQ2rSRC6t
-         P47vAAXQUq8ko3ovXQe0Mm/yJ84ACJVpVwx2wzq0ciqy6suZtK6vwylWjSii06ovVSDD
-         aoAY0z56h9ydKqI4QI+U0u/nsiT+srI/2vyfMm6U4b/pYF/wG4fqjT/EofF7A6A3P9+c
-         0wJg==
-Subject: [PATCH 1/3] bib/swtools: Add entries of reports on store tearing
+        bh=9Mi5JUVSWAfIs1tF9ohTvew5bJ1pl3IDgRuXtMI+wbw=;
+        b=CZ2Td1JBU29rj5R4eag91Z1Xej54dMg7X1jLuI3Tm6HgOR067tHzIO20668vrUa5qS
+         ALLoilYthW954ISHnjkXIMQa/tmXFt93I9uHaIhDsW8vttrfX9WzFnY+HQh6FAytqFCg
+         aTTT9XcZ6Semllv/YaVpUZ0p3H1t9RmXDx5tkSRhjr3kImW/j4WWRBnjEMkuSqWRL51/
+         jv8IC40AVuTPNcH4WV/EnpvHFYAFR7HdFXG2rLFsDNzYhP/7f+irwUGQoMI9sm4esIh1
+         JYghhkBf54YD631YL1W13oXyc/+XFVfKPw1UNuLdPyTNBA1Ni0SPy+IAlQ9A+9ErSoe0
+         hFkw==
+Subject: [PATCH 2/3] toolsortrade: Backport LWN article
 References: <c132d968-1c16-ebfa-ca7f-9b3caff5eecb@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <98ace197-9fa3-f072-0435-d378c3ef60ff@gmail.com>
-Date: Fri, 29 Nov 2019 07:25:39 +0900
+Message-ID: <2753eecd-aee4-75bd-d755-0caf5e3b1a64@gmail.com>
+Date: Fri, 29 Nov 2019 07:26:48 +0900
 MIME-Version: 1.0
 In-Reply-To: <c132d968-1c16-ebfa-ca7f-9b3caff5eecb@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,52 +24,81 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From bb50063d1efafa1434449ef9c5c5968dcc00d772 Mon Sep 17 00:00:00 2001
+From 9132989d5f2db9c1829750971a187afdd4c4a6ee Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Thu, 28 Nov 2019 07:42:06 +0900
-Subject: [PATCH 1/3] bib/swtools: Add entries of reports on store tearing
+Date: Thu, 28 Nov 2019 07:42:59 +0900
+Subject: [PATCH 2/3] toolsortrade: Backport LWN article
+
+The LWN article "Who's afraid of a big bad optimizing compiler?"
+originated from Section 4.3.4.1. In preparing the article,
+there were improvements around store tearing. Backport the
+changes into this section and designate the article by
+\OriginallyPublished.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- bib/swtools.bib | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ toolsoftrade/toolsoftrade.tex | 37 ++++++++++++++++++++++++-----------
+ 1 file changed, 26 insertions(+), 11 deletions(-)
 
-diff --git a/bib/swtools.bib b/bib/swtools.bib
-index ea5b1849..b239082e 100644
---- a/bib/swtools.bib
-+++ b/bib/swtools.bib
-@@ -600,6 +600,15 @@ Architectural Support for Programming Languages and Operating Systems
- ,DOI={ 10.1007/978-3-642-33125-1_22 }
- }
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 6c6d64b6..c9fee28b 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -1563,7 +1563,8 @@ variable, all of those accesses are loads.
  
-+@unpublished{KonstantinKhlebnikov2013gccstoretearing
-+,Author="Konstantin Khlebnikov and Paul E. McKenney"
-+,Title="{RCU: non-atomic assignment to long/pointer variables in gcc}"
-+,month="January"
-+,day="15"
-+,year="2013"
-+,note="\url{https://lore.kernel.org/lkml/50F52FC8.4000701@openvz.org/}"
+ \subsubsection{Shared-Variable Shenanigans}
+ \label{sec:toolsoftrade:Shared-Variable Shenanigans}
+-
++\OriginallyPublished{Section}{sec:toolsoftrade:Shared-Variable Shenanigans}{Shared-Variable Shenanigans}{Linux Weekly News}{JadeAlglave2019WhoAfraidCompiler}
++%
+ Given code that does plain loads and stores,\footnote{
+ 	That is, normal loads and stores instead of C11 atomics, inline
+ 	assembly, or volatile accesses.}
+@@ -1599,20 +1600,34 @@ cannot rule out load tearing in the general case.
+ 
+ {\bf Store tearing} occurs when the compiler uses multiple store
+ instructions for a single access.
+-For example, one thread might store \co{0x1234} to a four-byte integer
+-variable at the same time another thread stored \co{0xabcd}.
++For example, one thread might store \co{0x12345678} to a four-byte integer
++variable at the same time another thread stored \co{0xabcdef00}.
+ If the compiler used 16-bit stores for either access, the result
+-might well be \co{0x12cd}, which could come as quite a surprise to
++might well be \co{0x1234ef00}, which could come as quite a surprise to
+ code loading from this integer.
+ Nor is this a strictly theoretical issue.
+-For example, there are CPUs that can store small immediate values
+-directly into memory, and on such CPUs, the compiler can be expected
+-to split this into two 16-bit stores in order to avoid the overhead
+-of explicitly forming the 32-bit constant.\footnote{
+-	One such CPU is the rare and elusive x86:
+-	\url{https://gcc.gnu.org/bugzilla/show_bug.cgi?id=55981}.}
+-Furthermore, the C standard simply has no choice in the general case, given
++For example, there are CPUs that feature small immediate values,
++and on such CPUs, the compiler can be tempted to split a 64-bit
++store into two 32-bit stores in order to reduce the overhead
++of explicitly forming the 64-bit constant in a register,
++even on a 64-bit CPU.
++There are historical reports of this actually happening in
++the wild (e.g.~\cite{KonstantinKhlebnikov2013gccstoretearing}),
++but there is also a recent
++report~\cite{WillDeacon2019StoreTearingReport}.\footnote{
++	Note that this tearing can happen even on properly aligned
++        and machine-word-sized accesses, and in this particular case,
++	even for volatile stores.
++	Some might argue that this behavior constitutes a bug in the
++	compiler, but either way it illustrates the perceived value of
++	store tearing from a compiler-writer viewpoint.
 +}
 +
- @unpublished{ThomasSewell2013L4binaryVerification
- ,Author="Thomas Sewell and Toby Murray"
- ,Title="Above and Beyond: {seL4} Noninterference and Binary Verification "
-@@ -1188,6 +1197,15 @@ Michalis Kokologiannakis"
- ,note="\url{http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2369.pdf}"
- }
++Of course, the compiler simply has no choice but to tear some stores
++in the general case, given
+ the possibility of code using 64-bit integers running on a 32-bit system.
++But for properly aligned machine-sized stores, \co{WRITE_ONCE} will
++prevent store tearing.
  
-+@unpublished{WillDeacon2019StoreTearingReport
-+,Author="Will Deacon"
-+,Title="{Re: [PATCH 1/1] Fix: trace sched switch start/stop racy updates}"
-+,month="August"
-+,day="21"
-+,year="2019"
-+,note="\url{https://lore.kernel.org/lkml/20190821103200.kpufwtviqhpbuv2n@willie-the-truck/}"
-+}
-+
- @unpublished{DanielBristotdeOliveira2019formal
- ,Author="Daniel Bristot de Oliveira"
- ,Title="Formal verification made easy (and fast)!"
+ \begin{listing}[tbp]
+ \begin{linelabel}[ln:toolsoftrade:Preventing Load Fusing]
 -- 
 2.17.1
 
