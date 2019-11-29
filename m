@@ -1,57 +1,63 @@
-Return-Path: <SRS0=65dD=ZU=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FfG1jvO7Us7+wQ9xwIqsjhzHnfmP7s6RtEAmQFZVTNI=;
-        b=O7jcMqBl3Iuv78C/Jyz2XmXkxNBq3GSn3PXtRiQBR75elkySatv1hbCeuaSq/FNEF1
-         rehv81ggRzXnDGCjEHJVP5PRWY06ARxr4N/MVePMCbT+rWQIvKyBxVByo7jHwrWJUqdf
-         MbpcJXtMY0ICHBOtUcNHe8uRJ8ntUQiPIQEMmWwF8nRe+HmIucKlVJ2mBU3s/xoH24ho
-         yao4YiFMIuF+CryhzamprjsTMHAq2MAYz2weFwOn4DWGELXYwZNzimp38IGawuFd6Kyc
-         +OLN7WfZsG3myQKHTY0EmgmNUxND8bTg1HkO24Ix4tBNYhEIfvvgk7AcPBWZw8z0fR1B
-         X4zg==
-Subject: [PATCH 3/3] toolsoftrade: Use 'quote' for made-up dialogue
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:42798 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726909AbfK2RTr (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Fri, 29 Nov 2019 12:19:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1575047987;
+        bh=pUNZZC+F0ZfTP0ZUyQ/92mXm5Udot8MWRcdBQnIvDSU=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=wjZjJvg3WX9FxcRBIXWnNptNkR55lCzMY5yAzkBHN9mR3mP2DvmkneZuBbQ1+zata
+         UUpLLED/z0di9wzEb4JMU38Q0kmCUhVzTmXk3Zdbn+4L8BUr+S0xTix94DM/876LYu
+         viJjb2Jt1rv5MJP64J/6TwD44HszMGaC8ra4xCX4=
+Date: Fri, 29 Nov 2019 09:19:46 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH 0/3] toolsoftrade: Backport updates in LWN article
+Message-ID: <20191129171946.GK2889@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 References: <c132d968-1c16-ebfa-ca7f-9b3caff5eecb@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <3dbff346-9eb9-65d4-8981-af435f42b902@gmail.com>
-Date: Fri, 29 Nov 2019 07:27:54 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <c132d968-1c16-ebfa-ca7f-9b3caff5eecb@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From df9bed4d21029054ed07c2b92b3dfdf84cd651b8 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 29 Nov 2019 00:22:17 +0900
-Subject: [PATCH 3/3] toolsoftrade: Use 'quote' for made-up dialogue
+On Fri, Nov 29, 2019 at 07:24:21AM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> This patch set backports changes made in the LWN article "Who's afraid
+> of a big bad optimizing compiler?" around store tearing.
+> Although the origin of the article was Section 4.3.4.1, we can think
+> of the article as the original publication of the section. There will
+> likely be further updates in perfbook on this matter.
+> 
+> Patch #1 adds entries in bib/swtools to be cited in Patch #2.
+> Patch #2 does the backport, with the report in 2013 being kept
+> in a citation.
+> Patch #3 is a cosmetic change in the beginning of Section 4.3.4.4.
+> 
+>         Thanks, Akira
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- toolsoftrade/toolsoftrade.tex | 2 ++
- 1 file changed, 2 insertions(+)
+Excellent, thank you very much!!!
 
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index c9fee28b..470e0a93 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -2350,10 +2350,12 @@ limiting or even entirely avoiding data races.
- \subsubsection{Avoiding Data Races}
- \label{sec:toolsoftrade:Avoiding Data Races}
- 
-+\begin{quote}
- ``Doctor, it hurts my head when I think about concurrently accessing
- shared variables!''
- 
- ``Then stop concurrently accessing shared variables!!!''
-+\end{quote}
- 
- The doctor's advice might seem unhelpful, but
- one time-tested way to avoid concurrently accessing shared variables
--- 
-2.17.1
+I added "()" to a WRITE_ONCE(), but otherwise queued and pushed this
+series as-is.
 
+							Thanx, Paul
 
+> --
+> Akira Yokosawa (3):
+>   bib/swtools: Add entries of reports on store tearing
+>   toolsortrade: Backport LWN article
+>   toolsoftrade: Use 'quote' for made-up dialogue
+> 
+>  bib/swtools.bib               | 18 ++++++++++++++++
+>  toolsoftrade/toolsoftrade.tex | 39 +++++++++++++++++++++++++----------
+>  2 files changed, 46 insertions(+), 11 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
