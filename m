@@ -3,19 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+9Xcee9sDtIJ+frfyTL8tENiZMb9xhVxqSwAyfg5R18=;
-        b=IwyAWMbUstAOIp3S6sa4tGQBVgEwfmYLGD6oHts3PwnImEB4ie01D+pT/fZvT9LkgP
-         CPXFR3fAFzTRDF+1DgBTfl4WgtHU7ha/wtIwjQJFr5rU0ZoYPLM3NYzEn/Q4kPeWKi92
-         Qvk5C9w4tx0+RVvpZZVX3KRN7BbsPmiX5geN7g8f4KRppI535z2WxUXa1uCTosmFdazW
-         g/V8Kwx6GUk4UjdOln05zZ1q63M3ayQun8xsu4VgAje0h11JYvMYFPw+c7nz1I8WoSnM
-         gVkFcF3v4cjRsnt0kSRBf0P6SGdCqvzpj5Q3gDtzyXd0F2HGK0GlU30rf8i3diBsJ0OM
-         dWqg==
-Subject: [PATCH 5/6] styleguide: Clarify newline-after-sentence rule is for
- LaTeX source
+        bh=2VScRArhZIRglz99biwEUr2daG5DaoIjfOHGpZz3bvM=;
+        b=Ip/Tg352d6WEUtRrZBu9kDBUmpED1VTNfPY2R2/Kv/38KAiL7/2tQik7pS9PFP0Dfq
+         XTlZmTCyIcWKB0iNdHFNto3X5vEMSr1uieSlwrpHz2K/OmQQfd1WPCI78+x5c2k3M0rw
+         uEYbZyK+BgHsTQTRUFk6aQsEy4y27OmgMvAURiPldKeeeEU4Lz68O9gHCIHQX8WyrL0+
+         F1SJNaTccBe3AFMTGo4Ryjkn98D2fHiOV1rX1s/5BoK0mzpNYfmidSZkXytTmg/JXvzc
+         /sz8jDQglU9RDDcUaISJp1aIUjeJMXecNHv7cQo8A7R4CR4cY0hImDMNKQgd7/e2CyKC
+         ff4g==
+Subject: [PATCH 6/6] styleguide: Treat current snippet scheme as 'the scheme'
 References: <bd2bcae7-bfde-241f-281c-832615d1c9c0@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <b7db0d20-af11-1749-feb8-e8726978aa68@gmail.com>
-Date: Tue, 3 Dec 2019 00:21:16 +0900
+Message-ID: <b3a73a47-f7e1-53d8-f68e-40162702e223@gmail.com>
+Date: Tue, 3 Dec 2019 00:22:16 +0900
 MIME-Version: 1.0
 In-Reply-To: <bd2bcae7-bfde-241f-281c-832615d1c9c0@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,32 +24,45 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 5bb205a33cbd134f7d153c19efdf12fe2861c1c1 Mon Sep 17 00:00:00 2001
+From 6dcdd57af3b2afa72635dc544064c789ddd1d391 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 2 Dec 2019 21:09:53 +0900
-Subject: [PATCH 5/6] styleguide: Clarify newline-after-sentence rule is for LaTeX source
+Date: Mon, 2 Dec 2019 21:17:35 +0900
+Subject: [PATCH 6/6] styleguide: Treat current snippet scheme as 'the scheme'
+
+Now that conversion of code snippets to the current scheme has
+completed, we can call it "the scheme".
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/styleguide/styleguide.tex | 5 +++++
- 1 file changed, 5 insertions(+)
+ appendix/styleguide/styleguide.tex | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
-index 0d68db32..8967c315 100644
+index 8967c315..12273309 100644
 --- a/appendix/styleguide/styleguide.tex
 +++ b/appendix/styleguide/styleguide.tex
-@@ -76,6 +76,11 @@ answers to Akira's questions regarding perfbook's punctuation policy.
-   use it if doing so prevents a line break in that heading.
- \item When mentioning words, I use quotations.  When introducing
-   a new word, I use \verb|\emph{}|.
-+\end{itemize}
-+
-+Following is a convention regarding punctuation in \LaTeX\ sources.
-+
-+\begin{itemize}
- \item Place a newline after a colon (\co{:}) and the end of a sentence.
-   This avoids the whole one-space/two-space food fight and also has
-   the advantage of more clearly showing changes to single sentences
+@@ -333,10 +333,10 @@ This section explains the use cases of such macros and environments.
+ \label{sec:app:styleguide:Code Snippet}
+ 
+ Because the \qco{verbatim} environment is a primitive way to include
+-listings, we are transitioning to a new scheme which uses
++listings, we have transitioned to a scheme which uses
+ the \qco{fancyvrb} package for code snippets.
+ 
+-The goal of the new scheme is to extract \LaTeX\ sources of
++The goal of the scheme is to extract \LaTeX\ sources of
+ code snippets directly from code samples under \path{CodeSamples}
+ directory.
+ It also makes it possible to embed line labels in the code samples,
+@@ -355,7 +355,7 @@ by the \qco{verbatimbox} package.
+ \co{verbbox} can automatically generate line numbers,
+ but those line numbers cannot be referenced within the \LaTeX\ sources.
+ 
+-Let's start by looking at how code snippets are coded in the new scheme.
++Let's start by looking at how code snippets are coded in the current scheme.
+ There are three customized environments of \qco{Verbatim}.
+ \qco{VerbatimL} is for floating snippets within the \qco{listing}
+ environment. \qco{VerbatimN} is for inline snippets with line count
 -- 
 2.17.1
 
