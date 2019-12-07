@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:references:cc:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=HnpmxOhGnBxAdtVFw45e28babvgMJAMM88a+QgBKGJg=;
-        b=qSN1/f4LZGKyQ+3JVHDkgttK7vgRvaIftZmigxw/vkPkf/ZNxeKY6UbgQ+JZprqfVL
-         0MPU9UyKfNDH1MiHqDXMqMU20WjMXP+U32qLzVL75IcJBAAqJK8gjN23DndqF48f169D
-         arEAUWmOqGAe9qzMmGrZWwDhshpbeqgpkVyOc3LpW1F2DsD/P+EcG+UWva3n4jxFefpC
-         V+EJT2ighO4CIb7w4vNgpskml8eMeZoGZyOnoJ+pa1zNtANdWvljX/f85s6vRWj3NIH8
-         W0r5hN5gY4RX4yt1kwtcyM8OXV5FonxmnXaNUKLiRaNRH7REiA0OlW+MgfIazf46aliv
-         8LWg==
-Subject: [PATCH 1/2] toyrcu: Use mathcal O for 'orders of'
+        bh=kW+7/Jz7JjyDxLWhK2ALm24WeK7TSEMNGc+tmHBzahg=;
+        b=M+ovL313Zb9LnrZLI5zFG3q4G+I8fOwOtYMXCz4O7bvG1Z2S0emTTP1VG8gagWz4h8
+         tMRcVShJjqFs7pBbWpO36XQTS7979qjTBVNc9QsDB4KNtzOmtDRhcypmmVMG4ryJZto+
+         KV8v+iTEyjglQ5PrXFOT0Rslq4nbz5rEWVBV7gJzf85otv/JgWskmsSAWNj2yRkHbsu8
+         WTTr7pcSZfGxajUpCMEOfD32sjfjyeEx3d3CfJzXKc2Yv3zqEezssn/ZmO6/9+bf/zYY
+         87kCBBe+tznAB46Gl1opqWviRapAJjg+TsGZnkPlRZ1ypyeZuLz06JdvZek9gDM5oAGD
+         lOEA==
+Subject: [PATCH 2/2] defer/rcuusage: Fix typo (that -> than)
 References: <eb5c3f76-c84f-c801-ceb4-27efd64e2d0f@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <03a55e97-d018-ee1e-65b5-f0216bbc2089@gmail.com>
-Date: Sat, 7 Dec 2019 13:06:56 +0900
+Message-ID: <e88e409c-0725-f10e-ea72-2afb86a9d9aa@gmail.com>
+Date: Sat, 7 Dec 2019 13:07:58 +0900
 MIME-Version: 1.0
 In-Reply-To: <eb5c3f76-c84f-c801-ceb4-27efd64e2d0f@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,47 +24,29 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From b981496b8b93f2dafd1becfc7cc65df121c73a55 Mon Sep 17 00:00:00 2001
+From e991e75d28adcc5c07546c980a0ec0b3e5ba345e Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 6 Dec 2019 07:59:40 +0900
-Subject: [PATCH 1/2] toyrcu: Use mathcal O for 'orders of'
-
-Also update the macro "\O{}" introduced in commit b4ad25eae241
-("future/QC: Use upright glyph for math constant and descriptive
-suffix") so that it uses "\left(" and "\right)".
+Date: Sat, 7 Dec 2019 11:13:45 +0900
+Subject: [PATCH 2/2] defer/rcuusage: Fix typo (that -> than)
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/toyrcu/toyrcu.tex | 2 +-
- perfbook.tex               | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ defer/rcuusage.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
-index 9dff9f8a..92bd5ae7 100644
---- a/appendix/toyrcu/toyrcu.tex
-+++ b/appendix/toyrcu/toyrcu.tex
-@@ -1590,7 +1590,7 @@ create a new RCU implementation.
- 	In particular, expensive operations such as cache misses,
- 	atomic instructions, memory barriers, and branches should
- 	be avoided.
--\item	RCU read-side primitives should have $O\left(1\right)$ computational
-+\item	RCU read-side primitives should have $\O{1}$ computational
- 	complexity to enable real-time use.
- 	(This implies that readers run concurrently with updaters.)
- \item	RCU read-side primitives should be usable in all contexts
-diff --git a/perfbook.tex b/perfbook.tex
-index 37160751..14f138d4 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -240,7 +240,7 @@
- \newcommand{\qop}[1]{{\sffamily #1}} % QC operator such as H, T, S, etc.
+diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
+index 58688b48..004f6665 100644
+--- a/defer/rcuusage.tex
++++ b/defer/rcuusage.tex
+@@ -126,7 +126,7 @@ that of the ideal synchronization-free workload.
+ 	back to ideal.
  
- \DeclareRobustCommand{\euler}{\ensuremath{\mathrm{e}}}
--\DeclareRobustCommand{\O}[1]{\ensuremath{\mathcal{O}(#1)}}
-+\DeclareRobustCommand{\O}[1]{\ensuremath{\mathcal{O}\left(#1\right)}}
- \newcommand{\Power}[1]{POWER#1}
- \newcommand{\GNUC}{GNU~C}
- \newcommand{\GCC}{GCC}
+ 	The RCU variant of the \co{route_lookup()} search loop actually
+-	has one more x86 instructions that does the sequential version,
++	has one more x86 instructions than does the sequential version,
+ 	namely the \co{lea} in the sequence
+ 	\co{cmp}, \co{je}, \co{mov}, \co{cmp}, \co{lea}, and \co{jne}.
+ 	This extra instruction is due to the \co{rcu_head} structure
 -- 
 2.17.1
 
