@@ -1,139 +1,184 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:44564 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727036AbgAADGN (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Tue, 31 Dec 2019 22:06:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577847971;
-        bh=1KrdUsMDg3oecPBCaD55HlNDI/fV/yVYXc5ENwpVnHg=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=2cIrZegOkajuIRcFUU276Vv8waaV67PHqwG+OQAXDdJic6mDBPTVvmwXw3QbSDZkM
-         KWw33d7PSa0QiyhJ/0T6a2eaXyGBnJJCUtDvPPUgPfjLqnsuJjI3JWASuoFLqeZvLW
-         Rv6g4OTWolsjY8tqqla0mkGqDSi40htpMCtYYEHY=
-Date: Tue, 31 Dec 2019 19:06:11 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 0/3] Improve autodate.sh
-Message-ID: <20200101030611.GX13449@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <861d7415-b129-5d98-b28c-1988bc2359a4@gmail.com>
- <20191231000627.GS13449@paulmck-ThinkPad-P72>
- <21f02b44-a925-f082-4cf9-af2a42786050@gmail.com>
+Return-Path: <SRS0=jHua=2A=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=E7ji8agsfd89H9lyZ1nQV4d5g72udGFW36rldyZBJzU=;
+        b=ML35z/jR4U6bOtBwKoAifQUPXpDm4YG7P9mxxlV3BoNbgH0f78Arczl1jz2WanvUul
+         s3d5vj7UOvKvB/FHbqkhr3FXK3emipeaVARIjTL46pcbfzYQIDfKwXc7yEEGaw+X5t+a
+         u6FFuotfxFSt/3o8ux6tRZrjUZYpiLRh9h3dZqs/iHz14p+e6zSqwNVV3OhRGZ3GYtqB
+         fMK4gbMKR+kYrHys5MInkKN95OBsnhqoF6ZHfw1qTdDsEJV17X44Amt+R3cftU3MEJi1
+         vY38p0eMVsgidxtHML38Z34AH13HYvEsTR2EFcJce651UTArWZvLZKaEExWsd9Ye50Zt
+         q9OA==
+Subject: Re: [PATCH 0/2] Minor updates
+References: <eb5c3f76-c84f-c801-ceb4-27efd64e2d0f@gmail.com>
+ <20191207164308.GP2889@paulmck-ThinkPad-P72>
+ <881ccdd8-1d59-649e-38d1-b65601262f0d@gmail.com>
+ <20191208011550.GT2889@paulmck-ThinkPad-P72>
+ <8023af83-480f-00ab-7d96-7c975fd039c8@gmail.com>
+ <20191208181120.GX2889@paulmck-ThinkPad-P72>
+ <0e38b00c-7b23-ad0f-8fa2-e3089cecf13f@gmail.com>
+ <20191209180635.GK2889@paulmck-ThinkPad-P72>
+ <f7f2beda-2e5f-fcfa-21c6-108cb03a5932@gmail.com>
+ <20191210000812.GP2889@paulmck-ThinkPad-P72>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <01c004d3-11ec-9ec7-3056-921d97c5f9cf@gmail.com>
+Date: Tue, 10 Dec 2019 21:32:26 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <21f02b44-a925-f082-4cf9-af2a42786050@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <20191210000812.GP2889@paulmck-ThinkPad-P72>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Jan 01, 2020 at 08:36:24AM +0900, Akira Yokosawa wrote:
-> On Mon, 30 Dec 2019 16:06:27 -0800, Paul E. McKenney wrote:
-> > On Sun, Dec 29, 2019 at 07:21:42PM +0900, Akira Yokosawa wrote:
-> >> This patch set was inspired by your change log of commit 686915e83f79
-> >> ("utilities/autodate: Convert current tag to release/edition text")
-> >> saying:
-> >>
-> >>     This should really use a canned library to convert numerals to
-> >>     English-text ordinals, but none of the ones I found worked as advertised.
-> >>
-> >> My guess is the ones you found are assuming bash and don't work with
-> >> dash. You know, dash doesn't handle arrays.
-> > 
-> > It was instead that my versions of python didn't know about the
-> > advertised library, possibly because I didn't know to tell them.
+On 2019/12/10 9:08, Paul E. McKenney wrote:
+> On Tue, Dec 10, 2019 at 07:11:10AM +0900, Akira Yokosawa wrote:
+>> On 2019/12/10 3:06, Paul E. McKenney wrote:
+>>> On Mon, Dec 09, 2019 at 09:50:56PM +0900, Akira Yokosawa wrote:
+>>>> On Sun, 8 Dec 2019 10:11:20 -0800, Paul E. McKenney wrote:
+>>>>> On Mon, Dec 09, 2019 at 12:54:46AM +0900, Akira Yokosawa wrote:
+>>>>>> On Sat, 7 Dec 2019 17:15:50 -0800, Paul E. McKenney wrote:
+>>>>>>> On Sun, Dec 08, 2019 at 08:41:45AM +0900, Akira Yokosawa wrote:
+>>>>>>>> On Sat, 7 Dec 2019 08:43:08 -0800, Paul E. McKenney wrote:
+>>>>>>>>> On Sat, Dec 07, 2019 at 01:05:17PM +0900, Akira Yokosawa wrote:
+>>>>>>>>>> Hi Paul,
+>>>>>>>>>>
+>>>>>>>>>> This patch set fixes minor issues I noticed while reading your
+>>>>>>>>>> recent updates.
+>>>>>>>>>
+>>>>>>>>> Queued and pushed, along with a fix to another of my typos, thank
+>>>>>>>>> you very much!
+>>>>>>>>>
+>>>>>>>>>> Apart from the changes, I'd like you to mention in the answer to
+>>>>>>>>>> Quick Quiz 9.43 that modern Intel CPUs don't execute x86_64
+>>>>>>>>>> instructions directly, but decode them into uOPs (via MOP) and
+>>>>>>>>>> keep them in a uOP cache [1].
+>>>>>>>>>> So the execution cycle is not necessarily corresponds to instruction
+>>>>>>>>>> count, but heavily depends on the behavior of the microarch, which
+>>>>>>>>>> is not predictable without actually running the code. 
+>>>>>>>>>>
+>>>>>>>>>> [1]: https://en.wikichip.org/wiki/intel/microarchitectures/skylake_(server)
+>>>>>>>>>
+>>>>>>>>> My thought is that I should review the "Hardware and it Habits" chapter,
+>>>>>>>>> add this information if it is not already present, and then make the
+>>>>>>>>> answer to this Quick Quiz refer back to that.  Does that seem reasonable?
+>>>>>>>>
+>>>>>>>> Yes, it sounds quite reasonable!
+>>>>>>>>
+>>>>>>>> (Skimming through the chapter...)
+>>>>>>>>
+>>>>>>>> So Section 3.1.1 lightly touches pipelining. Section 3.2 mostly discusses
+>>>>>>>> memory sub-systems.
+>>>>>>>>
+>>>>>>>> Modern Intel architectures can be thought of as superscalar RISC
+>>>>>>>> processors which emulate x86 ISA. The transformation of x86 instructions
+>>>>>>>> into uOPs can be thought of as another layer of optimization
+>>>>>>>> (sometimes "de-optimization" from compiler writer's POV) ;-).
+>>>>>>>>
+>>>>>>>> But deep-diving this topic would cost you another chapter/appendix.
+>>>>>>>> I'm not sure if it's worthwhile for perfbook.
+>>>>>>>> Maybe it would suffice to lightly touch the difficulty of
+>>>>>>>> predicting execution cycles of particular instruction streams
+>>>>>>>> on modern microprocessors (not limited to Intel's), and put
+>>>>>>>> a few citations of textbooks/reference manuals.
+>>>>>>>
+>>>>>>> What I did was to add a rough diagram and a paragraph or two of
+>>>>>>> explanation to Section 3.1.1, then add a reference to that section
+>>>>>>> in the Quick Quiz.
+>>>>>>
+>>>>>> I'd like to see a couple of more keywords to be mentioned here other
+>>>>>> than "pipeline".  "Super-scalar" is present in Glossary, but
+>>>>>> "Superscalar" looks much common these days. Appended below is
+>>>>>> a tentative patch I made to show you my idea. Please feel free
+>>>>>> to edit as you'd like before applying it.
+>>>>>>
+>>>>>> Another point I'd like to suggest.
+>>>>>> Figure 9.23 and the following figures still show the result on
+>>>>>> a 16 CPU system. Looks like it is difficult to make plots of 448-thread
+>>>>>> system corresponding to them. Can you add info on the HW system
+>>>>>> where those 16 CPU results were obtained in the beginning of
+>>>>>> Section 9.5.4.2?
+>>>>>>
+>>>>>>         Thanks, Akira
+>>>>>>
+>>>>>> -------------8<-------------------
+>>>>>> >From 7e5c17a2e816a23bb12aa23f18ed96d5e820fc3a Mon Sep 17 00:00:00 2001
+>>>>>> From: Akira Yokosawa <akiyks@gmail.com>
+>>>>>> Date: Mon, 9 Dec 2019 00:23:59 +0900
+>>>>>> Subject: [TENTATIVE PATCH] cpu/overview: Mention approaches other than 'pipelining'
+>>>>>>
+>>>>>> Also remove "-" from "Super-scaler" in Glossary.
+>>>>>>
+>>>>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+>>>>>
+>>>>> Good points, thank you!
+>>>>>
+>>>>> Applied with a few inevitable edits.  ;-)
+>>>>
+>>>> Quite a few edits!  Thank you.
+>>>>
+>>>> Let me reiterate my earlier suggestion:
+>>>>
+>>>>>> Another point I'd like to suggest.
+>>>>>> Figure 9.23 and the following figures still show the result on
+>>>>>> a 16 CPU system. Looks like it is difficult to make plots of 448-thread
+>>>>>> system corresponding to them. Can you add info on the HW system
+>>>>>> where those 16 CPU results were obtained in the beginning of
+>>>>>> Section 9.5.4.2?
+>>>>
+>>>> Can you look into this as well?
+>>>
+>>> There are a few build issues, but the main problem has been that I have
+>>> needed to use that system to verify Linux-kernel fixes.  The intent
+>>> is to regenerate most and maybe all of the results on the large system
+>>> over time.
+>>
+>> I said "difficult" because of the counterintuitive variation of
+>> cycles you've encountered by the additional "lea" instruction.
+>> You will need to eliminate such variations to evaluate the cost
+>> of RCU, I suppose.
+>> Looks like Intel processors are sensitive to alignment of branch targets.
+>> (I think you know the matter better than me, but I could not help.)
+>> For example: https://stackoverflow.com/questions/18113995/
 > 
-> Hm, installing python (or python3 nowadays?) packages can be tricky.
-> (system/user install, installing by pip/pip3 or apt ...)
-
-Ah, as the old saying goes, I have much to learn!
-
-> >> Patch #1 is my answer and delegates the handling of ordinals to
-> >> a LaTeX package "fmtcount".
-> > 
-> > But I like your approach better in any case, thank you!!!  ;-)
-> > 
-> >> Patch #2 is a minor update so that a repository with untracked files
-> >> is treated as clean.
-> > 
-> > My use case for wanting the current behavior is when I add a file,
-> > add references to it, but forget to do "git add".  The "(m)" is
-> > a hint that I forgot something.
+> It does indeed get complicated.  ;-)
 > 
-> Ah, current behavior does help such a situation!
+> Another experiment on the todo list is to move the rcu_head structure to
+> the end, which should eliminate that extra lea instruction.  I am planning
+> to introduce that to the answer to the more-than-ideal quick quiz.
+
+That sounds like quite reasonable.
+
 > 
-> > But what is the countervailing use case? 
+>>> But I added the system's info in the meantime.  ;-)
+>>
+>> Which generation of Intel x86 system was it?
 > 
-> Not much of a use case, but for example, random experimental outputs
-> under CodeSamples/ not covered by .gitignore will generate the "(m)",
-> which looks irrelevant.
+> I don't know, as that was before I got smart and started capturing
+> /proc/cpuinfo.  It was quite old, probably produced in 2010 or so.
+> Maybe even earlier.
 
-I like your suggestion below of creating directories for experiemental
-not-to-be-committed results using .gitignore, and would of course welcome
-a patch.
+(Digging up the git history...)
+Yes, this plot has existed ever since the first commit of perfbook.
+And I won't blame you if you don't remember exactly what type of
+machine you ran the performance tests on. x86 in 2008 means it was
+pre-Nehalem, wasn't it?
 
-> But my view point was of receiving side of your updates.
-> Now I know you've relied on the current behavior and changing it
-> should be regarded as a regression.
+There remains a table of data obtained on Nehalem in 2009,
+which was added in commit 38fd945ff401 ("Fill out CPU chapter,
+including adding Nehalem data.").
 
-OK, we should be good as-is, then.
-
-> >                                           Maybe there is a way to
-> > solve both problems.
 > 
-> Let's keep the current behavior.
+> Which is another good reason to rerun those results, but I don't see
+> this as blocking the release.
 
-Sounds good!
+Agreed.
 
-> >> Patch #3 expands the use of tag info and displays it on every page
-> >> at the bottom-right corner.
-> > 
-> > Nice!
-> > 
-> > I took #1 and #3, and pushed another patch that includes the most
-> > recent tag for non-release builds.
+        Thanks, Akira
+
 > 
-> I thought full $description in non-release builds could be too long
-> for the footer area, but the position of the watermark in the preamble
-> specifies the center, and it looks reasonable. Thank you!
-
-Very good!  And thank you for coming up with the footer trick, could
-save some confusion.
-
-> >                                           Let's talk about #2 -- perhaps
-> > I should take it as is, but that would require some other warning.
-> > 
-> > Thoughts?
+> 							Thanx, Paul
 > 
-> As mentioned above, I'm OK with keeping the current behavior.
-> Adding some namespaces to .gitignore might be a better approach,
-> but it is not urgent at all.
-
-As noted earlier, this sounds good to me!  One approach would be to
-add the experimental directory and a README within it, with the README
-describing the purpose.  Then a .gitignore in that same directory could
-ignore all but the README.  But maybe you have a better idea.
-
-							Thanx, Paul
-
->         Thanks, Akira
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> >>         Thanks, Akira
-> >> --
-> >> Akira Yokosawa (3):
-> >>   utilities/autodate: Use 'fmtcount' package for ordinals
-> >>   utilities/autodate: Ignore untracked files in 'git status'
-> >>   utilities/autodate: Put commit-id in footer by 'draftwatermark'
-> >>
-> >>  FAQ-BUILD.txt         |  6 ++++--
-> >>  perfbook.tex          |  9 +++++++++
-> >>  utilities/autodate.sh | 35 ++++++++++++-----------------------
-> >>  3 files changed, 25 insertions(+), 25 deletions(-)
-> >>
-> >> -- 
-> >> 2.17.1
-> >>
-> 
+[...]
