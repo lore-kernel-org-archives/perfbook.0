@@ -1,58 +1,56 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:45986 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726187AbfL2BwI (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sat, 28 Dec 2019 20:52:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577584328;
-        bh=K3V6zJf7wrZ0wa2jLR38FfaoFWljf4m4CYtNksPUfsQ=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=vT3kMf4mWRiyRph1TrhXBLVSpeKOi5iI30i7WHKBrsLFVhIlPlBHqDBHifDoH2TTi
-         UlKAz6TVX++PmUtpjbl9XO7J/EsJY6/ZlQQyd6+Yhj84rYgXJgqn33YduR0M6/+R67
-         VbvLkA3Lwp1qwF0jXc9YWz9SjaOf6gWtFBU+mXfU=
-Date: Sat, 28 Dec 2019 17:52:08 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 0/2] appendix/questions: Updates in ordering
-Message-ID: <20191229015208.GQ13449@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <64715baf-7214-037d-ab82-324683ba2dbf@gmail.com>
+Return-Path: <SRS0=/5BA=2T=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=tsV1uAVLlLjQuIsKeyYQyuamw7z+0E4fG/e8LfaYMeg=;
+        b=HPhBP8Ir5NuDSXZMPoUCTO3J2EZSTWYzUTE3JTecJvX9gJiL49craqg6G+BzJ8nYNe
+         /RuI1rLaILmQA6p8TxCbNJ05czrUrSAC6h3tBumVK5VP261b0YAGE/K3jbXV3kWq4lEj
+         7r1rJ4EagxY3h/d2SfWTI1+jpge6bTstBZxKEN3tnk6HTqWuS1Bg2I43mxLSCHiQie7u
+         UnlLtaQ7+eoOqL4pBBuE79AEv8QUZ+li58L+uVucXrT/4KRP3wKEkRXM+LsnXX13lA1Q
+         kT9K882XKMYYjbcGtJ73lqRVfg4MCqFJBQBrU37jGlcb44g5bVrJcRQD5At4F1aFL8fj
+         bGRw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/3] Improve autodate.sh
+Message-ID: <861d7415-b129-5d98-b28c-1988bc2359a4@gmail.com>
+Date: Sun, 29 Dec 2019 19:21:42 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <64715baf-7214-037d-ab82-324683ba2dbf@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Dec 29, 2019 at 08:30:54AM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> This patch set is mostly to educate you on the the way to use \cref{}
-> \Cref{}.
-> 
-> In the current setting of the cleveref package, there is no difference
-> whichever you use. But it is possible to make \cref{} to generate
-> e.g. "Sec. n.m" instead of "Section. n.m" to save some space.
-> They say abbreviation in the beginning of a sentence should be
-> avoided.
-> 
-> Such an attempt should wait until the time we finish the conversion
-> to the cleveref style cross-references.
+This patch set was inspired by your change log of commit 686915e83f79
+("utilities/autodate: Convert current tag to release/edition text")
+saying:
 
-Got it, thank you!  \Cref{} only at the start of a sentence, then.
-I applied and pushed both of them, thank you!
+    This should really use a canned library to convert numerals to
+    English-text ordinals, but none of the ones I found worked as advertised.
 
-							Thanx, Paul
+My guess is the ones you found are assuming bash and don't work with
+dash. You know, dash doesn't handle arrays.
 
->         Thanks, Akira
-> --
-> Akira Yokosawa (2):
->   appendix/questions: Fix 'cleveref' macro usage in ordering section
->   appendix/questions: Use nbsp in 'value n'
-> 
->  appendix/questions/ordering.tex | 39 ++++++++++++++++-----------------
->  1 file changed, 19 insertions(+), 20 deletions(-)
-> 
-> -- 
-> 2.17.1
+Patch #1 is my answer and delegates the handling of ordinals to
+a LaTeX package "fmtcount".
+Patch #2 is a minor update so that a repository with untracked files
+is treated as clean.
+Patch #3 expands the use of tag info and displays it on every page
+at the bottom-right corner.
+
+        Thanks, Akira
+--
+Akira Yokosawa (3):
+  utilities/autodate: Use 'fmtcount' package for ordinals
+  utilities/autodate: Ignore untracked files in 'git status'
+  utilities/autodate: Put commit-id in footer by 'draftwatermark'
+
+ FAQ-BUILD.txt         |  6 ++++--
+ perfbook.tex          |  9 +++++++++
+ utilities/autodate.sh | 35 ++++++++++++-----------------------
+ 3 files changed, 25 insertions(+), 25 deletions(-)
+
+-- 
+2.17.1
+
