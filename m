@@ -1,59 +1,58 @@
-Return-Path: <SRS0=q0D/=2S=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Zpi8ItND5eecUX8S0JVmwkekBCJghXGT/kM6l04vo50=;
-        b=WXNO4BSS9m7XQuxbKsPXxZ5VIH3lteN9Js49kktsHBaZAw1OZeb0cBV6Vpqs2BMslY
-         9WpLKjotX/5EsKyfvamPUdb1mDu31O25SYuiclFX9gwUQchHfuz/zmozOySRSDL2bRCZ
-         QHuscayAz8LPT63Q+nif+8WqOnD6kAmOLjha0Frwpc4NpUDa7jUiERKyQtda2Shbydjg
-         UGXKlyHKAUVQ76LM/evJQ2mrTyEsMd/DRliusnobDa/+/0HmK47vQ0z5GCwvQLHrNoEE
-         Dpb/8Mp65TMchBpXjucO2R/s91yvQnkqi+eZT9zcUSjOJ5OGmBYp4DZZt5JnuxxYXtZU
-         cCQA==
-Subject: [PATCH 2/2] appendix/questions: Use nbsp in 'value n'
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:45986 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726187AbfL2BwI (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Sat, 28 Dec 2019 20:52:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1577584328;
+        bh=K3V6zJf7wrZ0wa2jLR38FfaoFWljf4m4CYtNksPUfsQ=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=vT3kMf4mWRiyRph1TrhXBLVSpeKOi5iI30i7WHKBrsLFVhIlPlBHqDBHifDoH2TTi
+         UlKAz6TVX++PmUtpjbl9XO7J/EsJY6/ZlQQyd6+Yhj84rYgXJgqn33YduR0M6/+R67
+         VbvLkA3Lwp1qwF0jXc9YWz9SjaOf6gWtFBU+mXfU=
+Date: Sat, 28 Dec 2019 17:52:08 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH 0/2] appendix/questions: Updates in ordering
+Message-ID: <20191229015208.GQ13449@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 References: <64715baf-7214-037d-ab82-324683ba2dbf@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <3827cb4b-c44b-86a2-9097-abe47bc57ab4@gmail.com>
-Date: Sun, 29 Dec 2019 08:35:21 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <64715baf-7214-037d-ab82-324683ba2dbf@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From fa89c4d8097dd4db2a7a4f0ba0b59a859d990b06 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 29 Dec 2019 07:59:22 +0900
-Subject: [PATCH 2/2] appendix/questions: Use nbsp in 'value n'
+On Sun, Dec 29, 2019 at 08:30:54AM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> This patch set is mostly to educate you on the the way to use \cref{}
+> \Cref{}.
+> 
+> In the current setting of the cleveref package, there is no difference
+> whichever you use. But it is possible to make \cref{} to generate
+> e.g. "Sec. n.m" instead of "Section. n.m" to save some space.
+> They say abbreviation in the beginning of a sentence should be
+> avoided.
+> 
+> Such an attempt should wait until the time we finish the conversion
+> to the cleveref style cross-references.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- appendix/questions/ordering.tex | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Got it, thank you!  \Cref{} only at the start of a sentence, then.
+I applied and pushed both of them, thank you!
 
-diff --git a/appendix/questions/ordering.tex b/appendix/questions/ordering.tex
-index 43df44a9..a9b29e4d 100644
---- a/appendix/questions/ordering.tex
-+++ b/appendix/questions/ordering.tex
-@@ -108,11 +108,11 @@ than the semantics given by the options above.
- 	\cref{lst:count:Just Count Atomically!}
- 	to the statistical counter of
- 	\cref{sec:count:Statistical Counters}.
--	Suppose that one thread is adding the value 3 and another is
--	adding the value 5, while two other threads are concurrently
-+	Suppose that one thread is adding the value~3 and another is
-+	adding the value~5, while two other threads are concurrently
- 	reading the counter's value.
- 	With atomic counters, it is not possible for one of the readers
--	to obtain the value 3 while the other obtains the value 5.
-+	to obtain the value~3 while the other obtains the value~5.
- 	With statistical counters, this outcome really can happen.
- 	In fact, in some computing environments, this outcome can happen
- 	even on relatively strongly ordered hardware such as x86.
--- 
-2.17.1
+							Thanx, Paul
 
-
+>         Thanks, Akira
+> --
+> Akira Yokosawa (2):
+>   appendix/questions: Fix 'cleveref' macro usage in ordering section
+>   appendix/questions: Use nbsp in 'value n'
+> 
+>  appendix/questions/ordering.tex | 39 ++++++++++++++++-----------------
+>  1 file changed, 19 insertions(+), 20 deletions(-)
+> 
+> -- 
+> 2.17.1
