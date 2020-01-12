@@ -3,18 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=L5iv+q5vizP3O6t6MsVA5L5sDafSmqumHP3M0liFr9s=;
-        b=giK5Q8q/VyAOO8WWIqz+3qtBKZguAt+QW6AloS8NIry0GAEV2w63w1xZ50SQuCUo5p
-         hjvSA0wndKmJ28rtP5I7mB1GX78um9ZWSFMDJ5PPq1o6c5veOHIxXLfJUXFucxslaHb0
-         AVv6PhYig+NamWrGWPHOh+dEZ9SsdZORkxbWejrG7QEknDlTA0IUWXsLh8ATpao5q6zx
-         1/LftRzoCw49fuBCBkH1Uv9vZ7hblaph9d9JZUtb72rya+OLgqx4jeCnP3WSIeeNvOH1
-         TUuVUXfcbjt7aHTbYzAgddDr8pvGMvtEMvBsCpXEckSSfb/5rWE2rmSpMnK2033U9R9E
-         cE1g==
-Subject: [PATCH 3/6] Prevent section epigraph from orphaned
+        bh=sUmcyhp2qRF4RpASvBYsyo2ipx7eZczz6v3NYW3RGpc=;
+        b=mcviVvXBpM3td/RtTf1HnlpH8ENLp9ivtHRQex2icw3cL0xDarRfwXo0Hw7RkFsaX9
+         LW+PwnWsqmkKc259SPuJ8ajiBSXHHLl35Rar5iDly8CDhfWCVnIb503mA70C8YvVdBcG
+         oXOrX9a7Fu3Et5n2u9lqGDHRWC8B5JozmrSNVWJLKRzn9zZGrqUdD7vXWxPykTEYpcRi
+         GNtVYHHGGkDcMQNpN++oUJ0/9fFCQdWFiNM03VEb1Yf6zdxANVt36+7HWHkwtqHMrlqf
+         XDq/387WXcZT5mowwU1QRCtiMRddJPN6zv8etPgCaLYF16oA/PikYoGx2E7N3jMnXDgn
+         XpuA==
+Subject: [PATCH 4/6] count: Promote code snippet in Quiz part of QQZ to
+ listing
 References: <053c308d-64ca-f1da-99e5-94740e0a55ed@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <5c715173-e681-b738-98d3-158f05e52d2a@gmail.com>
-Date: Sun, 12 Jan 2020 13:09:10 +0900
+Message-ID: <ab930f3d-19f2-2811-010e-f0aa7d83c16c@gmail.com>
+Date: Sun, 12 Jan 2020 13:10:46 +0900
 MIME-Version: 1.0
 In-Reply-To: <053c308d-64ca-f1da-99e5-94740e0a55ed@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,90 +25,71 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From a0018ab43dcde623de230b7077820c4ee86a5144 Mon Sep 17 00:00:00 2001
+From 04c6c10ec7d6f9b215141bee0ec7f8001891bcf1 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 11 Jan 2020 08:17:27 +0900
-Subject: [PATCH 3/6] Prevent section epigraph from orphaned
+Date: Sat, 11 Jan 2020 13:48:01 +0900
+Subject: [PATCH 4/6] count: Promote code snippet in Quiz part of QQZ to listing
 
-Latest "epigraph" package has a nice feature to make sure that
-section epigraph is not orphaned.
+Current scheme of QQZ can't handle a snippet at the end of a Quiz
+part due to the implied break-ability in front of the ending "square
+mark".
+QQZ 5.29 suffers from such a symptom.
 
-Add version info to its \usepackage.
-Also add it to #10 in FAQ-BUILD.txt.
+Promote the snippet to a proper listing and rephrase the Quiz
+and Answer part accordingly.
 
-Also suppress widows and orphans by using the "nowidow" package.
-This prevents a single line of a paragraph to appear at the
-bottom or the top of a page/column. For example, Short QQZ (less
-than 4 lines) won't be broken in the middle any more.
-
-This narrows the freedom of LaTeX's typesetting and slightly
-increases page count, but should improve the ease of read.
-
-NOTE 1: epigraph's document now mentions a macro \epigraphnoindent
-which would have the same effect as \NoIndentAfterCmd{\epigraph},
-but it has weird side effect on the spacing of other section
-headings.
-
-NOTE 2: This update causes stretched vertical spaces between
-paragraphs in pages where section headings with epigraphs are
-forwarded to the next pages.  They might need tweaks in LaTeX
-sources later, especially in the -RC stages of the next edition.
+Also add WRITE_ONCE() and adjust indent in the snippet for
+consistency with the right snippet.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- FAQ-BUILD.txt | 7 +++++--
- perfbook.tex  | 3 ++-
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ count/count.tex | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index f5066798..56d60a3e 100644
---- a/FAQ-BUILD.txt
-+++ b/FAQ-BUILD.txt
-@@ -178,11 +178,13 @@
- 			tlmgr install newtx
+diff --git a/count/count.tex b/count/count.tex
+index 7cd8eceb..28a6602b 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -1398,24 +1398,29 @@ This is the \co{add_counter()} fastpath, and it does no atomic operations,
+ references only per-thread variables, and should not incur any cache misses.
+ \end{lineref}
  
- 10.	Building perfbook fails with a warning of buggy cleveref/listings
--	or version mismatch of titlesec/draftwatermark. What can I do?
-+	or version mismatch of titlesec/draftwatermark/epigraph.
-+	What can I do?
++\begin{listing}[tbp]
++\begin{VerbatimL}[firstnumber=3]
++	if (counter + delta <= countermax) {
++		WRITE_ONCE(counter, counter + delta);
++		return 1;
++	}
++\end{VerbatimL}
++\caption{Intuitive Fastpath}
++\label{lst:count:Intuitive Fastpath}
++\end{listing}
++
+ \QuickQuiz{}
+ 	What is with the strange form of the condition on
+ 	line~\ref{ln:count:count_lim:add_sub_read:add:checklocal} of
+ 	Listing~\ref{lst:count:Simple Limit Counter Add, Subtract, and Read}?
+-	Why not the following more intuitive form of the fastpath?
+-
+-\begin{VerbatimN}[firstnumber=3]
+-if (counter + delta <= countermax) {
+-	counter += delta;
+-	return 1;
+-}
+-\end{VerbatimN}
+-\vspace{-9pt}
++	Why not the more intuitive form of the fastpath shown in
++	\cref{lst:count:Intuitive Fastpath}?
+ \QuickQuizAnswer{
+ 	Two words.
+ 	``Integer overflow.''
  
- 	A.	They are known issues on Ubuntu Xenial (titlesec),
- 		Ubuntu Bionic (cleveref), TeX Live 2014/2015 (listings),
--		and TeX Live releases prior to 2015 (draftwatermark).
-+		TeX Live releases prior to 2015 (draftwatermark),
-+		and TeX Live releases prior to 2020 (epigraph).
- 		This answer assumes Ubuntu, but it should work on other
- 		distros.
- 
-@@ -191,6 +193,7 @@
- 		http://mirrors.ctan.org/macros/latex/contrib/cleveref.zip
- 		http://mirrors.ctan.org/macros/latex/contrib/listings.zip
- 		http://mirrors.ctan.org/macros/latex/contrib/draftwatermark.zip
-+		http://mirrors.ctan.org/macros/latex/contrib/epigraph.zip
- 
- 	    2.	Install it by following instructions at:
- 		https://help.ubuntu.com/community/LaTeX#Installing_packages_manually
-diff --git a/perfbook.tex b/perfbook.tex
-index db334ae4..38272761 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -71,7 +71,7 @@
- \usepackage[bookmarks=true,bookmarksnumbered=true,pdfborder={0 0 0},linktoc=all]{hyperref}
- \usepackage{footnotebackref} % to enable cross-ref of footnote
- \usepackage[all]{hypcap} % for going to the top of figure and table
--\usepackage{epigraph}
-+\usepackage{epigraph}[2020/01/02] % latest version prevents orphaned epigraph
- \setlength{\epigraphwidth}{2.6in}
- \usepackage[xspace]{ellipsis}
- \usepackage{braket} % for \ket{} macro in QC section
-@@ -80,6 +80,7 @@
- \usepackage{multirow}
- \usepackage{noindentafter}
- \NoIndentAfterCmd{\epigraph}
-+\usepackage[all]{nowidow}
- \titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{}{0pt}{}
- 
- % custom packages
+-	Try the above formulation with \co{counter} equal to 10 and
++	Try the formulation in \cref{lst:count:Intuitive Fastpath}
++	with \co{counter} equal to~10 and
+ 	\co{delta} equal to \co{ULONG_MAX}.
+ 	Then try it again with the code shown in
+ 	Listing~\ref{lst:count:Simple Limit Counter Add, Subtract, and Read}.
 -- 
 2.17.1
 
