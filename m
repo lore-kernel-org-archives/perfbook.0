@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=L9PJWw99lQJWSh3aGNMRM7/nWYaof3c53EqVxzJEV3A=;
-        b=SagPbfVO9wpbrt+y+TXz0HmphcS9Jw7xRSYbCp+6Zie2dZsEXO6nIdziuoHlTww1/r
-         npr9Kp/s6VMXjxNYNy7IdaAikilDpdVv8Ax1/+tuLU+L7kbrkRLRJOmoTTWb7Ft6/dKN
-         blEjDqezqN57l5exzoSYdVFIHSj/64og/NOCqy5Cc4Pfwhgend4QDnV76ioZCiv49RHz
-         qWXZ4Bizjbh17Lnx0a7IvHgY7UkGACkDjlx2Oo0pIu1jUkjwMdqebX/MYmYpGMyMOHYi
-         Mu5vwe9C6RdX2bgD6l0jVYI1WFCffyTgHrBwwR6pXJDmBL5A66kbVq5/RdicYc3WA2L4
-         Lm6w==
-Subject: [PATCH 2/3] howto: Fix typo
+        bh=CAktX9v5GW/5crh769xxHuyhv4E1AdMUpmK2sQ7O1WQ=;
+        b=VwywH3oLOAc2Ympnxidqs+HpYrsYFvY/z8YjpntJt7ZhI6HIDDD6M8S9Qsxvnw08wn
+         8DeTJrHhHYb9UWsnEPzp9Yi+2gToCUJUqQM1Hr45hQ8/Jb0O58egd8iwhv6FPlbLXcvx
+         mM8Ow2JxH9etUSNoUM3yYM1b4Xmv2ewW3ruu9ygNEBHsmEAH/bLn5vH18rAHP4OcYLct
+         IL5IV0bK9V5HQ+IHZbskevpVEHPNrsmqYH74ML2gsbyin8hB4mOXfNMNFVSt9UbC34Ak
+         HbgN5kP93j02Obon7eAmo7ELfurzH2acfnv3mqj/PUVe6ImkH+Ge0F92F/wmbFeiTDl/
+         WJtQ==
+Subject: [PATCH 3/3] intro: Fix typo
 References: <805bd7c5-477f-c398-b025-34a630f663f9@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <7d340ee9-e333-67f5-863f-9d81fbf068db@gmail.com>
-Date: Fri, 17 Jan 2020 06:59:10 +0900
+Message-ID: <cbe1f7ea-d39a-47c9-13a8-32f5ce96c38e@gmail.com>
+Date: Fri, 17 Jan 2020 07:00:30 +0900
 MIME-Version: 1.0
 In-Reply-To: <805bd7c5-477f-c398-b025-34a630f663f9@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,29 +24,29 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From cd352d3dfd20d8fcfdddafe5547ad191cbdda37e Mon Sep 17 00:00:00 2001
+From 865d0b46e811f6a719f4af1a59d65c6f70185108 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 13 Jan 2020 16:18:19 +0900
-Subject: [PATCH 2/3] howto: Fix typo
+Date: Mon, 13 Jan 2020 19:51:52 +0900
+Subject: [PATCH 3/3] intro: Fix typo
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- howto/howto.tex | 2 +-
+ intro/intro.tex | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/howto/howto.tex b/howto/howto.tex
-index bbdacbf1..fe80cca8 100644
---- a/howto/howto.tex
-+++ b/howto/howto.tex
-@@ -23,7 +23,7 @@ Parallel programming is not as hard as some say, and we hope
- that this book makes your parallel-programming projects easier and
- more fun.
+diff --git a/intro/intro.tex b/intro/intro.tex
+index beda0464..e3ec3a43 100644
+--- a/intro/intro.tex
++++ b/intro/intro.tex
+@@ -361,7 +361,7 @@ which shows that writing single-threaded code and simply waiting
+ a year or two for the CPUs to catch up may no longer be an option.
+ Given the recent trends on the part of all major manufacturers towards
+ multicore/multithreaded systems, parallelism is the way to go for
+-those wanting the avail themselves of the full performance of their
++those wanting to avail themselves of the full performance of their
+ systems.
  
--In short, where parallel programming once focused on science, research,
-+In short, while parallel programming once focused on science, research,
- and grand-challenge projects, it is quickly becoming an engineering
- discipline.
- We therefore examine specific parallel-programming tasks
+ Even so, the first goal is performance rather than scalability,
 -- 
 2.17.1
 
