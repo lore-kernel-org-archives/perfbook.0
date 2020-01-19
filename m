@@ -1,224 +1,230 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:41222 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725809AbgASFqM (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sun, 19 Jan 2020 00:46:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579412771;
-        bh=mhyzMFzG6UJr6ayWukcFDDXyh4XDJM2OremcuRya7sg=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=P9emitwI1WD9XBUugBcq28IksLZpNeyjyPGJ1A4/5WrR7ok/EdBoI01epHklaU5tH
-         7QQ7rUIKueslu51hGbM1edM5CHjaHHznENfHd4oqEqkTiLbsunzqWrsNRfRo+Ze5S4
-         AzdoQvjpR17buqKiPlrHJhS6ruj216K+YKuIAKAQ=
-Date: Sat, 18 Jan 2020 21:46:10 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 2/3] howto: Fix typo
-Message-ID: <20200119054610.GZ2935@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <805bd7c5-477f-c398-b025-34a630f663f9@gmail.com>
- <7d340ee9-e333-67f5-863f-9d81fbf068db@gmail.com>
- <20200117033608.GD2935@paulmck-ThinkPad-P72>
- <8ec9dd6b-429b-a777-b453-a979c050805b@gmail.com>
- <20200118194213.GV2935@paulmck-ThinkPad-P72>
- <5bc21732-1575-78bf-e0a9-63f23b0092a2@gmail.com>
+Return-Path: <SRS0=40w7=3I=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=za3WNyYYetMEb1W10VG0Q+I2DYyHJXcc12bGhLl+CWw=;
+        b=e+WizrZiGseRmRiFT+IQn0XdoXweC4kTZJkK8tQ+LN+a7v8sb6zvvCpvsi09592pBM
+         wSAXBZQkyTIXkGwb7Roe64h4abkzbXQQyzOMbX5Fp3EJhF20Hxj5TpOtpqCa/s/RcGVG
+         Q3HPr2REstzDePfIQvT0bljGWIbqzpx+eQGVtMGBS8nw+MmDHFVZZhZ9lbtI+TxZcJ8g
+         GXAPLoTYYEmipTCmOrWcjiaE51kuDcr4zZ3JalsoJdkxYsy7gYgd9gUU3MkO5nXrgX2z
+         lKlvhJn62YVV3hwc9juTFvBoXTEeUS1h1SkN700Ko6w2eJ7+kxP+6fpvF1uPwlP3rxSz
+         RRxA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] count: Make Figure 5.8 resemble with Figure 2.6
+Message-ID: <fa332540-81e5-eef2-8d3e-2b37f5b7ba97@gmail.com>
+Date: Mon, 20 Jan 2020 07:41:27 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5bc21732-1575-78bf-e0a9-63f23b0092a2@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Jan 19, 2020 at 08:11:48AM +0900, Akira Yokosawa wrote:
-> On Sat, 18 Jan 2020 11:42:13 -0800, Paul E. McKenney wrote:
-> > On Sat, Jan 18, 2020 at 07:52:29PM +0900, Akira Yokosawa wrote:
-> >> On Thu, 16 Jan 2020 19:36:08 -0800, Paul E. McKenney wrote:
-> >>> On Fri, Jan 17, 2020 at 06:59:10AM +0900, Akira Yokosawa wrote:
-> >>>> >From cd352d3dfd20d8fcfdddafe5547ad191cbdda37e Mon Sep 17 00:00:00 2001
-> >>>> From: Akira Yokosawa <akiyks@gmail.com>
-> >>>> Date: Mon, 13 Jan 2020 16:18:19 +0900
-> >>>> Subject: [PATCH 2/3] howto: Fix typo
-> >>>>
-> >>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> >>>
-> >>> I took the other two, thank you very much!
-> >>>
-> >>> I treated this one as a bug report, again, thank you!  Please see below
-> >>> for the corresponding commit.  Thoughts?
-> >>
-> >> Please find inline comments below.
-> >>
-> >>>
-> >>> 							Thanx, Paul
-> >>>
-> >>>> ---
-> >>>>  howto/howto.tex | 2 +-
-> >>>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/howto/howto.tex b/howto/howto.tex
-> >>>> index bbdacbf1..fe80cca8 100644
-> >>>> --- a/howto/howto.tex
-> >>>> +++ b/howto/howto.tex
-> >>>> @@ -23,7 +23,7 @@ Parallel programming is not as hard as some say, and we hope
-> >>>>  that this book makes your parallel-programming projects easier and
-> >>>>  more fun.
-> >>>>  
-> >>>> -In short, where parallel programming once focused on science, research,
-> >>>> +In short, while parallel programming once focused on science, research,
-> >>>>  and grand-challenge projects, it is quickly becoming an engineering
-> >>>>  discipline.
-> >>>>  We therefore examine specific parallel-programming tasks
-> >>>> -- 
-> >>>> 2.17.1
-> >>>
-> >>> ------------------------------------------------------------------------
-> >>>
-> >>> commit b094718ddbe4256e606a41c660b4d4f1836baa66
-> >>> Author: Paul E. McKenney <paulmck@kernel.org>
-> >>> Date:   Thu Jan 16 19:31:26 2020 -0800
-> >>>
-> >>>     howto: Word parallel-programming-as-engineering less obscurely
-> >>>     
-> >>>     The "where ... once ... becoming" wording might be legal English, it
-> >>>     is a bit obscure and less than friendly to those whose native language
-> >>>     is not English.  This commit therefore rewrites the offending paragraph.
-> >>>     
-> >>>     Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> >>>     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> >>>
-> >>> diff --git a/howto/howto.tex b/howto/howto.tex
-> >>> index bbdacbf..8a93774 100644
-> >>> --- a/howto/howto.tex
-> >>> +++ b/howto/howto.tex
-> >>> @@ -23,11 +23,12 @@ Parallel programming is not as hard as some say, and we hope
-> >>>  that this book makes your parallel-programming projects easier and
-> >>>  more fun.
-> >>>  
-> >>> -In short, where parallel programming once focused on science, research,
-> >>> -and grand-challenge projects, it is quickly becoming an engineering
-> >>> -discipline.
-> >>> -We therefore examine specific parallel-programming tasks
-> >>> -and describe how to approach them.
-> >>> +In short, the focus of parallel programming is quickly shifting away
-> >>> +from science, research, and grand-challenge projects.
-> >>> +And this is all to the good, because it means that parallel programming
-> >>> +is finally becoming an engineering discipline.
-> >>> +Therefore, as befits an engineering discipline, this book examines
-> >>> +specific parallel-programming tasks and describes how to approach them.
-> >>>  In some surprisingly common cases, they can even be automated.
-> >>
-> >> Well, nowadays, you can try "google translate".
-> >> It recognizes the use of "where" as a subordinate conjunction in the
-> >> original paragraph.
-> > 
-> > Huh.  I didn't realize that Google Translate could recognize parts of
-> > speech.  That would be quite nice!  Except that I am still not seeing
-> > how to make it do that.  What is the trick?
-> 
-> When you select English -> Japanese, it is translated most of the time
-> as the same as
-> 
->     In short, although parallel programming once focused on science,
->     research, and grand-challenge projects, it is quickly becoming
->     an engineering discipline.
-> 
-> "Most of the time" is due to the variation of translation for their
-> machine learning purposes.
-> 
-> English -> Spanish translation simply maps "where" to "donde".
-> "Donde" does not mean "although" in Spanish, I guess.
-> 
-> Translation between European languages tends to be better than
-> that involving Japanese (especially regarding the delicate choice of
-> particles such as "ha" and "ga"), but not in this case.
+From 6cca1282ca2d80d1e01769fb109284c1182d8ec0 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 20 Jan 2020 00:09:40 +0900
+Subject: [PATCH] count: Make Figure 5.8 resemble with Figure 2.6
 
-Interesting, thank you!
+Tweak parameters of text object in the .svg file so that the figure
+looks similar to Figure 2.6.
+Also change the color of arrows from "Batch", "Weaken", and "Partition"
+to make them stand out on the blue background.
 
-> > Or was the trick for you to translate it into Japanese and used your
-> > knowledge of Japanese and Google Translate's mapping of words and phrases
-> > to identify the part of speech?
-> > 
-> >> I don't know why such a use case of "where" is not on my dictionary...
-> > 
-> > I have a printed copy of The Shorter Oxford English Dictionary (the
-> > larger version was more than ten dictionary-sized volumes back in
-> > the mid-1970s), and it says in definition B4:
-> > 
-> > 	Introducing a clause as obj. of the verb or preposition, or
-> > 	as a predicate: orig., a case in which, a person to whom
-> > 	(now only spec. as the object of love or marriage): now,
-> > 	the respect or particular in which.
-> > 
-> > So my use is a bit old-fashioned, which might be why it is not in
-> > your dictionary.  But I have the hair color to match old fashioned,
-> > so maybe it was OK while it lasted.  ;-)
-> 
-> In https://en.wiktionary.org/wiki/where#English,
-> 1st entry in Conjunction reads:
-> 
->     1. While on the contrary; although; whereas.
-> 
-> It has a few quotations which match the pattern in question.
-> 
-> > 
-> >> And saying "shifting away from" could be misleading because "science,
-> >> research, and grand-challenge projects" are still driving parallel
-> >> programming.
-> > 
-> > Excellent point, thank you!  I certainly should not unnecessarily alienate
-> > people in those fields.
-> > 
-> >> So maybe it might be better to revert this change, or to rephrase some more.
-> > 
-> > How about the following instead?
-> > 
-> > 							Thanx, Paul
-> > 
-> > ------------------------------------------------------------------------
-> > 
-> > commit 64cf378960689deef3d23359eaddea9a21ee683d
-> > Author: Paul E. McKenney <paulmck@kernel.org>
-> > Date:   Thu Jan 16 19:31:26 2020 -0800
-> > 
-> >     howto: Word parallel-programming-as-engineering less obscurely
-> >     
-> >     The "where ... once ... becoming" wording might be legal English, it
-> >     is a bit obscure and less than friendly to those whose native language
-> >     is not English.  This commit therefore rewrites the offending paragraph.
-> >     
-> >     Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > 
-> > diff --git a/howto/howto.tex b/howto/howto.tex
-> > index bbdacbf..9d73269 100644
-> > --- a/howto/howto.tex
-> > +++ b/howto/howto.tex
-> > @@ -23,11 +23,12 @@ Parallel programming is not as hard as some say, and we hope
-> >  that this book makes your parallel-programming projects easier and
-> >  more fun.
-> >  
-> > -In short, where parallel programming once focused on science, research,
-> > -and grand-challenge projects, it is quickly becoming an engineering
-> > -discipline.
-> > -We therefore examine specific parallel-programming tasks
-> > -and describe how to approach them.
-> > +In short, parallel programming is no longer focused solely on science,
-> > +research, and grand-challenge projects.
-> > +And this is all to the good, because it means that parallel programming
-> > +is finally becoming an engineering discipline.
-> > +Therefore, as befits an engineering discipline, this book examines
-> > +specific parallel-programming tasks and describes how to approach them.
-> 
-> Looks good to me!
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Paul,
 
-Very good, one down!  ;-)
+Is the color of the arrows OK with your eyes?
 
-							Thanx, Paul
+        Thanks, Akira
+--
+ count/FourTaskOrderOpt.svg | 54 +++++++++++++++-----------------------
+ 1 file changed, 21 insertions(+), 33 deletions(-)
 
->         Thanks, Akira
-> 
-> >  In some surprisingly common cases, they can even be automated.
-> >  
-> >  This book is written in the hope that presenting the engineering
-> > 
+diff --git a/count/FourTaskOrderOpt.svg b/count/FourTaskOrderOpt.svg
+index 2faee3b5..bb31ec27 100644
+--- a/count/FourTaskOrderOpt.svg
++++ b/count/FourTaskOrderOpt.svg
+@@ -216,7 +216,7 @@
+        font-family="Helvetica"
+        font-style="normal"
+        font-weight="normal"
+-       font-size="108"
++       font-size="130"
+        text-anchor="middle"
+        id="text52">Partitioning</text>
+     <!-- Text -->
+@@ -228,7 +228,7 @@
+        font-family="Helvetica"
+        font-style="normal"
+        font-weight="normal"
+-       font-size="108"
++       font-size="130"
+        text-anchor="middle"
+        id="text54">Work</text>
+     <!-- Text -->
+@@ -240,7 +240,7 @@
+        font-family="Helvetica"
+        font-style="normal"
+        font-weight="normal"
+-       font-size="108"
++       font-size="130"
+        text-anchor="middle"
+        id="text56">Access Control</text>
+     <!-- Text -->
+@@ -252,7 +252,7 @@
+        font-family="Helvetica"
+        font-style="normal"
+        font-weight="normal"
+-       font-size="108"
++       font-size="130"
+        text-anchor="middle"
+        id="text58">Parallel</text>
+     <!-- Text -->
+@@ -264,7 +264,7 @@
+        font-family="Helvetica"
+        font-style="normal"
+        font-weight="normal"
+-       font-size="108"
++       font-size="130"
+        text-anchor="middle"
+        id="text60">With Hardware</text>
+     <!-- Text -->
+@@ -276,7 +276,7 @@
+        font-family="Helvetica"
+        font-style="normal"
+        font-weight="normal"
+-       font-size="108"
++       font-size="130"
+        text-anchor="middle"
+        id="text62">Interacting</text>
+     <!-- Text -->
+@@ -291,7 +291,7 @@
+        font-family="Helvetica"
+        font-style="normal"
+        font-weight="normal"
+-       font-size="108"
++       font-size="130"
+        text-anchor="middle"
+        id="text70">Resource</text>
+     <!-- Text -->
+@@ -301,7 +301,7 @@
+        y="1125"
+        font-style="normal"
+        font-weight="normal"
+-       font-size="108"
++       font-size="130"
+        id="text72"
+        text-anchor="middle"
+        font-family="Helvetica"
+@@ -315,7 +315,7 @@
+        font-family="Helvetica"
+        font-style="normal"
+        font-weight="normal"
+-       font-size="108"
++       font-size="130"
+        text-anchor="middle"
+        id="text74">Replication</text>
+     <!-- Line -->
+@@ -330,7 +330,7 @@
+        id="polygon78" />
+     <text
+        xml:space="preserve"
+-       style="font-size:9px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
++       style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+        x="221.82668"
+        y="144.38997"
+        id="text3104"
+@@ -340,10 +340,10 @@
+          id="tspan3106"
+          x="221.82668"
+          y="144.38997"
+-         style="font-style:italic">Partition</tspan></text>
++         style="font-style:italic;font-weight:bold">Partition</tspan></text>
+     <text
+        xml:space="preserve"
+-       style="font-size:120.80000305px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
++       style="font-size:130px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+        x="146.69788"
+        y="1915.4342"
+        id="text3104-3"
+@@ -352,10 +352,10 @@
+          id="tspan3106-5"
+          x="146.69788"
+          y="1915.4342"
+-         style="font-style:italic">Weaken</tspan></text>
++         style="font-style:italic;font-weight:bold">Weaken</tspan></text>
+     <text
+        xml:space="preserve"
+-       style="font-size:120.80000305px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
++       style="font-size:130px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+        x="2992.8018"
+        y="176.79025"
+        id="text3104-3-7"
+@@ -364,7 +364,7 @@
+          id="tspan3106-5-5"
+          x="2992.8018"
+          y="176.79025"
+-         style="font-style:italic">Batch</tspan></text>
++         style="font-style:italic;font-weight:bold">Batch</tspan></text>
+     <g
+        id="g5308">
+       <path
+@@ -372,10 +372,10 @@
+          inkscape:connector-curvature="0"
+          id="path4364"
+          d="m 3242.2107,1800.0321 c -70.8063,-134.5638 -206.2829,-405.517 -206.2829,-405.517"
+-         style="fill:#00ff00;fill-opacity:1;stroke:#00ff00;stroke-width:13.42222214px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:none" />
++         style="fill:#ff00ff;fill-opacity:1;stroke:#ff00ff;stroke-width:13.42222214px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:none" />
+       <polygon
+          id="polygon42-9"
+-         style="fill:#00ff00;fill-opacity:1;stroke:#00ff00;stroke-width:7;stroke-miterlimit:8;stroke-opacity:1"
++         style="fill:#ff00ff;fill-opacity:1;stroke:#ff00ff;stroke-width:7;stroke-miterlimit:8;stroke-opacity:1"
+          points="2775,1355 2745,1505 2775,1475 2805,1505 2805,1505 "
+          transform="matrix(0.88302053,-0.46933436,0.46933436,0.88302053,-61.540385,1481.8163)" />
+     </g>
+@@ -388,10 +388,10 @@
+          inkscape:connector-curvature="0"
+          id="path4364-4"
+          d="m 3242.2107,1800.0321 c -70.8063,-134.5638 -206.2829,-405.517 -206.2829,-405.517"
+-         style="fill:#00ff00;fill-opacity:1;stroke:#00ff00;stroke-width:13.42222214px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:none" />
++         style="fill:#ff00ff;fill-opacity:1;stroke:#ff00ff;stroke-width:13.42222214px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:none" />
+       <polygon
+          id="polygon42-9-9"
+-         style="fill:#00ff00;fill-opacity:1;stroke:#00ff00;stroke-width:7;stroke-miterlimit:8;stroke-opacity:1"
++         style="fill:#ff00ff;fill-opacity:1;stroke:#ff00ff;stroke-width:7;stroke-miterlimit:8;stroke-opacity:1"
+          points="2775,1355 2745,1505 2775,1475 2805,1505 2805,1505 "
+          transform="matrix(0.88302053,-0.46933436,0.46933436,0.88302053,-61.540385,1481.8163)" />
+     </g>
+@@ -404,24 +404,12 @@
+          inkscape:connector-curvature="0"
+          id="path4364-8"
+          d="m 3242.2107,1800.0321 c -70.8063,-134.5638 -206.2829,-405.517 -206.2829,-405.517"
+-         style="fill:#00ff00;fill-opacity:1;stroke:#00ff00;stroke-width:13.42222214px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:none" />
++         style="fill:#ff00ff;fill-opacity:1;stroke:#ff00ff;stroke-width:13.42222214px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:none" />
+       <polygon
+          id="polygon42-9-2"
+-         style="fill:#00ff00;fill-opacity:1;stroke:#00ff00;stroke-width:7;stroke-miterlimit:8;stroke-opacity:1"
++         style="fill:#ff00ff;fill-opacity:1;stroke:#ff00ff;stroke-width:7;stroke-miterlimit:8;stroke-opacity:1"
+          points="2775,1475 2805,1505 2805,1505 2775,1355 2745,1505 "
+          transform="matrix(0.88302053,-0.46933436,0.46933436,0.88302053,-61.540385,1481.8163)" />
+     </g>
+-    <text
+-       sodipodi:linespacing="125%"
+-       id="text5398"
+-       y="176.79025"
+-       x="2992.8018"
+-       style="font-size:120.80000305px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+-       xml:space="preserve"><tspan
+-         style="font-style:italic"
+-         y="176.79025"
+-         x="2992.8018"
+-         id="tspan5400"
+-         sodipodi:role="line">Batch</tspan></text>
+   </g>
+ </svg>
+-- 
+2.17.1
+
