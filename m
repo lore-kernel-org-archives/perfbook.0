@@ -3,19 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=G1WweeE4Hv561KDlGMsvOB91YzuTIAg2nU+afmq2iPk=;
-        b=fWlcfcyPSsWu4i1cTS5nJ0lTOojQa8sTP7a0xrRVS2C8mQLievIlaqYor/TuU0yuZP
-         3vmQUNQj13KGl1l4mPfth8FJbdBf2Y3AXiUGIiz4hKk0KdxFdays78oxLG3omyMlBdN8
-         AsB7pJEENWcl+IrJgRL4taobp+XbvXl+MNUSl8+vwtqLvLwh0bjKOvWUJAvm9UMr/nLR
-         kAXAbdPxWUU9U1uVbuUw/YZ3IMQ0LQ6tH1z1F2xOh7L627/8MgueUxsKBRZeTyBzhFpD
-         ESoFg6UH5BLrTXwf70yUrbohTyru2DlRa3UQbKrqmKcmMzlH9aQWoZL5BP85g7QJ01ub
-         DlPQ==
-Subject: [PATCH 5/6] howto: Tweak carriagereturn symbol at fvextra's auto line
- break
+        bh=gui8MF3elB1Mo8Pc0J++//WWLxPUJ4YW9I1e+XaHLmM=;
+        b=SmnEuitiZbbVm2LTFppEDlhwvOfpxxR2TshAe+g1OGXJIYRTL1wg24HV0GJuIhhfAI
+         kUTZs2nOQ2Ek3dU5EVaC/nful2FwG7r+8sdjyMMVQLkOUUohhc+LuohXkd2E5N/MEm0Z
+         JHi6kEomO/MnT0yokgZHQQHUDLpPzyE5Txh/pNRlT+ouFzDx5vFv9BS7YQmqLwAYqRhi
+         RAVy5BhozhXu2yXOtj/Rlj2CDIbzT+GUnSbyHkU2ob9BRCYQTX032XRiuIwOD8vmJjqH
+         2GcsZ5sVBkd10nXtLN24zzTgU6LlHhDhhHshZvKhpixpRm74Q+pHHn55AzLIOxq2Rueo
+         8/0w==
+Subject: [PATCH 6/6] Remove required version of 'epigraph'
 References: <c3c7fcbc-6ff9-2e9d-3703-81cbd5773b9d@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <afd9ba96-70ca-0829-36bd-160d06b3ea72@gmail.com>
-Date: Fri, 31 Jan 2020 07:41:28 +0900
+Message-ID: <d87e0fb9-ec7c-aff9-649b-b7d4fd9fee22@gmail.com>
+Date: Fri, 31 Jan 2020 07:45:16 +0900
 MIME-Version: 1.0
 In-Reply-To: <c3c7fcbc-6ff9-2e9d-3703-81cbd5773b9d@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,70 +24,137 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From beaf1394fd45862ed6ec56bd1d794463113b3049 Mon Sep 17 00:00:00 2001
+From dc553b44983b30584d0f1003a729885b8b7290f2 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 25 Jan 2020 16:10:24 +0900
-Subject: [PATCH 5/6] howto: Tweak carriagereturn symbol at fvextra's auto line break
+Date: Tue, 28 Jan 2020 00:46:52 +0900
+Subject: [PATCH 6/6] Remove required version of 'epigraph'
 
-Also use "darkgray" as the color of symbols indicating the line break
-to make it obvious that they don't belong to the command line.
+It turned out that the up-to-date "epigraph" doesn't work well
+with the "nowidow" package on TeX Live 2015/Debian (Ubuntu Xenial)
+and TeX Live 2016.
 
-Mention the option "-jN" of "make" in comments as well to tell readers
-that parallel build is possible.
+Instead, suggest upgrade when the old version is detected and
+TeX Live version is compatible with the up-to-date "epigraph"
+package.
+
+This permits TeX Live 2015/Debian (Ubuntu Xenial) to complete
+the build with the older "epigraph".
+
+Update FAQ-BUILD.txt accordingly.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- howto/howto.tex | 13 ++++++++-----
- perfbook.tex    |  2 +-
- 2 files changed, 9 insertions(+), 6 deletions(-)
+ FAQ-BUILD.txt | 28 +++++++++++++++++++++++-----
+ Makefile      | 21 +++++++++++++++++++++
+ perfbook.tex  |  2 +-
+ 3 files changed, 45 insertions(+), 6 deletions(-)
 
-diff --git a/howto/howto.tex b/howto/howto.tex
-index de26a113..db538c05 100644
---- a/howto/howto.tex
-+++ b/howto/howto.tex
-@@ -400,12 +400,15 @@ The required list of packages for a few popular distributions is listed
- in the file \path{FAQ-BUILD.txt} in the \LaTeX{} source to the book.
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index 98cfb57b..c0bc45aa 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -179,14 +179,13 @@
+ 			tlmgr install newtx
  
- \begin{listing}[tbp]
--\begin{VerbatimL}[breaklines=true,breakafter=/,numbers=none,xleftmargin=0pt]
-+\begin{VerbatimL}[breaklines=true,breakafter=/,
-+        breakaftersymbolpre=\raisebox{-.7ex}{\textcolor{darkgray}{\Pisymbol{psy}{191}}},
-+	breaksymbolleft=\textcolor{darkgray}{\tiny\ensuremath{\hookrightarrow}},
-+        numbers=none,xleftmargin=0pt]
- git clone git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/perfbook.git
- cd perfbook
- # You may need to install a font. See item 1 in FAQ.txt.
--make
--evince perfbook.pdf & # Two-column version
-+make                     # -jN for parallel build
-+evince perfbook.pdf &    # Two-column version
- make perfbook-1c.pdf
- evince perfbook-1c.pdf & # One-column version for e-readers
- \end{VerbatimL}
-@@ -432,8 +435,8 @@ Listing~\ref{lst:howto:Creating a Up-To-Date PDF}.
- \begin{VerbatimL}[numbers=none,xleftmargin=0pt]
- git remote update
- git checkout origin/master
--make
--evince perfbook.pdf & # Two-column version
-+make                     # -jN for parallel build
-+evince perfbook.pdf &    # Two-column version
- make perfbook-1c.pdf
- evince perfbook-1c.pdf & # One-column version for e-readers
- \end{VerbatimL}
+ 10.	Building perfbook fails with a warning of buggy cleveref/listings,
+-	version mismatch of titlesec/draftwatermark/epigraph/fvextra, or
+-	missing fvextra. What can I do?
++	version mismatch of titlesec/draftwatermark/fvextra, or missing
++	fvextra. What can I do?
+ 
+ 	A.	They are known issues on Ubuntu Xenial (titlesec),
+ 		Ubuntu Bionic (cleveref), TeX Live 2014/2015 (listings),
+ 		TeX Live releases prior to 2015 (draftwatermark),
+-		TeX Live releases prior to 2017 (fvextra),
+-		and TeX Live releases prior to 2020 (epigraph).
++		and TeX Live releases prior to 2017 (fvextra).
+ 		This answer assumes Ubuntu, but it should work on other
+ 		distros.
+ 
+@@ -195,7 +194,6 @@
+ 		http://mirrors.ctan.org/macros/latex/contrib/cleveref.zip
+ 		http://mirrors.ctan.org/macros/latex/contrib/listings.zip
+ 		http://mirrors.ctan.org/macros/latex/contrib/draftwatermark.zip
+-		http://mirrors.ctan.org/macros/latex/contrib/epigraph.zip
+ 		http://mirrors.ctan.org/macros/latex/contrib/fvextra.zip
+ 
+ 	    2.	Install it by following instructions at:
+@@ -257,3 +255,23 @@
+ 
+ 		"make neatfreak; make" will rebuild all the figures.
+ 		The "-jN" option should accelerate the rebuild.
++
++13	Building perfbook has succeeded, but I find some of the
++	epigraphs at bottom of columns/pages.
++	What can I do?
++
++	A.	A new version of "epigraph" package recently released
++		has resolved the issue. You can upgrade it by following
++		the instructions at #10 above.
++		The Up-to-date package can be downloaded from:
++		http://mirrors.ctan.org/macros/latex/contrib/fvextra.zip
++
++	    NOTE: On Tex Live 2015/Debian (Ubuntu Xenial) and TeX Live 2016,
++		the up-to-date "epigraph" does not work properly along
++		with the "nowidow" package.
++		If you'd really like to get rid of orphaned epigraphs,
++		upgrading TeX Live to 2017/Debian (Ubuntu Bionic) or
++		later is the way to go.
++		The updated "epigraph" package is expected to be
++		distributed in upstream TeX Live 2020 and Tex Live 2019/Debian
++		(Ubuntu Focal).
+diff --git a/Makefile b/Makefile
+index 3dbd5d53..d39ab571 100644
+--- a/Makefile
++++ b/Makefile
+@@ -129,6 +129,23 @@ LINEREF_ENV_END     = $(patsubst ./%,%,$(shell grep -R -l -F '\end{lineref}' .))
+ LINELABEL_ENV = $(filter-out $(LINE_ENV_IGNORE),$(sort $(LINELABEL_ENV_BEGIN) $(LINELABEL_ENV_END)))
+ LINEREF_ENV   = $(filter-out $(LINE_ENV_IGNORE),$(sort $(LINEREF_ENV_BEGIN) $(LINEREF_ENV_END)))
+ 
++OLD_EPIGRAPH := $(shell grep -c '2009/09/02' `kpsewhich epigraph.sty`)
++TEXLIVE_2015_DEBIAN := $(shell pdftex --version | grep -c 'TeX Live 2015/Debian')
++TEXLIVE_2016 := $(shell pdftex --version | grep -c 'TeX Live 2016')
++ifeq ($(OLD_EPIGRAPH),1)
++  ifeq ($(TEXLIVE_2015_DEBIAN),1)
++    SUGGEST_UPGRADE_EPIGRAPH := 0
++  else
++    ifeq ($(TEXLIVE_2016),1)
++      SUGGEST_UPGRADE_EPIGRAPH := 0
++    else
++      SUGGEST_UPGRADE_EPIGRAPH := 1
++    endif
++  endif
++else
++  SUGGEST_UPGRADE_EPIGRAPH := 0
++endif
++
+ SOURCES_OF_SNIPPET_ALL := $(shell grep -R -l -F '\begin{snippet}' CodeSamples)
+ SOURCES_OF_LITMUS      := $(shell grep -R -l -F '\begin[snippet]' CodeSamples)
+ SOURCES_OF_LTMS        := $(patsubst %.litmus,%.ltms,$(SOURCES_OF_LITMUS))
+@@ -167,6 +184,10 @@ mslmmsg:
+ 
+ $(PDFTARGETS): %.pdf: %.tex %.bbl
+ 	sh utilities/runlatex.sh $(basename $@)
++ifeq ($(SUGGEST_UPGRADE_EPIGRAPH),1)
++	@echo "Consider upgrading 'epigraph' to prevent orphaned epigraphs."
++	@echo "See #13 in FAQ-BUILD.txt."
++endif
+ 
+ $(PDFTARGETS:.pdf=.bbl): %.bbl: %.aux $(BIBSOURCES)
+ 	bibtex $(basename $@)
 diff --git a/perfbook.tex b/perfbook.tex
-index 51e1f5e5..87c1eaa1 100644
+index 87c1eaa1..30796c44 100644
 --- a/perfbook.tex
 +++ b/perfbook.tex
-@@ -50,7 +50,7 @@
- \usepackage{examplep}
- % \usepackage[strings]{underscore}
- % \usepackage{underscore}
--\usepackage{pifont} % special character for qqz reference point
-+\usepackage{pifont} % symbols for qqz reference points and carriagereturn
- \usepackage{gensymb} % symbols for both text and math modes such as \degree and \micro
- \usepackage{verbatimbox}[2014/01/30] % for centering verbatim listing in figure environment
- \usepackage{fancyvrb}
+@@ -72,7 +72,7 @@
+ \usepackage[bookmarks=true,bookmarksnumbered=true,pdfborder={0 0 0},linktoc=all]{hyperref}
+ \usepackage{footnotebackref} % to enable cross-ref of footnote
+ \usepackage[all]{hypcap} % for going to the top of figure and table
+-\usepackage{epigraph}[2020/01/02] % latest version prevents orphaned epigraph
++\usepackage{epigraph}
+ \setlength{\epigraphwidth}{2.6in}
+ \usepackage[xspace]{ellipsis}
+ \usepackage{braket} % for \ket{} macro in QC section
 -- 
 2.17.1
 
