@@ -3,18 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oU0igQKutJcgW+kls11ZNyGhhMUn/MgjQ+TsD8NvXcY=;
-        b=jDqVwhqFOw7Q+kA0lBdDUoKY72pIlnpik1NISm92dPq3STukmJHFpbYybXNOIVw+Ox
-         AB3o4lSp0KetpFp8jseRUw3cr741bjh2UrZscywnAAO4hVboGKd0CzYaopUiCJ3HqlQ8
-         UZUF/wTLzUElGSEYU6//exnCNWxAUi2dnDHZsugvK2zzgn6/qI70CPveuMWjwT0V9m1l
-         hvbW44nzCxM2xlNxrYn/92WgZx3++GJvkdTtONKpHKgH0hzz6YxueVt0s8cMteqBGCO4
-         buWfh93jLulC25Hz+lWejdxyC1nU7mjD2bPE9FtbYzkPJ49xBOEuk7jye6hP8x2Y9aiI
-         TItg==
-Subject: [PATCH 3/6] howto: Reduce width of Listings 2.1 and 2.2
+        bh=kmig+qCuwYOCL/nBpYh+fCZpaUU6OI25nLFrgRwxVzk=;
+        b=riNOg3DcDAn/VcuOeTLREiHf8u++Zl69isZ95Z7PdjH29KGsySTxWPzj9m4APazhXB
+         O9OUeTVODaSau6M9B4iwx49jrlWLnDrU1yMJSq8jP7CjH50qEp+O1d88Tvul2Hc+0wZB
+         XpIuCu4opg+0GupE+e4pmnOH1NIyJ8niCFwC7I1qhA1Nn7q6ImRNM83mhcBz9dYZiYdj
+         BcCcCbp9cZNdmn8TXgrVDnOo3uTTQnZ7QaEX8/faWsWO6udIUStCWMBqnHF5Y7I3UdFv
+         LeqCGt36HjtTeFhzN4cogLPQqRvqZdzKA9Yt/pwnybxpizOMGdfXyT54t0Sz+Xvg/3w8
+         rnDw==
+Subject: [PATCH 4/6] FAQ-BUILD: Add 'fvextra' to the list of packages in item
+ 10
 References: <c3c7fcbc-6ff9-2e9d-3703-81cbd5773b9d@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <dcff9692-9b8b-1f99-be0f-b4bfc3dc3f33@gmail.com>
-Date: Fri, 31 Jan 2020 07:36:41 +0900
+Message-ID: <8618c4c5-379c-efb0-dcdd-c35d8c7c372c@gmail.com>
+Date: Fri, 31 Jan 2020 07:39:23 +0900
 MIME-Version: 1.0
 In-Reply-To: <c3c7fcbc-6ff9-2e9d-3703-81cbd5773b9d@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,115 +25,46 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 2532ab50cc7ca8518e8faa790c46588ea6db11a3 Mon Sep 17 00:00:00 2001
+From 02048d49fdfaa3a25fef817fa64bdac7dfafd752 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 25 Jan 2020 16:07:43 +0900
-Subject: [PATCH 3/6] howto: Reduce width of Listings 2.1 and 2.2
-
-As wide floats are hard to adjust their placement, reduce the
-width of these listings by using the "breaklines" and "breakafter"
-options enabled by the "fvextra" package.
-
-Also move the floats to the recommended positions of next to the
-paragraphs they are called out.
+Date: Sat, 25 Jan 2020 16:08:31 +0900
+Subject: [PATCH 4/6] FAQ-BUILD: Add 'fvextra' to the list of packages in item 10
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- howto/howto.tex | 54 ++++++++++++++++++++++++-------------------------
- perfbook.tex    |  1 +
- 2 files changed, 28 insertions(+), 27 deletions(-)
+ FAQ-BUILD.txt | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/howto/howto.tex b/howto/howto.tex
-index 9d732692..de26a113 100644
---- a/howto/howto.tex
-+++ b/howto/howto.tex
-@@ -381,33 +381,6 @@ Other types of systems have well-known ways of locating files by filename.
- \epigraph{If you become a teacher, by your pupils you'll be taught.}
- 	 {\emph{Oscar Hammerstein II}}
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index 27780759..98cfb57b 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -178,13 +178,14 @@
+ 		On upstream TeX Live (assuming user mode installation):
+ 			tlmgr install newtx
  
--\begin{listing*}[tbp]
--\begin{VerbatimL}
--git clone git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/perfbook.git
--cd perfbook
--# You may need to install a font here. See item 1 in FAQ.txt.
--make
--evince perfbook.pdf & # Two-column version
--make perfbook-1c.pdf
--evince perfbook-1c.pdf & # One-column version for e-readers
--\end{VerbatimL}
--\caption{Creating an Up-To-Date PDF}
--\label{lst:howto:Creating a Up-To-Date PDF}
--\end{listing*}
--
--\begin{listing*}[tbp]
--\begin{VerbatimL}
--git remote update
--git checkout origin/master
--make
--evince perfbook.pdf & # Two-column version
--make perfbook-1c.pdf
--evince perfbook-1c.pdf & # One-column version for e-readers
--\end{VerbatimL}
--\caption{Generating an Updated PDF}
--\label{lst:howto:Generating an Updated PDF}
--\end{listing*}
--
- As the cover says, the editor is one Paul E.~McKenney.
- However, the editor does accept contributions via the
- \href{mailto:perfbook@vger.kernel.org}
-@@ -426,6 +399,20 @@ Other packages may be required, depending on the distribution you use.
- The required list of packages for a few popular distributions is listed
- in the file \path{FAQ-BUILD.txt} in the \LaTeX{} source to the book.
+-10.	Building perfbook fails with a warning of buggy cleveref/listings
+-	or version mismatch of titlesec/draftwatermark/epigraph.
+-	What can I do?
++10.	Building perfbook fails with a warning of buggy cleveref/listings,
++	version mismatch of titlesec/draftwatermark/epigraph/fvextra, or
++	missing fvextra. What can I do?
  
-+\begin{listing}[tbp]
-+\begin{VerbatimL}[breaklines=true,breakafter=/,numbers=none,xleftmargin=0pt]
-+git clone git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/perfbook.git
-+cd perfbook
-+# You may need to install a font. See item 1 in FAQ.txt.
-+make
-+evince perfbook.pdf & # Two-column version
-+make perfbook-1c.pdf
-+evince perfbook-1c.pdf & # One-column version for e-readers
-+\end{VerbatimL}
-+\caption{Creating an Up-To-Date PDF}
-+\label{lst:howto:Creating a Up-To-Date PDF}
-+\end{listing}
-+
- To create and display a current \LaTeX{} source tree of this book,
- use the list of Linux commands shown in
- Listing~\ref{lst:howto:Creating a Up-To-Date PDF}.
-@@ -441,6 +428,19 @@ must be run within the \path{perfbook} directory created by the commands
- shown in
- Listing~\ref{lst:howto:Creating a Up-To-Date PDF}.
+ 	A.	They are known issues on Ubuntu Xenial (titlesec),
+ 		Ubuntu Bionic (cleveref), TeX Live 2014/2015 (listings),
+ 		TeX Live releases prior to 2015 (draftwatermark),
++		TeX Live releases prior to 2017 (fvextra),
+ 		and TeX Live releases prior to 2020 (epigraph).
+ 		This answer assumes Ubuntu, but it should work on other
+ 		distros.
+@@ -195,6 +196,7 @@
+ 		http://mirrors.ctan.org/macros/latex/contrib/listings.zip
+ 		http://mirrors.ctan.org/macros/latex/contrib/draftwatermark.zip
+ 		http://mirrors.ctan.org/macros/latex/contrib/epigraph.zip
++		http://mirrors.ctan.org/macros/latex/contrib/fvextra.zip
  
-+\begin{listing}[tbp]
-+\begin{VerbatimL}[numbers=none,xleftmargin=0pt]
-+git remote update
-+git checkout origin/master
-+make
-+evince perfbook.pdf & # Two-column version
-+make perfbook-1c.pdf
-+evince perfbook-1c.pdf & # One-column version for e-readers
-+\end{VerbatimL}
-+\caption{Generating an Updated PDF}
-+\label{lst:howto:Generating an Updated PDF}
-+\end{listing}
-+
- PDFs of this book are sporadically posted at
- \url{http://kernel.org/pub/linux/kernel/people/paulmck/perfbook/perfbook.html}
- and at
-diff --git a/perfbook.tex b/perfbook.tex
-index 757620ec..51e1f5e5 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -54,6 +54,7 @@
- \usepackage{gensymb} % symbols for both text and math modes such as \degree and \micro
- \usepackage{verbatimbox}[2014/01/30] % for centering verbatim listing in figure environment
- \usepackage{fancyvrb}
-+\usepackage{fvextra}[2016/09/02]
- \usepackage[bottom]{footmisc} % place footnotes under floating figures/tables
- \usepackage{tabularx}
- \usepackage[hyphens]{url}
+ 	    2.	Install it by following instructions at:
+ 		https://help.ubuntu.com/community/LaTeX#Installing_packages_manually
 -- 
 2.17.1
 
