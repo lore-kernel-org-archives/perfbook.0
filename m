@@ -1,161 +1,163 @@
-Return-Path: <SRS0=aoJh=3T=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=gui8MF3elB1Mo8Pc0J++//WWLxPUJ4YW9I1e+XaHLmM=;
-        b=SmnEuitiZbbVm2LTFppEDlhwvOfpxxR2TshAe+g1OGXJIYRTL1wg24HV0GJuIhhfAI
-         kUTZs2nOQ2Ek3dU5EVaC/nful2FwG7r+8sdjyMMVQLkOUUohhc+LuohXkd2E5N/MEm0Z
-         JHi6kEomO/MnT0yokgZHQQHUDLpPzyE5Txh/pNRlT+ouFzDx5vFv9BS7YQmqLwAYqRhi
-         RAVy5BhozhXu2yXOtj/Rlj2CDIbzT+GUnSbyHkU2ob9BRCYQTX032XRiuIwOD8vmJjqH
-         2GcsZ5sVBkd10nXtLN24zzTgU6LlHhDhhHshZvKhpixpRm74Q+pHHn55AzLIOxq2Rueo
-         8/0w==
-Subject: [PATCH 6/6] Remove required version of 'epigraph'
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:45420 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726102AbgAaVMX (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Fri, 31 Jan 2020 16:12:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580505142;
+        bh=/iCfkCej4D4LFxMZ0U2vFyequfEDgUPOiNozVwYidBE=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=LsEV7yiCA4v1OJrKEMjbBkv6+3EU38srxn5hftd3VamiNHgvU8TVIkSurELXnxKtT
+         sivXAvhy+K0cbMFiVG6xA21CBv8Jc9ATD/z3lQURPtVNLMShGzcEKzps41dXyQ1yND
+         XiBwui0Afim9aTm3+CxU23cIR+gQp1ACdcB+z9X0=
+Date: Fri, 31 Jan 2020 13:12:22 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH 0/6] howto: Reduce width of Listings 2.1 and 2.2
+Message-ID: <20200131211222.GW2935@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 References: <c3c7fcbc-6ff9-2e9d-3703-81cbd5773b9d@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <d87e0fb9-ec7c-aff9-649b-b7d4fd9fee22@gmail.com>
-Date: Fri, 31 Jan 2020 07:45:16 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <c3c7fcbc-6ff9-2e9d-3703-81cbd5773b9d@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From dc553b44983b30584d0f1003a729885b8b7290f2 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 28 Jan 2020 00:46:52 +0900
-Subject: [PATCH 6/6] Remove required version of 'epigraph'
+On Fri, Jan 31, 2020 at 07:27:42AM +0900, Akira Yokosawa wrote:
+> >From dc553b44983b30584d0f1003a729885b8b7290f2 Mon Sep 17 00:00:00 2001
+> From: Akira Yokosawa <akiyks@gmail.com>
+> Date: Thu, 30 Jan 2020 21:13:04 +0900
+> Subject: [PATCH 0/6] howto: Reduce width of Listings 2.1 and 2.2
+> 
+> Hi Paul,
+> 
+> This patch set has quite a large diff stats despite the
+> small changes in the resulting PDF.
+> What I am trying here is to enable (semi-) automatic line breaks
+> in code snippets.
+> The "fvextra" package enhances the capability of fancyvrb.
+> By specifying "breaklines" and "breakafter" options to the
+> VerbatimL environment, snippets with a long line can be typeset
+> as a plain "listing" environment.
+> I see that Listings 2.1 and 2.2 do not deserve the full width
+> of the page and tried to apply the fvextra approach.
+> 
+> However, there were unfortunate name collisions of custom
+> environments.
+> "fvextra" requires the "lineno" package, where "linelabel"
+> and "lineref" are used as global variables.
+> 
+> So I need to rename the environments to "fcvlabel" and "fcvref".
+> Patch 1/6 does those renames, hence the large diff stats.
+> 
+> Patch 2/6 adds checks to detect now erroneous uses of "linelabel"
+> and "lineref".
+> Without this change, as they are defined as LaTeX variables by
+> "lineno", such uses wouldn't be caught by LaTeX as errors, but
+> would end up in undefined references.
+> The remaining warnings in the log file would be far from pin-point.
+> 
+> Patch 3/6 actually modifies Listings 2.1 and 2.2. At this point,
+> the symbol representing carriagereturn in Listing 2.1 doesn't
+> look good enough to me.
+> Patch 5/6 takes care of the symbol. It also adds comments to mention
+> the "-jN" option of "make".
+> 
+> Patch 4/6 updates FAQ-BUILD.txt.
+> 
+> Patch 6/6 is an independent change to loosen the required version
+> of "epigraph". It turned out that the combination of the up-to-date
+> "epigraph" and the "nowidow" packages doesn't work properly on
+> TeX Live 2015/Debian (Ubuntu Xenial). On a more recent TeX Live
+> installation where the combination works, a suggestion to upgrade
+> "epigraph" will be output after the build completes.
+> 
+> As this patch set touches Makefile, please test carefully before
+> pushing out.
+> Especially, I'd like you to test Patch 2/6 and see if the error
+> message, displayed when you use "linelabel" or "lineref" in place of
+> "fcvlabel" or "fcvref", looks OK to you.
 
-It turned out that the up-to-date "epigraph" doesn't work well
-with the "nowidow" package on TeX Live 2015/Debian (Ubuntu Xenial)
-and TeX Live 2016.
+The following error messages looks eminently clear to me:
 
-Instead, suggest upgrade when the old version is detected and
-TeX Live version is compatible with the up-to-date "epigraph"
-package.
+'linelabel' used as environment in SMPdesign/.SMPdesign.tex.swp SMPdesign/SMPdesign.tex.
+Use 'fcvlabel' instead.
+'lineref' used as environment in SMPdesign/.SMPdesign.tex.swp SMPdesign/SMPdesign.tex.
+Use 'fcvref' instead.
 
-This permits TeX Live 2015/Debian (Ubuntu Xenial) to complete
-the build with the older "epigraph".
+And the text following:
 
-Update FAQ-BUILD.txt accordingly.
+--
+SMPdesign/SMPdesign.tex-1021-\subsubsection{Allocation Function}
+SMPdesign/SMPdesign.tex-1022-
+SMPdesign/SMPdesign.tex:1023:\begin{lineref}[ln:SMPdesign:smpalloc:alloc]
+SMPdesign/SMPdesign.tex-1024-The allocation function \co{memblock_alloc()} may be seen in
+SMPdesign/SMPdesign.tex-1025-Listing~\ref{lst:SMPdesign:Allocator-Cache Allocator Function}.
+------
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- FAQ-BUILD.txt | 28 +++++++++++++++++++++++-----
- Makefile      | 21 +++++++++++++++++++++
- perfbook.tex  |  2 +-
- 3 files changed, 45 insertions(+), 6 deletions(-)
+Is even more helpful!  Very good, thank you!
 
-diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index 98cfb57b..c0bc45aa 100644
---- a/FAQ-BUILD.txt
-+++ b/FAQ-BUILD.txt
-@@ -179,14 +179,13 @@
- 			tlmgr install newtx
- 
- 10.	Building perfbook fails with a warning of buggy cleveref/listings,
--	version mismatch of titlesec/draftwatermark/epigraph/fvextra, or
--	missing fvextra. What can I do?
-+	version mismatch of titlesec/draftwatermark/fvextra, or missing
-+	fvextra. What can I do?
- 
- 	A.	They are known issues on Ubuntu Xenial (titlesec),
- 		Ubuntu Bionic (cleveref), TeX Live 2014/2015 (listings),
- 		TeX Live releases prior to 2015 (draftwatermark),
--		TeX Live releases prior to 2017 (fvextra),
--		and TeX Live releases prior to 2020 (epigraph).
-+		and TeX Live releases prior to 2017 (fvextra).
- 		This answer assumes Ubuntu, but it should work on other
- 		distros.
- 
-@@ -195,7 +194,6 @@
- 		http://mirrors.ctan.org/macros/latex/contrib/cleveref.zip
- 		http://mirrors.ctan.org/macros/latex/contrib/listings.zip
- 		http://mirrors.ctan.org/macros/latex/contrib/draftwatermark.zip
--		http://mirrors.ctan.org/macros/latex/contrib/epigraph.zip
- 		http://mirrors.ctan.org/macros/latex/contrib/fvextra.zip
- 
- 	    2.	Install it by following instructions at:
-@@ -257,3 +255,23 @@
- 
- 		"make neatfreak; make" will rebuild all the figures.
- 		The "-jN" option should accelerate the rebuild.
-+
-+13	Building perfbook has succeeded, but I find some of the
-+	epigraphs at bottom of columns/pages.
-+	What can I do?
-+
-+	A.	A new version of "epigraph" package recently released
-+		has resolved the issue. You can upgrade it by following
-+		the instructions at #10 above.
-+		The Up-to-date package can be downloaded from:
-+		http://mirrors.ctan.org/macros/latex/contrib/fvextra.zip
-+
-+	    NOTE: On Tex Live 2015/Debian (Ubuntu Xenial) and TeX Live 2016,
-+		the up-to-date "epigraph" does not work properly along
-+		with the "nowidow" package.
-+		If you'd really like to get rid of orphaned epigraphs,
-+		upgrading TeX Live to 2017/Debian (Ubuntu Bionic) or
-+		later is the way to go.
-+		The updated "epigraph" package is expected to be
-+		distributed in upstream TeX Live 2020 and Tex Live 2019/Debian
-+		(Ubuntu Focal).
-diff --git a/Makefile b/Makefile
-index 3dbd5d53..d39ab571 100644
---- a/Makefile
-+++ b/Makefile
-@@ -129,6 +129,23 @@ LINEREF_ENV_END     = $(patsubst ./%,%,$(shell grep -R -l -F '\end{lineref}' .))
- LINELABEL_ENV = $(filter-out $(LINE_ENV_IGNORE),$(sort $(LINELABEL_ENV_BEGIN) $(LINELABEL_ENV_END)))
- LINEREF_ENV   = $(filter-out $(LINE_ENV_IGNORE),$(sort $(LINEREF_ENV_BEGIN) $(LINEREF_ENV_END)))
- 
-+OLD_EPIGRAPH := $(shell grep -c '2009/09/02' `kpsewhich epigraph.sty`)
-+TEXLIVE_2015_DEBIAN := $(shell pdftex --version | grep -c 'TeX Live 2015/Debian')
-+TEXLIVE_2016 := $(shell pdftex --version | grep -c 'TeX Live 2016')
-+ifeq ($(OLD_EPIGRAPH),1)
-+  ifeq ($(TEXLIVE_2015_DEBIAN),1)
-+    SUGGEST_UPGRADE_EPIGRAPH := 0
-+  else
-+    ifeq ($(TEXLIVE_2016),1)
-+      SUGGEST_UPGRADE_EPIGRAPH := 0
-+    else
-+      SUGGEST_UPGRADE_EPIGRAPH := 1
-+    endif
-+  endif
-+else
-+  SUGGEST_UPGRADE_EPIGRAPH := 0
-+endif
-+
- SOURCES_OF_SNIPPET_ALL := $(shell grep -R -l -F '\begin{snippet}' CodeSamples)
- SOURCES_OF_LITMUS      := $(shell grep -R -l -F '\begin[snippet]' CodeSamples)
- SOURCES_OF_LTMS        := $(patsubst %.litmus,%.ltms,$(SOURCES_OF_LITMUS))
-@@ -167,6 +184,10 @@ mslmmsg:
- 
- $(PDFTARGETS): %.pdf: %.tex %.bbl
- 	sh utilities/runlatex.sh $(basename $@)
-+ifeq ($(SUGGEST_UPGRADE_EPIGRAPH),1)
-+	@echo "Consider upgrading 'epigraph' to prevent orphaned epigraphs."
-+	@echo "See #13 in FAQ-BUILD.txt."
-+endif
- 
- $(PDFTARGETS:.pdf=.bbl): %.bbl: %.aux $(BIBSOURCES)
- 	bibtex $(basename $@)
-diff --git a/perfbook.tex b/perfbook.tex
-index 87c1eaa1..30796c44 100644
---- a/perfbook.tex
-+++ b/perfbook.tex
-@@ -72,7 +72,7 @@
- \usepackage[bookmarks=true,bookmarksnumbered=true,pdfborder={0 0 0},linktoc=all]{hyperref}
- \usepackage{footnotebackref} % to enable cross-ref of footnote
- \usepackage[all]{hypcap} % for going to the top of figure and table
--\usepackage{epigraph}[2020/01/02] % latest version prevents orphaned epigraph
-+\usepackage{epigraph}
- \setlength{\epigraphwidth}{2.6in}
- \usepackage[xspace]{ellipsis}
- \usepackage{braket} % for \ket{} macro in QC section
--- 
-2.17.1
+And I love it that the "git clone" command can still be trivially
+copy-and-pasted from howto/howto.tex.
 
+Queued and pushed, again thank you!!!
 
+							Thanx, Paul
+
+>         Thanks, Akira
+> --
+> Akira Yokosawa (6):
+>   Rename environments 'linelabel' and 'lineref'
+>   Makefile: Check 'linelabel' and 'lineref' used as environment
+>   howto: Reduce width of Listings 2.1 and 2.2
+>   FAQ-BUILD: Add 'fvextra' to the list of packages in item 10
+>   howto: Tweak carriagereturn symbol at fvextra's auto line break
+>   Remove required version of 'epigraph'
+> 
+>  FAQ-BUILD.txt                                |  30 ++-
+>  Makefile                                     |  47 ++++
+>  SMPdesign/SMPdesign.tex                      |  12 +-
+>  SMPdesign/beyond.tex                         |  44 ++--
+>  SMPdesign/partexercises.tex                  |  32 +--
+>  advsync/advsync.tex                          |   8 +-
+>  advsync/rt.tex                               |  40 ++--
+>  appendix/questions/after.tex                 |   4 +-
+>  appendix/styleguide/samplecodesnippetfcv.tex |   4 +-
+>  appendix/styleguide/styleguide.tex           |  52 ++--
+>  appendix/toyrcu/toyrcu.tex                   | 128 +++++-----
+>  appendix/whymb/whymemorybarriers.tex         |  16 +-
+>  count/count.tex                              | 200 ++++++++--------
+>  datastruct/datastruct.tex                    |  80 +++----
+>  debugging/debugging.tex                      |  12 +-
+>  defer/defer.tex                              |  16 +-
+>  defer/hazptr.tex                             |  20 +-
+>  defer/rcuapi.tex                             |   8 +-
+>  defer/rcufundamental.tex                     |   4 +-
+>  defer/rcuintro.tex                           |   4 +-
+>  defer/rcuusage.tex                           |  52 ++--
+>  defer/refcnt.tex                             |  20 +-
+>  defer/seqlock.tex                            |  40 ++--
+>  formal/axiomatic.tex                         |  40 ++--
+>  formal/dyntickrcu.tex                        | 148 ++++++------
+>  formal/ppcmem.tex                            |  24 +-
+>  formal/spinhint.tex                          |  44 ++--
+>  future/formalregress.tex                     |   4 +-
+>  future/htm.tex                               |  28 +--
+>  howto/howto.tex                              |  57 ++---
+>  locking/locking-existence.tex                |  20 +-
+>  locking/locking.tex                          |  76 +++---
+>  memorder/memorder.tex                        | 240 +++++++++----------
+>  owned/owned.tex                              |  12 +-
+>  perfbook.tex                                 |   9 +-
+>  together/applyrcu.tex                        |  32 +--
+>  together/refcnt.tex                          |  32 +--
+>  toolsoftrade/toolsoftrade.tex                | 184 +++++++-------
+>  utilities/checkfcv.pl                        |   8 +-
+>  utilities/fcvextract.pl                      |  10 +-
+>  40 files changed, 956 insertions(+), 885 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
