@@ -1,23 +1,20 @@
-Return-Path: <SRS0=XWF6=3W=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=AAzi=3V=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lW2LL6XA7DY8JXB2vUjV803t7aJgmWw9y8Ex5xask8k=;
-        b=AcwBcQwp4ruciS2CcqRjZDa1FoK7Ogl9TmkiZH2wmd26loIHeZU4MdktZ3rqBL7MCn
-         osRX31SRtNIRKHHNY+NfblnT/J2C7OqjdZjKTh4z1sKsz5Z5VJ3Fx929UK3JAWf2e936
-         9czOjkGjVOaPFc2IM/soIhYS+17uVeJtWp84TLCaxF3nN5ft9nD3HrzmMZG4athk3zW5
-         2VYaEOFTAGntS3e/XfzZqHnbIxWcYr1wUxP0hVQBa/LTUd2a/TKHZutttbSzy+T0jr1h
-         5YT1YMc41PbFx5PoeRLC3iCfVF6Co+pTcYInj4B8IFTGgDRQbWXV5YIP2089UqUvXh40
-         C/Zg==
-Subject: [PATCH 2/2] Makefile: grep only .tex files in 'linelabel' and
- 'lineref' search
-References: <21d9e8af-cbf7-3d35-63a7-b9f195bd1a4f@gmail.com>
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=0DeEAxBdJ1ZL2CoJVIGSQRZ606k8ErvB8thge7IFTv4=;
+        b=b+A5W+z0HE6HnxyAdQgFTK8zyZ14CpFvzoP6gqEnFFIDb9EpASALDQnkN/T3kDWVvl
+         Yej0vvqhKO5C3MuswMOXUXf0ZlXU8XaMqeUTJTL6tlZ/SBrvCGcbHhNVLgAwrlyeXAGB
+         x7pOBohqguXH7aQHrPpnM5snZ79QPCCFnTSVimRIsR5/W9a79++p9r9VrSjWsH1KxLcL
+         Ga0EQXx7uy5z2hkZjSm7dYLqvWMnhAYKrzP6n/xKQroTSLLPTnOePCjGrPmZ+A6wf1Z0
+         mzPxk7QnyXQGdzp3JeGFdXqodqaVcWu4J6K0CNOAEX8xfyPRqB9TvfipkdPaAGIKOJjN
+         gQxQ==
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <63c57945-17b3-753f-5714-eb3d207c5e8b@gmail.com>
-Date: Sun, 2 Feb 2020 20:40:37 +0900
+Subject: [PATCH] Makefile: Add command line for Inkscape 1.0
+Message-ID: <fc83a817-5da8-2141-da08-73b55aebaaea@gmail.com>
+Date: Sun, 2 Feb 2020 08:25:11 +0900
 MIME-Version: 1.0
-In-Reply-To: <21d9e8af-cbf7-3d35-63a7-b9f195bd1a4f@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -25,87 +22,51 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 41e44e4c0027784644cf740e8d8dcafe3afc9e14 Mon Sep 17 00:00:00 2001
+From d29a7d4775aa9e8b148f17ea66d94b5ce661a00f Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 2 Feb 2020 20:23:58 +0900
-Subject: [PATCH 2/2] Makefile: grep only .tex files in 'linelabel' and 'lineref' search
+Date: Sat, 1 Feb 2020 22:19:52 +0900
+Subject: [PATCH] Makefile: Add command line for Inkscape 1.0
 
-For the checks added in commit 60c2079f2765 ("Makefile: Check
-'linelabel' and 'lineref' used as environment"), it should be
-sufficient to grep files listed in $(LATEXSOURCES) only.
+Inkscape 1.0 (now in beta) has changed command-line options [1].
+The option "--export-pdf" is no longer available in 1.0.
+Add a conditional command line with the right option of
+"--export-file".
 
-Using this variable rather than the grep option "-R" will reduce
-the cost of the checks.  We can also get rid of "patsubst" and
-"filter-out" functions in the variable definitions.
+Tested with inkscape-1.0-0.beta.fc31.4.x86_64.rpm on Fedora 31.
 
-Also reorder and rephrase error messages in case output of grep
-gets long.
-
-Add .c source file(s) under appendix/styleguide/ to the definition
-of "LST_SOURCES" to improve coverage of dependencies as well.
+[1]: https://wiki.inkscape.org/wiki/index.php?title=Using_the_Command_Line#Deprecations_and_Replacements
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ Makefile | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/Makefile b/Makefile
-index c1a51bae..efe1add1 100644
+index d39ab571..c1a51bae 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -11,7 +11,8 @@ LATEXSOURCES = \
- 	*/*.tex \
- 	*/*/*.tex
+@@ -63,6 +63,9 @@ DOT := $(shell which dot 2>/dev/null)
+ FIG2EPS := $(shell which fig2eps 2>/dev/null)
+ A2PING := $(shell which a2ping 2>/dev/null)
+ INKSCAPE := $(shell which inkscape 2>/dev/null)
++ifdef INKSCAPE
++  INKSCAPE_ONE := $(shell inkscape --version | grep -c "Inkscape 1")
++endif
+ LATEXPAND := $(shell which latexpand 2>/dev/null)
+ QPDF := $(shell which qpdf 2>/dev/null)
  
--LST_SOURCES := $(wildcard CodeSamples/formal/promela/*.lst)
-+LST_SOURCES := $(wildcard CodeSamples/formal/promela/*.lst) \
-+	$(wildcard appendix/styleguide/*.c)
- 
- LATEXGENERATED = autodate.tex qqz.tex contrib.tex origpub.tex
- 
-@@ -123,14 +124,13 @@ ifdef A2PING
-   endif
+@@ -359,7 +362,11 @@ endif
+ ifeq ($(NEEDMDSYMBOL),1)
+ 	$(error Font package 'mdsymbol' not found. See #9 in FAQ-BUILD.txt)
  endif
- 
--LINE_ENV_IGNORE := Makefile perfbook_flat.tex $(LATEXGENERATED))
- # following variables are intentionally defined using "="
--LINELABEL_ENV_BEGIN = $(patsubst ./%,%,$(shell grep -R -l -F '\begin{linelabel}' .))
--LINELABEL_ENV_END   = $(patsubst ./%,%,$(shell grep -R -l -F '\end{linelabel}' .))
--LINEREF_ENV_BEGIN   = $(patsubst ./%,%,$(shell grep -R -l -F '\begin{lineref}' .))
--LINEREF_ENV_END     = $(patsubst ./%,%,$(shell grep -R -l -F '\end{lineref}' .))
--LINELABEL_ENV = $(filter-out $(LINE_ENV_IGNORE),$(sort $(LINELABEL_ENV_BEGIN) $(LINELABEL_ENV_END)))
--LINEREF_ENV   = $(filter-out $(LINE_ENV_IGNORE),$(sort $(LINEREF_ENV_BEGIN) $(LINEREF_ENV_END)))
-+LINELABEL_ENV_BEGIN = $(shell grep -l -F '\begin{linelabel}' $(LATEXSOURCES))
-+LINELABEL_ENV_END   = $(shell grep -l -F '\end{linelabel}'   $(LATEXSOURCES))
-+LINEREF_ENV_BEGIN   = $(shell grep -l -F '\begin{lineref}'   $(LATEXSOURCES))
-+LINEREF_ENV_END     = $(shell grep -l -F '\end{lineref}'     $(LATEXSOURCES))
-+LINELABEL_ENV = $(sort $(LINELABEL_ENV_BEGIN) $(LINELABEL_ENV_END))
-+LINEREF_ENV   = $(sort $(LINEREF_ENV_BEGIN) $(LINEREF_ENV_END))
- 
- OLD_EPIGRAPH := $(shell grep -c '2009/09/02' `kpsewhich epigraph.sty`)
- TEXLIVE_2015_DEBIAN := $(shell pdftex --version | grep -c 'TeX Live 2015/Debian')
-@@ -210,18 +210,18 @@ ifndef LATEXPAND
- endif
- 	@if [ ! -z "$(LINELABEL_ENV)" -a "$(LINELABEL_ENV)" != " " ]; then \
- 		echo "'linelabel' used as environment in $(LINELABEL_ENV)." ; \
--		echo "Use 'fcvlabel' instead." ; \
- 		echo "------" ; \
- 		grep -n -B 2 -A 2 -F 'linelabel' $(LINELABEL_ENV) ; \
- 		echo "------" ; \
-+		echo "Substitute 'fcvlabel' for 'linelabel' in $(LINELABEL_ENV)." ; \
- 		exit 1 ; \
- 	fi
- 	@if [ ! -z "$(LINEREF_ENV)" -a "$(LINEREF_ENV)" != " " ]; then \
- 		echo "'lineref' used as environment in $(LINEREF_ENV)." ; \
--		echo "Use 'fcvref' instead." ; \
- 		echo "------" ; \
- 		grep -n -B 2 -A 2 -F 'lineref' $(LINEREF_ENV) ; \
- 		echo "------" ; \
-+		echo "Substitute 'fcvref' for 'lineref' in $(LINEREF_ENV)." ; \
- 		exit 1 ; \
- 	fi
- 	echo > qqz.tex
++ifeq ($(INKSCAPE_ONE),0)
+ 	@inkscape --export-pdf=$@ $<i > /dev/null 2>&1
++else
++	@inkscape --export-file=$@ $<i > /dev/null 2>&1
++endif
+ 	@rm -f $<i
+ ifeq ($(chkpagegroup),on)
+ ifndef QPDF
 -- 
 2.17.1
-
 
