@@ -1,19 +1,19 @@
-Return-Path: <SRS0=AAzi=3V=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=XWF6=3W=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=to:cc:from:subject:message-id:date:user-agent:mime-version
          :content-language:content-transfer-encoding;
-        bh=0DeEAxBdJ1ZL2CoJVIGSQRZ606k8ErvB8thge7IFTv4=;
-        b=b+A5W+z0HE6HnxyAdQgFTK8zyZ14CpFvzoP6gqEnFFIDb9EpASALDQnkN/T3kDWVvl
-         Yej0vvqhKO5C3MuswMOXUXf0ZlXU8XaMqeUTJTL6tlZ/SBrvCGcbHhNVLgAwrlyeXAGB
-         x7pOBohqguXH7aQHrPpnM5snZ79QPCCFnTSVimRIsR5/W9a79++p9r9VrSjWsH1KxLcL
-         Ga0EQXx7uy5z2hkZjSm7dYLqvWMnhAYKrzP6n/xKQroTSLLPTnOePCjGrPmZ+A6wf1Z0
-         mzPxk7QnyXQGdzp3JeGFdXqodqaVcWu4J6K0CNOAEX8xfyPRqB9TvfipkdPaAGIKOJjN
-         gQxQ==
+        bh=plNMOuRTf93hnzS5bT4AaK3fwj2uOiDSHrUBWaPDNfk=;
+        b=T3EQKXNrh0ja8LdWvpBVwPuZ0umP/FmewgSEiLFxUp5uo8p0XBldmQe1uBmMcHIv/u
+         uoWM22B7RKad1sKf4rp6FU40Aazw+1DaSkPuh9w7C3ibSj0daWVFgS31JFCI/Ion9d3m
+         PI4qykXgtSB2KsUOY98hsBbimDgfTPnKZQR+X+05AOnX4XWwdia7c8cuk1YOLJFwBLr+
+         C/kvO7OEd5RKzftt8dYXV7VbV9ktMeyB3ka+DYr5YRe+/vtrHP12zU72VR+1EYsZtOG3
+         94Agr4ckAcloGYAwys5mj4msaRWUXA7DQfdcNrCRw/6+E/HyvsovJ1EjxbOZ/YxJ9r9X
+         B3Mw==
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] Makefile: Add command line for Inkscape 1.0
-Message-ID: <fc83a817-5da8-2141-da08-73b55aebaaea@gmail.com>
-Date: Sun, 2 Feb 2020 08:25:11 +0900
+Subject: [PATCH 1/2] FAQ-BUILD: Fix trivial typo
+Message-ID: <21d9e8af-cbf7-3d35-63a7-b9f195bd1a4f@gmail.com>
+Date: Sun, 2 Feb 2020 20:35:30 +0900
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
@@ -22,51 +22,30 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From d29a7d4775aa9e8b148f17ea66d94b5ce661a00f Mon Sep 17 00:00:00 2001
+From 4066e351c2673b626fe8c4e85f9a87f82ebb1842 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sat, 1 Feb 2020 22:19:52 +0900
-Subject: [PATCH] Makefile: Add command line for Inkscape 1.0
+Date: Sun, 2 Feb 2020 19:24:03 +0900
+Subject: [PATCH 1/2] FAQ-BUILD: Fix trivial typo
 
-Inkscape 1.0 (now in beta) has changed command-line options [1].
-The option "--export-pdf" is no longer available in 1.0.
-Add a conditional command line with the right option of
-"--export-file".
-
-Tested with inkscape-1.0-0.beta.fc31.4.x86_64.rpm on Fedora 31.
-
-[1]: https://wiki.inkscape.org/wiki/index.php?title=Using_the_Command_Line#Deprecations_and_Replacements
-
+Fixes: 4c6ee39761a0 ("Remove required version of 'epigraph'")
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile | 7 +++++++
- 1 file changed, 7 insertions(+)
+ FAQ-BUILD.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index d39ab571..c1a51bae 100644
---- a/Makefile
-+++ b/Makefile
-@@ -63,6 +63,9 @@ DOT := $(shell which dot 2>/dev/null)
- FIG2EPS := $(shell which fig2eps 2>/dev/null)
- A2PING := $(shell which a2ping 2>/dev/null)
- INKSCAPE := $(shell which inkscape 2>/dev/null)
-+ifdef INKSCAPE
-+  INKSCAPE_ONE := $(shell inkscape --version | grep -c "Inkscape 1")
-+endif
- LATEXPAND := $(shell which latexpand 2>/dev/null)
- QPDF := $(shell which qpdf 2>/dev/null)
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index 4657c4ee..2eca5027 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -264,7 +264,7 @@
+ 		has resolved the issue. You can upgrade it by following
+ 		the instructions at #10 above.
+ 		The Up-to-date package can be downloaded from:
+-		http://mirrors.ctan.org/macros/latex/contrib/fvextra.zip
++		http://mirrors.ctan.org/macros/latex/contrib/epigraph.zip
  
-@@ -359,7 +362,11 @@ endif
- ifeq ($(NEEDMDSYMBOL),1)
- 	$(error Font package 'mdsymbol' not found. See #9 in FAQ-BUILD.txt)
- endif
-+ifeq ($(INKSCAPE_ONE),0)
- 	@inkscape --export-pdf=$@ $<i > /dev/null 2>&1
-+else
-+	@inkscape --export-file=$@ $<i > /dev/null 2>&1
-+endif
- 	@rm -f $<i
- ifeq ($(chkpagegroup),on)
- ifndef QPDF
+ 	    NOTE: On Tex Live 2015/Debian (Ubuntu Xenial) and TeX Live 2016,
+ 		the up-to-date "epigraph" does not work properly along
 -- 
 2.17.1
 
