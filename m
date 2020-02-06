@@ -1,79 +1,114 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:42162 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727034AbgBCDfC (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sun, 2 Feb 2020 22:35:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1580700901;
-        bh=N1gYDndZrOXmHFZQ8eIM5PyAlb9DRwiy+ZVGf8sMJOI=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Iw2OIttsAkX5/qbJypTcJbykUggDCHRAsckPpANU0q7GLnV5dWPzEpTkSmtTZBPdv
-         Y8oMAe9LgOMurHscs5+SG+NHKhfxeCxajccfW50vy89hEnyBUqXg7naRPOtUpouuR+
-         3NCGq4GuYk+cNfPjIQHPd4Ee8RhJy4u+TcnmKm3s=
-Date: Sun, 2 Feb 2020 19:35:01 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] Makefile: Add command line for Inkscape 1.0
-Message-ID: <20200203033501.GG2935@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <fc83a817-5da8-2141-da08-73b55aebaaea@gmail.com>
+Return-Path: <SRS0=TPJ8=32=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=68k3PGPsPeyynIVo+f654HWbDVZhUN8+mhvNPuWHowI=;
+        b=fDwnU6ymD3dzyyMyQW3lxIWm35xAo+yQEz8TIKl/sRtVgzEDwBPGZ6e7K8a5uBDpD5
+         4hgx80xjbx8LsiKD2RvAzHvG7edL1ruaVGqmj730N0xjHElW66+7leUk9xgjQy6E5YBZ
+         PciMJpfKXdviahH1pfZXz16CES9+rAtum9SmMQLyED7RVkcTKuqM+dySQgyHr+xikFSt
+         sRAGlG9bRF/m/CkLz3ssuvUCyupUcTz7uk3FohzuE17LkVY6/elqUho7kICqCqn40Kz9
+         ujnx8AB2HQs8HYaaV3CRrrIjUZzecbvJ4EGxm3rAdpnVjEmOrq92KL13RaFskZygOFLf
+         MOyw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] Permit occasional orphans
+Message-ID: <8953d302-fa2b-da51-f555-52b0ef94612a@gmail.com>
+Date: Fri, 7 Feb 2020 07:40:55 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fc83a817-5da8-2141-da08-73b55aebaaea@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Feb 02, 2020 at 08:25:11AM +0900, Akira Yokosawa wrote:
-> >From d29a7d4775aa9e8b148f17ea66d94b5ce661a00f Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sat, 1 Feb 2020 22:19:52 +0900
-> Subject: [PATCH] Makefile: Add command line for Inkscape 1.0
-> 
-> Inkscape 1.0 (now in beta) has changed command-line options [1].
-> The option "--export-pdf" is no longer available in 1.0.
-> Add a conditional command line with the right option of
-> "--export-file".
-> 
-> Tested with inkscape-1.0-0.beta.fc31.4.x86_64.rpm on Fedora 31.
-> 
-> [1]: https://wiki.inkscape.org/wiki/index.php?title=Using_the_Command_Line#Deprecations_and_Replacements
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+From 6ad4c736867394d765a4b50aba907ef0dd8420ba Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Thu, 6 Feb 2020 22:16:28 +0900
+Subject: [PATCH] Permit occasional orphans
 
-I applied all three, thank you!
+Recent update of upstream LaTeX caused excessively wide spaces between
+paragraphs in 2c layout similar to the issue mentioned in the change
+log of commit 4c6ee39761a0 ("Remove required version of 'epigraph'")
+at the beginning of Chapter 6.
 
-This patch causes make to output the following near the beginning:
+The root cause of the unstable behavior is the constraints imposed
+by the unfortunate combination of a fairly tall unbreakable block
+(consisting of a section heading, a section epigraph, a paragraph
+of only 3 lines), a footnote, and a floating figure.
 
-Gtk-Message: 19:27:52.530: Failed to load module "canberra-gtk-module"
+Note that the "nowidow" package requires at least 4 lines for a
+paragraph to be broken.
 
-Ah, that is just "inkscape --version" complaining.  I can suppress this
-complaint as shown below, but that seems inappropriate.  A quick web
-search located this:
+An orphan line (first line of a paragraph at the bottom of a page/column)
+looks less ugly than a widow line (final line of a paragraph at the top
+of a page/column) does.
 
-https://askubuntu.com/questions/342202/failed-to-load-module-canberra-gtk-module-but-already-installed
+As a band-aid patch, this commit permits an orphan at the problematic
+paragraph by the \noclub command provided by the "nowidow" package
+and avoids such ugly wide spaces.
+Another approach would be to add some words to the paragraph and
+make it 4 lines or more.
 
-Which recommends this:
+By this change, TeX Live 2015/Debian (on Ubuntu Xenial) with the
+up-to-date "epigraph" can also produce the (mostly) same output.
 
-sudo apt install libcanberra-gtk-module libcanberra-gtk3-module
+Do similar tweaks to avoid wide vertical spaces in a couple of other
+chapters.
 
-Which cleared things up for me even without the hack below.  So all good!
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
 
-							Thanx, Paul
+As mentioned in the change log, if you add some words to the
+paragraph in partexercises.tex, the \noclub[1] can be removed.
+In the other places, the problem is not the length of the
+paragraph and you need different tweaks to avoid orphans.
+Let me see what the tweaks would be. 
 
-------------------------------------------------------------------------
+        Thanks, Akira
 
-diff --git a/Makefile b/Makefile
-index c1a51ba..b5f0224 100644
---- a/Makefile
-+++ b/Makefile
-@@ -64,7 +64,7 @@ FIG2EPS := $(shell which fig2eps 2>/dev/null)
- A2PING := $(shell which a2ping 2>/dev/null)
- INKSCAPE := $(shell which inkscape 2>/dev/null)
- ifdef INKSCAPE
--  INKSCAPE_ONE := $(shell inkscape --version | grep -c "Inkscape 1")
-+  INKSCAPE_ONE := $(shell inkscape --version 2> /dev/null | grep -c "Inkscape 1")
- endif
- LATEXPAND := $(shell which latexpand 2>/dev/null)
- QPDF := $(shell which qpdf 2>/dev/null)
+ SMPdesign/partexercises.tex | 1 +
+ debugging/debugging.tex     | 1 +
+ locking/locking.tex         | 1 +
+ 3 files changed, 3 insertions(+)
+
+diff --git a/SMPdesign/partexercises.tex b/SMPdesign/partexercises.tex
+index 9cebe6b7..1708da93 100644
+--- a/SMPdesign/partexercises.tex
++++ b/SMPdesign/partexercises.tex
+@@ -12,6 +12,7 @@
+ 
+ This section uses a pair of exercises (the classic Dining Philosophers
+ problem and a double-ended queue) to demonstrate the value of partitioning.
++\noclub[1]
+ 
+ \subsection{Dining Philosophers Problem}
+ \label{sec:SMPdesign:Dining Philosophers Problem}
+diff --git a/debugging/debugging.tex b/debugging/debugging.tex
+index 286f6df7..07350fe1 100644
+--- a/debugging/debugging.tex
++++ b/debugging/debugging.tex
+@@ -2256,6 +2256,7 @@ Section~\ref{sec:debugging:Detecting Interference Via Measurement}
+ describes methods of rejection involving additional measurements,
+ while Section~\ref{sec:debugging:Detecting Interference Via Statistics}
+ describes statistics-based rejection.
++\noclub[1]
+ 
+ \subsubsection{Detecting Interference Via Measurement}
+ \label{sec:debugging:Detecting Interference Via Measurement}
+diff --git a/locking/locking.tex b/locking/locking.tex
+index 3c2949fa..8a1a3101 100644
+--- a/locking/locking.tex
++++ b/locking/locking.tex
+@@ -1010,6 +1010,7 @@ Therefore CPU~1 will likely acquire the lock.
+ If CPU~1 holds the lock long enough for CPU~0 to be requesting the
+ lock by the time CPU~1 releases it and vice versa, the lock can
+ shuttle between CPUs~0 and~1, bypassing CPUs~2--7.
++\noclub[1]
+ 
+ \QuickQuiz{}
+ 	Wouldn't it be better just to use a good parallel design
+-- 
+2.17.1
+
