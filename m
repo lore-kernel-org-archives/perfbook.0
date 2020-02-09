@@ -1,181 +1,152 @@
 Return-Path: <SRS0=caq+=35=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=o8z6dJO64K+ick2f/3J7XW4Zero/TOPx4mOCcJmSL4Y=;
-        b=J7/6k4B5kFwDW2gBfiYinKUkf730QsZfO4GAoK0h9w39s0QXaVqkRj0EYYk3E3mT50
-         AdVWi5GPvp3XON8IlW0mQ8wBgaIljWGJC97CAPGOjQsuzrfxd1BoXzCGnt0KQnpnx9Xu
-         rtRL1JsH+EVmV7GFrurEBagHebfa8SCS3BNXTVtHkHQHoCrITGlPjj1tToQcgpqgOrTS
-         8z9mJPCtOGRSru+F2Et0PbXzemxRyf9lqVJj3RMooPG5YWzoTCzhFayPHY0NRGhpr752
-         ZbwjxZZj2LxaTmbhNhOtIq6zg0U18dJAk+l7qdycdx6SvBhQdFtyeh4LzP4YG5cMmL6S
-         l8xg==
-Subject: Re: [PATCH] SMPdesign: Fix meaningless consecutive blank pages
-References: <74a6c257-cf2a-315d-202a-a109c874e843@gmail.com>
- <20200208130358.GR2935@paulmck-ThinkPad-P72>
- <2e7e0662-d12d-2d54-c504-e68e5fee5ade@gmail.com>
- <20200208151843.GS2935@paulmck-ThinkPad-P72>
- <195bc818-fefe-af7d-b7c4-e9d3146471df@gmail.com>
- <20200208175618.GT2935@paulmck-ThinkPad-P72>
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=Lzi2r0VBBkkgtdvJjpruuu0GOSk7SnLiC7XdLZ/c1i4=;
+        b=mbsIqnim5W268aoNibvY9qpKrcSbf8jssctClMqykB1ZpYN62fPyuROoy4z92I6XWO
+         UoMsebGJ82hCLCZOazSmkhMWuiGo8gILFtwuL0lR1rlH/7FGtkf01qwHF6y/sQVeDcrx
+         iY2k3ujU8lYSqj9btO7D8UcoJGNVP4h1x+70oFz+OUHrxCsiGORJvJ6NTph+SpxjEmqq
+         39rtUZkRdlgXJPWueZB5wjVRQ64RlXh872iEYGzeYCd4epKfKDA2na4wCOvS1/ByI2FW
+         D3t7hultzi6vILGM16qe+woyc48GivyhLwnwEplR7hkIReACaBLzan9RI+r8sdBfc+MI
+         Ggww==
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <5fa5c95f-168b-a3ef-c39a-0cc63ecf18a2@gmail.com>
-Date: Sun, 9 Feb 2020 13:02:22 +0900
+Subject: [PATCH 1/2] Revert "Remove required version of 'epigraph'"
+Message-ID: <3cd61bd0-40a0-bb56-57aa-95422018e628@gmail.com>
+Date: Sun, 9 Feb 2020 13:05:31 +0900
 MIME-Version: 1.0
-In-Reply-To: <20200208175618.GT2935@paulmck-ThinkPad-P72>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-To: paulmck@kernel.org
+To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Sat, 8 Feb 2020 09:56:18 -0800, Paul E. McKenney wrote:
-> On Sun, Feb 09, 2020 at 12:46:33AM +0900, Akira Yokosawa wrote:
->> On Sat, 8 Feb 2020 07:18:43 -0800, Paul E. McKenney wrote:
->>> On Sat, Feb 08, 2020 at 11:44:13PM +0900, Akira Yokosawa wrote:
->>>> On Sat, 8 Feb 2020 05:03:58 -0800, Paul E. McKenney wrote:
->>>>> On Sat, Feb 08, 2020 at 09:03:10PM +0900, Akira Yokosawa wrote:
->>>>>> >From 66df1c9aaaefb2ef5ccfd0c23837b33218a24f30 Mon Sep 17 00:00:00 2001
->>>>>> From: Akira Yokosawa <akiyks@gmail.com>
->>>>>> Date: Sat, 8 Feb 2020 08:29:08 +0900
->>>>>> Subject: [PATCH] SMPdesign: Fix meaningless consecutive blank pages
->>>>>>
->>>>>> In the introduction of Dining Philosophers, there is two-page
->>>>>> "think about it" gap before presenting an answer.
->>>>>>
->>>>>> Let's see what we need for print editions.
->>>>>>
->>>>>> When the question is on an odd page, the answer can be on the next page
->>>>>> (the other side of the question's page).
->>>>>> When the question is on an even page, the answer should be on the
->>>>>> next even page to prevent it from being spotted too early.
->>>>>>
->>>>>> For electronic editions, there needs to be a gap of at least one
->>>>>> page regardless of the question's position.
->>>>>>
->>>>>> As \cleardoublepage changes its behavior depending on whether it is
->>>>>> on an odd page (one blank page) or on an even page (nothing), it
->>>>>> can not cover the requirement for electronic editions.
->>>>>>
->>>>>> For our purpose, the sequence of \clearpage, "((Intentional blank page)",
->>>>>> and another \clearpage should suffice.
->>>>>>
->>>>>> Reported-by: Paul E. McKenney <paulmck@kernel.org>
->>>>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->>>>>
->>>>> I have queued this, thank you!
->>>>>
->>>>> It works as desired with the current setup because the discussion and the
->>>>> reveal both end up on even pages.  You can check this using the "evince"
->>>>> PDF viewer by putting it into two-page mode (apologies for not saying
->>>>> so earlier, but I just now remembered myself).
->>>>>
->>>>> Wasting the single page isn't a disaster, as you say, but could the
->>>>> trick shown here avoid even that?
->>>>>
->>>>> https://tex.stackexchange.com/questions/6143/if-then-else-for-odd-page-even-page
->>>>>
->>>>> I tried this (but leaving out the recommended \strictpagecheck, which
->>>>> might mean that there could be errors when this occurs near the beginning
->>>>> of a page?) and it seems to handle both cases.  Please see below for a
->>>>> patchlet on top of your patch.
->>>>
->>>> I've not tested it yet, but I think this trick should be enabled only
->>>> for print editions.
->>>> I'm wondering what is the right option to distinguish print editions
->>>> from electronic editions.
->>>>
->>>> One way would be to update autodate.sh and define a boolean as true
->>>> in autodate.tex when you have a tag of "Edition.nP".
->>>>
->>>> Does this sound reasonable to you?
->>>
->>> It would, except that people really do print non-print editions and
->>> sometimes they print releases or even random points in the git history.
->>> So I do not believe that we should distinguish.
->>
->> For e-readers, this trick would present Figure 6.4 just next to the
->> question in contiguous display mode if the question lands on an even page,
->> which is not ideal for first-time readers.
->>
->> So I don't like to enable this trick all the time.
->>
->> Or, how about enabling it for 2c layouts only, which most people would
->> choose to print out.
->>
->> Another completely different approach would be to put the answer part
->> and Figure 6.4 into an Answer to a Quick Quiz.
->> Then we wouldn't need to play with \clearpage commands.
->>
->> Thoughts?
-> 
-> You know, this might well be the best approach, the additional quick
-> quizzes notwithstanding.  Let me give it some thought, maybe I should
-> just have a list of answers.
+From 3686a767517066f5212f97e2b2ac026c772af48f Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 9 Feb 2020 07:38:12 +0900
+Subject: [PATCH 1/2] Revert "Remove required version of 'epigraph'"
 
-Looking forward to seeing how it goes!
+This reverts commit 4c6ee39761a0991e93f147151d71f965b2e433e0.
 
-> 
->>> But if there is ever a reliable way to produce an ereader format, then
->>> agreed, we would want to distinguish.  Or if we could figure out that
->>> the reader was reading it on a smartphone.
->>>
->>> Or am I missing a trick here?
->>
->> It sounds like we are talking about something different, aren't we? ;-)
-> 
-> Which can sometimes be quite productive.  Sometimes.  ;-)
+Now that TeX Live 2015/Debian with the up-to-date "epigraph" does
+not suffer from the excessively wide vertical spaces, we can
+revert commit 4c6ee39761a0 ("Remove required version of 'epigraph'")
+and make the up-to-date epigraph mandatory.
 
-Yeah, sometimes.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ FAQ-BUILD.txt | 28 +++++-----------------------
+ Makefile      | 21 ---------------------
+ perfbook.tex  |  2 +-
+ 3 files changed, 6 insertions(+), 45 deletions(-)
 
-In the meantime, I'm submitting a couple of updates regarding to
-epigraph.sty.
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index 2eca5027..b8ad20d8 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -179,13 +179,14 @@
+ 			tlmgr install newtx
+ 
+ 10.	Building perfbook fails with a warning of buggy cleveref/listings,
+-	version mismatch of titlesec/draftwatermark/fvextra, or missing
+-	fvextra. What can I do?
++	version mismatch of titlesec/draftwatermark/epigraph/fvextra, or
++	missing fvextra. What can I do?
+ 
+ 	A.	They are known issues on Ubuntu Xenial (titlesec),
+ 		Ubuntu Bionic (cleveref), TeX Live 2014/2015 (listings),
+ 		TeX Live releases prior to 2015 (draftwatermark),
+-		and TeX Live releases prior to 2017 (fvextra).
++		TeX Live releases prior to 2017 (fvextra),
++		and TeX Live releases prior to 2020 (epigraph).
+ 		This answer assumes Ubuntu, but it should work on other
+ 		distros.
+ 
+@@ -194,6 +195,7 @@
+ 		http://mirrors.ctan.org/macros/latex/contrib/cleveref.zip
+ 		http://mirrors.ctan.org/macros/latex/contrib/listings.zip
+ 		http://mirrors.ctan.org/macros/latex/contrib/draftwatermark.zip
++		http://mirrors.ctan.org/macros/latex/contrib/epigraph.zip
+ 		http://mirrors.ctan.org/macros/latex/contrib/fvextra.zip
+ 
+ 	    2.	Install it by following instructions at:
+@@ -255,23 +257,3 @@
+ 
+ 		"make neatfreak; make" will rebuild all the figures.
+ 		The "-jN" option should accelerate the rebuild.
+-
+-13	Building perfbook has succeeded, but I find some of the
+-	epigraphs at bottom of columns/pages.
+-	What can I do?
+-
+-	A.	A new version of "epigraph" package recently released
+-		has resolved the issue. You can upgrade it by following
+-		the instructions at #10 above.
+-		The Up-to-date package can be downloaded from:
+-		http://mirrors.ctan.org/macros/latex/contrib/epigraph.zip
+-
+-	    NOTE: On Tex Live 2015/Debian (Ubuntu Xenial) and TeX Live 2016,
+-		the up-to-date "epigraph" does not work properly along
+-		with the "nowidow" package.
+-		If you'd really like to get rid of orphaned epigraphs,
+-		upgrading TeX Live to 2017/Debian (Ubuntu Bionic) or
+-		later is the way to go.
+-		The updated "epigraph" package is expected to be
+-		distributed in upstream TeX Live 2020 and Tex Live 2019/Debian
+-		(Ubuntu Focal).
+diff --git a/Makefile b/Makefile
+index 6f8417f3..ccc840be 100644
+--- a/Makefile
++++ b/Makefile
+@@ -131,23 +131,6 @@ LINEREF_ENV_END     := $(shell grep -l -F '\end{lineref}'     $(LATEXSOURCES))
+ LINELABEL_ENV := $(sort $(LINELABEL_ENV_BEGIN) $(LINELABEL_ENV_END))
+ LINEREF_ENV   := $(sort $(LINEREF_ENV_BEGIN) $(LINEREF_ENV_END))
+ 
+-OLD_EPIGRAPH := $(shell grep -c '2009/09/02' `kpsewhich epigraph.sty`)
+-TEXLIVE_2015_DEBIAN := $(shell pdftex --version | grep -c 'TeX Live 2015/Debian')
+-TEXLIVE_2016 := $(shell pdftex --version | grep -c 'TeX Live 2016')
+-ifeq ($(OLD_EPIGRAPH),1)
+-  ifeq ($(TEXLIVE_2015_DEBIAN),1)
+-    SUGGEST_UPGRADE_EPIGRAPH := 0
+-  else
+-    ifeq ($(TEXLIVE_2016),1)
+-      SUGGEST_UPGRADE_EPIGRAPH := 0
+-    else
+-      SUGGEST_UPGRADE_EPIGRAPH := 1
+-    endif
+-  endif
+-else
+-  SUGGEST_UPGRADE_EPIGRAPH := 0
+-endif
+-
+ SOURCES_OF_SNIPPET_ALL := $(shell grep -r -l -F '\begin{snippet}' CodeSamples)
+ SOURCES_OF_LITMUS      := $(shell grep -r -l -F '\begin[snippet]' CodeSamples)
+ SOURCES_OF_LTMS        := $(patsubst %.litmus,%.ltms,$(SOURCES_OF_LITMUS))
+@@ -186,10 +169,6 @@ mslmmsg:
+ 
+ $(PDFTARGETS): %.pdf: %.tex %.bbl
+ 	sh utilities/runlatex.sh $(basename $@)
+-ifeq ($(SUGGEST_UPGRADE_EPIGRAPH),1)
+-	@echo "Consider upgrading 'epigraph' to prevent orphaned epigraphs."
+-	@echo "See #13 in FAQ-BUILD.txt."
+-endif
+ 
+ $(PDFTARGETS:.pdf=.bbl): %.bbl: %.aux $(BIBSOURCES)
+ 	bibtex $(basename $@)
+diff --git a/perfbook.tex b/perfbook.tex
+index 30796c44..87c1eaa1 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -72,7 +72,7 @@
+ \usepackage[bookmarks=true,bookmarksnumbered=true,pdfborder={0 0 0},linktoc=all]{hyperref}
+ \usepackage{footnotebackref} % to enable cross-ref of footnote
+ \usepackage[all]{hypcap} % for going to the top of figure and table
+-\usepackage{epigraph}
++\usepackage{epigraph}[2020/01/02] % latest version prevents orphaned epigraph
+ \setlength{\epigraphwidth}{2.6in}
+ \usepackage[xspace]{ellipsis}
+ \usepackage{braket} % for \ket{} macro in QC section
+-- 
+2.17.1
 
-        Thanks, Akira
-
-> 
-> 							Thanx, Paul
-> 
->>         Thanks, Akira
->>
->>>
->>> 							Thanx, Paul
->>>
->>>>         Thanks, Akira
->>>>
->>>>>
->>>>> If this really works, could you please fold it into your patch with any
->>>>> needed adjustments?  If it is broken in some way, well, I do have your
->>>>> existing patch which does represent a much-appreciated improvement!
->>>>>
->>>>> 							Thanx, Paul
->>>>>
->>>>> ------------------------------------------------------------------------
->>>>>
->>>>> diff --git a/SMPdesign/partexercises.tex b/SMPdesign/partexercises.tex
->>>>> index 4ceaefe..82de2b9 100644
->>>>> --- a/SMPdesign/partexercises.tex
->>>>> +++ b/SMPdesign/partexercises.tex
->>>>> @@ -84,6 +84,8 @@ there will be five forks available to four philosophers.
->>>>>  At least one of these four will have two forks, and will thus be able
->>>>>  to eat.
->>>>>  
->>>>> +\clearpage  //  Comment out to see the other option.  And move it around.
->>>>> +
->>>>>  This general technique of numbering resources and acquiring them in
->>>>>  numerical order is heavily used as a deadlock-prevention technique.
->>>>>  However, it is easy to imagine a sequence of events that will result
->>>>> @@ -107,8 +109,12 @@ philosophers to eat concurrently.
->>>>>  Please think about ways of partitioning the Dining Philosophers Problem
->>>>>  before reading further.
->>>>>  
->>>>> +\checkoddpage
->>>>> +\ifoddpage
->>>>> +\else
->>>>>  \clearpage
->>>>>  (Intentional blank page)
->>>>> +\fi
->>>>>  \clearpage
->>>>>  
->>>>>  \begin{figure}[tb]
->>>>>
