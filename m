@@ -1,20 +1,22 @@
 Return-Path: <SRS0=Gg+I=4C=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=A/GBBR8Z3Z3pkoEnmQMXyhu7rivjELMkWGyKBJztkAA=;
-        b=LJ9aaaljvv6VqqJGAN7khcNpaIy0Po8G9tojXov2lYzyNIlCiR3B6PDW98PaXWzNEA
-         sEvxsgEz/y6Yy/7AF9KRmhC8D2sA8k7v4+ZuzBMMXtyhqqWZEqCNFw9hryNJpr9DkYub
-         95m367SPMkuL5k0j7ufY6mPKUaUhYRhCavZQ4w0C694eNGLJCRFLmVDN7J95ZV8gM9J0
-         hDVsyu5nlIlR4SYCmga7SLkNbEew3QbSNdAvSVmkVaSyuav69hV073Lg7FwIOopwxMWH
-         xUBRQGTyYap4pEYBtxtPMWMQb7p2uBpdcXRYB0X1ivySqMlC5nZLKx7LUcToSje/ubSq
-         Sh8w==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=smNvoP9WOvLAUlD5AxH8YlS7PQN6woegiNZ7lP6nhec=;
+        b=rHOHkuG8JEQx8FVL6kWiZrJK6ZNYzERORH5Z9QGibml1Nt9zgk+nFiCgR1wgZFW9ZC
+         eefi57uNzlNti7cYkgrZ25pSEP0X5wyxlSMi27TpksLEFLbjP4Q2e3WWRWogUI2+4prO
+         yLPIi912u2axt/9kyhkOf+oUV8cDb5aFaaeSytTY+UTuRtPZfjFRlLunEV9jJBuv0ekM
+         pNW6P5RmWB3hOo7trc7jQ6p9NZKB8Jxg5N5B4xdBXhzW63VO7l+rmrDjFB8/9MgOaMXo
+         iEqZsmOUtRMuyrinCsgjtBzAIdmCjeW3MypK3BUgp1g+hLFa0991tQLvpgz6AD56P46e
+         LJWw==
+Subject: [PATCH v2] Makefile: Add check of \crefrange and \clnrefrange misuse
+References: <d124a04e-8933-69c6-34b1-86057ff5567a@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] Makefile: Add check of \crefrange or \clnrefrange misuse
-Message-ID: <d124a04e-8933-69c6-34b1-86057ff5567a@gmail.com>
-Date: Sat, 15 Feb 2020 00:51:38 +0900
+Message-ID: <74810782-6250-d9fb-1243-4e1183851517@gmail.com>
+Date: Sat, 15 Feb 2020 08:49:26 +0900
 MIME-Version: 1.0
+In-Reply-To: <d124a04e-8933-69c6-34b1-86057ff5567a@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,10 +24,10 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From c0b6af552c7d5ade1b721ba4d6bd3c42e0f913e1 Mon Sep 17 00:00:00 2001
+From f445ac887a125bbff303b80921f981ea0704c748 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 14 Feb 2020 22:42:04 +0900
-Subject: [PATCH] Makefile: Add check of \crefrange and \clnrefrange misuse
+Date: Sat, 15 Feb 2020 08:36:53 +0900
+Subject: [PATCH v2] Makefile: Add check of \crefrange and \clnrefrange misuse
 
 To prevent typos simillar to the one fixed in commit b3b06a98bb7c
 ("datastruct.tex: fix some minor typos") to happen again,
@@ -51,26 +53,30 @@ For example, it can't not detect:
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+Hi Paul,
+
+This one uses a regex to cover both \cref and \clnref pattern.
+
+        Thanks, Akira
+--
+ Makefile | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/Makefile b/Makefile
-index ccc840be..cb9ef668 100644
+index ccc840be..7d1ec630 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -131,6 +131,11 @@ LINEREF_ENV_END     := $(shell grep -l -F '\end{lineref}'     $(LATEXSOURCES))
+@@ -131,6 +131,9 @@ LINEREF_ENV_END     := $(shell grep -l -F '\end{lineref}'     $(LATEXSOURCES))
  LINELABEL_ENV := $(sort $(LINELABEL_ENV_BEGIN) $(LINELABEL_ENV_END))
  LINEREF_ENV   := $(sort $(LINEREF_ENV_BEGIN) $(LINEREF_ENV_END))
  
-+CREFPTN    := '\\[Cc]ref{[^{]+}\s*{[^}]+}'
-+CLNREFPTN  := '\\[Cc]lnref{[^{]+}\s*{[^}]+}'
++CREFPTN    := '\\[Cc](ln)?ref{[^{]+}\s*{[^}]+}'
 +CREFPAIR   := $(shell grep -l -zo -E $(CREFPTN)   $(LATEXSOURCES))
-+CLNREFPAIR := $(shell grep -l -zo -E $(CLNREFPTN) $(LATEXSOURCES))
 +
  SOURCES_OF_SNIPPET_ALL := $(shell grep -r -l -F '\begin{snippet}' CodeSamples)
  SOURCES_OF_LITMUS      := $(shell grep -r -l -F '\begin[snippet]' CodeSamples)
  SOURCES_OF_LTMS        := $(patsubst %.litmus,%.ltms,$(SOURCES_OF_LITMUS))
-@@ -202,6 +207,30 @@ endif
+@@ -202,6 +205,18 @@ endif
  		echo "Substitute 'fcvref' for 'lineref' in $(LINEREF_ENV)." ; \
  		exit 1 ; \
  	fi
@@ -83,19 +89,7 @@ index ccc840be..cb9ef668 100644
 +			echo ; \
 +		fi ; \
 +		echo "------" ; \
-+		echo "Need to use \[Cc]refrange in $(CREFPAIR)." ; \
-+		exit 1 ; \
-+	fi
-+	@if [ ! -z "$(CLNREFPAIR)" -a "$(CLNREFPAIR)" != " " ]; then \
-+		echo "------" ; \
-+		if grep -q -E $(CLNREFPTN) $(CLNREFPAIR) ; then \
-+			grep -n -B 2 -A 2 -E $(CLNREFPTN) $(CLNREFPAIR) ; \
-+		else \
-+			grep -zo -B 2 -A 2 -E $(CLNREFPTN) $(CLNREFPAIR) ; \
-+			echo ; \
-+		fi ; \
-+		echo "------" ; \
-+		echo "Need to use \[Cc]lnrefrange in $(CLNREFPAIR)." ; \
++		echo "Need to use \[Cc]refrange or \[Cc]lnrefrangein $(CREFPAIR)." ; \
 +		exit 1 ; \
 +	fi
  	echo > qqz.tex
@@ -103,4 +97,5 @@ index ccc840be..cb9ef668 100644
  	echo > origpub.tex
 -- 
 2.17.1
+
 
