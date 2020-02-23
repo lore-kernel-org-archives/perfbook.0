@@ -1,20 +1,23 @@
 Return-Path: <SRS0=vn7n=4L=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=M7X6UuM8XG79FGhps9be675sxoqhoedX/F18m3wbYqs=;
-        b=dgm4hg+zLOW8SQn2QSyjIv1/X8yR74+EDzib0KSLtqQTDqIZVI/9IF+B3aTrZHgxl5
-         d78rNOfmXXZ876Y4oS0L26oBKWErTMvy3VrbHLE9UdNryX40kW46zQWgyza8TAL4y13g
-         Kkc8ypW1OlgpAtRj5DY1teGoNa/6N30Q4H7Pcs2C15HUsCtEyBfCy1AxQdFx54kxUH+t
-         gDWMuV+ElInIOg6ELEtOKs9qbvZfL8tGUnFvzVbMxrxAkNPZZkaKnRfioBLTVN67H/me
-         9+XxpQUQM84ZhUsNwd92O+xhPvAl70pAIByciz79xjyq5Vc90FEEQyRg8dkjn8fEoSWa
-         6MdA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Qc7b3KnN8Pt/dnHmVszhZu1WBDZIg1UBb3IitKojB04=;
+        b=nIL/7irL4XgdZq2fNAvqUxLKWrWKpdxF7vgKEaLd8bCQiAMKxidKOUoHhiruAn1fEO
+         SmkwI/KdGyNdf/PphMwkEX2z9y45wBXUt36Ga1HseYUcJAoXoPsUXoBnYWRP+9d/5sZC
+         MtqlUKRyz6h7j4iRYMX6tHlq60GhWe37hpaVzfPiZ0g/XGc/6qN58XnOIRIbSK805Xrm
+         YidUumvzPHZI16kx+4UBZTZ9U5t4sOJe+sk4efOLwr8IIe7tifdlRMRgfCz4qR4MveUn
+         0dp/kuOVmLWX2SJn+uSVjBgjcyNGe5+jTuzey887HF9Y3+/mc8UsRGFFXqmIdLvrtA2N
+         /YwQ==
+Subject: [PATCH 2/2] Define and use \qtco{} to cover string containing
+ breakable sequence
+References: <ca6192b8-eeb4-4b9d-ba29-d46609fb340b@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 1/2] Revert "Improve definition of \nbco{} and \qco{}"
-Message-ID: <ca6192b8-eeb4-4b9d-ba29-d46609fb340b@gmail.com>
-Date: Mon, 24 Feb 2020 08:03:37 +0900
+Message-ID: <11aa8ea3-31ed-e973-616e-c3e2be65e345@gmail.com>
+Date: Mon, 24 Feb 2020 08:05:03 +0900
 MIME-Version: 1.0
+In-Reply-To: <ca6192b8-eeb4-4b9d-ba29-d46609fb340b@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,234 +25,84 @@ To: "Paul E. McKenney" <paulmck@kernel.org>, =?UTF-8?B?0JTQvNC40YLRgNC40Lkg0JTRj
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 5403e5522302c78dc95b38f538e3fd09321d1622 Mon Sep 17 00:00:00 2001
+From aae17418193531c6d1cf8d7cb4721a4ef8b956d6 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 9 Feb 2020 08:31:09 +0900
-Subject: [PATCH 1/2] Revert "Improve definition of \nbco{} and \qco{}"
+Date: Sun, 9 Feb 2020 09:15:39 +0900
+Subject: [PATCH 2/2] Define and use \qtco{} to cover string containing breakable sequence
 
-This reverts commit 99b31e87fd0d7eb58b95b80af82a05b693b5aea2.
+Fix problematic behavior of \qco{}, whose width estimation is
+affected by our breakable sequences of characters "->" and "_".
 
-Update in upstream LaTeX has broken "examplep" package.
-As a workaround, revert the commit introduced examplep.
+The issue was once fixed by commit 99b31e87fd0d ("Improve definition
+of \nbco{} and \qco{}"), but it has been reverted because "examplep"
+package has lost compatibility with up-to-date TeX Live.
+
+This commit works around the issue by defining another macro
+"\qtco{}" and using it instead.
+
+Hopefully, we can revert both of the commits when examplep restores
+its compatibility.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/styleguide/styleguide.tex | 61 +++++++++++++++---------------
- perfbook.tex                       |  3 +-
- 2 files changed, 31 insertions(+), 33 deletions(-)
+ defer/rcuapi.tex         | 2 +-
+ defer/rcufundamental.tex | 2 +-
+ formal/dyntickrcu.tex    | 2 +-
+ perfbook.tex             | 1 +
+ 4 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
-index fb5671c3..275cb28b 100644
---- a/appendix/styleguide/styleguide.tex
-+++ b/appendix/styleguide/styleguide.tex
-@@ -107,7 +107,7 @@ are used behind numerical values, narrow spaces should be placed between
- the values and the symbols.
+diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+index 8a9baebc..9a8f3e7d 100644
+--- a/defer/rcuapi.tex
++++ b/defer/rcuapi.tex
+@@ -872,7 +872,7 @@ Table~\ref{tab:defer:RCU Diagnostic APIs}
+ shows RCU's diagnostic APIs.
  
- A narrow space can be coded in \LaTeX{} by the sequence of
--\qco{\,}.
-+\qco{\\,}.
- For example,
- \begin{quote}
-   ``2.4\,GHz'', rather then ``2.4GHz''.
-@@ -123,17 +123,17 @@ should be placed. For example,
+ The \co{__rcu} marks an RCU-protected pointer, for example,
+-\qco{struct foo __rcu *p;}.
++\qtco{struct foo __rcu *p;}.
+ Pointers that might be passed to \co{rcu_dereference()} can be marked,
+ but pointers holding values returned from \co{rcu_dereference()}
+ should not be.
+diff --git a/defer/rcufundamental.tex b/defer/rcufundamental.tex
+index 08d30cc0..16bef732 100644
+--- a/defer/rcufundamental.tex
++++ b/defer/rcufundamental.tex
+@@ -136,7 +136,7 @@ emits a single load instruction, just as would the equivalent single-threaded
+ code.
+ The coding restrictions are described in more detail in
+ Section~\ref{sec:memorder:Address- and Data-Dependency Difficulties},
+-however, the common case of field selection (\qco{->}) works quite well.
++however, the common case of field selection (\qtco{->}) works quite well.
+ Software that does not require the ultimate in read-side performance
+ can instead use C11 acquire loads, which provide the needed ordering and
+ more, albeit at a cost.
+diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
+index 5465de85..00642584 100644
+--- a/formal/dyntickrcu.tex
++++ b/formal/dyntickrcu.tex
+@@ -936,7 +936,7 @@ line of \co{dyntick_nohz()}.
  
- The symbol of micro (\micro :$10^{-6}$) can be typeset easily by
- the help of ``gensymb'' \LaTeX\ package.
--A macro \qco{\micro} can be used in both text and
-+A macro \qco{\\micro} can be used in both text and
- math modes. To typeset the symbol of ``microsecond'', you can do
--so by \qco{\micro s}. For example,
-+so by \qco{\\micro s}. For example,
- \begin{quote}
-   10\,\micro s
- \end{quote}
- 
--Note that math mode \qco{\mu} is italic by default and should not
-+Note that math mode \qco{\\mu} is italic by default and should not
- be used as a prefix. An improper example:
- \begin{quote}
--  10\,$\mu $s (math mode \qco{\mu})
-+  10\,$\mu $s (math mode \qco{\\mu})
- \end{quote}
- 
- \subsubsection{Non-SI Unit Symbol}
-@@ -183,7 +183,7 @@ of it. NIST style guide clearly states so.
- 
- The symbol of degree can also be typeset easily by the help of gensymb
- package.
--A macro \qco{\degree} can be used in both text and math modes.
-+A macro \qco{\\degree} can be used in both text and math modes.
- 
- Example:
- 
-@@ -323,7 +323,7 @@ This section summarizes guidelines specific to \LaTeX.
- 
- Monospace font (or typewriter font) is heavily used in this textbook.
- First policy regarding monospace font in perfbook is to avoid
--directly using \qco{\texttt} or \qco{\tt} macro.
-+directly using \qco{\\texttt} or \qco{\\tt} macro.
- It is highly recommended to use a macro or an environment
- indicating the reason why you want the font.
- 
-@@ -400,7 +400,7 @@ and is typeset as shown in
- 
- Labels to lines are specified in \qco{$lnlbl[]} command. The characters
- specified by \qco{commandchars} option to \co{VarbatimL} environment are
--used by the \co{fancyvrb} package to substitute ``\co{\\lnlbl\{\}}''
-+used by the \co{fancyvrb} package to substitute \qco{\\lnlbl\{\}}
- for \qco{$lnlbl[]}. Those characters should be selected so that they
- don't appear elsewhere in the code snippet.
- 
-@@ -424,7 +424,7 @@ to from text.
- \end{fcvref}
- \end{quote}
- 
--Macros ``\co{\\lnlbl\{\}}'' and ``\co{\\lnref\{\}}'' are defined in
-+Macros \qco{\\lnlbl\{\}} and \qco{\\lnref\{\}} are defined in
- the preamble as follows:
- 
- \begin{VerbatimU}
-@@ -507,13 +507,13 @@ and must come at the end of options listed above.
- Other types of options, if any, are also passed to the \co{VerbatimL}
- environment.
- 
--The \qco{\lnlbl} commands are converted along the way to reflect
-+The \qco{\\lnlbl} commands are converted along the way to reflect
- the escape-character choice.\footnote{
--	Characters forming comments around the \qco{\lnlbl} commands
-+	Characters forming comments around the \qco{\\lnlbl} commands
- 	are also gobbled up regardless of the \qco{keepcomment} setting.
- }
--Source lines with \qco{\fcvexclude} are removed.
--\qco{\fcvblank} can be used to keep blank lines when the
-+Source lines with \qco{\\fcvexclude} are removed.
-+\qco{\\fcvblank} can be used to keep blank lines when the
- \qco{gobbleblank=yes} option is specified.
- 
- There can be multiple pairs of \co{\\begin\{snippet\}} and \co{\\end\{snippet\}}
-@@ -543,14 +543,14 @@ Once one of them appears in a litmus test, comments should be of
- OCaml style (\qco{(* ... *)}). Those tokens keep the same meaning
- even when they appear in comments!
- 
--The pair of characters ``\co{\{}'' and ``\co{\}}'' also have special
--meaning in the C flavor tests. They are used to separate portions
-+The pair of characters \qco{\{} and \qco{\}} also have special
-+meaning in the C flavour tests. They are used to separate portions
- in a litmus test.
- 
--First pair of ``\co{\{}'' and ``\co{\}}'' encloses initialization part.
--Comments in this part should also be in the OCaml form.
-+First pair of \qco{\{} and \qco{\}} encloses initialization part.
-+Comments in this part should also be in the ocaml form.
- 
--You can't use ``\co{\{}'' nor ``\co{\}}'' in comments in litmus tests, either.
-+You can't use \qco{\{} and \qco{\}} in comments in litmus tests, either.
- 
- Examples of disallowed comments in a litmus test are shown below:
- 
-@@ -755,9 +755,8 @@ lists such limitations.
- \begin{tabular}{@{}lll@{}}\toprule
-   Macro &  Need Escape & Should Avoid \\
-   \midrule
--  \co{\\co}   & \co{\\}, \%, \{, \} & \\
-+  \co{\\co}, \co{\\nbco} & \co{\\}, \%, \{, \} & \\
-   \co{\\tco}  & \# & \%, \{, \}, \co{\\} \\
--  \co{\\nbco} &    & \%, \{, \}, final \co{\\} \\
-   \bottomrule
- \end{tabular}
- \caption{Limitation of Monospace Macro}
-@@ -768,10 +767,10 @@ While \verb|\co{}| requires some characters to be escaped,
- it can contain any character.
- 
- On the other hand, \verb|\tco{}| can not handle
--``\co{\%}'', ``\co{\{}'', ``\co{\}}'', nor ``\co{\\}'' properly.
--If they are escaped by a~``\co{\\}'',
-+\qco{\%}, \qco{\{}, \qco{\}}, nor \qco{\\} properly.
-+If they are escaped by a~\qco{\\},
- they appear in the end result with the escape character.
--The \qco{\verb} command can be used in running text if you
-+The \qco{\\verb} command can be used in running text if you
- need to use monospace font for a string which contains
- many characters to escape.\VerbatimFootnotes\footnote{
-   The \verb|\verb| command is not almighty though.
-@@ -886,15 +885,15 @@ in poor typesetting. For example:
-   high-frequency radio wave, high-frequency radio wave.
- \vspace{0.6\baselineskip}\end{minipage}\end{center}
- 
--By using a shortcut \qco{\-/} provided by the
-+By using a shortcut \qco{\\-/} provided by the
- ``extdash'' package, hyphenation in elements of compound
- words is enabled in perfbook.\footnote{
-   In exchange for enabling the shortcut, we can't use plain
--  \LaTeX's shortcut \qco{\-} to specify hyphenation points.
-+  \LaTeX's shortcut \qco{\\-} to specify hyphenation points.
-   Use \path{pfhyphex.tex} to add such exceptions.
- }
- 
--Example with \qco{\-/}:
-+Example with \qco{\\-/}:
- 
- \begin{center}\begin{minipage}{2.6in}\vspace{0.6\baselineskip}
-   High\-/frequency radio wave, high\-/frequency radio wave,
-@@ -910,7 +909,7 @@ We want hyphenated compound terms such as ``x\=/coordinate'',
- following a single letter.
- 
- To make a hyphen unbreakable, we can use a short cut
--\qco{\=/} also provided by the ``extdash'' package.
-+\qco{\\=/} also provided by the ``extdash'' package.
- 
- Example without a shortcut:
- 
-@@ -920,7 +919,7 @@ x-, y-, and z-coordinates; x-, y-, and z-coordinates;
- x-, y-, and z-coordinates; x-, y-, and z-coordinates;
- \vspace{0.6\baselineskip}\end{minipage}\end{center}
- 
--Example with \qco{\-/}:
-+Example with \qco{\\-/}:
- 
- \begin{center}\begin{minipage}{2.55in}\vspace{0.6\baselineskip}
- x-, y-, and z\-/coordinates; x-, y-, and z\-/coordinates;
-@@ -928,7 +927,7 @@ x-, y-, and z\-/coordinates; x-, y-, and z\-/coordinates;
- x-, y-, and z\-/coordinates; x-, y-, and z\-/coordinates;
- \vspace{0.6\baselineskip}\end{minipage}\end{center}
- 
--Example with \qco{\=/}:
-+Example with \qco{\\=/}:
- 
- \begin{center}\begin{minipage}{2.55in}\vspace{0.6\baselineskip}
- x-, y-, and z\=/coordinates; x-, y-, and z\=/coordinates;
-@@ -936,8 +935,8 @@ x-, y-, and z\=/coordinates; x-, y-, and z\=/coordinates;
- x-, y-, and z\=/coordinates; x-, y-, and z\=/coordinates;
- \vspace{0.6\baselineskip}\end{minipage}\end{center}
- 
--Note that \qco{\=/} enables hyphenation in elements
--of compound words as the same as \qco{\-/} does.
-+Note that \qco{\\=/} enables hyphenation in elements
-+of compound words as the same as \qco{\\-/} does.
- 
- \subsubsection{Em Dash}
- \label{sec:app:styleguide:Em Dash}
+ \QuickQuiz{}
+ 	\begin{fcvref}[ln:formal:promela:dyntick:dyntickRCU-irqnn-ssl:dyntick_irq]
+-	Why are \clnref{clr_in_irq,inc_i} (the \qco{in_dyntick_irq = 0;}
++	Why are \clnref{clr_in_irq,inc_i} (the \qtco{in_dyntick_irq = 0;}
+ 	and the \qco{i++;}) executed atomically?
+ 	\end{fcvref}
+ \QuickQuizAnswer{
 diff --git a/perfbook.tex b/perfbook.tex
-index 87c1eaa1..cc936e47 100644
+index cc936e47..a5ac180b 100644
 --- a/perfbook.tex
 +++ b/perfbook.tex
-@@ -47,7 +47,6 @@
- \usepackage{changepage}
- \usepackage{listings}
- \lstset{basicstyle=\ttfamily}
--\usepackage{examplep}
- % \usepackage[strings]{underscore}
- % \usepackage{underscore}
- \usepackage{pifont} % symbols for qqz reference points and carriagereturn
-@@ -258,7 +257,7 @@
- }
- %%HTMLNOSKIP
- \newcommand{\co}[1]{\lstinline[breaklines=true,breakatwhitespace=true]{#1}}
--\newcommand{\nbco}[1]{\mbox{\PVerb[pverb-space=invnobreak]{#1}}} % no break lines for short snippet
-+\newcommand{\nbco}[1]{\hbox{\lstinline[breaklines=false,breakatwhitespace=false]{#1}}} % no break lines for short snippet
+@@ -261,6 +261,7 @@
  \newcommand{\qco}[1]{``\nbco{#1}''} % \nbco with quotation marks
  \newcommand{\tco}[1]{\texttt{\detokenize{#1}}} % for code in tabular environment
  % \tco{} will break at spaces but not at underscores
++\newcommand{\qtco}[1]{``\hbox{\tco{#1}}''} % \tco with quotation marks
+ \newcommand{\lopt}[1]{\tco{-}\tco{-}\tco{#1}} % to avoid "--" to endash conversion
+ \newcommand{\nf}[1]{\textnormal{#1}} % to return to normal font
+ \newcommand{\qop}[1]{{\sffamily #1}} % QC operator such as H, T, S, etc.
 -- 
 2.17.1
+
 
