@@ -3,19 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+TEjT4o0lV86So8SRzQoLAObEmXylK81VZ9iEsE0AmY=;
-        b=V5FJJkrJ8Hl3JX1ji18g6kkcoNf7DxqMjpk92Q6OfLIFPFXXvldr5bN3UtheOpZ7/o
-         Jncw0IEcUQPtYI1G/AfrZ9mzp0n8NXQsMcL6fQGPIE6Q8Cap7jNfn6qnE8u/66CftuYT
-         vK3IHaBYJm2XlWBKbY7Zyv8tdVWKpcQoqiPWrvO1eWb+8hTzmCEPoVrho0/Bwtn3IBC4
-         74g8KifWXt7xYATOO2GfRTGnWFdYR2sKV4ul18VW+qAdqDyjGYSUNoGUMCvTwdYX0d8r
-         JKXmoOwU5wFoBIUU7xrxsuOtwSRoCIMwfNfux17QmhAkRInQs3zIq/+LAnSWdGtWbZAg
-         RWCQ==
-Subject: [PATCH 2/6] qqz.sty: Fix position of \goodbreak for accuracy of
- hyperlinks
+        bh=nAzAni5gG7gHIjf5gp7otSxSz4ETgpmxiEdijW8e9/c=;
+        b=NuLQ6CnnAv20NNCJBmoLZQ4wv3Dz02TXo4bS9W6xc+mlHtvVI2fH7xxB+P97fJM8Dp
+         AlCkf3q9TwqD76+IcAqplO6tLALqLZLrdXR7SoV98wFsOs6aYuvf0/AwQahGb4Pd9y/q
+         NNooZ5tvHXlBxl11B65meFTca+Wh7TTsZodWynbrXd2UEKFm/gu8GZm0PefQCqsJsoas
+         hKPvkOx0j4JkyXUv+JDpxT4LTIXf8XL3CmLnLMaIEBnXogQuNYcOYUV9wN44jiZ0PApQ
+         YS92gRfWscYfQ7IOedBd34PfiZLNmikYSfWkEPJZdkHc1ko+4AdXAt5CFE22QyAu9bWI
+         LM8A==
+Subject: [PATCH 3/6] toolsoftrade: Use nbsp in front of single letter variable
 References: <0a98646c-eb33-a27c-b974-ff38b8652a44@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <57ec80db-46ef-7e8a-3e79-9ec4e0e5883a@gmail.com>
-Date: Sat, 7 Mar 2020 07:49:02 +0900
+Message-ID: <a5d41ae8-e6f3-a149-1bd4-f35ae48e39bf@gmail.com>
+Date: Sat, 7 Mar 2020 07:50:05 +0900
 MIME-Version: 1.0
 In-Reply-To: <0a98646c-eb33-a27c-b974-ff38b8652a44@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,39 +24,43 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 440b3f3bbdd2dc212e7f277c950338f22529f532 Mon Sep 17 00:00:00 2001
+From 415ec82df62f29b0901b124c6991f05117432835 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Fri, 6 Mar 2020 00:05:09 +0900
-Subject: [PATCH 2/6] qqz.sty: Fix position of \goodbreak for accuracy of hyperlinks
+Date: Fri, 6 Mar 2020 00:18:34 +0900
+Subject: [PATCH 3/6] toolsoftrade: Use nbsp in front of single letter variable
 
-Commit 9e256de3262f ("qqz.sty: Permit column/page break in front of
-Quick Quiz heading") put \goodbreak after \refstepcounter{}.
-This caused backward hyperlinks to QQZs at the top of pages/columns
-to point the bottom of the previous pages/columns.
-
-Fix this by placing \goodbreak in front of \refstepcounter{}.
-
-Fixes: 9e256de3262f ("qqz.sty: Permit column/page break in front of Quick Quiz heading")
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- qqz.sty | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ toolsoftrade/toolsoftrade.tex | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/qqz.sty b/qqz.sty
-index 9b2aed8e..cc394160 100644
---- a/qqz.sty
-+++ b/qqz.sty
-@@ -33,8 +33,8 @@
- 	\label{#1}
- 	}
- \newcommand{\QuickQuiz}[1]{
--	\refstepcounter{quickquizctr}
--	\goodbreak\QuickQHeading{QQ}{QQA}{\thechapter.\thequickquizctr}}
-+	\goodbreak\refstepcounter{quickquizctr}%
-+	\QuickQHeading{QQ}{QQA}{\thechapter.\thequickquizctr}}
- \newcommand{\QuickQuizAnswer}[1]{%
- 	\refstepcounter{quickquizctrE}%
- 	\hyperref[QQA.\thechapter.\thequickquizctr]{\rule{7pt}{7pt}}%
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 01529a0c..79d6c2cd 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -681,7 +681,7 @@ values of \co{x} stored by \co{lock_writer()}.
+ \QuickQuiz{}
+ 	Wait a minute here!!!
+ 	Listing~\ref{lst:toolsoftrade:Demonstration of Same Exclusive Lock}
+-	didn't initialize shared variable \co{x},
++	didn't initialize shared variable~\co{x},
+ 	so why does it need to be initialized in
+ 	Listing~\ref{lst:toolsoftrade:Demonstration of Different Exclusive Locks}?
+ \QuickQuizAnswer{
+@@ -689,11 +689,10 @@ values of \co{x} stored by \co{lock_writer()}.
+ 	Listing~\ref{lst:toolsoftrade:Demonstration of Exclusive Locks}.
+ 	Because the code in
+ 	Listing~\ref{lst:toolsoftrade:Demonstration of Same Exclusive Lock}
+-	ran first, it could rely on the compile-time initialization of
+-	\co{x}.
++	ran first, it could rely on the compile-time initialization of~\co{x}.
+ 	The code in
+ 	Listing~\ref{lst:toolsoftrade:Demonstration of Different Exclusive Locks}
+-	ran next, so it had to re-initialize \co{x}.
++	ran next, so it had to re-initialize~\co{x}.
+ } \QuickQuizEnd
+ 
+ Although there is quite a bit more to POSIX exclusive locking, these
 -- 
 2.17.1
 
