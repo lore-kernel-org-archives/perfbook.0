@@ -1,101 +1,64 @@
-Return-Path: <SRS0=8VNs=44=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GINhvIRSngG6y10qvZ6fHRql/TctgjnTn51mNDjUMoA=;
-        b=cC5fIJpdWBYzCCBR+a7A5YJo8UXfU2axVzSpkSxXc9D2+MG+QQedX/ya4b21vavUee
-         arKz7aKF6xYHuIZ9rufdd9L5A/cZmMFyIpkqTZ9nyqDsI7AqPYCU36zoKiWTWbfGk+6F
-         cnB9IAOdc98nWIhMgBGQuT773NJa9oQdEy5tBYU7dSFw82HTL2ZpE2fkn3fkKhAe/1ow
-         6sBD9Vy4cXeeF/f4zeJ5doGzyH3uT95oWFLyPx55rfKdN5ILZWBsMgXCVy95ek0vRu1+
-         v+mGj8HjjmSq12/YXycNG8MwaE18aFYUMVcA0T0shr3llqWxPhq7ofCHxFkyaPd0vtJy
-         fh6A==
-Subject: Re: [PATCH 2/2] cpu/overheads: Typo fixes and wording improvement
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:54404 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730019AbgCKQLz (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Wed, 11 Mar 2020 12:11:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583943115;
+        bh=4i8RFMwePYUdRnosrRyYyYQdb78v/3HaPOOWZVhN/Bw=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=g4a9eqALKl9EMfu4LmnHC4b6NeLNvHNeCdsxr0cIaxRybOZtJNWCX43CTi1Zx9uiY
+         bJMw3SN+fSqTl2lZNVCUDo8goOq/nb1FgAsOpwHNjySwAwY8VLCYoCJ//82SIZh7VN
+         LCWG1Fo1GF1Y9x26KOW0qhaH4QIVurPrBvr+EgwE=
+Date: Wed, 11 Mar 2020 09:11:55 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH 1/2] cpu/overheads: Fix typos in large server's overhead
+ table
+Message-ID: <20200311161154.GR2935@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 References: <db66a177-0ae2-14a2-0ec7-854531a2a62a@gmail.com>
- <77c7810f-4a8d-811d-eddb-8fff92dafe65@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <6a95f31e-facf-b856-3bea-0aaa44fc381b@gmail.com>
-Date: Thu, 12 Mar 2020 00:31:45 +0900
 MIME-Version: 1.0
-In-Reply-To: <77c7810f-4a8d-811d-eddb-8fff92dafe65@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <db66a177-0ae2-14a2-0ec7-854531a2a62a@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-On Wed, 11 Mar 2020 20:49:10 +0900, Akira Yokosawa wrote:
-> From 9256445a646099df48b3f6af7ad232dd228f3039 Mon Sep 17 00:00:00 2001
+On Wed, Mar 11, 2020 at 08:46:36PM +0900, Akira Yokosawa wrote:
+> >From 512ad80cac5977ad331260b4691b172585827e1b Mon Sep 17 00:00:00 2001
 > From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Tue, 10 Mar 2020 22:12:45 +0900
-> Subject: [PATCH 2/2] cpu/overheads: Typo fixes and wording improvement
+> Date: Tue, 10 Mar 2020 20:48:17 +0900
+> Subject: [PATCH 1/2] cpu/overheads: Fix typo in large server's overhead table
 > 
-> Also flag suspicious raws in Table E.1 as comments.
-
-Obvious typo:
-                   ... rows ...
+> CPU 224 is not among Off-core CPUs.
 > 
 > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+
+Good catch, applied, thank you!!!
+
+							Thanx, Paul
+
 > ---
-> Hi Paul,
-> 
-> Think of this as a reminder rather than a patch to be applied as is.
-
-So I'm not submitting v2 of this one.
-
-        Thanks, Akira
-
-> Updated Table E.1 looks inconsistent to me.
-> 
->         Thanks, Akira
-> --
->  cpu/overheads.tex | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>  cpu/overheads.tex | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/cpu/overheads.tex b/cpu/overheads.tex
-> index d1b4f596..e5ea0803 100644
+> index 717a9ea0..d1b4f596 100644
 > --- a/cpu/overheads.tex
 > +++ b/cpu/overheads.tex
-> @@ -189,7 +189,7 @@ atomic operations on the lock data structure, one for acquisition and
->  the other for release.
->  
->  In-core operations involving interactions between the hardware threads
-> -sharing a single core are about the same cost and same-CPU operations.
-> +sharing a single core are about the same cost as same-CPU operations.
->  This should not be too surprising, given that these two hardware threads
->  also share the full cache hierarchy.
->  CAS stands for an atomic compare-and-swap operation, where the hardware
-> @@ -198,9 +198,9 @@ compares the contents of the specified memory location to a specified
->  in which case the CAS operation is said to have succeeded.
->  If they compare unequal, the memory location keeps its (unexpected) value,
->  and the CAS operation is said to have failed.
-> -The operation is atomic is that the hardware guarantees that the memory
-> +The operation is atomic in that the hardware guarantees that the memory
->  location will not be changed between the compare and the store.
-> -CAS functionality is provided by the x86 \co{lock;cmpxchg} instruction.
-> +CAS functionality is provided by the \co{lock;cmpxchg} instruction on x86.
->  
->  In the case of the blind CAS, the software specifies the old value
->  without looking at the memory location.
-> @@ -317,15 +317,15 @@ thousand clock cycles.
->  	Clock period		&           0.4	&           1.0 \\
->  	Same-CPU CAS		&          12.2	&          33.8 \\
->  	Same-CPU lock		&          25.6	&          71.2 \\
-> -	Blind CAS		&          12.9	&          35.8 \\
-> -	CAS			&           7.0	&          19.4 \\
-> +	Blind CAS		&          12.9	&          35.8 \\ % CAS?
-> +	CAS			&           7.0	&          19.4 \\ % Blind CAS?
->  	\midrule
->  	Off-Core		&		&		\\
-> -	Blind CAS		&          31.2	&          86.6 \\
-> +	Blind CAS		&          31.2	&          86.6 \\ % Realy Blind?
->  	CAS			&          31.2	&          86.5 \\
->  	\midrule
->  	Off-Socket		&		&		\\
-> -	Blind CAS		&          92.4	&         256.7 \\
-> +	Blind CAS		&          92.4	&         256.7 \\ % Realy Blind?
->  	CAS			&          95.9	&         266.4 \\
->  	\midrule
->  	Off-System		&		&		\\
+> @@ -149,8 +149,8 @@ optimization.
+>  	Same-CPU lock		     &  15.4 &   32.3 & 0		  \\
+>  	In-core blind CAS	     &   7.2 &   15.2 & 224		  \\
+>  	In-core CAS		     &  18.0 &   37.7 & 224		  \\
+> -	Off-core blind CAS	     &  47.5 &   99.8 & 1--27,224--251	  \\
+> -	Off-core CAS		     & 101.9 &  214.0 & 1--27,224--251	  \\
+> +	Off-core blind CAS	     &  47.5 &   99.8 & 1--27,225--251	  \\
+> +	Off-core CAS		     & 101.9 &  214.0 & 1--27,225--251	  \\
+>  	Off-socket blind CAS	     & 148.8 &  312.5 & 28--111,252--335  \\
+>  	Off-socket CAS		     & 442.9 &  930.1 & 28--111,252--335  \\
+>  	Cross-interconnect blind CAS & 336.6 &  706.8 & 112--223,336--447 \\
+> -- 
+> 2.17.1
 > 
