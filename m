@@ -1,66 +1,94 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:48174 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726231AbgCGB3I (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Fri, 6 Mar 2020 20:29:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583544548;
-        bh=qA8p8e8lKIz1ZQq8ZrKb8skgE5ElH95EQBQMFvCiLhc=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=rkYRaZLbIkaITY3RLKlRytwj9bl8DQBA6rwFzBmd8+prqOiG7/+tk3QkHicVoA3Eq
-         Z0tYmOiSLhdS+Sai4t6dzuwPGcNrYQSQWIhW7iCjiafPq4MTYJIdMVpumWDh4YvR9E
-         bYyZlLyJMF22mEieK3Y1crhTB+Ji3MBoKVwU3W90=
-Date: Fri, 6 Mar 2020 17:29:07 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 0/6] Improve page/column breaks in Appendix E
-Message-ID: <20200307012907.GK2935@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <0a98646c-eb33-a27c-b974-ff38b8652a44@gmail.com>
+Return-Path: <SRS0=8VNs=44=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=2x1GLtjAwppORlm12Cnq4C01NzR/rdVN5KspYEm0tNw=;
+        b=fLK7plodAd261Lx6gUqJumVCuxD1VN8NASmx26QEF4BZMYuy9bJb9+bmi1tjqVpcNh
+         jT6lAUK7EZ7o4yd71ED6Mzm2YAvYBhaH6hvZlIPHQXy1SOSEPCplocE6c0MYY2yvm7bA
+         gg5h2wDHGY0BsWKq109RGUzylHMFARA6NfQbTFXN7x21brXIMujg+K9nxNQxOMlxlNC2
+         DRALNe7paGImfkDlyZMmtbKDCfV685SALFvAeVUuyYQrqYatcOA92C9baMVIa9bYj2Uq
+         hHK0fJ/EsuixiJI/txrnS27iriCDw1Sz/FIaRB9b9ZQKiZoBtmlkOfI0YNe4bOf2rgfz
+         wwxA==
+Subject: [PATCH 2/2] cpu/overheads: Typo fixes and wording improvement
+References: <db66a177-0ae2-14a2-0ec7-854531a2a62a@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <77c7810f-4a8d-811d-eddb-8fff92dafe65@gmail.com>
+Date: Wed, 11 Mar 2020 20:49:10 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0a98646c-eb33-a27c-b974-ff38b8652a44@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <db66a177-0ae2-14a2-0ec7-854531a2a62a@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Mar 07, 2020 at 07:46:44AM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> I think I figured out the way to do what you wanted the other day.
-> Instead of putting \goodbreak in \QuickQ, putting it in \QuickE
-> looks like the right approach.
-> 
-> Patch 1/6 does the change.
-> Patch 2/6 fixes a regression in the first attempt to put \goodbreak
-> in front of QQZ.
-> Patches 3/6--6/6 fix minor issues in QQAz.
-> Feel free to rephrase the added opening sentence in Patch 4/6.
+From 9256445a646099df48b3f6af7ad232dd228f3039 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Tue, 10 Mar 2020 22:12:45 +0900
+Subject: [PATCH 2/2] cpu/overheads: Typo fixes and wording improvement
 
-It looks fine!
+Also flag suspicious raws in Table E.1 as comments.
 
-Good stuff, queued and pushed, thank you!
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
 
-							Thanx, Paul
+Think of this as a reminder rather than a patch to be applied as is.
+Updated Table E.1 looks inconsistent to me.
 
->         Thanks, Akira
-> --
-> Akira Yokosawa (6):
->   qqz.sty: Improve page/column breaks in Appendix E
->   qqz.sty: Fix position of \goodbreak for accuracy of hyperlinks
->   toolsoftrade: Use nbsp in front of single letter variable
->   debugging: Add opening sentence in Answer to QQZ 11.2
->   defer/rcuusage: Reverse nesting of fcvref and enumerate envs
->   SMPdesign/partexercises: Move figure env next to first paragraph in QQA
-> 
->  SMPdesign/partexercises.tex   | 15 +++++++--------
->  debugging/debugging.tex       |  2 ++
->  defer/rcuusage.tex            |  4 ++--
->  qqz.sty                       | 10 +++++-----
->  toolsoftrade/toolsoftrade.tex |  7 +++----
->  5 files changed, 19 insertions(+), 19 deletions(-)
-> 
-> -- 
-> 2.17.1
-> 
+        Thanks, Akira
+--
+ cpu/overheads.tex | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/cpu/overheads.tex b/cpu/overheads.tex
+index d1b4f596..e5ea0803 100644
+--- a/cpu/overheads.tex
++++ b/cpu/overheads.tex
+@@ -189,7 +189,7 @@ atomic operations on the lock data structure, one for acquisition and
+ the other for release.
+ 
+ In-core operations involving interactions between the hardware threads
+-sharing a single core are about the same cost and same-CPU operations.
++sharing a single core are about the same cost as same-CPU operations.
+ This should not be too surprising, given that these two hardware threads
+ also share the full cache hierarchy.
+ CAS stands for an atomic compare-and-swap operation, where the hardware
+@@ -198,9 +198,9 @@ compares the contents of the specified memory location to a specified
+ in which case the CAS operation is said to have succeeded.
+ If they compare unequal, the memory location keeps its (unexpected) value,
+ and the CAS operation is said to have failed.
+-The operation is atomic is that the hardware guarantees that the memory
++The operation is atomic in that the hardware guarantees that the memory
+ location will not be changed between the compare and the store.
+-CAS functionality is provided by the x86 \co{lock;cmpxchg} instruction.
++CAS functionality is provided by the \co{lock;cmpxchg} instruction on x86.
+ 
+ In the case of the blind CAS, the software specifies the old value
+ without looking at the memory location.
+@@ -317,15 +317,15 @@ thousand clock cycles.
+ 	Clock period		&           0.4	&           1.0 \\
+ 	Same-CPU CAS		&          12.2	&          33.8 \\
+ 	Same-CPU lock		&          25.6	&          71.2 \\
+-	Blind CAS		&          12.9	&          35.8 \\
+-	CAS			&           7.0	&          19.4 \\
++	Blind CAS		&          12.9	&          35.8 \\ % CAS?
++	CAS			&           7.0	&          19.4 \\ % Blind CAS?
+ 	\midrule
+ 	Off-Core		&		&		\\
+-	Blind CAS		&          31.2	&          86.6 \\
++	Blind CAS		&          31.2	&          86.6 \\ % Realy Blind?
+ 	CAS			&          31.2	&          86.5 \\
+ 	\midrule
+ 	Off-Socket		&		&		\\
+-	Blind CAS		&          92.4	&         256.7 \\
++	Blind CAS		&          92.4	&         256.7 \\ % Realy Blind?
+ 	CAS			&          95.9	&         266.4 \\
+ 	\midrule
+ 	Off-System		&		&		\\
+-- 
+2.17.1
+
+
