@@ -1,115 +1,178 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:56914 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729511AbgCKQaN (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Wed, 11 Mar 2020 12:30:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583944213;
-        bh=Mnqao/QbykPnwMd4X3ayD9EI06+FgfMhBXcXEFT2eZc=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=RzINTAwkMIDQl13q9uSslYmFgNqSsxxqTMjcO6h0To6hsGMVDrEOqZ+StLdEFxbUW
-         JsS5Tikl09Y9IKW3C305TiTmy6zVP2XZjvVB3vY0A474rqCtsDH91rWzRSfk29JtMd
-         GIfFne2UNArUl+dMDCzeGnUvnHsyw1NOCK/KEBD4=
-Date: Wed, 11 Mar 2020 09:30:12 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 2/2] cpu/overheads: Typo fixes and wording improvement
-Message-ID: <20200311163012.GS2935@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <db66a177-0ae2-14a2-0ec7-854531a2a62a@gmail.com>
- <77c7810f-4a8d-811d-eddb-8fff92dafe65@gmail.com>
- <6a95f31e-facf-b856-3bea-0aaa44fc381b@gmail.com>
+Return-Path: <SRS0=KuuI=45=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=BMR3j1eNGyGRNVbILgNJTdiPG91t//1FMcW02tSol1E=;
+        b=NGNDPkxV3UZpqpDWnHX2/LeKsBFWYIlEnwJ8XHV8Z0komo+hlgrvlLXhZcq/alOFYu
+         JKTBfyCB+rMys6sWwfn8Ih6hjzZ5QWJ83QkUt7Vc9h7zB7wb8uilQQ9LE8u1vuAT7ZCx
+         5uTJUKui6yeAvcwRMD7WuBj9uRo5q3+DRBggIh4qyB6sG04azCZwaHEfAhK7txpPfD2M
+         LrCoFhv+/4/GzQ5QFWQH4NBnE3SoWXEMSDdm/iTdFG/o5ObrJxRmc2V6wfpTX49t7ic2
+         EZ3jsgYmDIp9J8rtxX3+joTXYj/FChBFZ+I6ODH0X9lM6GzLEx7uaxyAYXPa8JXMfB/K
+         kAtA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] treewide: Use trademark symbols for Intel processor families
+Message-ID: <2842e044-f9b9-2e0f-682b-faeff99338ef@gmail.com>
+Date: Fri, 13 Mar 2020 00:53:20 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a95f31e-facf-b856-3bea-0aaa44fc381b@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Mar 12, 2020 at 12:31:45AM +0900, Akira Yokosawa wrote:
-> On Wed, 11 Mar 2020 20:49:10 +0900, Akira Yokosawa wrote:
-> > From 9256445a646099df48b3f6af7ad232dd228f3039 Mon Sep 17 00:00:00 2001
-> > From: Akira Yokosawa <akiyks@gmail.com>
-> > Date: Tue, 10 Mar 2020 22:12:45 +0900
-> > Subject: [PATCH 2/2] cpu/overheads: Typo fixes and wording improvement
-> > 
-> > Also flag suspicious raws in Table E.1 as comments.
-> 
-> Obvious typo:
->                    ... rows ...
-> > 
-> > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> > ---
-> > Hi Paul,
-> > 
-> > Think of this as a reminder rather than a patch to be applied as is.
-> 
-> So I'm not submitting v2 of this one.
-> 
->         Thanks, Akira
-> 
-> > Updated Table E.1 looks inconsistent to me.
+From e4d5b404bcc00b6f9ae0325623fccb6e15c178e7 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Fri, 13 Mar 2020 00:30:47 +0900
+Subject: [PATCH] treewide: Use trademark symbols for Intel processor families
 
-Same numbers as before, and yes, the in-core numbers look strange.
-The story I heard was that it was an artifact of instruction scheduling.
-My understanding is that the between-cores numbers benefit from
-instruction look-ahead, so that the load is aware that the cmpxchg is
-on its way.
+As per Intel's guideline [1] of trademark usage, put (R) and (TM)
+marks in captions and their first references from text within a chapter.
+Update legal.tex accordingly.
 
-I applied the other two hunks and removed the "raws" sentence, thank
-you very much!
+[1]: https://www.intel.com/content/www/us/en/trademarks/usage-guidelines.html
 
-							Thanx, Paul
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
 
-> >         Thanks, Akira
-> > --
-> >  cpu/overheads.tex | 14 +++++++-------
-> >  1 file changed, 7 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/cpu/overheads.tex b/cpu/overheads.tex
-> > index d1b4f596..e5ea0803 100644
-> > --- a/cpu/overheads.tex
-> > +++ b/cpu/overheads.tex
-> > @@ -189,7 +189,7 @@ atomic operations on the lock data structure, one for acquisition and
-> >  the other for release.
-> >  
-> >  In-core operations involving interactions between the hardware threads
-> > -sharing a single core are about the same cost and same-CPU operations.
-> > +sharing a single core are about the same cost as same-CPU operations.
-> >  This should not be too surprising, given that these two hardware threads
-> >  also share the full cache hierarchy.
-> >  CAS stands for an atomic compare-and-swap operation, where the hardware
-> > @@ -198,9 +198,9 @@ compares the contents of the specified memory location to a specified
-> >  in which case the CAS operation is said to have succeeded.
-> >  If they compare unequal, the memory location keeps its (unexpected) value,
-> >  and the CAS operation is said to have failed.
-> > -The operation is atomic is that the hardware guarantees that the memory
-> > +The operation is atomic in that the hardware guarantees that the memory
-> >  location will not be changed between the compare and the store.
-> > -CAS functionality is provided by the x86 \co{lock;cmpxchg} instruction.
-> > +CAS functionality is provided by the \co{lock;cmpxchg} instruction on x86.
-> >  
-> >  In the case of the blind CAS, the software specifies the old value
-> >  without looking at the memory location.
-> > @@ -317,15 +317,15 @@ thousand clock cycles.
-> >  	Clock period		&           0.4	&           1.0 \\
-> >  	Same-CPU CAS		&          12.2	&          33.8 \\
-> >  	Same-CPU lock		&          25.6	&          71.2 \\
-> > -	Blind CAS		&          12.9	&          35.8 \\
-> > -	CAS			&           7.0	&          19.4 \\
-> > +	Blind CAS		&          12.9	&          35.8 \\ % CAS?
-> > +	CAS			&           7.0	&          19.4 \\ % Blind CAS?
-> >  	\midrule
-> >  	Off-Core		&		&		\\
-> > -	Blind CAS		&          31.2	&          86.6 \\
-> > +	Blind CAS		&          31.2	&          86.6 \\ % Realy Blind?
-> >  	CAS			&          31.2	&          86.5 \\
-> >  	\midrule
-> >  	Off-Socket		&		&		\\
-> > -	Blind CAS		&          92.4	&         256.7 \\
-> > +	Blind CAS		&          92.4	&         256.7 \\ % Realy Blind?
-> >  	CAS			&          95.9	&         266.4 \\
-> >  	\midrule
-> >  	Off-System		&		&		\\
-> > 
+Having seen the (R) and (TM) marks in the updated tables in cpu/overheads,
+this patch puts similar marks in other "Intel Xeon", "Intel Core", and "Intel"
+trademarks.
+
+I guess we should also take care of other trademarks of IBM, Arm, MIPS, SPARC,
+etc.
+
+I remember submitting a patch to remove those marks saying that they are covered
+by the Legal page, but it was not the right thing to do if I had read the
+guidelines of those trademark owners carefully.
+
+If you are OK, I'll prepare a patch set for other trademarks.
+
+Thoughts?
+
+        Thanks, Akira
+--
+ appendix/styleguide/styleguide.tex |  2 +-
+ count/count.tex                    |  2 +-
+ cpu/overheads.tex                  | 10 +++++-----
+ legal.tex                          |  4 ++--
+ perfbook.tex                       |  4 ++--
+ toolsoftrade/toolsoftrade.tex      |  2 +-
+ 6 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/appendix/styleguide/styleguide.tex b/appendix/styleguide/styleguide.tex
+index 00fa249d..db7cde24 100644
+--- a/appendix/styleguide/styleguide.tex
++++ b/appendix/styleguide/styleguide.tex
+@@ -1333,7 +1333,7 @@ as a reference to be consulted when new tables are added in the text.
+ 	Global Comms		& 195 000 000	& 409 500 000   \\
+ 	\bottomrule
+ \end{tabular}
+-\caption{CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel(R) Xeon(R) Platinum 8176 CPUs @ 2.10GHz}
++\caption{CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel\RTM\ Xeon\RTM\ Platinum 8176 CPUs @ 2.10GHz}
+ \label{tab:app:styleguide:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel(R) Xeon(R) Platinum 8176 CPUs @ 2.10GHz}
+ \end{table}
+ 
+diff --git a/count/count.tex b/count/count.tex
+index a7426e53..244bd004 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -259,7 +259,7 @@ line~\lnref{inc} atomically increments it, and
+ line~\lnref{read} reads it out.
+ \end{fcvref}
+ Because this is atomic, it keeps perfect count.
+-However, it is slower: on a Intel Core Duo laptop, it is about
++However, it is slower: on a Intel\RTM\ Core\TM\ Duo laptop, it is about
+ six times slower than non-atomic increment
+ when a single thread is incrementing, and more than \emph{ten times}
+ slower if two threads are incrementing.\footnote{
+diff --git a/cpu/overheads.tex b/cpu/overheads.tex
+index e3fa42bf..702e7cfe 100644
+--- a/cpu/overheads.tex
++++ b/cpu/overheads.tex
+@@ -161,7 +161,7 @@ optimization.
+ 	Global Comms	& 195 000 000 & 409 500 000 & \\
+ 	\bottomrule
+ \end{tabular}
+-\caption{CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel(R) Xeon(R) Platinum 8176 CPUs @ 2.10\,GHz}
++\caption{CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel\RTM\ Xeon\RTM\ Platinum 8176 CPUs @ 2.10\,GHz}
+ \label{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel(R) Xeon(R) Platinum 8176 CPUs at 2.10GHz}
+ \end{table*}
+ 
+@@ -333,8 +333,8 @@ thousand clock cycles.
+ 	Global Comms		& 195 000 000	& 542 000 000   \\
+ 	\bottomrule
+ \end{tabular}
+-\caption{Performance of Synchronization Mechanisms on 16-CPU 2.8\,GHz Intel X5550 (Nehalem) System}
+-\label{tab:cpu:Performance of Synchronization Mechanisms on 16-CPU 2.8GHz Intel X5550 (Nehalem) System}
++\caption{Performance of Synchronization Mechanisms on 16-CPU 2.8\,GHz Intel\RTM\ X5550 (Nehalem) System}
++\label{tab:cpu:Performance of Synchronization Mechanisms on 16-CPU 2.8GHz Intel(R) X5550 (Nehalem) System}
+ \end{table}
+ 
+ 	The first problem limits raw speed, and the second limits
+@@ -350,7 +350,7 @@ thousand clock cycles.
+ 	represents a reasonably large system with no fewer 448~hardware
+ 	threads.
+ 	Smaller systems often achieve better latency, as may be seen in
+-	Table~\ref{tab:cpu:Performance of Synchronization Mechanisms on 16-CPU 2.8GHz Intel X5550 (Nehalem) System},
++	Table~\ref{tab:cpu:Performance of Synchronization Mechanisms on 16-CPU 2.8GHz Intel(R) X5550 (Nehalem) System},
+ 	which represents a much smaller system with only 16 hardware threads.
+ 	A similar view is provided by the rows of
+ 	Table~\ref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel(R) Xeon(R) Platinum 8176 CPUs at 2.10GHz}
+@@ -385,7 +385,7 @@ thousand clock cycles.
+ 	Global Comms	& 195 000 000 & 429 000 000 & \\
+ 	\bottomrule
+ \end{tabular}
+-\caption{CPU 0 View of Synchronization Mechanisms on 12-CPU Intel(R) Core(TM) i7-8750H CPU @ 2.20\,GHz}
++\caption{CPU 0 View of Synchronization Mechanisms on 12-CPU Intel\RTM\ Core\TM\ i7-8750H CPU @ 2.20\,GHz}
+ \label{tab:cpu:CPU 0 View of Synchronization Mechanisms on 12-CPU Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz}
+ \end{table*}
+ 
+diff --git a/legal.tex b/legal.tex
+index 21b9263f..a6329c9f 100644
+--- a/legal.tex
++++ b/legal.tex
+@@ -13,8 +13,8 @@ Trademarks:
+ 	of International Business Machines Corporation in the United
+ 	States, other countries, or both.
+ \item	Linux is a registered trademark of Linus Torvalds.
+-\item	i386 is a trademark of Intel Corporation or its subsidiaries
+-	in the United States, other countries, or both.
++\item	Intel, Intex Xeon, and Intel Core are trademarks of Intel Corporation
++	or its subsidiaries in the United States, other countries, or both.
+ \item	Other company, product, and service names may be trademarks or
+ 	service marks of such companies.
+ \end{itemize}
+diff --git a/perfbook.tex b/perfbook.tex
+index a5ac180b..61b57ad0 100644
+--- a/perfbook.tex
++++ b/perfbook.tex
+@@ -277,8 +277,8 @@
+ \newcommand{\rt}{\mbox{-rt}} % to prevent line break behind "-"
+ \newcommand{\mytexttrademark}{}
+ \newcommand{\mytextregistered}{}
+-%\newcommand{\mytexttrademark}{\textsuperscript\texttrademark}
+-%\newcommand{\mytextregistered}{\textsuperscript\textregistered}
++\newcommand{\TM}{\textsuperscript\texttrademark}
++\newcommand{\RTM}{\textsuperscript\textregistered}
+ 
+ \newcommand{\Epigraph}[2]{\epigraphhead[65]{\epigraph{#1}{#2}}}
+ 
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 79d6c2cd..3c59760a 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -2600,7 +2600,7 @@ As a rough rule of thumb, use the simplest tool that will get the job done.
+ If you can, simply program sequentially.
+ If that is insufficient, try using a shell script to mediate parallelism.
+ If the resulting shell-script \co{fork()}/\co{exec()} overhead
+-(about 480 microseconds for a minimal C program on an Intel Core Duo
++(about 480 microseconds for a minimal C program on an Intel\RTM\ Core\TM\ Duo
+ laptop) is too
+ large, try using the C-language \co{fork()} and \co{wait()} primitives.
+ If the overhead of these primitives (about 80 microseconds for a minimal
+-- 
+2.17.1
+
