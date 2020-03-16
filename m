@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=I7cBvuroRN+W/FGYQGH+blc+cj6ZKhE1H7lIOuPqB+c=;
-        b=CduFwBVCNXsFBUvVM61uo6ScnTz+nuwe20+6/LrsnsU7GB+Er/ZMLFhvdWNFnqK0Gr
-         NmpwtU5x/HoSDz6rFg6EkH94V8v82BTzDKhjlXDE6gccYcyno6GxQzf1WqgMEWGxNYt1
-         g2JN4vI856OII9YP7larr+PHmR2x0QUrgNWQCktg8i60XGKKBUyYfnTRxxxC4BZzVeH2
-         jxuK9ltDc6FVKvpubxC+js93WamX9fFyFmDDdyltGRohiNhYKNbRv+fVzFIod83uj0li
-         MVguvsEiznbvicVbVGTfnAKwHEROoqlfTDBWcu49TJT0e7I3pC4DavtVwxCqJcOId0YG
-         R7Gg==
-Subject: [PATCH 2/3] intro: Use 'VerbatimU' env for command output
+        bh=yu4iyRRx7h8g6qsBWKTxy3jMiBfogFCh140r/qgG4pY=;
+        b=lKx7TxfP5RNUZSynv9AFfjTwpGKs3ASUyqWw7FDL9EyMd+i6AeRdHFRQFsZ4lgNoub
+         RTLcp3q74CUdVwPEKiDYi4WBrqd7JvRQaObofxu5g/P6UCWhl2rGRxbQtdrgBptUkVke
+         lPANdCx/AUiatdrISw7eaInbU4GMH4gkx8dp19artouCVrzqly1Fb2V88bX7kWh1tvtV
+         WvrrIj7ds6G5xkDBbAwnCn77gphP354BA/ZSTJZmRro6COuVoKiz3cKPwKEoj9TeJL+l
+         yRqq4g434M7ll4U3irRUp/KjiPBep2VkIN7LbLa88ckCdyMEoGrT0eB4efU7t0vL2GGa
+         SdqQ==
+Subject: [PATCH 3/3] defer/seqlock: Move figure env next to 1st paragraph
 References: <70bc6ef5-e823-ae3f-7753-169ba1190d5f@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <9918cdb4-1c55-9995-75c6-6d0fe92234ed@gmail.com>
-Date: Tue, 17 Mar 2020 00:17:28 +0900
+Message-ID: <27f9e270-a028-bc97-65da-58fa1610ea11@gmail.com>
+Date: Tue, 17 Mar 2020 00:18:22 +0900
 MIME-Version: 1.0
 In-Reply-To: <70bc6ef5-e823-ae3f-7753-169ba1190d5f@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,31 +24,48 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 30b7576e4db9f6125a8c516b7efc2adc016e259d Mon Sep 17 00:00:00 2001
+From 62edb155faac3b554f38b6d5f939cbad3e5030e1 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 9 Mar 2020 20:24:22 +0900
-Subject: [PATCH 2/3] intro: Use 'VerbatimU' env for command output
+Date: Tue, 10 Mar 2020 07:58:31 +0900
+Subject: [PATCH 3/3] defer/seqlock: Move figure env next to 1st paragraph
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- intro/intro.tex | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ defer/seqlock.tex | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/intro/intro.tex b/intro/intro.tex
-index d2be90a2..ac00f282 100644
---- a/intro/intro.tex
-+++ b/intro/intro.tex
-@@ -216,7 +216,9 @@ programming.
- 	Finally, on Linux and UNIX systems, consider the following
- 	shell command:
+diff --git a/defer/seqlock.tex b/defer/seqlock.tex
+index 1df6efad..c3a9773f 100644
+--- a/defer/seqlock.tex
++++ b/defer/seqlock.tex
+@@ -7,13 +7,6 @@
+ %
+ \epigraph{It'll be just like starting over.}{\emph{John Lennon}}
  
--	{\small \tt get\_input | grep "interesting" | sort}
-+	\begin{VerbatimU}
-+	get_input | grep "interesting" | sort
-+	\end{VerbatimU}
+-\begin{figure}[tb]
+-\centering
+-\resizebox{3in}{!}{\includegraphics{cartoons/r-2014-Start-over}}
+-\caption{Reader And Uncooperative Sequence Lock}
+-\label{fig:defer:Reader And Uncooperative Sequence Lock}
+-\end{figure}
+-
+ Sequence locks are used in the Linux kernel for read-mostly data that
+ must be seen in a consistent state by readers.
+ However, unlike reader-writer locking, readers do not exclude writers.
+@@ -24,6 +17,13 @@ Figure~\ref{fig:defer:Reader And Uncooperative Sequence Lock},
+ it is important to design code using sequence locks so that readers
+ very rarely need to retry.
  
- 	This shell pipeline runs the \co{get_input}, \co{grep},
- 	and \co{sort} processes in parallel.
++\begin{figure}[tb]
++\centering
++\resizebox{3in}{!}{\includegraphics{cartoons/r-2014-Start-over}}
++\caption{Reader And Uncooperative Sequence Lock}
++\label{fig:defer:Reader And Uncooperative Sequence Lock}
++\end{figure}
++
+ \QuickQuiz{
+ 	Why isn't this sequence-lock discussion in Chapter~\ref{chp:Locking},
+ 	you know, the one on \emph{locking}?
 -- 
 2.17.1
 
