@@ -1,78 +1,101 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:60138 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732198AbgCPRBt (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Mon, 16 Mar 2020 13:01:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584378108;
-        bh=XrL0E1goEYNjnGP6FzDh+PVWrQG/ukZFZgkS85Qki0U=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=PiKefQCzGcnLo3RUJbJruOOpX55KA79rKF/QU87w2p7MIYAnhQZ9iCsNGQI96vw8f
-         RsrmRlvIjCP07OAwnCywpxzsSOzIMwA7zISrzPCU4ySzevYO/1mZMLyZKzQ/mkiphm
-         YkxfISll7daBEJ6xZ75dRVReCYfhKSBnruLIFzHQ=
-Date: Mon, 16 Mar 2020 10:01:48 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 1/3] howto: Update Answer to QQZ 1.3 to mention inline
- QQA is not easy
-Message-ID: <20200316170148.GY3199@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <70bc6ef5-e823-ae3f-7753-169ba1190d5f@gmail.com>
+Return-Path: <SRS0=HWNT=5C=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=rgJGnoLiKT1BXTIg/KNguVtC4ejD/DDNVmA3OKQkNMc=;
+        b=OEQ/v5u+yhshWma0476uITGVzirnsTWt73W0eG1EoZG6erOUX/EeuetgKs3BSqcOkd
+         L65IcVNDT3Tj/oFPs/LzizwiI/O50SS0qTUgw1DzBau4+xqq9JYwhqgbBMXSw1YIXqdl
+         6ptGd2gXNND8r9Cvi7kM28V0j86910tb5oCBCarIomlXiJC7MHRg5wJFdbUSgpTQZws3
+         n0uIqWugLrv/OLtcHZHaGjo33F6RZzBuJGymvcf4aIdyN9JJnM4qPqVMkvjBHZLJHHoc
+         VXw+O756xyvj0OTUSfOiQDKj6W63pIqidobYKaLRhNWIJVbF0dTNjqfPuNadnc04L+zK
+         lQVQ==
+Subject: [RFC NOT PULL v2] Experiment to add background to question part of
+ QQZ
+References: <1bca91e5-b192-85db-2035-6e524ee1cb57@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <5f6f3513-82b5-5890-703b-e76d7890ae17@gmail.com>
+Date: Tue, 17 Mar 2020 23:48:48 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <70bc6ef5-e823-ae3f-7753-169ba1190d5f@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <1bca91e5-b192-85db-2035-6e524ee1cb57@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 12:16:26AM +0900, Akira Yokosawa wrote:
-> >From f4a50f79fdd13552b482b5e0f8ef0ff9b199e24b Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sun, 8 Mar 2020 00:59:39 +0900
-> Subject: [PATCH 1/3] howto: Update Answer to QQZ 1.3 to mention inline QQA is not easy
-> 
-> The macro \QuickQuizAnswer{} defined in qqz.sty currently discards
-> its argument.  If you modify it to enable inline QQA, pdflatex will
-> end up in error due to verbatim contents and other fragile elements
-> within macro arguments.
-> 
-> Appendix E's code (qqz.tex) works because the macros \QuickQ{}
-> and \QuickA{} have no argument.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Hi Paul,
 
-Applied and pushed all three, thank you!
+So this is the v2 of the "RFC NOT PULL".
+This contains a single commit to add experimental targets "2cqq" and "1cqq".
+It enables qqzbg (renamed from v1's bgqqz) in "msnt" and "1csf" as well.
 
-							Thanx, Paul
+Changes since v1:
 
-> ---
->  howto/howto.tex | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
+* Rebased on current master.
+* To clarify the corresponding official targets, add targets "2cqq" and "1cqq"
+which uses the same fonts as "2c" and "1c".
+
+Comments to the invitation message (just want to be sure):
+
+> Subject: Experimental quick-quiz format at branch qqz.2020.03.14a
+
+Whatever branch name here.
+
 > 
-> diff --git a/howto/howto.tex b/howto/howto.tex
-> index b0b0e487..18757934 100644
-> --- a/howto/howto.tex
-> +++ b/howto/howto.tex
-> @@ -207,10 +207,14 @@ Here are a few possible strategies:
->  	to ignore, you can always clone the \LaTeX{} source for
->  	this book from the git archive.
->  	You can then modify \path{Makefile} and \path{qqz.sty} to eliminate
-> -	the Quick Quizzes from the PDF output.
-> -	Alternatively, you could modify these two files so as
-> -	to pull the answers inline, immediately following
-> -	the questions.
-> +	the Quick Quizzes from the PDF output.\footnote{
-> +		On the other hand, modifying these two files does not
-> +		suffice at the moment if what you'd like to do is to pull
-> +		the answers inline, immediately following the questions.
-> +		This is due to the fragility of verbatim environments
-> +		within arguments of \LaTeX\ macros.
-> +		It should still be possible, for example, by editing every
-> +		\path{.tex} source by a script, though.}
->  \item	Look at the answer immediately rather than investing
->  	a large amount of time in coming up with your own
->  	answer.
-> -- 
-> 2.17.1
+> 	Hello!
 > 
+> 	Akira has created a couple of new perfbook build targets
+> 	that use fancier formatting for quick quizzes.  You can
+> 	build with this fanciness by checking out branch qqz.2020.03.14a
+
+ditto.
+
+> 	of the perfbook git archive [1], and then typing:
+> 
+> 		make msnt  # Double-column format
+> 		make 1csf  # Single-column format
+
+		make 2cqq  # Double-column format
+		make 1cqq  # Single-column format
+
+> 
+> 	If you get a chance to do this and look it over, please let
+> 	Akira and I know what you think.  Any reason not to make this
+> 	format be the default for releases and editions?  (The reason
+> 	not to it the default for normal "make" builds is that the
+> 	price of the fanciness is a slower build time.)
+> 
+> 	Thoughts?
+> 
+> 							Thanx, Paul
+> 
+> 	[1] git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/perfbook.git
+
+And please remove the old branch qqz.2020.03.14a from your tree to avoid
+any confusion.
+
+        Thanks, Akira
+--
+The following changes since commit efba3f18f0f619bcf6e82352cf3cddb6f8e607cb:
+
+  defer/seqlock: Move figure env next to 1st paragraph (2020-03-16 09:08:42 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/akiyks/perfbook.git tags/for-paul-2020.03.17a
+
+for you to fetch changes up to 01dcc70d3f66a1224ba63dc50bbe8370d3711c1b:
+
+  qqz.sty: Add background color to Quiz part of Quick Quizzes (2020-03-17 20:24:09 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (1):
+      qqz.sty: Add background color to Quiz part of Quick Quizzes
+
+ Makefile     | 12 +++++++++++-
+ perfbook.tex |  4 ++++
+ qqz.sty      | 31 ++++++++++++++++++++++++++++++-
+ 3 files changed, 45 insertions(+), 2 deletions(-)
+
