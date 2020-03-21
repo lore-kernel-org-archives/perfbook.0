@@ -1,108 +1,100 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:42616 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726388AbgCQVMz (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Tue, 17 Mar 2020 17:12:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584479575;
-        bh=bUwpgjYbHQnCk/c2g8B4lsIh+keJLrQtCvN6ga3d6o0=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=I+7rUIx8zb0sLnX9OAOUXPen1W7LApRp7yEsJcRTgeJgxsKafXLOoyUAinLpqf3MT
-         4/c5F6jBZ4+NXomBYFOicl2HARoOjIHh4Rf63Sq6zQgfpPQm3R/IKE9F5G8sO1dkqK
-         x0cHTq0oudeWGnDFcEyD3tJkbkUnfhmrzO/PlBkg=
-Date: Tue, 17 Mar 2020 14:12:55 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [RFC NOT PULL v2] Experiment to add background to question part
- of QQZ
-Message-ID: <20200317211255.GN3199@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <1bca91e5-b192-85db-2035-6e524ee1cb57@gmail.com>
- <5f6f3513-82b5-5890-703b-e76d7890ae17@gmail.com>
+Return-Path: <SRS0=JJWl=5G=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=aMa/DDMI6x9cO7MtnqpZRTAQy6WL+FR6Ree8PWIjLao=;
+        b=iLB3nRilBJ9zN9jopI3TjcLjyvEnpqk1aj8b8m/aO6fNCS0vNqg3XUZ7oTB2Wv6nVC
+         N64DDSizzEgWt6yG67bX/NUMQKA8v/28Hdqen3+H9OHhZNE4pJRd6q6J/ydYbzG6Q3QG
+         it9f/JXU6M6HlypALiAM7idhiMWYTxUzjJkKxYkHxzICGIPMLIYdmpnGvARHwAZWcddg
+         mfXBo4JXwQJpYj6IZyavm8unBxzXSTbrbgf5YdCqqWqDGniBE1gLJJda/D4p1L0Js4ly
+         +kOjz+s448276mmLE81JZXfuRFDlz4DZVhoSTTOXI1voVwpb75y1gHtpL0PTuALQpEEw
+         CK7A==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [RFC NOT PULL] Add experimental target 'noqq' (sans inline Quick
+ Quizzes)
+Message-ID: <26b6add2-3819-dffe-38b1-d62a566e9a7b@gmail.com>
+Date: Sat, 21 Mar 2020 11:24:14 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5f6f3513-82b5-5890-703b-e76d7890ae17@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 11:48:48PM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> So this is the v2 of the "RFC NOT PULL".
-> This contains a single commit to add experimental targets "2cqq" and "1cqq".
-> It enables qqzbg (renamed from v1's bgqqz) in "msnt" and "1csf" as well.
-> 
-> Changes since v1:
-> 
-> * Rebased on current master.
-> * To clarify the corresponding official targets, add targets "2cqq" and "1cqq"
-> which uses the same fonts as "2c" and "1c".
-> 
-> Comments to the invitation message (just want to be sure):
-> 
-> > Subject: Experimental quick-quiz format at branch qqz.2020.03.14a
-> 
-> Whatever branch name here.
-> 
-> > 
-> > 	Hello!
-> > 
-> > 	Akira has created a couple of new perfbook build targets
-> > 	that use fancier formatting for quick quizzes.  You can
-> > 	build with this fanciness by checking out branch qqz.2020.03.14a
-> 
-> ditto.
-> 
-> > 	of the perfbook git archive [1], and then typing:
-> > 
-> > 		make msnt  # Double-column format
-> > 		make 1csf  # Single-column format
-> 
-> 		make 2cqq  # Double-column format
-> 		make 1cqq  # Single-column format
-> 
-> > 
-> > 	If you get a chance to do this and look it over, please let
-> > 	Akira and I know what you think.  Any reason not to make this
-> > 	format be the default for releases and editions?  (The reason
-> > 	not to it the default for normal "make" builds is that the
-> > 	price of the fanciness is a slower build time.)
-> > 
-> > 	Thoughts?
-> > 
-> > 							Thanx, Paul
-> > 
-> > 	[1] git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/perfbook.git
-> 
-> And please remove the old branch qqz.2020.03.14a from your tree to avoid
-> any confusion.
+Hi Paul,
 
-Done, and the new branch name is qqz.2020.03.17a, thank you!
+So this in an improved "noqq" relative to qqz.2020.03.17a.
+It presents anchors to Appendix E in framed boxes.
 
-							Thanx, Paul
+To display essential quizzes inline, I added additional macros to be
+used in the form of:
 
->         Thanks, Akira
-> --
-> The following changes since commit efba3f18f0f619bcf6e82352cf3cddb6f8e607cb:
-> 
->   defer/seqlock: Move figure env next to 1st paragraph (2020-03-16 09:08:42 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://github.com/akiyks/perfbook.git tags/for-paul-2020.03.17a
-> 
-> for you to fetch changes up to 01dcc70d3f66a1224ba63dc50bbe8370d3711c1b:
-> 
->   qqz.sty: Add background color to Quiz part of Quick Quizzes (2020-03-17 20:24:09 +0900)
-> 
-> ----------------------------------------------------------------
-> Akira Yokosawa (1):
->       qqz.sty: Add background color to Quiz part of Quick Quizzes
-> 
->  Makefile     | 12 +++++++++++-
->  perfbook.tex |  4 ++++
->  qqz.sty      | 31 ++++++++++++++++++++++++++++++-
->  3 files changed, 45 insertions(+), 2 deletions(-)
-> 
+    \EQuickQuiz{
+        quiz part
+    }\EQuickQuizAnswer{
+        answer part
+    }\EQuickQuizEnd
+
+
+To improve the looks of consecutive quizzes, I further added macros
+to be used for sequence of Quick Quizzes in the form of:
+
+    \QuickQuizSeries{%
+    \QuickQuizB{
+        quiz part 1
+    }\QuickQuizAnswerB{
+        answer part 1
+    }\QuickQuizEndB
+    %
+    \QuickQuizM{
+        quiz part 2
+    }\QuickQuizAnswerM{
+        answer part 2
+    }\QuickQuizEndM
+    %
+    \QuickQuizE{
+        quiz part 3
+    }\QuickQuizAnswerE{
+        answer part 3
+    }\QuickQuizEndE
+    }                 % end of \QuickQuizSeries
+
+As a PoC, I applied schemes above to count/count.tex.
+Does this amount of changes in .tex files look acceptable to you?
+
+If you think they are acceptable, I'll do the changes in other consecutive
+quick quizzes.
+
+Futher tuning of noqq's look can be done by tweaking qqz.sty. I think 
+"noqq" looks OK, though.
+
+Any feedback is welcome!
+
+        Thanks, Akira
+--
+The following changes since commit 01dcc70d3f66a1224ba63dc50bbe8370d3711c1b:
+
+  qqz.sty: Add background color to Quiz part of Quick Quizzes (2020-03-17 20:24:09 +0900)
+
+are available in the Git repository at:
+
+  https://github.com/akiyks/perfbook.git tags/for-paul-2020.03.21a
+
+for you to fetch changes up to 77e161e26d37453b751429799fd3c8b49cf7e0c9:
+
+  qqz.sty: Make noqq's Appendix E look same as that of 2cqq's (2020-03-21 10:53:16 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (3):
+      Add experimental target 'noqq' (sans inline Quick Quizzes)
+      Permit consecutive QQs to appear in a framed box
+      qqz.sty: Make noqq's Appendix E look same as that of 2cqq's
+
+ Makefile                |   5 +-
+ count/count.tex         | 270 ++++++++++++++++++++++++++----------------------
+ perfbook.tex            |   3 +
+ qqz.sty                 |  73 ++++++++++++-
+ utilities/extractqqz.sh |   8 +-
+ 5 files changed, 231 insertions(+), 128 deletions(-)
