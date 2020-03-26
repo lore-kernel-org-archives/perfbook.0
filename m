@@ -1,167 +1,131 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:56842 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726935AbgCZChX (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Wed, 25 Mar 2020 22:37:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585190243;
-        bh=oaNELz//uhH0QDeDprT5SLtxaLC9tGCciAhvg+0i+pw=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=QDfiT7R/dVQZYM8gZ0WVBOjCKOL+vhzpwYaa28NuCJDz4jdzNSbo2z0PRkJTer4d5
-         8SGZA0Xk42Rqr7dktlLW3qXz1c1banxK5+nh1Lc7RzdlyDdktmmf98ogbRUD3kZxXG
-         Iq6DcJ2oGbG1NRg+5RaQo0UtCL36e6MV2bknuIxQ=
-Date: Wed, 25 Mar 2020 19:37:22 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [RFC NOT PULL] Add experimental target 'noqq' (sans inline Quick
- Quizzes)
-Message-ID: <20200326023722.GI19865@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
+Return-Path: <SRS0=deQ9=5L=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7p6NtGjeEH364VtRsM0k6CqVZZo4uGjZTLkYr5cY0T4=;
+        b=b4yKXvsVrTAgaAWu4pdLUgK0/U6FY6KzBKlaMiPe/wvsWx9p8L1gueS6LnLiBG8q0a
+         JQiie/3Rp/jeulxyCm77KOVb5bBCsnRkj4B93Lw1L0XMxKs5nIUU63KTuXwpLw6C6Con
+         ka+wRvAdOumCsr52hVhHPmYT3IDs0sJT5tLfk1nOnYTeM0dxrP+hRaBNKPzuK7Q7R2gg
+         sCQcgHlS5n0fp8oljBSdQKbU/7PEnwttpoSsOr9qUlO4afQgmhm4jUfmv+3AkVjB+LpX
+         +0goDAq6T/eOZyv9Jeeb/kLACrO8iWmqu1gslb/SHrmtdKJquTgz0MysaW+5PtqGuTVr
+         wv4Q==
+Subject: [RFC PULL v2] Add experimental targets 'nq' and '1cnq' (sans inline
+ Quick Quizzes)
 References: <26b6add2-3819-dffe-38b1-d62a566e9a7b@gmail.com>
- <20200322182415.GD3199@paulmck-ThinkPad-P72>
- <1524bbf2-460c-7020-79b1-8ddfcfd830cf@gmail.com>
- <20200325161716.GR19865@paulmck-ThinkPad-P72>
- <536eee26-a672-9b38-e21d-fdef8ad685da@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <c74f4988-f95c-759f-5b37-56dc6f92ba07@gmail.com>
+Date: Fri, 27 Mar 2020 00:04:52 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <536eee26-a672-9b38-e21d-fdef8ad685da@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+In-Reply-To: <26b6add2-3819-dffe-38b1-d62a566e9a7b@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Mar 26, 2020 at 07:19:04AM +0900, Akira Yokosawa wrote:
-> On Wed, 25 Mar 2020 09:17:16 -0700, Paul E. McKenney wrote:
-> > On Thu, Mar 26, 2020 at 12:19:56AM +0900, Akira Yokosawa wrote:
-> >> On Sun, 22 Mar 2020 11:24:15 -0700, Paul E. McKenney wrote:
-> >>> On Sat, Mar 21, 2020 at 11:24:14AM +0900, Akira Yokosawa wrote:
-> >>>> Hi Paul,
-> >>>>
-> >>>> So this in an improved "noqq" relative to qqz.2020.03.17a.
-> >>>> It presents anchors to Appendix E in framed boxes.
-> >>>>
-> >>>> To display essential quizzes inline, I added additional macros to be
-> >>>> used in the form of:
-> >>>>
-> >>>>     \EQuickQuiz{
-> >>>>         quiz part
-> >>>>     }\EQuickQuizAnswer{
-> >>>>         answer part
-> >>>>     }\EQuickQuizEnd
-> >>>>
-> >>>>
-> >>>> To improve the looks of consecutive quizzes, I further added macros
-> >>>> to be used for sequence of Quick Quizzes in the form of:
-> >>>>
-> >>>>     \QuickQuizSeries{%
-> >>>>     \QuickQuizB{
-> >>>>         quiz part 1
-> >>>>     }\QuickQuizAnswerB{
-> >>>>         answer part 1
-> >>>>     }\QuickQuizEndB
-> >>>>     %
-> >>>>     \QuickQuizM{
-> >>>>         quiz part 2
-> >>>>     }\QuickQuizAnswerM{
-> >>>>         answer part 2
-> >>>>     }\QuickQuizEndM
-> >>>>     %
-> >>>>     \QuickQuizE{
-> >>>>         quiz part 3
-> >>>>     }\QuickQuizAnswerE{
-> >>>>         answer part 3
-> >>>>     }\QuickQuizEndE
-> >>>>     }                 % end of \QuickQuizSeries
-> >>>>
-> >>>> As a PoC, I applied schemes above to count/count.tex.
-> >>>> Does this amount of changes in .tex files look acceptable to you?
-> >>>>
-> >>>> If you think they are acceptable, I'll do the changes in other consecutive
-> >>>> quick quizzes.
-> >>>>
-> >>>> Futher tuning of noqq's look can be done by tweaking qqz.sty. I think 
-> >>>> "noqq" looks OK, though.
-> >>>>
-> >>>> Any feedback is welcome!
-> >>>
-> >>> These are now on branch qqz.2020.03.22a, which is on top of the earlier
-> >>> qqz.2020.03.17a.
-> >>>
-> >>> I do like the comma-separated list of quick-quiz IDs for the -noqq
-> >>> variant, and marking a few of the quizzes as "essential" makes sense.
-> >>>
-> >>> I believe that the churn should be fine in this case.  This does after
-> >>> all at least partially address a long-standing complaint from a small
-> >>> but noisy group of people.  ;-)
-> >>>
-> >>> Should the "hb" target also put boxes around the quick quizzes?
-> >>> (I freely confess to having lost track of what most of the targets do!)
-> >>
-> >> Prompted by this question, I was looking into the -hb build.
-> >> It turned out that the change made in commit 648af1774e3a ("Stop using
-> >> modified book.cls") I submitted back in April 2018 broke the -hb build
-> >> in that pdflatex generates PDF having page size of normal letterpaper.
-> >>
-> >> It looks like the letterpaperhb option needs to be in the modified
-> >> book.cls file.
-> >> As there was no complaint regarding this regression, I guess nobody
-> >> cares -hb build.
-> > 
-> > The only time I might have used it was when creating the hardbound
-> > version of the first edition.
-> > 
-> >> And I'm wondering how the -hb build is supposed to work.
-> >>
-> >> Do you choose paper of 10.75in x 8.25in in printing -hb PDF?
-> >> Or do you use normal letterpaper and cut edges by 0.25in afterwords?
-> > 
-> > I will know (hopefully) in a few months, once I have the remaining
-> > scalability results regenerated.  It might well be different this time,
-> > depending on what formatting options are available from whichever online
-> > printing service.
-> 
-> Ah, I see.
-> 
-> > 
-> > So I might be asking for your assistance at that point, in the all too
-> > likely event that I cannot figure it out on my own.  ;-)
-> 
-> So, I'll see what would be a proper way to add a customized paper size.
-> 
-> As for the addition of Quick Quiz annotation, one of your recent updates
-> conflicts with my working branch.
-> 
-> So please wait a while for another "[RFC NOT PULL]".
+Hi Paul,
 
-Or just send me the pull request and tell me which commit it is against.
-Then let me sort out the merge-conflict breakage.  I do have significant
-practice with this sort of task.  ;-)
+This is the rebased pull request of "noqq" branch.
+The conflict was easy to resolve.
+I added several commits since v1 (was [RFC NOT PULL]).
 
-							Thanx, Paul
+As this branch does not change any behavior of official targets,
+I think it is safe for you to pull if you'd like to.
 
-> >>>>         Thanks, Akira
-> >>>> --
-> >>>> The following changes since commit 01dcc70d3f66a1224ba63dc50bbe8370d3711c1b:
-> >>>>
-> >>>>   qqz.sty: Add background color to Quiz part of Quick Quizzes (2020-03-17 20:24:09 +0900)
-> >>>>
-> >>>> are available in the Git repository at:
-> >>>>
-> >>>>   https://github.com/akiyks/perfbook.git tags/for-paul-2020.03.21a
-> >>>>
-> >>>> for you to fetch changes up to 77e161e26d37453b751429799fd3c8b49cf7e0c9:
-> >>>>
-> >>>>   qqz.sty: Make noqq's Appendix E look same as that of 2cqq's (2020-03-21 10:53:16 +0900)
-> >>>>
-> >>>> ----------------------------------------------------------------
-> >>>> Akira Yokosawa (3):
-> >>>>       Add experimental target 'noqq' (sans inline Quick Quizzes)
-> >>>>       Permit consecutive QQs to appear in a framed box
-> >>>>       qqz.sty: Make noqq's Appendix E look same as that of 2cqq's
-> >>>>
-> >>>>  Makefile                |   5 +-
-> >>>>  count/count.tex         | 270 ++++++++++++++++++++++++++----------------------
-> >>>>  perfbook.tex            |   3 +
-> >>>>  qqz.sty                 |  73 ++++++++++++-
-> >>>>  utilities/extractqqz.sh |   8 +-
-> >>>>  5 files changed, 231 insertions(+), 128 deletions(-)
+Changes since v1:
+
+    Target name changes and additions:
+        - qq:    2c with framed Quick Quizzes (was 2cqq)
+        - 1cqq:  1c with framed Quick Quizzes
+        - nq:    2c without inline Quick Quizzes (was noqq)
+        - 1cnq:  1c without inline Quick Quizzes
+
+            Note: Existing targets for 2c layout do not have
+                  "2c" except for the default "2c".
+
+    Accuracy fix of cross links to framed Quick Quizzes
+
+    Treewide annotation of Quick Quizzes for nq build
+
+    Target names updates in synctex-forward.sh
+
+    Minor fixes in Quick Quizzes 5.49 and 5.52
+
+Try "make help" to see which target does what.
+
+Thanks, Akira
+
+PS:
+
+As for -hb build, I've found a clue to use "geometry" package as a
+workaround. It looks promising.
+
+Enabling qqzbg at release tags for official targets is next in my
+todo list.
+
+--
+The following changes since commit dcb1d4e43b2c1edba5a61bd0e63e0804478bf520:
+
+  toolsoftrade: Improve rwlockscale.sh sampling strategy (2020-03-25 07:14:47 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/akiyks/perfbook.git tags/for-paul-2020.03.26a
+
+for you to fetch changes up to 1dd2b89ab3e7bb64a380d7ccef7033757dd442ef:
+
+  Makefile: Add and rename targets for framed and no Quick Quizzes (2020-03-26 23:23:10 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (10):
+      qqz.sty: Add background color to Quiz part of Quick Quizzes
+      Add experimental target 'noqq' (sans inline Quick Quizzes)
+      Permit consecutive QQs to appear in a framed box
+      qqz.sty: Make noqq's Appendix E look same as that of 2cqq's
+      qqz.sty: Improve accuracy of cross links
+      treewide: Use macros for consecutive quick quizzes
+      synctex-forward: Add recently added targets
+      qqz.sty: Add comment on how to use new sets of macros
+      count: Wordsmith Quick Quizzes 5.49 and 5.52
+      Makefile: Add and rename targets for framed and no Quick Quizzes
+
+ Makefile                             |  34 ++++-
+ SMPdesign/SMPdesign.tex              |  16 +-
+ SMPdesign/partexercises.tex          |  32 ++--
+ advsync/rt.tex                       |  16 +-
+ appendix/toyrcu/toyrcu.tex           |  88 ++++++-----
+ appendix/whymb/whymemorybarriers.tex |  40 ++---
+ count/count.tex                      | 277 +++++++++++++++++++----------------
+ cpu/overheads.tex                    |  16 +-
+ datastruct/datastruct.tex            |  16 +-
+ debugging/debugging.tex              |  72 +++++----
+ defer/hazptr.tex                     |  16 +-
+ defer/rcuapi.tex                     |  32 ++--
+ defer/rcuexercises.tex               |  17 ++-
+ defer/rcufundamental.tex             |  16 +-
+ defer/rcuintro.tex                   |  32 ++--
+ defer/rcuusage.tex                   |  32 ++--
+ defer/refcnt.tex                     |  16 +-
+ defer/seqlock.tex                    |  40 ++---
+ formal/axiomatic.tex                 |  16 +-
+ formal/dyntickrcu.tex                |  48 +++---
+ formal/ppcmem.tex                    |  14 +-
+ formal/spinhint.tex                  |  33 +++--
+ future/formalregress.tex             |  32 ++--
+ future/htm.tex                       |  24 +--
+ howto/howto.tex                      |  24 +--
+ intro/intro.tex                      |  32 ++--
+ locking/locking-existence.tex        |  16 +-
+ locking/locking.tex                  |  48 +++---
+ memorder/memorder.tex                |  96 ++++++------
+ owned/owned.tex                      |  16 +-
+ perfbook.tex                         |   7 +
+ qqz.sty                              | 133 ++++++++++++++++-
+ together/refcnt.tex                  |  24 +--
+ toolsoftrade/toolsoftrade.tex        | 104 +++++++------
+ utilities/extractqqz.sh              |   8 +-
+ utilities/synctex-forward.sh         |   2 +-
+ 36 files changed, 892 insertions(+), 593 deletions(-)
+ 
