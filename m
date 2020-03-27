@@ -1,20 +1,23 @@
 Return-Path: <SRS0=2js+=5M=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=3KuX6HxQECkfWduUQ5/BOm41mWG5UCfNy6AiB9NFIHE=;
-        b=AD8Pl/8Wn12p3hVelhS6ASGxk7NUsSvL/pZ2BzEni1BCFviOMTZ5BEwllQlRyf8o9Y
-         jSCbsfWekFex6btoKS+KLGu4RfqB1fkjCE2UEjg6XrIh33iriImfcJft0iV9uiHrKKdJ
-         +5P9R48tgEv9cDHroREJN+FkGnqtJG8Ea7jVwF735GYFTp0gDbpQILwLOvMaYbzSkWs2
-         +R9BPSQZf6x7VMGrItPRNeoPgNdoV25AWcSps3XiW8yIPjjRRlk/NbA2B8NjJR+Y+t08
-         Cdlx89yEbIxwUqmaHadFwWJ1fqRGc3Krfs0KiW7gA9ZK3sbk9Sci4TWngP0la2Gn3pOo
-         dh1A==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=e79G8HcUBhQtJ0hzu1W3ysitePd+ILlnYEBuGcwXjxQ=;
+        b=E0ZkTFZsBejMIEj8WyotSFTtoA0HVNStC/yRvLe+OMq3XuLIDeRfRN7Y9IFP43l0h5
+         ZyA0F9QfR8eK8zp6ykVzqXGeB00uYFGvHWTc80HbFj4USqFslkQsFoAsvADpcQcn2vBa
+         Byf553bnmJFg2SqiYW9QNlXDNDEWcPmc7hOEXqQuzcZfIe16bDTpHU5Iy3NZYI4ygvAE
+         RZmeRqJ0Ds7zYxSla9e+l8ntEJcXHWn00t1QqZgqTbzrsk09XJzyaW905Ia9ZnVFlFyU
+         xIfrYxVTOB4zQnuYQhmIs8ofFZpBf3B4Hi3SHecNms8GvlDjxf3t8AzrA9x24PE40qQ7
+         smjg==
+Subject: [PATCH 1/4] FAQ-BUILD: Add entry on recent breakage in texlive update
+ on F31
+References: <58f67d0a-cd08-387c-bd69-5c53c8049c4a@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/4] Misc updates and fixes including 'make help' improvement
-Message-ID: <58f67d0a-cd08-387c-bd69-5c53c8049c4a@gmail.com>
-Date: Fri, 27 Mar 2020 20:20:20 +0900
+Message-ID: <a7878d89-15da-330a-87b7-25b18350839b@gmail.com>
+Date: Fri, 27 Mar 2020 20:21:41 +0900
 MIME-Version: 1.0
+In-Reply-To: <58f67d0a-cd08-387c-bd69-5c53c8049c4a@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,37 +25,42 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+From e34b39b60dcca460338cb310e38dbc13aa39c01a Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 23 Mar 2020 12:20:20 +0900
+Subject: [PATCH 1/4] FAQ-BUILD: Add entry on recent breakage in texlive update on F31
 
-This is a set of misc patches.
+This workaround was suggested in [1].
 
-Patch 1/4 adds an entry in FAQ-BUILD on an issue of Fedora 31.
+[1]: https://bugzilla.redhat.com/show_bug.cgi?id=1796550#c11
 
-Patch 2/4 fixes the paper size issue in -hb build using the
-"geometry" package.  At least we now know how to add a custom paper
-size without modifying book.cls.
-The tweaks of margins look somewhat ad hoc, and they are the result
-of a few tries and errors on my side.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ FAQ-BUILD.txt | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Patch 3/4 is a trivial typo fix.
-
-Patch 4/4 is the update of "make help" you suggested yesterday.
-
-        Thanks, Akira
---
-Akira Yokosawa (4):
-  FAQ-BUILD: Add entry on recent breakage in texlive update on F31
-  Fix paper size of -hb build
-  toolsoftrade: Fix trivial typo (api-pthreads.h)
-  Makefile: Show only official targets in 'make help'
-
- FAQ-BUILD.txt                 | 16 +++++++++++++++-
- Makefile                      | 24 +++++++++++++++---------
- perfbook.tex                  | 12 +++++++++---
- pfbook.cls                    |  9 ++-------
- toolsoftrade/toolsoftrade.tex |  2 +-
- 5 files changed, 42 insertions(+), 21 deletions(-)
-
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index b8ad20d8..6a1acff1 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -257,3 +257,16 @@
+ 
+ 		"make neatfreak; make" will rebuild all the figures.
+ 		The "-jN" option should accelerate the rebuild.
++
++13.	After updating texlive packages on Fedora 31, build fails with
++	the message from bibtex saying:
++
++		I found no \bibdata command---while reading file perfbook.aux
++		I found no \bibstyle command---while reading file perfbook.aux
++
++	Is there any workaround?
++
++	A.	Try rebuilding database files by the following commands:
++
++		    sudo updmap-sys --syncwithtrees --force
++		    sudo updmap-sys
 -- 
 2.17.1
+
 
