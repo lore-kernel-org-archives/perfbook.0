@@ -1,96 +1,99 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:36212 "EHLO mail.kernel.org"
+Received: from smtpbgsg2.qq.com ([54.254.200.128]:54628 "EHLO smtpbgsg2.qq.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725896AbgE1DAG (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Wed, 27 May 2020 23:00:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590634805;
-        bh=y/G1wgDS9gk4AsVT1kzljE9BB7FfxdQKkTlIDqxu7NQ=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=gk9VeZhigsCgVea0EvSrQljVsNuhMFahsm58xqhq/obVIKqVjhQVjxwIVkzLFK88q
-         0peIKep3R19i1+sJRHEBEEVC9bAHzA62Gjp4rohau+P1qcCgWIe/9WWp4jwmjeiCTR
-         k8b71McakVgkomc1xNjVYLG1eLMzGDVZzIeJDkS0=
-Date: Wed, 27 May 2020 20:00:05 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 2/2] CodeSamples/formal/herd/absperf-reduce: Enforce
- compare as number
-Message-ID: <20200528030005.GD2869@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <7dea1e63-95bf-8d5b-dca2-47e741a5ed48@gmail.com>
- <8c68598d-847a-81c8-4612-66f957627601@gmail.com>
- <20200528005015.GC2869@paulmck-ThinkPad-P72>
- <9d294bb4-ea3f-34d7-a8b6-0825e033b15f@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9d294bb4-ea3f-34d7-a8b6-0825e033b15f@gmail.com>
+        id S1725813AbgE3Kgs (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Sat, 30 May 2020 06:36:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+        s=s201512; t=1590834999;
+        bh=gaOyaA/K8pMIW52MLWntUZscfL599nC4CXckcfDcCjA=;
+        h=From:To:Subject:Mime-Version:Date:Message-ID;
+        b=sN1xFu0N1hthPQd9qmwN5gpFRpi4nXDzMsrogbwymIBXmAzrya6rSpGcn4eX5h30e
+         pqKu+8FLT7fhHOp9MbEBOHdoSIayKU2jOHpzsId0OOngZITnwYTIud/dRakrsI+SLx
+         Meo3GhlEUE3IcQoZinAtJhyfM4/llSDtAHA7eu40=
+From: "=?utf-8?B?bGFva3o=?=" <laokz@foxmail.com>
+Subject: Re: how to understand cpu in-order commit
+Mime-Version: 1.0
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: base64
+Date: Sat, 30 May 2020 18:36:37 +0800
+Message-ID: <tencent_6DF95DF59D4DE5B8B0784806C6A5BD6DE308@qq.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: =?utf-8?B?cGF1bG1jaw==?= <paulmck@kernel.org>
+Cc: =?utf-8?B?cGVyZmJvb2s=?= <perfbook@vger.kernel.org>
 
-On Thu, May 28, 2020 at 10:05:06AM +0900, Akira Yokosawa wrote:
-> On Wed, 27 May 2020 17:50:15 -0700, Paul E. McKenney wrote:
-> > On Thu, May 28, 2020 at 07:44:11AM +0900, Akira Yokosawa wrote:
-> >> >From 213bf072d15dfc3dce36b51a8bc1d35bd78e6609 Mon Sep 17 00:00:00 2001
-> >> From: Akira Yokosawa <akiyks@gmail.com>
-> >> Date: Thu, 28 May 2020 07:25:04 +0900
-> >> Subject: [PATCH 2/2] CodeSamples/formal/herd/absperf-reduce: Enforce compare as number
-> >>
-> >> When there are differences in the number of digits in runtime,
-> >> absperf-reduce.sh miscalculates min and max values and shows strange
-> >> results such as:
-> >>
-> >>     C-SB+l-o-o-u+l-o-o-u+l-o-o-u-XE.litmus 13.255 11.81 9.64
-> >>                                            (avr)  (min) (max)
-> >>
-> >> Fix this by adding 0 on both sides of comparison and enforce conversion
-> >> to numbers.  After this change:
-> >>
-> >>     C-SB+l-o-o-u+l-o-o-u+l-o-o-u-XE.litmus 13.255 9.23 15.77
-> >>
-> >> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> > 
-> > Applied and pushed both, thank you!
-> > 
-> > Did any of these runtime errors make their way into the tables in
-> > the text?
-> 
-> I don't think so.  Tables 17.4 and E.5 present averages only.
-> 
-> I spotted them while I did some absperf runs to compare herd7 7.52 and
-> herd7 HEAD during discussions with Andrii.
+SGVsbG8gUGF1bCwKClRoaXMgaXMgYSBiaXQgbG9uZ2VyIHN0b3J5LCBJIGFtIHN0aWxsIHNl
+YXJjaGluZyBhbmQgc3R1Y2sgaW4gdGhlIG1pc3Q6LSkKSG9wZSB0byBnZXQgbGlnaHQgZnJv
+bSB5b3UuIFRoYW5rcyEKCkkgY29tbWVudGVkIG91dCBzbWJfbWIoKSBmcm9tIHRvb2xzL21l
+bW9yeS1tb2RlbC9saXRtdXMtCnRlc3RzL0xCK2ZlbmNlbWJvbmNlb25jZStjdHJsb25jZW9u
+Y2UubGl0bXVzLgoKUDAoaW50ICp4LCBpbnQgKnkpCnsKCWludCByMDsKCglyMCA9IFJFQURf
+T05DRSgqeCk7CglpZiAocjApCgkJV1JJVEVfT05DRSgqeSwgMSk7Cn0KClAxKGludCAqeCwg
+aW50ICp5KQp7CglpbnQgcjA7CgoJcjAgPSBSRUFEX09OQ0UoKnkpOwovLwlzbXBfbWIoKTsK
+CVdSSVRFX09OQ0UoKngsIDEpOwp9CgpBbmQgY29uZnVzZWQgYnkgdGhhdCBMS01NIHNhaWQg
+aXQgZXhpc3RlZCBQMDpyMD0xIC9cIFAxOnIwPTEKCkkgd2FudCB0byBjbGVhciB0aGVzZSBx
+dWVzdGlvbnM6CgoxLiBJcyB0aGVyZSAnb3V0LW9mLW9yZGVyIGNvbW1pdC9yZXRpcmVtZW50
+JyBDUFUgYW1vbmcgbGludXggc3VwcG9ydGVkCmFyY2hpdGVjdHVyZXM/IElmIHllcywgd2hp
+Y2ggb25lPyBhbmQgdGhlbiB0aGUgZm9sbG93aW5nIGlzIHRyaXZpYWwuCgoyLiBSRUFEX09O
+Q0UsIFdSSVRFX09OQ0UgYXNzdXJlIGNvbXBpbGVyIHJlc3BlY3QgcHJvZ3JhbSBvcmRlci4K
+SWYgUDA6cjA9MSwgdGhlbiBpdCBtdXN0IGhhdmUgb2JzZXJ2ZWQgUDEgd3JpdGUgdG8geCh3
+YWxsIHRpbWUgYWhlYWQgUDA6cjApLgpJZiBQMSB3cml0ZSB0byB4IGhhcHBlbmVkKGNvbW1p
+dHRlZCwgc28gdmlzaWJsZSB0byBvdXRzaWRlKSwgdGhlbiBpdHMgcmVhZApmcm9tIHkgbXVz
+dCBoYXBwZW5lZCBiZWZvcmUsIGJlY2F1c2UgY3B1J3MgaW4tb3JkZXIgY29tbWl0L3JldGly
+ZW1lbnQKcmVzdHJpY3Rpb24od2FsbCB0aW1lIGFoZWFkIFAxOndyaXRlKS4gClRoZW4gaG93
+IHRoZSBtb3N0IGVhcmxpZXIgUDE6cjAgdG8gZ2V0IHZhbHVlIDE/CgpUaGFua3MgYWdhaW4s
+Cmxhb2t6CgpPbiAyMDE5LTExLTE5IFR1ZSAxMzoxMSAtMDgwMO+8jFBhdWwgRS4gTWNLZW5u
+ZXkgd3JvdGXvvJoKPiBPbiBUdWUsIE5vdiAxOSwgMjAxOSBhdCAxMTo0NTowM1BNICswODAw
+LCBsYW9reiB3cm90ZToKPiA+IEhlbGxvIHBhdWwsCj4gPiAKPiA+IOWcqCAyMDE5LTExLTE5
+5LqM55qEIDA2OjQ0IC0wODAw77yMUGF1bCBFLiBNY0tlbm5leeWGmemBk++8mgo+ID4gPiBP
+biBUdWUsIE5vdiAxOSwgMjAxOSBhdCAxMDoxMTo0OFBNICswODAwLCBsYW9reiB3cm90ZToK
+PiA+ID4gPiBCdXQgd29uZGVyIGhvdyBhYm91dCBjcHUgaW4tb3JkZXIgY29tbWl0LiBTbyBJ
+IHJlbW92ZWQgc21wX21iKCksIHRoZQo+ID4gPiA+IGxpdG11cwo+ID4gPiA+IHRlc3Qgc2hv
+d2VkIHRoZSByZXN1bHQgZXhpc3QhIFRoaXMgY29uZnVzZWQgbWUuIEluIG15IHVuZGVyc3Rh
+bmRpbmcsCj4gPiA+ID4gY3B1Cj4gPiA+ID4gaW4tCj4gPiA+ID4gb3JkZXIgY29tbWl0IG1l
+YW5zIG91dC1vZi1vcmRlci1leGVjdXRpb24gcmVzdWx0cyBjb21taXQgdG8KPiA+ID4gPiBy
+ZWdpc3Rlci9tZW1vcnkKPiA+ID4gPiBpbiBjb21waWxlZCBwcm9ncmFtIG9yZGVyLiBUaGF0
+IGlzIGNwdSBQMSBtdXN0IHJldGlyZSByMD15IGZpcnN0Cj4gPiA+ID4gdGhlbgo+ID4gPiA+
+IHg9MSwKPiA+ID4gPiB0aHVzIFAwIGNhbiBzZWUgUDEncyB1cGRhdGUgb2YgeC4gU28gUDEn
+cyByMCBzaG91bGQgbmV2ZXIgYmUgMS4KPiA+ID4gPiAKPiA+ID4gPiBJcyB0aGlzIGNhdXNl
+ZCBieSBMS01NJ3MgY29tcGF0aWJpbGl0eSB3aXRoIG91dC1vZi1vcmRlciBjb21taXQKPiA+
+ID4gPiBhcmNoaXRlY3R1cmVzPyBPciB3aGF0J3Mgd3Jvbmcgd2l0aCBtZT8KPiA+ID4gCj4g
+PiA+IE5vdGhpbmcgaXMgd3Jvbmcgd2l0aCB5b3UuICBZb3UgYXJlIGp1c3QgZ29pbmcgdGhy
+b3VnaCBhIGNvbW1vbiBwaGFzZQo+ID4gPiBpbiBsZWFybmluZyBhYm91dCBtZW1vcnkgbW9k
+ZWxzLiAgOy0pCj4gPiA+IAo+ID4gPiBTbyB5b3UgbW9kaWZpZWQgUDEoKSBhcyBmb2xsb3dz
+LCBjb3JyZWN0Pwo+ID4gPiAKPiA+ID4gCVAxKGludCAqeCwgaW50ICp5KQo+ID4gPiAJewo+
+ID4gPiAJCWludCByMDsKPiA+ID4gCj4gPiA+IAkJcjAgPSBSRUFEX09OQ0UoKnkpOwo+ID4g
+PiAJCVdSSVRFX09OQ0UoKngsIDEpOwo+ID4gPiAJfQo+ID4gPiAKPiA+ID4gVGhlIGNvbXBp
+bGVyIGlzIGZyZWUgdG8gcmVhcnJhbmdlIHRoaXMgY29kZSBhcyBmb2xsb3dzOgo+ID4gPiAK
+PiA+ID4gCVAxKGludCAqeCwgaW50ICp5KQo+ID4gPiAJewo+ID4gPiAJCWludCByMDsKPiA+
+ID4gCj4gPiA+IAkJV1JJVEVfT05DRSgqeCwgMSk7Cj4gPiA+IAkJcjAgPSBSRUFEX09OQ0Uo
+KnkpOwo+ID4gPiAJfQo+ID4gPiAKPiA+ID4gVGhpcyBjYW4gY2xlYXJseSBzYXRpc2Z5IHRo
+ZSBleGlzdHMgY2xhdXNlOiAgUDEoKSBkb2VzIGl0cyB3cml0ZSwKPiA+ID4gUDAoKSBkb2Vz
+IGl0cyByZWFkIGFuZCBpdHMgd3JpdGUsIGFuZCBmaW5hbGx5IFAxKCkgZG9lcyBpdHMgcmVh
+ZC4KPiA+IAo+ID4gQ29tcGlsZXIgaXMgb25lIGJpZyBkZWFsLiBJdCBzZWVtcyB0aGF0IHNl
+bGRvbSBjb21waWxlcnMgb2JleSBDMTEKPiA+IHN0YW5kYXJkIHN0cmljdGx5LiAiQWNjZXNz
+ZXMgdG8gdm9sYXRpbGUgb2JqZWN0cyBhcmUgZXZhbHVhdGVkIHN0cmljdGx5Cj4gPiBhY2Nv
+cmRpbmcgdG8gdGhlIHJ1bGVzIG9mIHRoZSBhYnN0cmFjdCBtYWNoaW5lLiIgYXQgbGVhc3Qg
+bWVhbnMgdGhleQo+ID4gc2hvdWxkCj4gPiBub3QgY2hhbmdlIHRoZSBzZXF1ZW5jZSBwb2lu
+dC4KPiAKPiBZZXMsIHlvdSBhcmUgcmlnaHQsIHRoZSB2b2xhdGlsZSBuYXR1cmUgb2YgUkVB
+RF9PTkNFKCkgYW5kIFdSSVRFX09OQ0UoKQo+IHdvdWxkIHByb2hpYml0IHRoZSByZW9yZGVy
+aW5nIGFib3ZlLiAgT24gdGhlIG90aGVyIGhhbmQsIHRoZSBDKysxMQo+IHN0YW5kYXJkIHJl
+YWxseSBkb2VzIGFsbG93IHJlbGF4ZWQgYXRvbWljIGxvYWRzIGFuZCBzdG9yZXMgdG8gYmUK
+PiByZW9yZGVyZWQuICBBbmQgc2luY2UgSSB3YXMgYXQgYSBDKysgc3RhbmRhcmRzIGNvbW1p
+dHRlZSBhIGZldyB3ZWVrcwo+IGFnbywgSSBoYWQgcmVsYXhlZCBhdG9taWNzIG9uIG15IGJy
+YWluLiAgQXBvbG9naWVzIGZvciBteSBjb25mdXNpb24uCj4gCj4gPiA+IEJ1dCBzdXBwb3Nl
+IHdlIHByZXZlbnRlZCB0aGUgY29tcGlsZXIgZnJvbSBtb3ZpbmcgdGhlIGNvZGU6Cj4gPiA+
+IAo+ID4gPiAJUDEoaW50ICp4LCBpbnQgKnkpCj4gPiA+IAl7Cj4gPiA+IAkJaW50IHIwOwo+
+ID4gPiAKPiA+ID4gCQlyMCA9IFJFQURfT05DRSgqeSk7Cj4gPiA+IAkJYmFycmllcigpOwo+
+ID4gPiAJCVdSSVRFX09OQ0UoKngsIDEpOwo+ID4gPiAJfQo+ID4gPiAKPiA+ID4gVGhlbiwg
+YXMgeW91IHNheSwgd2Vha2x5IG9yZGVyZWQgQ1BVcyBtaWdodCBzdGlsbCByZW9yZGVyIFAx
+KCkncwo+ID4gPiByZWFkIGFuZCB3cml0ZS4gIFNvIExLTU0gbXVzdCBzdGlsbCBzYXkgdGhh
+dCB0aGUgZXhpc3RzIGNsYXVzZSBpcwo+ID4gPiBzYXRpc2ZpZWQuCj4gPiAKPiA+IExlZ2Fj
+eSByZXNvdXJjZSBpcyBhbm90aGVyIGJpZyBkZWFsLgo+IAo+IEkgd2lsbCBsZXQgeW91IGFy
+Z3VlIHRoZSAiTGVnYWN5IHJlc291cmNlIiBwb2ludCB3aXRoIHRoZSB2ZW5kb3JzIHN0aWxs
+Cj4gc2VsbGluZyB3ZWFrbHkgb3JkZXJlZCBDUFVzLiAgOy0pCj4gCj4gPiBUaGFua3MgeW91
+ciBxdWljayByZXBseS4gSXQgcmVhbGx5IGNsZWFycyBteSBoZWFkLgo+IAo+IDstKSA7LSkg
+Oy0pCj4gCj4gCQkJCQkJCVRoYW54LCBQYXVsCj4=
 
-Thank you for checking, and either way, good eyes!
 
-							Thanx, Paul
 
->         Thanks, Akira
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> >> ---
-> >>  CodeSamples/formal/herd/absperf-reduce.sh | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/CodeSamples/formal/herd/absperf-reduce.sh b/CodeSamples/formal/herd/absperf-reduce.sh
-> >> index 0c338b8b..9cf52182 100644
-> >> --- a/CodeSamples/formal/herd/absperf-reduce.sh
-> >> +++ b/CodeSamples/formal/herd/absperf-reduce.sh
-> >> @@ -16,9 +16,9 @@ awk '
-> >>  		gsub(/user .*$/, "", curtesttime);
-> >>  		testtime_n[curtest]++;
-> >>  		testtime_sum[curtest] += curtesttime;
-> >> -		if (testtime_max[curtest] == "" || curtesttime > testtime_max[curtest])
-> >> +		if (testtime_max[curtest] == "" || curtesttime + 0 > testtime_max[curtest] + 0)
-> >>  			testtime_max[curtest] = curtesttime;
-> >> -		if (testtime_min[curtest] == "" || curtesttime < testtime_min[curtest])
-> >> +		if (testtime_min[curtest] == "" || curtesttime + 0 < testtime_min[curtest] + 0)
-> >>  			testtime_min[curtest] = curtesttime;
-> >>  	}
-> >>  }
-> >> -- 
-> >> 2.17.1
-> >>
-> >>
