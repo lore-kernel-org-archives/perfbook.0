@@ -1,99 +1,191 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from smtpbgsg2.qq.com ([54.254.200.128]:54628 "EHLO smtpbgsg2.qq.com"
+Received: from mail.kernel.org ([198.145.29.99]:42914 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725813AbgE3Kgs (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sat, 30 May 2020 06:36:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1590834999;
-        bh=gaOyaA/K8pMIW52MLWntUZscfL599nC4CXckcfDcCjA=;
-        h=From:To:Subject:Mime-Version:Date:Message-ID;
-        b=sN1xFu0N1hthPQd9qmwN5gpFRpi4nXDzMsrogbwymIBXmAzrya6rSpGcn4eX5h30e
-         pqKu+8FLT7fhHOp9MbEBOHdoSIayKU2jOHpzsId0OOngZITnwYTIud/dRakrsI+SLx
-         Meo3GhlEUE3IcQoZinAtJhyfM4/llSDtAHA7eu40=
-From: "=?utf-8?B?bGFva3o=?=" <laokz@foxmail.com>
+        id S1726860AbgE3Mn0 (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Sat, 30 May 2020 08:43:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590842605;
+        bh=MH05WzJZHFNwb3D8P6Z1kg5TJkYGVOSJmMJA4EeIK4I=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=1UkOsNcmHRpJVcgcWbzl6RgWMtJDsx1v+VZubQHKSTY7FvZCqqOhGu36SITrTg1zh
+         9vr/reBkLXT5yCh597TLyUgSv40P1zRF9fr/Xfe8an+QUGOkd0i7qUoeEMlMR+8gau
+         w3vWtXZtAprIJy7BqPVEW2Prk7CmVGxGKUjUdObI=
+Date: Sat, 30 May 2020 05:43:25 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
 Subject: Re: how to understand cpu in-order commit
-Mime-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Sat, 30 May 2020 18:36:37 +0800
-Message-ID: <tencent_6DF95DF59D4DE5B8B0784806C6A5BD6DE308@qq.com>
+Message-ID: <20200530124325.GI2869@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <tencent_6DF95DF59D4DE5B8B0784806C6A5BD6DE308@qq.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <tencent_6DF95DF59D4DE5B8B0784806C6A5BD6DE308@qq.com>
 Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: =?utf-8?B?cGF1bG1jaw==?= <paulmck@kernel.org>
-Cc: =?utf-8?B?cGVyZmJvb2s=?= <perfbook@vger.kernel.org>
+To: laokz <laokz@foxmail.com>
+Cc: perfbook <perfbook@vger.kernel.org>
 
-SGVsbG8gUGF1bCwKClRoaXMgaXMgYSBiaXQgbG9uZ2VyIHN0b3J5LCBJIGFtIHN0aWxsIHNl
-YXJjaGluZyBhbmQgc3R1Y2sgaW4gdGhlIG1pc3Q6LSkKSG9wZSB0byBnZXQgbGlnaHQgZnJv
-bSB5b3UuIFRoYW5rcyEKCkkgY29tbWVudGVkIG91dCBzbWJfbWIoKSBmcm9tIHRvb2xzL21l
-bW9yeS1tb2RlbC9saXRtdXMtCnRlc3RzL0xCK2ZlbmNlbWJvbmNlb25jZStjdHJsb25jZW9u
-Y2UubGl0bXVzLgoKUDAoaW50ICp4LCBpbnQgKnkpCnsKCWludCByMDsKCglyMCA9IFJFQURf
-T05DRSgqeCk7CglpZiAocjApCgkJV1JJVEVfT05DRSgqeSwgMSk7Cn0KClAxKGludCAqeCwg
-aW50ICp5KQp7CglpbnQgcjA7CgoJcjAgPSBSRUFEX09OQ0UoKnkpOwovLwlzbXBfbWIoKTsK
-CVdSSVRFX09OQ0UoKngsIDEpOwp9CgpBbmQgY29uZnVzZWQgYnkgdGhhdCBMS01NIHNhaWQg
-aXQgZXhpc3RlZCBQMDpyMD0xIC9cIFAxOnIwPTEKCkkgd2FudCB0byBjbGVhciB0aGVzZSBx
-dWVzdGlvbnM6CgoxLiBJcyB0aGVyZSAnb3V0LW9mLW9yZGVyIGNvbW1pdC9yZXRpcmVtZW50
-JyBDUFUgYW1vbmcgbGludXggc3VwcG9ydGVkCmFyY2hpdGVjdHVyZXM/IElmIHllcywgd2hp
-Y2ggb25lPyBhbmQgdGhlbiB0aGUgZm9sbG93aW5nIGlzIHRyaXZpYWwuCgoyLiBSRUFEX09O
-Q0UsIFdSSVRFX09OQ0UgYXNzdXJlIGNvbXBpbGVyIHJlc3BlY3QgcHJvZ3JhbSBvcmRlci4K
-SWYgUDA6cjA9MSwgdGhlbiBpdCBtdXN0IGhhdmUgb2JzZXJ2ZWQgUDEgd3JpdGUgdG8geCh3
-YWxsIHRpbWUgYWhlYWQgUDA6cjApLgpJZiBQMSB3cml0ZSB0byB4IGhhcHBlbmVkKGNvbW1p
-dHRlZCwgc28gdmlzaWJsZSB0byBvdXRzaWRlKSwgdGhlbiBpdHMgcmVhZApmcm9tIHkgbXVz
-dCBoYXBwZW5lZCBiZWZvcmUsIGJlY2F1c2UgY3B1J3MgaW4tb3JkZXIgY29tbWl0L3JldGly
-ZW1lbnQKcmVzdHJpY3Rpb24od2FsbCB0aW1lIGFoZWFkIFAxOndyaXRlKS4gClRoZW4gaG93
-IHRoZSBtb3N0IGVhcmxpZXIgUDE6cjAgdG8gZ2V0IHZhbHVlIDE/CgpUaGFua3MgYWdhaW4s
-Cmxhb2t6CgpPbiAyMDE5LTExLTE5IFR1ZSAxMzoxMSAtMDgwMO+8jFBhdWwgRS4gTWNLZW5u
-ZXkgd3JvdGXvvJoKPiBPbiBUdWUsIE5vdiAxOSwgMjAxOSBhdCAxMTo0NTowM1BNICswODAw
-LCBsYW9reiB3cm90ZToKPiA+IEhlbGxvIHBhdWwsCj4gPiAKPiA+IOWcqCAyMDE5LTExLTE5
-5LqM55qEIDA2OjQ0IC0wODAw77yMUGF1bCBFLiBNY0tlbm5leeWGmemBk++8mgo+ID4gPiBP
-biBUdWUsIE5vdiAxOSwgMjAxOSBhdCAxMDoxMTo0OFBNICswODAwLCBsYW9reiB3cm90ZToK
-PiA+ID4gPiBCdXQgd29uZGVyIGhvdyBhYm91dCBjcHUgaW4tb3JkZXIgY29tbWl0LiBTbyBJ
-IHJlbW92ZWQgc21wX21iKCksIHRoZQo+ID4gPiA+IGxpdG11cwo+ID4gPiA+IHRlc3Qgc2hv
-d2VkIHRoZSByZXN1bHQgZXhpc3QhIFRoaXMgY29uZnVzZWQgbWUuIEluIG15IHVuZGVyc3Rh
-bmRpbmcsCj4gPiA+ID4gY3B1Cj4gPiA+ID4gaW4tCj4gPiA+ID4gb3JkZXIgY29tbWl0IG1l
-YW5zIG91dC1vZi1vcmRlci1leGVjdXRpb24gcmVzdWx0cyBjb21taXQgdG8KPiA+ID4gPiBy
-ZWdpc3Rlci9tZW1vcnkKPiA+ID4gPiBpbiBjb21waWxlZCBwcm9ncmFtIG9yZGVyLiBUaGF0
-IGlzIGNwdSBQMSBtdXN0IHJldGlyZSByMD15IGZpcnN0Cj4gPiA+ID4gdGhlbgo+ID4gPiA+
-IHg9MSwKPiA+ID4gPiB0aHVzIFAwIGNhbiBzZWUgUDEncyB1cGRhdGUgb2YgeC4gU28gUDEn
-cyByMCBzaG91bGQgbmV2ZXIgYmUgMS4KPiA+ID4gPiAKPiA+ID4gPiBJcyB0aGlzIGNhdXNl
-ZCBieSBMS01NJ3MgY29tcGF0aWJpbGl0eSB3aXRoIG91dC1vZi1vcmRlciBjb21taXQKPiA+
-ID4gPiBhcmNoaXRlY3R1cmVzPyBPciB3aGF0J3Mgd3Jvbmcgd2l0aCBtZT8KPiA+ID4gCj4g
-PiA+IE5vdGhpbmcgaXMgd3Jvbmcgd2l0aCB5b3UuICBZb3UgYXJlIGp1c3QgZ29pbmcgdGhy
-b3VnaCBhIGNvbW1vbiBwaGFzZQo+ID4gPiBpbiBsZWFybmluZyBhYm91dCBtZW1vcnkgbW9k
-ZWxzLiAgOy0pCj4gPiA+IAo+ID4gPiBTbyB5b3UgbW9kaWZpZWQgUDEoKSBhcyBmb2xsb3dz
-LCBjb3JyZWN0Pwo+ID4gPiAKPiA+ID4gCVAxKGludCAqeCwgaW50ICp5KQo+ID4gPiAJewo+
-ID4gPiAJCWludCByMDsKPiA+ID4gCj4gPiA+IAkJcjAgPSBSRUFEX09OQ0UoKnkpOwo+ID4g
-PiAJCVdSSVRFX09OQ0UoKngsIDEpOwo+ID4gPiAJfQo+ID4gPiAKPiA+ID4gVGhlIGNvbXBp
-bGVyIGlzIGZyZWUgdG8gcmVhcnJhbmdlIHRoaXMgY29kZSBhcyBmb2xsb3dzOgo+ID4gPiAK
-PiA+ID4gCVAxKGludCAqeCwgaW50ICp5KQo+ID4gPiAJewo+ID4gPiAJCWludCByMDsKPiA+
-ID4gCj4gPiA+IAkJV1JJVEVfT05DRSgqeCwgMSk7Cj4gPiA+IAkJcjAgPSBSRUFEX09OQ0Uo
-KnkpOwo+ID4gPiAJfQo+ID4gPiAKPiA+ID4gVGhpcyBjYW4gY2xlYXJseSBzYXRpc2Z5IHRo
-ZSBleGlzdHMgY2xhdXNlOiAgUDEoKSBkb2VzIGl0cyB3cml0ZSwKPiA+ID4gUDAoKSBkb2Vz
-IGl0cyByZWFkIGFuZCBpdHMgd3JpdGUsIGFuZCBmaW5hbGx5IFAxKCkgZG9lcyBpdHMgcmVh
-ZC4KPiA+IAo+ID4gQ29tcGlsZXIgaXMgb25lIGJpZyBkZWFsLiBJdCBzZWVtcyB0aGF0IHNl
-bGRvbSBjb21waWxlcnMgb2JleSBDMTEKPiA+IHN0YW5kYXJkIHN0cmljdGx5LiAiQWNjZXNz
-ZXMgdG8gdm9sYXRpbGUgb2JqZWN0cyBhcmUgZXZhbHVhdGVkIHN0cmljdGx5Cj4gPiBhY2Nv
-cmRpbmcgdG8gdGhlIHJ1bGVzIG9mIHRoZSBhYnN0cmFjdCBtYWNoaW5lLiIgYXQgbGVhc3Qg
-bWVhbnMgdGhleQo+ID4gc2hvdWxkCj4gPiBub3QgY2hhbmdlIHRoZSBzZXF1ZW5jZSBwb2lu
-dC4KPiAKPiBZZXMsIHlvdSBhcmUgcmlnaHQsIHRoZSB2b2xhdGlsZSBuYXR1cmUgb2YgUkVB
-RF9PTkNFKCkgYW5kIFdSSVRFX09OQ0UoKQo+IHdvdWxkIHByb2hpYml0IHRoZSByZW9yZGVy
-aW5nIGFib3ZlLiAgT24gdGhlIG90aGVyIGhhbmQsIHRoZSBDKysxMQo+IHN0YW5kYXJkIHJl
-YWxseSBkb2VzIGFsbG93IHJlbGF4ZWQgYXRvbWljIGxvYWRzIGFuZCBzdG9yZXMgdG8gYmUK
-PiByZW9yZGVyZWQuICBBbmQgc2luY2UgSSB3YXMgYXQgYSBDKysgc3RhbmRhcmRzIGNvbW1p
-dHRlZSBhIGZldyB3ZWVrcwo+IGFnbywgSSBoYWQgcmVsYXhlZCBhdG9taWNzIG9uIG15IGJy
-YWluLiAgQXBvbG9naWVzIGZvciBteSBjb25mdXNpb24uCj4gCj4gPiA+IEJ1dCBzdXBwb3Nl
-IHdlIHByZXZlbnRlZCB0aGUgY29tcGlsZXIgZnJvbSBtb3ZpbmcgdGhlIGNvZGU6Cj4gPiA+
-IAo+ID4gPiAJUDEoaW50ICp4LCBpbnQgKnkpCj4gPiA+IAl7Cj4gPiA+IAkJaW50IHIwOwo+
-ID4gPiAKPiA+ID4gCQlyMCA9IFJFQURfT05DRSgqeSk7Cj4gPiA+IAkJYmFycmllcigpOwo+
-ID4gPiAJCVdSSVRFX09OQ0UoKngsIDEpOwo+ID4gPiAJfQo+ID4gPiAKPiA+ID4gVGhlbiwg
-YXMgeW91IHNheSwgd2Vha2x5IG9yZGVyZWQgQ1BVcyBtaWdodCBzdGlsbCByZW9yZGVyIFAx
-KCkncwo+ID4gPiByZWFkIGFuZCB3cml0ZS4gIFNvIExLTU0gbXVzdCBzdGlsbCBzYXkgdGhh
-dCB0aGUgZXhpc3RzIGNsYXVzZSBpcwo+ID4gPiBzYXRpc2ZpZWQuCj4gPiAKPiA+IExlZ2Fj
-eSByZXNvdXJjZSBpcyBhbm90aGVyIGJpZyBkZWFsLgo+IAo+IEkgd2lsbCBsZXQgeW91IGFy
-Z3VlIHRoZSAiTGVnYWN5IHJlc291cmNlIiBwb2ludCB3aXRoIHRoZSB2ZW5kb3JzIHN0aWxs
-Cj4gc2VsbGluZyB3ZWFrbHkgb3JkZXJlZCBDUFVzLiAgOy0pCj4gCj4gPiBUaGFua3MgeW91
-ciBxdWljayByZXBseS4gSXQgcmVhbGx5IGNsZWFycyBteSBoZWFkLgo+IAo+IDstKSA7LSkg
-Oy0pCj4gCj4gCQkJCQkJCVRoYW54LCBQYXVsCj4=
+On Sat, May 30, 2020 at 06:36:37PM +0800, laokz wrote:
+> Hello Paul,
+> 
+> This is a bit longer story, I am still searching and stuck in the mist:-)
+> Hope to get light from you. Thanks!
+> 
+> I commented out smb_mb() from tools/memory-model/litmus-
+> tests/LB+fencembonceonce+ctrlonceonce.litmus.
+> 
+> P0(int *x, int *y)
+> {
+> 	int r0;
+> 
+> 	r0 = READ_ONCE(*x);
+> 	if (r0)
+> 		WRITE_ONCE(*y, 1);
+> }
+> 
+> P1(int *x, int *y)
+> {
+> 	int r0;
+> 
+> 	r0 = READ_ONCE(*y);
+> //	smp_mb();
+> 	WRITE_ONCE(*x, 1);
+> }
+> 
+> And confused by that LKMM said it existed P0:r0=1 /\ P1:r0=1
+> 
+> I want to clear these questions:
+> 
+> 1. Is there 'out-of-order commit/retirement' CPU among linux supported
+> architectures? If yes, which one? and then the following is trivial.
 
+The powerpc architecture allows prior reads to be reordered with
+subsequent writes.  To see this, point your browser here:
 
+	https://www.cl.cam.ac.uk/~pes20/ppcmem/index.html#PPC
 
+And "Select POWER Test" LB -> ctrl+po.  You will then have this:
+
+	PC LB+ctrl+po
+	"DpCtrldW Rfe PodRW Rfe"
+	Cycle=Rfe PodRW Rfe DpCtrldW
+	{
+	0:r2=x; 0:r4=y;
+	1:r2=y; 1:r4=x;
+	}
+	 P0           | P1           ;
+	 lwz r1,0(r2) | lwz r1,0(r2) ;
+	 cmpw r1,r1   | li r3,1      ;
+	 beq  LC00    | stw r3,0(r4) ;
+	 LC00:        |              ;
+	 li r3,1      |              ;
+	 stw r3,0(r4) |              ;
+	exists
+	(0:r1=1 /\ 1:r1=1)
+
+You then should be able to easily force the P0:r0=1 /\ P1:r0=1 after
+clicking on the "Interactive" button.  (Hint: First commit Thread 1's
+"li" instruction, then its "stw" instruction, then all of Thread 0's
+instructions, and then Thread 1's remaining "lwz" instruction.)
+
+> 2. READ_ONCE, WRITE_ONCE assure compiler respect program order.
+> If P0:r0=1, then it must have observed P1 write to x(wall time ahead P0:r0).
+> If P1 write to x happened(committed, so visible to outside), then its read
+> from y must happened before, because cpu's in-order commit/retirement
+> restriction(wall time ahead P1:write). 
+> Then how the most earlier P1:r0 to get value 1?
+
+On powerpc architecture, it can.  But don't take my word for it, try
+it out on the website listed above.  ;-)
+
+							Thanx, Paul
+
+> Thanks again,
+> laokz
+> 
+> On 2019-11-19 Tue 13:11 -0800，Paul E. McKenney wrote：
+> > On Tue, Nov 19, 2019 at 11:45:03PM +0800, laokz wrote:
+> > > Hello paul,
+> > > 
+> > > 在 2019-11-19二的 06:44 -0800，Paul E. McKenney写道：
+> > > > On Tue, Nov 19, 2019 at 10:11:48PM +0800, laokz wrote:
+> > > > > But wonder how about cpu in-order commit. So I removed smp_mb(), the
+> > > > > litmus
+> > > > > test showed the result exist! This confused me. In my understanding,
+> > > > > cpu
+> > > > > in-
+> > > > > order commit means out-of-order-execution results commit to
+> > > > > register/memory
+> > > > > in compiled program order. That is cpu P1 must retire r0=y first
+> > > > > then
+> > > > > x=1,
+> > > > > thus P0 can see P1's update of x. So P1's r0 should never be 1.
+> > > > > 
+> > > > > Is this caused by LKMM's compatibility with out-of-order commit
+> > > > > architectures? Or what's wrong with me?
+> > > > 
+> > > > Nothing is wrong with you.  You are just going through a common phase
+> > > > in learning about memory models.  ;-)
+> > > > 
+> > > > So you modified P1() as follows, correct?
+> > > > 
+> > > > 	P1(int *x, int *y)
+> > > > 	{
+> > > > 		int r0;
+> > > > 
+> > > > 		r0 = READ_ONCE(*y);
+> > > > 		WRITE_ONCE(*x, 1);
+> > > > 	}
+> > > > 
+> > > > The compiler is free to rearrange this code as follows:
+> > > > 
+> > > > 	P1(int *x, int *y)
+> > > > 	{
+> > > > 		int r0;
+> > > > 
+> > > > 		WRITE_ONCE(*x, 1);
+> > > > 		r0 = READ_ONCE(*y);
+> > > > 	}
+> > > > 
+> > > > This can clearly satisfy the exists clause:  P1() does its write,
+> > > > P0() does its read and its write, and finally P1() does its read.
+> > > 
+> > > Compiler is one big deal. It seems that seldom compilers obey C11
+> > > standard strictly. "Accesses to volatile objects are evaluated strictly
+> > > according to the rules of the abstract machine." at least means they
+> > > should
+> > > not change the sequence point.
+> > 
+> > Yes, you are right, the volatile nature of READ_ONCE() and WRITE_ONCE()
+> > would prohibit the reordering above.  On the other hand, the C++11
+> > standard really does allow relaxed atomic loads and stores to be
+> > reordered.  And since I was at a C++ standards committee a few weeks
+> > ago, I had relaxed atomics on my brain.  Apologies for my confusion.
+> > 
+> > > > But suppose we prevented the compiler from moving the code:
+> > > > 
+> > > > 	P1(int *x, int *y)
+> > > > 	{
+> > > > 		int r0;
+> > > > 
+> > > > 		r0 = READ_ONCE(*y);
+> > > > 		barrier();
+> > > > 		WRITE_ONCE(*x, 1);
+> > > > 	}
+> > > > 
+> > > > Then, as you say, weakly ordered CPUs might still reorder P1()'s
+> > > > read and write.  So LKMM must still say that the exists clause is
+> > > > satisfied.
+> > > 
+> > > Legacy resource is another big deal.
+> > 
+> > I will let you argue the "Legacy resource" point with the vendors still
+> > selling weakly ordered CPUs.  ;-)
+> > 
+> > > Thanks your quick reply. It really clears my head.
+> > 
+> > ;-) ;-) ;-)
+> > 
+> > 							Thanx, Paul
+> >
