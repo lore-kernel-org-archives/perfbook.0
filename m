@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=I4uEzHtw835Dz4jGo7nq+P24oqPvi3PQfZFOvK29jaM=;
-        b=T3fHjQwNr8UhoqznjC9WY7JtUpbdptHjf6QmO/hsQD4wucrq7I3v/kO4r5BMX4vpgu
-         aQ6aECL/WY76XfV855Z1wilSEDWu/6y4lHy4jxHzyssYczyPYJhniarYjxm0Vh7LFkOm
-         GtkJSZf2/V3k4U3jwHGBBU5a7O+OtvHIiJDlbNY9qwhQHC7FpRUzBhyl3K7aIwag7Gie
-         369K0vl9wLWxo2wee0i1Gp5U5zwkiK6lYIcZJUXnFhD9y3pXz82GW1l+SZhfH4UQhKrg
-         7wocnNTyKwRK5YNJmfUOP8hd8UlDC+xEjK+MA6JNbJbRLo+r+JtkThoE1lTyGxHjxvKl
-         oYvw==
-Subject: [PATCH 1/3] defer: Annotate consecutive QQZs as such for 'nq' build
+        bh=i4svXAgMQWdxzX9LL/CFnQpWof2iy4yCOIQJfEpr/0A=;
+        b=GUcLJ9B6Ow6YHsQUx6VDzSsobD3W1oRYBx8Jhvmd0dd9ZzJioEaEzjC7dW5SwME3M8
+         0rprzklWpainBcqOpEOK2bk8uMq+tqL0mXHVgFbLbdfPUrNNf/YGrXTdm8rdDZgn7VG+
+         UjYUGkoaUzq+WAuOgqFwENzecvCYtWwnyVCdmImzihU7x0SPigL41tYoKQ6xIAFQNC+5
+         Nc3kTqcgDmXZYwMuMRg2ndZgijVMEidJsEKXwWqedLA/VmvAJIDSC2uonHFDJ/fPibqT
+         gw+p+0lMjS4OW23FHGXqrTnMNAqWGEZ5tCRnfjPR8r0Vg/VqBtAwuFxUDfBT5PEvCJwK
+         JBtQ==
+Subject: [PATCH 2/3] FAQ.txt: Advertise 'nq' build in #9
 References: <64483a19-eee6-f406-7456-01feb232d019@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <c420be56-61b9-04c4-cae8-3242833da973@gmail.com>
-Date: Sun, 31 May 2020 09:32:00 +0900
+Message-ID: <63fc56b1-dea0-e21e-7cac-6b1c11160623@gmail.com>
+Date: Sun, 31 May 2020 09:33:58 +0900
 MIME-Version: 1.0
 In-Reply-To: <64483a19-eee6-f406-7456-01feb232d019@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,79 +24,38 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From ff1d191e40f23f5a0200ee3bbabe2073a6c03394 Mon Sep 17 00:00:00 2001
+From 4c3ca479e8aeb16fee229d9d52eb30b42c7618cc Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 31 May 2020 08:12:02 +0900
-Subject: [PATCH 1/3] defer: Annotate consecutive QQZs as such for 'nq' build
+Date: Sun, 31 May 2020 08:16:33 +0900
+Subject: [PATCH 2/3] FAQ.txt: Advertise 'nq' build in #9
+
+The experimental target "nq" can be a partial solution for those
+who don't like Quick Quizzes.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- defer/rcuusage.tex | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ FAQ.txt | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
-index d5329a39..72c1f331 100644
---- a/defer/rcuusage.tex
-+++ b/defer/rcuusage.tex
-@@ -241,12 +241,13 @@ reader-writer locking are shown in
- Figure~\ref{fig:defer:Performance Advantage of RCU Over Reader-Writer Locking},
- which was generated on a 448-CPU 2.10\,GHz Intel x86 system.
+diff --git a/FAQ.txt b/FAQ.txt
+index e63117af..a284615f 100644
+--- a/FAQ.txt
++++ b/FAQ.txt
+@@ -158,8 +158,12 @@
  
--\QuickQuiz{
-+\QuickQuizSeries{%
-+\QuickQuizB{
- 	WTF?
- 	How the heck do you expect me to believe that RCU can have less
- 	than a 300-picosecond overhead when the clock period at 2.10\,GHz
- 	is almost 500\,picoseconds?
--}\QuickQuizAnswer{
-+}\QuickQuizAnswerB{
- 	First, consider that the inner loop used to
- 	take this measurement is as follows:
+ 	A.	Quite a few people like them a lot, so they will be
+ 		staying.  However, you can easily produce a copy of the
+-		book that omits the Quick Quizzes by editing the Makefile
+-		and qqz.sty files in the top-level directory.
++		book that hides the quiz part of Quick Quizzes in the
++		text by "make nq".
++
++		If the resulting perfbook-nq.pdf does not satisfy you,
++		you can edit the Makefile and qqz.sty files in the
++		top-level directory as you like.
  
-@@ -290,13 +291,13 @@ which was generated on a 448-CPU 2.10\,GHz Intel x86 system.
- 
- 	It certainly is not just every day that a timing measurement
- 	of 267 picoseconds turns out to be an overestimate!
--}\QuickQuizEnd
-+}\QuickQuizEndB
- 
--\QuickQuiz{
-+\QuickQuizM{
- 	Didn't an earlier release of this book show RCU read-side
- 	overhead way down in the sub-picosecond range?
- 	What happened???
--}\QuickQuizAnswer{
-+}\QuickQuizAnswerM{
- 	Excellent memory!!!
- 	The overhead in some early releases was in fact roughly
- 	100~femtoseconds.
-@@ -328,12 +329,12 @@ which was generated on a 448-CPU 2.10\,GHz Intel x86 system.
- 	So which change had the most effect, Linus's commit or the change in
- 	the system?
- 	This question is left as an exercise to the reader.
--}\QuickQuizEnd
-+}\QuickQuizEndM
- 
--\QuickQuiz{
-+\QuickQuizE{
- 	Why is there such large variation for the \co{rcu} trace in
- 	Figure~\ref{fig:defer:Performance Advantage of RCU Over Reader-Writer Locking}?
--}\QuickQuizAnswer{
-+}\QuickQuizAnswerE{
- 	Keep in mind that this is a log-log plot, so those large-seeming
- 	\co{rcu} variances in reality span only a few hundred picoseconds.
- 	And that is such a short time that anything could cause it.
-@@ -347,7 +348,8 @@ which was generated on a 448-CPU 2.10\,GHz Intel x86 system.
- 	Attempting to reduce these variations by running the guest OSes
- 	at real-time priority (as suggested by Joel Fernandes) is left
- 	as an exercise for the reader.
--}\QuickQuizEnd
-+}\QuickQuizEndE
-+}                 % End of \QuickQuizSeries
- 
- Note that reader-writer locking is more than an order of magnitude slower
- than RCU on a single CPU, and is more than \emph{four} orders of magnitude
+ 		One approach is to make the "\QuickQuiz" command in
+ 		qqz.sty be a no-op and to add line to the Makefile that
 -- 
 2.17.1
 
