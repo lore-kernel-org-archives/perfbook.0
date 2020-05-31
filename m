@@ -1,128 +1,75 @@
-Return-Path: <SRS0=wHCD=7N=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YH0HbZOCu5KCdwaYDxN83pJ75IX2egCnMnyVMfChX3A=;
-        b=DgwxckEoje61lcYf0UogVdQaaEdTxAOkzpZvz5/bOBVMwb4DyxPyEyXrW+ozvhPM3W
-         CFnS1rjsxmA54IOaA6LBzOPKNnEY2B/7QPTB7UfJ3P9DOJJ2ngyWBni+B7Bi9/ZHgGSO
-         B6L+gz6TNmd5GO3LxRROlaNzn8d09RFLBvoT5RJOkN6ahVDIOsAWxfRn19qxkTRdEzO/
-         t1z+276K/ZaXC0R1AToDt7yaQe5znvshFJCHAY6tYzWT/a8Rqa6YjZkGW4cCqJooTr63
-         RgzqZ2KMxdvVHpVkKvefguQAtK17XuLgXPIuGpaKN9lx+jqeIiE4WzCWdGWWkI+9J9MF
-         7/bw==
-Subject: [PATCH 3/3] runlatex.sh: Give up early on undefined refs
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:53558 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725912AbgEaQuY (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Sun, 31 May 2020 12:50:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590943824;
+        bh=gpJhpc3HaJlrooyo6mt9vf0Y5kVQACqz0GC3ERSszYw=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=Y7+MeZQMbLfmfhAubAur8l8fhoZT2RU/UeODBAsT9RP095imQWLvnAF4WMKJksEP0
+         F9cVDZ0DYDn6BdhC/4A4AB81bjOv0sO7qVTcJa0em+ICMB6ZcIaDSq8227MLq6tyzL
+         IWutb7s8ouaSB9hY32z07OteP++qWF5YJIZdg6Go=
+Date: Sun, 31 May 2020 09:50:23 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH 0/3] defer: misc updates
+Message-ID: <20200531165023.GL2869@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 References: <64483a19-eee6-f406-7456-01feb232d019@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <1a1cc3cf-a557-bb04-1569-e68ee95f9951@gmail.com>
-Date: Sun, 31 May 2020 09:35:35 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <64483a19-eee6-f406-7456-01feb232d019@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 073429a7f9e68b4b7f51c9b766bf8aa24da83081 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 31 May 2020 08:18:34 +0900
-Subject: [PATCH 3/3] runlatex.sh: Give up early on undefined refs
+On Sun, May 31, 2020 at 09:30:44AM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> This is misc updates in response to your recent updates.
+> 
+> Patch 1/3 treats QQZ annotations for "nq" build.
 
-Successive "undefined refs"s mean true missing/misspelled labels/refs.
+Good reminder, thank you!
 
-Add code to detect second "undefined refs" and to give up early.
+> Patch 2/3 adds a paragraph in #9 of FAQ.txt.  The wording may need
+> your retouch for fluency.
+> Patch 3/3 is an independent improvement of runlatex.sh.  It will avoid
+> a few redundant runs of pdflatex when you have some typo in labels/refs.
 
-Also add code to skip an unnecessary pdflatex run when .aux and
-.bbl files are up-to-date.
-This can happen when you run "make" after removing perfbook.pdf,
-e.g., with a different LATEX_OPT setting.
+Nice, queued and pushed, thank you!
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- utilities/runlatex.sh | 42 +++++++++++++++++++++++++-----------------
- 1 file changed, 25 insertions(+), 17 deletions(-)
+> Another suggestion to Figures 9.25 and 9.29.
+> Wouldn't these graphs look better with log scale x-axis?
+> 
+> X range can be 0.001 -- 10.
+> 
+> You'll need to add a few data points in sub-microsecond critical-section
+> duration to show plausible shapes in those regions, though.
 
-diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
-index 2aef9e2c..9687be95 100644
---- a/utilities/runlatex.sh
-+++ b/utilities/runlatex.sh
-@@ -51,6 +51,18 @@ identical_warnings () {
- 	return 1 ;
- }
- 
-+exerpt_warnings () {
-+	if grep -q "LaTeX Warning:" $basename.log
-+	then
-+		echo "----- Excerpt around remaining warning messages -----"
-+		grep -B 8 -A 5 "LaTeX Warning:" $basename.log | tee $basename-warning.log
-+		echo "----- You can see $basename-warning.log for the warnings above. -----"
-+		echo "----- If you need to, see $basename.log for details. -----"
-+		rm -f $basename-warning-prev.log
-+		exit 1
-+	fi
-+}
-+
- iterate_latex () {
- 	pdflatex $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null || :
- 	if grep -q '! Emergency stop.' $basename.log
-@@ -83,26 +95,30 @@ basename=`echo $1 | sed -e 's/\.tex$//'`
- 
- if ! test -r $basename-first.log
- then
--	if ! sh utilities/mpostcheck.sh
--	then
--		exit 1
--	fi
-+	echo "No need to update aux and bbl files."
- 	echo "pdflatex 1 for $basename.pdf"
--	iterate_latex
-+	iter=1
-+else
-+	rm -f $basename-first.log
-+	echo "pdflatex 2 for $basename.pdf # for possible bib update"
-+	iter=2
- fi
--rm -f $basename-first.log
--iter=2
--echo "pdflatex 2 for $basename.pdf # for possible bib update"
- iterate_latex
- min_iter=2
- while grep -q 'LaTeX Warning: There were undefined references' $basename.log
- do
-+	if test $undefined_refs
-+	then
-+		echo "Undefined refs remain, giving up."
-+		exerpt_warnings
-+	fi
- 	if identical_warnings
- 	then
- 		break
- 	fi
- 	iter=`expr $iter + 1`
- 	echo "pdflatex $iter for $basename.pdf # remaining undefined refs"
-+	undefined_refs=1
- 	iterate_latex
- done
- min_iter=3
-@@ -116,15 +132,7 @@ do
- 	echo "pdflatex $iter for $basename.pdf # label(s) may have changed"
- 	iterate_latex
- done
--if grep -q "LaTeX Warning:" $basename.log
--then
--	echo "----- Excerpt around remaining warning messages -----"
--	grep -B 8 -A 5 "LaTeX Warning:" $basename.log | tee $basename-warning.log
--	echo "----- You can see $basename-warning.log for the warnings above. -----"
--	echo "----- If you need to, see $basename.log for details. -----"
--	rm -f $basename-warning-prev.log
--	exit 1
--fi
-+exerpt_warnings
- rm -f $basename-warning.log $basename-warning-prev.log
- echo "'$basename.pdf' is ready."
- # cleveref version check (Ubuntu 18.04 LTS has buggy one
--- 
-2.17.1
+I took a quick look and didn't find any nanosecond delay primitives
+in the Linux kernel, but yes, that would be nicer looking.
 
+I don't expect to make further progress on this particular graph
+in the immediate future, but if you know of such a delay primitive,
+please don't keep it a secret!  ;-)
 
+						Thanx, Paul
+
+>         Thanks, Akira
+> --
+> Akira Yokosawa (3):
+>   defer: Annotate consecutive QQZs as such for 'nq' build
+>   FAQ.txt: Advertise 'nq' build in #9
+>   runlatex.sh: Give up early on undefined refs
+> 
+>  FAQ.txt               |  8 ++++++--
+>  defer/rcuusage.tex    | 20 +++++++++++---------
+>  utilities/runlatex.sh | 42 +++++++++++++++++++++++++-----------------
+>  3 files changed, 42 insertions(+), 28 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
