@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=i4svXAgMQWdxzX9LL/CFnQpWof2iy4yCOIQJfEpr/0A=;
-        b=GUcLJ9B6Ow6YHsQUx6VDzSsobD3W1oRYBx8Jhvmd0dd9ZzJioEaEzjC7dW5SwME3M8
-         0rprzklWpainBcqOpEOK2bk8uMq+tqL0mXHVgFbLbdfPUrNNf/YGrXTdm8rdDZgn7VG+
-         UjYUGkoaUzq+WAuOgqFwENzecvCYtWwnyVCdmImzihU7x0SPigL41tYoKQ6xIAFQNC+5
-         Nc3kTqcgDmXZYwMuMRg2ndZgijVMEidJsEKXwWqedLA/VmvAJIDSC2uonHFDJ/fPibqT
-         gw+p+0lMjS4OW23FHGXqrTnMNAqWGEZ5tCRnfjPR8r0Vg/VqBtAwuFxUDfBT5PEvCJwK
-         JBtQ==
-Subject: [PATCH 2/3] FAQ.txt: Advertise 'nq' build in #9
+        bh=YH0HbZOCu5KCdwaYDxN83pJ75IX2egCnMnyVMfChX3A=;
+        b=DgwxckEoje61lcYf0UogVdQaaEdTxAOkzpZvz5/bOBVMwb4DyxPyEyXrW+ozvhPM3W
+         CFnS1rjsxmA54IOaA6LBzOPKNnEY2B/7QPTB7UfJ3P9DOJJ2ngyWBni+B7Bi9/ZHgGSO
+         B6L+gz6TNmd5GO3LxRROlaNzn8d09RFLBvoT5RJOkN6ahVDIOsAWxfRn19qxkTRdEzO/
+         t1z+276K/ZaXC0R1AToDt7yaQe5znvshFJCHAY6tYzWT/a8Rqa6YjZkGW4cCqJooTr63
+         RgzqZ2KMxdvVHpVkKvefguQAtK17XuLgXPIuGpaKN9lx+jqeIiE4WzCWdGWWkI+9J9MF
+         7/bw==
+Subject: [PATCH 3/3] runlatex.sh: Give up early on undefined refs
 References: <64483a19-eee6-f406-7456-01feb232d019@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <63fc56b1-dea0-e21e-7cac-6b1c11160623@gmail.com>
-Date: Sun, 31 May 2020 09:33:58 +0900
+Message-ID: <1a1cc3cf-a557-bb04-1569-e68ee95f9951@gmail.com>
+Date: Sun, 31 May 2020 09:35:35 +0900
 MIME-Version: 1.0
 In-Reply-To: <64483a19-eee6-f406-7456-01feb232d019@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,38 +24,104 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 4c3ca479e8aeb16fee229d9d52eb30b42c7618cc Mon Sep 17 00:00:00 2001
+From 073429a7f9e68b4b7f51c9b766bf8aa24da83081 Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Sun, 31 May 2020 08:16:33 +0900
-Subject: [PATCH 2/3] FAQ.txt: Advertise 'nq' build in #9
+Date: Sun, 31 May 2020 08:18:34 +0900
+Subject: [PATCH 3/3] runlatex.sh: Give up early on undefined refs
 
-The experimental target "nq" can be a partial solution for those
-who don't like Quick Quizzes.
+Successive "undefined refs"s mean true missing/misspelled labels/refs.
+
+Add code to detect second "undefined refs" and to give up early.
+
+Also add code to skip an unnecessary pdflatex run when .aux and
+.bbl files are up-to-date.
+This can happen when you run "make" after removing perfbook.pdf,
+e.g., with a different LATEX_OPT setting.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- FAQ.txt | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ utilities/runlatex.sh | 42 +++++++++++++++++++++++++-----------------
+ 1 file changed, 25 insertions(+), 17 deletions(-)
 
-diff --git a/FAQ.txt b/FAQ.txt
-index e63117af..a284615f 100644
---- a/FAQ.txt
-+++ b/FAQ.txt
-@@ -158,8 +158,12 @@
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index 2aef9e2c..9687be95 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -51,6 +51,18 @@ identical_warnings () {
+ 	return 1 ;
+ }
  
- 	A.	Quite a few people like them a lot, so they will be
- 		staying.  However, you can easily produce a copy of the
--		book that omits the Quick Quizzes by editing the Makefile
--		and qqz.sty files in the top-level directory.
-+		book that hides the quiz part of Quick Quizzes in the
-+		text by "make nq".
++exerpt_warnings () {
++	if grep -q "LaTeX Warning:" $basename.log
++	then
++		echo "----- Excerpt around remaining warning messages -----"
++		grep -B 8 -A 5 "LaTeX Warning:" $basename.log | tee $basename-warning.log
++		echo "----- You can see $basename-warning.log for the warnings above. -----"
++		echo "----- If you need to, see $basename.log for details. -----"
++		rm -f $basename-warning-prev.log
++		exit 1
++	fi
++}
 +
-+		If the resulting perfbook-nq.pdf does not satisfy you,
-+		you can edit the Makefile and qqz.sty files in the
-+		top-level directory as you like.
+ iterate_latex () {
+ 	pdflatex $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null || :
+ 	if grep -q '! Emergency stop.' $basename.log
+@@ -83,26 +95,30 @@ basename=`echo $1 | sed -e 's/\.tex$//'`
  
- 		One approach is to make the "\QuickQuiz" command in
- 		qqz.sty be a no-op and to add line to the Makefile that
+ if ! test -r $basename-first.log
+ then
+-	if ! sh utilities/mpostcheck.sh
+-	then
+-		exit 1
+-	fi
++	echo "No need to update aux and bbl files."
+ 	echo "pdflatex 1 for $basename.pdf"
+-	iterate_latex
++	iter=1
++else
++	rm -f $basename-first.log
++	echo "pdflatex 2 for $basename.pdf # for possible bib update"
++	iter=2
+ fi
+-rm -f $basename-first.log
+-iter=2
+-echo "pdflatex 2 for $basename.pdf # for possible bib update"
+ iterate_latex
+ min_iter=2
+ while grep -q 'LaTeX Warning: There were undefined references' $basename.log
+ do
++	if test $undefined_refs
++	then
++		echo "Undefined refs remain, giving up."
++		exerpt_warnings
++	fi
+ 	if identical_warnings
+ 	then
+ 		break
+ 	fi
+ 	iter=`expr $iter + 1`
+ 	echo "pdflatex $iter for $basename.pdf # remaining undefined refs"
++	undefined_refs=1
+ 	iterate_latex
+ done
+ min_iter=3
+@@ -116,15 +132,7 @@ do
+ 	echo "pdflatex $iter for $basename.pdf # label(s) may have changed"
+ 	iterate_latex
+ done
+-if grep -q "LaTeX Warning:" $basename.log
+-then
+-	echo "----- Excerpt around remaining warning messages -----"
+-	grep -B 8 -A 5 "LaTeX Warning:" $basename.log | tee $basename-warning.log
+-	echo "----- You can see $basename-warning.log for the warnings above. -----"
+-	echo "----- If you need to, see $basename.log for details. -----"
+-	rm -f $basename-warning-prev.log
+-	exit 1
+-fi
++exerpt_warnings
+ rm -f $basename-warning.log $basename-warning-prev.log
+ echo "'$basename.pdf' is ready."
+ # cleveref version check (Ubuntu 18.04 LTS has buggy one
 -- 
 2.17.1
 
