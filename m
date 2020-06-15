@@ -1,126 +1,95 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:33952 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726611AbgFGSk7 (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sun, 7 Jun 2020 14:40:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591555258;
-        bh=nX0ZMaXA8yqYexIV1BNy4Shu7Q8pbk2Ni8hmPnySfbI=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=SKbnZFVt7Gj0z96FBvXeqV5q7qbpY8mF9ogl23p0NmCUrA5009KSuHK7qNsz3Edn4
-         CiyGw5FYiXA7pwzzE57VJuSmV0XgfVHUusdlm7eIg8cUg8IwLEpteEMEMTckq4uXF5
-         T4a5ZFsSA5bp4yCf4x5absEsjHTOmAW43amx5FVA=
-Date: Sun, 7 Jun 2020 11:40:58 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] defer/rcuusage: Fix minor issues
-Message-ID: <20200607184058.GF4455@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <13411f41-7969-541d-485c-73aad77f9674@gmail.com>
+Return-Path: <SRS0=eYHJ=74=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=s9RkO1f75pBVr398H/ZuBzdbBc3tEGYg8owPg8mvCVE=;
+        b=S+RMSjKi1F8221UhGsXhwDuQV5j0qJWdOOyyPLj4sUnvddijO+MLuAdbGvpz/HsAzo
+         cV4YDsz6Y8ZX3ymCPNaEA1ML9trwDuxBb2C7+E+j6HAQaHNEJn61MnzbQ3xlCtOo20Lo
+         Avcltu8Ah6ggtZJXSATlwUKbQwczxpsmjBmIin1x9WCx2R8FfJC+oyxMM/2epDvelniD
+         GJyGtAEAV1i70KD/TNrc1AI083vQF63/zvZRos4pZjihOmICSROAejNUB8bnlK2RMGSZ
+         7taNun99vcOdxhVMikVuqut4ATKv0cZAb9AandUpiApSTUcWF26dclMCNJkAZgsctU1J
+         Hv7w==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 1/2] bib/RCU: Use short-cut URL of git.kernel.org/linus/
+Message-ID: <277f0200-992e-7ebb-5389-418859f0f90e@gmail.com>
+Date: Tue, 16 Jun 2020 00:11:37 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <13411f41-7969-541d-485c-73aad77f9674@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Jun 07, 2020 at 07:29:00PM +0900, Akira Yokosawa wrote:
-> >From c1abebc5482939250f26cb46f4f915ddb6e9b2d5 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Sun, 7 Jun 2020 19:06:25 +0900
-> Subject: [PATCH] defer/rcuusage: Fix minor issues
-> 
-> Fix minor issues in recently updated rcuusage section including:
-> 
->     o Use of nbsp
->     o Order of references to figures
->     o A couple of typo
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+From c03e0aa0d7a8ad1b561f5069bbd963457f9561ea Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 14 Jun 2020 13:29:07 +0900
+Subject: [PATCH 1/2] bib/RCU: Use short-cut URL of git.kernel.org/linus/
 
-Good eyes!  Applied and pushed, thank you!
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ bib/RCU.bib | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-							Thanx, Paul
+diff --git a/bib/RCU.bib b/bib/RCU.bib
+index f3474b6e..f3aefda7 100644
+--- a/bib/RCU.bib
++++ b/bib/RCU.bib
+@@ -1280,7 +1280,7 @@ Revised:
+  day="17",
+  year="2007",
+  note="Git commit:
+-\url{https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=97b430320ce7}",
++\url{https://git.kernel.org/linus/97b430320ce7}",
+  lastchecked="December 17, 2017",
+ }
+ 
+@@ -1364,7 +1364,7 @@ lot of {Linux} into your technology!!!",
+  day="19",
+  year="2008",
+  note="Git commit:
+-\url{https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ae66be9b71b1}",
++\url{https://git.kernel.org/linus/ae66be9b71b1}",
+  lastchecked="April 6, 2019",
+ }
+ 
+@@ -1386,7 +1386,7 @@ lot of {Linux} into your technology!!!",
+  day="12",
+  year="2008",
+  note="Git commit:
+-\url{https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d7c0651390b6}",
++\url{https://git.kernel.org/linus/d7c0651390b6}",
+  lastchecked="April 6, 2019",
+ }
+ 
+@@ -1409,7 +1409,7 @@ lot of {Linux} into your technology!!!",
+  day="11",
+  year="2008",
+  note="Git commit:
+-\url{https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9c3cdc1f83a6}",
++\url{https://git.kernel.org/linus/9c3cdc1f83a6}",
+  lastchecked="December 17, 2017",
+ }
+ 
+@@ -1496,7 +1496,7 @@ lot of {Linux} into your technology!!!",
+  day="18",
+  year="2008",
+  note="Git commit:
+-\url{https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=64db4cfff99c}",
++\url{https://git.kernel.org/linus/64db4cfff99c}",
+  lastchecked="April 15, 2019",
+ }
+ 
+@@ -3130,7 +3130,7 @@ Andrew Hunter and Geoffrey Romer and Lance Roy",
+  day="27",
+  year="2017",
+  note="Git commit:
+-\url{https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b899a850431e}",
++\url{https://git.kernel.org/linus/b899a850431e}",
+  lastchecked="December 17, 2017",
+ }
+ 
+-- 
+2.17.1
 
-> ---
->  defer/rcuusage.tex | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
-> index 55771415..d90ab2b3 100644
-> --- a/defer/rcuusage.tex
-> +++ b/defer/rcuusage.tex
-> @@ -105,9 +105,9 @@ and especially
->  Figure~\ref{fig:defer:QSBR: Waiting for Pre-Existing Readers},
->  for a discussion of RCU QSBR.)
->  
-> -The answer to this shown in
-> +The answer to this is shown in
->  Figure~\ref{fig:defer:Pre-BSD Routing Table Protected by RCU QSBR},
-> -which shows that RCU QSBR's performance and scalability actuaally exceeds
-> +which shows that RCU QSBR's performance and scalability actually exceeds
->  that of the ideal synchronization-free workload.
->  
->  \QuickQuizSeries{%
-> @@ -356,7 +356,7 @@ than RCU on a single CPU, and is more than \emph{four} orders of magnitude
->  slower on 192~CPUs.
->  In contrast, RCU scales quite well.
->  In both cases, the error bars cover the full range of the measurements
-> -from 30 runs, with the line being the median.
-> +from 30~runs, with the line being the median.
->  
->  \begin{figure}[tb]
->  \centering
-> @@ -394,8 +394,8 @@ The error bars span the full range of data.
->  \end{figure}
->  
->  Of course, the low performance of reader-writer locking in
-> -Figures~\ref{fig:defer:Performance Advantage of Preemptible RCU Over Reader-Writer Locking}
-> -and~\ref{fig:defer:Performance Advantage of RCU Over Reader-Writer Locking}
-> +\cref{fig:defer:Performance Advantage of RCU Over Reader-Writer Locking,%
-> +fig:defer:Performance Advantage of Preemptible RCU Over Reader-Writer Locking}
->  is exaggerated by the unrealistic zero-length critical sections.
->  The performance advantages of RCU decrease as the overhead of the critical
->  sections increase.
-> @@ -825,13 +825,13 @@ But why bother?
->  Again, part of the answer is performance, as shown in
->  Figures~\ref{fig:defer:Performance of RCU vs. Reference Counting}
->  and~\ref{fig:defer:Performance of Preemptible RCU vs. Reference Counting},
-> -again showing data taken on a 488-CPU 2.1\,GHz Intel x86 system
-> +again showing data taken on a 448-CPU 2.1\,GHz Intel x86 system
->  for non-preemptible and preemptible Linux-kernel RCU, respectively.
->  Non-preemptible RCU's advantage over reference counting ranges from
->  more than an order of magnitude at one CPU up to about four orders of
-> -magnitude at 192 CPUs.
-> +magnitude at 192~CPUs.
->  Preemptible RCU's advantage ranges from about a factor of three at
-> -one CPU up to about three orders of magnitude at 192 CPUs.
-> +one CPU up to about three orders of magnitude at 192~CPUs.
->  
->  \begin{figure}[tb]
->  \centering
-> @@ -902,9 +902,9 @@ misleading.
->  Perhaps the best way to think of the relationship between RCU
->  and automatic garbage collectors (GCs) is that RCU resembles
->  a GC in that the \emph{timing} of collection is automatically
-> -determined, but that RCU differs from a GC in that: (1) the programmer
-> +determined, but that RCU differs from a GC in that: (1)~the programmer
->  must manually indicate when a given data structure is eligible
-> -to be collected, and (2) the programmer must manually mark the
-> +to be collected, and (2)~the programmer must manually mark the
->  RCU read-side critical sections where references might legitimately
->  be held.
->  
-> @@ -1140,7 +1140,7 @@ for the duration of any pre-existing RCU read-side critical sections.
->  
->  These algorithms typically use a validation step that checks to make
->  sure that the newly referenced data structure really is the one that
-> -was requested~\cite[Section 2.5]{LaninShasha1986TSM}.
-> +was requested~\cite[Section~2.5]{LaninShasha1986TSM}.
->  These validation checks require that portions of the data structure
->  remain untouched by the free-reallocate process.
->  Such validation checks are usually very hard to get right, and can
-> -- 
-> 2.17.1
-> 
