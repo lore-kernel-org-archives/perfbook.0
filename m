@@ -1,20 +1,22 @@
 Return-Path: <SRS0=SbQd=BI=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=tOAURs1mXB+omVhMDgSsGg/IV9vPKROTM6c4EObrhK8=;
-        b=LB9aWZ16UXeqmMYzJlf8QWfGy+qtD4p6QB4QhsLT6A4++ymxbwW64kddxHhfKldA/w
-         QIpQQszHiaA0xX6UlSZV9eC9XJhSJXUoGNyOPyhLqmXPsklDmFXNMaCorntgPtn/akaT
-         eg1P/kjxI35PV/9UCBapdJqy0aVr/+uoBEQms9hPzXxk2To/YfXhBmMnFZ4l++M+x9eZ
-         gj29f75r1lcl0ajIwB0RIIEqEP5QL4POiuFBoXec0Xna/CHj1Z+lc0lRdDbo4b3fhvnr
-         89wReZK/lZNyEH9FJoKcKdrjGj8GQayiUgQTw/sd+8ZP42rZGmzyIbygXIi6DKG4NDBZ
-         Zuxg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=DotRv6B7eaPHLxbF1jYeevBuKOotkWqHUJ/2Gd8glOU=;
+        b=iNHddOfFsYTde68FSBFxFPNzFaHFRS6bB7n4gu84Upkj4wnWn5etJdWh4/Q6E0ud5W
+         hABOUlJxTaGSEW2iSJbvcjYgOqJxUA++CxgBGeCdR0kO9DjjCNRDWJinLl2aP7fr8ZdO
+         rYfMLeBgRHVaPc31I35R/1rOQeinh+CWa6S2CxFWCA6oGMSd8aEgkaTKSJBEff35Oz5l
+         LUhM/DhNjB+ca02d+hHR4HmW0SAE2AwXf9ROFkYpQZGLpgjOrm4UIB7ri6e5/Kz8WEoh
+         dmIzWsIRbKhoFKkXUfS7kHNWrqe1WH1CftaGiMFFvG00DdFqDubMNedLiVR529TpNAkh
+         rFbw==
+Subject: [PATCH 1/5] Makefile: Fix typo in CREFPTN
+References: <abceee6f-6520-bcb5-781d-a53b0adfa5b7@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 0/5] Chapterwise QQZ answers
-Message-ID: <abceee6f-6520-bcb5-781d-a53b0adfa5b7@gmail.com>
-Date: Thu, 30 Jul 2020 00:11:52 +0900
+Message-ID: <d93f0d47-a6d9-6f89-4ec3-97f5d628701f@gmail.com>
+Date: Thu, 30 Jul 2020 00:13:40 +0900
 MIME-Version: 1.0
+In-Reply-To: <abceee6f-6520-bcb5-781d-a53b0adfa5b7@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,68 +24,44 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+From ad129055142dfaa6a816d541c767c1cd86c0cf73 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 27 Jul 2020 16:10:26 +0900
+Subject: [PATCH 1/5] Makefile: Fix typo in CREFPTN
 
-So, in the mean time, I've attempted chapterwise QQZ answers.
-This patch series is the resulting changes.
+This regular expression is supposed to catch a pattern of
+\cref{ref:a} {ref:b}, which will result in something like:
 
-Patch #1 fixes a typo in Makefile which I noticed during this
-development.
+    Section 1.2 ref:b ...
 
-Patch #2 is the main change enabling chapterwise QQZ answers
-in perfbook-nq.pdf.
-This patch becomes a large one, as the addition of argument
-to macros in qqz.sty requires tree-wide changes for successful
-build.  It also contains minor tweaks in howto.tex.
+Due to a typo in the expression, it catches
 
-Patches #3--#5 are minor updates.
-Patch #5 results in a table mostly identical to Table E.5.
-I don't think these quick quizzes are redundant, though.
+    ... { ... \cref{ref:a} ... } { ... }
 
-The resulting perfbook-nq.pdf looks fairly reasonable to me.
-Some of the question parts have room to improve so that
-they are less context-dependent.
+, which is a false positive.
 
-Let me know what you think.
+Fixing the pattern to "[^}]+}" will avoid the false positive.
 
-        Thanks, Akira
---
-Akira Yokosawa (5):
-  Makefile: Fix typo in CREFPTN
-  Enhance qqz scheme for chapterwise QQZ answers
-  perfbook-lt.tex: Tell cleveref not to capitalize 'page' in \cpageref{}
-  datastruct: Use nbsp in captions (State (a), State (b), etc.)
-  formal: Retouch Table E.4
+Fixes: 962cbb73ce0c ("Makefile: Add check of \crefrange and \clnrefrange misuse")
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- .gitignore                           |  2 +-
- Makefile                             | 17 ++++++++---
- SMPdesign/SMPdesign.tex              |  4 ++-
- advsync/advsync.tex                  |  4 ++-
- appendix/questions/questions.tex     |  4 ++-
- appendix/toyrcu/toyrcu.tex           |  4 ++-
- appendix/whymb/whymemorybarriers.tex |  4 ++-
- count/count.tex                      |  4 ++-
- cpu/cpu.tex                          |  4 ++-
- datastruct/datastruct.tex            | 12 ++++----
- debugging/debugging.tex              |  4 ++-
- defer/defer.tex                      |  4 ++-
- easy/easy.tex                        |  4 ++-
- formal/axiomatic.tex                 | 26 ++++++++++-------
- formal/formal.tex                    |  4 ++-
- future/future.tex                    |  4 ++-
- howto/howto.tex                      | 27 ++++++++++++++----
- intro/intro.tex                      |  4 ++-
- locking/locking.tex                  |  4 ++-
- memorder/memorder.tex                |  4 ++-
- owned/owned.tex                      |  4 ++-
- perfbook-lt.tex                      |  5 ++++
- qqz.sty                              | 22 +++++++++++++--
- together/together.tex                |  4 ++-
- toolsoftrade/toolsoftrade.tex        |  4 ++-
- utilities/divideqqz.pl               | 42 ++++++++++++++++++++++++++++
- 26 files changed, 179 insertions(+), 46 deletions(-)
- create mode 100755 utilities/divideqqz.pl
-
+diff --git a/Makefile b/Makefile
+index 802d638e..4e2b65ab 100644
+--- a/Makefile
++++ b/Makefile
+@@ -135,7 +135,7 @@ LINEREF_ENV_END     := $(shell grep -l -F '\end{lineref}'     $(LATEXSOURCES))
+ LINELABEL_ENV := $(sort $(LINELABEL_ENV_BEGIN) $(LINELABEL_ENV_END))
+ LINEREF_ENV   := $(sort $(LINEREF_ENV_BEGIN) $(LINEREF_ENV_END))
+ 
+-CREFPTN    := '\\[Cc](ln)?ref{[^{]+}\s*{[^}]+}'
++CREFPTN    := '\\[Cc](ln)?ref{[^}]+}\s*{[^}]+}'
+ CREFPAIR   := $(shell grep -l -zo -E $(CREFPTN)   $(LATEXSOURCES))
+ 
+ SOURCES_OF_SNIPPET_ALL := $(shell grep -r -l -F '\begin{snippet}' CodeSamples)
 -- 
 2.17.1
+
 
