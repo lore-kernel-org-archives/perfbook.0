@@ -1,86 +1,108 @@
-Return-Path: <SRS0=SbQd=BI=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=w+GUfsDhGp4LiTG57C38+Tp5kF2bIG+wwr/jStokYRo=;
-        b=R1klZ+rnkxQ0y2yiBJ8cd5swYdEK+/ekQTEJzsVnHaoHaCltxqgA9jrsCaQOx+1hgx
-         876lHTjcRfiBMNB02sVdVA68hQpgyFFz7QCAvxJxzsF2cBkbPiWMWCc5Fns/BpztI8DW
-         97poMSdl6xSmTZxw/nVHt+A6a+FR7rg8qDe3ud94vC2bPWVr5woyowq9jDs4U4Qoi5PG
-         r6q8qwh136qknTxWplDOKhadxO26KYLcqh5DynTWDgTUS6J3rwaTALjRHLu/kvEpj369
-         naP2HM6zFsQxRjS/Uea52gzCd5OeuXxuT2qIrJzwTgJyAMu8a+sFyEIi3MZzoe8hJaLD
-         GHtg==
-Subject: [PATCH 5/5] formal: Retouch Table E.4
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:55128 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726385AbgG2RxH (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Wed, 29 Jul 2020 13:53:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596045186;
+        bh=ihfOePfz8lRs6sfLugCGmlOu/PA6QutUuUi1p4cezd4=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=miKU/XYTkZO/MJXVATeFHM2O4VmWZfODEyO6qPrKZZuCgNIxZaguCIz8Vb6kN4l9T
+         hopAObZ4eRKUlB/M1TxvCetuYnxkK34DlHo4kmB5XC7LVCRmTUhsHTdEGFXSTRZyNU
+         Rek99xgGZ4jtcBMiQb3hozFU9xmhYg5FAqczXhOE=
+Date: Wed, 29 Jul 2020 10:53:06 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH 0/5] Chapterwise QQZ answers
+Message-ID: <20200729175306.GX9247@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 References: <abceee6f-6520-bcb5-781d-a53b0adfa5b7@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <497efc26-6ac8-82bb-9f22-c749a685c8c8@gmail.com>
-Date: Thu, 30 Jul 2020 00:20:18 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <abceee6f-6520-bcb5-781d-a53b0adfa5b7@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Sender: perfbook-owner@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From 1316c9e3a238686385e8483bc0047d07c5e24d34 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 28 Jul 2020 16:10:22 +0900
-Subject: [PATCH 5/5] formal: Retouch Table E.4
+On Thu, Jul 30, 2020 at 12:11:52AM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> So, in the mean time, I've attempted chapterwise QQZ answers.
+> This patch series is the resulting changes.
+> 
+> Patch #1 fixes a typo in Makefile which I noticed during this
+> development.
+> 
+> Patch #2 is the main change enabling chapterwise QQZ answers
+> in perfbook-nq.pdf.
+> This patch becomes a large one, as the addition of argument
+> to macros in qqz.sty requires tree-wide changes for successful
+> build.  It also contains minor tweaks in howto.tex.
+> 
+> Patches #3--#5 are minor updates.
+> Patch #5 results in a table mostly identical to Table E.5.
+> I don't think these quick quizzes are redundant, though.
+> 
+> The resulting perfbook-nq.pdf looks fairly reasonable to me.
+> Some of the question parts have room to improve so that
+> they are less context-dependent.
+> 
+> Let me know what you think.
 
-Use structured headers instead of tall rotated headers.
+Very nice!!!  I have queued and pushed it.  I removed an end-of-line
+space character on the last in the series, FYI.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- formal/axiomatic.tex | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+The ability to jump back to the context makes the context-independence
+less of an emergency than it might be, but if you know of some that
+could use immediate help, please point them out to me.  Longer term,
+it will of course be necessary to scan each quick quiz and update those
+that need to be more self-contained.
 
-diff --git a/formal/axiomatic.tex b/formal/axiomatic.tex
-index 494ea967..46a27708 100644
---- a/formal/axiomatic.tex
-+++ b/formal/axiomatic.tex
-@@ -205,23 +205,29 @@ And in this case, the \co{herd} tool's output features the string
- 	executions that fail to acquire the lock.
- 
- \begin{table}[tb]
--\rowcolors{2}{}{lightgray}
-+\rowcolors{10}{}{lightgray}
- \small
- \centering
--\newcommand{\lockfml}[1]{\multicolumn{1}{c}{\begin{picture}(6,150)(0,0)\rotatebox{90}{#1}\end{picture}}}
-+\newcommand{\lockfml}[1]{\multicolumn{1}{c}{\begin{picture}(6,8)(0,0)\rotatebox{90}{#1}\end{picture}}}
- \begin{tabular}{rrrrrr}
--	\lockfml{\# Processes}
--	& \lockfml{Model}
--	& \lockfml{Emulate: \tco{cmpxchg_acquire()}, \tco{filter}}
--	& \lockfml{Emulate: \tco{xchg_acquire()}, \tco{filter}}
--	& \lockfml{Emulate: \tco{cmpxchg_acquire()}, \tco{exists}}
--	& \lockfml{Emulate: \tco{xchg_acquire()}, \tco{exists}}
-+	\toprule
-+	& Model & \multicolumn{4}{c}{Emulate} \\
-+	\cmidrule(l){2-2} \cmidrule(l){3-6}
-+	& & \multicolumn{2}{c}{\tco{filter}} & \multicolumn{2}{c}{\tco{exists}} \\
-+	\cmidrule(l){3-4} \cmidrule(l){5-6}
-+	\lockfml{\# Proc.}
-+	& 
-+	& \tco{cmpxchg}
-+	& \tco{xchg}
-+	& \tco{cmpxchg}
-+	& \tco{xchg}
- 	\\
--	\midrule
-+	\cmidrule{1-1} \cmidrule(l){2-2} \cmidrule(l){3-4} \cmidrule(l){5-6}
- 	2 & 0.004 &  0.022 &  0.027 &   0.039 &   0.058 \\
- 	3 & 0.041 &  0.743 &  0.968 &   1.653 &   3.203 \\
--	4 & 0.374 & 59.565 & 74.818 & 151.962 & 500.96  \\
-+	4 & 0.374 & 59.565 & 74.818 & 151.962 & 500.960 \\
- 	5 & 4.905 \\
-+	\bottomrule
- \end{tabular}
- \caption{Locking: Modeling vs. Emulation Time (s)}
- \label{tab:formal:Locking: Modeling vs. Emulation Time (s)}
--- 
-2.17.1
+For a printed book, would it make sense to put the page number of the
+quick-quiz source (the location of the little box containing "QQ" and
+the quick-quiz number) into each answer?  Or after each question?
 
+							Thanx, Paul
 
+>         Thanks, Akira
+> --
+> Akira Yokosawa (5):
+>   Makefile: Fix typo in CREFPTN
+>   Enhance qqz scheme for chapterwise QQZ answers
+>   perfbook-lt.tex: Tell cleveref not to capitalize 'page' in \cpageref{}
+>   datastruct: Use nbsp in captions (State (a), State (b), etc.)
+>   formal: Retouch Table E.4
+> 
+>  .gitignore                           |  2 +-
+>  Makefile                             | 17 ++++++++---
+>  SMPdesign/SMPdesign.tex              |  4 ++-
+>  advsync/advsync.tex                  |  4 ++-
+>  appendix/questions/questions.tex     |  4 ++-
+>  appendix/toyrcu/toyrcu.tex           |  4 ++-
+>  appendix/whymb/whymemorybarriers.tex |  4 ++-
+>  count/count.tex                      |  4 ++-
+>  cpu/cpu.tex                          |  4 ++-
+>  datastruct/datastruct.tex            | 12 ++++----
+>  debugging/debugging.tex              |  4 ++-
+>  defer/defer.tex                      |  4 ++-
+>  easy/easy.tex                        |  4 ++-
+>  formal/axiomatic.tex                 | 26 ++++++++++-------
+>  formal/formal.tex                    |  4 ++-
+>  future/future.tex                    |  4 ++-
+>  howto/howto.tex                      | 27 ++++++++++++++----
+>  intro/intro.tex                      |  4 ++-
+>  locking/locking.tex                  |  4 ++-
+>  memorder/memorder.tex                |  4 ++-
+>  owned/owned.tex                      |  4 ++-
+>  perfbook-lt.tex                      |  5 ++++
+>  qqz.sty                              | 22 +++++++++++++--
+>  together/together.tex                |  4 ++-
+>  toolsoftrade/toolsoftrade.tex        |  4 ++-
+>  utilities/divideqqz.pl               | 42 ++++++++++++++++++++++++++++
+>  26 files changed, 179 insertions(+), 46 deletions(-)
+>  create mode 100755 utilities/divideqqz.pl
+> 
+> -- 
+> 2.17.1
+> 
