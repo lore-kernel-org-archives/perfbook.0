@@ -1,108 +1,70 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:55128 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726385AbgG2RxH (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Wed, 29 Jul 2020 13:53:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596045186;
-        bh=ihfOePfz8lRs6sfLugCGmlOu/PA6QutUuUi1p4cezd4=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=miKU/XYTkZO/MJXVATeFHM2O4VmWZfODEyO6qPrKZZuCgNIxZaguCIz8Vb6kN4l9T
-         hopAObZ4eRKUlB/M1TxvCetuYnxkK34DlHo4kmB5XC7LVCRmTUhsHTdEGFXSTRZyNU
-         Rek99xgGZ4jtcBMiQb3hozFU9xmhYg5FAqczXhOE=
-Date: Wed, 29 Jul 2020 10:53:06 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 0/5] Chapterwise QQZ answers
-Message-ID: <20200729175306.GX9247@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <abceee6f-6520-bcb5-781d-a53b0adfa5b7@gmail.com>
+Return-Path: <SRS0=rnhZ=BJ=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=97s4iV7WhA0I+OPwyQdBJERk12P2glgtVrJ8kIuWsQ0=;
+        b=R1ju2WJIQ1ehivEXCOEoF3FSP7lBzNO4nHJO3imPgg5ukbnkvuC3oKPXFjpffjd0pN
+         gNcgftKr8w1vjTJH4Zl0LbjHXzrlYuUXs7M4f4+t9omTb4I5vhuNv82clbO5GDZqz+qn
+         SYjBXGWT7EkyvskSNr9yqXQh6B+UxQ8dz4FoD8U3u0Y5NLpCVMT8xR1I3yY2YwoU3HdH
+         K1NympErcDaG5NYDsupcmA4xjiO1NSChflnADiozM6Wga6Kzr3Rgj5jzNef+Mf+z4uMj
+         wRCbf8xLaHFKRNBdIOCfcJgBtoCQLaDF6wRldh1zlV1y509z7DZ6gD0OQ06Iaa7mJnGx
+         UbSQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 1/2] qqz.sty: Add page number to the QQZ heading for 'nq'
+ build
+Message-ID: <d21641e4-ad62-8cee-3479-98b059994661@gmail.com>
+Date: Fri, 31 Jul 2020 06:40:15 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <abceee6f-6520-bcb5-781d-a53b0adfa5b7@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Jul 30, 2020 at 12:11:52AM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> So, in the mean time, I've attempted chapterwise QQZ answers.
-> This patch series is the resulting changes.
-> 
-> Patch #1 fixes a typo in Makefile which I noticed during this
-> development.
-> 
-> Patch #2 is the main change enabling chapterwise QQZ answers
-> in perfbook-nq.pdf.
-> This patch becomes a large one, as the addition of argument
-> to macros in qqz.sty requires tree-wide changes for successful
-> build.  It also contains minor tweaks in howto.tex.
-> 
-> Patches #3--#5 are minor updates.
-> Patch #5 results in a table mostly identical to Table E.5.
-> I don't think these quick quizzes are redundant, though.
-> 
-> The resulting perfbook-nq.pdf looks fairly reasonable to me.
-> Some of the question parts have room to improve so that
-> they are less context-dependent.
-> 
-> Let me know what you think.
+From 7b56ddf382f836201b9e88e2f7b185fae422314e Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Fri, 31 Jul 2020 00:18:58 +0900
+Subject: [PATCH 1/2] qqz.sty: Add page number to the QQZ heading for 'nq' build
 
-Very nice!!!  I have queued and pushed it.  I removed an end-of-line
-space character on the last in the series, FYI.
+Excerpt of Paul's message:
 
-The ability to jump back to the context makes the context-independence
-less of an emergency than it might be, but if you know of some that
-could use immediate help, please point them out to me.  Longer term,
-it will of course be necessary to scan each quick quiz and update those
-that need to be more self-contained.
+    For a printed book, would it make sense to put the page number of the
+    quick-quiz source (the location of the little box containing "QQ" and
+    the quick-quiz number) into each answer?  Or after each question?
 
-For a printed book, would it make sense to put the page number of the
-quick-quiz source (the location of the little box containing "QQ" and
-the quick-quiz number) into each answer?  Or after each question?
+This commit adds the page number at the right-hand side of quiz heading
+in framed box.  It is also a hyperlink to the little box in the text.
 
-							Thanx, Paul
+Suggested-by: Paul E. McKenney <paulmck@kernel.org>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ qqz.sty | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
->         Thanks, Akira
-> --
-> Akira Yokosawa (5):
->   Makefile: Fix typo in CREFPTN
->   Enhance qqz scheme for chapterwise QQZ answers
->   perfbook-lt.tex: Tell cleveref not to capitalize 'page' in \cpageref{}
->   datastruct: Use nbsp in captions (State (a), State (b), etc.)
->   formal: Retouch Table E.4
-> 
->  .gitignore                           |  2 +-
->  Makefile                             | 17 ++++++++---
->  SMPdesign/SMPdesign.tex              |  4 ++-
->  advsync/advsync.tex                  |  4 ++-
->  appendix/questions/questions.tex     |  4 ++-
->  appendix/toyrcu/toyrcu.tex           |  4 ++-
->  appendix/whymb/whymemorybarriers.tex |  4 ++-
->  count/count.tex                      |  4 ++-
->  cpu/cpu.tex                          |  4 ++-
->  datastruct/datastruct.tex            | 12 ++++----
->  debugging/debugging.tex              |  4 ++-
->  defer/defer.tex                      |  4 ++-
->  easy/easy.tex                        |  4 ++-
->  formal/axiomatic.tex                 | 26 ++++++++++-------
->  formal/formal.tex                    |  4 ++-
->  future/future.tex                    |  4 ++-
->  howto/howto.tex                      | 27 ++++++++++++++----
->  intro/intro.tex                      |  4 ++-
->  locking/locking.tex                  |  4 ++-
->  memorder/memorder.tex                |  4 ++-
->  owned/owned.tex                      |  4 ++-
->  perfbook-lt.tex                      |  5 ++++
->  qqz.sty                              | 22 +++++++++++++--
->  together/together.tex                |  4 ++-
->  toolsoftrade/toolsoftrade.tex        |  4 ++-
->  utilities/divideqqz.pl               | 42 ++++++++++++++++++++++++++++
->  26 files changed, 179 insertions(+), 46 deletions(-)
->  create mode 100755 utilities/divideqqz.pl
-> 
-> -- 
-> 2.17.1
-> 
+diff --git a/qqz.sty b/qqz.sty
+index 6d87e192..897d1ab6 100644
+--- a/qqz.sty
++++ b/qqz.sty
+@@ -59,6 +59,8 @@
+ \newcommand{\QuickQuizAnswerChapter}{\textbf{Unknown QuickQAC!!!}}
+ 
+ \newcommand{\QuickQHeading}[3]{\hyperref[#2.#3]{\textbf{Quick Quiz #3:}}\label{#1.#3}}
++\newcommand{\QuickQHeadingPage}[3]{\hyperref[#2.#3]{\textbf{Quick Quiz #3:}}\label{#1.#3}%
++	\hfill\raisebox{0.5ex}{\footnotesize\fbox{p.\pageref{#2.#3}}}}
+ \newcommand{\QuickQHeadingLight}[3]{\scriptsize QQ~\hyperref[#2.#3]{#3}\label{#1.#3}}
+ \newcommand{\QuickQHeadingBegin}[3]{\scriptsize QQ~\hyperref[#2.#3]{#3}\label{#1.#3},}
+ \newcommand{\QuickQHeadingMiddle}[3]{\scriptsize\hyperref[#2.#3]{{ #3}}\label{#1.#3},}
+@@ -219,7 +221,7 @@
+ \newcommand{\QuickQ}[1]{
+ 	\begin{tcolorbox}[breakable]
+ 	\refstepcounter{quickquizctrC}
+-	\QuickQHeading{QQA}{QQ}{\QuickQuizAnswerChapter.\thequickquizctrC} \\
++	\QuickQHeadingPage{QQA}{QQ}{\QuickQuizAnswerChapter.\thequickquizctrC}\\
+ }
+ 
+ \newcommand{\QuickA}[1]{%
+-- 
+2.17.1
+
