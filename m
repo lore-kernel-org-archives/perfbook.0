@@ -1,78 +1,126 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:60272 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728047AbgG3Xs7 (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Thu, 30 Jul 2020 19:48:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596152938;
-        bh=+hjEm2fImMQtfjauPfqhx+sJw7iG9NLfl5HJ7+uHlFo=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=08RbMBKlbs91A0w4VTse7IRsLjfsJxJYBB3pSNDBZjoBvqO0U/GVeGpXqC2A1lnfl
-         Wo4VNhK2zjJ+EeQkpyRA/k66Y265Rrt5ATDG6f56Df0pJtkrKP2eXjERdwQ/MI6L7w
-         Fu2gMqcxp/tpE12A2343lzWsI3bRiiiOU1zY3nEY=
-Date: Thu, 30 Jul 2020 16:48:58 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 1/2] qqz.sty: Add page number to the QQZ heading for 'nq'
- build
-Message-ID: <20200730234858.GE9247@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <d21641e4-ad62-8cee-3479-98b059994661@gmail.com>
+Return-Path: <SRS0=PA3/=BY=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=FddJlRga+Gr7pxmOxbs9VedX4VI/v17i133bGnKJ0NE=;
+        b=HrT5TQFgrpZQOIBvsSG5fG18XHWISKQSzGK21Ihwio2V3SXDLzD1svPwMxndIo1cAY
+         hLj8aylpwiu+X8P7AGtCgdZp6DWYIeNPdO2+pQXEi2CguTZdszVEBNU4iJMdwgLH4XbH
+         pQYpAJTc/Wep6ivTRO0blQ7iAkRj4q+5/ubWQe9h78ArZXLJG1YEcRX49hVNND6BlF1/
+         zIhblF5Vj1lyOx99zlhEfJNst82rJStdWFQmsZoCJjdUryUQyaLhYZ6RIK+phiXIgO3b
+         pnZPVphYgyX9ggaR7iIHWn5PZ4GwgBqEzmHWoy1Ww21IqzBHnN7VBPsrkGtVuyMZ9lmP
+         VrOQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] Makefile: Prevent parallel runs of divideqqz.pl
+Message-ID: <791a999e-5eb4-4a02-f3da-65b9527fc810@gmail.com>
+Date: Sat, 15 Aug 2020 07:58:00 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d21641e4-ad62-8cee-3479-98b059994661@gmail.com>
-Sender: perfbook-owner@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Fri, Jul 31, 2020 at 06:40:15AM +0900, Akira Yokosawa wrote:
-> >From 7b56ddf382f836201b9e88e2f7b185fae422314e Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Fri, 31 Jul 2020 00:18:58 +0900
-> Subject: [PATCH 1/2] qqz.sty: Add page number to the QQZ heading for 'nq' build
-> 
-> Excerpt of Paul's message:
-> 
->     For a printed book, would it make sense to put the page number of the
->     quick-quiz source (the location of the little box containing "QQ" and
->     the quick-quiz number) into each answer?  Or after each question?
-> 
-> This commit adds the page number at the right-hand side of quiz heading
-> in framed box.  It is also a hyperlink to the little box in the text.
+From 425dc57b802e1b9b2d5838da3408edbc827a6d62 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sat, 15 Aug 2020 00:44:30 +0900
+Subject: [PATCH] Makefile: Prevent parallel runs of divideqqz.pl
 
-Looks great, thank you!!!  Queued and pushed.
+Parallel make runs divideqqz.pl redundantly:
 
-							Thanx, Paul
+    $ make -j4
+    sh ./utilities/gen_snippet_d.sh
+    cp perfbook-lt.tex perfbook.tex
+    sh utilities/autodate.sh >autodate.tex
+    echo > qqz.tex
+    echo > contrib.tex
+    echo > origpub.tex
+    latexpand --empty-comments perfbook-lt.tex 1> perfbook_flat.tex 2> /dev/null
+    sh utilities/extractqqz.sh < perfbook_flat.tex | perl utilities/qqzreorder.pl > qqz.tex
+    sh utilities/extractorigpub.sh < perfbook_flat.tex > origpub.tex
+    cat perfbook_flat.tex qqz.tex | sh utilities/extractcontrib.sh > contrib.tex
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    utilities/divideqqz.pl
+    sh utilities/runfirstlatex.sh perfbook
+    ...
 
-> Suggested-by: Paul E. McKenney <paulmck@kernel.org>
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
->  qqz.sty | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/qqz.sty b/qqz.sty
-> index 6d87e192..897d1ab6 100644
-> --- a/qqz.sty
-> +++ b/qqz.sty
-> @@ -59,6 +59,8 @@
->  \newcommand{\QuickQuizAnswerChapter}{\textbf{Unknown QuickQAC!!!}}
->  
->  \newcommand{\QuickQHeading}[3]{\hyperref[#2.#3]{\textbf{Quick Quiz #3:}}\label{#1.#3}}
-> +\newcommand{\QuickQHeadingPage}[3]{\hyperref[#2.#3]{\textbf{Quick Quiz #3:}}\label{#1.#3}%
-> +	\hfill\raisebox{0.5ex}{\footnotesize\fbox{p.\pageref{#2.#3}}}}
->  \newcommand{\QuickQHeadingLight}[3]{\scriptsize QQ~\hyperref[#2.#3]{#3}\label{#1.#3}}
->  \newcommand{\QuickQHeadingBegin}[3]{\scriptsize QQ~\hyperref[#2.#3]{#3}\label{#1.#3},}
->  \newcommand{\QuickQHeadingMiddle}[3]{\scriptsize\hyperref[#2.#3]{{ #3}}\label{#1.#3},}
-> @@ -219,7 +221,7 @@
->  \newcommand{\QuickQ}[1]{
->  	\begin{tcolorbox}[breakable]
->  	\refstepcounter{quickquizctrC}
-> -	\QuickQHeading{QQA}{QQ}{\QuickQuizAnswerChapter.\thequickquizctrC} \\
-> +	\QuickQHeadingPage{QQA}{QQ}{\QuickQuizAnswerChapter.\thequickquizctrC}\\
->  }
->  
->  \newcommand{\QuickA}[1]{%
-> -- 
-> 2.17.1
-> 
+Racy runs of divideqqz.pl can cause corruption in qqz*.tex files.
+Fix this by using an empty target.
+
+Fixes: 1716487bd983 ("Enhance qqz scheme for chapterwise QQZ answers")
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ .gitignore |  1 +
+ Makefile   | 10 ++++++++--
+ 2 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/.gitignore b/.gitignore
+index a25a00b7..6d928c3c 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -25,6 +25,7 @@
+ *.synctex*
+ perfbook_flat.tex
+ qqz*.tex
++sub_qqz
+ contrib.tex
+ origpub.tex
+ perfbook*.out
+diff --git a/Makefile b/Makefile
+index 3e0503d7..a3f98442 100644
+--- a/Makefile
++++ b/Makefile
+@@ -21,7 +21,10 @@ SUB_QQZ := qqzhowto.tex qqzintro.tex qqzcpu.tex qqztoolsoftrade.tex \
+ 	qqzdefer.tex qqzdatastruct.tex qqzdebugging.tex qqzformal.tex \
+ 	qqztogether.tex	qqzadvsync.tex qqzmemorder.tex qqzeasy.tex \
+ 	qqzfuture.tex qqzquestions.tex qqztoyrcu.tex qqzwhymb.tex
+-LATEXGENERATED = autodate.tex qqz.tex contrib.tex origpub.tex $(SUB_QQZ)
++
++LATEXGENERATED = autodate.tex qqz.tex contrib.tex origpub.tex sub_qqz
++# Note: Empty target "sub_qqz" is used on behalf of $(SUB_QQZ) to prevent
++# parallel runs of divideqqz.pl.
+ 
+ TWOCOLTARGETS := mstx msr msn msnt sf qq nq
+ ABBREVTARGETS := lt hb a4 1c tcb msns mss $(TWOCOLTARGETS) $(foreach v,$(TWOCOLTARGETS),1c$(v))
+@@ -250,8 +253,10 @@ contrib.tex: perfbook_flat.tex qqz.tex
+ origpub.tex: perfbook_flat.tex
+ 	sh utilities/extractorigpub.sh < $< > $@
+ 
+-$(SUB_QQZ): qqz.tex
++# Empty target to generate $(SUB_QQZ) files
++sub_qqz: qqz.tex
+ 	utilities/divideqqz.pl
++	@touch sub_qqz
+ 
+ perfbook.tex: $(PERFBOOK_BASE)
+ 	cp $< $@
+@@ -502,6 +507,7 @@ clean:
+ 		-o -name '*.pdfp' -o -name '*.pdfq' | xargs rm -f
+ 	rm -f perfbook_flat.tex perfbook*.out $(GENERATED_MAIN)
+ 	rm -f $(LATEXGENERATED)
++	rm -f qqz*.tex
+ 	rm -f CodeSamples/snippets.d
+ 	rm -f *.synctex*
+ 	@rm -f $(OBSOLETE_FILES)
+-- 
+2.17.1
+
