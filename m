@@ -4,16 +4,16 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :user-agent;
         bh=vsIVZIZnHn3jRliLAeQtxD7Mqf2HRE4KmLHVTVrukAA=;
-        b=lsiEhPxdmXtpKUMGQ+atIe5fNBVAfYezaSa9NRHx2SV3+6bkbJ76VGA58ril/UW0ei
-         HM8h0HTt36iRSe3LodqaITeFsq9kdc7hvs3ueRalQnFunz9AEiqxtP+rACOUQ0YuBANh
-         71vt4yRK26ivo/3biAxvEvGY8A4+9BjX1NsD9LSopoff+n1jAmw2Z4qeOtC09W5+55Sp
-         GKjnqHosR8jkPVcdsNDmzZME30yB8eOZHMUI9F39BhUeCeVCozIhZ7NCozlB3rkW7jnD
-         AcDPofS86mY0k914xuVZ59faE0KvcXzkJjqHrdDSWlIXWIMzSoBnA1DgLXLSTzqmKMLR
-         rZlw==
-Date: Tue, 29 Sep 2020 16:35:18 +0800
+        b=jDwz4HRtBf7ICvtXwIjQ405k5tK3obgWQrgKVnmuhd8reKaUbUJo2mxrIGAFawGWG7
+         vnHmpfu1UBPe/8+gGy3iPu2gS1s7yoIs46GKmUW191+XvNeKFVEXTP1erMnMZWLNTmI/
+         X8iHGm5YUKZIYn2pB99IiSrlDkEEWhxUsAPJFbGno+VaUI7HRpIUoOSe5kewFVFM/Q3P
+         DeXz+DgyLouKunPoTxddeGT0sLbwMhBa7y9PeACNfp1LFbBoqUJyEdq12XkaZtxPDpiD
+         kKaFuRDugEzD5pX3rFOrIGVetHp75a2rcVkUX0jj2wazPHA+vMlZxA5XB+DyI9sQh+J8
+         /RtQ==
+Date: Tue, 29 Sep 2020 16:40:06 +0800
 From: Junchang Wang <junchang2020@gmail.com>
 Subject: [PATCH] api-gcc.h: fix typos in the functions atomic_add_*
-Message-ID: <20200929083518.GA30685@HongKong.localdomain>
+Message-ID: <20200929084006.GA31703@HongKong.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
