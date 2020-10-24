@@ -1,108 +1,99 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:48500 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728761AbgJGWbw (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Wed, 7 Oct 2020 18:31:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602109911;
-        bh=zbZBfSgQUHzVRVeO6/Okbej1mijHAoxyyvqfGe7/KQc=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=dbZqy9dlejTbO+5lEwjL99+cJp1fAY8FIWJrWlxKfq3F1DlvQjjeDb4Dlr6U0gPjJ
-         /Ag7xW3oa/qqNLp5dDEvKK4fN6L3DqV23c76OtYUG46rGbFPGvLqh4EaTaKAHDfGYS
-         x/wtu5FHiCO4GMBViN6TPNvLb5CR6HSp2yOp1lXk=
-Date: Wed, 7 Oct 2020 15:31:51 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] api-gcc.h: fix typos in the functions atomic_add_*
-Message-ID: <20201007223151.GT29330@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200929084006.GA31703@HongKong.localdomain>
- <d634acb5-f4b4-4e76-fecf-91a0ca541e79@gmail.com>
- <20201003042847.GA32682@HongKong.localdomain>
- <20201003161925.GL29330@paulmck-ThinkPad-P72>
- <20201005221222.GA14386@paulmck-ThinkPad-P72>
- <20201006064020.GA22000@HongKong.localdomain>
- <20201006154149.GI29330@paulmck-ThinkPad-P72>
- <20201007015035.GA7206@HongKong.localdomain>
+Return-Path: <SRS0=L/E8=D7=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=w8Xn3R+qmu6mWysCA/eAs+fqSVxhSBGVUGRrdsyP44U=;
+        b=li+vx2y7Vn40+dtkH1kagg8u/9DBoWSELQnzo2tOKBFxt3UO/UNgmNfUeWOxRLUHXA
+         RSCajrOOhKJQju230efGJbpm+wUrbx8XpYHNlCpt/D77cWgE/VaKvN7tTWYemG7c7AIW
+         DXqF/raZXDyzNh5sxe4ztbcLZQRPBqCq6pK0mphq8w5w9+rq9LCO93EiVtnsE7TPLpRy
+         Egrner2XKEvebqDhvR1fZaJ4Uidkd5ltG/hWcV5Di7y85hnMsaq5IAdfftKEexKKBtvB
+         V5CiTPmnrQmQ5Pg1tG5J5nO3i84oVi33x2eI+n9KRklO7HSX4TkcNcIZo1uihBVysXew
+         VugQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH perfbook] utilities/autodate.sh: Make newer tcolorbox behave
+ as before
+Message-ID: <b120d0b6-0c03-f1c6-7e2e-bea2e28227ce@gmail.com>
+Date: Sat, 24 Oct 2020 20:39:18 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201007015035.GA7206@HongKong.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Junchang Wang <junchang2020@gmail.com>
-Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 
-On Wed, Oct 07, 2020 at 09:50:35AM +0800, Junchang Wang wrote:
-> On Tue, Oct 06, 2020 at 08:41:49AM -0700, Paul E. McKenney wrote:
-> >On Tue, Oct 06, 2020 at 02:40:20PM +0800, Junchang Wang wrote:
-> >> On Mon, Oct 05, 2020 at 03:12:22PM -0700, Paul E. McKenney wrote:
-> >> >On Sat, Oct 03, 2020 at 09:19:25AM -0700, Paul E. McKenney wrote:
-> >> >> On Sat, Oct 03, 2020 at 12:28:47PM +0800, Junchang Wang wrote:
-> >> >
-> >> >[ . . . ]
-> >> >
-> >> >> But sadly, this change does not fix this bug:
-> >> >> 
-> >> >> $ ./hash_bkt_hazptr --schroedinger --nreaders 1 --duration 1000 --updatewait 0 --nbuckets 8192 --elems/writer 8192
-> >> >> Segmentation fault (core dumped)
-> >> >> 
-> >> >> Can't have everything.  ;-)
-> >> >> 
-> >> >> It appears that hashtorture manages to fail to call the per-thread
-> >> >> hazard-pointers initialization on some paths, so it is no surprise
-> >> >> that Junchang's fix doesn't fix this bug.
-> >> >
-> >> >							Thanx, Paul
-> >> >
-> >> >------------------------------------------------------------------------
-> >> >
-> >> >commit 2533decebb7fca65d2860174246966f5ed255dd0
-> >> >Author: Paul E. McKenney <paulmck@kernel.org>
-> >> >Date:   Mon Oct 5 15:10:03 2020 -0700
-> >> >
-> >> >    datastruct/hash: Add missing hash_register_thread()
-> >> >    
-> >> >    The zoo_test() function was missing the hash_register_thread() invocation
-> >> >    that is required to make hazard pointers work correctly.  The lack
-> >> >    of this invocation results in a segmentation violation.  This commit
-> >> >    therefore adds this call.
-> >> >    
-> >> >    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> >> >
-> >> 
-> >> Hi Paul,
-> >> 
-> >> This patch fixes the bug, and now "./hash_bkt_hazptr --schroedinger" works
-> >> correctly on my servers. Thanks a lot.
-> >
-> >Thank you for testing!  May I apply your Tested-by?
-> 
-> Hi Paul,
-> 
-> I'm very happy that I can help improve perfbook. Please add a
-> 
-> Tested-by: Junchang Wang <junchang2020@gmail.com>
+Date: Sun, 4 Oct 2020 18:57:55 +0900
+Subject: [PATCH perfbook] utilities/autodate.sh: Make newer tcolorbox behave as before
 
-Applied, thank you!
+tcolorbox 4.40 or later has wider skips around its boxes by default.
 
-							Thanx, Paul
+Putting \tcbsetforeverylayer{autoparskip} in preamble restores the
+previous default behavior [1].
 
-> Thanks,
-> --Junchang
-> 
-> 
-> >							Thanx, Paul
-> >
-> >> --Junchang
-> >> 
-> >> >diff --git a/CodeSamples/datastruct/hash/hashtorture.h b/CodeSamples/datastruct/hash/hashtorture.h
-> >> >index 6d30cb8..7d43e11 100644
-> >> >--- a/CodeSamples/datastruct/hash/hashtorture.h
-> >> >+++ b/CodeSamples/datastruct/hash/hashtorture.h
-> >> >@@ -1211,6 +1211,7 @@ void zoo_test(void)
-> >> > 	for (i = 0; i < nupdaters * elperupdater; i++) {
-> >> > 		sprintf(&zoo_names[ZOO_NAMELEN * i], "a%ld", i);
-> >> > 	}
-> >> >+	hash_register_thread();
-> >> > 
-> >> > 	zhep = malloc(sizeof(*zhep));
-> >> > 	BUG_ON(!zhep);
+It needs to be put conditionally because the command changes older
+tcolorbox's behavior.
+
+We use a lot of booleans for conditional things in perfbook, but
+their values are changed based on targets such as -1c, -nq, -qq, etc.
+However, version of tcolorbox is common to all the targets.
+We need a different way to put the \tcbsetforeverylayer{} command.
+
+As autodate.tex is included in the preamble of perfbook, we can do
+this by adding some script in autodate.sh, which will generate the
+command when a newer tcolorbox is found.
+
+Also update Makefile to let autodate.tex depend on autodate.sh.
+
+[1]: https://www.ctan.org/ctan-ann/id/mailman.3088.1601153860.2548.ctan-ann@ctan.org
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
+
+I have kept this one on hold for a couple of weeks.
+perfbook can be built without this change, but the wider skips
+around Quick Quizzes looked waste of space for me.
+
+This change actually restores the exact behavior of older tcolorbox.
+
+        Thanks, Akira
+--
+ Makefile              |  2 +-
+ utilities/autodate.sh | 10 ++++++++++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index a3f98442..73b5767e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -204,7 +204,7 @@ ifeq ($(NEWTXTEXT),)
+ endif
+ 	sh utilities/runfirstlatex.sh $(basename $@)
+ 
+-autodate.tex: perfbook-lt.tex $(LATEXSOURCES) $(BIBSOURCES) $(SVGSOURCES) $(FIGSOURCES) $(DOTSOURCES) $(EPSORIGIN) $(SOURCES_OF_SNIPPET) $(GITREFSTAGS) utilities/fcvextract.pl
++autodate.tex: perfbook-lt.tex $(LATEXSOURCES) $(BIBSOURCES) $(SVGSOURCES) $(FIGSOURCES) $(DOTSOURCES) $(EPSORIGIN) $(SOURCES_OF_SNIPPET) $(GITREFSTAGS) utilities/fcvextract.pl utilities/autodate.sh
+ 	sh utilities/autodate.sh >autodate.tex
+ 
+ perfbook_flat.tex: autodate.tex $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG) $(FCVSNIPPETS) $(FCVSNIPPETS_VIA_LTMS)
+diff --git a/utilities/autodate.sh b/utilities/autodate.sh
+index 2b76d33b..7bd7cbb8 100644
+--- a/utilities/autodate.sh
++++ b/utilities/autodate.sh
+@@ -94,3 +94,13 @@ env printf '\\date{%s %s, %s %s %s}\n' $month $day $year "$release" $modified
+ env printf '\\newcommand{\\commityear}{%s}\n' $year
+ env printf '\\newcommand{\\commitid}{%s}\n' $commitid$modified
+ env printf '\\IfQqzBg{}{\\setboolean{qqzbg}{%s}}\n' $qqzbg
++
++# command for newer tcolorbox (4.40 or later) to have backward-compatible skips
++tcolorbox_sty=`kpsewhich tcolorbox.sty`
++tcbversion=`grep ProvidesPackage $tcolorbox_sty | sed -e 's/.*version \([0-9]\+\.[0-9]\+\).*/\1/g'`
++tcbold=4.39
++env printf '%% tcolorbox version: %s\n' $tcbversion
++if [ $(echo $tcbversion $tcbold | awk '{if ($1 > $2) print 1;}') ] ;
++then
++	env printf '\\tcbsetforeverylayer{autoparskip}\n';
++fi
+-- 
+2.17.1
+
