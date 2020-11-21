@@ -1,241 +1,177 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:39526 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728018AbgKUBOM (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Fri, 20 Nov 2020 20:14:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605921250;
-        bh=AfeHQSb4hYcj6wvqOrLPycgPdsKAer9bZBFndgx346g=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=v5fapGWXO6QrU/swt1XtvYKpp4bzCq7Ulas78EM/MQg5pl5pdJV/kj4fnX4OKw+Ti
-         Pky9m+SjPYq1IX1inDkXmUBnRpgzVKyDyBwkzzIZhRFn2Wncdhf7FCckr5GXe51Vq+
-         bu40aFdFJEkYjwIzpEdrnPvlat9Norw4/yja6t/8=
-Date: Fri, 20 Nov 2020 17:14:10 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
+Return-Path: <SRS0=cfv5=E3=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=gROqHjr6IO4k90Ho1gWRzom4psB8agzkXBKaYO8YeSI=;
+        b=myzi+5kY2dEvm7FiphSRChJYv4Wko8MeNFJTZNccgZ51xG4ta3z+gTn6Az8ZGPgzaU
+         QOQMgrw89CROuQvNBFz5/yS2ZCXlua3mMlj2jgpCrgqaZ8iRwphZNBVTBppWzeRbRIo0
+         0V2Nunr17PCniZA/k1z9k+ogoYs6mxmikR9Bo2J7LCez+8k51914G28L7C9KZN62TJYe
+         w0l0w0IJvIGagx9Zgl6hPc1j3P7i1HY5amO+uMZunSnczY5Jikw68YPlynPkI33Xf5A6
+         YAeDjmODiWIfRQPOT5BbbAn/IhgvaAyqxqjbnzV1h72rykdQrBmzPhkRnaUSi9YFjzs5
+         JkhQ==
 Subject: Re: [PATCH perfbook 0/2] CodeSamples/formal: Cleanup of init blocks
  in litmus tests
-Message-ID: <20201121011410.GT1437@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
 References: <7e9cc3fb-12af-eb3c-2d81-74486dd9e061@gmail.com>
  <20201115204244.GM3249@paulmck-ThinkPad-P72>
  <55d8594a-048d-15f3-b3fc-36ca6594545e@gmail.com>
+ <20201121011410.GT1437@paulmck-ThinkPad-P72>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <e02925ab-7a11-ad79-b87f-ef3ed969a369@gmail.com>
+Date: Sat, 21 Nov 2020 11:51:11 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <55d8594a-048d-15f3-b3fc-36ca6594545e@gmail.com>
+In-Reply-To: <20201121011410.GT1437@paulmck-ThinkPad-P72>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: paulmck@kernel.org
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Nov 16, 2020 at 07:25:09AM +0900, Akira Yokosawa wrote:
-> On Sun, 15 Nov 2020 12:42:44 -0800, Paul E. McKenney wrote:
-> > On Sat, Nov 14, 2020 at 01:51:01PM +0900, Akira Yokosawa wrote:
-> >> Hi Paul,
-> >>
-> >> This patch set is what I mentioned the other day in response to
-> >> your LKMM patch for 5.11.
-> >> klitmus7 doesn't need most of type info in litmus-test init blocks.
-> >>
-> >> While there are some cases where klitmus7 requires type info of variables
-> >> to be watched (via the "exists", "locations", or "filter" directive),
-> >> as long as the watched variables are of type "int", extra type info
-> >> in the init block is not required.
-> >>
-> >> Litmus tests under CodeSamples/formal/ should keep compatible with
-> >> klitmus7 after this patch set is applied.
-> >>
-> >> Patch 1/2 removes initialization to 0 and type info of "int" or "int *"
-> >> under CodeSamples/formal/litmus/.
-> >>
-> >> Patch 2/2 further reduce line counts of litmus tests by using "{}"
-> >> as empty init blocks.
-> >> It also adds/removes empty lines for those code snippets to have
-> >> consistent looks.
-> >>
-> >> Similar changes to patch 1/2 can be made in the RCU litmus tests
-> >> presented in Section 12.3.2. They are not touched in this patch set.
-> >>
-> >> May be in a follow-up patch.
-> > 
-> > Queued and pushed, thank you very much!
-> > 
-> >>         Thanks, Akira
-> >>
-> >> *NOTE*:
-> >>
-> >> There are cases where litmus tests for herd7 can not be
-> >> made compatible with (current) klitmus7, though.
-> >>
-> >> One such example is when a variable of a type other than the "int"
-> >> or "int *" (such as "spinlock_t") is specified in the "locations" or "filter"
-> >> directive.
-> >> Current klitmus7 has no idea of the way to obtain the value of such a
-> >> variable.
-> > 
-> > Good to know!  Do we have litmus tests that have problems with this?
+On Fri, 20 Nov 2020 17:14:10 -0800, Paul E. McKenney wrote:
+> On Mon, Nov 16, 2020 at 07:25:09AM +0900, Akira Yokosawa wrote:
+>> On Sun, 15 Nov 2020 12:42:44 -0800, Paul E. McKenney wrote:
+>>> On Sat, Nov 14, 2020 at 01:51:01PM +0900, Akira Yokosawa wrote:
+>>>> Hi Paul,
+>>>>
+>>>> This patch set is what I mentioned the other day in response to
+>>>> your LKMM patch for 5.11.
+>>>> klitmus7 doesn't need most of type info in litmus-test init blocks.
+>>>>
+>>>> While there are some cases where klitmus7 requires type info of variables
+>>>> to be watched (via the "exists", "locations", or "filter" directive),
+>>>> as long as the watched variables are of type "int", extra type info
+>>>> in the init block is not required.
+>>>>
+>>>> Litmus tests under CodeSamples/formal/ should keep compatible with
+>>>> klitmus7 after this patch set is applied.
+>>>>
+>>>> Patch 1/2 removes initialization to 0 and type info of "int" or "int *"
+>>>> under CodeSamples/formal/litmus/.
+>>>>
+>>>> Patch 2/2 further reduce line counts of litmus tests by using "{}"
+>>>> as empty init blocks.
+>>>> It also adds/removes empty lines for those code snippets to have
+>>>> consistent looks.
+>>>>
+>>>> Similar changes to patch 1/2 can be made in the RCU litmus tests
+>>>> presented in Section 12.3.2. They are not touched in this patch set.
+>>>>
+>>>> May be in a follow-up patch.
+>>>
+>>> Queued and pushed, thank you very much!
+>>>
+>>>>         Thanks, Akira
+>>>>
+>>>> *NOTE*:
+>>>>
+>>>> There are cases where litmus tests for herd7 can not be
+>>>> made compatible with (current) klitmus7, though.
+>>>>
+>>>> One such example is when a variable of a type other than the "int"
+>>>> or "int *" (such as "spinlock_t") is specified in the "locations" or "filter"
+>>>> directive.
+>>>> Current klitmus7 has no idea of the way to obtain the value of such a
+>>>> variable.
+>>>
+>>> Good to know!  Do we have litmus tests that have problems with this?
+>>
+>> One such litmus test can be made up based on CodeSamples/formal/herd/C-Lock1.litmus
 > 
-> One such litmus test can be made up based on CodeSamples/formal/herd/C-Lock1.litmus
+> So there is not currently such a litmus test in perfbook, but one could
+> easily be created, correct?
 
-So there is not currently such a litmus test in perfbook, but one could
-easily be created, correct?
+You are right!
 
-Or am I still confused?  ;-)
+        Thanks, Akira
 
-							Thanx, Paul
+PS.
 
-> ---
-> C Lock1-for-herd7
+I'm preparing a patch series to add an index framework in perfbook.
+My plan is to add a specific make target for the time being to have such
+index pages printed.
+As you should know, the hard part is to embed a *lot* of index annotations
+in .tex source files.
+
+I'm thinking of splitting indexes into a general one and API index.
+By API, I mean functions such as smp_mb(), READ_ONCE(), etc.
+
+API index can have kernel API, perfbook specific API, C11 API, and GCC API.
+
+As for words/terms, if you can provide me a wish list you'd like to see in
+the general index, I'm willing to add such annotations.
+My starting point of the general index is the Glossary.
+
+Thoughts? 
+
 > 
-> (*
->  * Example test incompatible with klitmus7
->  *
->  * klitmus7 cannot access spinlock_t variable.
->  *)
+> Or am I still confused?  ;-)
 > 
-> {}
+> 							Thanx, Paul
 > 
-> P0(int *x, spinlock_t *sp)
-> {
-> 	spin_lock(sp);
-> 	WRITE_ONCE(*x, 1);
-> 	WRITE_ONCE(*x, 0);
-> 	spin_unlock(sp);
-> }
-> 
-> P1(int *x, spinlock_t *sp)
-> {
-> 	int r1;
-> 
-> 	spin_lock(sp);
-> 	r1 = READ_ONCE(*x);
-> 	spin_unlock(sp);
-> }
-> 
-> locations [sp]    (* incompatible with klitmus7 *)
-> exists (1:r1=1)
-> ---
-> 
-> klitmus7 can't convert this to a kernel module:
-> 
-> ---
-> $ klitmus7 -o temp C-Lock1-for-herd7.litmus
-> File "C-Lock1-for-herd7.litmus" Parameter sp, type mismatch int vs. spinlock_t
-> ---
-> 
-> Actually, herd7/LKMM does complain of this one:
-> 
-> ---
-> Test Lock1-for-herd7 Allowed
-> States 1
-> 1:r1=0; sp=0;
-> No
-> Witnesses
-> Positive: 0 Negative: 2
-> Flag lock-final                          <---
-> Condition exists (1:r1=1)
-> Observation Lock1-for-herd7 Never 0 2
-> Time Lock1-for-herd7 0.01
-> Hash=5d10e6c355cec0c36f354abf175adc54
-> ---
-> 
-> Comment at line 57 of lock.cat says:
-> 
-> ---
-> (* The final value of a spinlock should not be tested *)
-> flag ~empty [FW] ; loc ; [ALL-LOCKS] as lock-final
-> ---
-> 
->         Thanks, Akira
-> 
-> > 
-> >> As for herd7, all the variables are treated as if they were "int" or
-> >> "int *" regardless of the type specified in the litmus tests, there
-> >> is no such problem.
-> > 
-> > Indeed, herd7 lets you get away with quite a bit.  ;-)
-> > 
-> > 							Thanx, Paul
-> > 
-> >> --
-> >> Akira Yokosawa (2):
-> >>   CodeSamples/formal/litmus: Remove redundant initializations
-> >>   CodeSamples/formal: Use '{}' for empty init blocks in litmus tests
-> >>
-> >>  CodeSamples/formal/herd/C-LB+o-rl-rul-o+o-rl-rul-o.litmus | 5 ++---
-> >>  CodeSamples/formal/herd/C-LB+rl-o-o-rul+rl-o-o-rul.litmus | 5 ++---
-> >>  CodeSamples/formal/herd/C-Lock1.litmus                    | 5 +++--
-> >>  CodeSamples/formal/herd/C-Lock2.litmus                    | 5 +++--
-> >>  .../C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u-C.litmus | 3 +--
-> >>  ...C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u-CE.litmus | 3 +--
-> >>  .../C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u-X.litmus | 3 +--
-> >>  ...C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u-XE.litmus | 3 +--
-> >>  .../C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u.litmus   | 3 +--
-> >>  .../herd/C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u-C.litmus    | 3 +--
-> >>  .../herd/C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u-CE.litmus   | 3 +--
-> >>  .../herd/C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u-X.litmus    | 3 +--
-> >>  .../herd/C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u-XE.litmus   | 3 +--
-> >>  .../herd/C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u.litmus      | 3 +--
-> >>  .../formal/herd/C-SB+l-o-o-u+l-o-o-u+l-o-o-u-C.litmus     | 3 +--
-> >>  .../formal/herd/C-SB+l-o-o-u+l-o-o-u+l-o-o-u-CE.litmus    | 3 +--
-> >>  .../formal/herd/C-SB+l-o-o-u+l-o-o-u+l-o-o-u-X.litmus     | 3 +--
-> >>  .../formal/herd/C-SB+l-o-o-u+l-o-o-u+l-o-o-u-XE.litmus    | 3 +--
-> >>  .../formal/herd/C-SB+l-o-o-u+l-o-o-u+l-o-o-u.litmus       | 3 +--
-> >>  CodeSamples/formal/herd/C-SB+l-o-o-u+l-o-o-u-C.litmus     | 3 +--
-> >>  CodeSamples/formal/herd/C-SB+l-o-o-u+l-o-o-u-CE.litmus    | 3 +--
-> >>  CodeSamples/formal/herd/C-SB+l-o-o-u+l-o-o-u-X.litmus     | 3 +--
-> >>  CodeSamples/formal/herd/C-SB+l-o-o-u+l-o-o-u-XE.litmus    | 3 +--
-> >>  CodeSamples/formal/herd/C-SB+l-o-o-u+l-o-o-u.litmus       | 3 +--
-> >>  .../formal/herd/C-SB+o-rcusync-o+i-rl-o-o-rul.litmus      | 5 ++---
-> >>  CodeSamples/formal/herd/C-SB+o-rcusync-o+o-o.litmus       | 5 ++---
-> >>  ...B+o-rcusync-o+o-rcusync-o+rl-o-o-rul+rl-o-o-rul.litmus | 7 ++-----
-> >>  .../formal/herd/C-SB+o-rcusync-o+o-rcusync-o.litmus       | 5 ++---
-> >>  .../formal/herd/C-SB+o-rcusync-o+o-rl-o-rul.litmus        | 5 ++---
-> >>  .../formal/herd/C-SB+o-rcusync-o+o-rl-rul-o.litmus        | 5 ++---
-> >>  .../herd/C-SB+o-rcusync-o+rl-o-o-rul+rl-o-o-rul.litmus    | 6 ++----
-> >>  .../formal/herd/C-SB+o-rcusync-o+rl-o-o-rul.litmus        | 5 ++---
-> >>  .../formal/herd/C-SB+o-rcusync-o+rl-o-rul-o.litmus        | 5 ++---
-> >>  CodeSamples/formal/litmus/C-2+2W+o-o+o-o.litmus           | 5 ++---
-> >>  CodeSamples/formal/litmus/C-2+2W+o-wmb-o+o-wmb-o.litmus   | 5 ++---
-> >>  CodeSamples/formal/litmus/C-CCIRIW+o+o+o-o+o-o.litmus     | 5 ++---
-> >>  CodeSamples/formal/litmus/C-ISA2+o-r+a-r+a-r+a-o.litmus   | 5 ++---
-> >>  .../formal/litmus/C-LB+a-o+o-data-o+o-data-o.litmus       | 5 ++---
-> >>  CodeSamples/formal/litmus/C-LB+a-r+a-r+a-r+a-r.litmus     | 5 ++---
-> >>  .../formal/litmus/C-LB+cmpxchg-ctrl-o+o-ctrl-o.litmus     | 4 ++--
-> >>  .../formal/litmus/C-LB+o-cge-o+o-cge-o+dstb.litmus        | 4 ++--
-> >>  CodeSamples/formal/litmus/C-LB+o-cge-o+o-cge-o.litmus     | 4 ++--
-> >>  CodeSamples/formal/litmus/C-LB+o-cgt-o+o-cgt-o.litmus     | 4 ++--
-> >>  .../formal/litmus/C-LB+o-data-o+o-data-o+o-data-o.litmus  | 7 +++----
-> >>  CodeSamples/formal/litmus/C-LB+o-o+o-o.litmus             | 5 ++---
-> >>  CodeSamples/formal/litmus/C-LB+o-r+a-o.litmus             | 5 ++---
-> >>  CodeSamples/formal/litmus/C-LB+o-r+o-ctrl-o.litmus        | 6 +++---
-> >>  CodeSamples/formal/litmus/C-LB+o-r+o-data-o.litmus        | 5 ++---
-> >>  CodeSamples/formal/litmus/C-MP+o-o+o-rmb-o.litmus         | 8 ++------
-> >>  CodeSamples/formal/litmus/C-MP+o-r+o-ctrl-o.litmus        | 7 ++-----
-> >>  CodeSamples/formal/litmus/C-MP+o-wmb-o+o-addr-o.litmus    | 8 ++------
-> >>  CodeSamples/formal/litmus/C-MP+o-wmb-o+o-o.litmus         | 7 +------
-> >>  CodeSamples/formal/litmus/C-MP+o-wmb-o+o-rmb-o.litmus     | 7 +------
-> >>  CodeSamples/formal/litmus/C-MP-OMCA+o-o-o+o-rmb-o.litmus  | 4 ++--
-> >>  CodeSamples/formal/litmus/C-R+o-wmb-o+o-mb-o.litmus       | 5 ++---
-> >>  CodeSamples/formal/litmus/C-S+o-wmb-o+o-addr-o.litmus     | 8 ++------
-> >>  CodeSamples/formal/litmus/C-SB+o-mb-o+o-mb-o.litmus       | 5 ++---
-> >>  CodeSamples/formal/litmus/C-SB+o-o+o-o.litmus             | 6 +++---
-> >>  .../formal/litmus/C-SB-OMCA+o-o-rmb-o+o-o-rmb-o.litmus    | 4 +---
-> >>  .../formal/litmus/C-W+RWC+o-mb-o+a-o+o-mb-o.litmus        | 6 +-----
-> >>  CodeSamples/formal/litmus/C-W+RWC+o-r+a-o+o-mb-o.litmus   | 6 +-----
-> >>  CodeSamples/formal/litmus/C-WRC+o+o-data-o+o-rmb-o.litmus | 4 ++--
-> >>  CodeSamples/formal/litmus/C-WRC+o+o-r+a-o.litmus          | 3 +--
-> >>  .../formal/litmus/C-WWC+o+o-data-o+o-addr-o.litmus        | 6 ++----
-> >>  CodeSamples/formal/litmus/C-WWC+o+o-r+o-addr-o.litmus     | 6 ++----
-> >>  .../formal/litmus/C-WWC+o-cge-o+o-cge-o+o+dstb.litmus     | 4 ++--
-> >>  CodeSamples/formal/litmus/C-WWC+o-cge-o+o-cge-o+o.litmus  | 4 ++--
-> >>  .../formal/litmus/C-WWC+o-cgt-o+o-cgt-o+o+dstb.litmus     | 4 ++--
-> >>  CodeSamples/formal/litmus/C-WWC+o-cgt-o+o-cgt-o+o.litmus  | 4 ++--
-> >>  CodeSamples/formal/litmus/C-Z6.2+o-r+a-o+o-mb-o.litmus    | 6 +-----
-> >>  CodeSamples/formal/litmus/C-Z6.2+o-r+a-r+a-r+a-o.litmus   | 5 ++---
-> >>  CodeSamples/formal/litmus/C-cmpxchg.litmus                | 4 ++--
-> >>  memorder/memorder.tex                                     | 8 ++------
-> >>  73 files changed, 124 insertions(+), 217 deletions(-)
-> >>
-> >> -- 
-> >> 2.17.1
-> >>
+>> ---
+>> C Lock1-for-herd7
+>>
+>> (*
+>>  * Example test incompatible with klitmus7
+>>  *
+>>  * klitmus7 cannot access spinlock_t variable.
+>>  *)
+>>
+>> {}
+>>
+>> P0(int *x, spinlock_t *sp)
+>> {
+>> 	spin_lock(sp);
+>> 	WRITE_ONCE(*x, 1);
+>> 	WRITE_ONCE(*x, 0);
+>> 	spin_unlock(sp);
+>> }
+>>
+>> P1(int *x, spinlock_t *sp)
+>> {
+>> 	int r1;
+>>
+>> 	spin_lock(sp);
+>> 	r1 = READ_ONCE(*x);
+>> 	spin_unlock(sp);
+>> }
+>>
+>> locations [sp]    (* incompatible with klitmus7 *)
+>> exists (1:r1=1)
+>> ---
+>>
+>> klitmus7 can't convert this to a kernel module:
+>>
+>> ---
+>> $ klitmus7 -o temp C-Lock1-for-herd7.litmus
+>> File "C-Lock1-for-herd7.litmus" Parameter sp, type mismatch int vs. spinlock_t
+>> ---
+>>
+>> Actually, herd7/LKMM does complain of this one:
+>>
+>> ---
+>> Test Lock1-for-herd7 Allowed
+>> States 1
+>> 1:r1=0; sp=0;
+>> No
+>> Witnesses
+>> Positive: 0 Negative: 2
+>> Flag lock-final                          <---
+>> Condition exists (1:r1=1)
+>> Observation Lock1-for-herd7 Never 0 2
+>> Time Lock1-for-herd7 0.01
+>> Hash=5d10e6c355cec0c36f354abf175adc54
+>> ---
+>>
+>> Comment at line 57 of lock.cat says:
+>>
+>> ---
+>> (* The final value of a spinlock should not be tested *)
+>> flag ~empty [FW] ; loc ; [ALL-LOCKS] as lock-final
+>> ---
+>>
+>>         Thanks, Akira
+>>
+
+[...]
