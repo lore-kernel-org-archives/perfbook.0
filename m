@@ -1,238 +1,165 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:48510 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727052AbgKVDw2 (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sat, 21 Nov 2020 22:52:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606017148;
-        bh=uHM0gNKnPHJTYuZX2xTMOH8RslHO/jqouxnIrn456EI=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=ZWehiOs944kB7hohrCq2M4vgYQz8oYhL14qlJBCrw0RVs4X6PK93bsFDu+n9KBr2U
-         YAcF2xkOLG5G+BXTyCjV2tvY3b4E4+C6EkRbOsG7SjypSyTlTDRaG4jnRto3atL0Ce
-         8Iyhp5aYvHbUmERCwv7noywLx8Ka78RuFqhuMAJw=
-Date: Sat, 21 Nov 2020 19:52:27 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: Index in Perfbook (was Re: [PATCH perfbook 0/2]
- CodeSamples/formal: Cleanup of init blocks in litmus tests)
-Message-ID: <20201122035227.GX1437@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <7e9cc3fb-12af-eb3c-2d81-74486dd9e061@gmail.com>
- <20201115204244.GM3249@paulmck-ThinkPad-P72>
- <55d8594a-048d-15f3-b3fc-36ca6594545e@gmail.com>
- <20201121011410.GT1437@paulmck-ThinkPad-P72>
- <e02925ab-7a11-ad79-b87f-ef3ed969a369@gmail.com>
- <20201121034714.GV1437@paulmck-ThinkPad-P72>
- <3319ffbf-fc17-b98b-fd68-8ad3c1fa1eac@gmail.com>
+Return-Path: <SRS0=OS21=E4=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=jnV/LFZHP2yobIUtyUleLdVe8qnTQdZeVsUgJRYMv/k=;
+        b=JQY8cYA4hnTabL2GbcwTesVCmRaWsJkbgV6dFLrzZhqf7q25Hd7D3ydKM20zN7gQmL
+         kr9P300mb+jaZiWX+iZSN8yii3pHhHWOYCO7Nz1y0qoC1WyA+pwdkhysJSfX3JM1ZL1R
+         eykAPIQWSwtnat0qJ/dNfy6Eo12er/qKtaaURUM9WWcX9TExNcTECZgCTEI3UW3R5I7X
+         uO19rXBHCUOwK8mpeQx8GF6xMSk+TyEozy5GvKSNPeJmqErEVIVe/st8XuA8lFCi6VO9
+         BhUkPUML/DIsFI2z5K+UIQ7U8aoWho8qaB7aMoqA39BoWKJ8T+pzxHsNX+EqUBpZvrY6
+         1xMw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [NOT PULL YET -perfbook] PoC of adding index to perfbook
+Message-ID: <29dc3825-3aa7-2e69-ddde-5de61f7015dc@gmail.com>
+Date: Mon, 23 Nov 2020 00:14:05 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3319ffbf-fc17-b98b-fd68-8ad3c1fa1eac@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Nov 21, 2020 at 01:14:59PM +0900, Akira Yokosawa wrote:
-> On Fri, 20 Nov 2020 19:47:14 -0800, Paul E. McKenney wrote:
-> > On Sat, Nov 21, 2020 at 11:51:11AM +0900, Akira Yokosawa wrote:
-> >> On Fri, 20 Nov 2020 17:14:10 -0800, Paul E. McKenney wrote:
-> >>> On Mon, Nov 16, 2020 at 07:25:09AM +0900, Akira Yokosawa wrote:
-> >>>> On Sun, 15 Nov 2020 12:42:44 -0800, Paul E. McKenney wrote:
-> >>>>> On Sat, Nov 14, 2020 at 01:51:01PM +0900, Akira Yokosawa wrote:
-> >>>>>> Hi Paul,
-> >>>>>>
-> >>>>>> This patch set is what I mentioned the other day in response to
-> >>>>>> your LKMM patch for 5.11.
-> >>>>>> klitmus7 doesn't need most of type info in litmus-test init blocks.
-> >>>>>>
-> >>>>>> While there are some cases where klitmus7 requires type info of variables
-> >>>>>> to be watched (via the "exists", "locations", or "filter" directive),
-> >>>>>> as long as the watched variables are of type "int", extra type info
-> >>>>>> in the init block is not required.
-> >>>>>>
-> >>>>>> Litmus tests under CodeSamples/formal/ should keep compatible with
-> >>>>>> klitmus7 after this patch set is applied.
-> >>>>>>
-> >>>>>> Patch 1/2 removes initialization to 0 and type info of "int" or "int *"
-> >>>>>> under CodeSamples/formal/litmus/.
-> >>>>>>
-> >>>>>> Patch 2/2 further reduce line counts of litmus tests by using "{}"
-> >>>>>> as empty init blocks.
-> >>>>>> It also adds/removes empty lines for those code snippets to have
-> >>>>>> consistent looks.
-> >>>>>>
-> >>>>>> Similar changes to patch 1/2 can be made in the RCU litmus tests
-> >>>>>> presented in Section 12.3.2. They are not touched in this patch set.
-> >>>>>>
-> >>>>>> May be in a follow-up patch.
-> >>>>>
-> >>>>> Queued and pushed, thank you very much!
-> >>>>>
-> >>>>>>         Thanks, Akira
-> >>>>>>
-> >>>>>> *NOTE*:
-> >>>>>>
-> >>>>>> There are cases where litmus tests for herd7 can not be
-> >>>>>> made compatible with (current) klitmus7, though.
-> >>>>>>
-> >>>>>> One such example is when a variable of a type other than the "int"
-> >>>>>> or "int *" (such as "spinlock_t") is specified in the "locations" or "filter"
-> >>>>>> directive.
-> >>>>>> Current klitmus7 has no idea of the way to obtain the value of such a
-> >>>>>> variable.
-> >>>>>
-> >>>>> Good to know!  Do we have litmus tests that have problems with this?
-> >>>>
-> >>>> One such litmus test can be made up based on CodeSamples/formal/herd/C-Lock1.litmus
-> >>>
-> >>> So there is not currently such a litmus test in perfbook, but one could
-> >>> easily be created, correct?
-> >>
-> >> You are right!
-> >>
-> >>         Thanks, Akira
-> >>
-> >> PS.
-> >>
-> >> I'm preparing a patch series to add an index framework in perfbook.
-> >> My plan is to add a specific make target for the time being to have such
-> >> index pages printed.
-> >> As you should know, the hard part is to embed a *lot* of index annotations
-> >> in .tex source files.
-> > 
-> > Quite right, it is a big job!
-> > 
-> >> I'm thinking of splitting indexes into a general one and API index.
-> >> By API, I mean functions such as smp_mb(), READ_ONCE(), etc.
-> >>
-> >> API index can have kernel API, perfbook specific API, C11 API, and GCC API.
-> > 
-> > The upside is that the individual indexes are smaller and perhaps
-> > more manageable.  The downside is that a reader who has no idea
-> > what the function call is might have to look it up in four (or maybe
-> > even five) indexes.  Especially if the API is a historic API that
-> > is no longer used.
-> > 
-> > I have no idea what the right answer is.  One approach would be to
-> > have all of the APIs appear both in their respective categories and
-> > in the general index.  Not sure that this would be any better, though.
-> 
-> My idea is to merge all the APIs into a single API Index.
-> Category of each API can be shown there like:
-> 
->     __atomic_load() (GCC), <pages>
->     ACCESS_ONCE() (kernel, historic), <pages>
->     atomic_inc() (kernel), <pages>
->     atomic_load() (C11), <pages>
->     fork() (POSIX), <pages>
->     smp_mb() (kernel), <pages>
->     smp_read_barrier_depends() (kernel, historic), <pages>
-> 
-> Give or take the appearance of annotations. For example we can use
-> "G" for "GCC", "C" for "C11", "k" for "kernel", "k,h" for "kernel, historic",
-> etc.
+Hi Paul,
 
-Ah, that does make more sense, thank you for clarifying!
+So this *not-pull* request is to show you my WIP branch to add indices
+to perfbook.
 
-> >> As for words/terms, if you can provide me a wish list you'd like to see in
-> >> the general index, I'm willing to add such annotations.
-> >> My starting point of the general index is the Glossary.
-> > 
-> > The glossary is a good starting point.  People mentioned in the text is
-> > another.  Not sure whether or not those quoted in the epigraphs should
-> > be included or not.
-> 
-> Ah, I missed people's names.
-> 
-> >                     Names of algorithms should be included, also names
-> > of data structures and of famous problems (for example, the Dining
-> > Philosopher's problem, mazes, and so on).
-> > 
-> > I am sure that I am missing quite a few categories, but at least a
-> > start!  ;-)
-> 
-> Let me see how it can be done.
-> 
-> I'll submit a [NOT PULL] request when it is ready as PoC.
+Patch 1/7 kicks of the changes by adding index annotations in Glossary.
 
-Sounds very good!
+Patch 2/7 reorganizes back matter of perfbook. Glossary, Bibliography,
+Credits, and the newly added Index belong there.
+I employed "tocbibind" package to include Bibliography in TOC.
 
-							Thanx, Paul
+Patch 3/7 adds API Index. Annotations for the Index is mostly done in
+toolsoftrade.
+You can see that raw \index or \sindex macros are avoided in .tex source
+files.  Using custom macros for annotation can reduce diffs in adding
+annotations.
+glossary.tex is an exception, as every description item has
+\index{} on it.  If we add other annotations there, we need to use
+custom macros.
 
->         Thanks, Akira
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> >> Thoughts? 
-> >>
-> >>>
-> >>> Or am I still confused?  ;-)
-> >>>
-> >>> 							Thanx, Paul
-> >>>
-> >>>> ---
-> >>>> C Lock1-for-herd7
-> >>>>
-> >>>> (*
-> >>>>  * Example test incompatible with klitmus7
-> >>>>  *
-> >>>>  * klitmus7 cannot access spinlock_t variable.
-> >>>>  *)
-> >>>>
-> >>>> {}
-> >>>>
-> >>>> P0(int *x, spinlock_t *sp)
-> >>>> {
-> >>>> 	spin_lock(sp);
-> >>>> 	WRITE_ONCE(*x, 1);
-> >>>> 	WRITE_ONCE(*x, 0);
-> >>>> 	spin_unlock(sp);
-> >>>> }
-> >>>>
-> >>>> P1(int *x, spinlock_t *sp)
-> >>>> {
-> >>>> 	int r1;
-> >>>>
-> >>>> 	spin_lock(sp);
-> >>>> 	r1 = READ_ONCE(*x);
-> >>>> 	spin_unlock(sp);
-> >>>> }
-> >>>>
-> >>>> locations [sp]    (* incompatible with klitmus7 *)
-> >>>> exists (1:r1=1)
-> >>>> ---
-> >>>>
-> >>>> klitmus7 can't convert this to a kernel module:
-> >>>>
-> >>>> ---
-> >>>> $ klitmus7 -o temp C-Lock1-for-herd7.litmus
-> >>>> File "C-Lock1-for-herd7.litmus" Parameter sp, type mismatch int vs. spinlock_t
-> >>>> ---
-> >>>>
-> >>>> Actually, herd7/LKMM does complain of this one:
-> >>>>
-> >>>> ---
-> >>>> Test Lock1-for-herd7 Allowed
-> >>>> States 1
-> >>>> 1:r1=0; sp=0;
-> >>>> No
-> >>>> Witnesses
-> >>>> Positive: 0 Negative: 2
-> >>>> Flag lock-final                          <---
-> >>>> Condition exists (1:r1=1)
-> >>>> Observation Lock1-for-herd7 Never 0 2
-> >>>> Time Lock1-for-herd7 0.01
-> >>>> Hash=5d10e6c355cec0c36f354abf175adc54
-> >>>> ---
-> >>>>
-> >>>> Comment at line 57 of lock.cat says:
-> >>>>
-> >>>> ---
-> >>>> (* The final value of a spinlock should not be tested *)
-> >>>> flag ~empty [FW] ; loc ; [ALL-LOCKS] as lock-final
-> >>>> ---
-> >>>>
-> >>>>         Thanks, Akira
-> >>>>
-> >>
-> >> [...]
+Patch 4/7 adds annotations for people's names. They could be in another
+independent index, but they are merged into the general index.
+As a result, the ratio of people's names in the index is quite high at the
+moment.
+It will decrease as we add annotations for general terms/words.
+Names are presented in the index in the form of "surname, forename" order.
+To enable this, annotation is done by \ppl{forename}{surname}.
+When you need only surname in the text, use \pplsur macro instead.
+For names with abbreviated middle name, there is a \pplmdl command as
+well.
+
+Patch 5/7 highlights indexed words/terms/names in the text.
+This should help us in finding out what needs to be annotated.
+If the color of DarkGreen is problematic for you, please let me know
+which color is easy for you.
+One of the purpose of avoiding raw \index{} macros for annotation is
+to realize this coloring.
+
+Patch 6/7 adds a few more annotations of people's names in "formal".
+
+Patch 7/7 changes the layout of index from default 2 columns to 3 columns.
+As mentioned in the change log, API Index shows a minor glitches of
+extraneous line folding caused by the side effect of \co{} macro.
+This issue has been fixed in the most recent LaTeX released on 2020-10-01.
+I have not figured out if there is some workaround for older LaTeX.
+
+The appearance of index pages does not matter so much at the moment,
+I suppose.  We need to add annotations first.
+
+To do that, we need to agree the organization of index pages.
+Current indices are flat.
+LaTeX indexing framework supports up to 3 levels of hierarchy.
+
+For example:
+
+Flat index
+
+    Critical section, <page>
+    ...
+    Read-side critical section, <page>
+    ...
+    Write-side critical section, <page>
+
+2 level index
+
+    Critical section, <page>
+        read-side, <page>
+        write-size, <page>
+    ...
+    Read-side critical section, see Critical section, read-side
+    ...
+    Write-side critical section, see Critical section, write-side
+
+Which do you prefer?
+
+Another point on people's names.
+I'm *not* thinking of making index of authors of Bibliography.
+Due to the amount of cited material, it will require a ton of cleanups
+in .bib files if you want the author index to look consistent.
+
+Which means, you need to mention names of authors who you want to see
+in the index.  Does this sound reasonable to you?
+
+I know you are debugging/analyzing/testing RCU and lockdep interaction
+right now.
+
+I'm not in a hurry and looking forward to your feedback.
+
+        Thanks, Akira
+
+--
+The following changes since commit 810da77e1c66ad543e34a10b197aa9e629c7dc8f:
+
+  CodeSamples/formal: Use '{}' for empty init blocks in litmus tests (2020-11-15 12:38:36 -0800)
+
+are available in the Git repository at:
+
+  https://github.com/akiyks/perfbook.git tags/for-paul-not-pull-2020.11.23a
+
+for you to fetch changes up to 9cecce4c32c9ff97f3330591d0699c8aa7e2585b:
+
+  index: Trial of 3 column (2020-11-22 23:16:58 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (7):
+      PoC of indexing
+      Reorganize backmatters
+      PoC of additional API Index
+      index: Add annotations to people's names for PoC
+      Color indexed text conditionally
+      index: Add some more people index annotations in 'formal'
+      index: Trial of 3 column
+
+ .gitignore                      |   3 +
+ Makefile                        |  10 +-
+ SMPdesign/SMPdesign.tex         |   2 +-
+ SMPdesign/partexercises.tex     |   5 +-
+ appendix/ack/ack.tex => ack.tex |   6 +-
+ appendix/appendix.tex           |  20 --
+ count/count.tex                 |   2 +-
+ cpu/cpu.tex                     |   3 +-
+ cpu/hwfreelunch.tex             |   6 +-
+ cpu/overview.tex                |   4 +-
+ datastruct/datastruct.tex       |   4 +-
+ debugging/debugging.tex         |   5 +-
+ defer/rcurelated.tex            |  92 +++++----
+ defer/rcuusage.tex              |   3 +-
+ formal/axiomatic.tex            |   4 +-
+ formal/ppcmem.tex               |   7 +-
+ formal/spinhint.tex             |   2 +-
+ future/cpu.tex                  |  12 +-
+ future/tm.tex                   |   2 +-
+ glossary.tex                    | 112 +++++------
+ howto/howto.tex                 |  37 ++--
+ intro/intro.tex                 |   8 +-
+ memorder/memorder.tex           |   6 +-
+ perfbook-lt.tex                 |  75 ++++++-
+ toolsoftrade/toolsoftrade.tex   | 420 ++++++++++++++++++++--------------------
+ utilities/runlatex.sh           |   2 +
+ 26 files changed, 470 insertions(+), 382 deletions(-)
+ rename appendix/ack/ack.tex => ack.tex (98%)
