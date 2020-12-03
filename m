@@ -1,70 +1,78 @@
-Return-Path: <SRS0=ReyI=FK=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=56sw=FH=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Bbit0gH+3SfeloMGRxE12u7HDgvNnJA1fSz443jYhk8=;
-        b=CNhonYs90DT+9bt/g6vhnhcOY24MQHD2gJBLi5Hk71TV3jeGslxeqNH7YGSWVRqaon
-         8cKYQvzvs98pveXG0F2HbogGuF28O+MnCilFYgBG97bBIGx9UvsMz0+0ktsBLAXZNOtv
-         GEarEanmh+WYcltU082rTus1CZ0t7pDoMZN8V/JvPlxgQBpqqQgePox3ohBKOw+K8rsu
-         D+eJhREhprtwR+CseCS+NfZ3QGMF217+A0I+QSYlAovnPdTsABeevHtzj1isRVvcCxq9
-         vSH0ngrxD9aMhPaxR+ROdeFmntdZo10A98q66cjDFDGXGSoz6uMP8sJvYYJYVEgkbcdi
-         TWiw==
-Subject: [PATCH -perfbook v2] whymb: Fix typo in variable name
-References: <7e76cd30-1879-bdff-f693-e0671c8d77d4@gmail.com>
+        bh=CV1Oq2mNE3UPy4pJ3Nk+sY/NmAD69FsKctf39mFDVC8=;
+        b=Zgi+r5EempzEXsR/okdtVLc0WleOQCciHWHjbvB4L98/j9U6SOxhWbL0lQtnAnhYdo
+         v0kfg5KCbYIqiYcc4f1URPEMwinudTmZfvq2HRs9IDFTFEq+zDKj7XnJPlajn7gsQnQu
+         imSRWKis2J3S94SW6bDcCK7gQsjlbOJkgFUVUx4uKV9uW+SXu8dqt05ZX4SKbaCD4PI9
+         hAY0cXRFh9vnFzBRn4psQQoHyhyjmdx60VMPgJI7+w6l7ZbTzeuf27DJrdvtTsf9uIeg
+         ZkcgIhfgGZMrwhHLDwNbHPPUevJ/0NYsMQFgde91FmJM3K+MLQj4P1NlanOYjOmoe1Rb
+         39GQ==
+Subject: Re: [PATCH -perfbook] whymb: Fix description of compiler mischief
+References: <99ea974f-8788-c2e5-5544-e7e708ad2553@gmail.com>
+ <20201203165143.GX1437@paulmck-ThinkPad-P72>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <999131aa-68ff-8774-8172-d804dcde3cea@gmail.com>
-Date: Mon, 7 Dec 2020 07:40:26 +0900
+Message-ID: <4b773dda-d083-702a-9519-f8fc76eadac1@gmail.com>
+Date: Fri, 4 Dec 2020 07:42:29 +0900
 MIME-Version: 1.0
-In-Reply-To: <7e76cd30-1879-bdff-f693-e0671c8d77d4@gmail.com>
+In-Reply-To: <20201203165143.GX1437@paulmck-ThinkPad-P72>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Motohiro Kanda <kanda.motohiro@gmail.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+To: paulmck@kernel.org
+Cc: Motohiro Kanda <kanda.motohiro@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-From ff659ff1a4927bf0ebfbe5a28a3edc208c688e2d Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Mon, 7 Dec 2020 07:36:07 +0900
-Subject: [PATCH -perfbook v2] whymb: Fix typo in variable name
+On Thu, 3 Dec 2020 08:51:43 -0800, Paul E. McKenney wrote:
+> On Wed, Dec 02, 2020 at 11:50:27PM +0900, Akira Yokosawa wrote:
+>> >From 89ab8426f9821b6a8bf86e9d4f7eb596e0cfed73 Mon Sep 17 00:00:00 2001
+>> From: Akira Yokosawa <akiyks@gmail.com>
+>> Date: Wed, 2 Dec 2020 07:35:08 +0900
+>> Subject: [PATCH -perfbook] whymb: Fix description of compiler mischief
+>>
+>> In this code snippet, the assertion can not fire due to different
+>> reasons.
+>> When bar() observes b == 1, the smp_mb() assures a == 1.
+>> When bar() observes b == 0, the while loop will loop forever and
+>> the assertion can't be reached.
+>>
+>> This was pointed out by Motohiro Kanda in his Japanese translation
+>> of perfbook [1].
+>>
+>> [1]: https://sites.google.com/site/kandamotohiro/perfbook-d/perfbookappendixf10
+>>
+>> Cc: Motohiro Kanda <kanda.motohiro@gmail.com>
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> 
+> I took this patch as is, but added a patch on top that (hopefully)
+> does a better job of explaining the situation.  Thank you both!!!
 
-It is the variable "b" that CPUs 1 and 2 observe in Listing C.3.
-This typo was pointed out by Motohiro in his Japanese translation [1].
+Ah, this was your original intention of this Quick Quiz.
 
-[1]: https://sites.google.com/site/kandamotohiro/perfbook-d/perfbookappendixc
+Yes, this explains the situation much better.
 
-Also add a couple of nbsps ("CPU~1 and 2" -> "CPU~1 and~2").
+I did thought about dropping the smp_mb() in the snippet at first,
+but that would require me to do a larger rewrite of the answer.
+Instead, I submitted the minimal patch to attract your attention. ;-)
 
-Cc: Motohiro Kanda <kanda.motohiro@gmail.com>
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-v1 -> v2: Add a couple of nbsps
+> 
+> Would it also help to add a reference to the discussion of control
+> dependencies? 
 
- appendix/whymb/whymemorybarriers.tex | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Yes, I think so.
+Section 15.3.3 or Section 15.3 as a whole would be a good reference.
 
-diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
-index e6c24f6e..1dae3fc5 100644
---- a/appendix/whymb/whymemorybarriers.tex
-+++ b/appendix/whymb/whymemorybarriers.tex
-@@ -1506,12 +1506,12 @@ All variables are initially zero.
- 
- Note that neither CPU~1 nor CPU~2 can proceed to line~5 until they see
- CPU~0's assignment to ``b'' on line~3.
--Once CPU~1 and 2 have executed their memory barriers on line~4, they
-+Once CPU~1 and~2 have executed their memory barriers on line~4, they
- are both guaranteed to see all assignments by CPU~0 preceding its memory
- barrier on line~2.
--Similarly, CPU~0's memory barrier on line~8 pairs with those of CPUs~1 and 2
-+Similarly, CPU~0's memory barrier on line~8 pairs with those of CPUs~1 and~2
- on line~4, so that CPU~0 will not execute the assignment to ``e'' on
--line~9 until after its assignment to ``a'' is visible to both of the
-+line~9 until after its assignment to ``b'' is visible to both of the
- other CPUs.
- Therefore, CPU~2's assertion on line~9 is guaranteed \emph{not} to fire.
- 
--- 
-2.17.1
+        Thanks, Akira
 
 
+>                The straightforward answer given that information is
+> "control dependencies do not order later loads".
+> 
+> Motohiro, would you be OK with my mentioning your translation in the
+> next set of release notes for perfbook?  Either way, I much appreciate
+> your doing this work!
+> 
+> 							Thanx, Paul
+> 
