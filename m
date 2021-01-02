@@ -1,113 +1,69 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:59464 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726747AbhAAQB0 (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Fri, 1 Jan 2021 11:01:26 -0500
+Return-Path: <balbi@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609516845;
-        bh=5d7v40vIwnCwS0oywAD9n5yXbDgfBfyLgoF+X7hNSNk=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=YtcdklwjUaGPoDYyDB46olpqVf7y61DFgw7hxZZ/61QDS3MpNbJPnViJHgBpW/XRq
-         vAiYnWoaTEFTVCCyobTmc508OrNlh2gzByNpLfdrTp/Tak6Obbj21V2CZMMcSmomlK
-         koHAMbbrnGaKxv3WA6nduIuu1J7vioh1R1ZMcTctGdko9+oazgkS4YGYEpKNekY2fd
-         QRfrdRZPCldCfU4zzSnQEmTnAo22OoWsjMkfe7nptbI7oBFl+k7ZQy1LMLbwrI2Hm8
-         tqjQRocSW3VLtiGzcAw25zuz2x+lGG1uuNNk0348gHuk9QMb7u3YJrz373B6/0UOrh
-         irqP4OUzE9q0Q==
-Date: Fri, 1 Jan 2021 08:00:45 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: FYI, Second Edition Release Candidate 1 now available
-Message-ID: <20210101160045.GA12032@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20201230053728.GA31231@paulmck-ThinkPad-P72>
- <38c34066-da73-eecc-cbd6-4e24db5ab367@gmail.com>
- <20201230161346.GM2657@paulmck-ThinkPad-P72>
- <20201230185933.GP2657@paulmck-ThinkPad-P72>
- <68e8db69-c787-9a41-a311-b084eb6897b1@gmail.com>
- <20201231040409.GQ2657@paulmck-ThinkPad-P72>
- <ce22345f-9dd8-e7ae-ea07-09992615ee84@gmail.com>
- <20201231203601.GR2657@paulmck-ThinkPad-P72>
- <6e46043c-999b-48db-3ec1-44a4dc303686@gmail.com>
+	s=k20201202; t=1609614880;
+	bh=45qNxb36ogxsBobVm0i4ykF9lN5hP2M5d0JjhWnyLh0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BLtAxjkbA4uj2mU0qZOz8om0y8z+tKL1gg7QSTK1YUgU5rdwGiPvjOxBfQdvnT2ZL
+	 33DqwbvxptLSvPclrE4e/e0oCefLT1JsZ/VrAGTRh5j1drW56hSItNWIsd9UT3ktAo
+	 aLPEHGy3jx5zAdMRygRfAKZl3Gn6JEszI2AQxO/xsffi7W/7CY0Rak3rvPC7dnx5AQ
+	 fw5MMXmB889NhJFZzvj7eMwirFnOdC/j0bOglPCq6vFlOAWxibySqblFMShBdkbNKy
+	 6CsWRS+MuPE0qPhHSrhWXTHE8l6ZUnUBpFez7wOFWYtZgx1cPvbhvH543I8CuhQTcd
+	 Mhkmh3zbj9z9w==
+From: Felipe Balbi <balbi@kernel.org>
+Subject: Perfbook build failures
+Date: Sat, 02 Jan 2021 21:14:34 +0200
+Message-ID: <8735zj40dh.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6e46043c-999b-48db-3ec1-44a4dc303686@gmail.com>
-List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha256; protocol="application/pgp-signature"
+To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Fri, Jan 01, 2021 at 10:30:00AM +0900, Akira Yokosawa wrote:
-> On Thu, 31 Dec 2020 12:36:01 -0800, Paul E. McKenney wrote:
-> > On Thu, Dec 31, 2020 at 01:43:36PM +0900, Akira Yokosawa wrote:
-> >> On Wed, 30 Dec 2020 20:04:09 -0800, Paul E. McKenney wrote:
-> >>> On Thu, Dec 31, 2020 at 08:21:58AM +0900, Akira Yokosawa wrote:
-> >>>> On Wed, 30 Dec 2020 10:59:33 -0800, Paul E. McKenney wrote:
-> >>>>> On Wed, Dec 30, 2020 at 08:13:46AM -0800, Paul E. McKenney wrote:
-> >>>>>> On Wed, Dec 30, 2020 at 08:44:30PM +0900, Akira Yokosawa wrote:
-> >>>>>>> Hi Paul,
-> >>>>>>>
-> >>>>>>> On Tue, 29 Dec 2020 21:37:28 -0800, Paul E. McKenney wrote:
-> >>>>>>>> Hello!
-> >>>>>>>>
-> >>>>>>>> Release Candidate 1 of the Second Edition is now available, and I have
-> >>>>>>>> started a prototype blog entry: https://paulmck.livejournal.com/59935.html
-> >>>>>>>> Please let me know of any omissions or errors in this blog entry.
-> >>>>>>>
-> >>>>>>> Wouldn't it be worth while mentioning the availability of the "nq" build
-> >>>>>>> targets?
-> >>>>>>
-> >>>>>> Good point!  How about like this?
-> >>>>>>
-> >>>>>> 	Those who find Quick Quizzes distracting will be happy to learn
-> >>>>>> 	that "make nq" relegates both the quizzes and their answers to
-> >>>>>> 	the end of each chapter, similiar to common practice in textbooks.
-> >>>>>>
-> >>>>>> Maybe I should also show what "make help" and "make help-full" print out.
-> >>>>>
-> >>>>> And I went ahead and did both, using the output of "make help-full" to
-> >>>>> motivate the mention of "make nq".
-> >>>>>
-> >>>>> Thoughts?
-> >>>>
-> >>>> A bit lengthy, but looks good to me!
-> >>>
-> >>> I could drop the output of "make help-full" and just call out "make nq"
-> >>> as one example from that list.  Would that be better?
-> >>
-> >> Or you could put a relevant part of the output of "make help-full" instead:
-> >>
-> >>     [...]
-> >>     Experimental targets:
-> >>       Full,              Abbr.
-> >>       perfbook-qq.pdf,   qq:   framed Quick Quizzes
-> >>       perfbook-nq.pdf,   nq:   no inline Quick Quizzes (chapterwise Answers)
-> >>     [...]
-> >>           ("1cqq", "1cnq", and so on disable 2-column mode.)
-> > 
-> > Good point, updated.  Further thoughts?
-> 
-> Looks nice!
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Thank you!  Posted to social media, and Happy New Year!
 
-							Thanx, Paul
+Hi all,
 
-> >>>>>>> PS:
-> >>>>>>>
-> >>>>>>> My experiment on index annotations is progressing but slowly.
-> >>>>>>> Besides the hierarchical indexing, I'm attempting to make use of
-> >>>>>>> the "glossaries" or the "glossaries-extra" package to manage indexing
-> >>>>>>> of acronyms.
-> >>>>>>> Once it becomes stable enough, I'll submit an RFC pull request.
-> >>>>>>> That would be after the release of Second Edition.  
-> >>>>>
-> >>>>> And this sounds very good!
-> >>>>>
-> >>>>> 							Thanx, Paul
-> >>>>>
-> >>>>>>>>                                                                    I expect
-> >>>>>>>> to post it to my social media accounts in a few days.
-> >>>>>>>>
-> >>>>>>>> And thank you all for your interest in and contributions to perfbook!
-> >>>>>>>>
-> >>>>>>>> 							Thanx, Paul
-> >>>>>>>>
+I'm trying to build the perfbook, but I always get a build failure while
+building the Dining Philosopher's images, as shown below:
+
+SMPdesign/DiningPhilosopher4part-b.eps --> SMPdesign/DiningPhilosopher4part=
+-b.pdf
+SMPdesign/DiningPhilosopher5.eps --> SMPdesign/DiningPhilosopher5.pdf
+SMPdesign/DiningPhilosopher5PEM.eps --> SMPdesign/DiningPhilosopher5PEM.pdf
+SMPdesign/DiningPhilosopher5TB.eps --> SMPdesign/DiningPhilosopher5TB.pdf
+make: *** [Makefile:400: SMPdesign/DiningPhilosopher5TB.pdf] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Makefile:400: SMPdesign/DiningPhilosopher5.pdf] Error 1
+make: *** [Makefile:400: SMPdesign/DiningPhilosopher4part-b.pdf] Error 1
+make: *** [Makefile:400: SMPdesign/DiningPhilosopher5PEM.pdf] Error 1
+
+Any ideas on how to debug this?
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl/wxhoRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQZ6Pg/9GMGCYEthZ0DGAvdEVVu7ZEpEcJG06Klq
+QYjozBccl0yhH4SeSEzgHKcSV8qH/YVbroyhrijsxgaNfaVHSAe8GubP4VWWNCvQ
+4Jv6Xg8HaXusRimC8FulYyVAGznAfmOrAYT9sHpTOsh2ZXvvLqVncBNVm/lX2XyZ
+kZ9UDo5Ri3y2mqRb1IfHGD6nKETopT7s5psXo3+wfax+Aj5A1A5+bkqePWSo1G/D
+Ta7nFgDdxVFw0FQDZEp3vS2GHWFB+jiPZI/2vQDHuMYmfErpVkwHQe6J2p9lZCZk
+IoRYlqxlnrwsVEa1t5GsvdE2S/4S3Wxhuj+dAfXtNgch4Xme8i8ugBOSZ8kp+DWg
+lfev6k4oDgmSR6tExZxeLor4KTgplAiDcA0z7EZO0erop8PtQyAmYNRsew6pePjs
++LgqXHPZnhdv5oXd/61CHJxJw0XaO1KRw0L7o5senTqvB9M54tbhalVb4mm0ruGe
+A5mdtbNedAUOzHry9+KlFkDgXrjnr7x9VJ0J+6/je4X5SEfWK7qr8olKOFRsX3up
+8MgeazvOgzQsn7ok+Jj8OZ68LcFs0pfXjGbFpdFcKDBbd0ra/oP/lrV2S9ndIXRd
+j5tm7+06208N1OyGjP7f0poG0dK/bHKatJIt/eEkqQrSJMgdLS+VNzbmQRpEYkKA
+h9TSiPNWx4g=
+=g8+j
+-----END PGP SIGNATURE-----
+--=-=-=--
