@@ -1,111 +1,81 @@
-Return-Path: <SRS0=Fff6=GG=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=9J74HeuW7eY3A5IsrI63ZPnspge4idMA9xNCxtrySkk=;
-        b=HcsoBgnYXNZ2gtovQvFXRSo2yTGORtHVTggNflHuSbBSHLOqtfiWSCKWx7vBX1hUyD
-         sZdayvifjL0i1lDCG692nP3LVXyXJQL3Q0AhfEKksl3P6XynG7Yo4IKsigtZYs1odPHm
-         jaoDlH83lsxqakPd/827H4sSRWZLRECvJ6k4FGUAjM1+hQ16GyOZReCIgzaLGfCVGmYP
-         XoxUyxRZEeQ6wytVL6ctUzKJhpH2pZEEnT/KJO90cvNm3ckrxKOws2YppyAq9Dib98LD
-         h+tgKnNPre1w6INgCUlvKGQFzMwrJEcpyMZnH7lR7e7T3NxYrjxLSwZGpOe4N2UA7hj/
-         APYA==
-Subject: Re: [PATCH -perfbook] Makefile: Cope with GhostScript 9.53.0 or later
-References: <29de25dd-09e4-cd0b-a743-6e5a7c8dfb36@gmail.com>
- <87y2ha2i2i.fsf@kernel.org>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <1d95fe13-87e7-7f3b-35b0-489eddb714ab@gmail.com>
-Date: Mon, 4 Jan 2021 00:13:28 +0900
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:42738 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726166AbhACSZK (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Sun, 3 Jan 2021 13:25:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1609698269;
+        bh=C0jjaA2nbuid7YFu9dK6u/MJZ7mRQarYy0w72fmNHyc=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=UilVPa46u5PsilPCqetsitNnK9eEsbXeCfK2lMkRXDi96/JZ82fa3pL0EksdDKDSZ
+         ZTkn7g9hcnDWUwbGWXEO9mJHE9npqY/wegZ7Sdi/xZrja4TytjLYORAcyS1OWflFa/
+         Rt491ktYLNzhAcfbVxYmUqxeDGeo6LhTMl0fMcUtfLsZ8ZlH9TBUushozg91PZbo/B
+         kOD8aeF7YrcczhSkB67Wj9AUYsYVluM730ieYuMlVQ2+ceM7/D65Tt2/KsG+X4i4PG
+         n8riWt6pgwNvzqq1WgU/aLzpVemJYUXR+c7RHsLHgpj61fuBi8ndDcHN9//jwJW3w8
+         7WPhkG9Vcdwrg==
+Date: Sun, 3 Jan 2021 10:24:29 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: Request for clarification on Alpha reordering
+Message-ID: <20210103182429.GG12032@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <CAApSCJY_u9gsLHUY+=mBVBXzxU_oS8mF5CM5d_RkDFw7asPmyg@mail.gmail.com>
+ <20210103035250.GE12032@paulmck-ThinkPad-P72>
+ <7a4a8cbf-8828-6a2b-b45b-372eb84534ba@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <87y2ha2i2i.fsf@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-To: Felipe Balbi <balbi@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>
-Cc: =?UTF-8?B?0JTQvNC40YLRgNC40Lkg0JTRjNGP0YfQtdC90LrQvg==?= <dimhen@gmail.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7a4a8cbf-8828-6a2b-b45b-372eb84534ba@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Daniel Nitzan <danny.nitzan@gmail.com>, perfbook@vger.kernel.org
 
-On Sun, 03 Jan 2021 16:47:33 +0200, Felipe Balbi wrote:
->=20
-> Hi,
->=20
-> Akira Yokosawa <akiyks@gmail.com> writes:
->=20
->> From f04ab9441df5256aa9df73bb4fa005b43517f2f2 Mon Sep 17 00:00:00 2001=
+On Sun, Jan 03, 2021 at 01:12:40PM +0900, Akira Yokosawa wrote:
+> On Sat, 2 Jan 2021 19:52:50 -0800, Paul E. McKenney wrote:
+> > On Sun, Jan 03, 2021 at 12:04:24AM +0200, Daniel Nitzan wrote:
+> >> In 15.5.1 (Alpha) - In regard to the following statement: "Yes, this
+> >> does mean that Alpha can in effect fetch the data pointed to before it
+> >> fetches the pointer itself, strange but true."
+> >> I'd appreciate it if someone could clarify what this means. I don't
+> >> understand this statement in light of the actual data-dependent
+> >> reordering presented in this section, i.e. the pointer itself is
+> >> fetched, points to the correct location in memory, but the data is
+> >> stale.
+> > 
+> > Yes, your last statement is equivalent.  Either way, the reading CPU sees
+> > the new value of the pointer and the old value of the pointed-to data.
+> > You can look at it either as counter-intuitive reordering (as I did)
+> > or as counter-intuitive stale data (as you did).
+> > 
+> > The key point is that these values are not in a single location, but
+> > are instead replicated across the CPUs' caches.  Stores are therefore
+> > not atomic unless the hardware goes to a lot of trouble to make them
+> > appear to be atomic.
+> 
+> Hi Paul,
+> 
+> Off topic, but smp_read_barrier_depends() as a kernel API
+> has been removed since Linux v5.9 [1].
+> Now READ_ONCE() for Alpha uses mb() [2].
+> 
+> You might want to reflect these changes in perfbook before the
+> release of the Second Edition.
+> 
+> [1]: merge commit https://git.kernel.org/linus/145ff1ec090d
+>     ("Merge tag 'arm64-upstream' of git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux")
+> [2]: commit https://git.kernel.org/linus/d64628588515
+>     ("alpha: Override READ_ONCE() with barriered implementation")
 
->> From: Akira Yokosawa <akiyks@gmail.com>
->> Date: Sun, 3 Jan 2021 19:15:25 +0900
->> Subject: [PATCH -perfbook] Makefile: Cope with GhostScript 9.53.0 or l=
-ater
->> MIME-Version: 1.0
->> Content-Type: text/plain; charset=3DUTF-8
->> Content-Transfer-Encoding: 8bit
->>
->> Combination of GhostScript 9.53.x and pstricks-base 3.01 requires
->> an additional option of "gs" to enable transparency.
->>
->> Current version of a2ping can not cope with this change.
->>
->> Instead, use the pair of commands "ps2pdf" and "pdfcrop" for .eps
->> files originated from .tex sources.
->>
->> Reported-by: =D0=94=D0=BC=D0=B8=D1=82=D1=80=D0=B8=D0=B9 =D0=94=D1=8C=D1=
-=8F=D1=87=D0=B5=D0=BD=D0=BA=D0=BE <dimhen@gmail.com>
->> Reported-by: Felipe Balbi <balbi@kernel.org>
->> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->=20
-> This seems to work fine, a few warnings during compilation of affected =
-images:
+Good catch, thank you!  We will of course need to retain mention of
+smp_read_barrier_depends() given that people will be using pre-v4.15
+(to say nothing of pre-v5.9) kernels for some time, but the main code
+does need to reflect the current state of the Linux kernel.
 
-Thank you for testing this, Felipe.
+Perhaps in the third edition we should drop any and all references
+to DEC Alpha.  It is no longer in any way special, at least from the
+perspective of core kernel code.  ;-)
 
-I'm aware of these messages and should have mentioned them in the commit
-log.
+I suppose that the counter-argument is that non-Linux-kernel code might
+still need to pay attention, so maybe DEC Alpha needs to stay until such
+time as C/C++ handle address and data dependencies.  Worth some thought.
 
-=2Esetopacityalpha comes from pstricks-base package's pstricks.pro, which=
-
-defines prologue code.  So pstricks-base will need yet another update whe=
-n
-it becomes actually unavailable.
-
-I plan to keep these warning messages for a while.
-New commands in a Makefile might behave unexpectedly.
-I'm just cautious.  ;-)
-
->=20
-> SMPdesign/DiningPhilosopher4part-b.eps --> SMPdesign/DiningPhilosopher4=
-part-b.pdf
->    **** WARNING: .setopacityalpha is deprecated (as of 9.53.0) and will=
- be removed in a future release
->    **** See .setfillconstantalpha/.setalphaisshape for the improved sol=
-ution
->    **** WARNING: .setopacityalpha is deprecated (as of 9.53.0) and will=
- be removed in a future release
->    **** See .setfillconstantalpha/.setalphaisshape for the improved sol=
-ution
->    **** WARNING: .setopacityalpha is deprecated (as of 9.53.0) and will=
- be removed in a future release
->    **** See .setfillconstantalpha/.setalphaisshape for the improved sol=
-ution
->    **** WARNING: .setopacityalpha is deprecated (as of 9.53.0) and will=
- be removed in a future release
->    **** See .setfillconstantalpha/.setalphaisshape for the improved sol=
-ution
->    **** WARNING: .setopacityalpha is deprecated (as of 9.53.0) and will=
- be removed in a future release
->    **** See .setfillconstantalpha/.setalphaisshape for the improved sol=
-ution
->    **** WARNING: .setopacityalpha is deprecated (as of 9.53.0) and will=
- be removed in a future release
->    **** See .setfillconstantalpha/.setalphaisshape for the improved sol=
-ution
-[...]
->=20
-> Tested-by: Felipe Balbi <balbi@kernel.org>
->=20
-
-I'll send a v2 with the updated commit log and your Tested-by:
-
-        Thanks, Akira
-
-
+							Thanx, Paul
