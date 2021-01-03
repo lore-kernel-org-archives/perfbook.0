@@ -1,50 +1,176 @@
-Return-Path: <SRS0=nsJR=GG=gmail.com=danny.nitzan@kernel.org>
+Return-Path: <SRS0=Fff6=GG=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VCw/80LouXds6aTLgar5aQ3/iA4JQK7Ndp6Mvo4YRUk=;
-        b=PPMnrz8nzGRHgM0Bvcs9gnWYJIyZHojv0YL/Le6g4Orij3O+tIO3z1wALQ+qXDdgn3
-         SwNZ4/ZnAznSDd0KYItOUyZtH9XLjgk0EmnoXtrUnd5L13QbC9//P+TZ0pSjr0BiYHM+
-         YYBd6Smfump4MwWG+ULEwhpHogQCxXfEhgjTa/SLKom44S8p6SCulWjN0BTmfNp2SpXu
-         vFyiL7Eiyy2myX+CZzQ/CfCwBY7KlNoi9JAhCNs6frHs0LN8NfXg34dpJWEPZdjYXCME
-         eU3t2A8kZFoIW29wdqQMt3rw/EAuqvBgUMCX1Bu9B6lZjtGMi++y6UeziMZ1GYGBGOWa
-         4g4g==
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=ElYV7/iUT3jtQFej+vUHyUcB+yemqGQWKBR755s9Uuc=;
+        b=CzI910xPMtsXHpw7sF8pSDNLf0ZWNuRzFLumoTJ0N481LzeLsmyswzMisr+M8WfeVs
+         oyHIqT4dBpZY1g2A7J1zoQfuqwmhholyVq7SIduYKs4LLA+ZSL8EWrCRPGDybJXzikvh
+         SPs+3E2kRmz29NLSfBVmvkMTOA2y5Vv+qu0VxUvGp4i586IH4kkAvofbKfUJwMC6aucx
+         os/cwZEyQeYAwVXNmZDX5W/0pVOFHxNPZll0SQ96j0u6pkO3bpvHNtR4qKsTvS435YKX
+         GdI91VWIEUAdLN3CRoBAB6IQDAChsTvxJ4MAjqnw+1u4KaOjssOb37g8uYYuEnlXk8n6
+         9yyQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] Makefile: Cope with GhostScript 9.53.0 or later
+Message-ID: <29de25dd-09e4-cd0b-a743-6e5a7c8dfb36@gmail.com>
+Date: Sun, 3 Jan 2021 20:23:12 +0900
 MIME-Version: 1.0
-References: <CAApSCJY_u9gsLHUY+=mBVBXzxU_oS8mF5CM5d_RkDFw7asPmyg@mail.gmail.com>
- <20210103035250.GE12032@paulmck-ThinkPad-P72>
-In-Reply-To: <20210103035250.GE12032@paulmck-ThinkPad-P72>
-From: Daniel Nitzan <danny.nitzan@gmail.com>
-Date: Sun, 3 Jan 2021 09:06:31 +0200
-Message-ID: <CAApSCJY4CTJDEm7PbaGVg-Ac7Uy7j6Ux5TR9d=2sWDA_fbxJ6Q@mail.gmail.com>
-Subject: Re: Request for clarification on Alpha reordering
-Content-Type: text/plain; charset="UTF-8"
-To: paulmck@kernel.org
-Cc: perfbook@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: =?UTF-8?B?0JTQvNC40YLRgNC40Lkg0JTRjNGP0YfQtdC90LrQvg==?= <dimhen@gmail.com>, Felipe Balbi <balbi@kernel.org>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Thanks Paul!
+=46rom f04ab9441df5256aa9df73bb4fa005b43517f2f2 Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Sun, 3 Jan 2021 19:15:25 +0900
+Subject: [PATCH -perfbook] Makefile: Cope with GhostScript 9.53.0 or late=
+r
+MIME-Version: 1.0
+Content-Type: text/plain; charset=3DUTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jan 3, 2021 at 5:52 AM Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Sun, Jan 03, 2021 at 12:04:24AM +0200, Daniel Nitzan wrote:
-> > In 15.5.1 (Alpha) - In regard to the following statement: "Yes, this
-> > does mean that Alpha can in effect fetch the data pointed to before it
-> > fetches the pointer itself, strange but true."
-> > I'd appreciate it if someone could clarify what this means. I don't
-> > understand this statement in light of the actual data-dependent
-> > reordering presented in this section, i.e. the pointer itself is
-> > fetched, points to the correct location in memory, but the data is
-> > stale.
->
-> Yes, your last statement is equivalent.  Either way, the reading CPU sees
-> the new value of the pointer and the old value of the pointed-to data.
-> You can look at it either as counter-intuitive reordering (as I did)
-> or as counter-intuitive stale data (as you did).
->
-> The key point is that these values are not in a single location, but
-> are instead replicated across the CPUs' caches.  Stores are therefore
-> not atomic unless the hardware goes to a lot of trouble to make them
-> appear to be atomic.
->
->                                                         Thanx, Paul
+Combination of GhostScript 9.53.x and pstricks-base 3.01 requires
+an additional option of "gs" to enable transparency.
+
+Current version of a2ping can not cope with this change.
+
+Instead, use the pair of commands "ps2pdf" and "pdfcrop" for .eps
+files originated from .tex sources.
+
+Reported-by: =D0=94=D0=BC=D0=B8=D1=82=D1=80=D0=B8=D0=B9 =D0=94=D1=8C=D1=8F=
+=D1=87=D0=B5=D0=BD=D0=BA=D0=BE <dimhen@gmail.com>
+Reported-by: Felipe Balbi <balbi@kernel.org>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi all,
+
+My previous comment on the build error reported by Dmitry and Felipe
+was not accurate.
+
+pstricks-base 3.01 did what the update announcement said and is
+compatible with GhostScript 9.53.x or later by adding prologue code
+to enable transparency support when gs version is larger than 9.52.
+
+Due to the behavior change, for "gs" to accept eps files generated from
+pstricks-base 3.01, it (9.53.0 or later) needs an additional option
+-dALLOWPSTRANSPARENCY.
+
+Current version of a2ping doesn't know of this change and it invokes
+"gs" without the option. This is the root cause of the build error.
+I tried a2ping's "--gsextra=3D" option to add it, but couldn't resovle
+the error.
+
+Instead of a2ping, the pair of ps2pdf and pdfcrop can do the same
+auto cropping of PDF figures.  ps2pdf is distributed among GhostScript
+releases and if you have gs 9.53.x, you should also have a compatible ps2=
+pdf.
+
+This patch fixes the build error by detecting GhostScript 9.53.0 or
+later (up to 9.59.x for the moment) and switching the command to use.
+
+Minor nit:
+
+I tried to test this patch on Ubuntu 18.04 with up-to-date TeX Live
+and manually installed GhostScript 9.53.3.
+However, I couldn't setup font info properly for it to work with the
+font replacement (Adobe -> Nimbus) scripts enabled.
+
+On Fedora 33 and CentOS 8, this patch works just fine.
+
+For those who stick with distro versions of TeX Live and GhostScript,
+this patch should have no effect until those packages are upgraded.
+
+        Thanks, Akira
+
+PS. (especially to Paul)
+
+This mail is sent in UTF-8 encoding due to Dmitry's name in Reported-by.
+I don't think it would break this message in git-am incompatible way,
+but if it does, please let me know.
+--
+ Makefile | 30 +++++++++++++++++++++++++-----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 56ce62bf..bf2e89ba 100644
+--- a/Makefile
++++ b/Makefile
+@@ -38,6 +38,8 @@ EPSSOURCES_FROM_TEX :=3D \
+ 	SMPdesign/DiningPhilosopher4part-b.eps \
+ 	SMPdesign/DiningPhilosopher5PEM.eps
+=20
++PDFTARGETS_OF_TEX :=3D $(EPSSOURCES_FROM_TEX:%.eps=3D%.pdf)
++
+ DOTSOURCES :=3D $(wildcard */*.dot)
+=20
+ EPSSOURCES_FROM_DOT :=3D $(DOTSOURCES:%.dot=3D%.eps)
+@@ -70,7 +72,7 @@ EPSORIGIN :=3D $(filter-out $(EPSSOURCES_FROM_TEX) $(EP=
+SSOURCES_FROM_DOT) $(EPSSOU
+=20
+ PDFTARGETS_OF_EPSORIG :=3D $(EPSORIGIN:%.eps=3D%.pdf)
+=20
+-PDFTARGETS_OF_EPSOTHER :=3D $(filter-out $(PDFTARGETS_OF_EPSORIG),$(PDFT=
+ARGETS_OF_EPS))
++PDFTARGETS_OF_EPSOTHER :=3D $(filter-out $(PDFTARGETS_OF_EPSORIG) $(PDFT=
+ARGETS_OF_TEX),$(PDFTARGETS_OF_EPS))
+=20
+ BIBSOURCES :=3D bib/*.bib alphapf.bst
+=20
+@@ -124,19 +126,23 @@ ifdef A2PING
+   GS_950_OR_LATER :=3D $(shell gs --version | grep -c -E "9\.[5-9].?")
+   A2PING_277P :=3D $(shell a2ping --help 2>&1 | grep -c "2.77p,")
+   A2PING_283P :=3D $(shell a2ping --help 2>&1 | grep -c "2.83p,")
++  GS_953_OR_LATER :=3D $(shell gs --version | grep -c -E "9\.5[3-9].?")
+   ifeq ($(A2PING_277P),1)
+-    A2PING_GSCNFL :=3D 1
++    A2PING_GSCNFL =3D 1
+   else
+     ifeq ($(A2PING_283P),1)
+       ifeq ($(GS_950_OR_LATER),1)
+-        A2PING_GSCNFL :=3D 1
++        A2PING_GSCNFL =3D 1
+       else
+-        A2PING_GSCNFL :=3D 0
++        A2PING_GSCNFL =3D 0
+       endif
+     else
+-      A2PING_GSCNFL :=3D 0
++      A2PING_GSCNFL =3D 0
+     endif
+   endif
++  ifeq ($(GS_953_OR_LATER),1)
++    A2PING_GSCNFL =3D 2
++  endif
+ endif
+=20
+ LINELABEL_ENV_BEGIN :=3D $(shell grep -l -F '\begin{linelabel}' $(LATEXS=
+OURCES))
+@@ -395,6 +401,20 @@ endif
+ 	@a2ping --below --hires --bboxfrom=3Dcompute-gs $<i $@ > /dev/null 2>&1=
+
+ 	@rm -f $<i
+=20
++$(PDFTARGETS_OF_TEX): %.pdf: %.eps
++	@echo "$< --> $@"
++ifndef A2PING
++	$(error $< --> $@: a2ping not found. Please install it)
++endif
++ifeq ($(A2PING_GSCNFL),1)
++	$(error a2ping version conflict. See #7 in FAQ-BUILD.txt)
++endif
++ifeq ($(A2PING_GSCNFL),2)
++	@ps2pdf -dALLOWPSTRANSPARENCY -dNOSAFER $< - | pdfcrop -hires - $@  > /=
+dev/null 2>&1
++else
++	@a2ping --below --hires --bboxfrom=3Dcompute-gs $< $@ > /dev/null 2>&1
++endif
++
+ $(PDFTARGETS_OF_EPSOTHER): %.pdf: %.eps
+ 	@echo "$< --> $@"
+ ifndef A2PING
+--=20
+2.17.1
+
+
