@@ -1,92 +1,65 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:50158 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726787AbhAFX34 (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Wed, 6 Jan 2021 18:29:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609975755;
-        bh=vDJC4u9IzMbRF+ttZmXwPyYbXH3fTZFGbhK5JVwY9r8=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=MjLtZUeVUFCBNFcEkzQjMeSjDPx9Wopz44A/0sY615a94sTlcg6FY5YLqrNJAIO5L
-         j84DB/HqfIZNGEDUMuj+D5UFIsWocHZViZUDD3RJdz54RnVksgEXY942tck+yz7wHn
-         gSx23yxBmVc4BN8lAaL8NdeJ0p26XKC/ZZA6VC7fYM6e7bSbB8yfCpNyPNfO+cAz3S
-         S4iwlEgrWHuOB1VWUDc8luOaycmQdBOKUNRxs9EcJmkSXgzkFvLrVUrODm7MxW0ql2
-         Xsz+KsVkqzUPZIwk6I7pj9kul50J0PXRDAl+ARqWObFpzA41iY/UCDtZ87qgnr61c5
-         gF9N1+wz1y2lQ==
-Date: Wed, 6 Jan 2021 15:29:15 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 2/2 -perfbook] FAQ-BUILD: Add Q&A on Docker image
-Message-ID: <20210106232915.GH2743@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
+Return-Path: <SRS0=cNLA=GK=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=4EVXAGmOiz1L+qZBzlqtTE68XVZd3C/kagtBJsdCEcQ=;
+        b=cfJUhuu6EAxt8wcv+YJHkVLtnSO+t4+EwiePHZ+uAuJWJDDdcmrk9ioQREQHvhugcv
+         Fe8DpNzL6yOdRtX7ra400KMTc2WOD53RsOcA6/m2HLfnryk4VTm6fNc9zhHhHQs5n9FB
+         Quw98xjCXUvXxDOj3zLI+FudukkmslJ4MAXSngv7/MQTco4I5MWGau1DnRuf34/k5Ghy
+         0YO6fbVqCNMtNYHEp1CV4uRmAA1bAbmwHY3EDBj6VsNCTTRpD2rPFJskxl1Ruaj+Em4M
+         APQFaHt+uTuJ1hQUH+31LfAaa2c4rwkdWWY0xstU9O52avkyRrXhpHb3vdpSldbvgXIV
+         0WXw==
+Subject: [PATCH v2 0/2 -perfbook] Add Dockerfile and Q&A
 References: <63638566-e9e8-4be6-2d25-b0919b3805d1@gmail.com>
- <831592e1-ffca-ac9e-920f-0f4b52b99bb1@gmail.com>
- <b36e6c73-b435-8c3c-b7ce-f4122107ba4d@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <37b28839-4534-b567-02e6-2ca4c7afe261@gmail.com>
+Date: Thu, 7 Jan 2021 22:49:08 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b36e6c73-b435-8c3c-b7ce-f4122107ba4d@gmail.com>
+In-Reply-To: <63638566-e9e8-4be6-2d25-b0919b3805d1@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Jan 06, 2021 at 11:36:14PM +0900, Akira Yokosawa wrote:
-> On Wed, 6 Jan 2021 19:32:42 +0900, Akira Yokosawa wrote:
-> > From 165d967a252652e2ef5af82ce62536dbcf314600 Mon Sep 17 00:00:00 2001
-> > From: Akira Yokosawa <akiyks@gmail.com>
-> > Date: Wed, 6 Jan 2021 19:03:55 +0900
-> > Subject: [PATCH 2/2 -perfbook] FAQ-BUILD: Add Q&A on Docker image
-> > 
-> > The template Dockerfile and the usage explained is a tutorial level.
-> > Suggestions from Docker-savvy people are more than welcome.
-> > 
-> > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> > ---
-> >  FAQ-BUILD.txt | 22 ++++++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
-> > 
-> > diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-> > index 2eeb9fbb..d4c18424 100644
-> > --- a/FAQ-BUILD.txt
-> > +++ b/FAQ-BUILD.txt
-> > @@ -273,3 +273,25 @@
-> >  
-> >  		    sudo updmap-sys --syncwithtrees --force
-> >  		    sudo updmap-sys
-> > +
-> > +14.	I want a stable environment to build perfbook.pdf.
-> > +	Isn't some container image available in that regard?
-> > +
-> > +	A.	You can find a template Dockerfile under the docker/
-> > +		subdirectory.
-> > +		A docker image built from it can be pulled by:
-> > +
-> > +		    docker pull akiyks/perfbook-build-env:focal
-> > +
-> > +		It can be run with the command:
-> > +
-> > +		    docker run --rm -it -v <path to perfbook dir>:/work \
-> > +		      akiyks/perfbook-build-env:focal bash
-> 
-> If we add a "-u" option specifying host-side uid:gid to run the container,
-> it is safe to do Git operations from inside the container.
-> This is because the container does all the I/O to the mounted host directory.
-> So the following note can be removed.
-> 
-> I'll respin 2/2.
+Hi,
 
-This does look like it would be very helpful to people trying to get
-their environment set up!
+This is the v2 of the patch set.
 
-							Thanx, Paul
+The strange -nq build Paul thought he had encountered prompted me
+to prepare a Docker image for stable build environment.
+Such an environment can be helpful as a contingency plan when
+some package's update causes breakage in perfbook's build scripts,
+such as the build error recently reported by Dmitry and Felipe.
 
->         Thanks, Akira
-> 
-> > +
-> > +		Note:
-> > +		    The directory to be mounted to /work you give to the
-> > +		    "-v" option should be a newly cloned git repository.
-> > +		    You should avoid using any git command from the container
-> > +		    that might modify repository meta data and change their
-> > +		    owner.
-> > +		    Git operations should be done from the host side.
-> > 
+This patch set adds a Dockerfile I used and a Q&A entry in
+FAQ-BUILD.txt.
+docker/ subdirectory also holds steel city comic font to be copied
+to the image.
+
+Changes v1 -> v2:
+  o Add a few ARG commands in Dockerfile for custimizable uid and gid.
+  o Entry #14 in FAQ-BUILD.txt recommends the use of -u option to
+    use uid:gid of host side.
+  o Changed dockerhub repository name to perfbook-build-focal.
+  o Reference #14 from #5 in FAQ-BUILD.text
+
+        Thanks, Akira
+--
+Akira Yokosawa (2):
+  Add files to build Docker image for perfbook build
+  FAQ-BUILD: Add Q&A on Docker image
+
+ FAQ-BUILD.txt                       |  38 +++++++++++++++++++++++++---
+ docker/Dockerfile                   |  21 +++++++++++++++
+ docker/steel-city-comic.regular.ttf | Bin 0 -> 23280 bytes
+ 3 files changed, 56 insertions(+), 3 deletions(-)
+ create mode 100644 docker/Dockerfile
+ create mode 100644 docker/steel-city-comic.regular.ttf
+
+-- 
+2.17.1
+
+
