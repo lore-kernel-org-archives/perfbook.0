@@ -1,104 +1,82 @@
-Return-Path: <SRS0=cNLA=GK=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=LVNRsb7R5DEnTA2iSezILK3xDOp89ZnXc7mvo4FOAv8=;
-        b=KlDrOJ5B/t6WjL9zjbwe2tdiKnF14hjA6anvgd7lT74ry9yHnH+FdZbeueXrNuuXaa
-         DSh8QGzTw3uD3TzdFHdCBIROzKRGiC5PLGDcTHPTAHyGhLbbXssohQall8alNAzFBlIb
-         +2VMDBNL5FfLksGkFlRmBu7r8zJdwFrMqKstNGLEfZfA5lpXV/0Z7IC/qnd/A+Mli6gY
-         Emoc49fSwHL1qXa2Y+pNd4BYVYES7oiToJKnzn0KZT9AoS78EHqbvBUuDoWss6c+YRSA
-         s+u3IUxJqMBIykg7b5sBsTCYcn+bHSW+DLGRNKdQaTbrjMReUjZnr5re+XYvTK91PhvI
-         mgfg==
-Subject: [PATCH v2 2/2 -perfbook] FAQ-BUILD: Add Q&A on Docker image
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:32924 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728362AbhAGRz1 (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Thu, 7 Jan 2021 12:55:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610042087;
+        bh=bGyCaFTSANNUBfOlUwu8tCNPl1DhRb8pcu7QfLhKKE4=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=lMvklQLwV7nD3NbAPzZFs6YM5mKTdCZnb5AG0y9bntSC3kFuFJ9DUfsTYqBzhlo+y
+         mM4GPGVNj7HmMXtDBcuhwNytReeOHmcQUh9DQxKhHY0ifaBQPjVL2Lup+mU3MKpWHx
+         ySRtKLFHZBJ1qViitMUVOQwpi2qQJU+cJZuAWLJw4VJAf5Pkgw0daYWv5VKYhyjDTf
+         4PE09VD+hsohAWG6Ragzu7oUfkgLJTH4f0A5zvY8hIZLLXCrUH9NHSh5Le1bSdpsN0
+         dEu0t9VlEvHjWA6TVArHU3sW+CTFGGeGjlyRG3licdts3tivSh11VAwBr6HCfcvs59
+         bZyQBrDddQD7w==
+Date: Thu, 7 Jan 2021 09:54:46 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v2 0/2 -perfbook] Add Dockerfile and Q&A
+Message-ID: <20210107175446.GN2743@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 References: <63638566-e9e8-4be6-2d25-b0919b3805d1@gmail.com>
  <37b28839-4534-b567-02e6-2ca4c7afe261@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <4148cb4f-725d-5b52-830e-9c123e01e3fe@gmail.com>
-Date: Thu, 7 Jan 2021 22:52:42 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <37b28839-4534-b567-02e6-2ca4c7afe261@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-From a439bdb6aedf1ba06600c060e865d872580b0596 Mon Sep 17 00:00:00 2001
-From: Akira Yokosawa <akiyks@gmail.com>
-Date: Wed, 6 Jan 2021 19:03:55 +0900
-Subject: [PATCH v2 2/2 -perfbook] FAQ-BUILD: Add Q&A on Docker image
+On Thu, Jan 07, 2021 at 10:49:08PM +0900, Akira Yokosawa wrote:
+> Hi,
+> 
+> This is the v2 of the patch set.
+> 
+> The strange -nq build Paul thought he had encountered prompted me
+> to prepare a Docker image for stable build environment.
+> Such an environment can be helpful as a contingency plan when
+> some package's update causes breakage in perfbook's build scripts,
+> such as the build error recently reported by Dmitry and Felipe.
+> 
+> This patch set adds a Dockerfile I used and a Q&A entry in
+> FAQ-BUILD.txt.
+> docker/ subdirectory also holds steel city comic font to be copied
+> to the image.
+> 
+> Changes v1 -> v2:
+>   o Add a few ARG commands in Dockerfile for custimizable uid and gid.
+>   o Entry #14 in FAQ-BUILD.txt recommends the use of -u option to
+>     use uid:gid of host side.
+>   o Changed dockerhub repository name to perfbook-build-focal.
+>   o Reference #14 from #5 in FAQ-BUILD.text
+> 
+>         Thanks, Akira
 
-The template Dockerfile and the usage explained is a tutorial level.
-Suggestions from Docker-savvy people are more than welcome.
+Applied and pushed, thank you!  I did the usual wordsmithing, so please
+let me know if I messed anything up.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- FAQ-BUILD.txt | 38 +++++++++++++++++++++++++++++++++++---
- 1 file changed, 35 insertions(+), 3 deletions(-)
+Showing my ignorance of Docker...
 
-diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index 2eeb9fbb..f6c720b8 100644
---- a/FAQ-BUILD.txt
-+++ b/FAQ-BUILD.txt
-@@ -36,7 +36,11 @@
- 	find it?
- 
- 	A.	The "pdflatex" package is a variant of Don Knuth's
--		digital typesetting program.  On Ubuntu Xenial,
-+		digital typesetting program.
-+		If you'd like to use a Docker container, See #14 below.
-+		Otherwise, instructions follow.
-+
-+		On Ubuntu Xenial,
- 		installing the following set of packages suffices:
- 
- 			texlive-latex-base texlive-latex-extra psutils
-@@ -71,8 +75,10 @@
- 
- 		On other Linux distributions such as RHEL/CentOS and
- 		Scientific Linux, where support of TeX Live packages
--		is insufficient, installing upstream TeX Live should
--		be a reasonable choice.
-+		is insufficient, using a Docker container is the easiest
-+		choice for you.  Again, see #14 below.
-+
-+		Of course, you can install upstream TeX Live.
- 		See: https://www.tug.org/texlive/quickinstall.html
- 
- 		NOTE: In doing so, you might end up in having
-@@ -273,3 +279,29 @@
- 
- 		    sudo updmap-sys --syncwithtrees --force
- 		    sudo updmap-sys
-+
-+14.	I want a stable environment to build perfbook.pdf.
-+	Isn't some container image available in that regard?
-+
-+	A.	You can find a template Dockerfile under the docker/
-+		subdirectory.
-+		A docker image built from it can be pulled by:
-+
-+		    docker pull akiyks/perfbook-build-focal:latest
-+
-+		It can be run with the command:
-+
-+		    docker run --rm -it -v <path to perfbook dir>:/work \
-+		      -u $(id -u):$(id -g) \
-+		      akiyks/perfbook-build-focal:latest bash
-+
-+		Note:
-+		The prebuilt Docker image assumes <uid:pid> = <1000:1000>.
-+		If you have different ids, bash prompt will be in the
-+		form of "I have no name!@abcdef012345:/work$".
-+		There is no problem in building perfbook.
-+		If you'd like, you can build a docker image on your own.
-+
-+		    cd docker
-+		    docker build -t <docker image tag> \
-+		      --build-arg uid=$(id -u) --build-arg gid=$(id -g) .
--- 
-2.17.1
+My guess from reading the FAQ is that the new docker/Dockerfile is
+used to build a new docker image, and that it is not needed by those
+using your akiyks/perfbook-build-focal:latest.  Is my guess correct?
 
+						Thanx, Paul
 
+> --
+> Akira Yokosawa (2):
+>   Add files to build Docker image for perfbook build
+>   FAQ-BUILD: Add Q&A on Docker image
+> 
+>  FAQ-BUILD.txt                       |  38 +++++++++++++++++++++++++---
+>  docker/Dockerfile                   |  21 +++++++++++++++
+>  docker/steel-city-comic.regular.ttf | Bin 0 -> 23280 bytes
+>  3 files changed, 56 insertions(+), 3 deletions(-)
+>  create mode 100644 docker/Dockerfile
+>  create mode 100644 docker/steel-city-comic.regular.ttf
+> 
+> -- 
+> 2.17.1
+> 
+> 
