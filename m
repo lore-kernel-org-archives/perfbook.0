@@ -1,82 +1,165 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:32924 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728362AbhAGRz1 (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Thu, 7 Jan 2021 12:55:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610042087;
-        bh=bGyCaFTSANNUBfOlUwu8tCNPl1DhRb8pcu7QfLhKKE4=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=lMvklQLwV7nD3NbAPzZFs6YM5mKTdCZnb5AG0y9bntSC3kFuFJ9DUfsTYqBzhlo+y
-         mM4GPGVNj7HmMXtDBcuhwNytReeOHmcQUh9DQxKhHY0ifaBQPjVL2Lup+mU3MKpWHx
-         ySRtKLFHZBJ1qViitMUVOQwpi2qQJU+cJZuAWLJw4VJAf5Pkgw0daYWv5VKYhyjDTf
-         4PE09VD+hsohAWG6Ragzu7oUfkgLJTH4f0A5zvY8hIZLLXCrUH9NHSh5Le1bSdpsN0
-         dEu0t9VlEvHjWA6TVArHU3sW+CTFGGeGjlyRG3licdts3tivSh11VAwBr6HCfcvs59
-         bZyQBrDddQD7w==
-Date: Thu, 7 Jan 2021 09:54:46 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH v2 0/2 -perfbook] Add Dockerfile and Q&A
-Message-ID: <20210107175446.GN2743@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <63638566-e9e8-4be6-2d25-b0919b3805d1@gmail.com>
- <37b28839-4534-b567-02e6-2ca4c7afe261@gmail.com>
+Return-Path: <SRS0=pt5h=GN=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=Y3Fnmd28WxCsolO/q/1Q0/5kTYIENsOlIEheJoRvHiU=;
+        b=NV6XbwXrqkUkgEWG4hY2vQEWFf78IT3cFZ5Do2NRFk8jbfhO/PtQqNTjhh+xifOCy+
+         pM1KEUgxdxM1uWOAYQblV3Q9aBWfzkuBYRquE6SzY/Fro2fwr7oq3yjkyEnJb2z+uLc4
+         ehobQFn7JkJcH4UvpPyiIV7CzfYOo4frxquM6LeRZmpfHGy+2jwYWtf64IqO7TXTDHL0
+         0cnF4jmkzcdM62JMA06+5zNk472LQBMv3MUIrYbCs61aIeS07r1eL3d2o+/nXC3YvLx0
+         J3ytjse84lHqQqKI8PNm8VVYPP+pkt9pbal5TYi+7haGLw7N5d898+LxDjWDJVTPUs4o
+         yQNg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] Add Fedora-based Dockerfile
+Message-ID: <8643e9db-be44-edd9-df06-c9f87348d669@gmail.com>
+Date: Mon, 11 Jan 2021 08:08:39 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37b28839-4534-b567-02e6-2ca4c7afe261@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Jan 07, 2021 at 10:49:08PM +0900, Akira Yokosawa wrote:
-> Hi,
-> 
-> This is the v2 of the patch set.
-> 
-> The strange -nq build Paul thought he had encountered prompted me
-> to prepare a Docker image for stable build environment.
-> Such an environment can be helpful as a contingency plan when
-> some package's update causes breakage in perfbook's build scripts,
-> such as the build error recently reported by Dmitry and Felipe.
-> 
-> This patch set adds a Dockerfile I used and a Q&A entry in
-> FAQ-BUILD.txt.
-> docker/ subdirectory also holds steel city comic font to be copied
-> to the image.
-> 
-> Changes v1 -> v2:
->   o Add a few ARG commands in Dockerfile for custimizable uid and gid.
->   o Entry #14 in FAQ-BUILD.txt recommends the use of -u option to
->     use uid:gid of host side.
->   o Changed dockerhub repository name to perfbook-build-focal.
->   o Reference #14 from #5 in FAQ-BUILD.text
-> 
->         Thanks, Akira
+From d37f98e4ca6cd968af2248d3c719b07ce313a7ec Mon Sep 17 00:00:00 2001
+From: Akira Yokosawa <akiyks@gmail.com>
+Date: Mon, 11 Jan 2021 07:57:58 +0900
+Subject: [PATCH -perfbook] Add Fedora-based Dockerfile
 
-Applied and pushed, thank you!  I did the usual wordsmithing, so please
-let me know if I messed anything up.
+For those who prefer Fedora, add an alternative Dockerfile as
+docker/Dockerfile.fedora and mention it in FAQ-BUILD.txt.
+Also add a few commands in the Focal-based Dockerfile.
 
-Showing my ignorance of Docker...
+Other updates in FAQ-BUILD.txt:
+  o Add "texlive-collection-fontutils" to the Fedora package list,
+    which includes "epstopdf".
+  o Omit some options to "docker run" as they are specified in
+    both Dockerfiles.
+  o For those who prefer "podman", add instructions to use the
+    images with podman.
+  o Substitutions:
+      "Docker container" -> "container image"
+      "docker image"" -> "container image"
 
-My guess from reading the FAQ is that the new docker/Dockerfile is
-used to build a new docker image, and that it is not needed by those
-using your akiyks/perfbook-build-focal:latest.  Is my guess correct?
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ FAQ-BUILD.txt            | 31 +++++++++++++++++++++++--------
+ docker/Dockerfile        |  2 ++
+ docker/Dockerfile.fedora | 21 +++++++++++++++++++++
+ 3 files changed, 46 insertions(+), 8 deletions(-)
+ create mode 100644 docker/Dockerfile.fedora
 
-						Thanx, Paul
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index a590cc77..a7a0711d 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -37,7 +37,7 @@
+ 
+ 	A.	The "pdflatex" package is a variant of Don Knuth's
+ 		digital typesetting program, which you can install.
+-		Alternatively, you can use the Docker container described
++		Alternatively, you can use the container image described
+ 		in #14 below.  Otherwise, instructions follow.
+ 
+ 		On Ubuntu Xenial, installing the following set of
+@@ -71,11 +71,12 @@
+ 			texlive-collection-binextra
+ 			texlive-collection-latexextra
+ 			texlive-collection-fontsextra
++			texlive-collection-fontutils
+ 			fig2ps graphviz inkscape
+ 
+ 		On other Linux distributions such as RHEL/CentOS and
+ 		Scientific Linux, where support of TeX Live packages
+-		is insufficient, the aforementioned Docker container
++		is insufficient, the aforementioned container image
+ 		provides the needed support.  Again, see #14 below.
+ 
+ 		Of course, you can install upstream TeX Live.
+@@ -284,7 +285,7 @@
+ 	Can't I just use some container image?
+ 
+ 	A.	You can find a template Dockerfile under the docker/
+-		subdirectory.  You can pull the docker image built from
++		subdirectory.  You can pull the container image built from
+ 		it as follows:
+ 
+ 		    docker pull akiyks/perfbook-build-focal:latest
+@@ -292,16 +293,30 @@
+ 		It can be run with the command:
+ 
+ 		    docker run --rm -it -v <path to perfbook dir>:/work \
+-		      -u $(id -u):$(id -g) \
+-		      akiyks/perfbook-build-focal:latest bash
++		      akiyks/perfbook-build-focal:latest
+ 
+ 		Note:
+-		The prebuilt Docker image assumes <uid:pid> = <1000:1000>.
++		The prebuilt container image assumes <uid:pid> = <1000:1000>.
+ 		If you have different IDs, bash prompt will be in the
+ 		form of "I have no name!@abcdef012345:/work$".	Builds of
+ 		perfbook will nevertheless succeed.  You can also build
+-		a docker image of your own:
++		a container image of your own:
+ 
+ 		    cd docker
+-		    docker build -t <docker image tag> \
++		    docker build -t <container image tag> \
+ 		      --build-arg uid=$(id -u) --build-arg gid=$(id -g) .
++
++		For those prefer a Fedora-based container image,
++		akiyks/perfbook-build-focal:latest is also available.
++		It is built from docker/Dockerfile.fedora.
++
++		If you have podman already installed, you can run the image
++		with podman. podman maps container's root to your host uid
++		by default.
++		Use the following command to run:
++
++		    podman run --rm -it -v <path to perfbook dir>:/work:z \
++		      -u 0:0 akiyks/perfbook-build-fedora:latest
++
++		You will see a prompt with a "#".
++		Your updates under /work will have your host uid in host's POV.
+diff --git a/docker/Dockerfile b/docker/Dockerfile
+index e2d23c77..a5afe6ea 100644
+--- a/docker/Dockerfile
++++ b/docker/Dockerfile
+@@ -18,4 +18,6 @@ ARG user=perfbook
+ ARG group=perfbook
+ RUN groupadd -g $gid $group && useradd -u $uid -g $gid -m $user
+ VOLUME /work
++USER $uid:$gid
+ WORKDIR /work
++CMD /bin/bash
+diff --git a/docker/Dockerfile.fedora b/docker/Dockerfile.fedora
+new file mode 100644
+index 00000000..4a3ab855
+--- /dev/null
++++ b/docker/Dockerfile.fedora
+@@ -0,0 +1,21 @@
++FROM fedora:latest
++
++RUN dnf -y update && dnf install -y --setopt=tsflags=nodocs \
++    fig2ps graphviz inkscape make git vim nano \
++    texlive-collection-plaingeneric texlive-collection-binextra \
++    texlive-collection-latexextra texlive-epstopdf texlive-fontools \
++    texlive-newtx texlive-newtxtt texlive-nimbus15 texlive-courier-scaled \
++    texlive-inconsolata texlive-newtxsf texlive-mdsymbol && \
++    dnf clean all && \
++    mktexlsr
++COPY steel-city-comic.regular.ttf /usr/local/share/fonts/
++RUN fc-cache /usr/local/share/fonts/
++ARG uid=1000
++ARG gid=1000
++ARG user=perfbook
++ARG group=perfbook
++RUN groupadd -g $gid $group && useradd -u $uid -g $gid -m $user
++VOLUME /work
++USER $uid:$gid
++WORKDIR /work
++CMD /bin/bash
+-- 
+2.17.1
 
-> --
-> Akira Yokosawa (2):
->   Add files to build Docker image for perfbook build
->   FAQ-BUILD: Add Q&A on Docker image
-> 
->  FAQ-BUILD.txt                       |  38 +++++++++++++++++++++++++---
->  docker/Dockerfile                   |  21 +++++++++++++++
->  docker/steel-city-comic.regular.ttf | Bin 0 -> 23280 bytes
->  3 files changed, 56 insertions(+), 3 deletions(-)
->  create mode 100644 docker/Dockerfile
->  create mode 100644 docker/steel-city-comic.regular.ttf
-> 
-> -- 
-> 2.17.1
-> 
-> 
