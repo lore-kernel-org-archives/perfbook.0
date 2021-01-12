@@ -3,17 +3,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=to:cc:from:subject:message-id:date:user-agent:mime-version
          :content-language:content-transfer-encoding;
-        bh=HCpECo7uMlf8NLe3gHFdJRaFnnZMS1cWpu//Ja0g87k=;
-        b=S0hGWFrY8VmVQPlnOnje/BOvZZGEiwdZh7GI9poMJeCyw9NNBi/NWhfiW4yRUfa0EN
-         mRFaD3O+1tsayud9O4yqT+P0JWati3DtfgXUYa92PSrCbSy+RhEdnkVcgAHbDIuOLhHN
-         6YIZCzIVUDVozfkYQMljm2g6AbURNxLWy9lvLgAB0fre0AUJVz+1QM3IIkaa7M54ba5R
-         8sb4Jln+w6OHMsgXhsBqiwI+FKKF+az12gUM+NBXJh8ii34mizYMIMKe8JQalQMcLAfY
-         PAUzAjwm1Nm0wqb3q2KEYhXxR+e8bz00umTcUO7FJ72VDX1k+dInxHgpOiDKgNzseuau
-         9AGA==
+        bh=B0+G3r7z2VOrSwt2MxmBxMSwXPjgj7XB+h8TtD1CmCw=;
+        b=RmJ6EdVeP+Yx881eiK/j+wQNKjCadqp7tReJhNvRYU7d0e6FKpVWVOmo7tAKd7TOc5
+         QwGlQIYaS/bSfMxXI8gx6QXUYTw+iyI1q6Bp0RKXbRQdWqBjzyfxWQUyI7R/qlGN8N5b
+         XPzO9jsF5N9IdlFM9Hf+V+XMrltPJlzNk1tR8QkSLNjQFNegh6GFKfKgggFGbIFGBBYZ
+         TovKaGcXpSm09Kgl0qhZKbVGy7g/L3jvBU+fbnaFakzSa2KmBA8MhKuljzSeCAJYiYtc
+         Pq8G+oJcwSS7UEQHDDltjwKial24ebozAgmUg8Qrnxi438i4F+yGoWLrGtzwU+FpI8VX
+         TOxQ==
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook] cpu/overheads: Remove redundant words in QQA 3.8
-Message-ID: <a92aaa31-21f6-033e-1d66-a4b3eac1bdb2@gmail.com>
-Date: Tue, 12 Jan 2021 20:21:14 +0900
+Subject: [PATCH -perfbook] FAQ-BUILD: Fix answer to #14
+Message-ID: <dfbeceb7-fc20-0963-9fb9-dc662656ee2e@gmail.com>
+Date: Tue, 12 Jan 2021 20:41:24 +0900
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
@@ -22,43 +22,52 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-From 7d2c26e77323fdab2c109d9bb01460ecdfd28d1f Mon Sep 17 00:00:00 2001
+From bc1d4d5dac45513181c60bc3877a743c08991a8f Mon Sep 17 00:00:00 2001
 From: Akira Yokosawa <akiyks@gmail.com>
-Date: Tue, 12 Jan 2021 19:44:35 +0900
-Subject: [PATCH -perfbook] cpu/overheads: Remove redundant words in QQA 3.8
+Date: Tue, 12 Jan 2021 20:32:11 +0900
+Subject: [PATCH -perfbook] FAQ-BUILD: Fix answer to #14
 
-I had messed this QQA while rebasing commit 4c7151455e14 ("treewide:
-Renew format of Quick Quiz macro").
-Remove the redundant line at the end of the answer.
+There were some confusions in the answer updated in commit
+5462db2929fa ("Add Fedora-based Dockerfile").
 
-Fixes: 4c7151455e14 ("treewide: Renew format of Quick Quiz macro")
+If you have a different uid:gid pair, you need to explicitely
+specify them in a "-u" option to the "docker run" command.
+
+Also fix the tag name of the Fedora-based container image.
+
+Fixes: 5462db2929fa ("Add Fedora-based Dockerfile")
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
-Hi Paul,
+ FAQ-BUILD.txt | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Commit 4c7151455e14 was sent as a pull request last March due to the
-large diff size.
-
-I feel lucky to notice this error during the -rc days of Second
-Edition.
-
-        Thanks, Akira
---
- cpu/overheads.tex | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/cpu/overheads.tex b/cpu/overheads.tex
-index a6f60a5d..87d700dd 100644
---- a/cpu/overheads.tex
-+++ b/cpu/overheads.tex
-@@ -500,7 +500,6 @@ cycles, as shown in the ``Global Comms'' row.
- 		Especially here in early 2020, in the midst of the
- 		coronavirus excitement that is keeping store shelves
- 		free of toilet paper and much else besides!}
--	those you live with when appropriating toilet paper!
- }\QuickQuizEnd
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index a7a0711d..0d3330b3 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -297,7 +297,12 @@
  
- \subsection{Hardware Optimizations}
+ 		Note:
+ 		The prebuilt container image assumes <uid:pid> = <1000:1000>.
+-		If you have different IDs, bash prompt will be in the
++		If you have different IDs, you can still run the image by
++		adding the option:
++
++		     -u $(id -u):$(id -g)
++
++		to the "docker run" command.  The bash prompt will be in the
+ 		form of "I have no name!@abcdef012345:/work$".	Builds of
+ 		perfbook will nevertheless succeed.  You can also build
+ 		a container image of your own:
+@@ -307,7 +312,7 @@
+ 		      --build-arg uid=$(id -u) --build-arg gid=$(id -g) .
+ 
+ 		For those prefer a Fedora-based container image,
+-		akiyks/perfbook-build-focal:latest is also available.
++		akiyks/perfbook-build-fedora:latest is also available.
+ 		It is built from docker/Dockerfile.fedora.
+ 
+ 		If you have podman already installed, you can run the image
 -- 
 2.17.1
 
