@@ -1,20 +1,20 @@
-Return-Path: <SRS0=LJs/=GW=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=Srvm=GU=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
         bh=1wtL7MJb8mjyORYr2pPtAqWGHrZuCUZ0FDpt4KmG05Y=;
-        b=FG/OVNYG5fH7WFPeD26C7LRt/KYwLbf4wnykHC4r9xNe4UgwkiBovaLF6vqVYLN6iE
-         OJMXRzCCIi5OrR7TKUvypOVJCM1LBrb4otgwJTL2+ixeq1oFD/4eQXJICZhAaUyc66p/
-         4JSZLpU1OXY6PE8HnmZQgcloAv8OvFSGUl1T3IZkjjuIWuU9WEuk8t9ce3GCWqm8K9Im
-         UJd5x1I9DA/Q+Qg9pD+OlB27U0NnU3jX1z9wys3LotPicgFB65LNrqZrWtw8YLlAP8v/
-         x2IWhwZmuMyZNts6Ep8waUTpgiAcg6JjEnOIuODiWR0eLiEJLaTkhTwLLspD2HJqV5eT
-         BYVw==
-Subject: [PATCH RESEND 1/3] Makefile: Fix timing of autodate.tex generation
+        b=tImrv4kvrQsBrtULgIxDT5jP/FM6PYzdms5uGa3Y/AfPYXf8V8glXnTSndISuZ8dM1
+         +OvmVg8hotdYsMSHNwmEM1/79gMhxQ8nUQ603wClCkiJX2eHAT3kwRcKhU8l4bCtw/tX
+         F3pOIGX6JT1xdhgNx/VHGRrr/Qqv47OVZ5kwVDHeDkYthfEltxFXwwlXqWJaFBuQVv9h
+         0yLm27wDbHIOeQgghnxRavwuCowunSmR3ixegAI9OdHj2ZJOdSOoD1SMqdyeQTSl07R0
+         ZTc3+E4pBcNLDhfbwMPwRLEhA4Q3K+qnqZmeUBqclMmnje+qfEUAF7pZPvQHxe1P7wCm
+         DV/w==
+Subject: [PATCH 1/3] Makefile: Fix timing of autodate.tex generation
 References: <25e9a0f4-8903-1523-9d04-ce34d7d97db6@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <be80b4cc-8c8a-4780-1283-d069264b2dae@gmail.com>
-Date: Wed, 20 Jan 2021 07:49:10 +0900
+Message-ID: <56807712-d5c4-b477-6fa7-ea346fea0215@gmail.com>
+Date: Mon, 18 Jan 2021 00:04:23 +0900
 MIME-Version: 1.0
 In-Reply-To: <25e9a0f4-8903-1523-9d04-ce34d7d97db6@gmail.com>
 Content-Type: text/plain; charset=utf-8
