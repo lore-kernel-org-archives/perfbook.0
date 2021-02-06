@@ -1,80 +1,49 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:48834 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729820AbhATXnU (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Wed, 20 Jan 2021 18:43:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611186139;
-        bh=yLTRBAZnn6TPOBqKXnfuRcHcfiSohnLVpk4nNW2GQxI=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=PRDDnwNPO96TVkhRlh8evwXmho/ncG7BFNUwtGsGZdm4eyrAP3Tf9h6xOHCgJvTDt
-         G4u4CWoaKQW7cxGAGd7r0HVq5rZEEQNaA73SI3NcmBhMmiQZh2QdVt5oZMHF6o58l6
-         C6YCu1tDumu4uW0uTPXjVUJwZz3nra/Xr4timubw/GXn+I7E3NjTmvsLyt3ecf60Py
-         YQTG4QognP4uf6Hj9ZwCCWMWnjaegJJazYViV2SigiVZ4SLotqtbU+jq020c9I877C
-         b/NhcsH+MPsmuYQa4q7bsptjqj4ayGB4nCcfp/CEK23wjc8QgEez6tddlsuy8GRlL0
-         skYEFAmtHxX2Q==
-Date: Wed, 20 Jan 2021 15:42:18 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 1/3] Makefile: Fix timing of autodate.tex generation
-Message-ID: <20210120234218.GK2743@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <25e9a0f4-8903-1523-9d04-ce34d7d97db6@gmail.com>
- <56807712-d5c4-b477-6fa7-ea346fea0215@gmail.com>
+Return-Path: <SRS0=WFxL=HI=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=zaeiE/QY/VUPzHctD2qGPsxBQFQEebBPfT9RToFCKxg=;
+        b=QRoTHBpagZThy2C6QldC6crf9Y2IFfDaC7SPuPpb1p2Q2aKcFpu+lNDvJR4jC5g5go
+         yiHlNgvN1lMTvr7o00VacZy8OcMZbOv6NN41zk5CYt491uqoTD+iI/gc4zjhzil4ADzD
+         NyMG5IpxeqtJCOubWT1a4ZlscoAcERsmM3KP4aXTWS0jMbxYCZFLHSLZaIKaguiPsUXe
+         n+hxI542mLbmG9A2Q029UQQB1vrcPdmVQVLANvkSutLi0tPuuQhmt/UkXsgphuJqJc4I
+         /x3jyzInY6dq3kQuxUTI536MaoTS1QvaQgoOjwusMpPNq687uhIqC4aL+FnpF7toGBCb
+         bGwg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] defer: Remove \OneColumnHSpece{} in sidewaystable
+Message-ID: <3cfa5941-656f-6feb-f73f-e5de214ac891@gmail.com>
+Date: Sat, 6 Feb 2021 19:21:42 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <56807712-d5c4-b477-6fa7-ea346fea0215@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Jan 18, 2021 at 12:04:23AM +0900, Akira Yokosawa wrote:
-> Commit bd1310a7bcd1 ("Makefile: Cope with GhostScript 9.53.0 or later")
-> introduced ps2pdf and pdfcrop commands in .eps --> .pdf conversion
-> of figures drawn by pstricks.
-> 
-> There commands generate a couple of temporary files during conversion
-> and cropping.
-> This causes autodate.sh to observe untracked files when perfbook is
-> first built by parallel make (-jN option).
-> 
-> Delay the generation of autodate.tex until after all those conversions
-> have finished by moving most dependencies of perfbook_flat.tex to
-> those of autodate.tex.
-> 
-> Fixes: bd1310a7bcd1 ("Makefile: Cope with GhostScript 9.53.0 or later")
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+The adjustment for 1c layout causes the sideways table to have wrong
+vertical margins.
 
-As advertised, recloned and built with "make -j24" and no "(m)".
+Fixes: b03d63b42edf ("defer: Add Tasks Rude and Tasks Trace RCU to the API table")
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ defer/rcuapi.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Queued and pushed, thank you!
+diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+index fb65621e..29680318 100644
+--- a/defer/rcuapi.tex
++++ b/defer/rcuapi.tex
+@@ -51,7 +51,7 @@ API~\cite{PaulEMcKenney2019RCUAPI}.\footnote{
+ \centering
+ \caption{RCU Wait-to-Finish APIs}
+ \label{tab:defer:RCU Wait-to-Finish APIs}
+-\scriptsize\OneColumnHSpace{-.9in}
++\scriptsize
+ \begin{tabularx}{8.5in}{>{\raggedright\arraybackslash}p{0.94in}
+     >{\raggedright\arraybackslash}X
+     >{\raggedright\arraybackslash}X
+-- 
+2.17.1
 
-							Thanx, Paul
-
-> ---
->  Makefile | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 0c58f1a0..9d36156d 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -213,10 +213,12 @@ ifeq ($(NEWTXTEXT),)
->  endif
->  	sh utilities/runfirstlatex.sh $(basename $@)
->  
-> -autodate.tex: perfbook-lt.tex $(LATEXSOURCES) $(BIBSOURCES) $(SVGSOURCES) $(FIGSOURCES) $(DOTSOURCES) $(EPSORIGIN) $(SOURCES_OF_SNIPPET) $(GITREFSTAGS) utilities/fcvextract.pl utilities/autodate.sh
-> +autodate.tex: perfbook-lt.tex $(LATEXSOURCES) $(BIBSOURCES) \
-> +    $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG) $(FCVSNIPPETS) $(FCVSNIPPETS_VIA_LTMS) \
-> +    $(GITREFSTAGS) utilities/autodate.sh
->  	sh utilities/autodate.sh >autodate.tex
->  
-> -perfbook_flat.tex: autodate.tex $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG) $(FCVSNIPPETS) $(FCVSNIPPETS_VIA_LTMS)
-> +perfbook_flat.tex: autodate.tex
->  ifndef LATEXPAND
->  	$(error --> $@: latexpand not found. Please install it)
->  endif
-> -- 
-> 2.17.1
-> 
-> 
