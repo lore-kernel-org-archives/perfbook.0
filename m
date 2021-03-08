@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vlYGW9O71+cdxz0eygBXbxubAB2LPDIRkbRTMQWYIf4=;
-        b=Ud3ZZlHlQwcONYy8PvpH1VAy+PQORH87T36+kQ9qPjRRRc76xi+DG7MfPDoGj6zLm0
-         IOwE315mVEOv8KRT5CXvU9Z3bF8tMsL7kfiRQ7WkfK8VEhUaFyBbeW2Ni6Pe4/OQYax2
-         VU4Xfi7g46i5gIffoPsCecwmt/hd3s+NV6USRDDjOOfxs2+SzSCcaigHf1yR+mYK09EZ
-         q2Sz36wGaUHCHhwBnBm2HDCGmbjx6wHZmksH9BKvIhQRPV86XIQZ1L1zSWr+Y16vGPns
-         6tN0JdPi9Z7ODWs4TtLX8URnTAxb+//oVWZXaiIYjUnzyEmCTiG5Xjslxups+Xw0tOew
-         zRCg==
-Subject: [PATCH 1/4] bib: Add recent editions of textbooks
+        bh=u1kIEhcE8zqmEG59Bsxfzx8y2boF5b6ZNmTpXQ7LROU=;
+        b=rERvREf1j6zVbQVgx6Hk7s1CYQ7/2huD9+w4UXqg+cSBTV/MCpvDpG7AV5FJI6p/eM
+         qZ4YIzqkE17HcZ9Mwfjbwad2TIAwF85Nv05mmrWhnhBpIQ0L8wyCERDK2W+5QrN5ZWle
+         X1T5N++mwVf0EkKuffjXy0ZUPTLQDWEORCECc8nn/BZ9w7JTXH7hu2SlQ2XhKvya3ct+
+         K0nCM8F99uQntzIrcpw8I5b+jOKGiAFSefyo1aDskZzt+0Z8R4cRAnu2v8uoIw79S2A/
+         +aNUbpxuT6aW0W2ayrAwcQgkI+fF4BAujSAZ5FGyD3Pte3B+hJ1MfFNlu6xDw8O99FWH
+         ZcjA==
+Subject: [PATCH 2/4] howto: Cite recent editions of textbooks
 References: <3736cb6b-843d-c8b5-033c-80d4915010fc@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <0bded7bd-f781-923f-5e12-bdd5a9510029@gmail.com>
-Date: Mon, 8 Mar 2021 10:54:18 +0900
+Message-ID: <9fe43416-713b-3f7a-3a05-827b575f03a0@gmail.com>
+Date: Mon, 8 Mar 2021 10:55:34 +0900
 MIME-Version: 1.0
 In-Reply-To: <3736cb6b-843d-c8b5-033c-80d4915010fc@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,144 +24,91 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-o The Art of Multiprocessor Programming, Second Edition
-o A Primer on Memory Consistency and Cache Coherence, Second Edition
-o Advanced Programming in the UNIX Environment, 3rd Edition
-o Programming Language Pragmatics, 4th Edition
-o C++ Concurrency in Action, 2nd Edition
-
-Other update/fix:
-
-o Add doi to Dijkstra1971HOoSP
-o Fix doi and other info in GeneAmdahl1967AmdahlsLaw
-  (Previous info was of the reprint published in 2007)
+Also fix usage of indexing macros for people's name.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- bib/hw.bib          | 10 ++++++++++
- bib/os.bib          |  7 +++++++
- bib/parallelsys.bib |  8 +++++---
- bib/syncrefs.bib    | 28 ++++++++++++++++++++++++++++
- 4 files changed, 50 insertions(+), 3 deletions(-)
+ cpu/cpu.tex     |  2 +-
+ howto/howto.tex | 19 ++++++++++---------
+ 2 files changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/bib/hw.bib b/bib/hw.bib
-index 23e252d5..2ece29d6 100644
---- a/bib/hw.bib
-+++ b/bib/hw.bib
-@@ -948,6 +948,16 @@ Luis Stevens and Anoop Gupta and John Hennessy",
-  doi="10.2200/S00346ED1V01Y201104CAC016",
- }
+diff --git a/cpu/cpu.tex b/cpu/cpu.tex
+index 5a5c9d49..44b470a4 100644
+--- a/cpu/cpu.tex
++++ b/cpu/cpu.tex
+@@ -16,7 +16,7 @@ This chapter therefore looks at the cost of synchronization and communication
+ within a shared-memory system.
+ These few pages can do no more than scratch the surface of shared-memory
+ parallel hardware design; readers desiring more detail would do well
+-to start with a recent edition of \pplsur{John L.}{Hennessy} and
++to start with a recent edition of \pplsur{John L.}{Hennessy}'s and
+ \pplsur{David A.}{Patterson}'s classic
+ text~\cite{Hennessy2017,Hennessy95a}.
  
-+@book{VijayNagarajan2020MemModel,
-+ title="A Primer on Memory Consistency and Cache Coherence, Second Edition",
-+ author="Vijay Nagarajan and Daniel J. Sorin and Mark D. Hill and David A. Wood",
-+ publisher="Morgan \& Claypool",
-+ year="2020",
-+ isbn="9781681737119",
-+ series="Synthesis Lectures on Computer Architecture",
-+ doi="10.2200/S00962ED2V01Y201910CAC049",
-+}
-+
- @article{Kim:2014:FBM:2678373.2665726,
-  author = {Kim, Yoongu and Daly, Ross and Kim, Jeremie and Fallin, Chris and Lee, Ji Hye and Lee, Donghyuk and Wilkerson, Chris and Lai, Konrad and Mutlu, Onur},
-  title = {Flipping Bits in Memory Without Accessing Them: An Experimental Study of DRAM Disturbance Errors},
-diff --git a/bib/os.bib b/bib/os.bib
-index 5e902061..3ae9b617 100644
---- a/bib/os.bib
-+++ b/bib/os.bib
-@@ -30,6 +30,13 @@
-  year="1992",
- }
- 
-+@book{WRichardStevens2013,
-+ author="W. Richard Stevens",
-+ title="Advanced Programming in the {UNIX} Environment, 3rd Edition",
-+ publisher="Addison Wesley",
-+ year="2013",
-+}
-+
- @Conference{MichaelYThompson1988LazyTLB,
-  Author =  "Michael Y. Thompson and J. M. Barton and T. A. Jermoluk and J. C. Wagner",
-  Title = "Translation Lookaside Buffer Synchronization in a Multiprocessor System",
-diff --git a/bib/parallelsys.bib b/bib/parallelsys.bib
-index d13dafc1..5423e25b 100644
---- a/bib/parallelsys.bib
-+++ b/bib/parallelsys.bib
-@@ -5,9 +5,11 @@
-  Booktitle = "AFIPS Conference Proceedings",
-  year="1967",
-  pages={483--485},
-- publisher={IEEE Computer Society},
-- address={Washington, DC, USA},
-- doi={10.1109/N-SSC.2007.4785615},
-+ publisher={Association for Computing Machinery},
-+ address={New York, NY, USA},
-+ doi={10.1145/1465482.1465560},
-+ location = {Atlantic City, New Jersey},
-+ series = {AFIPS '67 (Spring)}
- }
- 
- @article{Lilja93,
-diff --git a/bib/syncrefs.bib b/bib/syncrefs.bib
-index 8278583f..436e9292 100644
---- a/bib/syncrefs.bib
-+++ b/bib/syncrefs.bib
-@@ -269,6 +269,7 @@ Brent A Kingsbury",
-  volume="1",
-  number="2",
-  pages="115-138",
-+ doi="10.1007/BF00289519",
-  note="Available:
- \url{https://www.cs.utexas.edu/users/EWD/ewd03xx/EWD310.PDF}
- [Viewed January 13, 2008]",
-@@ -890,6 +891,15 @@ Symposium on Distributed Computing},
-  Address = "Burlington, MA, USA",
- }
- 
-+@book{HerlihyShavit2020Textbook,
-+ Author = "Maurice Herlihy and Nir Shavit and Victor Luchangco and Michael Spear",
-+ Title = "The Art of Multiprocessor Programming, 2nd Edition",
-+ Year = "2020",
-+ isbn = "978-0-12-415950-1",
-+ Publisher = "Morgan Kaufmann",
-+ Address = "Burlington, MA, USA",
-+}
-+
- @book{MichaelScott2006Textbook,
-  Author = "Michael Scott",
-  Title = "Programming Language Pragmatics",
-@@ -899,6 +909,15 @@ Symposium on Distributed Computing},
-  Address = "Burlington, MA, USA",
- }
- 
-+@book{MichaelScott2015Textbook,
-+ Author = "Michael Scott",
-+ Title = "Programming Language Pragmatics, 4th Edition",
-+ Year = "2015",
-+ isbn = "978-0-12-410409-9",
-+ Publisher = "Morgan Kaufmann",
-+ Address = "Burlington, MA, USA",
-+}
-+
- @book{MichaelScott2013Textbook,
-  Author = "Michael L. Scott",
-  Title = "Shared-Memory Synchronization",
-@@ -1019,6 +1038,15 @@ Symposium on Distributed Computing},
-  Address = "Shelter Island, NY, USA",
- }
- 
-+@book{AnthonyWilliams2019,
-+ Author = "Anthony Williams",
-+ Title = "C++ Concurrency in Action, 2nd Edition",
-+ Year = "2019",
-+ Publisher = "Manning",
-+ Address = "Shelter Island, NY, USA",
-+ isbn = "978-1933988771",
-+}
-+
- @book{NormMatloff2011ParProcBook,
-  Author = "Norm Matloff",
-  Title = "Programming on Parallel Machines",
+diff --git a/howto/howto.tex b/howto/howto.tex
+index 38606625..4558aaba 100644
+--- a/howto/howto.tex
++++ b/howto/howto.tex
+@@ -300,7 +300,7 @@ Fortunately, there are many alternatives available to you:
+ \item	If you prefer a more academic and rigorous treatment of
+ 	parallel programming,
+ 	you might like \pplsur{Maurice P.}{Herlihy}'s and \pplsur{Nir}{Shavit}'s
+-	textbook~\cite{HerlihyShavit2008Textbook}.
++	textbook~\cite{HerlihyShavit2008Textbook,HerlihyShavit2020Textbook}.
+ 	This book starts with an interesting combination
+ 	of low-level primitives at high levels of abstraction
+ 	from the hardware, and works its way through locking
+@@ -316,7 +316,7 @@ Fortunately, there are many alternatives available to you:
+ 	programming from a programming\-/language\-/pragmatics viewpoint,
+ 	you might be interested in the concurrency chapter from
+ 	\pplsur{Michael}{Scott}'s
+-	textbook~\cite{MichaelScott2006Textbook}
++	textbook~\cite{MichaelScott2006Textbook,MichaelScott2015Textbook}
+ 	on programming-language pragmatics.
+ \item	If you are interested in an object-oriented patternist
+ 	treatment of parallel programming focussing on C++,
+@@ -353,18 +353,18 @@ Fortunately, there are many alternatives available to you:
+ \item	If you are interested in POSIX Threads, you might take
+ 	a look at \pplmdl{David R.}{Butenhof}'s book~\cite{Butenhof1997pthreads}.
+ 	In addition,
+-	\ppl{W.~Richard}{Stevens}'s book~\cite{WRichardStevens1992}
++	\ppl{W.~Richard}{Stevens}'s book~\cite{WRichardStevens1992,WRichardStevens2013}
+ 	covers UNIX and POSIX, and \ppl{Stewart}{Weiss}'s lecture
+ 	notes~\cite{StewartWeiss2013UNIX} provide an
+ 	thorough and accessible introduction with a good set of
+ 	examples.
+ \item	If you are interested in C++11, you might like
+ 	\ppl{Anthony}{Williams}'s ``C++ Concurrency in Action: Practical
+-	Multithreading''~\cite{AnthonyWilliams2012}.
++	Multithreading''~\cite{AnthonyWilliams2012,AnthonyWilliams2019}.
+ \item	If you are interested in C++, but in a Windows environment,
+ 	you might try \ppl{Herb}{Sutter}'s ``Effective Concurrency''
+ 	series in
+-	Dr. Dobbs Journal~\cite{HerbSutter2008EffectiveConcurrency}.
++	Dr.~Dobbs Journal~\cite{HerbSutter2008EffectiveConcurrency}.
+ 	This series does a reasonable job of presenting a
+ 	commonsense approach to parallelism.
+ \item	If you want to try out Intel Threading Building Blocks,
+@@ -375,14 +375,15 @@ Fortunately, there are many alternatives available to you:
+ 	cache organizations affect the implementation of kernel
+ 	internals should take a look at \ppl{Curt}{Schimmel}'s classic
+ 	treatment of this subject~\cite{Schimmel:1994:USM:175689}.
+-\item	If you are looking for a hardware view, \ppl{John}{Hennessy}'s and
+-	\ppl{David}{Patterson}'s classic
++\item	If you are looking for a hardware view, \pplsur{John L.}{Hennessy}'s and
++	\pplsur{David A.}{Patterson}'s classic
+ 	textbook~\cite{Hennessy2017,Hennessy2011} is well worth a read.
+ 	If you are looking for an academic textbook on memory ordering,
+-	that of \ppl{Daniel}{Sorin} et al.~\cite{DanielJSorin2011MemModel}
++	that of \ppl{Daniel}{Sorin} et al.~\cite{DanielJSorin2011MemModel,%
++	VijayNagarajan2020MemModel}
+ 	is highly recommended.
+ 	For a memory-ordering tutorial from a Linux-kernel viepwpoint,
+-	{Paolo}{Bonzini}'s LWN series is a good place to
++	\ppl{Paolo}{Bonzini}'s LWN series is a good place to
+ 	start~\cite{PaoloBonzini2021lockless1,PaoloBonzini2021lockless2}.
+ \item	Finally, those using Java might be well-served by \ppl{Doug}{Lea}'s
+ 	textbooks~\cite{DougLea1997Textbook,Goetz2007Textbook}.
 -- 
 2.17.1
 
