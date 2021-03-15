@@ -1,92 +1,93 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:57176 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233671AbhCMQsL (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sat, 13 Mar 2021 11:48:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615654091;
-        bh=9ceyX40j0c42ffIoRge3xvgg9zkeOczMV01Y+zFfWwQ=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=KKCPAhP/ssoL3SDO8mIwNd1jZUjjYI/GIVkZE41sQedmn0oy16fH7Z311YVAGlJ4B
-         UVodXisqE5XSlWpPABtEjh1EwyE5ti0GEnNlKkekuWrKzkl6I9Or+y0Uaz/dWXeOew
-         jMXF2J6XMj5BPCT4RgCT6eT6XmS78aKLyITaDTRojJCBF5EgKWqi2kD5VA3Ug2kTZg
-         IDzsBfjGNSs3d1DVKWuNdwWW3z4nNzz+UfTZYw6Dn0IPXZlrNTkoKHLepS5ju9wElR
-         mA+8w3TLxkkLlN1thY1mBnexhCzD3P1BBabcV3VeIYtJy+fOye4hsnq1jufFfm7uQh
-         I9orN946uTeyQ==
-Date: Sat, 13 Mar 2021 08:48:10 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] summary: Misc. fixes/tweaks
-Message-ID: <20210313164810.GK2696@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <3433dd91-c602-528f-7297-ed04609df447@gmail.com>
- <0ecabafc-a09d-48fb-fc75-c71f64725727@gmail.com>
- <20210313053826.GJ2696@paulmck-ThinkPad-P72>
- <3fa5a137-9b9d-cff3-a0cc-37306146ca49@gmail.com>
+Return-Path: <SRS0=NRmw=IN=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=YitVxr+wzO9cgcwShH4Ek8NbVgbpgr0s5TSepUSZJXk=;
+        b=jvvX+URQYjLEVEvZ50QMbwAd2VBJ2MLRNKepLlqsgEu32984MIlVzRMoR4tcTNYFor
+         yPCDxLgPjAig+EQ0V6VkT4m0mRxB0fh6m4/yw2RrVDjmMQMcJs+l6RR17RJv9NA3CNg3
+         MFHig9/5AogefNyDq1tiogq3DPmK8K9eGR/TRk9nG5S3QLy/+tu/iwJUrQs18EZANhWq
+         +jyL53l4GCkpy+5LhO7D025QcZLgLB9on5i5p0Ln+1oSCFXsj2F733GTs+8bbRMEIubg
+         vrxPlQUpYNE+goYcQ6XhVkGkkAmLpiKedSpoGOvYAei/AbLsiiJAIiZs7OfGti6ezjWW
+         HXng==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [GIT PULL -perfbook] Minor tweaks for Edition 2, take 2
+Message-ID: <856323b6-91d5-62e4-d9f7-3938992ffd2f@gmail.com>
+Date: Mon, 15 Mar 2021 23:52:42 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3fa5a137-9b9d-cff3-a0cc-37306146ca49@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Mar 14, 2021 at 12:32:14AM +0900, Akira Yokosawa wrote:
-> On Fri, 12 Mar 2021 21:38:26 -0800, Paul E. McKenney wrote:
-> > On Sat, Mar 13, 2021 at 12:35:50PM +0900, Akira Yokosawa wrote:
-> [...]
-> > 
-> > I queued and pushed your fixes above, thank you!
-> > 
-> > And I will be doing another rc this weekend in order to give us both
-> > some time for proofreading.  I intend to revisit the changes that I
-> > made, and I of course welcome any and all additional bug reports and
-> > fixes.
-> 
-> There can be conflicts, but you are good at resolving them.
-> Expect a couple of patches soon.
+Hi Paul,
 
-Very good, looking forward to them!
+This pull request consists of minor updates mainly adjusting placement
+of float objects.
 
-> >> A much natural option would be to add a couple of paragraphs in front
-> >> of the figure so that at least a few sentences make the following
-> >> page in 1c builds.
-> > 
-> > Your concern is the large quantities of vertical whitespace on page
-> > 569 of perfbook-1c.pdf?
-> 
-> Well, they don't look that ugly.  There are much wider gaps elsewhere
-> near section epigraphs.
-> 
-> My main concern is the "H" option, which is considered as a last resort.
-> It will likely bite you when you add/remove some text around it.
+This is becoming kind of whack-a-mole, especially we have quite a few
+build targets.  I'm not fully satisfied with the result, but it looks
+acceptable (subjective opinion!).
 
-Ah, I see.  Otherwise the figure ends up on a page by itself.
+Notes on possibly arguable changes:
 
-> >                          I could imagine expanding on the changes
-> > in tooling from 2003 to 2006 that Linus alluded to.  I could also
-> > imagine filling in on my attempts to get the book going from late
-> > 2004 to 2006.
-> 
-> That would eliminate the adhoc code for 1c layouts.
-> Float objects near the end of a document/chapter are sometimes
-> quite tricky.
+Patch 1/10 "memorder: Shrink large figures in 2c builds" shrinks
+Figures 15.14 -- 15.16 in 2c builds.
+If you find them too small, I'll adjust the resizebox parameter.
 
-For this edition, it will be safer for me to do "make -1c" after each
-change to summary.tex to check that figure than to work out how to expand
-that section while still having it read well.  But I added comments
-to remind myself of this for the third edition.
+Patch 5/10 "defer: Place sub captions below sub figures in Figure 9.14"
+should improve the consistency with the figure captions the at bottom.
 
-							Thanx, Paul
+Patch 6/10 "advsync/rt: Adjust placement of Figures 14.12, 14.13, 14.15,
+and 14.16" is another attempt to tame floats close to end of a chapter.
+In this case, both 1c and 2c builds are affected,
 
->         Thanks, Akira
-> > 
-> > Or am I missing your point?
-> > 
-> > 							Thanx, Paul
-> > 
-> >>         Thanks, Akira
-> >>
-> >>>  
-> >>>  And this book is also for everyone else who would like to add low-level
-> >>>  concurrency to their skillset.
-> >>>
+The other patches should be trivial, but if you have any question,
+feel free to ask/confirm.
+
+I have another patch which should have your SOB.
+Will submit it very soon.
+
+        Thanks, Akira
+----
+The following changes since commit 7c93464b2b0c818bc4248494644f40cff4ea444c:
+
+  debugging: Fix typos and grammar (2021-03-14 20:02:41 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/akiyks/perfbook.git tags/for-paul-2021.03.15a
+
+for you to fetch changes up to c8c8afa591ec830eb784392ceb0aedeb9ebd4d4f:
+
+  locking: Add citation to 2nd edition of Herlihy's and Shavit's textbook (2021-03-15 23:23:02 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (10):
+      memorder: Shrink large figures in 2c builds
+      formal: Add v5.11 rcu-test data in Figure 12.4
+      formal, together: Prevent intrusion of floats into non float snippets
+      defer: Fix staccato of 'and and'
+      defer: Place sub captions below sub figures in Figure 9.14
+      advsync/rt: Adjust placement of Figures 14.12, 14.13, 14.15, and 14.16
+      advsync/rt: Move float away from section heading
+      defer: Add a couple of \FloatBarrier macros for 1c builds
+      SMPdesign: Align 'Index L' in Figure 6.7
+      locking: Add citation to 2nd edition of Herlihy's and Shavit's textbook
+
+ SMPdesign/lockdeqhash.fig      |    2 +-
+ advsync/rt.tex                 |   79 ++-
+ defer/RCUGPorderingSummary.svg |  133 ++---
+ defer/defer.tex                |    2 +
+ defer/rcufundamental.tex       |    2 +-
+ formal/RCU-test-ratio.eps      | 1275 ++++++++++++++++++++--------------------
+ formal/data/plot.sh            |    4 +-
+ formal/data/rcu-test.dat       |    3 +-
+ formal/dyntickrcu.tex          |    4 +-
+ locking/locking.tex            |    2 +-
+ memorder/memorder.tex          |    8 +-
+ perfbook-lt.tex                |    2 +
+ together/applyrcu.tex          |    1 +
+ 13 files changed, 795 insertions(+), 722 deletions(-)
