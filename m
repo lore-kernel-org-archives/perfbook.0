@@ -1,93 +1,50 @@
-Return-Path: <SRS0=NRmw=IN=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=YitVxr+wzO9cgcwShH4Ek8NbVgbpgr0s5TSepUSZJXk=;
-        b=jvvX+URQYjLEVEvZ50QMbwAd2VBJ2MLRNKepLlqsgEu32984MIlVzRMoR4tcTNYFor
-         yPCDxLgPjAig+EQ0V6VkT4m0mRxB0fh6m4/yw2RrVDjmMQMcJs+l6RR17RJv9NA3CNg3
-         MFHig9/5AogefNyDq1tiogq3DPmK8K9eGR/TRk9nG5S3QLy/+tu/iwJUrQs18EZANhWq
-         +jyL53l4GCkpy+5LhO7D025QcZLgLB9on5i5p0Ln+1oSCFXsj2F733GTs+8bbRMEIubg
-         vrxPlQUpYNE+goYcQ6XhVkGkkAmLpiKedSpoGOvYAei/AbLsiiJAIiZs7OfGti6ezjWW
-         HXng==
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [GIT PULL -perfbook] Minor tweaks for Edition 2, take 2
-Message-ID: <856323b6-91d5-62e4-d9f7-3938992ffd2f@gmail.com>
-Date: Mon, 15 Mar 2021 23:52:42 +0900
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:58900 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230221AbhCOPc4 (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Mon, 15 Mar 2021 11:32:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8829C60295
+        for <perfbook@vger.kernel.org>; Mon, 15 Mar 2021 15:32:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615822376;
+        bh=kKrNOnXz1fdwmOHIAo9oP88Qd4FEwKP7oxmpJxIoD+U=;
+        h=Date:From:To:Subject:Reply-To:References:In-Reply-To:From;
+        b=jhGDPjpjXBtniRvuSTIYP1eCQd7n57tfG8FvA37hF7oJ2fBXQWZi7J8ap/0xKrqZp
+         7tg4H1G1EAur2IKRqkHMG6sfAKeMI8fkS14NdiPCf5+Bb4sVqTQ+zX7qwzwBVUZcAC
+         W5Gs22Wf92Raj8Y1ZI8XMG5zKQVaj4HPN7V3rCZH8Hoz7XzaB136egbcrk0hXb/Muw
+         6+j0jc0apYxbNQQ7GpupDQcurf/kk4pibeR0giR/GCfkX06faSBuUIwNtKAe/ecIdA
+         khtyl4Z+YuCZShIBenZWcN6ExADxPlFAgjsiEfwS/zyApfN0gLzDrVkNSS/QwLBPJW
+         dTEpRNxfWwa3A==
+Date: Mon, 15 Mar 2021 08:32:56 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: Second edition coming up soon!
+Message-ID: <20210315153256.GA9958@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20210308164105.GA2210@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210308164105.GA2210@paulmck-ThinkPad-P72>
 List-ID: <perfbook.vger.kernel.org>
+To: perfbook@vger.kernel.org
 
-Hi Paul,
+On Mon, Mar 08, 2021 at 08:41:05AM -0800, Paul E. McKenney wrote:
+> Hello!
+> 
+> Had I been living right, I would have been announcing the Second Edition's
+> release candidates on this list.  Hopefully better late than never...
+> 
+> The Second Edition Release Candidate 10 is available here:
+> 
+> https://mirrors.edge.kernel.org/pub/linux/kernel/people/paulmck/perfbook/perfbook.html
+> 
+> There are only a few appendices to go, as I am not going to do an update
+> of Appendix B or C.  So it is likely that the Second Edition will be
+> released this coming weekend (of March 14).
+> 
+> So if you see anything needing a bit of wordsmithing, please let me know!
 
-This pull request consists of minor updates mainly adjusting placement
-of float objects.
+And there were too many typos remaining, so I posted Second Edition
+Release Candidate 11.  Hopefully next week...
 
-This is becoming kind of whack-a-mole, especially we have quite a few
-build targets.  I'm not fully satisfied with the result, but it looks
-acceptable (subjective opinion!).
-
-Notes on possibly arguable changes:
-
-Patch 1/10 "memorder: Shrink large figures in 2c builds" shrinks
-Figures 15.14 -- 15.16 in 2c builds.
-If you find them too small, I'll adjust the resizebox parameter.
-
-Patch 5/10 "defer: Place sub captions below sub figures in Figure 9.14"
-should improve the consistency with the figure captions the at bottom.
-
-Patch 6/10 "advsync/rt: Adjust placement of Figures 14.12, 14.13, 14.15,
-and 14.16" is another attempt to tame floats close to end of a chapter.
-In this case, both 1c and 2c builds are affected,
-
-The other patches should be trivial, but if you have any question,
-feel free to ask/confirm.
-
-I have another patch which should have your SOB.
-Will submit it very soon.
-
-        Thanks, Akira
-----
-The following changes since commit 7c93464b2b0c818bc4248494644f40cff4ea444c:
-
-  debugging: Fix typos and grammar (2021-03-14 20:02:41 -0700)
-
-are available in the Git repository at:
-
-  https://github.com/akiyks/perfbook.git tags/for-paul-2021.03.15a
-
-for you to fetch changes up to c8c8afa591ec830eb784392ceb0aedeb9ebd4d4f:
-
-  locking: Add citation to 2nd edition of Herlihy's and Shavit's textbook (2021-03-15 23:23:02 +0900)
-
-----------------------------------------------------------------
-Akira Yokosawa (10):
-      memorder: Shrink large figures in 2c builds
-      formal: Add v5.11 rcu-test data in Figure 12.4
-      formal, together: Prevent intrusion of floats into non float snippets
-      defer: Fix staccato of 'and and'
-      defer: Place sub captions below sub figures in Figure 9.14
-      advsync/rt: Adjust placement of Figures 14.12, 14.13, 14.15, and 14.16
-      advsync/rt: Move float away from section heading
-      defer: Add a couple of \FloatBarrier macros for 1c builds
-      SMPdesign: Align 'Index L' in Figure 6.7
-      locking: Add citation to 2nd edition of Herlihy's and Shavit's textbook
-
- SMPdesign/lockdeqhash.fig      |    2 +-
- advsync/rt.tex                 |   79 ++-
- defer/RCUGPorderingSummary.svg |  133 ++---
- defer/defer.tex                |    2 +
- defer/rcufundamental.tex       |    2 +-
- formal/RCU-test-ratio.eps      | 1275 ++++++++++++++++++++--------------------
- formal/data/plot.sh            |    4 +-
- formal/data/rcu-test.dat       |    3 +-
- formal/dyntickrcu.tex          |    4 +-
- locking/locking.tex            |    2 +-
- memorder/memorder.tex          |    8 +-
- perfbook-lt.tex                |    2 +
- together/applyrcu.tex          |    1 +
- 13 files changed, 795 insertions(+), 722 deletions(-)
+							Thanx, Paul
