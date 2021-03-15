@@ -1,50 +1,61 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:58900 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230221AbhCOPc4 (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Mon, 15 Mar 2021 11:32:56 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8829C60295
-        for <perfbook@vger.kernel.org>; Mon, 15 Mar 2021 15:32:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615822376;
-        bh=kKrNOnXz1fdwmOHIAo9oP88Qd4FEwKP7oxmpJxIoD+U=;
-        h=Date:From:To:Subject:Reply-To:References:In-Reply-To:From;
-        b=jhGDPjpjXBtniRvuSTIYP1eCQd7n57tfG8FvA37hF7oJ2fBXQWZi7J8ap/0xKrqZp
-         7tg4H1G1EAur2IKRqkHMG6sfAKeMI8fkS14NdiPCf5+Bb4sVqTQ+zX7qwzwBVUZcAC
-         W5Gs22Wf92Raj8Y1ZI8XMG5zKQVaj4HPN7V3rCZH8Hoz7XzaB136egbcrk0hXb/Muw
-         6+j0jc0apYxbNQQ7GpupDQcurf/kk4pibeR0giR/GCfkX06faSBuUIwNtKAe/ecIdA
-         khtyl4Z+YuCZShIBenZWcN6ExADxPlFAgjsiEfwS/zyApfN0gLzDrVkNSS/QwLBPJW
-         dTEpRNxfWwa3A==
-Date: Mon, 15 Mar 2021 08:32:56 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: Second edition coming up soon!
-Message-ID: <20210315153256.GA9958@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20210308164105.GA2210@paulmck-ThinkPad-P72>
+Return-Path: <SRS0=NRmw=IN=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=JIHlGdzPHVtNJtA1XHXOWnyexhcsDXsIAHa/OvC8CDc=;
+        b=OkGyM6CCDz24m0WvJymBzMK7pN+wV+6fK1PFvYJkIQKbMwp7dP89QehpTZfaKz2Ujt
+         4JlGzBLrQxHirrgE+u9sR/fpj3V3rSLtMVpD1zfjF2IuFIoJ58YG+03u1UVKM1UewPVu
+         vu9vglXq5L7FvXOhwVCGXGzAz66YVfYojGXX1bjFSByNs1nehYOSCGNsB6SznyuhjoRC
+         7H+5iaTP9LUxJPD6QiXFyCMCibAcBpSbjaw07igv8K71/+twQQwLgwuJw6s+UbVT1VGd
+         n6K49rd0+iqTE2rTW3oYrIeX9FKI8FeJFgef8LnW65vXlhJffmriYSptkLvxRy5Wi7Qr
+         YWgA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] legal: Remove MIPS from the trademark list
+Message-ID: <2586d1bf-d475-b153-0e18-9bfbf9e186ab@gmail.com>
+Date: Tue, 16 Mar 2021 00:03:17 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210308164105.GA2210@paulmck-ThinkPad-P72>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
 
-On Mon, Mar 08, 2021 at 08:41:05AM -0800, Paul E. McKenney wrote:
-> Hello!
-> 
-> Had I been living right, I would have been announcing the Second Edition's
-> release candidates on this list.  Hopefully better late than never...
-> 
-> The Second Edition Release Candidate 10 is available here:
-> 
-> https://mirrors.edge.kernel.org/pub/linux/kernel/people/paulmck/perfbook/perfbook.html
-> 
-> There are only a few appendices to go, as I am not going to do an update
-> of Appendix B or C.  So it is likely that the Second Edition will be
-> released this coming weekend (of March 14).
-> 
-> So if you see anything needing a bit of wordsmithing, please let me know!
+Subject: [PATCH] legal: Remove MIPS from the trademark list
 
-And there were too many typos remaining, so I posted Second Edition
-Release Candidate 11.  Hopefully next week...
+They say Wave Computing will become new "MIPS" [1].
+However, there is no official statement regarding the status of MIPS
+trademark at the moment.
+Tentatively remove MIPS from the explicit list and delegate it to
+the final "Other company, ..." item.
 
-							Thanx, Paul
+[1]: https://www.prnewswire.com/news-releases/wave-computing-and-mips-emerge-from-chapter-11-bankruptcy-301237051.html
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+FWIW, the old entry of "Wave, Inc." was missing "Computing"...
+Few people read such Legal pages, if any. ;-)
+
+        Thanks, Akira
+
+--
+ legal.tex | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/legal.tex b/legal.tex
+index b2b827c4..89ce7715 100644
+--- a/legal.tex
++++ b/legal.tex
+@@ -18,8 +18,6 @@ Trademarks:
+ 	other countries, or both.
+ \item	Arm is a registered trademark of Arm Limited (or its subsidiaries)
+ 	in the US and/or elsewhere.
+-\item	MIPS is a registered trademark of Wave, Inc. in the United States
+-	and other countries.
+ \item	SPARC is a registered trademark of SPARC International, Inc.
+ 	Products bearing SPARC trademarks are based on an architecture
+ 	developed by Sun Microsystems, Inc.
+-- 
+2.17.1
+
