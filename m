@@ -1,75 +1,116 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:40950 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232142AbhCOP4l (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Mon, 15 Mar 2021 11:56:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615823799;
-        bh=7kj92HIJN0Wc/PPJiJ5tHHR1W9pWRj1LXtQjFVkDRAY=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=dwSJKpWWoKROC9V9a3Gpy7ntdbGU14f2DbfdvyCp7onrnkke56AtK84/yO4zCmGNi
-         H+1Oh5VRvlWNP4mxfXvnmHuoD9vlAudrJK+9KB9a6GgfRLTRea1BX04eoijylB2RNf
-         bNfq6CGjNLPrPzJRxZKY7+JQTHqeZa7x2wVAjzjIcgbduBpAcXAFMUR1KfmrZ9xRUp
-         AbMH/Fd//pR1CuI6aRZP4Ve0DHPQXtgX35m4Lh/I4LO4G7iWRWCMAMnyRBoGFwQBP8
-         1xrUa/iuxPI/8OLrooHEn+hYkI/1CNHMGzb0n7d2jbUa7DwdQNUA0Ll4GM+cjVIhCS
-         kaF2+onm8L/kA==
-Date: Mon, 15 Mar 2021 08:56:39 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] legal: Remove MIPS from the trademark list
-Message-ID: <20210315155639.GM2696@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <2586d1bf-d475-b153-0e18-9bfbf9e186ab@gmail.com>
+Return-Path: <SRS0=Ej0c=IQ=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=AX0Pi6xGb+uOgcTnek1CPu+QFpefcXJIrLZXNEGMtqo=;
+        b=aIbHSZnpYBnCupeX9yHddQXXvvPPt9JnEDs0eP6Izy1QSJdfcoAkfip2LBI+ySXE+C
+         4okCLVmqfN56jGiELtWjzX6IrN9UhhmDZoqQToBO2Gz5f0HFB+vZiOc+Zh7rscMMyJ8H
+         C6HJiBugq5VvwDOy7iC68FOyAg9PUIu1d5DEo7VTJAzq0LHZ3llMPR4Ye+Ybjniq00BM
+         7J5MqFSRyzOyOucOFkzSi2IUNzi8U7fCaYz4ZylhfD89O9jMx37zWk78BHPlAiC4lIPI
+         bPypGvnHpJisX/mMvpW4jx/MzJgMCNMkicL/w4iAN7gvlKEnvAOEuavCiZOXp5catbG6
+         1y/g==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [GIT PULL -perfbook] Minor tweaks for Edition 2, take 3
+Message-ID: <1bab2519-02be-a38c-0d20-ac40567c084e@gmail.com>
+Date: Thu, 18 Mar 2021 10:57:21 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2586d1bf-d475-b153-0e18-9bfbf9e186ab@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 12:03:17AM +0900, Akira Yokosawa wrote:
-> Subject: [PATCH] legal: Remove MIPS from the trademark list
-> 
-> They say Wave Computing will become new "MIPS" [1].
-> However, there is no official statement regarding the status of MIPS
-> trademark at the moment.
-> Tentatively remove MIPS from the explicit list and delegate it to
-> the final "Other company, ..." item.
-> 
-> [1]: https://www.prnewswire.com/news-releases/wave-computing-and-mips-emerge-from-chapter-11-bankruptcy-301237051.html
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Hi Paul,
 
-I well remember that time back in the early 1990s when MIPS was going
-to take over the world.  I guess that it didn't turn out that way.  ;-)
+So, this contains fairly large diff stats which do not sound like
+"minor" due to the annotations of sentence-ending fullstops in
+Patch 1/6.
 
-Queued, and thank you!
+They improve consistency of the whole textbook a little bit.
 
-							Thanx, Paul
+I know there are arguments of single spacing vs double spacing.
+LaTeX does double spacing by default.
+If you put \frenchspacing in the preamble, the effect of "\@"
+will be voided.
 
-> ---
-> FWIW, the old entry of "Wave, Inc." was missing "Computing"...
-> Few people read such Legal pages, if any. ;-)
-> 
->         Thanks, Akira
-> 
-> --
->  legal.tex | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/legal.tex b/legal.tex
-> index b2b827c4..89ce7715 100644
-> --- a/legal.tex
-> +++ b/legal.tex
-> @@ -18,8 +18,6 @@ Trademarks:
->  	other countries, or both.
->  \item	Arm is a registered trademark of Arm Limited (or its subsidiaries)
->  	in the US and/or elsewhere.
-> -\item	MIPS is a registered trademark of Wave, Inc. in the United States
-> -	and other countries.
->  \item	SPARC is a registered trademark of SPARC International, Inc.
->  	Products bearing SPARC trademarks are based on an architecture
->  	developed by Sun Microsystems, Inc.
-> -- 
-> 2.17.1
-> 
+For portability of the LaTeX code base, I think annotations by "\@"
+should be maintained as far as possible.
+
+Patch 2/6 does a similar tweak by introducing a new macro "\Node{}".
+
+Patch 3/6 makes some of inline code snippets unbreakable so that
+they are not disturbed by float/footnote intrusion.
+
+Patches 4/6--6/6 are typo fixes, but I might be missing something
+there, especially in Patch 6/6.
+
+If you don't feel like pulling the whole series, feel free to
+pull part of it, or add your fix(es) on top.
+
+        Thanks, Akira
+
+--------
+The following changes since commit d25a6ca010cd28e366ef712e3c5449f11ed6f82c:
+
+  locking: Fix typos and grammar (2021-03-16 21:05:01 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/akiyks/perfbook.git tags/for-paul-2021.03.18c
+
+for you to fetch changes up to 194bd0a454fc3ca2e6d50c39c248e35fd24ff61a:
+
+  datastruct: Remove redundant line (2021-03-18 10:01:20 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (6):
+      treewide: Annotate sentence-ending fullstops as such
+      advsync: Use macro for 'Node A', 'Node B', etc.
+      owned, defer, future: Make short inline snippets unbreakable
+      defer: Fix typo
+      advsync: Fix typo
+      datastruct: Remove redundant line
+
+ SMPdesign/SMPdesign.tex              |  2 +-
+ SMPdesign/beyond.tex                 | 10 +++++-----
+ advsync/advsync.tex                  | 26 +++++++++++++-------------
+ advsync/rcu.tex                      |  4 ++--
+ advsync/rt.tex                       | 22 +++++++++++-----------
+ appendix/toyrcu/toyrcu.tex           | 12 ++++++------
+ appendix/whymb/whymemorybarriers.tex | 14 +++++++-------
+ count/count.tex                      | 20 ++++++++++----------
+ cpu/hwfreelunch.tex                  |  2 +-
+ cpu/overheads.tex                    |  2 +-
+ cpu/overview.tex                     |  4 ++--
+ cpu/swdesign.tex                     |  2 +-
+ datastruct/datastruct.tex            | 21 ++++++++++-----------
+ debugging/debugging.tex              |  6 +++---
+ defer/rcuapi.tex                     | 20 ++++++++++----------
+ defer/rcufundamental.tex             |  8 ++++----
+ defer/rcuintro.tex                   |  8 ++++----
+ defer/rcurelated.tex                 |  6 +++---
+ defer/rcuusage.tex                   | 16 ++++++++--------
+ defer/seqlock.tex                    |  2 +-
+ defer/whichtochoose.tex              | 12 ++++++------
+ formal/axiomatic.tex                 |  4 ++--
+ formal/dyntickrcu.tex                | 10 +++++-----
+ formal/formal.tex                    |  6 +++---
+ formal/spinhint.tex                  |  4 ++--
+ future/formalregress.tex             |  4 ++--
+ future/fp.tex                        |  2 +-
+ future/htm.tex                       | 10 +++++-----
+ future/tm.tex                        | 18 +++++++++---------
+ glossary.tex                         |  2 +-
+ howto/howto.tex                      | 10 +++++-----
+ intro/intro.tex                      |  2 +-
+ legal.tex                            |  2 +-
+ locking/locking.tex                  | 20 ++++++++++----------
+ memorder/memorder.tex                | 20 ++++++++++----------
+ owned/owned.tex                      |  2 +-
+ perfbook-lt.tex                      |  1 +
+ together/count.tex                   |  2 +-
+ together/refcnt.tex                  |  4 ++--
+ toolsoftrade/toolsoftrade.tex        | 14 +++++++-------
+ 40 files changed, 178 insertions(+), 178 deletions(-)
