@@ -1,79 +1,88 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:36364 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230365AbhCRR6g (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Thu, 18 Mar 2021 13:58:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616090315;
-        bh=cMOHRnSOMcDEnAAXxBTDhR6SGnMQY82TLqkYaFLJ7T4=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=mAc7Yu2wahK3X4NxxaSLKcraB6J6Mrs7Qy2TzU4FGaqoG6Ga4D69ZOhlJ+BENRkeH
-         kZH3xhgvW9jQ7bIYRF/BwSz0qLwJP9oTwmge6MjfeRLRPf4amv6eKUD6TXQvV/yzy7
-         lIVF+4ao+rksEfFRSrMyoh0URKHkI1bftChI5PXrA5YCm/bAuCAmR5OXR0dSYmztda
-         7qIALJFTWIBPnp3PGCXMhB9GYC2+vzGvYIB3Jlq8WaX2d2iIjTEfI0pOPMCN2Oh4cT
-         gKZkoaGcEZ2pPXj3pjD9whXmmMwaGoDr+3BOCi9hVhQcvLOni8ZuEbdWd3tDzC/c0+
-         LTJ76ep4VCDaw==
-Date: Thu, 18 Mar 2021 10:58:35 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [GIT PULL -perfbook] Minor tweaks and styleguide update for
- Edition 2, take 4
-Message-ID: <20210318175835.GG2696@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <1bab2519-02be-a38c-0d20-ac40567c084e@gmail.com>
- <095ffc25-da49-7742-b7b9-8772ff1899e9@gmail.com>
+Return-Path: <SRS0=3esZ=IR=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=jy8PjE9oCJ8Yr9+ZQDX4LY/i1LOjfKbypS1XScjhbn4=;
+        b=muVP7lsgoDVgrmemYapY2M4uQhRK2WUbj43OFJVixCb6FdwicDSfEFrxhwjsRBxK6z
+         jeJcz/Zu5SLzO/XSDcpOxeSboefIUNgp+GK4SaJpW3WowjJC4yLCVudDwYQND/cHtUg/
+         mjWih6eAzQH6l7hfJaCaeEZyNiiifMPgagnnp6rNmzNgrkYUkEO1e8R7XKVZbui7F6vI
+         WrH8Jge5rfOlCyrggKH4Uc9b1kAPc67WcSxCFbHkQqi3bXbVNDPNk5yv2cwNG9StqqGA
+         BQ1zAGil6QZOohHRQ4+/8U50p1o59Vw63W9maYvCLaMm6rHcbMh3/MhaJwm/aPdS4bXz
+         DoIg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [GIT PULL -perfbook] Minor fixes and update for Edition 2, take 5
+Message-ID: <6e94b800-3cc0-3837-6fc7-4d330dad45d2@gmail.com>
+Date: Sat, 20 Mar 2021 00:01:45 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <095ffc25-da49-7742-b7b9-8772ff1899e9@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Mar 18, 2021 at 10:46:18PM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> I added a section on full stop spacing example in styleguide.
-> There were a couple of typo fixes in memorder.
-> 
-> This is relative to the earlier pull request of take 3.
-> 
-> Typo fixes are intentionally divided as individual commits.
+Hi Paul,
 
-I pulled in the whole stack, thank you!  We overlapped on only one typo.  ;-)
+Today's pull request consists of minor typo fixes and an update only.
 
-I updated the style guide to explicitly call out which full-stop
-hints work.  You may wish to update to pick a preferred method for the
-"Mr. Smith" example.  I expect that it will take quite some time for me
-to form the habit of typing either of the three, but maybe checking for
-this can be scripted?
+However, I'm not sure if Patches 6/7 and 7/7 are really the right fixes
+or not.
+So please have a closer look at them.
 
-							Thanx, Paul
+        Thanks, Akira
 
->         Thanks, Akra
-> 
-> --------
-> The following changes since commit 194bd0a454fc3ca2e6d50c39c248e35fd24ff61a:
-> 
->   datastruct: Remove redundant line (2021-03-18 10:01:20 +0900)
-> 
-> are available in the Git repository at:
-> 
->   https://github.com/akiyks/perfbook.git tags/for-paul-2021.03.18d
-> 
-> for you to fetch changes up to a70d76c76d8e3b4338f813da9ddfb8fa880a653c:
-> 
->   memorder: Fix usage of \pageref{} (2021-03-18 22:14:28 +0900)
-> 
-> ----------------------------------------------------------------
-> Akira Yokosawa (6):
->       styleguide: Use \Cref{} at start of sentence
->       sytleguide: Add a section on full stop
->       memorder: Fix typo
->       memorder: Fix typo
->       memorder: Fix typo
->       memorder: Fix usage of \pageref{}
-> 
->  appendix/styleguide/styleguide.tex | 83 ++++++++++++++++++++++++++++++++------
->  memorder/memorder.tex              |  8 ++--
->  2 files changed, 75 insertions(+), 16 deletions(-)
-> 
+(Please find a PS. part at the bottom.)
+
+---------------
+The following changes since commit 82599ee517da15ce3957bc94b82f8702a2357d14:
+
+  memorder: Fix typos and grammar, take two (2021-03-18 17:29:17 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/akiyks/perfbook.git tags/for-paul-2021.03.19a
+
+for you to fetch changes up to 0b1692098fb87a4c1d5f2fec9c078ee4462aac85:
+
+  advsync: Use Oxford comma (2021-03-19 22:19:10 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (7):
+      memorder: Fix staccato of 'another'
+      count: Fix typo
+      count: Move ',' to proper position
+      toolsoftrade: Fix typo
+      toolstotrade: Use path of atomic_t.txt under Linux-kernel source tree
+      advsync: Fix typo
+      advsync: Use Oxford comma
+
+ advsync/advsync.tex           | 4 ++--
+ count/count.tex               | 6 +++---
+ memorder/memorder.tex         | 2 +-
+ toolsoftrade/toolsoftrade.tex | 8 +++++---
+ 4 files changed, 11 insertions(+), 9 deletions(-)
+
+---------------------
+PS.
+
+Looking at the Glossaries, I thought entries of "Concurrent"
+and "Parallel" were missing.
+
+And you use these words almost interchangeably.
+
+(In-)distinction of them is the topic of Appendix A.2.
+
+So maybe it might help readers to put a footnote near the first use
+of "parallel" telling that in this book, parallel and concurrent are
+used as synonyms, and cite Appendix A.2.
+
+To make this point even clearer, adding entries like
+
+  Concurrent: In this book, synonym of parallel.
+
+  Parallel: In this book, synonym of concurrent.
+
+in the Glossaries might help readers.
+
+Thoughts?
