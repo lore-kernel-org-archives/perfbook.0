@@ -1,51 +1,60 @@
 Return-Path: <SRS0=Ggdu=IS=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=qMriwXlEWqtANGN9DVsqjzj3lTM9bgnZxk7496en56k=;
-        b=EoTgMQw6yAD7Tgc+34bGVrF2qcv4ZSHt2D9osdNJPLM742CJJsR85ZNJRYZfE6Wbbw
-         Wly3Ap+wBNqlCo3/lak1y8sh3N5x5vhP0MhAn5ZdQTf/XY8Osc8BTuW4hClypLuS0XF6
-         LsjB15U/vGGI2KKccfB8tRcOIDUXYVh5hhR2i5egy0YI2CChpuVsrobZrZFPwHeXKjYZ
-         3Y2im4BcfOIbxG/3kiwmN+si6yQBg/DKmW7yln/wBaGx+Wbwa/LWEGTOywCRRZa2+aqM
-         dFVduT+ykQWuvRHvNOjHmH0CjngqMsbbKLBrXOf1oEuT+/XOUT0kh8tC/ezVr0HoHPNR
-         dpSQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=zDL9lnCxSTQHlE5eIEVSL+mzqZPiVp6wojHF5SQCUJM=;
+        b=X0thsZ/F1wqPc99GZpOfgjol9ty+hO7CXljHvnF3qwW9ZHRFXL+fwKLaFJMeEPQvC6
+         8Ej3L8dyPgfI1KK84/m1/o8KnYvK9+b5hhJyHhsgJYLNK6n5uNQUh+dzGF82PzzktTyU
+         8NNlxOLlBIDyKBRWGJaKmNXLAzqdS9nH3RKtmhPCHcGodIFCE/RF7ytwFOkYoFrGT/Cq
+         pM4ZOzL9juONB5vmzCWk2UW886B/ltcdZ8muWP34PwhppiJ67u5j/lwTKNIQru2nq6ac
+         I3kgTGENZy6o/y1QfqBqo4c6689lscWK/iSbWL8Zub7N+VvTzIbBAl01ndWZccP0nrWU
+         O1qQ==
+Subject: [PATCH 2/3 -perfbook] together/refcnt: Adjust tense with 'have
+ released'
+References: <85bad10b-4875-b98f-8c3d-547625460817@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH 1/3 -perfbook] bib/hw: Improve looks of
- WilliamGWong2019CCIX-CXL's title
-Message-ID: <85bad10b-4875-b98f-8c3d-547625460817@gmail.com>
-Date: Sun, 21 Mar 2021 00:16:01 +0900
+Message-ID: <8d327ffe-282a-2a04-41e2-ee3ab9bc5ffb@gmail.com>
+Date: Sun, 21 Mar 2021 00:23:13 +0900
 MIME-Version: 1.0
+In-Reply-To: <85bad10b-4875-b98f-8c3d-547625460817@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Also avoid the UTF-8 encoded symbol of "=E2=80=A6".
-\ldots looks close enough to the title of the web page.
-
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- bib/hw.bib | 2 +-
+Paul,
+
+This is in your recent update.
+The former part of "or" says "both CPUs have released ...", so the
+latter part should say "(both CPUs have) exited ...", I suppose.
+
+"or have exited" might be the right fix, but it sounds redundant
+to me.  Up to you!
+
+        Thanks, Akira
+--
+ together/refcnt.tex | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/bib/hw.bib b/bib/hw.bib
-index 2ece29d6..ccb35e94 100644
---- a/bib/hw.bib
-+++ b/bib/hw.bib
-@@ -1025,7 +1025,7 @@ Luis Stevens and Anoop Gupta and John Hennessy",
-=20
- @unpublished{WilliamGWong2019CCIX-CXL,
-  Author=3D"William G. Wong",
-- Title=3D"VHS or Betamax=E2=80=A6CCIX or CXL=E2=80=A6So Many Choices",
-+ Title=3D"{VHS} or {Betamax} \ldots\ {CCIX} or {CXL} \ldots\ So Many Cho=
-ices",
-  month=3D"March",
-  day=3D"14",
-  year=3D"2019",
---=20
+diff --git a/together/refcnt.tex b/together/refcnt.tex
+index 829af167..599ae5f0 100644
+--- a/together/refcnt.tex
++++ b/together/refcnt.tex
+@@ -257,7 +257,7 @@ and any needed memory barriers or disabling of compiler optimizations
+ will be provided by the hazard-pointers or RCU infrastructure.
+ Therefore, if two CPUs release the final two references concurrently, the
+ actual cleanup will be deferred until both CPUs have released their hazard
+-pointers or exits their RCU read-side critical sections, respectively.
++pointers or exited their RCU read-side critical sections, respectively.
+ 
+ \QuickQuiz{
+ 	Why isn't it necessary to guard against cases where one CPU
+-- 
 2.17.1
 
 
