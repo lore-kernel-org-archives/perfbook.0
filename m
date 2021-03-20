@@ -1,148 +1,117 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:48524 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229646AbhCTAAn (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Fri, 19 Mar 2021 20:00:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616198443;
-        bh=rObWUlQja64BObXeEhIBZyMmTZxN6Hjrb/DM0yz82Pg=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=r2f07QRMQ9C9Hd1giUNQ0l23vkO94T+R7q0qVvT3SYPtCaDEb+EPp1+wrs5Gt0daU
-         tNMY3CafiVHOcdcFFR2r1hr0KDEl3Swfj71/JXwusHsSFYBg+1cDlSf+B/fXTceBsy
-         y4k2EtQeVVEYg7GRA0s6BRiKqWg7vPmw1/0LYFZ/OfSV9IrpFo0h3bsUrZe+OcTzGg
-         vJ8dqUyTHhr8vd0f11UyySvvUJJJbnXTfmPzFfbxwEryGdOx9OJyiPcws3hU35YFIN
-         zHnPPnZ/86xUE0d9ss1jsJd4V8NuO/L0OniF5BIeILykGugF71aE0aAb2PRRSU5Jy+
-         5Rk+g46Fgwvtw==
-Date: Fri, 19 Mar 2021 17:00:42 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [GIT PULL -perfbook] Minor fixes and update for Edition 2, take 5
-Message-ID: <20210320000042.GW2696@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <6e94b800-3cc0-3837-6fc7-4d330dad45d2@gmail.com>
- <20210319192136.GP2696@paulmck-ThinkPad-P72>
- <9c3d6825-c9a6-5a00-df1f-089876ccf6a5@gmail.com>
+Return-Path: <SRS0=Ggdu=IS=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Sqtjvg7Hq+DrPspJXHB+ywliitsO3H4FKz6tjhymAvw=;
+        b=ljNNRJDwU/ZAt0wZ7ea75CrG53sJcMRNuQHg85aPJcLAhugKP3VnAquSjDMSEjaJYc
+         Pqo+x0DZGMZlYRfjTwXF1tIkOQWs00gvQ/AUb2qBK0+lZ7EE3VFNr1X2b2A4WME+Issn
+         xeOPnzbP39k+Lq2bweDnPZtO0XavaMr00BLU47kv/YsQkGg1cf3sp+zHiu4iGsQSdgX9
+         gA0YmEMr/FdoBGrbCLCcWFTdpp3WhEeV9PiCebtQti8B4Cxyp/997b4503ZGTm0xXXrK
+         9JiM75ld+uu71oVmavY4yW5f1Sn2OQqJJ1QUtqDFXsK7tytjWkybreAcXkGW6XZRiG7G
+         sgCg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [GIT PULL -perfbook] Minor tweaks and styleguide update for
+ Edition 2, take 4
+References: <1bab2519-02be-a38c-0d20-ac40567c084e@gmail.com>
+ <095ffc25-da49-7742-b7b9-8772ff1899e9@gmail.com>
+ <20210318175835.GG2696@paulmck-ThinkPad-P72>
+Message-ID: <cc6345e3-3c38-3b11-6184-e816ecb84073@gmail.com>
+Date: Sat, 20 Mar 2021 09:07:24 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9c3d6825-c9a6-5a00-df1f-089876ccf6a5@gmail.com>
+In-Reply-To: <20210318175835.GG2696@paulmck-ThinkPad-P72>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Mar 20, 2021 at 08:34:01AM +0900, Akira Yokosawa wrote:
-> On Fri, 19 Mar 2021 12:21:36 -0700, Paul E. McKenney wrote:
-> > On Sat, Mar 20, 2021 at 12:01:45AM +0900, Akira Yokosawa wrote:
-> >> Hi Paul,
-> >>
-> >> Today's pull request consists of minor typo fixes and an update only.
-> >>
-> >> However, I'm not sure if Patches 6/7 and 7/7 are really the right fixes
-> >> or not.
-> >> So please have a closer look at them.
-> > 
-> > They look good, thank you!  I have pulled this series and pushed it out.
-> > 
-> >>         Thanks, Akira
-> >>
-> >> (Please find a PS. part at the bottom.)
-> >>
-> >> ---------------
-> >> The following changes since commit 82599ee517da15ce3957bc94b82f8702a2357d14:
-> >>
-> >>   memorder: Fix typos and grammar, take two (2021-03-18 17:29:17 -0700)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>   https://github.com/akiyks/perfbook.git tags/for-paul-2021.03.19a
-> >>
-> >> for you to fetch changes up to 0b1692098fb87a4c1d5f2fec9c078ee4462aac85:
-> >>
-> >>   advsync: Use Oxford comma (2021-03-19 22:19:10 +0900)
-> >>
-> >> ----------------------------------------------------------------
-> >> Akira Yokosawa (7):
-> >>       memorder: Fix staccato of 'another'
-> >>       count: Fix typo
-> >>       count: Move ',' to proper position
-> >>       toolsoftrade: Fix typo
-> >>       toolstotrade: Use path of atomic_t.txt under Linux-kernel source tree
-> >>       advsync: Fix typo
-> >>       advsync: Use Oxford comma
-> >>
-> >>  advsync/advsync.tex           | 4 ++--
-> >>  count/count.tex               | 6 +++---
-> >>  memorder/memorder.tex         | 2 +-
-> >>  toolsoftrade/toolsoftrade.tex | 8 +++++---
-> >>  4 files changed, 11 insertions(+), 9 deletions(-)
-> >>
-> >> ---------------------
-> >> PS.
-> >>
-> >> Looking at the Glossaries, I thought entries of "Concurrent"
-> >> and "Parallel" were missing.
-> >>
-> >> And you use these words almost interchangeably.
-> >>
-> >> (In-)distinction of them is the topic of Appendix A.2.
-> >>
-> >> So maybe it might help readers to put a footnote near the first use
-> >> of "parallel" telling that in this book, parallel and concurrent are
-> >> used as synonyms, and cite Appendix A.2.
-> >>
-> >> To make this point even clearer, adding entries like
-> >>
-> >>   Concurrent: In this book, synonym of parallel.
-> >>
-> >>   Parallel: In this book, synonym of concurrent.
-> >>
-> >> in the Glossaries might help readers.
-> >>
-> >> Thoughts?
-> > 
-> > Like this?
+On Thu, 18 Mar 2021 10:58:35 -0700, Paul E. McKenney wrote:
+> On Thu, Mar 18, 2021 at 10:46:18PM +0900, Akira Yokosawa wrote:
+>> Hi Paul,
+>>
+>> I added a section on full stop spacing example in styleguide.
+>> There were a couple of typo fixes in memorder.
+>>
+>> This is relative to the earlier pull request of take 3.
+>>
+>> Typo fixes are intentionally divided as individual commits.
 > 
-> Looks good to me.
-
-Thank you, pushed!  I also pushed the last change from my review of all
-of my year-2021 changes.  How are things at your end?
-
-							Thanx, Paul
-
->         Thanks, Akira
+> I pulled in the whole stack, thank you!  We overlapped on only one typo.  ;-)
 > 
-> > 
-> > 							Thanx, Paul
-> > 
-> > ------------------------------------------------------------------------
-> > 
-> > diff --git a/glossary.tex b/glossary.tex
-> > index da54482..c6c9c62 100644
-> > --- a/glossary.tex
-> > +++ b/glossary.tex
-> > @@ -145,6 +145,12 @@
-> >  \item[Communication Miss:]\index{Communication miss}
-> >  	A cache miss incurred because some other CPU has written to
-> >  	the cache line since the last time this CPU accessed it.
-> > +\item[Concurrent:]\index{Concurrent}
-> > +	In this book, a synonym of parallel.
-> > +	Please see \cref{sec:app:questions:What is the Difference Between ``Concurrent'' and ``Parallel''?}
-> > +	on \cpageref{sec:app:questions:What is the Difference Between ``Concurrent'' and ``Parallel''?}
-> > +	for a discussion of the recent distinction between these two
-> > +	terms.
-> >  \item[Critical Section:]\index{Critical section}
-> >  	A section of code guarded by some synchronization mechanism,
-> >  	so that its execution constrained by that primitive.
-> > @@ -348,6 +354,12 @@
-> >  	directly to the work that must be accomplished.
-> >  	For example, lock acquisition and release is normally considered
-> >  	to be overhead, and specifically to be synchronization overhead.
-> > +\item[Parallel:]\index{Parallel}
-> > +	In this book, a synonym of concurrent.
-> > +	Please see \cref{sec:app:questions:What is the Difference Between ``Concurrent'' and ``Parallel''?}
-> > +	on \cpageref{sec:app:questions:What is the Difference Between ``Concurrent'' and ``Parallel''?}
-> > +	for a discussion of the recent distinction between these two
-> > +	terms.
-> >  \item[Performance:]\index{Performance}
-> >  	Rate at which work is done, expressed as work per unit time.
-> >  	If this work is fully serialized, then the performance will
-> > 
+> I updated the style guide to explicitly call out which full-stop
+> hints work.
+
+Thanks!
+
+>             You may wish to update to pick a preferred method for the
+> "Mr. Smith" example.  
+
+"Mr Smith" would be an option in British English these days.  ;-)
+
+Getting back to the point, as for "Mr.", "Mr.~Smith" should work almost
+always.
+Other abbreviations such as "etc.", "et al." and so on might not
+always need "~".
+When a line break is acceptable, you can use either "et al.\ " or
+"et al.\@ ".
+Which one to choose is up to your preference.
+Who prefers symmetry might choose ".\@", I guess.
+
+>                       I expect that it will take quite some time for me
+> to form the habit of typing either of the three, but maybe checking for
+> this can be scripted?
+
+As long as the rule mentioned at the bottom of Appendix D.1,
+yes, I think it is possible to detect full stops not properly
+annotated.
+
+In the middle of a source line, "xxx. yyy" is bad.
+"xxx.~yyy", "xxx.\ yyy", or "xxx.\@ yyy", is good.
+"xxx\@. yyy" is against the rule.
+
+At the end of a source line, "xxx YYY." is bad. 
+It needs to be "xxx YYY\@."
+
+So surely these checks can be scripted.
+
+May be sometime after the release of Second Edition.
+
+By the way, I think most rough edges have been taken
+care of, and I'm expecting the release this weekend.
+I'll send a last minute pull request if I catch something.
+
+        Thanks, Akira
+
+> 
+> 							Thanx, Paul
+> 
+>>         Thanks, Akra
+>>
+>> --------
+>> The following changes since commit 194bd0a454fc3ca2e6d50c39c248e35fd24ff61a:
+>>
+>>   datastruct: Remove redundant line (2021-03-18 10:01:20 +0900)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://github.com/akiyks/perfbook.git tags/for-paul-2021.03.18d
+>>
+>> for you to fetch changes up to a70d76c76d8e3b4338f813da9ddfb8fa880a653c:
+>>
+>>   memorder: Fix usage of \pageref{} (2021-03-18 22:14:28 +0900)
+>>
+>> ----------------------------------------------------------------
+>> Akira Yokosawa (6):
+>>       styleguide: Use \Cref{} at start of sentence
+>>       sytleguide: Add a section on full stop
+>>       memorder: Fix typo
+>>       memorder: Fix typo
+>>       memorder: Fix typo
+>>       memorder: Fix usage of \pageref{}
+>>
+>>  appendix/styleguide/styleguide.tex | 83 ++++++++++++++++++++++++++++++++------
+>>  memorder/memorder.tex              |  8 ++--
+>>  2 files changed, 75 insertions(+), 16 deletions(-)
+>>
