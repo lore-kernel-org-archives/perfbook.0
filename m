@@ -1,111 +1,103 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:57680 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230225AbhCUPYb (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sun, 21 Mar 2021 11:24:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616340271;
-        bh=hgGcTlnqp2Jvny4GTwKCqvxq4bZO5eOWwGCxE+pCWPs=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=QyIdTRiZsSAqsN9ny2qlLhoXlk10j6ykzQGN2yYc7Wc8d99rykaGDur9uTNOwGA9A
-         jwDoPwW3ZN1hTZ13xiyosc9SoJdUHFv9jJBdRaq2PWhWDoRUKnj8nWZppx0IIwP56L
-         jyt5P+2fTa5j4QEFr3m6p0YWP4+fCfpyhAGwom6rVlXoIAHtkKt8kdRsL1SJXayS6E
-         qd7M3hKdGwdHvNhuFBVmKNUJV7YHGcY8cgKK0jE5sJcFecoIQzjmochjUPI7qka2B1
-         SGRbD/jgO4nPxYQPZrJ/64NwUxqiIVDH8thBCN22lc1sSgVkB9gC8MovizL9DMJ8Hv
-         o8+iv5TtRX7WA==
-Date: Sun, 21 Mar 2021 08:24:31 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] future/htm: Remove redundant 'to' from 'WRT
- to' in section headings
-Message-ID: <20210321152431.GF2696@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <2a52dc42-5b2e-326b-2f94-a967e86b12bc@gmail.com>
+Return-Path: <SRS0=xSyG=IU=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=QVV6lYGbf4ATqjGpuj7j14Ozkwyqo7l6bg1GzQDYMco=;
+        b=T4Fmeepbj0VWDr84KkECrhH+yj08OQKL5ygKnvsDku1THJ8n/bUZNn98rxyoRRz7kk
+         x9ypspOqRYVIYwQw9PGpXNRyi8TrjASvLy2UY0bx6StRISFMRX2ZQVAts8rGKKIItTst
+         7i8t4HeV4Q8UU3/voAqSL/0pmFSKap7NCLPfq7V0NaXk7Nw7ddLElgfbtCN2H2JKrNZE
+         sUVEBCHcM2MVCTTxy1RelY+K4+PxD2LXBUzBmh3MJuR956O06VjZPicy3QiUty8eR5Pd
+         DSu4z+S+V6QdoQybLM4I1AAUhGYmbxCnm18wgCuWl6FFoAiwg7xfe2cwTB6Y29Pqvg1E
+         qAxA==
+Subject: Re: [PATCH 3/3 -perfbook] debugging: Fix typo
+References: <85bad10b-4875-b98f-8c3d-547625460817@gmail.com>
+ <bafeaad6-181b-e4cf-a2ef-588ea8268f02@gmail.com>
+ <c623b30d-a732-1728-eceb-93501a49aa15@gmail.com>
+ <20210320192323.GC2696@paulmck-ThinkPad-P72>
+ <ef7aaa7b-52b4-8e83-0447-2d9a11338d80@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <4b315531-c22a-1d57-ec29-470dc8c31b81@gmail.com>
+Date: Mon, 22 Mar 2021 14:50:38 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2a52dc42-5b2e-326b-2f94-a967e86b12bc@gmail.com>
+In-Reply-To: <ef7aaa7b-52b4-8e83-0447-2d9a11338d80@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Mar 21, 2021 at 07:17:32PM +0900, Akira Yokosawa wrote:
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
-> Paul,
+On Sun, 21 Mar 2021 10:03:49 +0900, Akira Yokosawa wrote:
+> On Sat, 20 Mar 2021 12:23:23 -0700, Paul E. McKenney wrote:
+>> On Sun, Mar 21, 2021 at 12:50:43AM +0900, Akira Yokosawa wrote:
+>>> On Sun, 21 Mar 2021 00:24:46 +0900, Akira Yokosawa wrote:
+>>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+>>>> ---
+>>>>  debugging/debugging.tex | 2 +-
+>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/debugging/debugging.tex b/debugging/debugging.tex
+>>>> index fd52d9e7..3f697f58 100644
+>>>> --- a/debugging/debugging.tex
+>>>> +++ b/debugging/debugging.tex
+>>>> @@ -755,7 +755,7 @@ access to data.
+>>>>  The Kernel Concurrency Sanitizer (KCSAN)~\cite{JonathanCorbet2019KCSAN}
+>>>>  uses existing markings such as \co{READ_ONCE()} and \co{WRITE_ONCE()}
+>>>>  to determine which concurrent accesses deserve warning messages.
+>>>> -KCSAN has a significant false-positive rate, especially in from the
+>>>> +KCSAN has a significant false-positive rate, especially from the
+>>>>  viewpoint of developers thinking in terms of C as assembly language
+>>>>  with additional syntax.
+>>>>  KCSAN therefore provides a \co{data_race()} construct to forgive
+>>>>
+>>>
+>>> Paul,
+>>>
+>>> I caught this one while searching the usage of "data race" in perfbook.
+>>> I thought "data race" also deserves an entry in Glossaries, especially
+>>> because our use of "data race" is heavily related to compiler
+>>> optimizations and somewhat stricter than the common definition
+>>> found on the web.
+>>>
+>>> The first of data race in Section 4.2.2 (just before QQ4.8) does
+>>> not (explicitly) talk about optimizations.
+>>>
+>>> Would it be possible for you to come up with some concise definition
+>>> of data race which will fit as an entry in the Glossaries?
+>>
+>> How about like the following?
 > 
-> Not urgent at all, but last minute fixes for the 2nd edition.
+> Looks good to me!
 
-Good catch!  Simple enough, I applied it, thank you!
+It looked good, but I've found that there is no mention of "marked access"
+in the whole text (except for Glossaries) in perfbook at the moment.
 
-							Thanx, Paul
+"Marked access", "unmarked load", and so on are used in
+ordering.txt to be added to LKMM documentation.
+They are going to appear in perfbook, I suppose.
 
->        Thanks, Akira
-> --
->  future/htm.tex | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+How about adding "Plain Access" to the Glossaries as well
+and amend the definition of "Data Race" using "plain access".
+
+        Thanks, Akira
+
 > 
-> diff --git a/future/htm.tex b/future/htm.tex
-> index cf222e5b..242b85f2 100644
-> --- a/future/htm.tex
-> +++ b/future/htm.tex
-> @@ -41,7 +41,7 @@ cache misses, and supporting a fair number of practical applications.
->  However, it always pays to read the fine print, and HTM is no exception.
->  A major point of this section is determining under what conditions HTM's
->  benefits outweigh the complications hidden in its fine print.
-> -To this end, \cref{sec:future:HTM Benefits WRT to Locking}
-> +To this end, \cref{sec:future:HTM Benefits WRT Locking}
->  describes HTM's benefits and
->  \cref{sec:future:HTM Weaknesses WRT Locking} describes its weaknesses.
->  This is the same approach used in earlier
-> @@ -51,7 +51,7 @@ and also in the previous section.\footnote{
->  	discussions with the other authors, Maged Michael, Josh Triplett,
->  	and Jonathan Walpole, as well as with Andi Kleen.}
->  
-> -\Cref{sec:future:HTM Weaknesses WRT to Locking When Augmented} then describes
-> +\Cref{sec:future:HTM Weaknesses WRT Locking When Augmented} then describes
->  HTM's weaknesses with respect to the combination of synchronization
->  primitives used in the Linux kernel (and in many user-space applications).
->  \Cref{sec:future:Where Does HTM Best Fit In?} looks at where HTM
-> @@ -61,8 +61,8 @@ greatly increase HTM's scope and appeal.
->  Finally, \cref{sec:future:Conclusions}
->  presents concluding remarks.
->  
-> -\subsection{HTM Benefits WRT to Locking}
-> -\label{sec:future:HTM Benefits WRT to Locking}
-> +\subsection{HTM Benefits WRT Locking}
-> +\label{sec:future:HTM Benefits WRT Locking}
->  
->  The primary benefits of HTM are
->  (1)~its avoidance of the cache misses that are often incurred by
-> @@ -144,7 +144,7 @@ Although it is possible to use two-phased locking and hashed arrays
->  of locks to partition general data structures, other techniques
->  have proven preferable~\cite{DavidSMiller2006HashedLocking},
->  as will be discussed in
-> -\cref{sec:future:HTM Weaknesses WRT to Locking When Augmented}.
-> +\cref{sec:future:HTM Weaknesses WRT Locking When Augmented}.
->  Given its avoidance of synchronization cache misses,
->  HTM is therefore a very real possibility for large non-partitionable
->  data structures, at least assuming relatively small updates.
-> @@ -843,7 +843,7 @@ serious shortcomings of locking,\footnote{
->  	deadlock detectors~\cite{JonathanCorbet2006lockdep}, a wealth
->  	of data structures that have been adapted to locking, and
->  	a long history of augmentation, as discussed in
-> -	\cref{sec:future:HTM Weaknesses WRT to Locking When Augmented}.
-> +	\cref{sec:future:HTM Weaknesses WRT Locking When Augmented}.
->  	In addition, if locking really were as horrible as a quick skim
->  	of many academic papers might reasonably lead one to believe,
->  	where did all the large lock-based parallel programs (both
-> @@ -867,8 +867,8 @@ hazard pointers~\cite{MagedMichael04a,HerlihyLM02},
->  and RCU~\cite{McKenney98,McKenney01a,ThomasEHart2007a,PaulEMcKenney2012ELCbattery}.
->  The next section looks at how such augmentation changes the equation.
->  
-> -\subsection{HTM Weaknesses WRT to Locking When Augmented}
-> -\label{sec:future:HTM Weaknesses WRT to Locking When Augmented}
-> +\subsection{HTM Weaknesses WRT Locking When Augmented}
-> +\label{sec:future:HTM Weaknesses WRT Locking When Augmented}
->  
->  \input{future/HTMtableRCU}
->  
-> -- 
-> 2.17.1
+> Note on the index entry:
 > 
+> My experiment on the way to annotate index entries can manage automatic
+> capitalization of only the first letter in indexed words/terms.
+> So you won't need to take care of them.
+> 
+> And I'll get rid of direct uses of \index{} macro.
+> 
+> Will start rebasing those experiment soon after the release of
+> second edition.
+> 
+>         Thanks, Akira
+> 
+>>
+>> 							Thanx, Paul
+>>
+>> ------------------------------------------------------------------------
+[...]
