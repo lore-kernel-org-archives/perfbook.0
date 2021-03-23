@@ -1,156 +1,128 @@
-Return-Path: <SRS0=xSyG=IU=gmail.com=akiyks@kernel.org>
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44412 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230232AbhCWBB7 (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Mon, 22 Mar 2021 21:01:59 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C357C061574
+        for <perfbook@vger.kernel.org>; Mon, 22 Mar 2021 18:01:59 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id x26so12507951pfn.0
+        for <perfbook@vger.kernel.org>; Mon, 22 Mar 2021 18:01:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cOTBhQ8m4hMHCzPcAgUbwzxtcKn+IokL+Z7+cThLeDA=;
-        b=O4V25EyV+lYMgQKaGxYdDA26h1RfOACKPBYKZHXT6QCTXR9OF+LR59wO7ISwOQJDQv
-         kB3MTp8eVQr8NUKPdsu+/AoxWRd57F1mKaHhPLLLvMU9AYkPOFMHlVszsrN58RnHMRxB
-         /0qmjf33G6wCpgzhx0EMlBPxfha1o+HOphhi81uxUOhKqJBuGx2u64xQwS/Vvfw2t4Te
-         6/2nvjLBtVGTMnuLfFiJMrwm/RtkT05CbfLXIZcGqYtAcVRcac5ofklUW2w1GM2fifZd
-         7wN94suNKT6ra505FoO8hFL3cy8tQIAW7NqxPPmzmG65KQgtSa3qKnEDs/12b5phPFaf
-         edrQ==
-Subject: Re: [PATCH 3/3 -perfbook] debugging: Fix typo
-References: <85bad10b-4875-b98f-8c3d-547625460817@gmail.com>
- <bafeaad6-181b-e4cf-a2ef-588ea8268f02@gmail.com>
- <c623b30d-a732-1728-eceb-93501a49aa15@gmail.com>
- <20210320192323.GC2696@paulmck-ThinkPad-P72>
- <ef7aaa7b-52b4-8e83-0447-2d9a11338d80@gmail.com>
- <4b315531-c22a-1d57-ec29-470dc8c31b81@gmail.com>
- <20210322151514.GK2696@paulmck-ThinkPad-P72>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <1af27229-4e99-bc88-50c3-e184d077e148@gmail.com>
-Date: Tue, 23 Mar 2021 07:49:50 +0900
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=ajPfyfgN9QM3FxAoaE+uSOh2GOvBtbxwylr10hCIZps=;
+        b=X88RNl5FMUbggj5EAkQ+ROoTSBjwwjn2x9QRD8mRDUlq4lV/V7TWwY4nn4xPAjNuut
+         WamP5d4W0Y1f3LgoePHixITq1uierixMeCx0iS4f4Ihw/vya9+Lv4r2t3VnL/XyyWrqb
+         rf+ntwBCiKOF5FI+iMQRrm+i1GQVOHeJCAnOzUGSaLgiDCNcquQdaKNmhW3d7JpRSrpu
+         oOzN+M4zZm2swazHGiPS/sPTDkEnC58hWUlMYJma/6BQaCUoF9slI1INh+v59EbDR3F9
+         k7p1MNbgUrspdADqOt9U9bHbcEAJm/gzqj+toiERU3XYbskhTWGiiLHVsq/9vqaItrQ8
+         4r/Q==
+Received: from localhost (121-45-173-48.tpgi.com.au. [121.45.173.48])
+        by smtp.gmail.com with ESMTPSA id r1sm548426pjo.26.2021.03.22.18.01.56
+        for <perfbook@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Mar 2021 18:01:56 -0700 (PDT)
+Date: Tue, 23 Mar 2021 12:01:53 +1100
+From: Balbir Singh <bsingharora@gmail.com>
+Subject: [RFC PATCH] perfbook/papersize: ebook reader size support
+Message-ID: <20210323010153.GH77072@balbir-desktop>
 MIME-Version: 1.0
-In-Reply-To: <20210322151514.GK2696@paulmck-ThinkPad-P72>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 List-ID: <perfbook.vger.kernel.org>
+To: perfbook@vger.kernel.org
 
-On Mon, 22 Mar 2021 08:15:14 -0700, Paul E. McKenney wrote:
-> On Mon, Mar 22, 2021 at 02:50:38PM +0900, Akira Yokosawa wrote:
->> On Sun, 21 Mar 2021 10:03:49 +0900, Akira Yokosawa wrote:
->>> On Sat, 20 Mar 2021 12:23:23 -0700, Paul E. McKenney wrote:
->>>> On Sun, Mar 21, 2021 at 12:50:43AM +0900, Akira Yokosawa wrote:
->>>>> On Sun, 21 Mar 2021 00:24:46 +0900, Akira Yokosawa wrote:
->>>>>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->>>>>> ---
->>>>>>  debugging/debugging.tex | 2 +-
->>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/debugging/debugging.tex b/debugging/debugging.tex
->>>>>> index fd52d9e7..3f697f58 100644
->>>>>> --- a/debugging/debugging.tex
->>>>>> +++ b/debugging/debugging.tex
->>>>>> @@ -755,7 +755,7 @@ access to data.
->>>>>>  The Kernel Concurrency Sanitizer (KCSAN)~\cite{JonathanCorbet2019KCSAN}
->>>>>>  uses existing markings such as \co{READ_ONCE()} and \co{WRITE_ONCE()}
->>>>>>  to determine which concurrent accesses deserve warning messages.
->>>>>> -KCSAN has a significant false-positive rate, especially in from the
->>>>>> +KCSAN has a significant false-positive rate, especially from the
->>>>>>  viewpoint of developers thinking in terms of C as assembly language
->>>>>>  with additional syntax.
->>>>>>  KCSAN therefore provides a \co{data_race()} construct to forgive
->>>>>>
->>>>>
->>>>> Paul,
->>>>>
->>>>> I caught this one while searching the usage of "data race" in perfbook.
->>>>> I thought "data race" also deserves an entry in Glossaries, especially
->>>>> because our use of "data race" is heavily related to compiler
->>>>> optimizations and somewhat stricter than the common definition
->>>>> found on the web.
->>>>>
->>>>> The first of data race in Section 4.2.2 (just before QQ4.8) does
->>>>> not (explicitly) talk about optimizations.
->>>>>
->>>>> Would it be possible for you to come up with some concise definition
->>>>> of data race which will fit as an entry in the Glossaries?
->>>>
->>>> How about like the following?
->>>
->>> Looks good to me!
->>
->> It looked good, but I've found that there is no mention of "marked access"
->> in the whole text (except for Glossaries) in perfbook at the moment.
->>
->> "Marked access", "unmarked load", and so on are used in
->> ordering.txt to be added to LKMM documentation.
->> They are going to appear in perfbook, I suppose.
->>
->> How about adding "Plain Access" to the Glossaries as well
->> and amend the definition of "Data Race" using "plain access".
-> 
-> Good point!  Like this?
 
-Thank you!
+Add support for ebooksize, which is roughly the size of
+a kindle (4.5in, 6.3in) with margin size of 0.2in. The
+recommended changes were taken from stackexchange with
+links in the code. Not all tables take nicely to the
+new nice and warnings are produced, which causes warnings
+about overfull hbox's to be generated. This mode enforces
+single column output and increases the size of the pdf
+by almost 40% in terms of number of pages. The final output
+though is very readable on the kindle I own.
 
-However, this patch conflicts with the removal of \index{} in glossary.tex
-on my WIP branch.
-Do you mind if I cherry pick it & rebase on the WIP branch, and
-send you a pull request containing it later (maybe in a week or so)?
+I've been running the command via
 
-        Thanks, Akira
+env PERFBOOK_PAPER=ER make perfbook-1c.pdf
 
-> 
-> 						Thanx, Paul
-> 
-> ------------------------------------------------------------------------
-> 
-> commit b91c52cd1a93777ba91300d739e498bae9c49aea
-> Author: Paul E. McKenney <paulmck@kernel.org>
-> Date:   Mon Mar 22 08:13:24 2021 -0700
-> 
->     Glossary: Add an entry for "Plain Access"
->     
->     The book uses "plain access", so it deserves a glossary entry.
->     And of course "marked access" is its antonym, more or less.
->     
->     Reported-by: Akira Yokosawa <akiyks@gmail.com>
->     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> 
-> diff --git a/glossary.tex b/glossary.tex
-> index e6aa612..bbef382 100644
-> --- a/glossary.tex
-> +++ b/glossary.tex
-> @@ -174,11 +174,11 @@
->  	A race condition in which several CPUs or threads access
->  	a variable concurrently, and in which at least one of those
->  	accesses is a store and at least one of those accesses
-> -	is unmarked.
-> +	is a plain access.
->  	It is important to note that while the presence of data races
->  	often indicates the presence of bugs, the absence of data races
->  	in no way implies the absence of bugs.
-> -	(See ``Marked access''.)
-> +	(See ``Plain access''.)
->  \item[Deadlock Free:]\index{Deadlock free}
->  	A forward-progress guarantee in which, in the absence of
->  	failures, at least one thread makes progress within a finite
-> @@ -301,9 +301,9 @@
->  	macro, such as \co{READ_ONCE()}, \co{WRITE_ONCE()},
->  	\co{atomic_inc()}, and so on, in order to protect that access
->  	from compiler and/or hardware optimizations.
-> -	In contrast, an unmarked access simply mentions the name of
-> +	In contrast, a plain access simply mentions the name of
->  	the object being accessed, so that in the following, line~2
-> -	is the unmarked equivalent of line~1:
-> +	is the plain-access equivalent of line~1:
->  	\begin{VerbatimN}
->  	WRITE_ONCE(a, READ_ONCE(b) + READ_ONCE(c));
->  	a = b + c;
-> @@ -393,6 +393,10 @@
->  	In the 1960s through the early 1980s, pipelined CPUs were the
->  	province of supercomputers, but started appearing in microprocessors
->  	(such as the 80486) in the late 1980s.
-> +\item[Plain Access:]\index{Plain access}
-> +	A source-code memory access that simply mentions the name of
-> +	the object being accessed.
-> +	(See ``Marked access''.)
->  \item[Process Consistency:]\index{Process consistency}
->  	A memory-consistency model in which each CPU's stores appear to
->  	occur in program order, but in which different CPUs might see
-> 
+and love the output so far.
+
+Signed-off-by: Balbir singh <bsingharora@gmail.com>
+---
+ Makefile        |  7 +++++++
+ perfbook-lt.tex | 13 ++++++++++++-
+ 2 files changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index db20da96..3732ba18 100644
+--- a/Makefile
++++ b/Makefile
+@@ -178,10 +178,14 @@ ifeq ($(PERFBOOK_PAPER),A4)
+ else
+ ifeq ($(PERFBOOK_PAPER),HB)
+ 	PERFBOOK_BASE = perfbook-hb.tex
++else
++ifeq ($(PERFBOOK_PAPER),ER)
++	PERFBOOK_BASE = perfbook-er.tex
+ else
+ 	PERFBOOK_BASE = perfbook-lt.tex
+ endif
+ endif
++endif
+ 
+ .PHONY: all touchsvg clean distclean neatfreak 2c ls-unused $(ABBREVTARGETS) mslm perfbook-mslm.pdf mslmmsg help help-official help-full
+ all: $(targ)
+@@ -283,6 +287,9 @@ perfbook-1c.tex: $(PERFBOOK_BASE)
+ perfbook-hb.tex: perfbook-lt.tex
+ 	sed -e 's/setboolean{hardcover}{false}/setboolean{hardcover}{true}/' < $< > $@
+ 
++perfbook-er.tex: perfbook-lt.tex
++	sed -e 's/setboolean{ebooksize}{false}/setboolean{ebooksize}{true}/' < $< > $@
++
+ perfbook-msns.tex: $(PERFBOOK_BASE)
+ 	sed -e 's/%msfontstub/\\usepackage{courier}/' < $< > $@
+ 
+diff --git a/perfbook-lt.tex b/perfbook-lt.tex
+index e76d4d7b..a884011a 100644
+--- a/perfbook-lt.tex
++++ b/perfbook-lt.tex
+@@ -116,6 +116,9 @@
+ \newboolean{hardcover}
+ \setboolean{hardcover}{false}
+ \newcommand{\IfHardCover}[2]{\ifthenelse{\boolean{hardcover}}{#1}{#2}}
++\newboolean{ebooksize}
++\setboolean{ebooksize}{false}
++\newcommand{\IfEbookSize}[2]{\ifthenelse{\boolean{ebooksize}}{#1}{#2}}
+ \newboolean{afourpaper}
+ \setboolean{afourpaper}{false}
+ \newcommand{\IfAfourPaper}[2]{\ifthenelse{\boolean{afourpaper}}{#1}{#2}}
+@@ -320,6 +323,14 @@
+       \usepackage[letterpaper,body={6.5in,8.25in},twocolumn,columnsep=0.25in]{geometry}      
+ }}}{ % One Column
+   \setlength{\twocolumnwidth}{3.125in}
++  \IfEbookSize {
++    % From https://tex.stackexchange.com/questions/16735/latex-options-for-kindle
++    \usepackage[papersize={4.5in,6.3in},margin=0.2in,onecolumn]{geometry}
++    \sloppy
++    %\pagestyle{empty}
++    %\usepackage[scaled]{helvet}
++    %\renewcommand{\familydefault}{\sfdefault}
++  }{
+   \IfHardCover{
+     \usepackage[papersize={8.25in,10.75in},body={4.75in,8.25in},onecolumn]{geometry}
+   }{
+@@ -327,7 +338,7 @@
+     \usepackage[a4paper,body={4.75in,8.25in},onecolumn]{geometry}
+     }{
+     \usepackage[letterpaper,body={4.75in,8.25in},onecolumn]{geometry}
+-  }}
++  }}}
+   \geometry{hcentering=true} % horizontal centering for 1c layouts
+ }
+ \IfAfourPaper{
+-- 
+2.25.1
+
