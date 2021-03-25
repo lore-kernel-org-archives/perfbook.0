@@ -1,69 +1,140 @@
 Return-Path: <SRS0=4SL/=IX=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:cc:from:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ae/h9GLAEru1VOtDQug6mZz+PXpKcLPNQlPlzcNEb6o=;
-        b=H5AAE9JXs5zsJ3Crte9X1KQMdJl1F/D20nM4EDekjJMQhykT0u7Z97nlngUye+5ln4
-         wNku5b9UDaLE5Z8KggigyLiWcfUlIeq/wZfpNNqUGch5Zw68nAEuciID4qOm8aLikroo
-         uJabi5v/L5VEIfdIX5T47t6zxGxt46fLHnI+bDatW7evre0s9O9PJxWcK4sCtELQRujQ
-         ct9QQBsyXOJdwVe8M+FMSgMelJtqvAGrKUBuzgE4+vqBYLKBrkkmZro3iDKjZ+s8zAWU
-         ghMYKoiClrAc+8Dn4iU5wZGWawZwHRWyUnuxR7rZEDzH2CuO+4aT5tvMlx/uRMwJzVkN
-         06Aw==
-Subject: [PATCH -perfbook 0/5] ebook reader size support
+        bh=g6ksUcfOOjxRdiaFdcsMwcPznsGHHZ3Pqgxl4FCOKUA=;
+        b=BzsAZnvaZZZjgFQy6KCKXauMBzPLExMUuf7rwtJw75zmSirYako2ovpLCV8YVhJgaX
+         OvgMmjSpWY7V1NLbkGKz2C+VyWFOt5qF/zZrO+1J1OIBEpNmkUGF474SRtTk8hwdAXxs
+         RDfeS5mRkhIz/4uGEIi2QGHbPUfeTjUnOIRlts/+QOtfSllRGrwqETgFmx6k/zin3+Bv
+         oH3gGZsE36ffWqgHpAV9hB0Dqk/qVFxi9olwrOi1QkGXrxz4qpHvO8KTKOC66ZSCgW1l
+         a+iD351J5nWeCgRDiL+ct/gCZYiSXPyUEKPjGmGNI+ms14NMLwj3+s8Ca+d6E9UypLR1
+         WttQ==
+Subject: [PATCH -perfbook 1/5] perfbook/papersize: ebook reader size support
 References: <20210323010153.GH77072@balbir-desktop>
+ <64419413-f54f-a737-bcae-e03b8ecaf606@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <64419413-f54f-a737-bcae-e03b8ecaf606@gmail.com>
-Date: Thu, 25 Mar 2021 19:49:44 +0900
+Message-ID: <a259ca25-cb15-781f-dcdf-b1c6eef7a2c7@gmail.com>
+Date: Thu, 25 Mar 2021 19:52:25 +0900
 MIME-Version: 1.0
-In-Reply-To: <20210323010153.GH77072@balbir-desktop>
+In-Reply-To: <64419413-f54f-a737-bcae-e03b8ecaf606@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 To: Balbir Singh <bsingharora@gmail.com>, "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Balbir and Paul,
+From: Balbir Singh <bsingharora@gmail.com>
 
-So, this is a revised patch set based on the RFC PATCH from
-Balbir.
+Add support for ebooksize, which is roughly the size of
+a kindle (4.5in, 6.3in) with margin size of 0.2in. The
+recommended changes were taken from stackexchange with
+links in the code. Not all tables take nicely to the
+new size and warnings are produced, these warnings are
+about overfull hbox's. This size/target also enforces
+single column output and increases the size of the pdf
+by almost 40% in terms of number of pages. The actual size
+on the disk is not all that different. The final output
+though is very readable on the kindle I own.
 
-Hearing no objection to the rename of "-er" to "-eb",
-I did the rename in Patch 1/5 of Balbir's.
-Patch 2/5 is an updated one I sent earlier, with additional 
-float-barrier macro for ebooksize build and minor tweaks.
-Note that the extra blank line at the bottom of \ebresizeverb
-is now fixed.
-Patch 3/5 is also an updated one I sent earlier.
-Patch 4/5 shrinks floats in styleguide.
-Patch 5/5 updates help text in Makefile to mention build targets
-for ebooksize.  They are marked as (WIP) for the moment.
+PDF of ebooksize can be built by either:
 
-This set can be applied to current master.
+    make perfbook-eb.pdf
 
-       Thanks, Akira
+or
 
---
-Akira Yokosawa (4):
-  perfbook-lt: Add macros to shrink floats for ebook
-  cpu, toolsoftrade, count, rcuapi: Shrink floats for ebook reader
-  styleguide: Adjust float size and add a floatbarrier for ebook-size
-    build
-  Makefile: Add info on ebooksize build in help and help-full
+    env PERFBOOK_PAPER=EB make perfbook.pdf
 
-Balbir Singh (1):
-  perfbook/papersize: ebook reader size support
+TODOs:
+1. Make tables and some figures work nicely in this mode
+2. Consider scaling the font
 
- Makefile                           | 21 +++++++++-
- appendix/styleguide/styleguide.tex | 12 ++++++
- count/count.tex                    | 15 ++++++--
- cpu/overheads.tex                  |  2 +
- defer/rcuapi.tex                   | 12 +++++-
- perfbook-lt.tex                    | 62 ++++++++++++++++++++++++++----
- toolsoftrade/toolsoftrade.tex      |  2 +
- 7 files changed, 111 insertions(+), 15 deletions(-)
+Signed-off-by: Balbir singh <bsingharora@gmail.com>
+[akiyks: changed target & env name to "eb" and "EB", massage commit log]
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Makefile        | 10 +++++++++-
+ perfbook-lt.tex | 13 ++++++++++++-
+ 2 files changed, 21 insertions(+), 2 deletions(-)
 
+diff --git a/Makefile b/Makefile
+index db20da96..415bcef3 100644
+--- a/Makefile
++++ b/Makefile
+@@ -29,7 +29,7 @@ LATEXGENERATED = autodate.tex qqz.tex contrib.tex origpub.tex sub_qqz
+ # parallel runs of divideqqz.pl.
+ 
+ TWOCOLTARGETS := mstx msr msn msnt sf qq nq ix
+-ABBREVTARGETS := lt hb a4 1c tcb msns mss $(TWOCOLTARGETS) $(foreach v,$(TWOCOLTARGETS),1c$(v))
++ABBREVTARGETS := lt hb a4 1c tcb msns mss eb $(TWOCOLTARGETS) $(foreach v,$(TWOCOLTARGETS),1c$(v))
+ 
+ PDFTARGETS := perfbook.pdf $(foreach v,$(ABBREVTARGETS),perfbook-$(v).pdf)
+ GENERATED_MAIN := $(filter-out perfbook-lt.tex,$(foreach v,$(ABBREVTARGETS),perfbook-$(v).tex)) perfbook.tex
+@@ -178,10 +178,14 @@ ifeq ($(PERFBOOK_PAPER),A4)
+ else
+ ifeq ($(PERFBOOK_PAPER),HB)
+ 	PERFBOOK_BASE = perfbook-hb.tex
++else
++ifeq ($(PERFBOOK_PAPER),EB)
++	PERFBOOK_BASE = perfbook-eb.tex
+ else
+ 	PERFBOOK_BASE = perfbook-lt.tex
+ endif
+ endif
++endif
+ 
+ .PHONY: all touchsvg clean distclean neatfreak 2c ls-unused $(ABBREVTARGETS) mslm perfbook-mslm.pdf mslmmsg help help-official help-full
+ all: $(targ)
+@@ -283,6 +287,10 @@ perfbook-1c.tex: $(PERFBOOK_BASE)
+ perfbook-hb.tex: perfbook-lt.tex
+ 	sed -e 's/setboolean{hardcover}{false}/setboolean{hardcover}{true}/' < $< > $@
+ 
++perfbook-eb.tex: perfbook-lt.tex
++	sed -e 's/setboolean{ebooksize}{false}/setboolean{ebooksize}{true}/' < $< > $@
++	sed -i 's/setboolean{twocolumn}{true}/setboolean{twocolumn}{false}/' $@
++
+ perfbook-msns.tex: $(PERFBOOK_BASE)
+ 	sed -e 's/%msfontstub/\\usepackage{courier}/' < $< > $@
+ 
+diff --git a/perfbook-lt.tex b/perfbook-lt.tex
+index e76d4d7b..a884011a 100644
+--- a/perfbook-lt.tex
++++ b/perfbook-lt.tex
+@@ -116,6 +116,9 @@
+ \newboolean{hardcover}
+ \setboolean{hardcover}{false}
+ \newcommand{\IfHardCover}[2]{\ifthenelse{\boolean{hardcover}}{#1}{#2}}
++\newboolean{ebooksize}
++\setboolean{ebooksize}{false}
++\newcommand{\IfEbookSize}[2]{\ifthenelse{\boolean{ebooksize}}{#1}{#2}}
+ \newboolean{afourpaper}
+ \setboolean{afourpaper}{false}
+ \newcommand{\IfAfourPaper}[2]{\ifthenelse{\boolean{afourpaper}}{#1}{#2}}
+@@ -320,6 +323,14 @@
+       \usepackage[letterpaper,body={6.5in,8.25in},twocolumn,columnsep=0.25in]{geometry}      
+ }}}{ % One Column
+   \setlength{\twocolumnwidth}{3.125in}
++  \IfEbookSize {
++    % From https://tex.stackexchange.com/questions/16735/latex-options-for-kindle
++    \usepackage[papersize={4.5in,6.3in},margin=0.2in,onecolumn]{geometry}
++    \sloppy
++    %\pagestyle{empty}
++    %\usepackage[scaled]{helvet}
++    %\renewcommand{\familydefault}{\sfdefault}
++  }{
+   \IfHardCover{
+     \usepackage[papersize={8.25in,10.75in},body={4.75in,8.25in},onecolumn]{geometry}
+   }{
+@@ -327,7 +338,7 @@
+     \usepackage[a4paper,body={4.75in,8.25in},onecolumn]{geometry}
+     }{
+     \usepackage[letterpaper,body={4.75in,8.25in},onecolumn]{geometry}
+-  }}
++  }}}
+   \geometry{hcentering=true} % horizontal centering for 1c layouts
+ }
+ \IfAfourPaper{
 -- 
 2.17.1
 
