@@ -1,31 +1,34 @@
-Return-Path: <SRS0=4SL/=IX=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hve3O5uTTOmylo53PTrwoQGT64ulsDGMiT8NrtbWKDs=;
-        b=hDTG3n/ELDDC81/B1fhFmFen6bkfJ21F6H2eFV0Ic0OMubM7E8INWL6AIGO15iSZmP
-         8vTqJXA7FGi3BydOimlqyctFUGbZu6Wxv4j5Q6d7A69sc/QwrHeGQcitQf+9/VpTPCjP
-         u6vmClQBXSIlxCnRqvzEl5Da2DRmKOXsHt6qnvdQit0G1944S0f9r76vxify6s10H2Ey
-         IjcQsHLQW/meUxn7MxRFeEOVhE0i4EvKVvfrX/w1vfEDqVfCrntspKrsUsGRicHyuXlD
-         vSedhvA4gfQwuXyMFBOV+IkV05Hl1WS617wRmlFnlzaOw1ToUhvvSPWOUqEc5j8DBHGZ
-         ggtQ==
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:53092 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229676AbhCYQQx (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Thu, 25 Mar 2021 12:16:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616689013;
+        bh=KbjOwGeAcKRD+g8zouEeplbaF6wrxZ2ePDbhbR/WWGk=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=iCH7inpT5O4T4q35HcNFxcI+SVMvCdHjrAuVwwpZc7ozAFUw9b0iFFCqXl6NDT0CH
+         kMeWN7TvZqIpNFiR/mfS4sZsPoY33igqsGJSBCDeRpk8ENo1TO23vHsfvNCcZil45l
+         7YEJRzAn3RXf4mEG1FaoXKyWVXM3JauRAsDKh3NLv6vXWZ/fcxtXlYWtqxhWwogzy6
+         f8vzaL++ZVbplu2mVUD3h/Mi3QnRyOS+QDYP8cU0wvvSbTngPuGP0t7mQ324zRJZFg
+         ++lE7M93EFxHDRhdE+Er4nWwGLGnhtHWWzXRb85LBSoulpeFVzBJlspMcEvrBED1rK
+         zoQlzKVylHWTA==
+Date: Thu, 25 Mar 2021 09:16:52 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
 Subject: Re: [PATCH -perfbook 0/5] ebook reader size support
+Message-ID: <20210325161652.GL2696@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 References: <20210323010153.GH77072@balbir-desktop>
  <64419413-f54f-a737-bcae-e03b8ecaf606@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <7ba92b12-2d4d-5b92-599a-1ad675b387e0@gmail.com>
-Date: Thu, 25 Mar 2021 20:41:21 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <64419413-f54f-a737-bcae-e03b8ecaf606@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Balbir Singh <bsingharora@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Balbir Singh <bsingharora@gmail.com>, perfbook@vger.kernel.org
 
-On Thu, 25 Mar 2021 19:49:44 +0900, Akira Yokosawa wrote:
+On Thu, Mar 25, 2021 at 07:49:44PM +0900, Akira Yokosawa wrote:
 > Hi Balbir and Paul,
 > 
 > So, this is a revised patch set based on the RFC PATCH from
@@ -44,20 +47,36 @@ On Thu, 25 Mar 2021 19:49:44 +0900, Akira Yokosawa wrote:
 > 
 > This set can be applied to current master.
 
-Paul, as you might have already know, the "(WIP)" means expected
-build failure due to a lot of
+When I try "git am -s -3", I get this:
 
-   LaTeX Warning: Float too large for page by xxx pt on input line yyy.
+------------------------------------------------------------------------
 
-warning messages.
+Applying: perfbook-lt: Add macro to shrink floats for ebook
+fatal: sha1 information is lacking or useless (perfbook-lt.tex).
+error: could not build fake ancestor
+Patch failed at 0001 perfbook-lt: Add macro to shrink floats for ebook
+The copy of the patch that failed is found in: .git/rebase-apply/patch
+When you have resolved this problem, run "git am --continue".
+If you prefer to skip this patch, run "git am --skip" instead.
+To restore the original branch and stop patching, run "git am --abort".
 
-For the moment, please ignore the make error and have a look
-at the generated PDF.  Chapters 1 through 5 and the style
-guide should be acceptable, give or take the tiny characters
-in some of the shrunk tables/listings.
+------------------------------------------------------------------------
 
-        Thanks, Akira
-> 
+The usual cause of this is when the series is on top of a few additional
+patches in your git archive.  If this is the case, then it is possible
+that you can rebase them without git complaining because git analyzes the
+intervening patches.  Lacking those intervening patches in my archive,
+git just complains at me.
+
+If this is the case, could you please rebase this series onto master,
+then resend?  Alternatively, resend including the intervening patches,
+allowing me to do the rebase.
+
+If there are no intervening patches in your archive, I have no idea what
+is happening.  ;-)
+
+							Thanx, Paul
+
 >        Thanks, Akira
 > 
 > --
@@ -79,4 +98,8 @@ in some of the shrunk tables/listings.
 >  perfbook-lt.tex                    | 62 ++++++++++++++++++++++++++----
 >  toolsoftrade/toolsoftrade.tex      |  2 +
 >  7 files changed, 111 insertions(+), 15 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
 > 
