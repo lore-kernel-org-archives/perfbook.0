@@ -1,70 +1,82 @@
-Return-Path: <SRS0=Ra1/=IY=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=yW6v=IZ=gmail.com=sj38.park@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Gu9TQFCFPze5AzNzAKQ4uQAhFerFx9LDQP9m11fVbvs=;
-        b=XWd4SqHR/qnLs9NeypNDzgGUbug5umE7vjrFgADpRS8qMOvQobk+YoVcxYAWnC907F
-         A+TWILB6Q5r2eqd4ZvuFuhIW1GfQK36ilwOZJw956V2Bfis0awtS+wtW5qaKd0IXri69
-         X5LotDQR40al32ZTmwmo9QmLL1E0zd4t0agKrK0u3QGjuZb3FMGR/NHXYrnCMnMGCJ1z
-         g5dAE7GIz5t4PQz7Fdn53OXcJrQDvl5ibl2nfEauh8sACqf8Y97gD84ioZZjZmNDkR7M
-         lPoMhkCsZjsue5Jdzadae0CYoR7pKBvQ0nR/Xl6PDM13VZKxnPsdHYsHZvus1V+vKgQ9
-         RQfA==
-Subject: Re: [PATCH -perfbook 0/5] ebook reader size support
-References: <20210323010153.GH77072@balbir-desktop>
- <64419413-f54f-a737-bcae-e03b8ecaf606@gmail.com>
- <20210325161652.GL2696@paulmck-ThinkPad-P72>
- <eb5b9862-1fa3-93b4-1a2c-b287a16bdfbb@gmail.com>
- <20210326001216.GO2696@paulmck-ThinkPad-P72>
- <765e63d4-b555-3a03-5a08-b2d061f5fed7@gmail.com>
- <20210326005137.GP2696@paulmck-ThinkPad-P72>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <ee692df9-413f-e5b1-7012-0b32749e9b4f@gmail.com>
-Date: Fri, 26 Mar 2021 10:08:21 +0900
-MIME-Version: 1.0
-In-Reply-To: <20210326005137.GP2696@paulmck-ThinkPad-P72>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Balbir Singh <bsingharora@gmail.com>, perfbook@vger.kernel.org
+        h=from:to:cc:subject:date:message-id;
+        bh=JWFo5K5zOxXlnZtm90U54dDbaAXmMXhCktDCp4LsK4o=;
+        b=rSv6gR9kTLtyp5yqtBGbw6w3yYSNcvXq49aaa3Gf3nO++Nn8H5jfEEQZUVw1ohin7+
+         FBSmtH0rNprcL6I5vWJVuMS9WTlHk8UsDlHfFvw6WoLNukwkQWS0rcp37miogFNfXeLK
+         SrwPE5u3AeBP82NutjdypvzCzosj1OriygZYxhzRcWlC7nEBHUfMpLlNRiozomxgTXAE
+         2x1YwmOLoP2cQ5yjRQfKBGtPtsvLqPZ6nuLGBjwmqON7ucMwxEo6T3qzKy3Mid2nIxj8
+         vAqrep3kWfZg+WBQlFv9AGhoNumdLvKFteQLuPTtRdZZ/6namzTZd6m9/nvQRlDbURwu
+         lVKg==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH 1/2] utilities: Add a script for automated latex package install
+Date: Sat, 27 Mar 2021 12:21:23 +0100
+Message-Id: <20210327112124.29206-1-sj38.park@gmail.com>
+To: paulmck@kernel.org
+Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Thu, 25 Mar 2021 17:51:37 -0700, Paul E. McKenney wrote:
-> On Fri, Mar 26, 2021 at 09:26:23AM +0900, Akira Yokosawa wrote:
+Installing version mismatch latex packages one by one in manual, as
+described in #10.A in FAQ-BUILD.txt is cumbersome.  This commit adds a
+script for automation of the work.
 
-[...]
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ utilities/install_latex_package.sh | 44 ++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+ create mode 100755 utilities/install_latex_package.sh
 
->>
->> Hmm...
->>
->> In the attached akiyks.patch, there are [PATCH RFC 1/2] and [PATCH RFC 2/2].
->> and the [PATCH RFC 1/2] wouldn't apply due to missing Balbir's RFC PATCH.
->>
->> Or do you want me to check if there is any damage in some of the 7 patches
->> I sent out?
->>
->> I think starting from [PATCH -perfbook 1/5], the patch set should work.
->>
->> Or what am I missing???
-> 
-> You are quite right, my fault entirely.
-> 
-> Some days it just doesn't pay to take hold of the keyboard.  :-/
+diff --git a/utilities/install_latex_package.sh b/utilities/install_latex_package.sh
+new file mode 100755
+index 00000000..0a7f3d19
+--- /dev/null
++++ b/utilities/install_latex_package.sh
+@@ -0,0 +1,44 @@
++#!/bin/bash
++
++if [ $# -ne 1 ]
++then
++	echo "Usage: $0 <package name>"
++	exit 1
++fi
++
++package=$1
++
++packages="titlesec cleveref listings draftwatermark epigraph fvextra"
++supported="false"
++for p in $packages
++do
++	if [ "$package" == "$p" ]
++	then
++		supported="true"
++		break
++	fi
++done
++if [ "$supported" == "false" ]
++then
++	echo "$package is not supported"
++	exit 1
++fi
++
++wget "http://mirrors.ctan.org/macros/latex/contrib/$package.zip"
++unzip "$package.zip"
++cd "$package" || exit 1
++
++latex "$package.ins"
++if [ ! -e "$package.sty" ]
++then
++	echo "$package.sty creation failed"
++	exit 1
++fi
++
++install_dir=~/texmf/tex/latex/"$package"
++mkdir -p "$install_dir"
++cp "$package.sty" "$install_dir/"
++texhash ~/texmf
++
++cd .. || exit 1
++rm -fr "$package" "$package.zip"
+-- 
+2.17.1
 
-;-) ;-) ;-)
-
-> 
-> Anyway, back to the original question, it looks pretty good, though
-> some of the larger tables (17.1, for example) are truncated.  Which
-> I suspect you were saying earlier when talking about shrinking things.
-
-Yes, that's the current situation.
-I was hoping Balbir could do further adjustments of remaining large
-floats based on the scheme in this patch set.
-
-        Thanks, Akira
-
-> 
-> 							Thanx, Paul
-> 
