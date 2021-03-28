@@ -3,19 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=npHe79vbR8xCLueqgjvsgYsA56OH52pw+7qJ4JSVU7A=;
-        b=h+irk4/c8RAUEMFcAn+MbALgqqXbXzMMN9mZfAv1/5Jucal3LLIrFfgsW3lVw0kutn
-         uqgzpNNGund6wJw+3MYguXTTK5vkYr/a0tTlOAoBf5zkQn33Nr0xUj6QpJe5GeL9e+Ve
-         uNIf8ZWThLg8MRQK8gjKLZfB/otCKtYujlPQjhOdCZf+q9ZkgX6jg9jlvTW4tk3NJzbx
-         CYMirqSLfIZHbBJh/XiNe7sSGlLXkvY8Q/wMxhhy5SXClfLAcT1y2REvmdbZlgSp/fxz
-         b8Tv1drBrQdpkyC955TgaY4WKdY8LXJf/5mglFIstTIUspqMn9S/Jsz1t7VbfdcuUUQX
-         wd8Q==
-Subject: [PATCH -perfbook 3/5] index: Enable balanced layout of last page of
- multi-column index
+        bh=0yUHztoVssfYQ7VcoVvP5BrfU1/irbuQm189MfTt6aY=;
+        b=h34oDeoNBQzB+zCjAM7thF0QN1ztHdG3RSJbb2ePCc4EooQO3q5Frx5GiJnEISWxgd
+         uJyly9MhkM587xfzkBpCb/hYG7NTGqNm3FLRrBc+t6XT5dabOFItl4GELBKte/GTfKrX
+         UWwROjVjQMFLn7hK9PKWQxcQVM9gjMk7qKTwQpr73t4jR+lno/vbM12Kx8ALfSbMNqQQ
+         IoITN0k4CgEdwW97zuizDmx6dsGXqmfMh5zEp/IKrk/HWEJGKk8lWTVbWE+ed+anHQxv
+         4m7ERzzKV8QDV1qaH8L0vCboitp73JY4xABlPBkOCU4M9yt9yYN7EIz3sER0tAEBjT8O
+         nghA==
+Subject: [PATCH -perfbook 4/5] together: Fix usage of \clnref{} for 'lines M
+ and N'
 References: <d63ba139-abc7-3837-b44a-294a48a1b216@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <6a28ee1a-2a53-312f-d104-c083c401bf4e@gmail.com>
-Date: Sun, 28 Mar 2021 17:55:44 +0900
+Message-ID: <5249cedb-9ff8-18e3-f480-a479b15efad5@gmail.com>
+Date: Sun, 28 Mar 2021 17:57:07 +0900
 MIME-Version: 1.0
 In-Reply-To: <d63ba139-abc7-3837-b44a-294a48a1b216@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,27 +25,24 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Seeing this is the default of the idxlayout package and the result
-looks better, remove the option disabling it.
-
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- perfbook-lt.tex | 2 +-
+ together/applyrcu.tex | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/perfbook-lt.tex b/perfbook-lt.tex
-index 8a29310d..1003b153 100644
---- a/perfbook-lt.tex
-+++ b/perfbook-lt.tex
-@@ -74,7 +74,7 @@
- \usepackage[breakable,skins]{tcolorbox}
- \usepackage[split,makeindex]{splitidx}
- \usepackage[nottoc]{tocbibind}
--\usepackage[columns=3,totoc,indentunit=12pt,justific=raggedright,font=small,columnsep=.15in,unbalanced]{idxlayout}
-+\usepackage[columns=3,totoc,indentunit=12pt,justific=raggedright,font=small,columnsep=.15in]{idxlayout}
- \usepackage[bookmarks=true,bookmarksnumbered=true,pdfborder={0 0 0},linktoc=all]{hyperref}
- \usepackage{footnotebackref} % to enable cross-ref of footnote
- \usepackage[all]{hypcap} % for going to the top of figure and table
+diff --git a/together/applyrcu.tex b/together/applyrcu.tex
+index bafda4e2..fb8645ee 100644
+--- a/together/applyrcu.tex
++++ b/together/applyrcu.tex
+@@ -156,7 +156,7 @@ is invoked by each newly created thread.
+ 	On the other hand, \co{count_unregister_thread()} can result
+ 	in the outgoing thread's work being double counted.
+ 	This can happen when \co{read_count()} is invoked between
+-	lines~\Clnref{add} and~\Clnref{null}.
++	\clnref{add,null}.
+ 	There are efficient ways of avoiding this double-counting, but
+ 	these are left as an exercise for the reader.
+ 	\end{fcvref}
 -- 
 2.17.1
 
