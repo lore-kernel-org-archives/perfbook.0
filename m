@@ -1,20 +1,23 @@
 Return-Path: <SRS0=QZ2n=I2=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=uh5xvNlPXJzu0WnBFhTCVmCPZ9r0H6oiZjHNb0Q7tLY=;
-        b=ucDZ83rtf0gtlCo7S9PuM7yIMuWGI4Iqayw/pYTXSkOhAA0cpcJNLOIlcZePGLIqlx
-         0Lfi/QxOxtk1W/3URuWH1stFjW4Z1Ab07G9VrOebwJvbOeJna5HEHY3VGl2gv7mz2Rxn
-         Mq3P+VkU3vq3WtYYO/yBAdtf0Bu1otspbq3yZyiAORVJAG2bDqCGLyXoEI9t35wp9s2M
-         6psOqljhzu80+xAznG+Vu5jE+abYOhN3CB/hAd8stqHV351VW0ZJBXIzSJH/9isTWy2V
-         AflT0tL4JMopxmOzlutZLH0ULxN0bbcb5yw73ZOLQxaaurs1hoovBPd8YbQEBO/HhSwV
-         Q1VA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=pn2PlkdGTqBedO/NrisYBUEbYuRXwg7Z/FY4go/56nA=;
+        b=bLtBOUIejGdtYVsEwvr4eRQooWveiHB3zM0cCIsn91bXLTgpVPSZ5ovYU/vXQ4Jl41
+         IElZDf/ghIsjjz0NhSxMoZxdyNcUuFNzJKjPJdqxSIR2QKDWrTFSQhGBZ0JbjV7rGn1C
+         DzzAeJTaF8ri3Frnbcnmn2pJQ8vwJjZphZ0k1P75e2Gt3t+AuMvOPQo26AR/0yp3E0yZ
+         EkxJ62hiE8fssMy8kigGmwR4BdKwQ0ngZQxyc++72/C9C7ST+gec02ehWXOgqTP9tT3K
+         T8WPX6LoT8QG8zdrW9Sx9FoXGB4Cz1aAykA1eDkFwV2tBQfd95Y+Xwbsu0UDaoOxEYQ3
+         c6IQ==
+Subject: [PATCH -perfbook 1/5] index: Adjust settings respecting ebook-size
+ build
+References: <d63ba139-abc7-3837-b44a-294a48a1b216@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 0/5] Misc fixes and updates
-Message-ID: <d63ba139-abc7-3837-b44a-294a48a1b216@gmail.com>
-Date: Sun, 28 Mar 2021 17:48:14 +0900
+Message-ID: <a910dced-9c53-1578-8017-c1c51c1fc74c@gmail.com>
+Date: Sun, 28 Mar 2021 17:51:44 +0900
 MIME-Version: 1.0
+In-Reply-To: <d63ba139-abc7-3837-b44a-294a48a1b216@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,48 +25,43 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+The \newgeometry{} command is for index pages in 1c-layout can have
+three-column layout.
+It is not necessary for ebook-size build.
 
-This patch set consists of fixes/updates, some of which take care
-of ebook-size build.
+Furthermore, ebook size can not afford the three-column index pages.
+Use the two-column layout instead.
 
-Patch 1/5 fixes truncated index pages in ebook-size build.
-Patch 2/5 adds check of warning messages from makeindex, which are
-sometimes hard to track down after the fact.
-Patch 3/5 improves look of final pages of index.
-I'd like final pages of chapters in two-column layout to be
-balanced similarly, but have not succeeded.
-Patch 4/5 fixes the wrong use of \Clnref{} macro, which I failed to
-catch before the release of Second Edition.
-Patch 5/5 fixes an orphaned heading of Section B.2 in ebook-size
-build.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ perfbook-lt.tex | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-To build ebook-size PDF with index pages enabled, use the sequence
-of command below:
-
-    rm perfbook-ix.tex; env PERFBOOK_PAPER=EB make ix
-
-Resulting perfbook-ix.pdf will be of ebook size.
-As was mentioned earlier, make error due to messages of
-"LaTeX Warning: Float too large for page by ..." is expected
-and can be ignored.
-
-        Thanks, Akira
-
---
-Akira Yokosawa (5):
-  index: Adjust settings respecting ebook-size build
-  runlatex.sh: Catch warning from makeindex early
-  index: Enable balanced layout of last page of multi-column index
-  together: Fix usage of \clnref{} for 'lines M and N'
-  toyrcu: Move float away from section heading
-
- appendix/toyrcu/toyrcu.tex | 10 +++++-----
- perfbook-lt.tex            |  8 +++++---
- together/applyrcu.tex      |  2 +-
- utilities/runlatex.sh      |  5 +++++
- 4 files changed, 16 insertions(+), 9 deletions(-)
-
+diff --git a/perfbook-lt.tex b/perfbook-lt.tex
+index 1272fc95..8a29310d 100644
+--- a/perfbook-lt.tex
++++ b/perfbook-lt.tex
+@@ -545,15 +545,17 @@
+ \cleardoublepage
+ \phantomsection
+ \IfTwoColumn{}{
++\IfEbookSize{\idxlayout{columns=2}}{
+ \newgeometry{body={6.5in,8.25in},centering=true,columnsep=0.25in}
+-}
++}}
+ \printindex
+ \cleardoublepage
+ \phantomsection
+ \printindex[api]
+ \IfTwoColumn{}{
++\IfEbookSize{}{
+ \restoregeometry
+-}
++}}
+ }{}
+ 
+ % page-layout dimensions
 -- 
 2.17.1
+
 
