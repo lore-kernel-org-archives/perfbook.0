@@ -3,19 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pn2PlkdGTqBedO/NrisYBUEbYuRXwg7Z/FY4go/56nA=;
-        b=bLtBOUIejGdtYVsEwvr4eRQooWveiHB3zM0cCIsn91bXLTgpVPSZ5ovYU/vXQ4Jl41
-         IElZDf/ghIsjjz0NhSxMoZxdyNcUuFNzJKjPJdqxSIR2QKDWrTFSQhGBZ0JbjV7rGn1C
-         DzzAeJTaF8ri3Frnbcnmn2pJQ8vwJjZphZ0k1P75e2Gt3t+AuMvOPQo26AR/0yp3E0yZ
-         EkxJ62hiE8fssMy8kigGmwR4BdKwQ0ngZQxyc++72/C9C7ST+gec02ehWXOgqTP9tT3K
-         T8WPX6LoT8QG8zdrW9Sx9FoXGB4Cz1aAykA1eDkFwV2tBQfd95Y+Xwbsu0UDaoOxEYQ3
-         c6IQ==
-Subject: [PATCH -perfbook 1/5] index: Adjust settings respecting ebook-size
- build
+        bh=Q9h6TFVpA9vRGN/sM7Fx5zY9mRaEWzJcu4QJXN+Q0vg=;
+        b=UTG9cSZuqt4DrJhXk+Y1wM9kSmhPZBgWMDD3UxGdUPxN5T/eWD5qmG/o3tm3umCjnk
+         VxpiSzRyr0E8QK8xe7C2Nl+x5ZysIYVsOcm1QDyEVJaFz1vYHDQOg9jUWeUH4F9DoNmc
+         Y5kZkmMWpcHMgHPZBFG3iwZHbkwoRSeaWy22ufA3czchaeGs+5Mk+dLdgXKQqtUBcIB0
+         QNQeYW7a/mvQadn6kt0gkrHh7ROzYLqnjttoJAMsLqRTzk0bvL2RxzI4qvUo6iBFyp+8
+         yQb1qZZwdUoVKWnpMxXpGTyzyMmRKiFBq5ovHahWZ29rJDsUTSOjBIgOMmcbH61IKg+V
+         Dfmw==
+Subject: [PATCH -perfbook 2/5] runlatex.sh: Catch warning from makeindex early
 References: <d63ba139-abc7-3837-b44a-294a48a1b216@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <a910dced-9c53-1578-8017-c1c51c1fc74c@gmail.com>
-Date: Sun, 28 Mar 2021 17:51:44 +0900
+Message-ID: <5bd46925-cde3-3386-4ff9-619f4a038707@gmail.com>
+Date: Sun, 28 Mar 2021 17:53:25 +0900
 MIME-Version: 1.0
 In-Reply-To: <d63ba139-abc7-3837-b44a-294a48a1b216@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,42 +24,29 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-The \newgeometry{} command is for index pages in 1c-layout can have
-three-column layout.
-It is not necessary for ebook-size build.
-
-Furthermore, ebook size can not afford the three-column index pages.
-Use the two-column layout instead.
+Better to fail early than to notice later by inspecting index pages.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- perfbook-lt.tex | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ utilities/runlatex.sh | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/perfbook-lt.tex b/perfbook-lt.tex
-index 1272fc95..8a29310d 100644
---- a/perfbook-lt.tex
-+++ b/perfbook-lt.tex
-@@ -545,15 +545,17 @@
- \cleardoublepage
- \phantomsection
- \IfTwoColumn{}{
-+\IfEbookSize{\idxlayout{columns=2}}{
- \newgeometry{body={6.5in,8.25in},centering=true,columnsep=0.25in}
--}
-+}}
- \printindex
- \cleardoublepage
- \phantomsection
- \printindex[api]
- \IfTwoColumn{}{
-+\IfEbookSize{}{
- \restoregeometry
--}
-+}}
- }{}
- 
- % page-layout dimensions
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index 2779cf68..5c7db65a 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -66,6 +66,11 @@ exerpt_warnings () {
+ iterate_latex () {
+ 	makeindex $basename.idx > /dev/null 2>&1
+ 	makeindex $basename-api.idx > /dev/null 2>&1
++	if grep -q '## Warning' $basename.ilg $basename-api.ilg
++	then
++		echo "----- Warning in makeindex, see .ilg log files. -----"
++		exit 1
++	fi
+ 	pdflatex $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null || :
+ 	if grep -q '! Emergency stop.' $basename.log
+ 	then
 -- 
 2.17.1
 
