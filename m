@@ -3,19 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0yUHztoVssfYQ7VcoVvP5BrfU1/irbuQm189MfTt6aY=;
-        b=h34oDeoNBQzB+zCjAM7thF0QN1ztHdG3RSJbb2ePCc4EooQO3q5Frx5GiJnEISWxgd
-         uJyly9MhkM587xfzkBpCb/hYG7NTGqNm3FLRrBc+t6XT5dabOFItl4GELBKte/GTfKrX
-         UWwROjVjQMFLn7hK9PKWQxcQVM9gjMk7qKTwQpr73t4jR+lno/vbM12Kx8ALfSbMNqQQ
-         IoITN0k4CgEdwW97zuizDmx6dsGXqmfMh5zEp/IKrk/HWEJGKk8lWTVbWE+ed+anHQxv
-         4m7ERzzKV8QDV1qaH8L0vCboitp73JY4xABlPBkOCU4M9yt9yYN7EIz3sER0tAEBjT8O
-         nghA==
-Subject: [PATCH -perfbook 4/5] together: Fix usage of \clnref{} for 'lines M
- and N'
+        bh=69iHX1hblzNeSVRqHxraXkgBfFNScHCYCwg9f98XZaU=;
+        b=Rl04oC/2+q8qI6HBnmcH9MUNs9/y7R8/zEUmgc0+s4zAkqcN840YHzfDjKbqvF9Fos
+         txPhXvPdhMyNa+p2XixukFZz/hR8/PwlnUNzlkhrksZhOawfiLR7cETmVATLlkBS9OQ0
+         dZjqOqmt4TWvVuopGujG4cj+S7/FyC/Vz1o8FWqTpC/oHEcv2IoyMPZq+hqtnRFTRDV6
+         WIwPy/O4vkNk3h5yRhK/b2IMYHc9PhchRlIjf8D3Nb82IktSA0IHgfLf9JpOVUPC50EM
+         Svy/5bdFq63jpj3BIiGQB0/c1XdUiJu+YCdPekm4vFYB7/y882KyqugNzdhV22EUVxq0
+         h3GA==
+Subject: [PATCH -perfbook 5/5] toyrcu: Move float away from section heading
 References: <d63ba139-abc7-3837-b44a-294a48a1b216@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <5249cedb-9ff8-18e3-f480-a479b15efad5@gmail.com>
-Date: Sun, 28 Mar 2021 17:57:07 +0900
+Message-ID: <1b0c87db-7de2-7253-a613-c419cbdbd00f@gmail.com>
+Date: Sun, 28 Mar 2021 17:58:37 +0900
 MIME-Version: 1.0
 In-Reply-To: <d63ba139-abc7-3837-b44a-294a48a1b216@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,24 +24,45 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
+This change prevents a potential orphaned heading (section heading
+at the bottom of a page/column).
+It also allows the removal of \NoIndentAfterThis macro.
+
+The orphaned heading was observed in the ebook-size build.
+
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- together/applyrcu.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ appendix/toyrcu/toyrcu.tex | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/together/applyrcu.tex b/together/applyrcu.tex
-index bafda4e2..fb8645ee 100644
---- a/together/applyrcu.tex
-+++ b/together/applyrcu.tex
-@@ -156,7 +156,7 @@ is invoked by each newly created thread.
- 	On the other hand, \co{count_unregister_thread()} can result
- 	in the outgoing thread's work being double counted.
- 	This can happen when \co{read_count()} is invoked between
--	lines~\Clnref{add} and~\Clnref{null}.
-+	\clnref{add,null}.
- 	There are efficient ways of avoiding this double-counting, but
- 	these are left as an exercise for the reader.
- 	\end{fcvref}
+diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
+index 94177293..7dcf1ea3 100644
+--- a/appendix/toyrcu/toyrcu.tex
++++ b/appendix/toyrcu/toyrcu.tex
+@@ -36,7 +36,11 @@ provides a summary and a list of desirable RCU properties.
+ 
+ \section{Lock-Based RCU}
+ \label{sec:app:toyrcu:Lock-Based RCU}
+-\NoIndentAfterThis
++
++Perhaps the simplest RCU implementation leverages locking, as
++shown in
++\cref{lst:app:toyrcu:Lock-Based RCU Implementation}
++(\path{rcu_lock.h} and \path{rcu_lock.c}).
+ 
+ \begin{listing}[htbp]
+ \input{CodeSamples/defer/rcu_lock@lock_unlock.fcv}\vspace*{-11pt}\fvset{firstnumber=last}
+@@ -45,10 +49,6 @@ provides a summary and a list of desirable RCU properties.
+ \label{lst:app:toyrcu:Lock-Based RCU Implementation}
+ \end{listing}
+ 
+-Perhaps the simplest RCU implementation leverages locking, as
+-shown in
+-\cref{lst:app:toyrcu:Lock-Based RCU Implementation}
+-(\path{rcu_lock.h} and \path{rcu_lock.c}).
+ In this implementation, \co{rcu_read_lock()} acquires a global
+ spinlock, \co{rcu_read_unlock()} releases it, and
+ \co{synchronize_rcu()} acquires it then immediately releases it.
 -- 
 2.17.1
 
