@@ -1,44 +1,72 @@
-Return-Path: <SRS0=ALPs=JB=gmail.com=sj38.park@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=+iVjUsWFaxis3G3T4Hk9MgBua2oPx7pmcDL7PSQSLZA=;
-        b=oMscPT5CIBV603radd0fRghNhijXwO7qBTfz8JTqmkD0o1DVmlA3FE6U4Ixnwo8MBh
-         V3db8vXUc5f9HmA2xMOhGN7FRu10x5EiYInj++Z75s+u6eAx8jVwtDbh3xbd8KH7kENo
-         KRiERxEz4UsSPuXsoKI7hW+ledS/00KYoFfvjuIfzntj1WKdbbYQtTRQQbLuZd9iJY6q
-         CAmByTXlCMfWAsvvC1KPRgXh6pejV7ZfX3RBciUQvKscqe5oyCW5Z66MQnhA8RKzS1Zq
-         ppkvQAu108Ta+W0bqgGH6bIBZd2XK1Xl6NOoIWcDSsjh4ab/lEXVWmIvu7n9RZmBhySP
-         ZfcA==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH v3 4/4] howto: Fix a typo (License -> license)
-Date: Sun,  4 Apr 2021 13:10:44 +0200
-Message-Id: <20210404111044.27774-5-sj38.park@gmail.com>
-In-Reply-To: <20210404111044.27774-1-sj38.park@gmail.com>
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:58340 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229861AbhDDQkr (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Sun, 4 Apr 2021 12:40:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617554442;
+        bh=9tXokcIMbrkImd3bueHa+0RINZmUi5A//Ss4qM5jp8A=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=bnW0MkJQA1sAilEXkg+cEDpeUkJd4L7Lo4jI1jB3TVHyHECykb2CGKPt1ZiT06Pqp
+         5w8+vkm+nyoeehro8NCe2N5MijRy86vD872hiZpBolROX+vCqDGWJh1R0NHzwxnkxu
+         GoS7u65URoKfZwS48nJHINz1PhtaJHeJqhO2R4uCfwWAbs2DgYwV10hD29UJ2I2ndM
+         hBJiMKM2yKdyZfrfugSqO0wiD/cxkLQBhZOqSFKfYId5Ze3Vj+TSRe0ATniL8cOPr5
+         uNadW+tKoqnjG9xi2obeCvoC+3luSGVMrzfsa8doYd/Vc+rWls3WghtyuSYufGHY4B
+         GCA7STn6eoDhA==
+Date: Sun, 4 Apr 2021 09:40:42 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v3 1/4] howto: Use '\cref' and '\Cref' consistently
+Message-ID: <20210404164042.GY2696@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
 References: <20210404111044.27774-1-sj38.park@gmail.com>
-To: paulmck@kernel.org
-Cc: perfbook@vger.kernel.org, akiyks@gmail.com, SeongJae Park <sj38.park@gmail.com>
+ <20210404111044.27774-2-sj38.park@gmail.com>
+ <6380a2ed-086a-eeb2-4851-15915ee1b8c4@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6380a2ed-086a-eeb2-4851-15915ee1b8c4@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: SeongJae Park <sj38.park@gmail.com>, perfbook@vger.kernel.org
 
-This commit fixes a trivial typo.
+On Sun, Apr 04, 2021 at 08:29:18PM +0900, Akira Yokosawa wrote:
+> On Sun, 4 Apr 2021 13:10:41 +0200, SeongJae Park wrote:
+> > This commit replaces 'Chapter~\ref', 'Listing~\ref', and 'Appendix~\ref'
+> > with smart alternatives, '\cref' and '\Cref'.
+> > 
+> > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+> > ---
+> >  howto/howto.tex | 52 ++++++++++++++++++++++++-------------------------
+> >  1 file changed, 26 insertions(+), 26 deletions(-)
+> > 
+> 
+> Looks good to me!
+> 
+> Acked-by: Akira Yokosawa <akiyks@gmail.com>
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- howto/howto.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Queued and pushed, thank you both!
 
-diff --git a/howto/howto.tex b/howto/howto.tex
-index 9b3f8e91..c3360e84 100644
---- a/howto/howto.tex
-+++ b/howto/howto.tex
-@@ -511,7 +511,7 @@ a very specific meaning, namely that you are certifying that:
- 	the open source license indicated in the file; or
- \item	The contribution is based upon previous work
- 	that, to the best of my knowledge, is covered
--	under an appropriate open source License and I
-+	under an appropriate open source license and I
- 	have the right under that license to submit that
- 	work with modifications, whether created in whole
- 	or in part by me, under the same open source
--- 
-2.17.1
+I also queued and pushed the other three patches, in one case with
+minor wordsmithing.  Again, thank you!
 
+							Thanx, Paul
+
+>         Thanks, Akira
+> 
+> > diff --git a/howto/howto.tex b/howto/howto.tex
+> > index 7de1dbd9..b60e3a9a 100644
+> > --- a/howto/howto.tex
+> > +++ b/howto/howto.tex
+> > @@ -56,22 +56,22 @@ that it has brought to us!
+> >  This book is a handbook of widely applicable and heavily
+> >  used design techniques, rather than
+> >  a collection of optimal algorithms with tiny areas of applicability.
+> > -You are currently reading Chapter~\ref{chp:How To Use This Book}, but
+> > +You are currently reading \cref{chp:How To Use This Book}, but
+> >  you knew that already.
+> > -Chapter~\ref{chp:Introduction} gives a high-level overview of parallel
+> > +\Cref{chp:Introduction} gives a high-level overview of parallel
+> >  programming.
+> >  
+> 
+> [...]
