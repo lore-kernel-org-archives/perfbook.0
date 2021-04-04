@@ -1,60 +1,46 @@
-Return-Path: <SRS0=kQd0=JB=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=ALPs=JB=gmail.com=sj38.park@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=If/vqLc7IM7uyCsi4lJLWS9FyKgxQJuofeFm1uMvLVQ=;
-        b=ISIEdB6g48cl9GIJZepzKO8V+aj0Tj9p56PksJfBopEBECe0RG5sdvwfjz2ynKw5Sc
-         F1m/e+n9q1dmhEflSYCJ+JOwG0DRH2f2rzB8IzEAr3/xRPZ5qc2EeK006HS5AqKtMgt5
-         4EHrTpfrLOQLft3VAb8DABvMfVrt7/AFamNzacAI+vgXe1ekGouiwWj3vp4aBpauVCgk
-         LIeUhXaoQbLIcXDiqjVz4Q2Op9LKgFk0kZkYpuwaLiSH1Di/Xe1T3dgZvHJFa0JaLlGT
-         uSnRTtSLtnZKuab5eRWTjHt0zrFfSWLVtINnuyEOLV6Eq3/EFJTOVe/pumpAGd43bfO2
-         T1nQ==
-Subject: Re: [PATCH v3 1/4] howto: Use '\cref' and '\Cref' consistently
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=u1I2/sK6xyj3C1PvCXU7zdYuCiuZVImAqaDloTpBHjU=;
+        b=bT9DRti1KvLct5YlRLO0i1Mr9QJGXnT4zsEQWZlGOTg53s5OpvDEMr3o0KUBhWrjhl
+         oeXPR0yXSNywWkWhyA/URs6ed12kuhGffP6CdiGieOyyJ4MA+tVKUdL28edwZDM4K2/B
+         oZTd0efIv3O/vT2n98U7/va42Aov1efGq9fX9qMdf0QPoBwDSZSd//izPeAytDruTkgw
+         aCu7HlZyi9RQs1f6PeujIBkM5DqV4iCiJJ1BFYc2PDp0JsX42fSkjvQOmdZSeR2f1nFP
+         1Vx6IM7QNjqXzoKJ5iBfrARVaTs9xPVY+wckLNf1+WpxBGZWHqCY+8VM7g2AohezMv58
+         IcSg==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH v3 2/4] howto: Add missed `~` for Paul's name
+Date: Sun,  4 Apr 2021 13:10:42 +0200
+Message-Id: <20210404111044.27774-3-sj38.park@gmail.com>
+In-Reply-To: <20210404111044.27774-1-sj38.park@gmail.com>
 References: <20210404111044.27774-1-sj38.park@gmail.com>
- <20210404111044.27774-2-sj38.park@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <6380a2ed-086a-eeb2-4851-15915ee1b8c4@gmail.com>
-Date: Sun, 4 Apr 2021 20:29:18 +0900
-MIME-Version: 1.0
-In-Reply-To: <20210404111044.27774-2-sj38.park@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: SeongJae Park <sj38.park@gmail.com>, paulmck@kernel.org
-Cc: perfbook@vger.kernel.org
+To: paulmck@kernel.org
+Cc: perfbook@vger.kernel.org, akiyks@gmail.com, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Sun, 4 Apr 2021 13:10:41 +0200, SeongJae Park wrote:
-> This commit replaces 'Chapter~\ref', 'Listing~\ref', and 'Appendix~\ref'
-> with smart alternatives, '\cref' and '\Cref'.
-> 
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> ---
->  howto/howto.tex | 52 ++++++++++++++++++++++++-------------------------
->  1 file changed, 26 insertions(+), 26 deletions(-)
-> 
+In the latex source files, preferred way of Paul's name writing would be
+`Paul E.~McKenney`.  This commit adds missed `~` in the name in howto
+chapter.
 
-Looks good to me!
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ howto/howto.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Akira Yokosawa <akiyks@gmail.com>
+diff --git a/howto/howto.tex b/howto/howto.tex
+index b60e3a9a..5bbf8c39 100644
+--- a/howto/howto.tex
++++ b/howto/howto.tex
+@@ -187,7 +187,7 @@ of parallel programming.
+ 	Is that really the intent?
+ }\QuickQuizAnswerM{
+ 	Indeed it is!
+-	Many are questions that Paul E. McKenney would probably have
++	Many are questions that Paul E.~McKenney would probably have
+ 	asked if he was a novice student in a class covering this material.
+ 	It is worth noting that Paul was taught most of this material by
+ 	parallel hardware and software, not by professors.
+-- 
+2.17.1
 
-        Thanks, Akira
-
-> diff --git a/howto/howto.tex b/howto/howto.tex
-> index 7de1dbd9..b60e3a9a 100644
-> --- a/howto/howto.tex
-> +++ b/howto/howto.tex
-> @@ -56,22 +56,22 @@ that it has brought to us!
->  This book is a handbook of widely applicable and heavily
->  used design techniques, rather than
->  a collection of optimal algorithms with tiny areas of applicability.
-> -You are currently reading Chapter~\ref{chp:How To Use This Book}, but
-> +You are currently reading \cref{chp:How To Use This Book}, but
->  you knew that already.
-> -Chapter~\ref{chp:Introduction} gives a high-level overview of parallel
-> +\Cref{chp:Introduction} gives a high-level overview of parallel
->  programming.
->  
-
-[...]
