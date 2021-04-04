@@ -1,48 +1,46 @@
 Return-Path: <SRS0=ALPs=JB=gmail.com=sj38.park@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oDEaO6FSvWxoCb1slGGFcOYAsT8puMEQwO8h2ylv9j8=;
-        b=lbhIUubpf7tTseWP7A4xdHwRtnlza9B8gQ9rZcVcgkdg/QLBGadjnWC6atuBQrQeeB
-         bA1A+UcZzmrno9vth9w21wO2ke5JVK/eVKPlXDHX+JbeOLGphE86AZJ88b4IlgABJsGG
-         Q0BZaoRtXSG/bmn9HNxKH1iyeiWUbB5oPxUAKwUEsOXrh4WTOmTnDRccUXdlzS5Jgjz6
-         7ol/fkDaFon8FuIAAqNfWaMinbg9HdkBDfWFb3BPy66328AWph6WQ461toksTxJMFq7m
-         TjqQFf1dfcU5Lv56fkukDndIg72pb8h8SyAAVpi+uFyykF1YbYdO0RUXzBS5Nufo9gnu
-         Scew==
-MIME-Version: 1.0
-References: <20210404100503.20978-1-sj38.park@gmail.com> <20210404100503.20978-2-sj38.park@gmail.com>
- <37416a08-7a16-7547-03bc-b00018b5bec7@gmail.com>
-In-Reply-To: <37416a08-7a16-7547-03bc-b00018b5bec7@gmail.com>
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=UWDdJ7uGdF4T3FZCmE67/gapwUvIpfT5/Rrj/CF+VkQ=;
+        b=jo5s9HG2CfRdBP53ywBMMmPN6finc0PUS24M6XSPJrf26HzAhX93Xq2EAsyrPWxfPY
+         yhLoWblMM8NHzX9hTIpyNxz58LVHAg0ZdZxyJDk57UJ6znbWx5Gnb0JOlYkbLr6kHw3S
+         M2oS2k6GhwgUvF3EnTBCAulFy4IEag40DCeI7KutCfRzrhkFeR9+EadnFyaBS7Z79iPW
+         vzqxtIDXFW6EX9hPae/DNpz60gd7XQwHEsd0LZ7qm+G8bcN1yBhElJZf6yp1Zqjg9W/F
+         vfOMANCWD+LutMT01BnqnEFp9ZizY8/c8SmKv+J4HLeog4q0feGZp0Q5KmkpNvQqrFax
+         pJEQ==
 From: SeongJae Park <sj38.park@gmail.com>
-Date: Sun, 4 Apr 2021 13:11:49 +0200
-Message-ID: <CAEjAshoDfPFEH-sXGEHFbQJ=oTz31=URVHuH2oHuykBoj8E_7A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] howto: Use '\cref' and '\Cref' instead of 'Chapter~\ref'
-Content-Type: text/plain; charset="UTF-8"
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, perfbook@vger.kernel.org
+Subject: [PATCH v2 2/4] howto: Add missed `~` for Paul's name
+Date: Sun,  4 Apr 2021 12:05:01 +0200
+Message-Id: <20210404100503.20978-3-sj38.park@gmail.com>
+In-Reply-To: <20210404100503.20978-1-sj38.park@gmail.com>
+References: <20210404100503.20978-1-sj38.park@gmail.com>
+To: paulmck@kernel.org
+Cc: perfbook@vger.kernel.org, akiyks@gmail.com, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Sun, Apr 4, 2021 at 12:47 PM Akira Yokosawa <akiyks@gmail.com> wrote:
->
-> Hi SeongJae,
->
-> On Sun, 4 Apr 2021 12:05:00 +0200, SeongJae Park wrote:
-> > This commit replaces 'Chapter~\ref' with '\cref' and '\Cref'.
-> >
-> > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> > ---
-> >  howto/howto.tex | 38 +++++++++++++++++++-------------------
-> >  1 file changed, 19 insertions(+), 19 deletions(-)
->
-> While we are here, could you please also replace "Appendix~\ref"
-> and "Listing~\ref" with \cref/\Cref?
->
-> I think those "clever" macros should work as you would expect.
+In the latex source files, preferred way of Paul's name writing would be
+`Paul E.~McKenney`.  This commit adds missed `~` in the name in howto
+chapter.
 
-Ok, I will send v3 soon.
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ howto/howto.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/howto/howto.tex b/howto/howto.tex
+index 627ae776..2f07c8a7 100644
+--- a/howto/howto.tex
++++ b/howto/howto.tex
+@@ -187,7 +187,7 @@ of parallel programming.
+ 	Is that really the intent?
+ }\QuickQuizAnswerM{
+ 	Indeed it is!
+-	Many are questions that Paul E. McKenney would probably have
++	Many are questions that Paul E.~McKenney would probably have
+ 	asked if he was a novice student in a class covering this material.
+ 	It is worth noting that Paul was taught most of this material by
+ 	parallel hardware and software, not by professors.
+-- 
+2.17.1
 
-Thanks,
-SeongJae Park
-[...]
