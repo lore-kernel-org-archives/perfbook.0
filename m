@@ -1,242 +1,135 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:46194 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230286AbhDDXiN (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sun, 4 Apr 2021 19:38:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617579484;
-        bh=xVaTPhPu2EBx6MqtqGqnVt0wctrl6aOKJuula2FTQWs=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=FPmAmMPxkCnks/HynNB+yw4Oop0hF24AloUPD8jy/mOne+FzMadSkrVgfwlemWYjH
-         aKMIidpjsijb12Xr3FWHRdQ3aDvwT1HXqewFMzbCbfF6hPfOi5oR+hT1KKpJ57B6Fi
-         WCH2JsD5I++m4w25NesG8DPBSak/G39Wc1EiIMbFx5B8HRUCNU/98DD2mDQDV8npk5
-         KCQSoExlcHshDgQiL90tGrAXsGwzjjUXyfY15cP1UDFu1akAZ8pXjglBdSiO+PYBx8
-         tr+q82AZEV8vrmcEgfG7hJcdpZ7lJf+D77pvaQuHp7YB9peYsS6le4M6D/X6xgifyF
-         uMf75yA68TSQg==
-Date: Sun, 4 Apr 2021 16:38:03 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] treewide: Mark non-end-of-sentence full-stop of 'vs.' as
- such
-Message-ID: <20210404233803.GC2696@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <1e5b1f2b-eb94-78a9-e882-387d94897f1c@gmail.com>
+Return-Path: <SRS0=tmJ5=JC=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=qzP/dJgh1gFIi5TMOujyEdyKM5RydC1ruCOo5rzgbfQ=;
+        b=ILZVByp8YBsEWmGuCdluTlcED6XwmEHIxHkWBDlPVmk2UoTewrhqSkfuSAQyC2b9OT
+         mfgOxN2/PiDe0USriH1m7cdl/qPGkrlslBXGBDpv3E/5/MF1fv+cUlFW9L69JrjpIGg4
+         fxUatnlrJQT2GHyMVhaIrUHtxq9dYLXKriHJYn/6BxuIA+MQyHUK7LxW39wcm2c2aQ9M
+         YUh7IShJpJ9jD0nD3Uhcl/HSOLXjETXqraqUrpU+SxtP/ELbAvBbTEdkjc4ZaBSoo7yd
+         9pkCc6PDlNwy4vMEGKmcvf5criXCsvjWMs/78CwiIsbuV54kOvua1QBogygqc3ej5rnE
+         S7dg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [GIT PULL -perfbook] Index and acronym tagging scheme
+Message-ID: <9b9b9f15-9ede-eaf3-d213-0cb48642abff@gmail.com>
+Date: Mon, 5 Apr 2021 12:38:55 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1e5b1f2b-eb94-78a9-e882-387d94897f1c@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Balbir Singh <bsingharora@gmail.com>, SeongJae Park <sj38.park@gmail.com>, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Apr 05, 2021 at 07:46:09AM +0900, Akira Yokosawa wrote:
-> Note:
->     Label strings can't have any of ".\ ", ".~", or ".\@".
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Hi all,
 
-Queued and pushed, thank you!
+So I changed my mind and have managed to support normal and modifier
+uses of acronym tags.
 
-							Thanx, Paul
+This topic branch is much smaller than that of the RFC.
 
-> ---
->  SMPdesign/SMPdesign.tex       |  2 +-
->  SMPdesign/beyond.tex          |  6 +++---
->  advsync/rt.tex                |  2 +-
->  datastruct/datastruct.tex     |  2 +-
->  defer/rcuusage.tex            | 12 ++++++------
->  formal/axiomatic.tex          |  2 +-
->  future/cpu.tex                |  4 ++--
->  intro/intro.tex               |  2 +-
->  toolsoftrade/toolsoftrade.tex |  2 +-
->  9 files changed, 17 insertions(+), 17 deletions(-)
-> 
-> diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
-> index 7d0acd52..0250ffc6 100644
-> --- a/SMPdesign/SMPdesign.tex
-> +++ b/SMPdesign/SMPdesign.tex
-> @@ -102,7 +102,7 @@ handle the communications load.
->  \begin{figure}[tbp]
->  \centering
->  \resizebox{3in}{!}{\includegraphics{SMPdesign/CPUvsEnet}}
-> -\caption{Ethernet Bandwidth vs. Intel x86 CPU Performance}
-> +\caption{Ethernet Bandwidth vs.\@ Intel x86 CPU Performance}
->  \label{fig:SMPdesign:Ethernet Bandwidth vs. Intel x86 CPU Performance}
->  \end{figure}
->  
-> diff --git a/SMPdesign/beyond.tex b/SMPdesign/beyond.tex
-> index b4248dc0..ef0cd702 100644
-> --- a/SMPdesign/beyond.tex
-> +++ b/SMPdesign/beyond.tex
-> @@ -543,14 +543,14 @@ on one thread being within about 30\,\% of PART on two threads
->  \begin{figure}[tb]
->  \centering
->  \resizebox{2.2in}{!}{\includegraphics{SMPdesign/500-ms_seqO3VfgO3_partO3-median}}
-> -\caption{Varying Maze Size vs. SEQ}
-> +\caption{Varying Maze Size vs.\@ SEQ}
->  \label{fig:SMPdesign:Varying Maze Size vs. SEQ}
->  \end{figure}
->  
->  \begin{figure}[tb]
->  \centering
->  \resizebox{2.2in}{!}{\includegraphics{SMPdesign/500-ms_2seqO3VfgO3_partO3-median}}
-> -\caption{Varying Maze Size vs. COPART}
-> +\caption{Varying Maze Size vs.\@ COPART}
->  \label{fig:SMPdesign:Varying Maze Size vs. COPART}
->  \end{figure}
->  
-> @@ -575,7 +575,7 @@ were generated using -O3.
->  \begin{figure}[tb]
->  \centering
->  \resizebox{2.2in}{!}{\includegraphics{SMPdesign/1000-ms_2seqO3VfgO3_partO3-mean}}
-> -\caption{Mean Speedup vs. Number of Threads, 1000x1000 Maze}
-> +\caption{Mean Speedup vs.\@ Number of Threads, 1000x1000 Maze}
->  \label{fig:SMPdesign:Mean Speedup vs. Number of Threads, 1000x1000 Maze}
->  \end{figure}
->  
-> diff --git a/advsync/rt.tex b/advsync/rt.tex
-> index 94469f0c..f5e8e685 100644
-> --- a/advsync/rt.tex
-> +++ b/advsync/rt.tex
-> @@ -1975,7 +1975,7 @@ on \clnrefrange{upd:b}{upd:e}.
->  This example shows how RCU can provide deterministic read-side
->  data-structure access to real-time programs.
->  
-> -\subsection{Real Time vs. Real Fast: How to Choose?}
-> +\subsection{Real Time vs.\@ Real Fast: How to Choose?}
->  \label{sec:advsync:Real Time vs. Real Fast: How to Choose?}
->  
->  The choice between real-time and real-fast computing can be a difficult one.
-> diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
-> index 682a895b..dfc06658 100644
-> --- a/datastruct/datastruct.tex
-> +++ b/datastruct/datastruct.tex
-> @@ -1511,7 +1511,7 @@ the old hash table, and finally line~\lnref{ret_success} returns success.
->  \begin{figure}[tb]
->  \centering
->  \resizebox{2.7in}{!}{\includegraphics{datastruct/perftestresize}}
-> -\caption{Overhead of Resizing Hash Tables Between 262,144 and 524,288 Buckets vs. Total Number of Elements}
-> +\caption{Overhead of Resizing Hash Tables Between 262,144 and 524,288 Buckets vs.\@ Total Number of Elements}
->  \label{fig:datastruct:Overhead of Resizing Hash Tables Between 262,144 and 524,288 Buckets vs. Total Number of Elements}
->  \end{figure}
->  % Data from CodeSamples/datastruct/hash/data/hps.resize.2020.09.05a
-> diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
-> index a61e0421..0f8f84ea 100644
-> --- a/defer/rcuusage.tex
-> +++ b/defer/rcuusage.tex
-> @@ -553,7 +553,7 @@ locking to RCU non-trivial.
->  \begin{figure}[tb]
->  \centering
->  \resizebox{3in}{!}{\includegraphics{defer/rwlockRCUupdate}}
-> -\caption{Response Time of RCU vs. Reader-Writer Locking}
-> +\caption{Response Time of RCU vs.\@ Reader-Writer Locking}
->  \label{fig:defer:Response Time of RCU vs. Reader-Writer Locking}
->  \end{figure}
->  
-> @@ -637,7 +637,7 @@ harmless, including use of the asynchronous interfaces where available
->  is a major reason for the rule of thumb that RCU be used in read-mostly
->  situations.
->  
-> -\paragraph{Code: Reader-Writer Locking vs. RCU Code}
-> +\paragraph{Code: Reader-Writer Locking vs.\@ RCU Code}
->  
->  In the best case, the conversion from reader-writer locking to RCU
->  is quite simple, as shown in
-> @@ -742,7 +742,7 @@ More-elaborate cases of replacing reader-writer locking with RCU
->  may be found
->  elsewhere~\cite{NeilBrown2015PathnameLookup,NeilBrown2015RCUwalk}.
->  
-> -\paragraph{Semantics: Reader-Writer Locking vs. RCU Semantics}
-> +\paragraph{Semantics: Reader-Writer Locking vs.\@ RCU Semantics}
->  
->  Reader-writer locking semantics can be roughly and informally summarized
->  by the following three temporal constraints:
-> @@ -854,14 +854,14 @@ Section~\ref{sec:together:Refurbish Reference Counting}.
->  \begin{figure}[tb]
->  \centering
->  \resizebox{2.5in}{!}{\includegraphics{defer/refcntRCUperf}}
-> -\caption{Performance of RCU vs. Reference Counting}
-> +\caption{Performance of RCU vs.\@ Reference Counting}
->  \label{fig:defer:Performance of RCU vs. Reference Counting}
->  \end{figure}
->  
->  \begin{figure}[tb]
->  \centering
->  \resizebox{2.5in}{!}{\includegraphics{defer/refRCUperfPREEMPT}}
-> -\caption{Performance of Preemptible RCU vs. Reference Counting}
-> +\caption{Performance of Preemptible RCU vs.\@ Reference Counting}
->  \label{fig:defer:Performance of Preemptible RCU vs. Reference Counting}
->  \end{figure}
->  
-> @@ -880,7 +880,7 @@ one CPU up to about three orders of magnitude at 192~CPUs.
->  \begin{figure}[tb]
->  \centering
->  \resizebox{2.5in}{!}{\includegraphics{defer/refRCUperfwt}}
-> -\caption{Response Time of RCU vs. Reference Counting, 192 CPUs}
-> +\caption{Response Time of RCU vs.\@ Reference Counting, 192 CPUs}
->  \label{fig:defer:Response Time of RCU vs. Reference Counting}
->  \end{figure}
->  
-> diff --git a/formal/axiomatic.tex b/formal/axiomatic.tex
-> index 663863d7..ecef2785 100644
-> --- a/formal/axiomatic.tex
-> +++ b/formal/axiomatic.tex
-> @@ -228,7 +228,7 @@ And in this case, the \co{herd} tool's output features the string
->  	5 & 4.905 \\
->  	\bottomrule
->  \end{tabular}
-> -\caption{Locking: Modeling vs. Emulation Time (s)}
-> +\caption{Locking: Modeling vs.\@ Emulation Time (s)}
->  \label{tab:formal:Locking: Modeling vs. Emulation Time (s)}
->  \end{table}
->  
-> diff --git a/future/cpu.tex b/future/cpu.tex
-> index 9552a0b4..1633a4a6 100644
-> --- a/future/cpu.tex
-> +++ b/future/cpu.tex
-> @@ -185,7 +185,7 @@ Servers seem to be choosing the former, while embedded systems on a chip
->  \epsfxsize=3in
->  \epsfbox{future/be-lb-n4-rf-all}
->  % from Ph.D. thesis: an/plots/be-lb-n4-rf-all.eps
-> -\caption{Breakevens vs. $r$, $\lambda$ Large, Four CPUs}
-> +\caption{Breakevens vs.\@ $r$, $\lambda$ Large, Four CPUs}
->  \label{fig:future:Breakevens vs. r; lambda Large; Four CPUs}
->  \end{figure}
->  
-> @@ -194,7 +194,7 @@ Servers seem to be choosing the former, while embedded systems on a chip
->  \epsfxsize=3in
->  \epsfbox{future/be-lw-n4-rf-all}
->  % from Ph.D. thesis: an/plots/be-lw-n4-rf-all.eps
-> -\caption{Breakevens vs. $r$, $\lambda$ Small, Four CPUs}
-> +\caption{Breakevens vs.\@ $r$, $\lambda$ Small, Four CPUs}
->  \label{fig:future:Breakevens vs. r; Worst-Case lambda; Four CPUs}
->  \end{figure}
->  
-> diff --git a/intro/intro.tex b/intro/intro.tex
-> index b2a03f83..4d772a25 100644
-> --- a/intro/intro.tex
-> +++ b/intro/intro.tex
-> @@ -1034,7 +1034,7 @@ ownership.
->  Many traditional parallel-programming concerns such as deadlock,
->  livelock, and transaction rollback stem from this coordination.
->  This framework can be elaborated to include comparisons
-> -of these synchronization mechanisms, for example locking vs. transactional
-> +of these synchronization mechanisms, for example locking vs.\@ transactional
->  memory~\cite{McKenney2007PLOSTM}, but such elaboration is beyond the
->  scope of this section.
->  (See
-> diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-> index bf34d2ca..67b0a371 100644
-> --- a/toolsoftrade/toolsoftrade.tex
-> +++ b/toolsoftrade/toolsoftrade.tex
-> @@ -874,7 +874,7 @@ Line~\lnref{mov_cnt} moves the lock-acquisition count to this thread's element o
->  \begin{figure}[tb]
->  \centering
->  \resizebox{3in}{!}{\includegraphics{CodeSamples/toolsoftrade/rwlockscale}}
-> -\caption{Reader-Writer Lock Scalability vs. Microseconds in Critical Section on 8-Socket System With Intel Xeon Platinum 8176 CPUs @ 2.10GHz}
-> +\caption{Reader-Writer Lock Scalability vs.\@ Microseconds in Critical Section on 8-Socket System With Intel Xeon Platinum 8176 CPUs @ 2.10GHz}
->  \label{fig:toolsoftrade:Reader-Writer Lock Scalability vs. Microseconds in Critical Section}
->  \end{figure}
->  
-> -- 
-> 2.17.1
-> 
+Commit 85e93cd23b38 ("index, acronym: Add acronym list and two-level
+indexing") contains almost all of the changes to support the new
+scheme.
+
+Commits b97d9921b0fd ("acronym: future/htm: Tag TM, HTM, STM, and RCU
+via acronym dictionary") and 6a8e58549dc1 ("acronym: Tag 'CAS' and its
+long/full form") are PoC of the new scheme.
+
+As is explained in the change log of commit 85e93cd23b38, acronyms who
+have modifier forms are registered by the \newabbreviation macro in
+glsdict.tex.
+Note that the key for the modifier from has a ":m" appended to the one
+for the normal form, e.g., "cas:m".
+Accessing modifier form can be done by macros \acrm{} and its friends.
+They accept the same key as \acr{} and its variants.
+
+One thing changed from RFC is that by default, all the acronyms defined
+in glsdict.tex have their "first use" flags unset.
+This is to prevent unexpected expansion where you expect short form
+to be presented.
+Where you want a first form, you need to use \acrfst{} or \acrmfst{}
+explicitly.
+
+Another thing I changed is the frequency of tagging by \acr{}, \IX{}
+and their variants.
+Tagging everywhere indexed acronyms/terms appear would make the LaTeX
+sources hard to read.
+
+Indexing is meant to help help people find where a specific term
+is discussed. Tagging everywhere won't help much in this respect,
+and it might increase noise.
+
+So the above mentioned commits have tags only sparingly.
+
+We can add relevant tags later if there a page where a term/acronym
+is the main point in the discussion.
+
+Commits 69a36b97e28e ("Makefile: (help text only) Refactor build
+targets"), 283bf48cfa39 ("Makefile: Update rules to reflect help
+text"), 7537b1f4a710 ("FAQ-BUILD: Drop Ubuntu Xenial from build
+environment"), and 8a8dcbd601e8 ("FAQ-BUILD: Ubuntu Bionic needs
+up-to-date glossaries-extra") are the same as in the RFC.
+
+Commit 16f6aae9fbff ("Glossary: Add an entry for "Plain Access"")
+is a rebased Paul's change I have carried in my topic branch.
+
+I think this minimal branch is ready to be merged.
+If you have any problem, please let me know.
+
+Once it gets merged, I will continue tagging other terms/acronyms
+in the sparing manner one by one.
+
+        Thanks, Akira
+
+-------------------------
+The following changes since commit 9facbec307ee98cfc3e6e3224772595fbda575f6:
+
+  treewide: Mark non-end-of-sentence full-stop of 'vs.' as such (2021-04-04 16:33:12 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/akiyks/perfbook.git tags/for-paul-index-2021.04.05a
+
+for you to fetch changes up to 16f6aae9fbffce68ab0776648ebf9ac0d8efe764:
+
+  Glossary: Add an entry for "Plain Access" (2021-04-05 10:29:05 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (8):
+      index, acronym: Add acronym list and two-level indexing
+      acronym: future/htm: Tag TM, HTM, STM, and RCU via acronym dictionary
+      index: Use \IXr{} and friends for tagging 'Moore's Law'
+      acronym: Tag 'CAS' and its long/full form
+      Makefile: (help text only) Refactor build targets
+      Makefile: Update rules to reflect help text
+      FAQ-BUILD: Drop Ubuntu Xenial from build environment
+      FAQ-BUILD: Ubuntu Bionic needs up-to-date glossaries-extra
+
+Paul E. McKenney (1):
+      Glossary: Add an entry for "Plain Access"
+
+ .gitignore                         |   8 ++
+ FAQ-BUILD.txt                      |  51 +++-----
+ Makefile                           | 132 ++++++++++++--------
+ SMPdesign/SMPdesign.tex            |   2 +-
+ cpu/hwfreelunch.tex                |   4 +-
+ cpu/overheads.tex                  |   6 +-
+ cpu/overview.tex                   |   4 +-
+ cpu/swdesign.tex                   |   2 +-
+ formal/ppcmem.tex                  |   2 +-
+ future/cpu.tex                     |  10 +-
+ future/htm.tex                     |  18 +--
+ glossary.tex                       | 170 ++++++++++++-------------
+ glsdict.tex                        | 245 +++++++++++++++++++++++++++++++++++++
+ indexsee.tex                       |  15 +++
+ intro/intro.tex                    |   6 +-
+ perfbook-lt.tex                    |  64 ++++++++--
+ together/refcnt.tex                |   6 +-
+ toolsoftrade/toolsoftrade.tex      |  10 +-
+ utilities/install_latex_package.sh |   4 +-
+ utilities/runlatex.sh              |   1 +
+ 20 files changed, 545 insertions(+), 215 deletions(-)
+ create mode 100644 glsdict.tex
+ create mode 100644 indexsee.tex
