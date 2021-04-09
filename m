@@ -1,79 +1,55 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:43978 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231480AbhDHQ7G (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Thu, 8 Apr 2021 12:59:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617901134;
-        bh=orvMUkCpqG8ECfjI9GV7+qjydpNNm8PqIOhp0CBvmY8=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=k7H9x8Cti1+6Z2Vhkle07ZQbNf/6vZNQiSHDnnV/8UuUMnofaWMmetEaLCJ64njpH
-         c5yQd/zbvxPy8Q2GbCq2+rhtZKvrEzG58vZqDC/9aBbCfIoUio7TrC7njBExqD9/jy
-         aT4Y1BD9ud7Omkn0qkCeyjt5T389I1NdH6qdACxLM/FUIorBKE8wBvfBmhHwM+EdsJ
-         dpdduGyNqhqQISXfFBkEdDfUS19aixuykMfbyV8HyTMCF3a2jsP0PebDQC8F6MCnCa
-         ggloP/rvWGKwAXzNMqnAPlVDXiiqgXe3N0JIJeqaGlVI4dend7+/48MzOrv3Sgm2Wj
-         XrIOdwR7LEhjA==
-Date: Thu, 8 Apr 2021 09:58:54 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook 2/2] qqz: Suppress possible orphan heading
-Message-ID: <20210408165854.GL4510@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <892ebe26-b120-a726-434b-97ab25187b53@gmail.com>
- <e5279b3d-ed7f-8b74-5e12-831b6cf39208@gmail.com>
+Return-Path: <SRS0=wSYu=JG=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=3sqXNjqrEtVBu4xlLwiHKZZi/DH5fkZvTR0RiyWdqlg=;
+        b=qFL5M8m3v50Y/Q6dEEgbTJJ120A2MmP9pSQaYbSqppHiSRSvL8+uDDwzUzk+Rg7GMz
+         cA14pcVXOSB6pzC878rVJf2B+OQC/nHLn9EkSfdVAOv7F2L32KPN/eXXJ6mNb9Rij/8Y
+         OXiPyxeU28999BC3Pqc7MQUPUOmGPxmVq2hs9V6lfHE0u9utWsVuTCn/55WFyF/PZAmh
+         80Me7mpuJPOYyxozbeDHmjdgK4vIMtaOrFfvBfqn3B/GFrmAp7SgRAtLYrVImEgrnRLs
+         m9QxdW+MxqJux6bCmVJktFglIFum7L1Jv+xb5OzMhg2bty++woVJD17rntyVm6eo0fm/
+         TiMw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] advsync/rt: Use 'vs.~' instead of 'vs.\@ 'in
+ section title
+Message-ID: <51888d83-8f51-075b-7c7c-178c3abec3e0@gmail.com>
+Date: Fri, 9 Apr 2021 21:05:04 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e5279b3d-ed7f-8b74-5e12-831b6cf39208@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Apr 08, 2021 at 08:10:19PM +0900, Akira Yokosawa wrote:
-> As of Edition.2 and current master, heading of Appendix E.7 is
-> orphaned in perfbook.pdf.
-> 
-> This is because framing of quiz part at the beginning of a section
-> implies paragraph break and invalids the afterheading-ness of the
-> first question.
-> 
-> To suppress such an unfortunate result, tweak the \bottomtitlespace
-> variable of the "titlesec" package for Appendix E.
-> 
-> Positive length of \bottomtitlespace prohibits a section title
-> to appear in the bottom part of that length and forces the title
-> to be on the next page.
-> This should be acceptable in Appendix E.
-> 
-> There exist the same patterns of quick quiz at the beginning of
-> a section in the main text as well as in -nq builds, which might
-> cause an orphan heading.
-> 
-> Such cases would be dealt with case by case bases.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+hyperref complains about the use of "\@" in a section title:
 
-I queued and pushed both, thank you!
+    Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+    (hyperref)                removing `\spacefactor' on input line 1978.
 
-I tried the following to give LaTeX more choice, which did work, but
-I am not sure that it is an improvement.  But maybe it will inspire
-something should the current approach fail at some point in the future?
+    Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+    (hyperref)                removing `\@m' on input line 1978.
 
-							Thanx, Paul
+Fixes: 9facbec307ee ("treewide: Mark non-end-of-sentence full-stop of 'vs.' as such")
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ advsync/rt.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-------------------------------------------------------------------------
-
-diff --git a/qqz.sty b/qqz.sty
-index 897d1ab6..abecb7e8 100644
---- a/qqz.sty
-+++ b/qqz.sty
-@@ -203,7 +203,9 @@
- }{
- \newcommand{\QuickQAC}[3]{
- 	\edef\QuickQuizAnswerChapter{\getrefnumber{#1}}
--	\section{#2}}
-+	\section{#2}
-+	This section contains the answer key to the quick quizzes
-+	from \cref{#1} on page~\pageref{#1}.}
- }
+diff --git a/advsync/rt.tex b/advsync/rt.tex
+index f5e8e685..067927e9 100644
+--- a/advsync/rt.tex
++++ b/advsync/rt.tex
+@@ -1975,7 +1975,7 @@ on \clnrefrange{upd:b}{upd:e}.
+ This example shows how RCU can provide deterministic read-side
+ data-structure access to real-time programs.
  
- \IfQqzBg{
+-\subsection{Real Time vs.\@ Real Fast: How to Choose?}
++\subsection{Real Time vs.~Real Fast: How to Choose?}
+ \label{sec:advsync:Real Time vs. Real Fast: How to Choose?}
+ 
+ The choice between real-time and real-fast computing can be a difficult one.
+-- 
+2.17.1
+
