@@ -1,68 +1,131 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:57436 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232286AbhDIORI (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Fri, 9 Apr 2021 10:17:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617977815;
-        bh=gBn4YcDGgoeSrZXOsqwiCek/yQESbtRlCgwpA6UvAuI=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=n2KrJ7C6kV6umJaXV34ixbz89+605FZJ3MB9Ac05HcCv76zkWr9XkT9exhDCYHj01
-         lXsBWD3d2owDC9a8y9Ze1tpGViQb1hAVIPaqZ724czWFfZd2Lp3vGVmy++WkWfase3
-         EJkM20cxThi9plLinG3dysGcmVLHBkF1vkH0nkrPTzCrmRo4NCIKuq9ysfd88jIStD
-         YO595JjRkKxsztffmryfFq4fj8cAzSIcyx9uuMJuhhU848OobVzRvamD66Z+BT6dTD
-         AKMHqmwTtrKDE4Hw3ToalWIXLl9agFR9saoLJjq0lThxyBLp5u1j5qwvpsFjBUiOle
-         3L/kitttdrXgg==
-Date: Fri, 9 Apr 2021 07:16:55 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] advsync/rt: Use 'vs.~' instead of 'vs.\@ 'in
- section title
-Message-ID: <20210409141655.GP4510@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <51888d83-8f51-075b-7c7c-178c3abec3e0@gmail.com>
+Return-Path: <SRS0=NFQx=JI=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=RgdtLBGvkTnXYUOaj9Vx84Eax+N9ncdbczCdiZ1WqVo=;
+        b=Q30HxhVWk0MVSbcJkn4lWPU6H0tVEqp/LrPu4hhXGzsvnp/ZTnQiD94IgPT4mqPpXc
+         +DOrm61IdShbO0k1sVbykxcw1mXfdRQ+gXGeotPIZpkQjrahaU0c0hDcO/p4yGbU1QCr
+         DHtxwhclQGSK5D5L3pz/EnCAGAAPklnq0dAkw5xTAnC1Oo6Hwa3qyseN5cIuTaD8K7zj
+         UFor5cIEGiJlCRLT0NI6Aeds1GkuD0SLBtC6FyxUyE9UQRuDNb0KBrtxrzuxYFJthdcE
+         acpqQWytALkqUgei4oYnmbK08E4GHAXPjt5TWVC8ytN2ONxs9BoYCufcWwcYa/oikxqC
+         OfQg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [GIT PULL -perfbook] Shrink large floats for ebook-size build
+Message-ID: <670bbced-9396-34c3-2a6d-cbb93c5d25f0@gmail.com>
+Date: Sun, 11 Apr 2021 19:50:45 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <51888d83-8f51-075b-7c7c-178c3abec3e0@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Balbir Singh <bsingharora@gmail.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Fri, Apr 09, 2021 at 09:05:04PM +0900, Akira Yokosawa wrote:
-> hyperref complains about the use of "\@" in a section title:
-> 
->     Package hyperref Warning: Token not allowed in a PDF string (Unicode):
->     (hyperref)                removing `\spacefactor' on input line 1978.
-> 
->     Package hyperref Warning: Token not allowed in a PDF string (Unicode):
->     (hyperref)                removing `\@m' on input line 1978.
-> 
-> Fixes: 9facbec307ee ("treewide: Mark non-end-of-sentence full-stop of 'vs.' as such")
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Hi Paul,
 
-Ah, I should pay more attention to the errors.  :-/
+So, this pull request consists of changes for ebook-size build.
+This is sent as a pull request as the diff size becomes large.
 
-Thank you, queued and pushed!
+Note that as I don't see the latest patch pushed to master,
+this is relative to an older commit.
+I don't think any merge conflict is likely.
 
-							Thanx, Paul
+Patch 1/3 does the shrinking.
+As Table 17.3 would be hard to read when shrunk, it is simply
+omitted in the -eb build. Having Tables 17.1 and 17.2 should
+suffice.
 
-> ---
->  advsync/rt.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/advsync/rt.tex b/advsync/rt.tex
-> index f5e8e685..067927e9 100644
-> --- a/advsync/rt.tex
-> +++ b/advsync/rt.tex
-> @@ -1975,7 +1975,7 @@ on \clnrefrange{upd:b}{upd:e}.
->  This example shows how RCU can provide deterministic read-side
->  data-structure access to real-time programs.
->  
-> -\subsection{Real Time vs.\@ Real Fast: How to Choose?}
-> +\subsection{Real Time vs.~Real Fast: How to Choose?}
->  \label{sec:advsync:Real Time vs. Real Fast: How to Choose?}
->  
->  The choice between real-time and real-fast computing can be a difficult one.
-> -- 
-> 2.17.1
-> 
+Patch 2/3 removes [tb], [tbp], and [tbhp] options from almost all
+of float environments.
+"listing" environment's default is also changed to [tbp] to match
+those of the other float environments.
+Consistently employing the same option with "p" allows the TeX
+engine more freedom to emit float-only pages and should decrease
+the chance of over-loaded floats flushed at the end of a chapter.
+
+This affects all the build targets and slightly increases the total
+page counts, but I think float positions can be tweaked later.
+
+Patch 2/3 also has some float definitions move away from top
+of sections
+
+Patch 3/3 moves another couple of float definitions.
+
+Now "make eb" can complete without any error.
+
+        Thanks, Akira
+
+-----------
+The following changes since commit 85109c2ea025e35fbe76e308e7540ccc211633d4:
+
+  defer: Use standard font in RCUListInsertClassic.svg (2021-04-08 17:58:43 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/akiyks/perfbook.git tags/for-paul-ebook-2021.04.11a
+
+for you to fetch changes up to 11e82be105247bf9006f46241b15428c7253c32d:
+
+  debugging, memorder: Move float away from section heading (2021-04-11 18:36:17 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (3):
+      treewide: Shrink floats for ebook-size build
+      treewide: Remove explicit float positioning options
+      debugging, memorder: Move float away from section heading
+
+ SMPdesign/SMPdesign.tex                         |  56 ++++----
+ SMPdesign/beyond.tex                            |  32 ++---
+ SMPdesign/partexercises.tex                     |  32 +++--
+ advsync/advsync.tex                             |   4 +-
+ advsync/rcu.tex                                 |  12 +-
+ advsync/rt.tex                                  |  56 +++++---
+ appendix/questions/after.tex                    |  12 +-
+ appendix/questions/time.tex                     |   2 +-
+ appendix/styleguide/samplecodesnippetfcv.tex    |   2 +-
+ appendix/styleguide/samplecodesnippetfig.tex    |   2 +-
+ appendix/styleguide/samplecodesnippetlst.tex    |   2 +-
+ appendix/styleguide/samplecodesnippetlstlbl.tex |   2 +-
+ appendix/styleguide/styleguide.tex              |  36 ++---
+ appendix/toyrcu/toyrcu.tex                      |  40 +++---
+ appendix/whymb/whymemorybarriers.tex            |  16 +--
+ count/count.tex                                 |  64 ++++-----
+ cpu/hwfreelunch.tex                             |   2 +-
+ cpu/overheads.tex                               |   4 +-
+ cpu/overview.tex                                |  18 +--
+ datastruct/datastruct.tex                       |  76 +++++-----
+ debugging/debugging.tex                         |  30 ++--
+ defer/defer.tex                                 |   4 +-
+ defer/hazptr.tex                                |  12 +-
+ defer/rcuapi.tex                                |  18 +--
+ defer/rcufundamental.tex                        |  18 ++-
+ defer/rcuintro.tex                              |  10 +-
+ defer/rcuusage.tex                              |  46 +++---
+ defer/refcnt.tex                                |   8 +-
+ defer/seqlock.tex                               |  14 +-
+ defer/whichtochoose.tex                         |   4 +
+ easy/easy.tex                                   |   4 +-
+ formal/axiomatic.tex                            |  16 +--
+ formal/dyntickrcu.tex                           |  14 +-
+ formal/formal.tex                               |   8 +-
+ formal/ppcmem.tex                               |   8 +-
+ formal/sat.tex                                  |   2 +-
+ formal/spinhint.tex                             |  43 +++---
+ formal/stateless.tex                            |   2 +-
+ future/HTMtable.tex                             |   4 +-
+ future/HTMtableRCU.tex                          |   5 +-
+ future/cpu.tex                                  |  16 +--
+ future/formalregress.tex                        |   8 +-
+ future/htm.tex                                  |   4 +-
+ future/tm.tex                                   |   8 +-
+ howto/howto.tex                                 |   4 +-
+ intro/intro.tex                                 |  12 +-
+ locking/locking-existence.tex                   |   4 +-
+ locking/locking.tex                             |  34 ++---
+ memorder/memorder.tex                           | 177 +++++++++++++-----------
+ perfbook-lt.tex                                 |   2 +-
+ together/applyrcu.tex                           |  14 +-
+ together/refcnt.tex                             |  10 +-
+ toolsoftrade/toolsoftrade.tex                   |  64 ++++-----
+ 53 files changed, 576 insertions(+), 521 deletions(-)
