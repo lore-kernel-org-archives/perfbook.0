@@ -3,18 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hxXYYfZBwgQeBTc7Jo39nL5B/rr+DWf8NTNsgT9mch0=;
-        b=ekwHC2TqdijfRO2aTWkC1wIyZhe77IBNZv2TJze1h/N6ADXsMIPs7oJkWks3ZbYKtZ
-         yYWTWXw/5iRfgKFJ4rVfbMEBreMuA+6lDOPaz38jGlu0nwzOieYrg2T3+qUecsDF50W6
-         xUiUpKUA0GCQ7LjMlwFZ786HStGGSCqDEuLUd3nlYLq61Tl4JEfpFvewDWh4ceDt22A1
-         X1MV7/mwmwxb/LuLu5BKp6ADCiC4VnjK0OVOwr5PKLXFPGNBOqkUWk+ThlokMHNkxtuy
-         jum4lnXWvtTlSwf4tXbdCkM/MpJrl+IVG2EPKpVmT36m708vCw3kWCgS8CJ/+O2lm/H5
-         b0Fw==
-Subject: [PATCH -perfbook 1/4] synctex-forward: Update target list
+        bh=WbrCKHaLOqJGiTQ0xrDutpNYKkNiw/vRWd5mz7DB0oo=;
+        b=XGF3JhU5NSyBa2H+EGrEe0x9Cc4/iF6bMNKNyisXEOTWUSWcBCz/fJW3coNcY32fqy
+         3iW0WdiZTAgsLMlNldRgO2xMqfk4RvgqCFpEzB7/Awzt3MIfMuDk1cIhoLg3FQsZZD/F
+         Xt6hkqHON8dxOPWUN7Jna+8eQwxU55rYikl8FsLgDoS94wyz37pvjic46AYVXhYpsHkP
+         KiOzcwi5Afkj5Iv3p4Whei0vVzk+L17caRR+amvkIl4F/zoxFO/CEej3A3UZiUk0txx+
+         FUk2pcmtTXHN1FDrt+JeufplhqqJ9O8JjEt/1MC6fafrf+G6D5UQk9nnlv5naSW+ZQqu
+         OkWA==
+Subject: [PATCH -perfbook 2/4] synctex-forward: Skip database check when
+ reverting
 References: <5a17ce08-9c5d-5e87-6cae-793c6a49c147@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <661c75b6-cdf8-cc4c-727b-2fb932d40164@gmail.com>
-Date: Thu, 22 Apr 2021 00:26:33 +0900
+Message-ID: <189c9c75-bed1-7241-b94d-b409deed62e5@gmail.com>
+Date: Thu, 22 Apr 2021 00:27:32 +0900
 MIME-Version: 1.0
 In-Reply-To: <5a17ce08-9c5d-5e87-6cae-793c6a49c147@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,38 +25,31 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
+Reverting should finish without warning even if synctex database is
+not present.
+
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/synctex-forward.sh | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ utilities/synctex-forward.sh | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/utilities/synctex-forward.sh b/utilities/synctex-forward.sh
-index f4107728..04bdc14d 100755
+index 04bdc14d..f0fb4aa6 100755
 --- a/utilities/synctex-forward.sh
 +++ b/utilities/synctex-forward.sh
-@@ -38,15 +38,19 @@ if [ $# -eq 0 ] ; then
- 	change="reverted"
- else
- 	case $1 in
--	2c)
-+	2c|qq)
- 		main="perfbook.tex"
- 		change="reverted"
- 		;;
--	1c|hb|a4|tcb|msnt|mstx|msr|msn|sf|msns|mss|qq|nq|ix)
-+	1c|hb|a4|tcb|msnt|mstx|msr|msn|sf|msns|mss|nq|ix|df)
- 		main="perfbook-$1.tex"
- 		change="modified"
- 		;;
--	1ctcb|1cmsnt|1cmstx|1cmsr|1cmsn|1csf|1cmsns|1cmss|1cqq|1cnq|1cix)
-+	1ctcb|1cmsnt|1cmstx|1cmsr|1cmsn|1csf|1cmsns|1cmss|1cnq|1cix|1cdf)
-+		main="perfbook-$1.tex"
-+		change="modified"
-+		;;
-+	eb|ebsf|ebnq|ebsfnq|ebix|ebdf)
- 		main="perfbook-$1.tex"
- 		change="modified"
- 		;;
+@@ -91,6 +91,12 @@ else
+ 	fi
+ fi
+ 
++# skip database check when reverting
++
++if [ `echo $change | grep -c "revert"` -ne 0 ] ; then
++	exit 0
++fi
++
+ # check if synctex database exists
+ mainbase="${main%.tex}"
+ if [ `ls -1 perfbook* | grep -c $mainbase.synctex` -eq 0 ] ; then
 -- 
 2.17.1
 
