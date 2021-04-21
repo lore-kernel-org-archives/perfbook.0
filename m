@@ -1,20 +1,22 @@
 Return-Path: <SRS0=nUow=JS=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=IqTGw2FGDw3TdyVcq6Tp9VRsQXCgVr0JaMLI7Iobvos=;
-        b=uvTESMDeaV4vVp8ZFxtO3uTR1y4sSM+++4dazUJEFCOM3V8vCmUwaiBlF/mJjfxK0z
-         82E6X/mGDB7JBZM9YrS8uSQM/2NcRW65rsYOYx9cxpg+Pb6/aemLXvP6AbcZerCacZ0j
-         ueWopNDDBQJ5A1Dt3GwjiZzruAWj/NbBXCxfPZAW+TnqqWXqDrF/X2ZK36FgPvrg/gFU
-         2ppBi9GQoFPOYRS7B4vxJ7we6rFN3OT8CqjIJ8go0t8kd2JrJojPVKHabVy7zAg1NiNC
-         3qMf+M+rky/bDTHESjnqRo0Y5ABoM2mhnEC8yX8rus35zvEj/szLbCzsbbI0sau3BPu+
-         mdfg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=hxXYYfZBwgQeBTc7Jo39nL5B/rr+DWf8NTNsgT9mch0=;
+        b=ekwHC2TqdijfRO2aTWkC1wIyZhe77IBNZv2TJze1h/N6ADXsMIPs7oJkWks3ZbYKtZ
+         yYWTWXw/5iRfgKFJ4rVfbMEBreMuA+6lDOPaz38jGlu0nwzOieYrg2T3+qUecsDF50W6
+         xUiUpKUA0GCQ7LjMlwFZ786HStGGSCqDEuLUd3nlYLq61Tl4JEfpFvewDWh4ceDt22A1
+         X1MV7/mwmwxb/LuLu5BKp6ADCiC4VnjK0OVOwr5PKLXFPGNBOqkUWk+ThlokMHNkxtuy
+         jum4lnXWvtTlSwf4tXbdCkM/MpJrl+IVG2EPKpVmT36m708vCw3kWCgS8CJ/+O2lm/H5
+         b0Fw==
+Subject: [PATCH -perfbook 1/4] synctex-forward: Update target list
+References: <5a17ce08-9c5d-5e87-6cae-793c6a49c147@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 0/4] index: Add index and acronym tags, take one
-Message-ID: <5a17ce08-9c5d-5e87-6cae-793c6a49c147@gmail.com>
-Date: Thu, 22 Apr 2021 00:25:35 +0900
+Message-ID: <661c75b6-cdf8-cc4c-727b-2fb932d40164@gmail.com>
+Date: Thu, 22 Apr 2021 00:26:33 +0900
 MIME-Version: 1.0
+In-Reply-To: <5a17ce08-9c5d-5e87-6cae-793c6a49c147@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,75 +24,39 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ utilities/synctex-forward.sh | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-I've resumed index and acronym tagging.
-
-Patches 1/4--3/4 are preparatory patches.
-
-Patch 1/4 updates synctex-forward.sh to cope with new build targets.
-Patch 2/4 is a minor improvement of the script to suppress unnecessary
-warning messages.
-Patch 3/4 resolves build error in -eb build since commit 2db0c0f61ea1
-("appendix/questions: Address and remove "@@@" todo flags, take two").
-Table 17.3, the merged sideways table, is not available in -eb bulld,
-so reference Tables 17.1 and 17.2 instead in that case.
-
-Patch 4/4 adds a lot of index and acronym tags.
-I'm afraid there might be regressions by my fat-finger errors.
-I'll fix them later if I catch something.
-
-        Thanks, Akira
---
-Akira Yokosawa (4):
-  synctex-forward: Update target list
-  synctex-forward: Skip database check when reverting
-  questions: Reference Tables 17.1 and 17.2 instead of Table 17.3 in -eb
-    build
-  index: Add index and acronym tags, take one
-
- SMPdesign/SMPdesign.tex                   | 19 ++++++-----
- SMPdesign/beyond.tex                      |  4 +--
- SMPdesign/criteria.tex                    | 10 +++---
- SMPdesign/partexercises.tex               | 10 +++---
- advsync/advsync.tex                       | 32 +++++++++---------
- advsync/rt.tex                            |  8 ++---
- appendix/questions/after.tex              |  4 +--
- appendix/questions/concurrentparallel.tex |  2 +-
- appendix/questions/removelocking.tex      | 12 +++++--
- appendix/toyrcu/toyrcu.tex                |  8 ++---
- appendix/whymb/whymemorybarriers.tex      | 29 +++++++++-------
- count/count.tex                           | 12 +++----
- cpu/hwfreelunch.tex                       |  2 +-
- cpu/overheads.tex                         |  2 +-
- cpu/overview.tex                          |  6 ++--
- cpu/swdesign.tex                          |  2 +-
- datastruct/datastruct.tex                 |  4 +--
- debugging/debugging.tex                   |  2 +-
- defer/rcu.tex                             |  2 +-
- defer/rcufundamental.tex                  |  2 +-
- defer/rcuintro.tex                        |  4 +--
- defer/rcurelated.tex                      |  5 +--
- defer/rcuusage.tex                        |  6 ++--
- defer/seqlock.tex                         |  4 +--
- defer/whichtochoose.tex                   |  3 +-
- easy/easy.tex                             |  2 +-
- formal/dyntickrcu.tex                     |  6 ++--
- formal/spinhint.tex                       |  2 +-
- future/cpu.tex                            |  2 +-
- future/htm.tex                            | 17 +++++-----
- future/tm.tex                             | 12 +++----
- glossary.tex                              |  8 ++---
- intro/intro.tex                           | 23 ++++++-------
- locking/locking.tex                       | 40 +++++++++++------------
- memorder/memorder.tex                     | 27 +++++++--------
- perfbook-lt.tex                           |  1 +
- summary.tex                               |  4 +--
- together/seqlock.tex                      |  4 +--
- toolsoftrade/toolsoftrade.tex             | 24 +++++++-------
- utilities/synctex-forward.sh              | 16 +++++++--
- 40 files changed, 207 insertions(+), 175 deletions(-)
-
+diff --git a/utilities/synctex-forward.sh b/utilities/synctex-forward.sh
+index f4107728..04bdc14d 100755
+--- a/utilities/synctex-forward.sh
++++ b/utilities/synctex-forward.sh
+@@ -38,15 +38,19 @@ if [ $# -eq 0 ] ; then
+ 	change="reverted"
+ else
+ 	case $1 in
+-	2c)
++	2c|qq)
+ 		main="perfbook.tex"
+ 		change="reverted"
+ 		;;
+-	1c|hb|a4|tcb|msnt|mstx|msr|msn|sf|msns|mss|qq|nq|ix)
++	1c|hb|a4|tcb|msnt|mstx|msr|msn|sf|msns|mss|nq|ix|df)
+ 		main="perfbook-$1.tex"
+ 		change="modified"
+ 		;;
+-	1ctcb|1cmsnt|1cmstx|1cmsr|1cmsn|1csf|1cmsns|1cmss|1cqq|1cnq|1cix)
++	1ctcb|1cmsnt|1cmstx|1cmsr|1cmsn|1csf|1cmsns|1cmss|1cnq|1cix|1cdf)
++		main="perfbook-$1.tex"
++		change="modified"
++		;;
++	eb|ebsf|ebnq|ebsfnq|ebix|ebdf)
+ 		main="perfbook-$1.tex"
+ 		change="modified"
+ 		;;
 -- 
 2.17.1
+
 
