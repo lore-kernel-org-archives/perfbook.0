@@ -1,143 +1,96 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:60328 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233079AbhDOPbT (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Thu, 15 Apr 2021 11:31:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618500655;
-        bh=7sRH+KFIbPLNMWEa8X6PqrLvgf3LfgdBI1LnMiztyHo=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=ZDtC3jzhJ3lOahfrbv5rXmVAIreKfvvXbiLumbGZ9UZlNpaKNI7q3E9LVESwh3yab
-         rvq4apGu5jPz9+MxG5OEh+j+B59AdbaqBSEZ7uv8nqFm6LUVp6leYVf9hEjoBb1W+W
-         dIayKikTuqPJMAigJL2QWLxRl4V3THpco4hrruknmDurPFAoPcPEynWYUJJ4EIljQa
-         j70I+Cn/6qlIQKm7GOB245kzbXy0EWge8ZPj0PRQ/WfFCImKocEshdFc5OE+yUgeHS
-         hEgMj+xB/x66B551JtZjztGlhwagtc0pRrNzaEL5PrZ3zKwEduY8Jve67VPwCsK6ts
-         U2rlHDEKtHfng==
-Date: Thu, 15 Apr 2021 08:30:55 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook 0/5] Updates of qqz.sty
-Message-ID: <20210415153055.GE4510@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <b1bb1f84-9195-33ab-b6d1-ac68be1dca84@gmail.com>
- <20210414173123.GR4510@paulmck-ThinkPad-P17-Gen-1>
- <2089a81a-4f58-398d-1bce-c3ecc307c12c@gmail.com>
- <20210415051133.GD4510@paulmck-ThinkPad-P17-Gen-1>
- <e5300316-5ad1-3787-a157-2ad5c37cc079@gmail.com>
+Return-Path: <SRS0=nUow=JS=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=IqTGw2FGDw3TdyVcq6Tp9VRsQXCgVr0JaMLI7Iobvos=;
+        b=uvTESMDeaV4vVp8ZFxtO3uTR1y4sSM+++4dazUJEFCOM3V8vCmUwaiBlF/mJjfxK0z
+         82E6X/mGDB7JBZM9YrS8uSQM/2NcRW65rsYOYx9cxpg+Pb6/aemLXvP6AbcZerCacZ0j
+         ueWopNDDBQJ5A1Dt3GwjiZzruAWj/NbBXCxfPZAW+TnqqWXqDrF/X2ZK36FgPvrg/gFU
+         2ppBi9GQoFPOYRS7B4vxJ7we6rFN3OT8CqjIJ8go0t8kd2JrJojPVKHabVy7zAg1NiNC
+         3qMf+M+rky/bDTHESjnqRo0Y5ABoM2mhnEC8yX8rus35zvEj/szLbCzsbbI0sau3BPu+
+         mdfg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 0/4] index: Add index and acronym tags, take one
+Message-ID: <5a17ce08-9c5d-5e87-6cae-793c6a49c147@gmail.com>
+Date: Thu, 22 Apr 2021 00:25:35 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e5300316-5ad1-3787-a157-2ad5c37cc079@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 02:47:45PM +0900, Akira Yokosawa wrote:
-> On Wed, 14 Apr 2021 22:11:33 -0700, Paul E. McKenney wrote:
-> > On Thu, Apr 15, 2021 at 12:49:18PM +0900, Akira Yokosawa wrote:
-> >> On Wed, 14 Apr 2021 10:31:23 -0700, Paul E. McKenney wrote:
-> >>> On Wed, Apr 14, 2021 at 07:47:51PM +0900, Akira Yokosawa wrote:
-> >>>> Hi Paul,
-> >>>>
-> >>>> A change in upstream hyperref package (v7.00j) breaks code in
-> >>>> qqz.sty.
-> >>>> Now, \refstepcounter in vertical mode can cause a page break.
-> >>>> Our use of \refstepcounter in framed Quick Quiz is in vertical
-> >>>> mode and if a page break happens at that point, destination point
-> >>>> set by \refstepcounter is discarded by tcolorbox, which results in
-> >>>> a missing destination.
-> >>>>
-> >>>> This can be fixed by leaving vertical mode in front of \refstepcounter,
-> >>>> which is what Patch 1/5 does.
-> >>>>
-> >>>> The updated code is compatible with older versions of hyperref as
-> >>>> long as our usage patterns are concerned.
-> >>>> Aa a bonus, new link-target positions look nicer (not too close to the
-> >>>> "Quick Quiz" labels).
-> >>>>
-> >>>> Patches 2/5--4/5 are (in my opinion) improvements to the -nq build.
-> >>>> Seeing both Quizzes and Answers in the final section, one would
-> >>>> just see the answer without taking time to think about a quiz.
-> >>>> So these patches modify the -nq build so that chapter-wise sections
-> >>>> have only the quiz parts.
-> >>>> Answers are presented in Appendix E in the same way as the other
-> >>>> builds.
-> >>>>
-> >>>> Patch 5/5 adds page references in the answers of non-nq builds.
-> >>>
-> >>> Good points, queued and pushed, thank you!
-> >>>
-> >>> On interesting thing is that if you click on the small bubble in the
-> >>> text, you are taken to the corresponding QQ at the end of that chapter.
-> >>> If you click on the square, you are taken to the answer.  If you click
-> >>> on the page number in the square in the upper right-hand corner of the
-> >>> QQ question, you get taken back to the original small bubble, all of
-> >>> which is goodness.
-> >>>
-> >>> However, if you click on the either black square at the end of the
-> >>> question or the white shadowed square at the end of the answer, you get
-> >>> taken back to the small bubble in the text.
-> >>
-> >> Ya, that's as described in the commit log of Patch 2/5:
-> >>
-> >>     o Hyperlinks are made in the following way:
-> >>
-> >>       - Inline QQ marker -> Chapter-wise Quiz -> Answer in Appendix
-> >>       - Page number marker in Quiz part -> Inline QQ marker
-> >>       - Answer in Appendix -> Inline QQ marker
-> > 
-> > OK, my reading comprehension was clearly substandard.  :-/
-> > 
-> >>> Is it possible that some of our readers will expect that these two squares
-> >>> will instead take them back to the question at the end of the chapter?
-> >>
-> >> It is possible, but the white box at the end of the answer is supposed
-> >> to be a short-cut for those wanting to resume reading text.
-> > 
-> > True enough.
-> > 
-> >> So, appended is a compromise modifying the links of "Quick Quiz"
-> >> and black box in the answer to go back to chapter-wise quiz section.
-> >>
-> >> Thoughts?
-> > 
-> > It does work well, and removes one layer of clicking that otherwise
-> > needs to happen.  Let's see what people think about it.
-> > 
-> > We also have the page-number marker that goes back to the text, so we do
-> > have the option of making the black and white boxes go to the beginning
-> > and end of the quick-quiz box at the end of the chapter.
-> 
-> No, my point in making white box to go back to the end of the quiz
-> in normal builds was to help people reach the text following the
-> quiz.
-> So linking white box to a quiz at the end of the chapter spoils
-> this purpose.  A page-number marker can be far away from the white
-> box when the answer is long.
-> 
-> >                                                          But again,
-> > let's see how this patch works for people.
-> > 
-> > Any objection to my pushing it as is, or should I wait for a second
-> > version.  (I have queued it, but not yet pushed it out.)
-> 
-> I'm OK with your pushing it as is.
+Hi Paul,
 
-Done!
+I've resumed index and acronym tagging.
 
-							Thanx, Paul
+Patches 1/4--3/4 are preparatory patches.
 
->         Thanks, Akira
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> >>        Thanks, Akira 
-> >>
-> >>> This is probably not a big deal, given that clicking on the small bubble
-> >>> will take them to that list, but I figured that it was worth asking
-> >>> the question.
-> >>>
-> >>> 							Thanx, Paul
-> >>>
-> >>>>         Thanks, Akira
-> [...]
+Patch 1/4 updates synctex-forward.sh to cope with new build targets.
+Patch 2/4 is a minor improvement of the script to suppress unnecessary
+warning messages.
+Patch 3/4 resolves build error in -eb build since commit 2db0c0f61ea1
+("appendix/questions: Address and remove "@@@" todo flags, take two").
+Table 17.3, the merged sideways table, is not available in -eb bulld,
+so reference Tables 17.1 and 17.2 instead in that case.
+
+Patch 4/4 adds a lot of index and acronym tags.
+I'm afraid there might be regressions by my fat-finger errors.
+I'll fix them later if I catch something.
+
+        Thanks, Akira
+--
+Akira Yokosawa (4):
+  synctex-forward: Update target list
+  synctex-forward: Skip database check when reverting
+  questions: Reference Tables 17.1 and 17.2 instead of Table 17.3 in -eb
+    build
+  index: Add index and acronym tags, take one
+
+ SMPdesign/SMPdesign.tex                   | 19 ++++++-----
+ SMPdesign/beyond.tex                      |  4 +--
+ SMPdesign/criteria.tex                    | 10 +++---
+ SMPdesign/partexercises.tex               | 10 +++---
+ advsync/advsync.tex                       | 32 +++++++++---------
+ advsync/rt.tex                            |  8 ++---
+ appendix/questions/after.tex              |  4 +--
+ appendix/questions/concurrentparallel.tex |  2 +-
+ appendix/questions/removelocking.tex      | 12 +++++--
+ appendix/toyrcu/toyrcu.tex                |  8 ++---
+ appendix/whymb/whymemorybarriers.tex      | 29 +++++++++-------
+ count/count.tex                           | 12 +++----
+ cpu/hwfreelunch.tex                       |  2 +-
+ cpu/overheads.tex                         |  2 +-
+ cpu/overview.tex                          |  6 ++--
+ cpu/swdesign.tex                          |  2 +-
+ datastruct/datastruct.tex                 |  4 +--
+ debugging/debugging.tex                   |  2 +-
+ defer/rcu.tex                             |  2 +-
+ defer/rcufundamental.tex                  |  2 +-
+ defer/rcuintro.tex                        |  4 +--
+ defer/rcurelated.tex                      |  5 +--
+ defer/rcuusage.tex                        |  6 ++--
+ defer/seqlock.tex                         |  4 +--
+ defer/whichtochoose.tex                   |  3 +-
+ easy/easy.tex                             |  2 +-
+ formal/dyntickrcu.tex                     |  6 ++--
+ formal/spinhint.tex                       |  2 +-
+ future/cpu.tex                            |  2 +-
+ future/htm.tex                            | 17 +++++-----
+ future/tm.tex                             | 12 +++----
+ glossary.tex                              |  8 ++---
+ intro/intro.tex                           | 23 ++++++-------
+ locking/locking.tex                       | 40 +++++++++++------------
+ memorder/memorder.tex                     | 27 +++++++--------
+ perfbook-lt.tex                           |  1 +
+ summary.tex                               |  4 +--
+ together/seqlock.tex                      |  4 +--
+ toolsoftrade/toolsoftrade.tex             | 24 +++++++-------
+ utilities/synctex-forward.sh              | 16 +++++++--
+ 40 files changed, 207 insertions(+), 175 deletions(-)
+
+-- 
+2.17.1
+
