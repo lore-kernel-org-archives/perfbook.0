@@ -3,19 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=a52kAs2L5JjdXjfMbkha53BEx8h2w985mErILHnpOoY=;
-        b=KyDSsFmvsXRt3ZAYQDwNRpDs+XPtzOgnx4LEAr+kXqq4bEh5npBPVsX5fk5Goo58Q7
-         0FyH6MgrK9fa1VTWWZJJZLm5uzmN+7H+Nt7t/fOHPerGn1wCwz/QrcDiQBwGwD5ah9Yk
-         wPXupd+tomDOR/C8jn2C0W6EgOgWnzg7fq6v8Gl+57szERNcA1+5ZF5I+kmfFYkAXMVM
-         G3rqHrVDCJJFD9g4dVptTIRIpWHHNkd4njdhmMJ8nISX5ACVOSsQ1+TyHO1HzX1mweV4
-         BN7fBceSPS6g/AK/TRybqAhnQyHbfITWXFta86hA02Nzvzq+pmKy5UTfYzBnP7XHqio3
-         HdJQ==
-Subject: [PATCH -perfbook 2/9] periodcheck: Add script to check missing
- annotation of period
+        bh=6MI5xESnN3NX+jnQTFBLb8OJzeNcKkDPDyr7W45kB2M=;
+        b=SS8qDiLRhFmt5AWKJF77I8DXIUZJgJCCQmXpkJp3/TrnUvfd1P+jwvxhHBW/A7OFee
+         UKR/PPZXiLHx5tFdBE/qgqjiZI6fj8GahTdshekn4HVpxXZ0XYvtoLDTtUP2CB2hxpmD
+         ejC7ntZdCQeeNipzOXxr3ieoz3mxQYeaFit2ejXmx+iCCFEplT5F7e2kEgboEEFJ5qe4
+         CcSkIO8xqGSvm9u6LrSpXCNNACJxzAHslZe7QDZI73Y2EoPYFoSY5tDJmGoopJKNItcL
+         7p3O5rdcD8AspClpMm66ERHAShffv4iqlApRgPGA/wb7ymDhhjT8D6a1yfTnaLs5AeQy
+         jK0w==
+Subject: Re: [PATCH -perfbook 0/9] Add script to check period spacing
 References: <c298d82f-dc09-6b59-2b4b-3bedd5c48cec@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <e7e89d77-6dd5-ae0c-31fb-5e202ae1eccb@gmail.com>
-Date: Wed, 28 Apr 2021 00:08:15 +0900
+Message-ID: <fec88bc4-7631-72e5-12f3-4a5c9694043e@gmail.com>
+Date: Wed, 28 Apr 2021 00:11:36 +0900
 MIME-Version: 1.0
 In-Reply-To: <c298d82f-dc09-6b59-2b4b-3bedd5c48cec@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,157 +24,8 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-"make periodcheck" will do the check.
+Sorry, I forgot to remove extra headers in 1/9.
+Will resend v2.
 
-NOTE: Possible false negative/positive as of this commit:
-o   A mid-sentence period is ignored when the line matches "\label{"
-    or "\*ref{" pattern. It should be caught when it is outside a
-    macro.
-o   \cref{} can have comma-separated multiple labels as an argument.
-    When one of the labels has a mid-sentence period and on a
-    subsequent line in the input, it is not ignored.
-o   \crefrange{}{} can also have a label string on a subsequent line.
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- Makefile                 |  5 ++-
- utilities/periodcheck.pl | 76 ++++++++++++++++++++++++++++++++++++++++
- utilities/periodcheck.sh | 20 +++++++++++
- 3 files changed, 100 insertions(+), 1 deletion(-)
- create mode 100755 utilities/periodcheck.pl
- create mode 100755 utilities/periodcheck.sh
-
-diff --git a/Makefile b/Makefile
-index 4beb2c17..ea264dc5 100644
---- a/Makefile
-+++ b/Makefile
-@@ -192,7 +192,7 @@ BASE_DEPENDS := perfbook.tex $(foreach v,tcb 1c msns mss mstx msr msn msnt sf nq
- .PHONY: qq perfbook-qq.pdf qqmsg
- .PHONY: help help-official help-full help-semiofficial help-paper help-draft
- .PHONY: help-experimental help-prefixed
--.PHONY: paper-clean
-+.PHONY: paper-clean periodcheck
- 
- all: $(targ)
- 
-@@ -611,5 +611,8 @@ ls-unused:
- neatfreak: distclean
- 	find . -name '*.pdf' | xargs rm -f
- 
-+periodcheck:
-+	utilities/periodcheck.sh
-+
- .SECONDEXPANSION:
- $(ABBREVTARGETS): %: perfbook-$$@.pdf
-diff --git a/utilities/periodcheck.pl b/utilities/periodcheck.pl
-new file mode 100755
-index 00000000..225391ff
---- /dev/null
-+++ b/utilities/periodcheck.pl
-@@ -0,0 +1,76 @@
-+#!/usr/bin/perl
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Check LaTeX source of mid-sentence and end-of-sentence period
-+#
-+# Assumptions:
-+#    End-of-sentence periods are at the end of input lines.
-+#
-+# Exceptions:
-+#    LaTeX comments
-+#    LaTeX labels: such as \cref{fig:xxx:foo vs. bar}
-+#    Verbatim contents
-+#    Table contents
-+#
-+# Copyright (C) Akira Yokosawa, 2021
-+#
-+# Authors: Akira Yokosawa <akiyks@gmail.com>
-+
-+use strict;
-+use warnings;
-+
-+my $line;
-+my $next_line;
-+my $line_num = 0;
-+my $skip = 0;
-+my $safe = 0;
-+my $Verbatim_begin = qr/\\begin\{Verbatim/ ;
-+my $Verbatim_end = qr/\\end\{Verbatim/ ;
-+my $tabular_begin = qr/\\begin\{tabula/ ;
-+my $tabular_end = qr/\\end\{tabula/ ;
-+
-+sub check_line {
-+    if ($line =~ /$Verbatim_begin/ ||
-+	$line =~ /$tabular_begin/) {
-+	$skip = 1;
-+    }
-+    unless ($skip) {
-+	$safe = 1;
-+	if ($line =~ /^(?=[\s]*+[^%])[^%]*[A-Z]\.$/ ||
-+	    $line =~ /^(?=[\s]*+[^%])[^%]*[A-Z]\.\\footnote/ ||
-+	    $line =~ /^(?=[\s]*+[^%])[^%]*[Aa]cr\{.+\}\.$/ ||
-+	    $line =~ /^(?=[\s]*+[^%])[^%]*[Aa]crm\{.+\}\.$/) {
-+	    $safe = 0;
-+	    if ($next_line =~ /^\s*$/ || $next_line =~ /^\s*%/ ||
-+		$next_line =~ /\\item/ || $next_line =~ /\\end\{quot/ ||
-+		$next_line =~ /\\end\{enum/ || $next_line =~ /\\end\{item/) {
-+		$safe = 1;
-+	    }
-+	}
-+	if ($line =~ /^(?=[\s]*+[^%])[^%]*[a-z\}]\.\s[^\\]+/) {
-+	    $safe = 0;
-+	    if ($line =~ /ref\{/ || $line =~ /label\{/) {
-+		$safe = 1;
-+	    }
-+	}
-+	unless ($safe) {
-+	    print $ARGV[0], ':', $line_num, ':', $line;
-+	}
-+    }
-+    if ($line =~ /$Verbatim_end/ ||
-+	$line =~ /$tabular_end/) {
-+	$skip = 0;
-+    }
-+}
-+
-+open(my $fh, '<:encoding(UTF-8)', $ARGV[0])
-+    or die "Could not open file '$ARGV[0]' $!";
-+
-+$line = <$fh>;
-+$line_num = 1;
-+while($next_line = <$fh>) {
-+    check_line();
-+    $line = $next_line;
-+    $line_num++ ;
-+}
-+check_line();
-diff --git a/utilities/periodcheck.sh b/utilities/periodcheck.sh
-new file mode 100755
-index 00000000..a56657f3
---- /dev/null
-+++ b/utilities/periodcheck.sh
-@@ -0,0 +1,20 @@
-+#!/bin/sh
-+
-+tex_sources_all=`find . -name "*.tex" -print`
-+tex_sources=""
-+
-+for f in $tex_sources_all
-+do
-+	case $f in
-+	./perfbook*) ;;
-+	./qqz*) ;;
-+	./future/HTMtable*) ;;
-+	./appendix/styleguide*) ;;
-+	*) tex_sources="$tex_sources $f" ;;
-+        esac
-+done
-+
-+for g in $tex_sources
-+do
-+	utilities/periodcheck.pl $g
-+done
--- 
-2.17.1
-
+        Thanks, Akira
 
