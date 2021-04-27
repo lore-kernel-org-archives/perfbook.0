@@ -3,18 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=3695+V/+hABO0r7Bnu9+85OmNP5uw5yui+vwVvL4hjE=;
-        b=V3qj9yEnmdkdp45wOiem6e0pK3E2ykVXYMSuRMH5Bm85M00ZSxW8j+dVTcqsKZEjO2
-         7BTG5pyNTJVkzFnFduN81ceqSlg1sfR+IIX8XsUS95EbVe+qrhmofdurRcTlhRCqq438
-         czdJTDtgZ32AD/FHMztCLqNJSOo/OXBVenFnGpFgxeKkDJo33ak1CB9qBhXCL/Nfn8+H
-         smkwfsS+ZGxrYfv4QWmWn2jz+QU4Fz2Jr1X8oTQC1SXtv9nBMhzFjDazPONUj5PbAeFe
-         vJyoy/p91Hv64xosZpRXtK7/Al89UOccXPoUuTGX1LOQZ1JiaC/EjeMlpoxnUcyWvIh3
-         VIPw==
-Subject: [PATCH -perfbook v2 4/9] periodcheck: Improve label string matching
+        bh=nbPlvTd6mYGmyYacWpUxagSAECwgI6QaoG0iU7G1yxA=;
+        b=tMRwX25hn1UFCZO+EXigAe04mWUbD1JqtE8mqLIMCWqx1ZKxRouDT/DH6+nQEJVUIU
+         /tVNRFQr7MbsBquyFV/A9WG5tg5+3niBA9LT9N573z8iOr1bKmgSroLJSiZTPDnDaM8q
+         1RhufyJiAJLnYDAZNuEN1hu1A6cdCdx7EGgFWkpaqB4AAbb0x2Syy9AtTI+R2a2UGLAI
+         icyQfUlFyw0oEnPixVA9Hnmlosg5vnNoSm6yF14y9J5rTx/VPauW8WrPgiS6XNQdNA/K
+         LWOpUZWYsbs0YxXQR4xIqCM2YkSJeLX4aygNRYaDvRl7VAYZl+/pkniE/ZArwBikLxEf
+         vjlw==
+Subject: [PATCH -perfbook v2 5/9] periodcheck: Replace escaped percent symbol
+ first
 References: <71cd07ce-5753-4007-8fab-3654956e5a92@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <d83e42cd-929b-972c-f3d1-bd9b1eb4beff@gmail.com>
-Date: Wed, 28 Apr 2021 00:26:07 +0900
+Message-ID: <6f611262-b29b-73c4-b41c-aa3eb2934463@gmail.com>
+Date: Wed, 28 Apr 2021 00:28:05 +0900
 MIME-Version: 1.0
 In-Reply-To: <71cd07ce-5753-4007-8fab-3654956e5a92@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,73 +25,62 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Instead of patterns "\label" and "ref{", use a regex pattern
-to match "foo:bar:Label String" and do checks after removing
-label strings.
+To prevent "\%" from being treated as a symbol of comment,
+replace it with "pct" at the beginning of pattern matching.
+(Source .tex files are not modified.)
 
-There still remains an assumption that each label string completes
-within an input line.
+Also improve regex of label string to cache "chp:foo bar".
+
+Add some comments and do a couple of refactoring by using
+(xxx|yyy) and "?" patterns.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/periodcheck.pl | 13 +++++++++----
- utilities/periodcheck.sh |  3 +++
- 2 files changed, 12 insertions(+), 4 deletions(-)
+ utilities/periodcheck.pl | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/utilities/periodcheck.pl b/utilities/periodcheck.pl
-index c585b147..27871507 100755
+index 27871507..b1551c44 100755
 --- a/utilities/periodcheck.pl
 +++ b/utilities/periodcheck.pl
-@@ -28,8 +28,16 @@ my $Verbatim_begin = qr/\\begin\{Verbatim/ ;
+@@ -28,30 +28,30 @@ my $Verbatim_begin = qr/\\begin\{Verbatim/ ;
  my $Verbatim_end = qr/\\end\{Verbatim/ ;
  my $tabular_begin = qr/\\begin\{tabula/ ;
  my $tabular_end = qr/\\end\{tabula/ ;
-+my $label_ptn = qr/(^|\{)(,?[a-z]{3}:[a-zMPS]+:[^\},]+)(\}|,)/ ;
+-my $label_ptn = qr/(^|\{)(,?[a-z]{3}:[a-zMPS]+:[^\},]+)(\}|,)/ ;
++my $label_ptn = qr/(^\s*|\{)(,?[a-z]{3,4}:([a-zMPS]+:)?[^\},]+)(\}|,)/ ;
  
  sub check_line {
-+    my $line_raw = $line;
-+    if ($line =~ /$label_ptn/) {
-+	while ($line && $line =~ /$label_ptn/) {
-+	    my $quoted_2 = quotemeta $2;
-+	    $line =~ s/$quoted_2//;
-+	}
-+    }
-     if ($line =~ /$Verbatim_begin/ ||
- 	$line =~ /$tabular_begin/) {
- 	$skip = 1;
-@@ -49,9 +57,6 @@ sub check_line {
- 	}
- 	if ($line =~ /^(?=[\s]*+[^%])[^%]*[a-z\}]\.\s[^\\]+/) {
- 	    $safe = 0;
--	    if ($line =~ /ref\{/ || $line =~ /label\{/) {
--		$safe = 1;
--	    }
- 	}
- 	if ($line =~ /^(?=[\s]*+[^%])[^%]*[^~]\\cite/) {
- 	    $safe = 0;
-@@ -60,7 +65,7 @@ sub check_line {
- 	    }
- 	}
- 	unless ($safe) {
--	    print $ARGV[0], ':', $line_num, ':', $line;
-+	    print $ARGV[0], ':', $line_num, ':', $line_raw;
+     my $line_raw = $line;
+-    if ($line =~ /$label_ptn/) {
++    $line =~ s/\\%/pct/g ;	# replace \% to prevent false negative
++    if ($line =~ /$label_ptn/) {# remove label string
+ 	while ($line && $line =~ /$label_ptn/) {
+ 	    my $quoted_2 = quotemeta $2;
+ 	    $line =~ s/$quoted_2//;
  	}
      }
-     if ($line =~ /$Verbatim_end/ ||
-diff --git a/utilities/periodcheck.sh b/utilities/periodcheck.sh
-index a56657f3..d6cd7510 100755
---- a/utilities/periodcheck.sh
-+++ b/utilities/periodcheck.sh
-@@ -8,6 +8,9 @@ do
- 	case $f in
- 	./perfbook*) ;;
- 	./qqz*) ;;
-+	./glsdict.tex) ;;
-+	./origpub.tex) ;;
-+	./contrib.tex) ;;
- 	./future/HTMtable*) ;;
- 	./appendix/styleguide*) ;;
- 	*) tex_sources="$tex_sources $f" ;;
+     if ($line =~ /$Verbatim_begin/ ||
+-	$line =~ /$tabular_begin/) {
++	$line =~ /$tabular_begin/) {  # exception (verbatim and tabular)
+ 	$skip = 1;
+     }
+     unless ($skip) {
+ 	$safe = 1;
+ 	if ($line =~ /^(?=[\s]*+[^%])[^%]*[A-Z]\.$/ ||
+ 	    $line =~ /^(?=[\s]*+[^%])[^%]*[A-Z]\.\\footnote/ ||
+-	    $line =~ /^(?=[\s]*+[^%])[^%]*[Aa]cr\{.+\}\.$/ ||
+-	    $line =~ /^(?=[\s]*+[^%])[^%]*[Aa]crm\{.+\}\.$/) {
++	    $line =~ /^(?=[\s]*+[^%])[^%]*[Aa]crm?\{.+\}\.$/ ) {
+ 	    $safe = 0;
+ 	    if ($next_line =~ /^\s*$/ || $next_line =~ /^\s*%/ ||
+-		$next_line =~ /\\item/ || $next_line =~ /\\end\{quot/ ||
+-		$next_line =~ /\\end\{enum/ || $next_line =~ /\\end\{item/) {
++		$next_line =~ /\\item/ ||
++		$next_line =~ /\\end\{(quot|enum|item|sequ)/ ) {
+ 		$safe = 1;
+ 	    }
+ 	}
 -- 
 2.17.1
 
