@@ -3,19 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=OP/caCmVUCaXn89ENsHfn6n0YcvvNtP7CMAVov7UVvY=;
-        b=iNEhzg866BctNc+Q6JogEVEFnnXk8ReM8tEHhaJ3yg0dDc79VuWVDNg0wNeK0B6hMi
-         pkA1Efd5aI0h7TtvlM/eQAk7DpL6UYI+eUEGxoi1mA/JsjLlZdq0kK+Zx4W42q9oanco
-         4NG64cS+19Qa7mwVmkd2dYVSiShr8mS99/mhsBdGgyqGZ764Gx/qpZ/ZYekP90QAwpWD
-         wfhbBTOtHLcI8+fxYzxPFdJuf26jhRQtcGUtvwh7H/M+0ryreSs5n6nCSs47TDpRahGW
-         XHYb5qlOXkzLpVi6WHdNmM7X+AnUlexcjbSUIG4Ykkf12MtLgQDOVySvKBGPukcuTDqX
-         18SA==
-Subject: [PATCH -perfbook v2 3/9] periodcheck: Add check of nbsp in front of
- \cite{}
+        bh=3695+V/+hABO0r7Bnu9+85OmNP5uw5yui+vwVvL4hjE=;
+        b=V3qj9yEnmdkdp45wOiem6e0pK3E2ykVXYMSuRMH5Bm85M00ZSxW8j+dVTcqsKZEjO2
+         7BTG5pyNTJVkzFnFduN81ceqSlg1sfR+IIX8XsUS95EbVe+qrhmofdurRcTlhRCqq438
+         czdJTDtgZ32AD/FHMztCLqNJSOo/OXBVenFnGpFgxeKkDJo33ak1CB9qBhXCL/Nfn8+H
+         smkwfsS+ZGxrYfv4QWmWn2jz+QU4Fz2Jr1X8oTQC1SXtv9nBMhzFjDazPONUj5PbAeFe
+         vJyoy/p91Hv64xosZpRXtK7/Al89UOccXPoUuTGX1LOQZ1JiaC/EjeMlpoxnUcyWvIh3
+         VIPw==
+Subject: [PATCH -perfbook v2 4/9] periodcheck: Improve label string matching
 References: <71cd07ce-5753-4007-8fab-3654956e5a92@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <f7a795c0-b372-fd0e-b1fa-702fc8c04def@gmail.com>
-Date: Wed, 28 Apr 2021 00:24:19 +0900
+Message-ID: <d83e42cd-929b-972c-f3d1-bd9b1eb4beff@gmail.com>
+Date: Wed, 28 Apr 2021 00:26:07 +0900
 MIME-Version: 1.0
 In-Reply-To: <71cd07ce-5753-4007-8fab-3654956e5a92@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,36 +24,73 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Also use /usr/bin/env in shebang.
+Instead of patterns "\label" and "ref{", use a regex pattern
+to match "foo:bar:Label String" and do checks after removing
+label strings.
+
+There still remains an assumption that each label string completes
+within an input line.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/periodcheck.pl | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ utilities/periodcheck.pl | 13 +++++++++----
+ utilities/periodcheck.sh |  3 +++
+ 2 files changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/utilities/periodcheck.pl b/utilities/periodcheck.pl
-index 225391ff..c585b147 100755
+index c585b147..27871507 100755
 --- a/utilities/periodcheck.pl
 +++ b/utilities/periodcheck.pl
-@@ -1,4 +1,4 @@
--#!/usr/bin/perl
-+#!/usr/bin/env perl
- # SPDX-License-Identifier: GPL-2.0-or-later
- #
- # Check LaTeX source of mid-sentence and end-of-sentence period
-@@ -53,6 +53,12 @@ sub check_line {
- 		$safe = 1;
+@@ -28,8 +28,16 @@ my $Verbatim_begin = qr/\\begin\{Verbatim/ ;
+ my $Verbatim_end = qr/\\end\{Verbatim/ ;
+ my $tabular_begin = qr/\\begin\{tabula/ ;
+ my $tabular_end = qr/\\end\{tabula/ ;
++my $label_ptn = qr/(^|\{)(,?[a-z]{3}:[a-zMPS]+:[^\},]+)(\}|,)/ ;
+ 
+ sub check_line {
++    my $line_raw = $line;
++    if ($line =~ /$label_ptn/) {
++	while ($line && $line =~ /$label_ptn/) {
++	    my $quoted_2 = quotemeta $2;
++	    $line =~ s/$quoted_2//;
++	}
++    }
+     if ($line =~ /$Verbatim_begin/ ||
+ 	$line =~ /$tabular_begin/) {
+ 	$skip = 1;
+@@ -49,9 +57,6 @@ sub check_line {
+ 	}
+ 	if ($line =~ /^(?=[\s]*+[^%])[^%]*[a-z\}]\.\s[^\\]+/) {
+ 	    $safe = 0;
+-	    if ($line =~ /ref\{/ || $line =~ /label\{/) {
+-		$safe = 1;
+-	    }
+ 	}
+ 	if ($line =~ /^(?=[\s]*+[^%])[^%]*[^~]\\cite/) {
+ 	    $safe = 0;
+@@ -60,7 +65,7 @@ sub check_line {
  	    }
  	}
-+	if ($line =~ /^(?=[\s]*+[^%])[^%]*[^~]\\cite/) {
-+	    $safe = 0;
-+	    if ($line =~ /^(?=[\s]*+[^%])[^%]*~\(\\cite/) {
-+		$safe = 1;
-+	    }
-+	}
  	unless ($safe) {
- 	    print $ARGV[0], ':', $line_num, ':', $line;
+-	    print $ARGV[0], ':', $line_num, ':', $line;
++	    print $ARGV[0], ':', $line_num, ':', $line_raw;
  	}
+     }
+     if ($line =~ /$Verbatim_end/ ||
+diff --git a/utilities/periodcheck.sh b/utilities/periodcheck.sh
+index a56657f3..d6cd7510 100755
+--- a/utilities/periodcheck.sh
++++ b/utilities/periodcheck.sh
+@@ -8,6 +8,9 @@ do
+ 	case $f in
+ 	./perfbook*) ;;
+ 	./qqz*) ;;
++	./glsdict.tex) ;;
++	./origpub.tex) ;;
++	./contrib.tex) ;;
+ 	./future/HTMtable*) ;;
+ 	./appendix/styleguide*) ;;
+ 	*) tex_sources="$tex_sources $f" ;;
 -- 
 2.17.1
 
