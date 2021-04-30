@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=a3RoxiI9mVKTYYNrcKWT/UwmWOjCTp0P9WlHcWhrgbw=;
-        b=iZnhi8cY4EYpch2I7my85G9nkTRjucX4uJMgF7fbP8Ajg7ONfxGNkyZVfOcqKDYSSf
-         zxfgpVVD7L+iPHLpS7gyI45aA6eL+1M/NwK4uHfL2YZKNeZI4Y1JH3gO0nZkwTYHgsBw
-         YW7YeXB9ogzv+yonNcnjiucbYHu4nHRkrWGbaa0NFe6ZnUeN7xXtGxxwi98VdUehGeVw
-         9lJ0D1ODPoJXJCxt4RkqW+//AFZ7uTUb7FFkpOZVnjJQLun4ONcOrZotUxA43GixVHXf
-         O44jmijlGoRFEyhm3hxueK3PQPWoB7F3MQRGB8+yDgDlANbSHsEYZrbZRd0nMWGEikOY
-         r5mA==
-Subject: [PATCH -perfbook 2/4] periodcheck: Add check of '\@.' and '.\@' uses
+        bh=7mt+e9UQ0kHbcTbod3Sfw6YK3Usjv4qiss3WA1xANkA=;
+        b=a+Mjs55aMgYNb59ob58apPiYrSE9ZCz6RBv+e5b/9WbAjbDglXIV955PmfzuBAy872
+         IwYqkPZMZe/sHXeA6Ihmy4oj8psKd7Lku71TbqFj89GGamMoZJ/Fvy0nrjnos+FV4l4+
+         08tWr1f8FwwWJRizVYYGkeZB6QgZ1ssie7AIuhshJGtJprYqsxGM5TF0slXD5ivnXpRw
+         vpyriiBpVqLpPEsWQBpmaPKBq8rfQZnMlVBuz4wHVcC22lYK2kQ8HyTVwzNIRjmmzzEl
+         trGMKUAqTigYUms3tVSlLZGpZ/KeR3ZvoR5Bv51TyaOD2HmzR0AjxJPiWLdryO2HuYvl
+         Uxog==
+Subject: [PATCH -perfbook 3/4] locking: Fix typo
 References: <9ccade63-dbc0-a089-b79d-3f1b619a6932@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <efced609-63b4-9023-77ff-f4a4789fefb4@gmail.com>
-Date: Fri, 30 Apr 2021 13:53:04 +0900
+Message-ID: <33e18495-0fa1-2da2-7900-460e49182b88@gmail.com>
+Date: Fri, 30 Apr 2021 13:53:55 +0900
 MIME-Version: 1.0
 In-Reply-To: <9ccade63-dbc0-a089-b79d-3f1b619a6932@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,29 +24,27 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-"\@." should be at the end of an input line.
-".\@" should be in the middle of a line.
+This was lower-cased by a commit in 2016 and has survived since.
 
+Fixes: 791af9cfcb0c ("locking: Use consistent expressions")
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/periodcheck.pl | 4 ++++
- 1 file changed, 4 insertions(+)
+ locking/locking.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/utilities/periodcheck.pl b/utilities/periodcheck.pl
-index b1551c44..11313981 100755
---- a/utilities/periodcheck.pl
-+++ b/utilities/periodcheck.pl
-@@ -64,6 +64,10 @@ sub check_line {
- 		$safe = 1;
- 	    }
- 	}
-+	if ($line =~ /^(?=[\s]*+[^%])[^%]*\.\\\@(\s*$|\s*%.*$)/ ||
-+	    $line =~ /^(?=[\s]*+[^%])[^%]*\\\@\.\s+[^\s%]+/){
-+	    $safe = 0;
-+	}
- 	unless ($safe) {
- 	    print $ARGV[0], ':', $line_num, ':', $line_raw;
- 	}
+diff --git a/locking/locking.tex b/locking/locking.tex
+index 406c5034..0d7666a9 100644
+--- a/locking/locking.tex
++++ b/locking/locking.tex
+@@ -381,7 +381,7 @@ In this case, we cannot construct a local locking hierarchy by
+ releasing all locks before invoking unknown code.
+ However, we can instead construct a layered locking hierarchy, as shown in
+ Figure~\ref{fig:locking:Layered Locking Hierarchy for qsort()}.
+-here, the \co{cmp()} function uses a new Lock~D that is acquired after
++Here, the \co{cmp()} function uses a new Lock~D that is acquired after
+ all of Locks~A, B, and~C, avoiding deadlock.
+ We therefore have three layers to the global deadlock hierarchy, the
+ first containing Locks~A and~B, the second containing Lock~C, and
 -- 
 2.17.1
 
