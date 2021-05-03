@@ -1,88 +1,73 @@
-Return-Path: <SRS0=icZD=J6=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=HKCMIZ9xvPCMU59ztw2uaCDfkhY6KKOhcMXvQf7Nras=;
-        b=Tz8Z/Wk3oGcUuEBUvZKNl0H3V3DseCgj93SRRh5QuJfOFZGA3WlNjoXDpCMSu4DdZU
-         rBZkePBg5Jg2B0TPQA6CSYt+uN0UNgDkOIpRP4JXZTkk2BNUd5+BoD6efbnUGpogbNT+
-         kdOvt2MrtH+PAc7NeAg9ZAWqx/N6gyCeKkR0g13dZSlobteNzd6DDaTPXu8+ovkNDjan
-         K6Ia16a3pzVcsJRMlDuFTgpiwrwuF6+sEk92qfdLtuXIzzhLsZHae6GZTKgYs71BUY2Y
-         TDGhgOFUS5OlAFYTQq/hZv4H3UEgsHYFCrBe8u8YTvW8NmU5fxCN9KQgWC3MoRwgBezH
-         dzBg==
-Subject: Re: [PATCH -perfbook] utilities/autodate.sh: Fix potential hung-up on
- missing tcolorbox
-References: <ad5501f7-e63c-1cc2-0e49-c93109ec75d5@gmail.com>
- <0b71604e-5b51-c53a-57ce-d97a7dbaf620@gmail.com>
- <20210502163840.GO975577@paulmck-ThinkPad-P17-Gen-1>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <5454e927-7a9f-48ff-a8ba-03b3f9bde1dd@gmail.com>
-Date: Mon, 3 May 2021 09:56:03 +0900
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:54576 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231156AbhECQW3 (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Mon, 3 May 2021 12:22:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620058896;
+        bh=/v4p8n091pNADB+0mfj8CRN1jbrkRHaEXv3GZVxb6I4=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=ij3IsJGozhwwRrgmC6Yne962VKQwLoS0+1Ye5ZQ6icr18WHUTQH906mEC16yRtKqa
+         eHZ3y8IJh5JXeF6oSzLmvwoedYr6JKhHdDTP046jycCRLuSi0H6D+YO8E3CCGe2sU2
+         w44Xbulc13DXYIcui2H6iTNmvWoehretPR93lwTDbZpKhJeB8J56SoJ8QdtIYGJb72
+         ma621hgP3UyleIabNzYwzDCfSbHKxuen6cEzjJdtCxwBZiUF1gtuc3O9oNZsICIeOC
+         0EeHBneiCUcw11QfIOpAeCTVql8+zWZh4MLYYH23hOU9n3ZVCwYQIX4FADzbPyG+Ig
+         YCxOp5GrX102A==
+Date: Mon, 3 May 2021 09:21:35 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH -perfbook] Fix the description of rcu_gp_ongoing
+Message-ID: <20210503162135.GT975577@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20210503121554.4520-1-zhouzhouyi@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210502163840.GO975577@paulmck-ThinkPad-P17-Gen-1>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210503121554.4520-1-zhouzhouyi@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Cc: luyang.co@gmail.com, perfbook@vger.kernel.org
 
-On Sun, 2 May 2021 09:38:40 -0700, Paul E. McKenney wrote:
-> On Sun, May 02, 2021 at 08:59:43PM +0900, Akira Yokosawa wrote:
->> On Sun, 2 May 2021 20:40:42 +0900, Akira Yokosawa wrote:
->>> "kpsewhich tcolorbox.sty" can be empty if tcolorbox is not
->>> available.
->>>
->>> If this is the case, "grep" in `grep ProvidePackage | sed ...`
->>> will wait forever.
->>>
->>> Add an empty check in front of "grep" with exit code of 1.
->>
->> Paul,
->>
->> Please ignore this patch.
->> I'll respin soon.
->>
->> Sorry for the noise.
+On Mon, May 03, 2021 at 08:15:54PM +0800, Zhouyi Zhou wrote:
+> Hi Paul,
 > 
-> Ignored, and no problem!  Been there, done that!  ;-)
-
-Patch v4 I just sent out should be good enough.
-I'm afraid you don't have a handy environment to test the error path,
-but I did uninstall texlive-tcolorbox on a Fedora container
-and confirmed the error check works as expected.
-
-        Thanks, Akira
-
+> I am going to revise Chinese Edition of Appendix with
+> Yang Lu's unreserved help.
 > 
-> 							Thanx, Paul
+> During the process of reading, I examined the definition of
+> rcu_gp_ongoing in CodeSamples/defer/rcu_nest.h
+> Would it better to describe rcu_gp_ongoing in the book as:
+> 'it checks the set of bits indicated by RCU_GP_CTR_NEST_MASK.' because
+> I think 'it checks the bit indicated by RCU_GP_CTR_BOTTOM_BIT'
+> is a little confusing.
+
+Good eyes, thank you very much!
+
+I just made "bit" be plural, so it now reads "the bits indicated by
+RCU_GP_CTR_NEST_MASK".  Queued and pushed, and again, thank you!
+
+							Thanx, Paul
+
+> Thanks alot
+> Zhouyi Zhou
 > 
->> -- Akira
->>
->>
->>>
->>> Fixes: b2f19231bcc5 ("utilities/autodate.sh: Make newer tcolorbox behave as before")
->>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->>> ---
->>>  utilities/autodate.sh | 7 +++++++
->>>  1 file changed, 7 insertions(+)
->>>
->>> diff --git a/utilities/autodate.sh b/utilities/autodate.sh
->>> index 7bd7cbb8..2b9c1117 100644
->>> --- a/utilities/autodate.sh
->>> +++ b/utilities/autodate.sh
->>> @@ -97,6 +97,13 @@ env printf '\\IfQqzBg{}{\\setboolean{qqzbg}{%s}}\n' $qqzbg
->>>  
->>>  # command for newer tcolorbox (4.40 or later) to have backward-compatible skips
->>>  tcolorbox_sty=`kpsewhich tcolorbox.sty`
->>> +
->>> +if [ "$tcolorbox_sty" == "" ]
->>> +then
->>> +	echo "Error: package 'tcolorbox' not found. See See #9 in FAQ-BUILD.txt" >&2
->>> +	exit 1
->>> +fi
->>> +
->>>  tcbversion=`grep ProvidesPackage $tcolorbox_sty | sed -e 's/.*version \([0-9]\+\.[0-9]\+\).*/\1/g'`
->>>  tcbold=4.39
->>>  env printf '%% tcolorbox version: %s\n' $tcbversion
->>>
+> Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+> ---
+>  appendix/toyrcu/toyrcu.tex | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
+> index 8fd2aef0..830e4478 100644
+> --- a/appendix/toyrcu/toyrcu.tex
+> +++ b/appendix/toyrcu/toyrcu.tex
+> @@ -1215,7 +1215,7 @@ adds \co{RCU_GP_CTR_BOTTOM_BIT} to the global \co{rcu_gp_ctr}
+>  instead of adding the constant ``2'',
+>  and the second is that the comparison on \clnref{ongoing}
+>  has been abstracted out to a separate function,
+> -where it checks the bit indicated by \co{RCU_GP_CTR_BOTTOM_BIT}
+> +where it checks the set of bits indicated by \co{RCU_GP_CTR_NEST_MASK}
+>  instead of unconditionally checking the low-order bit.
+>  \end{fcvref}
+>  
+> -- 
+> 2.25.1
+> 
