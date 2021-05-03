@@ -1,81 +1,59 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:57936 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230110AbhEBQjc (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sun, 2 May 2021 12:39:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619973520;
-        bh=H3wC3XdYLDpTzYVbtVEULWg2SaSZP1g2fsGnLeUeLJQ=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=QbhvtSfVmZSC6ItFWWXt2aTVhziynJ7TElGBPX+14JbeEhRxlB9bhFj9gSbnkBzSo
-         UVAd1ktL/yTaS0i9cwj/jmoTrORYYdnN/gsiMAdI0SlTB1R12pzNDB8iwTmaKmj8dj
-         ao14s4MYpq0S6DSP8q+idud92pr0fH81U1IPIku6ziyoTgAsmkSrNnJzZo6XDcunRj
-         g2/8Mrsr0UrwrCXI/0j06NKQOcU2o6XGJAdoh6rIYIQH6OGbKpT1ofMPj7tsqo5Pg+
-         3Xw1y1OFHALBcvgzp7VlLDASHkKBPBFL3U7evr8xyBRyswW9rFVYkZ4W8Uv18xEprz
-         f5vvz5DRN3hDA==
-Date: Sun, 2 May 2021 09:38:40 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] utilities/autodate.sh: Fix potential hung-up
- on missing tcolorbox
-Message-ID: <20210502163840.GO975577@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <ad5501f7-e63c-1cc2-0e49-c93109ec75d5@gmail.com>
- <0b71604e-5b51-c53a-57ce-d97a7dbaf620@gmail.com>
+Return-Path: <SRS0=l0fT=J6=gmail.com=zhouzhouyi@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vGDPiD3BIMDhf8xgF5fK0GtJpvnikWzXd684ascF7W4=;
+        b=APfJ+0e9yFYx0GvcVx29wSQrfHzpCUbOhDI0j+vEZGdaU4MZ7xsGemXq/3sBRQQHff
+         WfyQVRukdVWVs//T8KDnyvcttW49jIpHFN/CCcKc9rCu9npFBSuqQ45+uUCQEp0pCavJ
+         gEjp8lur+dHmCxFkcGqezGqk+0GXlc4L5Yf7x01h4FYKbZB6lU8Tbr6cp00orlk2YNPY
+         hiC0UubJZnP4XIqGQPZ/6t4L7Pxu3iBe3m78nfOXMUNEtdGkYZ4GqKZmc14W7aJi5yoP
+         xnldD93cnKmRi/Tlxc21IQW4L4nrDb5xA0XTpo4d/FEhNkNFJQXHPoG1RVcWUOVy7jmi
+         DKhA==
+From: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Subject: [PATCH -perfbook] Fix the description of rcu_gp_ongoing
+Date: Mon,  3 May 2021 20:15:54 +0800
+Message-Id: <20210503121554.4520-1-zhouzhouyi@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0b71604e-5b51-c53a-57ce-d97a7dbaf620@gmail.com>
+Content-Transfer-Encoding: 8bit
+To: paulmck@kernel.org, luyang.co@gmail.com, perfbook@vger.kernel.org
+Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, May 02, 2021 at 08:59:43PM +0900, Akira Yokosawa wrote:
-> On Sun, 2 May 2021 20:40:42 +0900, Akira Yokosawa wrote:
-> > "kpsewhich tcolorbox.sty" can be empty if tcolorbox is not
-> > available.
-> > 
-> > If this is the case, "grep" in `grep ProvidePackage | sed ...`
-> > will wait forever.
-> > 
-> > Add an empty check in front of "grep" with exit code of 1.
-> 
-> Paul,
-> 
-> Please ignore this patch.
-> I'll respin soon.
-> 
-> Sorry for the noise.
+Hi Paul,
 
-Ignored, and no problem!  Been there, done that!  ;-)
+I am going to revise Chinese Edition of Appendix with
+Yang Lu's unreserved help.
 
-							Thanx, Paul
+During the process of reading, I examined the definition of
+rcu_gp_ongoing in CodeSamples/defer/rcu_nest.h
+Would it better to describe rcu_gp_ongoing in the book as:
+'it checks the set of bits indicated by RCU_GP_CTR_NEST_MASK.' because
+I think 'it checks the bit indicated by RCU_GP_CTR_BOTTOM_BIT'
+is a little confusing.
 
-> -- Akira
-> 
-> 
-> > 
-> > Fixes: b2f19231bcc5 ("utilities/autodate.sh: Make newer tcolorbox behave as before")
-> > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> > ---
-> >  utilities/autodate.sh | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/utilities/autodate.sh b/utilities/autodate.sh
-> > index 7bd7cbb8..2b9c1117 100644
-> > --- a/utilities/autodate.sh
-> > +++ b/utilities/autodate.sh
-> > @@ -97,6 +97,13 @@ env printf '\\IfQqzBg{}{\\setboolean{qqzbg}{%s}}\n' $qqzbg
-> >  
-> >  # command for newer tcolorbox (4.40 or later) to have backward-compatible skips
-> >  tcolorbox_sty=`kpsewhich tcolorbox.sty`
-> > +
-> > +if [ "$tcolorbox_sty" == "" ]
-> > +then
-> > +	echo "Error: package 'tcolorbox' not found. See See #9 in FAQ-BUILD.txt" >&2
-> > +	exit 1
-> > +fi
-> > +
-> >  tcbversion=`grep ProvidesPackage $tcolorbox_sty | sed -e 's/.*version \([0-9]\+\.[0-9]\+\).*/\1/g'`
-> >  tcbold=4.39
-> >  env printf '%% tcolorbox version: %s\n' $tcbversion
-> > 
+
+Thanks alot
+Zhouyi Zhou
+
+Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+---
+ appendix/toyrcu/toyrcu.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
+index 8fd2aef0..830e4478 100644
+--- a/appendix/toyrcu/toyrcu.tex
++++ b/appendix/toyrcu/toyrcu.tex
+@@ -1215,7 +1215,7 @@ adds \co{RCU_GP_CTR_BOTTOM_BIT} to the global \co{rcu_gp_ctr}
+ instead of adding the constant ``2'',
+ and the second is that the comparison on \clnref{ongoing}
+ has been abstracted out to a separate function,
+-where it checks the bit indicated by \co{RCU_GP_CTR_BOTTOM_BIT}
++where it checks the set of bits indicated by \co{RCU_GP_CTR_NEST_MASK}
+ instead of unconditionally checking the low-order bit.
+ \end{fcvref}
+ 
+-- 
+2.25.1
+
