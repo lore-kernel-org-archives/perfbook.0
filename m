@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=4C4bubn/y1jalW8EFTibPrEzjSSCz2dzeb9JuLHY5vA=;
-        b=o1+tFaEoVrLnJxuI//xOOHPv5+hlx9E9kxU4AfL4kqrKM5bNzfvtmbGqC9D4HLwz7g
-         WLa+hknTI6oVb2+gx0aETSdirDPfwli1HCntgrpeghsyDqMZ/4YWarJPgf9Rf5ZDjVlF
-         sWkI/HKbYy9bk7ZtiQZ/tBHjcFkaqDl+P8BX7umB1UuEipPvVI+9k0C5YoiFGIMxNxtG
-         uYF02jryFpfsjNoStKf3M09LTK+vSuusr5DMDCUuZ8snDRDYYrC6/T8A0bixPk0rhyC9
-         lv+GQ5dd4NuZfZ49oLVsK79Nf2AJB3BTxdvWkVsD7RS4TqrMag5dRIPgUy2eX4PNjsJS
-         pptw==
-Subject: [PATCH -perfbook 2/4] intro: Employ \cref{} and its variants
+        bh=8fMEzliHltEq/rdjjjl3hNfkjb3WcWqBMRkxwqsLDdM=;
+        b=L4quoq3yCi+Bb/AhU324h6P6TNFW1y9bRGLmTUpF27QzKZXJa3uflabOg5LXL6MN+F
+         DINAcV6zeJKjvFzF+Nrm3DR/0YeOGiuuVobgI4hEpxN7ejDGnxpfeeAgk+UB//l7yHLV
+         ju6nd09p/TRFq+YLqlIneLScUQGuDezK5Bxz5GBEyHHxRsXFbXfwYryBEX8s28RWvwSE
+         B6N+Fr3dXxmgOSIVqXNqrS7DQTXMXTFNXIZiuzydSGqKGWMoCiIBPUk/FlzfcELWcMLc
+         eDBUsjl7ubeytlBXju3IEOOP4ViCSu9Rbi5dI+pO4o/ElSlCFeo1SRF55+14p+yKGeMu
+         VtUw==
+Subject: [PATCH -perfbook 3/4] cpu: Employ \cref{} and its variants
 References: <9fabe167-7282-e0c0-affa-1ae11acee698@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <f2fba879-d623-9d3f-df4f-6764ad1027aa@gmail.com>
-Date: Thu, 6 May 2021 23:24:52 +0900
+Message-ID: <2a342da8-a411-8c84-11b8-19d625bfc5c2@gmail.com>
+Date: Thu, 6 May 2021 23:26:02 +0900
 MIME-Version: 1.0
 In-Reply-To: <9fabe167-7282-e0c0-affa-1ae11acee698@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -26,114 +26,361 @@ List-ID: <perfbook.vger.kernel.org>
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- intro/intro.tex | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ cpu/cpu.tex         |  6 +++---
+ cpu/hwfreelunch.tex | 12 ++++++------
+ cpu/overheads.tex   | 26 +++++++++++++-------------
+ cpu/overview.tex    | 32 ++++++++++++++++----------------
+ cpu/swdesign.tex    | 18 +++++++-----------
+ 5 files changed, 45 insertions(+), 49 deletions(-)
 
-diff --git a/intro/intro.tex b/intro/intro.tex
-index 77e89f3c..b40abeb5 100644
---- a/intro/intro.tex
-+++ b/intro/intro.tex
-@@ -136,7 +136,7 @@ so that the aforementioned engineering discipline has evolved practical
- and effective strategies for handling it.
- In addition, hardware designers are increasingly aware of these issues,
- so perhaps future hardware will be more friendly to parallel software,
--as discussed in Section~\ref{sec:cpu:Hardware Free Lunch?}.
-+as discussed in \cref{sec:cpu:Hardware Free Lunch?}.
+diff --git a/cpu/cpu.tex b/cpu/cpu.tex
+index 44b470a4..183feb8c 100644
+--- a/cpu/cpu.tex
++++ b/cpu/cpu.tex
+@@ -63,11 +63,11 @@ So, to sum up:
+ The remainder of this book describes ways of handling this bad news.
  
- \QuickQuiz{
- 	Come on now!!!
-@@ -351,7 +351,7 @@ This change in focus is due to the fact that, although \IXr{Moore's Law}
- continues to deliver increases in transistor density, it has ceased to
- provide the traditional single-threaded performance increases.
- This can be seen in
--Figure~\ref{fig:intro:Clock-Frequency Trend for Intel CPUs}\footnote{
-+\cref{fig:intro:Clock-Frequency Trend for Intel CPUs}\footnote{
- 	This plot shows clock frequencies for newer CPUs theoretically
- 	capable of retiring one or more instructions per clock, and MIPS
- 	(millions of instructions per second, usually from the old
-@@ -473,7 +473,7 @@ anything but insignificant for the Z80.
+ In particular,
+-Chapter~\ref{chp:Tools of the Trade} will cover some of the low-level
++\cref{chp:Tools of the Trade} will cover some of the low-level
+ tools used for parallel programming,
+-Chapter~\ref{chp:Counting} will investigate problems and solutions to
++\cref{chp:Counting} will investigate problems and solutions to
+ parallel counting, and
+-Chapter~\ref{cha:Partitioning and Synchronization Design}
++\cref{cha:Partitioning and Synchronization Design}
+ will discuss design disciplines that promote performance and scalability.
  
- The CSIRAC and the Z80 are two points in a long-term trend, as can be
- seen in
--Figure~\ref{fig:intro:MIPS per Die for Intel CPUs}.
-+\cref{fig:intro:MIPS per Die for Intel CPUs}.
- This figure plots an approximation to computational power per die
- over the past four decades, showing an impressive six-order-of-magnitude
- increase over a period of forty years.
-@@ -601,7 +601,7 @@ not yet exist.
- Until such a nirvana appears, it will be necessary to make engineering
- tradeoffs among performance, productivity, and generality.
- One such tradeoff is shown in
--Figure~\ref{fig:intro:Software Layers and Performance; Productivity; and Generality},
-+\cref{fig:intro:Software Layers and Performance; Productivity; and Generality},
- which shows how productivity becomes increasingly important at the upper layers
- of the system stack,
- while performance and generality become increasingly important at the
-@@ -633,7 +633,7 @@ many things besides driving nails.
- It should therefore be no surprise to see similar tradeoffs
- appear in the field of parallel computing.
- This tradeoff is shown schematically in
--Figure~\ref{fig:intro:Tradeoff Between Productivity and Generality}.
-+\cref{fig:intro:Tradeoff Between Productivity and Generality}.
- Here, users~1, 2, 3, and 4 have specific jobs that they need the computer
- to help them with.
- The most productive possible language or environment for a given user is one
-@@ -671,7 +671,7 @@ to the hardware system (for example, low-level languages such as
- assembly, C, C++, or Java) or to some abstraction (for example,
- Haskell, Prolog, or Snobol), as is shown by the circular region near
- the center of
--Figure~\ref{fig:intro:Tradeoff Between Productivity and Generality}.
-+\cref{fig:intro:Tradeoff Between Productivity and Generality}.
- These languages can be considered to be general in the sense that they
- are equally ill-suited to the jobs required by users~1, 2, 3, and 4.
- In other words, their generality comes at the expense of
-@@ -698,7 +698,7 @@ it is not always the best tool for the job.
- In order to properly consider alternatives to parallel programming,
- you must first decide on what exactly you expect the parallelism
- to do for you.
--As seen in Section~\ref{sec:intro:Parallel Programming Goals},
-+As seen in \cref{sec:intro:Parallel Programming Goals},
- the primary goals of parallel programming are performance, productivity,
- and generality.
- Because this book is intended for developers working on
-@@ -801,7 +801,7 @@ optimization, albeit one that is becoming much more attractive
- as parallel systems become cheaper and more readily available.
- However, it is wise to keep in mind that the speedup available from
- parallelism is limited to roughly the number of CPUs
--(but see Section~\ref{sec:SMPdesign:Beyond Partitioning}
-+(but see \cref{sec:SMPdesign:Beyond Partitioning}
- for an interesting exception).
- In contrast, the speedup available from traditional single-threaded
- software optimizations can be much larger.
-@@ -921,7 +921,7 @@ programmers must undertake that are not required of sequential programmers.
- We can then evaluate how well a given programming language or environment
- assists the developer with these tasks.
- These tasks fall into the four categories shown in
--Figure~\ref{fig:intro:Categories of Tasks Required of Parallel Programmers},
-+\cref{fig:intro:Categories of Tasks Required of Parallel Programmers},
- each of which is covered in the following sections.
- 
- \subsection{Work Partitioning}
-@@ -1046,8 +1046,8 @@ of these synchronization mechanisms, for example locking vs.\@ transactional
- memory~\cite{McKenney2007PLOSTM}, but such elaboration is beyond the
- scope of this section.
- (See
--Sections~\ref{sec:future:Transactional Memory}
--and~\ref{sec:future:Hardware Transactional Memory}
-+\cref{sec:future:Transactional Memory,%
-+sec:future:Hardware Transactional Memory}
- for more information on transactional memory.)
- 
- \QuickQuiz{
-@@ -1134,7 +1134,7 @@ inter-partition communication, partitions the code accordingly,
- and finally maps data partitions and threads so as to maximize
- throughput while minimizing inter-thread communication,
+ \QuickQuizAnswersChp{qqzcpu}
+diff --git a/cpu/hwfreelunch.tex b/cpu/hwfreelunch.tex
+index c4a9b495..92f04f16 100644
+--- a/cpu/hwfreelunch.tex
++++ b/cpu/hwfreelunch.tex
+@@ -17,8 +17,8 @@ induced single-threaded
+ performance increases
+ (or ``free lunch''~\cite{HerbSutter2008EffectiveConcurrency}),
  as shown in
--Figure~\ref{fig:intro:Ordering of Parallel-Programming Tasks}.
-+\cref{fig:intro:Ordering of Parallel-Programming Tasks}.
- The developer can then
- consider each partition separately, greatly reducing the size
- of the relevant state space, in turn increasing productivity.
+-Figure~\ref{fig:intro:Clock-Frequency Trend for Intel CPUs} on
+-page~\pageref{fig:intro:Clock-Frequency Trend for Intel CPUs}.
++\cref{fig:intro:Clock-Frequency Trend for Intel CPUs} on
++\cpageref{fig:intro:Clock-Frequency Trend for Intel CPUs}.
+ This section briefly surveys a few ways that hardware designers
+ might bring back the ``free lunch''.
+ 
+@@ -27,8 +27,8 @@ obstacles to exploiting concurrency.
+ One severe physical limitation that hardware designers face is the
+ finite speed of light.
+ As noted in
+-Figure~\ref{fig:cpu:System Hardware Architecture} on
+-page~\pageref{fig:cpu:System Hardware Architecture},
++\cref{fig:cpu:System Hardware Architecture} on
++\cpageref{fig:cpu:System Hardware Architecture},
+ light can manage only about an 8-centimeters round trip in a vacuum
+ during the duration of a 1.8\,GHz clock period.
+ This distance drops to about 3~centimeters for a 5\,GHz clock.
+@@ -140,7 +140,7 @@ significant fabrication challenges~\cite{JohnKnickerbocker2008:3DI}.
+ 
+ Perhaps the most important benefit of 3DI is decreased path length through
+ the system, as shown in
+-Figure~\ref{fig:cpu:Latency Benefit of 3D Integration}.
++\cref{fig:cpu:Latency Benefit of 3D Integration}.
+ A 3-centimeter silicon die is replaced with a stack of four 1.5-centimeter
+ dies, in theory decreasing the maximum path through the system by a factor
+ of two, keeping in mind that each layer is quite thin.
+@@ -266,7 +266,7 @@ The purpose of these accelerators is to improve energy efficiency
+ and thus extend battery life: special purpose hardware can often
+ compute more efficiently than can a general-purpose CPU\@.
+ This is another example of the principle called out in
+-Section~\ref{sec:intro:Generality}: \IX{Generality} is almost never free.
++\cref{sec:intro:Generality}: \IX{Generality} is almost never free.
+ 
+ Nevertheless, given the end of \IXaltr{Moore's-Law}{Moore's Law}-induced
+ single-threaded performance increases, it seems safe to assume that
+diff --git a/cpu/overheads.tex b/cpu/overheads.tex
+index 3505b4f4..cb6b4f83 100644
+--- a/cpu/overheads.tex
++++ b/cpu/overheads.tex
+@@ -24,7 +24,7 @@ architecture, which is the subject of the next section.
+ \label{fig:cpu:System Hardware Architecture}
+ \end{figure}
+ 
+-Figure~\ref{fig:cpu:System Hardware Architecture}
++\Cref{fig:cpu:System Hardware Architecture}
+ shows a rough schematic of an eight-core computer system.
+ Each die has a pair of CPU cores, each with its cache, as well as an
+ interconnect allowing the pair of CPUs to communicate with each other.
+@@ -116,7 +116,7 @@ events might ensue:
+ This simplified sequence is just the beginning of a discipline called
+ \emph{cache-coherency protocols}~\cite{Hennessy95a,DavidECuller1999,MiloMKMartin2012scale,DanielJSorin2011MemModel},
+ which is discussed in more detail in
+-Appendix~\ref{chp:app:whymb:Why Memory Barriers?}.
++\cref{chp:app:whymb:Why Memory Barriers?}.
+ As can be seen in the sequence of events triggered by a \IXacr{cas} operation,
+ a single instruction can cause considerable protocol traffic, which
+ can significantly degrade your parallel program's performance.
+@@ -126,7 +126,7 @@ interval during which it is never updated, that variable can be replicated
+ across all CPUs' caches.
+ This replication permits all CPUs to enjoy extremely fast access to
+ this \emph{read-mostly} variable.
+-Chapter~\ref{chp:Deferred Processing} presents synchronization
++\Cref{chp:Deferred Processing} presents synchronization
+ mechanisms that take full advantage of this important hardware read-mostly
+ optimization.
+ 
+@@ -174,7 +174,7 @@ optimization.
+ 
+ The overheads of some common operations important to parallel programs are
+ displayed in
+-Table~\ref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}.
++\cref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}.
+ This system's clock period rounds to 0.5\,ns.
+ Although it is not unusual for modern microprocessors to be able to
+ retire multiple instructions per clock period, the operations' costs are
+@@ -351,16 +351,16 @@ thousand clock cycles.
+ 	10\,GHz.
+ 
+ 	In addition,
+-	Table~\ref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
++	\cref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
+ 	on
+-	page~\pageref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
++	\cpageref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
+ 	represents a reasonably large system with no fewer 448~hardware
+ 	threads.
+ 	Smaller systems often achieve better latency, as may be seen in
+-	Table~\ref{tab:cpu:Performance of Synchronization Mechanisms on 16-CPU 2.8GHz Intel X5550 (Nehalem) System},
++	\cref{tab:cpu:Performance of Synchronization Mechanisms on 16-CPU 2.8GHz Intel X5550 (Nehalem) System},
+ 	which represents a much smaller system with only 16 hardware threads.
+ 	A similar view is provided by the rows of
+-	Table~\ref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
++	\cref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
+ 	down to and including the two ``Off-core'' rows.
+ 
+ \begin{table*}
+@@ -404,7 +404,7 @@ thousand clock cycles.
+ 	Alternatively, a 64-CPU system in the mid 1990s had
+ 	cross-interconnect latencies in excess of five microseconds,
+ 	so even the eight-socket 448-hardware-thread monster shown in
+-	Table~\ref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
++	\cref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
+ 	represents more than a five-fold improvement over its
+ 	25-years-prior counterparts.
+ 
+@@ -420,7 +420,7 @@ thousand clock cycles.
+ 	for concurrent software, even when running on relatively
+ 	small systems.
+ 
+-	Section~\ref{sec:cpu:Hardware Free Lunch?}
++	\Cref{sec:cpu:Hardware Free Lunch?}
+ 	looks at what else hardware designers might be
+ 	able to do to ease the plight of parallel programmers.
+ }\QuickQuizEnd
+@@ -543,7 +543,7 @@ of store instructions to execute quickly even when the stores are to
+ non-consecutive addresses and when none of the needed cachelines are
+ present in the CPU's cache.
+ The dark side of this optimization is memory misordering, for which see
+-Chapter~\ref{chp:Advanced Synchronization: Memory Ordering}.
++\cref{chp:Advanced Synchronization: Memory Ordering}.
+ 
+ A fourth hardware optimization is speculative execution, which can
+ allow the hardware to make good use of the store buffers without
+@@ -571,7 +571,7 @@ data that is frequently read but rarely updated is present in all
+ CPUs' caches.
+ This optimization allows the read-mostly data to be accessed
+ exceedingly efficiently, and is the subject of
+-Chapter~\ref{chp:Deferred Processing}.
++\cref{chp:Deferred Processing}.
+ 
+ \begin{figure}
+ \centering
+@@ -583,7 +583,7 @@ Chapter~\ref{chp:Deferred Processing}.
+ In short, hardware and software engineers are really on the same side,
+ with both trying to make computers go fast despite the best efforts of
+ the laws of physics, as fancifully depicted in
+-Figure~\ref{fig:cpu:Hardware and Software: On Same Side}
++\cref{fig:cpu:Hardware and Software: On Same Side}
+ where our data stream is trying its best to exceed the speed of light.
+ The next section discusses some additional things that the hardware engineers
+ might (or might not) be able to do, depending on how well recent
+diff --git a/cpu/overview.tex b/cpu/overview.tex
+index 95899b35..d1d23b36 100644
+--- a/cpu/overview.tex
++++ b/cpu/overview.tex
+@@ -10,7 +10,7 @@
+ 
+ Careless reading of computer-system specification sheets might lead one
+ to believe that CPU performance is a footrace on a clear track, as
+-illustrated in Figure~\ref{fig:cpu:CPU Performance at its Best},
++illustrated in \cref{fig:cpu:CPU Performance at its Best},
+ where the race always goes to the swiftest.
+ 
+ \begin{figure}
+@@ -21,7 +21,7 @@ where the race always goes to the swiftest.
+ \end{figure}
+ 
+ Although there are a few CPU-bound benchmarks that approach the ideal case
+-shown in Figure~\ref{fig:cpu:CPU Performance at its Best},
++shown in \cref{fig:cpu:CPU Performance at its Best},
+ the typical program more closely resembles an obstacle course than
+ a race track.
+ This is because the internal architecture of CPUs has changed dramatically
+@@ -53,7 +53,7 @@ Some cores have more than one hardware thread, which is variously called
+ each of which appears as
+ an independent CPU to software, at least from a functional viewpoint.
+ These modern hardware features can greatly improve performance, as
+-illustrated by Figure~\ref{fig:cpu:CPUs Old and New}.
++illustrated by \cref{fig:cpu:CPUs Old and New}.
+ 
+ Achieving full performance with a CPU having a long pipeline requires
+ highly predictable control flow through the program.
+@@ -90,7 +90,7 @@ speculatively executed instructions following the corresponding
+ branch, resulting in a pipeline flush.
+ If pipeline flushes appear too frequently, they drastically reduce
+ overall performance, as fancifully depicted in
+-Figure~\ref{fig:cpu:CPU Meets a Pipeline Flush}.
++\cref{fig:cpu:CPU Meets a Pipeline Flush}.
+ 
+ \begin{figure}
+ \centering
+@@ -168,7 +168,7 @@ have extremely unpredictable memory-access patterns---after all,
+ if the pattern was predictable, us software types would not bother
+ with the pointers, right?
+ Therefore, as shown in
+-Figure~\ref{fig:cpu:CPU Meets a Memory Reference},
++\cref{fig:cpu:CPU Meets a Memory Reference},
+ memory references often pose severe obstacles to modern CPUs.
+ 
+ Thus far, we have only been considering obstacles that can arise during
+@@ -211,7 +211,7 @@ store buffer, without the need to wait for cacheline ownership.
+ Although there are a number of hardware optimizations that can sometimes
+ hide cache latencies, the resulting effect on performance is all too
+ often as depicted in
+-Figure~\ref{fig:cpu:CPU Meets an Atomic Operation}.
++\cref{fig:cpu:CPU Meets an Atomic Operation}.
+ 
+ Unfortunately, atomic operations usually apply only to single elements
+ of data.
+@@ -234,20 +234,20 @@ as described in the next section.
+ 	By early 2014, several mainstream systems provided limited
+ 	hardware transactional memory implementations, which is covered
+ 	in more detail in
+-	Section~\ref{sec:future:Hardware Transactional Memory}.
++	\cref{sec:future:Hardware Transactional Memory}.
+ 	The jury is still out on the applicability of software transactional
+ 	memory~\cite{McKenney2007PLOSTM,DonaldEPorter2007TRANSACT,
+ 	ChistopherJRossbach2007a,CalinCascaval2008tmtoy,
+ 	AleksandarDragovejic2011STMnotToy,AlexanderMatveev2012PessimisticTM},
+-	which is covered in Section~\ref{sec:future:Transactional Memory}.
++	which is covered in \cref{sec:future:Transactional Memory}.
+ }\QuickQuizEnd
+ 
+ \subsection{Memory Barriers}
+ \label{sec:cpu:Memory Barriers}
+ 
+ Memory barriers will be considered in more detail in
+-Chapter~\ref{chp:Advanced Synchronization: Memory Ordering} and
+-Appendix~\ref{chp:app:whymb:Why Memory Barriers?}.
++\cref{chp:Advanced Synchronization: Memory Ordering} and
++\cref{chp:app:whymb:Why Memory Barriers?}.
+ In the meantime, consider the following simple lock-based \IX{critical
+ section}:
+ 
+@@ -273,7 +273,7 @@ either explicit or implicit memory barriers.
+ Because the whole purpose of these memory barriers is to prevent reorderings
+ that the CPU would otherwise undertake in order to increase performance,
+ memory barriers almost always reduce performance, as depicted in
+-Figure~\ref{fig:cpu:CPU Meets a Memory Barrier}.
++\cref{fig:cpu:CPU Meets a Memory Barrier}.
+ 
+ As with atomic operations, CPU designers have been working hard to
+ reduce memory-barrier overhead, and have made substantial progress.
+@@ -299,9 +299,9 @@ This is because when a given CPU wishes to modify the variable, it is
+ most likely the case that some other CPU has modified it recently.
+ In this case, the variable will be in that other CPU's cache, but not
+ in this CPU's cache, which will therefore incur an expensive cache miss
+-(see Section~\ref{sec:app:whymb:Cache Structure} for more detail).
++(see \cref{sec:app:whymb:Cache Structure} for more detail).
+ Such cache misses form a major obstacle to CPU performance, as shown
+-in Figure~\ref{fig:cpu:CPU Meets a Cache Miss}.
++in \cref{fig:cpu:CPU Meets a Cache Miss}.
+ 
+ \QuickQuiz{
+ 	So have CPU designers also greatly reduced the overhead of
+@@ -312,7 +312,7 @@ in Figure~\ref{fig:cpu:CPU Meets a Cache Miss}.
+ 	but the finite speed of light and the atomic nature of
+ 	matter limits their ability to reduce cache-miss overhead
+ 	for larger systems.
+-	Section~\ref{sec:cpu:Hardware Free Lunch?}
++	\Cref{sec:cpu:Hardware Free Lunch?}
+ 	discusses some possible avenues for possible future progress.
+ }\QuickQuizEnd
+ 
+@@ -332,7 +332,7 @@ I/O operations involving networking, mass storage, or (worse yet) human
+ beings pose much greater obstacles than the internal obstacles called
+ out in the prior sections,
+ as illustrated by
+-Figure~\ref{fig:cpu:CPU Waits for I/O Completion}.
++\cref{fig:cpu:CPU Waits for I/O Completion}.
+ 
+ This is one of the differences between shared-memory and distributed-system
+ parallelism: shared-memory parallel programs must normally deal with no
+@@ -345,7 +345,7 @@ that of the actual work being performed is a key design parameter.
+ A major goal of parallel hardware design is to reduce this ratio as
+ needed to achieve the relevant performance and scalability goals.
+ In turn, as will be seen in
+-Chapter~\ref{cha:Partitioning and Synchronization Design},
++\cref{cha:Partitioning and Synchronization Design},
+ a major goal of parallel software design is to reduce the
+ frequency of expensive operations like communications cache misses.
+ 
+diff --git a/cpu/swdesign.tex b/cpu/swdesign.tex
+index c59a70eb..63b6222f 100644
+--- a/cpu/swdesign.tex
++++ b/cpu/swdesign.tex
+@@ -12,7 +12,7 @@
+ 	 {\emph{Ella Wheeler Wilcox}}
+ 
+ The values of the ratios in
+-Table~\ref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
++\cref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
+ are critically important, as they limit the
+ efficiency of a given parallel application.
+ To see this, suppose that the parallel application uses \IXacr{cas}
+@@ -51,7 +51,7 @@ be extremely infrequent and to enable very large quantities of processing.
+ 		cache-miss latencies than do smaller system.
+ 		To see this, compare
+ 		\cref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
+-		on page~\pageref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
++		on \cpageref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
+ 		with
+ 		\cref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 12-CPU Intel Core i7-8750H CPU @ 2.20GHz}.
+ 	\item	The distributed-systems communications operations do
+@@ -88,20 +88,16 @@ One approach is to run nearly independent threads.
+ The less frequently the threads communicate, whether by \IX{atomic} operations,
+ locks, or explicit messages, the better the application's performance
+ and scalability will be.
+-This approach will be touched on in
+-Chapter~\ref{chp:Counting},
+-explored in
+-Chapter~\ref{cha:Partitioning and Synchronization Design},
+-and taken to its logical extreme in
+-Chapter~\ref{chp:Data Ownership}.
++This approach will be touched on in \cref{chp:Counting},
++explored in \cref{cha:Partitioning and Synchronization Design},
++and taken to its logical extreme in \cref{chp:Data Ownership}.
+ 
+ Another approach is to make sure that any sharing be read-mostly, which
+ allows the CPUs' caches to replicate the read-mostly data, in turn
+ allowing all CPUs fast access.
+ This approach is touched on in
+-Section~\ref{sec:count:Eventually Consistent Implementation},
+-and explored more deeply in
+-Chapter~\ref{chp:Deferred Processing}.
++\cref{sec:count:Eventually Consistent Implementation},
++and explored more deeply in \cref{chp:Deferred Processing}.
+ 
+ In short, achieving excellent parallel performance and scalability means
+ striving for embarrassingly parallel algorithms and implementations,
 -- 
 2.17.1
 
