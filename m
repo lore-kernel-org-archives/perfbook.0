@@ -1,78 +1,76 @@
-Return-Path: <SRS0=1xOK=J7=gmail.com=zhouzhouyi@kernel.org>
+Return-Path: <SRS0=jSvE=KB=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YFxgJFKY2COfoPy7wfBysoAtyxOm02qhos1GYeWhutM=;
-        b=eZ/kmJ4n5Wvig21ewu3BGn06im7vMwvZdNfPFdqr0NOPO6NtLR8faqqgZS919iaG8A
-         syt42HuSbqOvRPBPYXkOEk8o2ohBu4qSzGWzGu9t/H8bf1wGIS2FnsWEKg/LZS6tt/R1
-         TS4Wbc/mdsyF9g41H9x6My986KLtn2iNjsOKf2AMW+b6+NPRgeYRDT1JDiI30vGx32Zj
-         oBdIvBLwS+BbUVhKZHAcgwgNDL6rGN0rbLDDu/9apCD4Hg2zT/3d60iZo0amYOcLobhX
-         mg+YNmGudKKrKuMm59CEikfwZ+/A3SZGtpB/aOXwF0lBc66mVwuTNCyPUiWyY8oPncSB
-         cZhQ==
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=RMYCoewfMd5vofwMlkC5w549ZQaZpuff/XTDa8AB76Y=;
+        b=JWxix4MP4QRMnwEyq4umwQ5FY/rMlX9RO568qMNfe7gmNj8P1kLzK2aYgrs5RlAWv6
+         keJ9XNAAba5n9RtqS330GjvePuciw4S0P8TBe9IlDkf6+kLio7Xx012p8LW2mswKR3IW
+         rrQTSWhOspMUI8vXCvCUcJRJfjlkouxzUn1WtnxtJ8Iz9i9jWhT92Bj8vBeUUIZkDoA9
+         JDDrugoKkMPv6qdNG4+cavtzn2PcxIRx6VfkntoHI7CYYBsVd62MRSn59eJrRyFXIaW0
+         FKC87a1MGiFr9fhVyjcq6z5A/3+pBW2GKpjRzaPFnwZvKMJkCZTQbfWJF85K5PqWXTTp
+         Hjrw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 0/4] Add script to check cleveref macro uses
+Message-ID: <9fabe167-7282-e0c0-affa-1ae11acee698@gmail.com>
+Date: Thu, 6 May 2021 23:21:36 +0900
 MIME-Version: 1.0
-References: <20210503121554.4520-1-zhouzhouyi@gmail.com> <20210503162135.GT975577@paulmck-ThinkPad-P17-Gen-1>
-In-Reply-To: <20210503162135.GT975577@paulmck-ThinkPad-P17-Gen-1>
-From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Date: Tue, 4 May 2021 11:16:34 +0800
-Message-ID: <CAABZP2yP=Y0iNAjBQeM8RpmziArNXuNziQNxK3CwCADVUYKemA@mail.gmail.com>
-Subject: Re: [PATCH -perfbook] Fix the description of rcu_gp_ongoing
-Content-Type: text/plain; charset="UTF-8"
-To: paulmck@kernel.org
-Cc: Yang Lu <luyang.co@gmail.com>, perfbook@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Thanks Paul for your encouragement.
+Hi Paul,
 
-Your encouragement has always been my motivation to keep on studying.
+Now that end-of-sentence periods are at the end of input lines,
+wrong uses of \Cref{}, \cref{}, and their variants can be detected
+by a not-that-intelligent script.
 
-Thanks again
-Cheers
-Zhouyi
+Patch 1/4 adds the set of scripts.
+They also detect raw \ref{} and \lnref{} commands.
 
-On Tue, May 4, 2021 at 12:21 AM Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Mon, May 03, 2021 at 08:15:54PM +0800, Zhouyi Zhou wrote:
-> > Hi Paul,
-> >
-> > I am going to revise Chinese Edition of Appendix with
-> > Yang Lu's unreserved help.
-> >
-> > During the process of reading, I examined the definition of
-> > rcu_gp_ongoing in CodeSamples/defer/rcu_nest.h
-> > Would it better to describe rcu_gp_ongoing in the book as:
-> > 'it checks the set of bits indicated by RCU_GP_CTR_NEST_MASK.' because
-> > I think 'it checks the bit indicated by RCU_GP_CTR_BOTTOM_BIT'
-> > is a little confusing.
->
-> Good eyes, thank you very much!
->
-> I just made "bit" be plural, so it now reads "the bits indicated by
-> RCU_GP_CTR_NEST_MASK".  Queued and pushed, and again, thank you!
->
->                                                         Thanx, Paul
->
-> > Thanks alot
-> > Zhouyi Zhou
-> >
-> > Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
-> > ---
-> >  appendix/toyrcu/toyrcu.tex | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
-> > index 8fd2aef0..830e4478 100644
-> > --- a/appendix/toyrcu/toyrcu.tex
-> > +++ b/appendix/toyrcu/toyrcu.tex
-> > @@ -1215,7 +1215,7 @@ adds \co{RCU_GP_CTR_BOTTOM_BIT} to the global \co{rcu_gp_ctr}
-> >  instead of adding the constant ``2'',
-> >  and the second is that the comparison on \clnref{ongoing}
-> >  has been abstracted out to a separate function,
-> > -where it checks the bit indicated by \co{RCU_GP_CTR_BOTTOM_BIT}
-> > +where it checks the set of bits indicated by \co{RCU_GP_CTR_NEST_MASK}
-> >  instead of unconditionally checking the low-order bit.
-> >  \end{fcvref}
-> >
-> > --
-> > 2.25.1
-> >
+Patches 2/4--4/4 are updates of intro, cpu, and toolsoftrade
+to satisfy the scripts.
+
+Remaining updates of the other chapters will follow when they
+are ready.
+
+My plan is to add the check as a make target once the other updates
+are finished.
+
+In the meantime, you can run the check of each file by:
+
+    ./utilities/cleverefcheck.pl count/count.tex
+
+, or tree-wide:
+
+    ./utilities/cleverefcheck.sh
+
+        Thanks, Akira
+
+--
+Akira Yokosawa (4):
+  cleverefcheck: Add check script of cleveref macro usage
+  intro: Employ \cref{} and its variants
+  cpu: Employ \cref{} and its variants
+  toolsoftrade: Employ \cref{} and its variants
+
+ cpu/cpu.tex                   |   6 +-
+ cpu/hwfreelunch.tex           |  12 +-
+ cpu/overheads.tex             |  26 +--
+ cpu/overview.tex              |  32 +--
+ cpu/swdesign.tex              |  18 +-
+ intro/intro.tex               |  24 +-
+ perfbook-lt.tex               |  21 ++
+ toolsoftrade/toolsoftrade.tex | 412 +++++++++++++++++-----------------
+ utilities/cleverefcheck.pl    |  96 ++++++++
+ utilities/cleverefcheck.sh    |  23 ++
+ 10 files changed, 402 insertions(+), 268 deletions(-)
+ create mode 100755 utilities/cleverefcheck.pl
+ create mode 100755 utilities/cleverefcheck.sh
+
+-- 
+2.17.1
+
