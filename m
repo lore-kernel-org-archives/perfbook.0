@@ -1,52 +1,69 @@
-Return-Path: <SRS0=4wRT=KD=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Bf+rtp327hdNww0Ld1gvgmxQimEn0lKXlO1ZxYEBDu8=;
-        b=U3XQ312XzMuL+/AEC4d04px+1Q3p382aIMxvuCFzZV62RIEeZPuPFl3im6jkLK7Gpg
-         X3LnHsqOefmw7UYGSO3aw4O0o4ZVomb2aQ9t3HDdHal0GEOzAX7ZKe2PzbkDiYY+PVPm
-         6qRkDQepeqP6+fbWeh1ey7Mx/3uEriDx1LjDnioZOgjJX8eRAd/e/t1i62ei2oJKyTIq
-         4Q0GBlW4tI7m3XA6/VtX9LrJLp5ShD29A8n4lsKuBfsO5eR6MWDa04NP63xYbnbMCiG9
-         +VgLfcJT3QgrXIuerAn/5rps12GzjWdPLJ0bcvXVZXfrJzlPdxZ3uVGLjahJxc2wTE3p
-         CE3g==
-Subject: [PATCH -perfbook 4/4] perfbook-lt: Customize reference style of
- equation
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:39710 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229522AbhEHXVS (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Sat, 8 May 2021 19:21:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620516016;
+        bh=H889S8ze7R1EirbB0K/i4dCEhT3indNPNqqrVyFbpjk=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=g9Z0VoaijEMMbCOyPaLoxR9BZInsbfnvvrlvkgQf+IbpLCDbxnbmsaCH24XRp535a
+         RrJKYMFmqVhUq/iPXrdCG1oehueSRn85OteYdO/A64p0vDwmsxEx5Kmq94n32E2aWN
+         UAYkX4LqibNYvmentGfKPRi1pZGhp+pUI1EpLPtbq6SrAxW0DgMaxQ5w0q9eN15VCo
+         Lmq3Zdmv2mWEqoPG/9ooVkjZDxFhCHI1JbEYBVVig5p95wTgj4CKz1ivqfn56+pu5s
+         szKaO4N7FdJ6wEh3d/D7Q3kU8AgbmMXKhP39VKnVcD0usW8RL+w38R/1sa4epwD1zY
+         4q/xqWFaCOdXQ==
+Date: Sat, 8 May 2021 16:20:16 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH -perfbook 0/4] Employ cleveref macros, take two
+Message-ID: <20210508232016.GC975577@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
 References: <d66be1a7-9ef3-bf69-de15-2a684894bc12@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <5e325fda-41a1-be91-1ae0-62f685529866@gmail.com>
-Date: Sat, 8 May 2021 16:10:20 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <d66be1a7-9ef3-bf69-de15-2a684894bc12@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-As a PoC, Customize setting so that \Cref{} expands to "Equation~m.n"
-and \cref{} expands to "Eq.~m.n".
+On Sat, May 08, 2021 at 04:05:35PM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> This patch set is to satisfy cleverefcheck up to Chapter 7.
+> 
+> Note that Patch 4/4 customizes the reference name of equations so that
+> \cref{eq:...} expands to "Eq.~m.n" and \Cref{eq:...} expands to
+> "Equation~m.n".
+> 
+> You can see the expansions to "Eq.~m.n" in the Answers to Quick
+> Quizzes 5.17 and 6.20.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- perfbook-lt.tex | 2 ++
- 1 file changed, 2 insertions(+)
+Queued and pushed, thank you!
 
-diff --git a/perfbook-lt.tex b/perfbook-lt.tex
-index 6e7d8d1f..9e30a1a4 100644
---- a/perfbook-lt.tex
-+++ b/perfbook-lt.tex
-@@ -310,6 +310,8 @@
- \Crefname{sequencei}{Step}{Steps}
- \crefname{page}{page}{pages}
- \Crefname{page}{Page}{Pages}
-+\Crefformat{equation}{Equation~#2#1#3}
-+\crefformat{equation}{Eq.~#2#1#3}
- \newcommand{\crefrangeconjunction}{--}
- \newcommand{\creflastconjunction}{, and~}
- 
--- 
-2.17.1
+(And I really did push it this time...)
 
+							Thanx, Paul
 
+> Thanks, Akira
+> 
+> --
+> Akira Yokosawa (4):
+>   count: Employ \cref{} and its variants
+>   SMPdesign: Employ \cref{} and its variants
+>   locking: Employ \cref{} and its variants
+>   perfbook-lt: Customize reference style of equation
+> 
+>  SMPdesign/SMPdesign.tex       | 138 ++++----
+>  SMPdesign/beyond.tex          | 121 ++++---
+>  SMPdesign/criteria.tex        |  10 +-
+>  SMPdesign/partexercises.tex   | 134 ++++----
+>  count/count.tex               | 586 +++++++++++++++++-----------------
+>  locking/locking-existence.tex |  22 +-
+>  locking/locking.tex           | 268 ++++++++--------
+>  perfbook-lt.tex               |   2 +
+>  8 files changed, 639 insertions(+), 642 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
