@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Qczx8tQ6xlJL42A2HutESiIvRGOF89nEw4LnHHU8dp8=;
-        b=FB7iZn84MpBp5FfD8z7hNJxmP1TKJTeueFbQAWU4CB+9JxGun8GiWw6o4BpHA0XGiT
-         DX+8VhdvC1OYDbNCjvsajCm7JAz4PySMsDpIVEqBPxZXoCGfhw2aeSgzDbmF0i2BiCr1
-         eGylCR5OzGiKZpAZc8eDsgABDJYz/5bGVZQqHk71BPfKR6y/YE9S+7Dye3rebqi3SZxj
-         LwnJe1yZ2f5f3cLKjbzkYtbo/5d92Hvcj+afRhngr0ki04act8Qlmxhy+2soQYvCPAb3
-         2qcVgekQdC4uHVDXE/NUBnReuJ7H3W9mPEisQyno7wa7JvDB7OiQOCncRTPmkYqX+Mrt
-         /HdA==
-Subject: [PATCH -perfbook 2/4] SMPdesign: Employ \cref{} and its variants
+        bh=Ej1Bb4rZQH+JSsoG7it4TrDc670FWyIRnXRCpYqsmeY=;
+        b=ge5XuKOmL8wDI7G55xpcic1xyDykiUdMkWP2ChxndUgUFVjWsyVE4i41+skW9xCARL
+         0DxkLfcTPcba49/ujyNdJrMypnpW5g3a10iQYdCYxldMGnSjB9NzPlyWq+j4O6iBrgjF
+         KfJ4jdTK8g3RGc10m6U15Mf6f5ZVAWhqre5J19DxKVjj6gHwmAesDgNEcFszXw/mR/eo
+         9M+UobCPlZ6cmDxFF+tunxsHumnLd9dUtd1Ezh0Z9B6s12JBgBpMr1BWmDDqHIJPSKPS
+         L3jbgMfqd1jq2F8MM5SJ/23k1qsyq+kUHvB0rzMd6TmMo01zV4DZSac28LRKLBiJDHmK
+         DSIA==
+Subject: [PATCH -perfbook 3/4] locking: Employ \cref{} and its variants
 References: <d66be1a7-9ef3-bf69-de15-2a684894bc12@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <d08f3937-9fef-58a0-776f-a6dc76bbcfdc@gmail.com>
-Date: Sat, 8 May 2021 16:08:21 +0900
+Message-ID: <5495aab0-0d49-9d3e-7af4-6a46002e184c@gmail.com>
+Date: Sat, 8 May 2021 16:09:21 +0900
 MIME-Version: 1.0
 In-Reply-To: <d66be1a7-9ef3-bf69-de15-2a684894bc12@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,1233 +24,880 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Also fix indents by white spaces in Quick Quizzes.
+Also fix in indent by white spaces in a Quick Quiz.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- SMPdesign/SMPdesign.tex     | 138 ++++++++++++++++++------------------
- SMPdesign/beyond.tex        | 121 ++++++++++++++++---------------
- SMPdesign/criteria.tex      |  10 +--
- SMPdesign/partexercises.tex | 134 +++++++++++++++++-----------------
- 4 files changed, 201 insertions(+), 202 deletions(-)
+ locking/locking-existence.tex |  22 +--
+ locking/locking.tex           | 268 +++++++++++++++++-----------------
+ 2 files changed, 143 insertions(+), 147 deletions(-)
 
-diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
-index 7d392a84..e6b967f7 100644
---- a/SMPdesign/SMPdesign.tex
-+++ b/SMPdesign/SMPdesign.tex
-@@ -20,20 +20,20 @@ batch second, weaken third, and code fourth.
- Changing this order often leads to poor performance and scalability
- along with great frustration.\footnote{
- 	That other great dodge around the Laws of Physics, read-only
--	replication, is covered in Chapter~\ref{chp:Deferred Processing}.}
-+	replication, is covered in \cref{chp:Deferred Processing}.}
- 
--To this end, Section~\ref{sec:SMPdesign:Partitioning Exercises}
-+To this end, \cref{sec:SMPdesign:Partitioning Exercises}
- presents partitioning exercises,
--Section~\ref{sec:SMPdesign:Design Criteria} reviews partitionability
-+\cref{sec:SMPdesign:Design Criteria} reviews partitionability
- design criteria,
--Section~\ref{sec:SMPdesign:Synchronization Granularity}
-+\cref{sec:SMPdesign:Synchronization Granularity}
- discusses synchronization granularity selection,
--Section~\ref{sec:SMPdesign:Parallel Fastpath}
-+\cref{sec:SMPdesign:Parallel Fastpath}
- overviews important parallel-fastpath design patterns
- that provide speed and scalability on common-case fastpaths while using
- simpler less-scalable ``slow path'' fallbacks for unusual situations,
- and finally
--Section~\ref{sec:SMPdesign:Beyond Partitioning}
-+\cref{sec:SMPdesign:Beyond Partitioning}
- takes a brief look beyond partitioning.
- 
- \input{SMPdesign/partexercises}
-@@ -46,7 +46,7 @@ takes a brief look beyond partitioning.
- \epigraph{Doing little things well is a step toward doing big things better.}
- 	 {\emph{Harry F.~Banks}}
- 
--Figure~\ref{fig:SMPdesign:Design Patterns and Lock Granularity}
-+\Cref{fig:SMPdesign:Design Patterns and Lock Granularity}
- gives a pictorial view of different levels of synchronization granularity,
- each of which is described in one of the following sections.
- These sections focus primarily on locking, but similar granularity
-@@ -70,7 +70,7 @@ overhead and complexity.
- Some years back, there were those who would argue that \IXr{Moore's Law}
- would eventually force all programs into this category.
- However, as can be seen in
--Figure~\ref{fig:SMPdesign:Clock-Frequency Trend for Intel CPUs},
-+\cref{fig:SMPdesign:Clock-Frequency Trend for Intel CPUs},
- the exponential increase in single-threaded performance halted in
- about 2003.
- Therefore,
-@@ -88,7 +88,7 @@ in 2020 were generated on a system with 56~hardware threads per socket,
- parallelism is well and truly here.
- It is also important to note that Ethernet bandwidth is continuing to
- grow, as shown in
--Figure~\ref{fig:SMPdesign:Ethernet Bandwidth vs. Intel x86 CPU Performance}.
-+\cref{fig:SMPdesign:Ethernet Bandwidth vs. Intel x86 CPU Performance}.
- This growth will continue to motivate multithreaded servers in order to
- handle the communications load.
- 
-@@ -112,7 +112,7 @@ Again, if a program runs quickly enough on a single processor,
- spare yourself the overhead and complexity of SMP synchronization
- primitives.
- The simplicity of the hash-table lookup code in
--Listing~\ref{lst:SMPdesign:Sequential-Program Hash Table Search}
-+\cref{lst:SMPdesign:Sequential-Program Hash Table Search}
- underscores this point.\footnote{
- 	The examples in this section are taken from Hart et
- 	al.~\cite{ThomasEHart2006a}, adapted for clarity
-@@ -171,7 +171,7 @@ global locks.\footnote{
- 	If your program instead has locks in data structures,
- 	or, in the case of Java, uses classes with synchronized
- 	instances, you are instead using ``data locking'', described
--	in Section~\ref{sec:SMPdesign:Data Locking}.}
-+	in \cref{sec:SMPdesign:Data Locking}.}
- It is especially
- easy to retrofit an existing program to use code locking in
- order to run it on a multiprocessor.
-@@ -188,10 +188,10 @@ from which only modest scaling is required.
- In these cases, code locking will provide a relatively simple
- program that is very similar to its sequential counterpart,
- as can be seen in
--Listing~\ref{lst:SMPdesign:Code-Locking Hash Table Search}.
-+\cref{lst:SMPdesign:Code-Locking Hash Table Search}.
- However, note that the simple return of the comparison in
- \co{hash_search()} in
--Listing~\ref{lst:SMPdesign:Sequential-Program Hash Table Search}
-+\cref{lst:SMPdesign:Sequential-Program Hash Table Search}
- has now become three statements due to the need to release the
- lock before returning.
- 
-@@ -238,7 +238,7 @@ where multiple CPUs need to acquire the lock concurrently.
- SMP programmers who have taken care of groups of small children
- (or groups of older people who are acting like children) will immediately
- recognize the danger of having only one of something,
--as illustrated in Figure~\ref{fig:SMPdesign:Lock Contention}.
-+as illustrated in \cref{fig:SMPdesign:Lock Contention}.
- 
- % ./test_hash_codelock.exe 1000 0/100 1 1024 1
- % ./test_hash_codelock.exe: nmilli: 1000 update/total: 0/100 nelements: 1 nbuckets: 1024 nthreads: 1
-@@ -282,7 +282,7 @@ Data locking reduces contention by distributing the instances
- of the overly-large critical section across multiple data structures,
- for example, maintaining per-hash-bucket critical sections in a
- hash table, as shown in
--Listing~\ref{lst:SMPdesign:Data-Locking Hash Table Search}.
-+\cref{lst:SMPdesign:Data-Locking Hash Table Search}.
- The increased scalability again results in a slight increase in complexity
- in the form of an additional data structure, the \co{struct bucket}.
- 
-@@ -330,9 +330,9 @@ int hash_search(struct hash_table *h, long key)
- \end{listing}
- 
- In contrast with the contentious situation
--shown in Figure~\ref{fig:SMPdesign:Lock Contention},
-+shown in \cref{fig:SMPdesign:Lock Contention},
- data locking helps promote harmony, as illustrated by
--Figure~\ref{fig:SMPdesign:Data Locking}---and in parallel programs,
-+\cref{fig:SMPdesign:Data Locking}---and in parallel programs,
- this \emph{almost} always translates into increased performance and
- scalability.
- For this reason, data locking was heavily used by Sequent in its
-@@ -371,7 +371,7 @@ to the root directory and its direct descendants are much more likely to
- be traversed than are more obscure entries.
- This can result in many CPUs contending for the locks of these popular
- entries, resulting in a situation not unlike that
--shown in Figure~\ref{fig:SMPdesign:Data and Skew}.
-+shown in \cref{fig:SMPdesign:Data and Skew}.
- 
- \begin{figure}
- \centering
-@@ -394,7 +394,7 @@ A key challenge with data locking on dynamically allocated structures
- is ensuring that the structure remains in existence while the lock is
- being acquired~\cite{Gamsa99}.
- The code in
--Listing~\ref{lst:SMPdesign:Data-Locking Hash Table Search}
-+\cref{lst:SMPdesign:Data-Locking Hash Table Search}
- finesses this challenge by placing the locks in the statically allocated
- hash buckets, which are never freed.
- However, this trick would not work if the hash table were resizeable,
-@@ -413,13 +413,13 @@ bucket from being freed during the time that its lock was being acquired.
- 	\item	Provide a statically allocated lock that is held while
- 		the per-structure lock is being acquired, which is an
- 		example of hierarchical locking (see
--		Section~\ref{sec:SMPdesign:Hierarchical Locking}).
-+		\cref{sec:SMPdesign:Hierarchical Locking}).
- 		Of course, using a single global lock for this purpose
- 		can result in unacceptably high levels of lock contention,
- 		dramatically reducing performance and scalability.
- 	\item	Provide an array of statically allocated locks, hashing
- 		the structure's address to select the lock to be acquired,
--		as described in Chapter~\ref{chp:Locking}.
-+		as described in \cref{chp:Locking}.
- 		Given a hash function of sufficiently high quality, this
- 		avoids the scalability limitations of the single global
- 		lock, but in read-mostly situations, the lock-acquisition
-@@ -477,7 +477,7 @@ bucket from being freed during the time that its lock was being acquired.
- 	\end{enumerate}
- 
- 	For more on providing existence guarantees, see
--	Chapters~\ref{chp:Locking} and \ref{chp:Deferred Processing}.
-+	\cref{chp:Locking,chp:Deferred Processing}.
- }\QuickQuizEnd
- 
- \subsection{Data Ownership}
-@@ -517,14 +517,14 @@ If there is significant sharing, communication between the threads
- or CPUs can result in significant complexity and overhead.
- Furthermore, if the most-heavily used data happens to be that owned
- by a single CPU, that CPU will be a ``hot spot'', sometimes with
--results resembling that shown in Figure~\ref{fig:SMPdesign:Data and Skew}.
-+results resembling that shown in \cref{fig:SMPdesign:Data and Skew}.
- However, in situations where no sharing is required, data ownership
- achieves ideal performance, and with code that can be as simple
- as the sequential-program case shown in
--Listing~\ref{lst:SMPdesign:Sequential-Program Hash Table Search}.
-+\cref{lst:SMPdesign:Sequential-Program Hash Table Search}.
- Such situations are often referred to as ``\IX{embarrassingly
- parallel}'', and, in the best case, resemble the situation
--previously shown in Figure~\ref{fig:SMPdesign:Data Locking}.
-+previously shown in \cref{fig:SMPdesign:Data Locking}.
- 
- % ./test_hash_null.exe 1000 0/100 1 1024 1
- % ./test_hash_null.exe: nmilli: 1000 update/total: 0/100 nelements: 1 nbuckets: 1024 nthreads: 1
-@@ -547,7 +547,7 @@ is read-only, in which case,
- all threads can ``own'' it via replication.
- 
- Data ownership will be presented in more detail in
--Chapter~\ref{chp:Data Ownership}.
-+\cref{chp:Data Ownership}.
- 
- \subsection{Locking Granularity and Performance}
- \label{sec:SMPdesign:Locking Granularity and Performance}
-@@ -649,7 +649,7 @@ If we call this ratio $f$, we have:
- \label{fig:SMPdesign:Synchronization Efficiency}
- \end{figure}
- 
--Figure~\ref{fig:SMPdesign:Synchronization Efficiency} plots the synchronization
-+\Cref{fig:SMPdesign:Synchronization Efficiency} plots the synchronization
- efficiency $e$ as a function of the number of CPUs/threads $n$ for
- a few values of the overhead ratio $f$.
- For example, again using the 5-nanosecond atomic increment, the $f=10$
-@@ -664,7 +664,7 @@ atomic manipulation of a single global shared variable will not
- scale well if used heavily on current commodity hardware.
- This is an abstract mathematical depiction of the forces leading
- to the parallel counting algorithms that were discussed in
--Chapter~\ref{chp:Counting}.
-+\cref{chp:Counting}.
- Your real-world mileage may differ.
- 
- Nevertheless, the concept of efficiency is useful, and even in cases
-@@ -688,7 +688,7 @@ One might therefore expect a perfect efficiency of 1.0.
- \end{figure}
- 
- However,
--Figure~\ref{fig:SMPdesign:Matrix Multiply Efficiency}
-+\cref{fig:SMPdesign:Matrix Multiply Efficiency}
- tells a different story, especially for a 64-by-64 matrix multiply,
- which never gets above an efficiency of about 0.3, even when running
- single-threaded, and drops sharply as more threads are added.\footnote{
-@@ -712,7 +712,7 @@ overhead, you may as well get your money's worth.
- 	How can a single-threaded 64-by-64 matrix multiple possibly
- 	have an efficiency of less than 1.0?
- 	Shouldn't all of the traces in
--	Figure~\ref{fig:SMPdesign:Matrix Multiply Efficiency}
-+	\cref{fig:SMPdesign:Matrix Multiply Efficiency}
- 	have efficiency of exactly 1.0 when running on one thread?
- }\QuickQuizAnswer{
- 	The \path{matmul.c} program creates the specified number of
-@@ -726,7 +726,7 @@ overhead, you may as well get your money's worth.
- Given these inefficiencies,
- it is worthwhile to look into more-scalable approaches
- such as the data locking described in
--Section~\ref{sec:SMPdesign:Data Locking}
-+\cref{sec:SMPdesign:Data Locking}
- or the parallel-fastpath approach discussed in the next section.
+diff --git a/locking/locking-existence.tex b/locking/locking-existence.tex
+index e866a511..86aeace7 100644
+--- a/locking/locking-existence.tex
++++ b/locking/locking-existence.tex
+@@ -97,14 +97,14 @@ structure.
+ Unfortunately, putting the lock that is to protect a data element
+ in the data element itself is subject to subtle race conditions,
+ as shown in
+-Listing~\ref{lst:locking:Per-Element Locking Without Existence Guarantees}.
++\cref{lst:locking:Per-Element Locking Without Existence Guarantees}.
  
  \QuickQuiz{
-@@ -787,7 +787,7 @@ Parallel fastpath combines different patterns (one for the
- fastpath, one elsewhere) and is therefore a template pattern.
- The following instances of parallel
- fastpath occur often enough to warrant their own patterns,
--as depicted in Figure~\ref{fig:SMPdesign:Parallel-Fastpath Design Patterns}:
-+as depicted in \cref{fig:SMPdesign:Parallel-Fastpath Design Patterns}:
- 
- \begin{figure}
- \centering
-@@ -799,18 +799,18 @@ as depicted in Figure~\ref{fig:SMPdesign:Parallel-Fastpath Design Patterns}:
- 
+ 	\begin{fcvref}[ln:locking:Per-Element Locking Without Existence Guarantees]
+ 	What if the element we need to delete is not the first element
+-	of the list on line~\lnref{chk_first} of
+-	Listing~\ref{lst:locking:Per-Element Locking Without Existence Guarantees}?
+-        \end{fcvref}
++	of the list on \clnref{chk_first} of
++	\cref{lst:locking:Per-Element Locking Without Existence Guarantees}?
++	\end{fcvref}
+ }\QuickQuizAnswer{
+ 	This is a very simple hash table with no chaining, so the only
+ 	element in a given bucket is the first element.
+@@ -117,10 +117,10 @@ Listing~\ref{lst:locking:Per-Element Locking Without Existence Guarantees}.
+ To see one of these race conditions, consider the following sequence
+ of events:
  \begin{enumerate}
- \item	Reader/Writer Locking
--	(described below in Section~\ref{sec:SMPdesign:Reader/Writer Locking}).
-+	(described below in \cref{sec:SMPdesign:Reader/Writer Locking}).
- \item	Read-copy update (RCU), which may be used as a high-performance
- 	replacement for reader/writer locking, is introduced in
+-\item	Thread~0 invokes \co{delete(0)}, and reaches line~\lnref{acq} of
++\item	Thread~0 invokes \co{delete(0)}, and reaches \clnref{acq} of
+ 	the listing, acquiring the lock.
+ \item	Thread~1 concurrently invokes \co{delete(0)}, reaching
+-	line~\lnref{acq}, but spins on the lock because Thread~0 holds it.
++	\clnref{acq}, but spins on the lock because Thread~0 holds it.
+ \item	Thread~0 executes \clnrefrange{NULL}{return1}, removing the element from
+ 	the hashtable, releasing the lock, and then freeing the
+ 	element.
+@@ -134,7 +134,7 @@ of events:
+ \end{enumerate}
+ Because there is no existence guarantee, the identity of the
+ data element can change while a thread is attempting to acquire
+-that element's lock on line~\lnref{acq}!
++that element's lock on \clnref{acq}!
+ \end{fcvref}
+ 
+ \begin{listing}
+@@ -168,9 +168,9 @@ int delete(int key)
+ \begin{fcvref}[ln:locking:Per-Element Locking With Lock-Based Existence Guarantees]
+ One way to fix this example is to use a hashed set of global locks, so
+ that each hash bucket has its own lock, as shown in
+-Listing~\ref{lst:locking:Per-Element Locking With Lock-Based Existence Guarantees}.
+-This approach allows acquiring the proper lock (on line~\lnref{acq}) before
+-gaining a pointer to the data element (on line~\lnref{getp}).
++\cref{lst:locking:Per-Element Locking With Lock-Based Existence Guarantees}.
++This approach allows acquiring the proper lock (on \clnref{acq}) before
++gaining a pointer to the data element (on \clnref{getp}).
+ Although this approach works quite well for elements contained in a
+ single partitionable data structure such as the hash table shown in the
+ listing, it can be problematic if a given data element can be a member
+@@ -180,6 +180,6 @@ Not only can these problems be solved, but the solutions also form
+ the basis of lock-based software transactional memory
+ implementations~\cite{Shavit95,DaveDice2006DISC}.
+ However,
+-Chapter~\ref{chp:Deferred Processing}
++\cref{chp:Deferred Processing}
+ describes simpler---and faster---ways of providing existence guarantees.
+ \end{fcvref}
+diff --git a/locking/locking.tex b/locking/locking.tex
+index 0d7666a9..bd678846 100644
+--- a/locking/locking.tex
++++ b/locking/locking.tex
+@@ -17,8 +17,8 @@ Interestingly enough, the role of workhorse in production-quality
+ shared-memory parallel software is also played by locking.
+ This chapter will look into this dichotomy between villain and
+ hero, as fancifully depicted in
+-Figures~\ref{fig:locking:Locking: Villain or Slob?}
+-and~\ref{fig:locking:Locking: Workhorse or Hero?}.
++\cref{fig:locking:Locking: Villain or Slob?,%
++fig:locking:Locking: Workhorse or Hero?}.
+ 
+ There are a number of reasons behind this Jekyll-and-Hyde dichotomy:
+ 
+@@ -31,7 +31,7 @@ There are a number of reasons behind this Jekyll-and-Hyde dichotomy:
+ 		lockdep facility~\cite{JonathanCorbet2006lockdep}.
+ 	\item	Locking-friendly data structures, such as
+ 		arrays, hash tables, and radix trees, which will
+-		be covered in Chapter~\ref{chp:Data Structures}.
++		be covered in \cref{chp:Data Structures}.
+ 	\end{enumerate}
+ \item	Some of locking's sins are problems only at high levels of
+ 	contention, levels reached only by poorly designed programs.
+@@ -39,17 +39,17 @@ There are a number of reasons behind this Jekyll-and-Hyde dichotomy:
+ 	mechanisms in concert with locking.
+ 	These other mechanisms include
+ 	statistical counters
+-	(see Chapter~\ref{chp:Counting}),
++	(see \cref{chp:Counting}),
+ 	reference counters
+-	(see Section~\ref{sec:defer:Reference Counting}),
++	(see \cref{sec:defer:Reference Counting}),
+ 	hazard pointers
+-	(see Section~\ref{sec:defer:Hazard Pointers}),
++	(see \cref{sec:defer:Hazard Pointers}),
+ 	sequence-locking readers
+-	(see Section~\ref{sec:defer:Sequence Locks}),
++	(see \cref{sec:defer:Sequence Locks}),
+ 	RCU
+-	(see Section~\ref{sec:defer:Read-Copy Update (RCU)}),
++	(see \cref{sec:defer:Read-Copy Update (RCU)}),
+ 	and simple non-blocking data structures
+-	(see Section~\ref{sec:advsync:Non-Blocking Synchronization}).
++	(see \cref{sec:advsync:Non-Blocking Synchronization}).
+ \item	Until quite recently, almost all large shared-memory parallel
+ 	programs were developed in secret, so that it was not easy
+ 	to learn of these pragmatic solutions.
+@@ -59,7 +59,7 @@ There are a number of reasons behind this Jekyll-and-Hyde dichotomy:
+ 	works well can be expected to have a much more positive
+ 	opinion of locking than those who have worked on artifacts
+ 	for which locking works poorly, as will be discussed in
+-	Section~\ref{sec:locking:Locking: Hero or Villain?}.
++	\cref{sec:locking:Locking: Hero or Villain?}.
+ \item	All good stories need a villain, and locking has a long and
+ 	honorable history serving as a research-paper whipping boy.
+ \end{enumerate}
+@@ -127,14 +127,14 @@ it is in turn waiting on.
+ 
+ We can create a directed-graph representation of a deadlock scenario
+ with nodes for threads and locks, as shown in
+-Figure~\ref{fig:locking:Deadlock Cycle}.
++\cref{fig:locking:Deadlock Cycle}.
+ An arrow from a lock to a thread indicates that the thread holds
+ the lock, for example, Thread~B holds Locks~2 and~4.
+ An arrow from a thread to a lock indicates that the thread is waiting
+ on the lock, for example, Thread~B is waiting on Lock~3.
+ 
+ A deadlock scenario will always contain at least one deadlock cycle.
+-In Figure~\ref{fig:locking:Deadlock Cycle}, this cycle is
++In \cref{fig:locking:Deadlock Cycle}, this cycle is
+ Thread~B, Lock~3, Thread~C, Lock~4, and back to Thread~B.
+ 
+ \QuickQuiz{
+@@ -181,21 +181,21 @@ complex, hazardous, and error-prone.
+ 
+ Therefore, kernels and applications should instead avoid deadlocks.
+ Deadlock-avoidance strategies include locking hierarchies
+-(Section~\ref{sec:locking:Locking Hierarchies}),
++(\cref{sec:locking:Locking Hierarchies}),
+ local locking hierarchies
+-(Section~\ref{sec:locking:Local Locking Hierarchies}),
++(\cref{sec:locking:Local Locking Hierarchies}),
+ layered locking hierarchies
+-(Section~\ref{sec:locking:Layered Locking Hierarchies}),
++(\cref{sec:locking:Layered Locking Hierarchies}),
+ strategies for dealing with APIs containing pointers to locks
+-(Section~\ref{sec:locking:Locking Hierarchies and Pointers to Locks}),
++(\cref{sec:locking:Locking Hierarchies and Pointers to Locks}),
+ conditional locking
+-(Section~\ref{sec:locking:Conditional Locking}),
++(\cref{sec:locking:Conditional Locking}),
+ acquiring all needed locks first
+-(Section~\ref{sec:locking:Acquire Needed Locks First}),
++(\cref{sec:locking:Acquire Needed Locks First}),
+ single-lock-at-a-time designs
+-(Section~\ref{sec:locking:Single-Lock-at-a-Time Designs}),
++(\cref{sec:locking:Single-Lock-at-a-Time Designs}),
+ and strategies for signal/interrupt handlers
+-(Section~\ref{sec:locking:Signal/Interrupt Handlers}).
++(\cref{sec:locking:Signal/Interrupt Handlers}).
+ Although there is no deadlock-avoidance strategy that works perfectly
+ for all situations, there is a good selection of tools to choose from.
+ 
+@@ -204,7 +204,7 @@ for all situations, there is a good selection of tools to choose from.
+ 
+ Locking hierarchies order the locks and prohibit acquiring locks out
+ of order.
+-In Figure~\ref{fig:locking:Deadlock Cycle},
++In \cref{fig:locking:Deadlock Cycle},
+ we might order the locks numerically, thus forbidding a thread
+ from acquiring a given lock if it already holds a lock
+ with the same or a higher number.
+@@ -296,10 +296,10 @@ function acquires any of the caller's locks, thus avoiding deadlock.
+ 	with other \co{qsort()} threads?
+ }\QuickQuizAnswer{
+ 	By privatizing the data elements being compared
+-	(as discussed in Chapter~\ref{chp:Data Ownership})
++	(as discussed in \cref{chp:Data Ownership})
+ 	or through use of deferral mechanisms such as
+ 	reference counting (as discussed in
+-	Chapter~\ref{chp:Deferred Processing}).
++	\cref{chp:Deferred Processing}).
+ 	Or through use of layered locking hierarchies, as described
+ 	in \cref{sec:locking:Layered Locking Hierarchies}.
+ 
+@@ -329,8 +329,8 @@ function acquires any of the caller's locks, thus avoiding deadlock.
+ \end{figure}
+ 
+ To see the benefits of local locking hierarchies, compare
+-Figures~\ref{fig:locking:Without qsort() Local Locking Hierarchy} and
+-\ref{fig:locking:Local Locking Hierarchy for qsort()}.
++\cref{fig:locking:Without qsort() Local Locking Hierarchy,%
++fig:locking:Local Locking Hierarchy for qsort()}.
+ In both figures, application functions \co{foo()} and \co{bar()}
+ invoke \co{qsort()} while holding Locks~A and~B, respectively.
+ Because this is a parallel implementation of \co{qsort()}, it acquires
+@@ -343,7 +343,7 @@ locks.
+ 
+ Now, if \co{qsort()} holds Lock~C while calling \co{cmp()} in violation
+ of the golden release-all-locks rule above, as shown in
+-Figure~\ref{fig:locking:Without qsort() Local Locking Hierarchy},
++\cref{fig:locking:Without qsort() Local Locking Hierarchy},
+ deadlock can occur.
+ To see this, suppose that one thread invokes \co{foo()} while a second
+ thread concurrently invokes \co{bar()}.
+@@ -358,7 +358,7 @@ Lock~B, resulting in deadlock.
+ In contrast, if \co{qsort()} releases Lock~C before invoking the
+ comparison function, which is unknown code from \co{qsort()}'s perspective,
+ then deadlock is avoided as shown in
+-Figure~\ref{fig:locking:Local Locking Hierarchy for qsort()}.
++\cref{fig:locking:Local Locking Hierarchy for qsort()}.
+ 
+ If each module releases all locks before invoking unknown code, then
+ deadlock is avoided if each module separately avoids deadlock.
+@@ -380,7 +380,7 @@ all of its locks before invoking the comparison function.
+ In this case, we cannot construct a local locking hierarchy by
+ releasing all locks before invoking unknown code.
+ However, we can instead construct a layered locking hierarchy, as shown in
+-Figure~\ref{fig:locking:Layered Locking Hierarchy for qsort()}.
++\cref{fig:locking:Layered Locking Hierarchy for qsort()}.
+ Here, the \co{cmp()} function uses a new Lock~D that is acquired after
+ all of Locks~A, B, and~C, avoiding deadlock.
+ We therefore have three layers to the global deadlock hierarchy, the
+@@ -404,7 +404,7 @@ at design time, before any code has been generated!
+ 
+ For another example where releasing all locks before invoking unknown
+ code is impractical, imagine an iterator over a linked list, as shown in
+-Listing~\ref{lst:locking:Concurrent List Iterator} (\path{locked_list.c}).
++\cref{lst:locking:Concurrent List Iterator} (\path{locked_list.c}).
+ The \co{list_start()} function acquires a lock on the list and returns
+ the first element (if there is one), and
+ \co{list_next()} either returns a pointer to the next element in the list
+@@ -418,17 +418,17 @@ been reached.
+ \end{listing}
+ 
+ \begin{fcvref}[ln:locking:locked_list:list_print:ints]
+-Listing~\ref{lst:locking:Concurrent List Iterator Usage} shows how
++\Cref{lst:locking:Concurrent List Iterator Usage} shows how
+ this list iterator may be used.
+ \Clnrefrange{b}{e} define the \co{list_ints} element
+ containing a single integer,
+ \end{fcvref}
+ \begin{fcvref}[ln:locking:locked_list:list_print:print]
+ and \clnrefrange{b}{e} show how to iterate over the list.
+-Line~\lnref{start} locks the list and fetches a pointer to the first element,
+-line~\lnref{entry} provides a pointer to our enclosing \co{list_ints} structure,
+-line~\lnref{print} prints the corresponding integer, and
+-line~\lnref{next} moves to the next element.
++\Clnref{start} locks the list and fetches a pointer to the first element,
++\clnref{entry} provides a pointer to our enclosing \co{list_ints} structure,
++\clnref{print} prints the corresponding integer, and
++\clnref{next} moves to the next element.
+ This is quite simple, and hides all of the locking.
+ \end{fcvref}
+ 
+@@ -450,7 +450,7 @@ need to avoid deadlock is an important reason why parallel programming
+ is perceived by some to be so difficult.
+ 
+ Some alternatives to highly layered locking hierarchies are covered in
+-Chapter~\ref{chp:Deferred Processing}.
++\cref{chp:Deferred Processing}.
+ 
+ \subsubsection{Locking Hierarchies and Pointers to Locks}
+ \label{sec:locking:Locking Hierarchies and Pointers to Locks}
+@@ -507,12 +507,12 @@ In the networking case, it might be necessary to hold the locks from
+ both layers when passing a packet from one layer to another.
+ Given that packets travel both up and down the protocol stack, this
+ is an excellent recipe for deadlock, as illustrated in
+-Listing~\ref{lst:locking:Protocol Layering and Deadlock}.
++\cref{lst:locking:Protocol Layering and Deadlock}.
+ \begin{fcvref}[ln:locking:Protocol Layering and Deadlock]
+ Here, a packet moving down the stack towards the wire must acquire
+ the next layer's lock out of order.
+ Given that packets moving up the stack away from the wire are acquiring
+-the locks in order, the lock acquisition in line~\lnref{acq} of the listing
++the locks in order, the lock acquisition in \clnref{acq} of the listing
+ can result in deadlock.
+ \end{fcvref}
+ 
+@@ -535,9 +535,9 @@ spin_unlock(&nextlayer->lock1);
+ One way to avoid deadlocks in this case is to impose a locking hierarchy,
+ but when it is necessary to acquire a lock out of order, acquire it
+ conditionally, as shown in
+-Listing~\ref{lst:locking:Avoiding Deadlock Via Conditional Locking}.
++\cref{lst:locking:Avoiding Deadlock Via Conditional Locking}.
+ \begin{fcvref}[ln:locking:Avoiding Deadlock Via Conditional Locking]
+-Instead of unconditionally acquiring the layer-1 lock, line~\lnref{trylock}
++Instead of unconditionally acquiring the layer-1 lock, \clnref{trylock}
+ conditionally acquires the lock using the \co{spin_trylock()} primitive.
+ This primitive acquires the lock immediately if the lock is available
+ (returning non-zero), and otherwise returns zero without acquiring the lock.
+@@ -568,10 +568,10 @@ retry:
+ \label{lst:locking:Avoiding Deadlock Via Conditional Locking}
+ \end{listing}
+ 
+-If \co{spin_trylock()} was successful, line~\lnref{l1_proc} does the needed
++If \co{spin_trylock()} was successful, \clnref{l1_proc} does the needed
+ layer-1 processing.
+-Otherwise, line~\lnref{rel2} releases the lock, and
+-lines~\lnref{acq1} and~\lnref{acq2} acquire them in
++Otherwise, \clnref{rel2} releases the lock, and
++\clnref{acq1,acq2} acquire them in
+ the correct order.
+ Unfortunately, there might be multiple networking devices on
+ the system (e.g., Ethernet and WiFi), so that the \co{layer_1()}
+@@ -579,15 +579,15 @@ function must make a routing decision.
+ This decision might change at any time, especially if the system
+ is mobile.\footnote{
+ 	And, in contrast to the 1900s, mobility is the common case.}
+-Therefore, line~\lnref{recheck} must recheck the decision, and if it has changed,
++Therefore, \clnref{recheck} must recheck the decision, and if it has changed,
+ must release the locks and start over.
+ \end{fcvref}
+ 
+ \QuickQuizSeries{%
+ \QuickQuizB{
+ 	Can the transformation from
+-	Listing~\ref{lst:locking:Protocol Layering and Deadlock} to
+-	Listing~\ref{lst:locking:Avoiding Deadlock Via Conditional Locking}
++	\cref{lst:locking:Protocol Layering and Deadlock} to
++	\cref{lst:locking:Avoiding Deadlock Via Conditional Locking}
+ 	be applied universally?
+ }\QuickQuizAnswerB{
+ 	Absolutely not!
+@@ -602,7 +602,7 @@ must release the locks and start over.
+ %
+ \QuickQuizE{
+ 	But the complexity in
+-	Listing~\ref{lst:locking:Avoiding Deadlock Via Conditional Locking}
++	\cref{lst:locking:Avoiding Deadlock Via Conditional Locking}
+ 	is well worthwhile given that it avoids deadlock, right?
+ }\QuickQuizAnswerE{
+ 	Maybe.
+@@ -612,7 +612,7 @@ must release the locks and start over.
+ 	This is termed ``\IX{livelock}'' if no thread makes any
+ 	forward progress or ``\IX{starvation}''
+ 	if some threads make forward progress but others do not
+-	(see Section~\ref{sec:locking:Livelock and Starvation}).
++	(see \cref{sec:locking:Livelock and Starvation}).
+ }\QuickQuizEndE
+ }
+ 
+@@ -631,11 +631,11 @@ Only once all needed locks are held will any processing be carried out.
+ 
+ However, this procedure can result in \emph{livelock}, which will
+ be discussed in
+-Section~\ref{sec:locking:Livelock and Starvation}.
++\cref{sec:locking:Livelock and Starvation}.
+ 
+ \QuickQuiz{
+ 	When using the ``acquire needed locks first'' approach described in
+-	Section~\ref{sec:locking:Acquire Needed Locks First},
++	\cref{sec:locking:Acquire Needed Locks First},
+ 	how can livelock be avoided?
+ }\QuickQuizAnswer{
+ 	Provide an additional global lock.
+@@ -677,9 +677,9 @@ However, there must be some mechanism to ensure that the needed data
+ structures remain in existence during the time that neither lock is
+ held.
+ One such mechanism is discussed in
+-Section~\ref{sec:locking:Lock-Based Existence Guarantees}
++\cref{sec:locking:Lock-Based Existence Guarantees}
+ and several others are presented in
+-Chapter~\ref{chp:Deferred Processing}.
++\cref{chp:Deferred Processing}.
+ 
+ \subsubsection{Signal/Interrupt Handlers}
+ \label{sec:locking:Signal/Interrupt Handlers}
+@@ -799,7 +799,7 @@ tool, but there are jobs better addressed with other tools.
+ 		Then associate a lock with each group.
+ 		This is an example of a single-lock-at-a-time
+ 		design, which discussed in
+-		Section~\ref{sec:locking:Single-Lock-at-a-Time Designs}.
++		\cref{sec:locking:Single-Lock-at-a-Time Designs}.
+ 	\item	Partition the objects into groups such that threads
+ 		can all operate on objects in the groups in some
+ 		groupwise ordering.
+@@ -808,7 +808,7 @@ tool, but there are jobs better addressed with other tools.
+ 	\item	Impose an arbitrarily selected hierarchy on the locks,
+ 		and then use conditional locking if it is necessary
+ 		to acquire a lock out of order, as was discussed in
+-		Section~\ref{sec:locking:Conditional Locking}.
++		\cref{sec:locking:Conditional Locking}.
+ 	\item	Before carrying out a given group of operations, predict
+ 		which locks will be acquired, and attempt to acquire them
+ 		before actually carrying out any updates.
+@@ -816,7 +816,7 @@ tool, but there are jobs better addressed with other tools.
+ 		all the locks and retry with an updated prediction
+ 		that includes the benefit of experience.
+ 		This approach was discussed in
+-		Section~\ref{sec:locking:Acquire Needed Locks First}.
++		\cref{sec:locking:Acquire Needed Locks First}.
+ 	\item	Use transactional memory.
+ 		This approach has a number of advantages and disadvantages
+ 		which will be discussed in
+@@ -838,7 +838,7 @@ quite useful in many settings.
+ Although conditional locking can be an effective deadlock-avoidance
+ mechanism, it can be abused.
+ Consider for example the beautifully symmetric example shown in
+-Listing~\ref{lst:locking:Abusing Conditional Locking}.
++\cref{lst:locking:Abusing Conditional Locking}.
+ This example's beauty hides an ugly \IX{livelock}.
+ To see this, consider the following sequence of events:
+ 
+@@ -880,28 +880,28 @@ retry:					\lnlbl[thr2:retry]
+ 
+ \begin{fcvref}[ln:locking:Abusing Conditional Locking]
+ \begin{enumerate}
+-\item	Thread~1 acquires \co{lock1} on line~\lnref{thr1:acq1}, then invokes
++\item	Thread~1 acquires \co{lock1} on \clnref{thr1:acq1}, then invokes
+ 	\co{do_one_thing()}.
+-\item	Thread~2 acquires \co{lock2} on line~\lnref{thr2:acq2}, then invokes
++\item	Thread~2 acquires \co{lock2} on \clnref{thr2:acq2}, then invokes
+ 	\co{do_a_third_thing()}.
+-\item	Thread~1 attempts to acquire \co{lock2} on line~\lnref{thr1:try2},
++\item	Thread~1 attempts to acquire \co{lock2} on \clnref{thr1:try2},
+ 	but fails because Thread~2 holds it.
+-\item	Thread~2 attempts to acquire \co{lock1} on line~\lnref{thr2:try1},
++\item	Thread~2 attempts to acquire \co{lock1} on \clnref{thr2:try1},
+ 	but fails because Thread~1 holds it.
+-\item	Thread~1 releases \co{lock1} on line~\lnref{thr1:rel1},
+-	then jumps to \co{retry} at line~\lnref{thr1:retry}.
+-\item	Thread~2 releases \co{lock2} on line~\lnref{thr2:rel2},
+-	and jumps to \co{retry} at line~\lnref{thr2:retry}.
++\item	Thread~1 releases \co{lock1} on \clnref{thr1:rel1},
++	then jumps to \co{retry} at \clnref{thr1:retry}.
++\item	Thread~2 releases \co{lock2} on \clnref{thr2:rel2},
++	and jumps to \co{retry} at \clnref{thr2:retry}.
+ \item	The livelock dance repeats from the beginning.
+ \end{enumerate}
+ \end{fcvref}
+ 
+ \QuickQuiz{
+ 	How can the livelock shown in
+-	Listing~\ref{lst:locking:Abusing Conditional Locking}
++	\cref{lst:locking:Abusing Conditional Locking}
+ 	be avoided?
+ }\QuickQuizAnswer{
+-	Listing~\ref{lst:locking:Avoiding Deadlock Via Conditional Locking}
++	\Cref{lst:locking:Avoiding Deadlock Via Conditional Locking}
+ 	provides some good hints.
+ 	In many cases, livelocks are a hint that you should revisit your
+ 	locking design.
+@@ -910,10 +910,10 @@ retry:					\lnlbl[thr2:retry]
+ 
+ 	That said, one good-and-sufficient approach due to Doug Lea
+ 	is to use conditional locking as described in
+-	Section~\ref{sec:locking:Conditional Locking}, but combine this
++	\cref{sec:locking:Conditional Locking}, but combine this
+ 	with acquiring all needed locks first, before modifying shared
+ 	data, as described in
+-	Section~\ref{sec:locking:Acquire Needed Locks First}.
++	\cref{sec:locking:Acquire Needed Locks First}.
+ 	If a given critical section retries too many times,
+ 	unconditionally acquire
+ 	a global lock, then unconditionally acquire all the needed locks.
+@@ -978,11 +978,11 @@ In the case of locking, simple exponential backoff can often address
+ livelock and starvation.
+ The idea is to introduce exponentially increasing delays before each
+ retry, as shown in
+-Listing~\ref{lst:locking:Conditional Locking and Exponential Backoff}.
++\cref{lst:locking:Conditional Locking and Exponential Backoff}.
+ 
+ \QuickQuiz{
+ 	What problems can you spot in the code in
+-	Listing~\ref{lst:locking:Conditional Locking and Exponential Backoff}?
++	\cref{lst:locking:Conditional Locking and Exponential Backoff}?
+ }\QuickQuizAnswer{
+ 	Here are a couple:
+ 	\begin{enumerate}
+@@ -1000,7 +1000,7 @@ Listing~\ref{lst:locking:Conditional Locking and Exponential Backoff}.
+ For better results, backoffs should be bounded, and
+ even better high-contention results are obtained via queued
+ locking~\cite{Anderson90}, which is discussed more in
+-Section~\ref{sec:locking:Other Exclusive-Locking Implementations}.
++\cref{sec:locking:Other Exclusive-Locking Implementations}.
+ Of course, best of all is to use a good parallel design that avoids
+ these problems by maintaining low \IX{lock contention}.
+ 
+@@ -1019,7 +1019,7 @@ where a subset of threads contending for a given lock are granted
+ the lion's share of the acquisitions.
+ This can happen on machines with shared caches or NUMA characteristics,
+ for example, as shown in
+-Figure~\ref{fig:locking:System Architecture and Lock Unfairness}.
++\cref{fig:locking:System Architecture and Lock Unfairness}.
+ If CPU~0 releases a lock that all the other CPUs are attempting
+ to acquire, the interconnect shared between CPUs~0 and~1 means that
+ CPU~1 will have an advantage over CPUs~2--7.
+@@ -1055,7 +1055,7 @@ shuttle between CPUs~0 and~1, bypassing CPUs~2--7.
+ 
+ Locks are implemented using atomic instructions and memory barriers,
+ and often involve cache misses.
+-As we saw in Chapter~\ref{chp:Hardware and its Habits},
++As we saw in \cref{chp:Hardware and its Habits},
+ these instructions are quite expensive, roughly two
+ orders of magnitude greater overhead than simple instructions.
+ This can be a serious problem for locking: If you protect a single
+@@ -1066,8 +1066,8 @@ be required to keep up with a single CPU executing the same code
+ without locking.
+ 
+ This situation underscores the synchronization\-/granularity
+-tradeoff discussed in Section~\ref{sec:SMPdesign:Synchronization Granularity},
+-especially Figure~\ref{fig:SMPdesign:Synchronization Efficiency}:
++tradeoff discussed in \cref{sec:SMPdesign:Synchronization Granularity},
++especially \cref{fig:SMPdesign:Synchronization Efficiency}:
+ Too coarse a granularity will limit scalability, while too fine a
+ granularity will result in excessive synchronization overhead.
+ 
+@@ -1107,10 +1107,10 @@ be accessed by the lock holder without interference from other threads.
+ There are a surprising number of types of locks, more than this
+ short chapter can possibly do justice to.
+ The following sections discuss
+-exclusive locks (Section~\ref{sec:locking:Exclusive Locks}),
+-reader-writer locks (Section~\ref{sec:locking:Reader-Writer Locks}),
+-multi-role locks (Section~\ref{sec:locking:Beyond Reader-Writer Locks}),
+-and scoped locking (Section~\ref{sec:locking:Scoped Locking}).
++exclusive locks (\cref{sec:locking:Exclusive Locks}),
++reader-writer locks (\cref{sec:locking:Reader-Writer Locks}),
++multi-role locks (\cref{sec:locking:Beyond Reader-Writer Locks}),
++and scoped locking (\cref{sec:locking:Scoped Locking}).
+ 
+ \subsection{Exclusive Locks}
+ \label{sec:locking:Exclusive Locks}
+@@ -1123,7 +1123,7 @@ by that lock, hence the name.
+ Of course, this all assumes that this lock is held across all accesses
+ to data purportedly protected by the lock.
+ Although there are some tools that can help (see for example
+-Section~\ref{sec:formal:Axiomatic Approaches and Locking}),
++\cref{sec:formal:Axiomatic Approaches and Locking}),
+ the ultimate responsibility for ensuring that the lock is always acquired
+ when needed rests with the developer.
+ 
+@@ -1154,7 +1154,7 @@ when needed rests with the developer.
+ 	for ``big reader lock''.
+ 	This use case is a way of approximating the semantics of read-copy
+ 	update (RCU), which is discussed in
 -	Section~\ref{sec:defer:Read-Copy Update (RCU)}.
 +	\cref{sec:defer:Read-Copy Update (RCU)}.
- 	Other alternatives include hazard pointers
- 	(\cref{sec:defer:Hazard Pointers})
- 	and sequence locking (\cref{sec:defer:Sequence Locks}).
- 	These alternatives will not be discussed further in this chapter.
- \item   Hierarchical Locking~(\cite{McKenney95b}), which is touched upon
--	in Section~\ref{sec:SMPdesign:Hierarchical Locking}.
-+	in \cref{sec:SMPdesign:Hierarchical Locking}.
- \item	Resource Allocator Caches~(\cite{McKenney95b,McKenney93}).
--	See Section~\ref{sec:SMPdesign:Resource Allocator Caches}
-+	See \cref{sec:SMPdesign:Resource Allocator Caches}
- 	for more detail.
- \end{enumerate}
+ 	And in fact this Linux-kernel use case has been replaced
+ 	with RCU\@.
  
-@@ -824,8 +824,8 @@ multiple readers to proceed in parallel can greatly increase scalability.
- Writers exclude both readers and each other.
- There are many implementations of reader-writer locking, including
- the POSIX implementation described in
--Section~\ref{sec:toolsoftrade:POSIX Reader-Writer Locking}.
--Listing~\ref{lst:SMPdesign:Reader-Writer-Locking Hash Table Search}
-+\cref{sec:toolsoftrade:POSIX Reader-Writer Locking}.
-+\Cref{lst:SMPdesign:Reader-Writer-Locking Hash Table Search}
- shows how the hash search might be implemented using reader-writer locking.
+@@ -1441,7 +1441,7 @@ locks permit an arbitrary number of read-holders (but only one write-holder).
+ There is a very large number of possible admission policies, one of
+ which is that of the VAX/VMS distributed lock
+ manager (DLM)~\cite{Snaman87}, which is shown in
+-Table~\ref{tab:locking:VAX/VMS Distributed Lock Manager Policy}.
++\cref{tab:locking:VAX/VMS Distributed Lock Manager Policy}.
+ Blank cells indicate compatible modes, while cells containing ``X''
+ indicate incompatible modes.
  
- \begin{listing}
-@@ -871,7 +871,7 @@ Snaman~\cite{Snaman87} describes a more ornate six-mode
- asymmetric locking design used in several clustered systems.
- Locking in general and reader-writer locking in particular is described
- extensively in
--Chapter~\ref{chp:Locking}.
-+\cref{chp:Locking}.
+@@ -1573,7 +1573,7 @@ with explicit lock acquisition and release primitives.
  
- \subsection{Hierarchical Locking}
- \label{sec:SMPdesign:Hierarchical Locking}
-@@ -879,7 +879,7 @@ Chapter~\ref{chp:Locking}.
- The idea behind hierarchical locking is to have a coarse-grained lock
- that is held only long enough to work out which fine-grained lock
- to acquire.
--Listing~\ref{lst:SMPdesign:Hierarchical-Locking Hash Table Search}
-+\Cref{lst:SMPdesign:Hierarchical-Locking Hash Table Search}
- shows how our hash-table search might be adapted to do hierarchical
- locking, but also shows the great weakness of this approach:
- we have paid the overhead of acquiring a second lock, but we only
-@@ -939,8 +939,8 @@ int hash_search(struct hash_table *h, long key)
- 	In what situation would hierarchical locking work well?
- }\QuickQuizAnswer{
- 	If the comparison on
--        line~\ref{ln:SMPdesign:Hierarchical-Locking Hash Table Search:retval} of
--	Listing~\ref{lst:SMPdesign:Hierarchical-Locking Hash Table Search}
-+	\clnrefr{ln:SMPdesign:Hierarchical-Locking Hash Table Search:retval} of
-+	\cref{lst:SMPdesign:Hierarchical-Locking Hash Table Search}
- 	were replaced by a much heavier-weight operation,
- 	then releasing \co{bp->bucket_lock} \emph{might} reduce lock
- 	contention enough to outweigh the overhead of the extra
-@@ -988,7 +988,7 @@ To prevent any given CPU from monopolizing the memory blocks,
- we place a limit on the number of blocks that can be in each CPU's
- cache.
- In a two-CPU system, the flow of memory blocks will be as shown
--in Figure~\ref{fig:SMPdesign:Allocator Cache Schematic}:
-+in \cref{fig:SMPdesign:Allocator Cache Schematic}:
- when a given CPU is trying to free a block when its pool is full,
- it sends blocks to the global pool, and, similarly, when that CPU
- is trying to allocate a block when its pool is empty, it retrieves
-@@ -1005,8 +1005,8 @@ blocks from the global pool.
- 
- The actual data structures for a ``toy'' implementation of allocator
- caches are shown in
--Listing~\ref{lst:SMPdesign:Allocator-Cache Data Structures}.
--The ``Global Pool'' of Figure~\ref{fig:SMPdesign:Allocator Cache Schematic}
-+\cref{lst:SMPdesign:Allocator-Cache Data Structures}.
-+The ``Global Pool'' of \cref{fig:SMPdesign:Allocator Cache Schematic}
- is implemented by \co{globalmem} of type \co{struct globalmempool},
- and the two CPU pools by the per-thread variable \co{perthreadmem} of
- type \co{struct perthreadmempool}.
-@@ -1031,7 +1031,7 @@ must be empty.\footnote{
- \end{listing}
- 
- The operation of the pool data structures is illustrated by
--Figure~\ref{fig:SMPdesign:Allocator Pool Schematic},
-+\cref{fig:SMPdesign:Allocator Pool Schematic},
- with the six boxes representing the array of pointers making up
- the \co{pool} field, and the number preceding them representing
- the \co{cur} field.
-@@ -1052,23 +1052,23 @@ smaller than the number of non-\co{NULL} pointers.
- 
- \begin{fcvref}[ln:SMPdesign:smpalloc:alloc]
- The allocation function \co{memblock_alloc()} may be seen in
--Listing~\ref{lst:SMPdesign:Allocator-Cache Allocator Function}.
--Line~\lnref{pick} picks up the current thread's per-thread pool,
--and line~\lnref{chk:empty} checks to see if it is empty.
-+\cref{lst:SMPdesign:Allocator-Cache Allocator Function}.
-+\Clnref{pick} picks up the current thread's per-thread pool,
-+and \clnref{chk:empty} checks to see if it is empty.
- 
- If so, \clnrefrange{ack}{rel} attempt to refill it
- from the global pool
--under the spinlock acquired on line~\lnref{ack} and released on line~\lnref{rel}.
-+under the spinlock acquired on \clnref{ack} and released on \clnref{rel}.
- \Clnrefrange{loop:b}{loop:e} move blocks from the global
- to the per-thread pool until
- either the local pool reaches its target size (half full) or
--the global pool is exhausted, and line~\lnref{set} sets the per-thread pool's
-+the global pool is exhausted, and \clnref{set} sets the per-thread pool's
- count to the proper value.
- 
--In either case, line~\lnref{chk:notempty} checks for the per-thread
-+In either case, \clnref{chk:notempty} checks for the per-thread
- pool still being
- empty, and if not, \clnrefrange{rem:b}{rem:e} remove a block and return it.
--Otherwise, line~\lnref{ret:NULL} tells the sad tale of memory exhaustion.
-+Otherwise, \clnref{ret:NULL} tells the sad tale of memory exhaustion.
- \end{fcvref}
- 
- \begin{listing}
-@@ -1080,20 +1080,20 @@ Otherwise, line~\lnref{ret:NULL} tells the sad tale of memory exhaustion.
- \subsubsection{Free Function}
- 
- \begin{fcvref}[ln:SMPdesign:smpalloc:free]
--Listing~\ref{lst:SMPdesign:Allocator-Cache Free Function} shows
-+\Cref{lst:SMPdesign:Allocator-Cache Free Function} shows
- the memory-block free function.
--Line~\lnref{get} gets a pointer to this thread's pool, and
--line~\lnref{chk:full} checks to see if this per-thread pool is full.
-+\Clnref{get} gets a pointer to this thread's pool, and
-+\clnref{chk:full} checks to see if this per-thread pool is full.
- 
- If so, \clnrefrange{acq}{empty:e} empty half of the per-thread pool
- into the global pool,
--with lines~\lnref{acq} and~\lnref{rel} acquiring and releasing the spinlock.
-+with \clnref{acq,rel} acquiring and releasing the spinlock.
- \Clnrefrange{loop:b}{loop:e} implement the loop moving blocks
- from the local to the
--global pool, and line~\lnref{set} sets the per-thread pool's count to the proper
-+global pool, and \clnref{set} sets the per-thread pool's count to the proper
- value.
- 
--In either case, line~\lnref{place} then places the newly freed block into the
-+In either case, \clnref{place} then places the newly freed block into the
- per-thread pool.
- \end{fcvref}
- 
-@@ -1106,12 +1106,12 @@ per-thread pool.
- \QuickQuiz{
- 	Doesn't this resource-allocator design resemble that of
- 	the approximate limit counters covered in
--	Section~\ref{sec:count:Approximate Limit Counters}?
-+	\cref{sec:count:Approximate Limit Counters}?
- }\QuickQuizAnswer{
- 	Indeed it does!
- 	We are used to thinking of allocating and freeing memory,
- 	but the algorithms in
--	Section~\ref{sec:count:Approximate Limit Counters}
-+	\cref{sec:count:Approximate Limit Counters}
- 	are taking very similar actions to allocate and free
- 	``count''.
- }\QuickQuizEnd
-@@ -1122,11 +1122,11 @@ Rough performance results\footnote{
- 	This data was not collected in a statistically meaningful way,
- 	and therefore should be viewed with great skepticism and suspicion.
- 	Good data-collection and -reduction practice is discussed
--	in Chapter~\ref{chp:Validation}.
-+	in \cref{chp:Validation}.
- 	That said, repeated runs gave similar results, and these results
- 	match more careful evaluations of similar algorithms.}
+ Example strict-RAII-unfriendly data structures from Linux-kernel RCU
  are shown in
--Figure~\ref{fig:SMPdesign:Allocator Cache Performance},
-+\cref{fig:SMPdesign:Allocator Cache Performance},
- running on a dual-core Intel x86 running at 1\,GHz (4300 bogomips per CPU)
- with at most six blocks allowed in each CPU's cache.
- In this micro-benchmark,
-@@ -1166,7 +1166,7 @@ this book.
- 
- \QuickQuizSeries{%
- \QuickQuizB{
--	In Figure~\ref{fig:SMPdesign:Allocator Cache Performance},
-+	In \cref{fig:SMPdesign:Allocator Cache Performance},
- 	there is a pattern of performance rising with increasing run
- 	length in groups of three samples, for example, for run lengths
- 	10, 11, and 12.
-@@ -1241,7 +1241,7 @@ this book.
- 	\end{figure}
- 
- 	The relationships between these quantities are shown in
--	Figure~\ref{fig:SMPdesign:Allocator Cache Run-Length Analysis}.
-+	\cref{fig:SMPdesign:Allocator Cache Run-Length Analysis}.
- 	The global pool is shown on the top of this figure, and
- 	the ``extra'' initializer thread's per-thread pool and
- 	per-thread allocations are the left-most pair of boxes.
-@@ -1264,10 +1264,10 @@ this book.
- 	\end{equation}
- 
- 	The question has $g=40$, $s=3$, and $n=2$.
--	Equation~\ref{sec:SMPdesign:i} gives $i=4$, and
--	Equation~\ref{sec:SMPdesign:p} gives $p=18$ for $m=18$
-+	\Cref{sec:SMPdesign:i} gives $i=4$, and
-+	\cref{sec:SMPdesign:p} gives $p=18$ for $m=18$
- 	and $p=21$ for $m=19$.
--	Plugging these into Equation~\ref{sec:SMPdesign:g-vs-m}
-+	Plugging these into \cref{sec:SMPdesign:g-vs-m}
- 	shows that $m=18$ will not overflow, but that $m=19$ might
- 	well do so.
- 
-@@ -1315,7 +1315,7 @@ level is so infrequently reached in well-designed systems~\cite{McKenney01e}.
- Despite this real-world design's greater complexity, the underlying
- idea is the same---repeated application of parallel fastpath,
- as shown in
--Table~\ref{fig:app:questions:Schematic of Real-World Parallel Allocator}.
-+\cref{fig:app:questions:Schematic of Real-World Parallel Allocator}.
- 
- \begin{table}
- \rowcolors{1}{}{lightgray}
-diff --git a/SMPdesign/beyond.tex b/SMPdesign/beyond.tex
-index 20b6a9e2..35bdd92f 100644
---- a/SMPdesign/beyond.tex
-+++ b/SMPdesign/beyond.tex
-@@ -11,9 +11,9 @@
- 
- This chapter has discussed how data partitioning can be used to design
- simple linearly scalable parallel programs.
--Section~\ref{sec:SMPdesign:Data Ownership} hinted at the possibilities
-+\Cref{sec:SMPdesign:Data Ownership} hinted at the possibilities
- of data replication, which will be used to great effect in
--Section~\ref{sec:defer:Read-Copy Update (RCU)}.
-+\cref{sec:defer:Read-Copy Update (RCU)}.
- 
- The main goal of applying partitioning and replication is to achieve
- linear speedups, in other words, to ensure that the total amount of
-@@ -43,23 +43,23 @@ This section evaluates this advice by comparing PWQ
- against a sequential algorithm (SEQ) and also against
- an alternative parallel algorithm, in all cases solving randomly generated
- square mazes.
--Section~\ref{sec:SMPdesign:Work-Queue Parallel Maze Solver} discusses PWQ,
--Section~\ref{sec:SMPdesign:Alternative Parallel Maze Solver} discusses an alternative
-+\Cref{sec:SMPdesign:Work-Queue Parallel Maze Solver} discusses PWQ,
-+\cref{sec:SMPdesign:Alternative Parallel Maze Solver} discusses an alternative
- parallel algorithm,
--Section~\ref{sec:SMPdesign:Performance Comparison I} analyzes its anomalous performance,
--Section~\ref{sec:SMPdesign:Alternative Sequential Maze Solver} derives an improved
-+\cref{sec:SMPdesign:Performance Comparison I} analyzes its anomalous performance,
-+\cref{sec:SMPdesign:Alternative Sequential Maze Solver} derives an improved
- sequential algorithm from the alternative parallel algorithm,
--Section~\ref{sec:SMPdesign:Performance Comparison II} makes further performance
-+\cref{sec:SMPdesign:Performance Comparison II} makes further performance
- comparisons,
- and finally
--Section~\ref{sec:SMPdesign:Future Directions and Conclusions}
-+\cref{sec:SMPdesign:Future Directions and Conclusions}
- presents future directions and concluding remarks.
- 
- \subsection{Work-Queue Parallel Maze Solver}
- \label{sec:SMPdesign:Work-Queue Parallel Maze Solver}
- 
- PWQ is based on SEQ, which is shown in
--Listing~\ref{lst:SMPdesign:SEQ Pseudocode}
-+\cref{lst:SMPdesign:SEQ Pseudocode}
- (pseudocode for \path{maze_seq.c}).
- The maze is represented by a 2D array of cells and
- a linear-array-based work queue named \co{->visited}.
-@@ -96,14 +96,14 @@ int maze_solve(maze *mp, cell sc, cell ec)
+-Figure~\ref{fig:locking:Locking Hierarchy}.
++\cref{fig:locking:Locking Hierarchy}.
+ Here, each CPU is assigned a leaf \co{rcu_node} structure, and each
+ \co{rcu_node} structure has a pointer to its parent (named, oddly
+ enough, \co{->parent}), up to the root \co{rcu_node} structure,
+@@ -1628,7 +1628,7 @@ void force_quiescent_state(struct rcu_node *rnp_leaf)
  \end{listing}
  
- \begin{fcvref}[ln:SMPdesign:SEQ Pseudocode]
--Line~\lnref{initcell} visits the initial cell, and each iteration of the loop spanning
-+\Clnref{initcell} visits the initial cell, and each iteration of the loop spanning
- \clnrefrange{loop:b}{loop:e} traverses passages headed by one cell.
- The loop spanning
- \clnrefrange{loop2:b}{loop2:e} scans the \co{->visited[]} array for a
- visited cell with an unvisited neighbor, and the loop spanning
- \clnrefrange{loop3:b}{loop3:e} traverses one fork of the submaze
- headed by that neighbor.
--Line~\lnref{finalize} initializes for the next pass through the outer loop.
-+\Clnref{finalize} initializes for the next pass through the outer loop.
- \end{fcvref}
+ Simplified code to implement this is shown in
+-Listing~\ref{lst:locking:Conditional Locking to Reduce Contention}.
++\cref{lst:locking:Conditional Locking to Reduce Contention}.
+ The purpose of this function is to mediate between CPUs who have concurrently
+ detected a need to invoke the \co{do_force_quiescent_state()} function.
+ At any given time, it only makes sense for one instance of
+@@ -1640,34 +1640,34 @@ painlessly as possible) give up and leave.
+ \begin{fcvref}[ln:locking:Conditional Locking to Reduce Contention]
+ To this end, each pass through the loop spanning \clnrefrange{loop:b}{loop:e} attempts
+ to advance up one level in the \co{rcu_node} hierarchy.
+-If the \co{gp_flags} variable is already set (line~\lnref{flag_set}) or if the attempt
++If the \co{gp_flags} variable is already set (\clnref{flag_set}) or if the attempt
+ to acquire the current \co{rcu_node} structure's \co{->fqslock} is
+-unsuccessful (line~\lnref{trylock}), then local variable \co{ret} is set to 1.
+-If line~\lnref{non_NULL} sees that local variable \co{rnp_old} is non-\co{NULL},
++unsuccessful (\clnref{trylock}), then local variable \co{ret} is set to 1.
++If \clnref{non_NULL} sees that local variable \co{rnp_old} is non-\co{NULL},
+ meaning that we hold \co{rnp_old}'s \co{->fqs_lock},
+-line~\lnref{rel1} releases this lock (but only after the attempt has been made
++\clnref{rel1} releases this lock (but only after the attempt has been made
+ to acquire the parent \co{rcu_node} structure's \co{->fqslock}).
+-If line~\lnref{giveup} sees that either line~\lnref{flag_set} or~\lnref{trylock}
++If \clnref{giveup} sees that either \clnref{flag_set} or~\lnref{trylock}
+ saw a reason to give up,
+-line~\lnref{return} returns to the caller.
++\clnref{return} returns to the caller.
+ Otherwise, we must have acquired the current \co{rcu_node} structure's
+-\co{->fqslock}, so line~\lnref{save} saves a pointer to this structure in local
++\co{->fqslock}, so \clnref{save} saves a pointer to this structure in local
+ variable \co{rnp_old} in preparation for the next pass through the loop.
  
- \begin{listing}
-@@ -146,38 +146,36 @@ int maze_find_any_next_cell(struct maze *mp, cell c, \lnlbl@find:b$
- \begin{fcvref}[ln:SMPdesign:SEQ Helper Pseudocode:try]
- The pseudocode for \co{maze_try_visit_cell()} is shown on
- \clnrefrange{b}{e}
--of Listing~\ref{lst:SMPdesign:SEQ Helper Pseudocode}
-+of \cref{lst:SMPdesign:SEQ Helper Pseudocode}
- (\path{maze.c}).
--Line~\lnref{chk:adj} checks to see if cells \co{c} and \co{t} are
-+\Clnref{chk:adj} checks to see if cells \co{c} and \co{t} are
- adjacent and connected,
--while line~\lnref{chk:not:visited} checks to see if cell \co{t} has
-+while \clnref{chk:not:visited} checks to see if cell \co{t} has
- not yet been visited.
- The \co{celladdr()} function returns the address of the specified cell.
--If either check fails, line~\lnref{ret:failure} returns failure.
--Line~\lnref{nextcell} indicates the next cell,
--line~\lnref{recordnext} records this cell in the next
-+If either check fails, \clnref{ret:failure} returns failure.
-+\Clnref{nextcell} indicates the next cell,
-+\clnref{recordnext} records this cell in the next
- slot of the \co{->visited[]} array,
--line~\lnref{next:visited} indicates that this slot
--is now full, and line~\lnref{mark:visited} marks this cell as visited and also records
-+\clnref{next:visited} indicates that this slot
-+is now full, and \clnref{mark:visited} marks this cell as visited and also records
- the distance from the maze start.
--Line~\lnref{ret:success} then returns success.
-+\Clnref{ret:success} then returns success.
- \end{fcvref}
- 
- \begin{fcvref}[ln:SMPdesign:SEQ Helper Pseudocode:find]
- The pseudocode for \co{maze_find_any_next_cell()} is shown on
- \clnrefrange{b}{e}
--of Listing~\ref{lst:SMPdesign:SEQ Helper Pseudocode}
-+of \cref{lst:SMPdesign:SEQ Helper Pseudocode}
- (\path{maze.c}).
--Line~\lnref{curplus1} picks up the current cell's distance plus 1,
--while lines~\lnref{chk:prevcol}, \lnref{chk:nextcol}, \lnref{chk:prevrow},
--and~\lnref{chk:nextrow}
-+\Clnref{curplus1} picks up the current cell's distance plus 1,
-+while \clnref{chk:prevcol,chk:nextcol,chk:prevrow,chk:nextrow}
- check the cell in each direction, and
--lines~\lnref{ret:prevcol}, \lnref{ret:nextcol}, \lnref{ret:prevrow},
--and~\lnref{ret:nextrow}
-+\clnref{ret:prevcol,ret:nextcol,ret:prevrow,ret:nextrow}
- return true if the corresponding cell is a candidate next cell.
- The \co{prevcol()}, \co{nextcol()}, \co{prevrow()}, and \co{nextrow()}
- each do the specified array-index-conversion operation.
--If none of the cells is a candidate, line~\lnref{ret:false} returns false.
-+If none of the cells is a candidate, \clnref{ret:false} returns false.
- \end{fcvref}
- 
- \begin{figure}
-@@ -189,7 +187,7 @@ If none of the cells is a candidate, line~\lnref{ret:false} returns false.
- 
- The path is recorded in the maze by counting the number of cells from
- the starting point, as shown in
--Figure~\ref{fig:SMPdesign:Cell-Number Solution Tracking},
-+\cref{fig:SMPdesign:Cell-Number Solution Tracking},
- where the starting cell is in the upper left and the ending cell is
- in the lower right.
- Starting at the ending cell and following
-@@ -204,7 +202,7 @@ consecutively decreasing cell numbers traverses the solution.
- 
- The parallel work-queue solver is a straightforward parallelization
- of the algorithm shown in
--Listings~\ref{lst:SMPdesign:SEQ Pseudocode} and~\ref{lst:SMPdesign:SEQ Helper Pseudocode}.
-+\cref{lst:SMPdesign:SEQ Pseudocode,lst:SMPdesign:SEQ Helper Pseudocode}.
- \begin{fcvref}[ln:SMPdesign:SEQ Pseudocode]
- \Clnref{ifge} of Listing~\ref{lst:SMPdesign:SEQ Pseudocode} must use fetch-and-add,
- and the local variable \co{vi} must be shared among the various threads.
-@@ -220,13 +218,13 @@ attempts to record cells in the \co{->visited[]} array.
- 
- This approach does provide significant speedups on a dual-CPU
- Lenovo W500 running at 2.53\,GHz, as shown in
--Figure~\ref{fig:SMPdesign:CDF of Solution Times For SEQ and PWQ},
-+\cref{fig:SMPdesign:CDF of Solution Times For SEQ and PWQ},
- which shows the cumulative distribution functions (CDFs) for the solution
- times of the two algorithms, based on the solution of 500 different square
- 500-by-500 randomly generated mazes.
- The substantial overlap
- of the projection of the CDFs onto the x-axis will be addressed in
--Section~\ref{sec:SMPdesign:Performance Comparison I}.
-+\cref{sec:SMPdesign:Performance Comparison I}.
- 
- Interestingly enough, the sequential solution-path tracking works unchanged
- for the parallel algorithm.
-@@ -286,23 +284,23 @@ int maze_solve_child(maze *mp, cell *visited, cell sc)	\lnlbl@b$
- 
- \begin{fcvref}[ln:SMPdesign:Partitioned Parallel Solver Pseudocode]
- The partitioned parallel algorithm (PART), shown in
--Listing~\ref{lst:SMPdesign:Partitioned Parallel Solver Pseudocode}
-+\cref{lst:SMPdesign:Partitioned Parallel Solver Pseudocode}
- (\path{maze_part.c}),
- is similar to SEQ, but has a few important differences.
- First, each child thread has its own \co{visited} array, passed in by
--the parent as shown on line~\lnref{b},
-+the parent as shown on \clnref{b},
- which must be initialized to all [$-1$, $-1$].
--Line~\lnref{store:ptr} stores a pointer to this array into the per-thread variable
-+\Clnref{store:ptr} stores a pointer to this array into the per-thread variable
- \co{myvisited} to allow access by helper functions, and similarly stores
- a pointer to the local visit index.
- Second, the parent visits the first cell on each child's behalf,
--which the child retrieves on line~\lnref{retrieve}.
-+which the child retrieves on \clnref{retrieve}.
- Third, the maze is solved as soon as one child locates a cell that has
- been visited by the other child.
- When \co{maze_try_visit_cell()} detects this,
- it sets a \co{->done} field in the maze structure.
- Fourth, each child must therefore periodically check the \co{->done}
--field, as shown on lines~\lnref{chk:done1}, \lnref{chk:done2}, and~\lnref{chk:done3}.
-+field, as shown on \clnref{chk:done1,chk:done2,chk:done3}.
- The \co{READ_ONCE()} primitive must disable any compiler
- optimizations that might combine consecutive loads or that
- might reload the value.
-@@ -347,23 +345,23 @@ int maze_try_visit_cell(struct maze *mp, int c, int t,
- 
- \begin{fcvref}[ln:SMPdesign:Partitioned Parallel Helper Pseudocode]
- The pseudocode for \co{maze_find_any_next_cell()} is identical to that shown in
--Listing~\ref{lst:SMPdesign:SEQ Helper Pseudocode},
-+\cref{lst:SMPdesign:SEQ Helper Pseudocode},
- but the pseudocode for \co{maze_try_visit_cell()} differs, and
- is shown in
--Listing~\ref{lst:SMPdesign:Partitioned Parallel Helper Pseudocode}.
-+\cref{lst:SMPdesign:Partitioned Parallel Helper Pseudocode}.
- \Clnrefrange{chk:conn:b}{chk:conn:e}
- check to see if the cells are connected, returning failure
- if not.
- The loop spanning \clnrefrange{loop:b}{loop:e} attempts to mark
- the new cell visited.
--Line~\lnref{chk:visited} checks to see if it has already been visited, in which case
--line~\lnref{ret:fail} returns failure, but only after line~\lnref{chk:other}
-+\Clnref{chk:visited} checks to see if it has already been visited, in which case
-+\clnref{ret:fail} returns failure, but only after \clnref{chk:other}
- checks to see if
--we have encountered the other thread, in which case line~\lnref{located} indicates
-+we have encountered the other thread, in which case \clnref{located} indicates
- that the solution has been located.
--Line~\lnref{update:new} updates to the new cell,
--lines~\lnref{update:visited:b} and~\lnref{update:visited:e} update this thread's visited
--array, and line~\lnref{ret:success} returns success.
-+\Clnref{update:new} updates to the new cell,
-+\clnref{update:visited:b,update:visited:e} update this thread's visited
-+array, and \clnref{ret:success} returns success.
- \end{fcvref}
- 
- \begin{figure}
-@@ -374,7 +372,7 @@ array, and line~\lnref{ret:success} returns success.
- \end{figure}
- 
- Performance testing revealed a surprising anomaly, shown in
--Figure~\ref{fig:SMPdesign:CDF of Solution Times For SEQ; PWQ; and PART}.
-+\cref{fig:SMPdesign:CDF of Solution Times For SEQ; PWQ; and PART}.
- The median solution time for PART (17 milliseconds)
- is more than four times faster than that of SEQ (79 milliseconds),
- despite running on only two threads.
-@@ -393,14 +391,14 @@ The next section analyzes this anomaly.
- The first reaction to a performance anomaly is to check for bugs.
- Although the algorithms were in fact finding valid solutions, the
- plot of CDFs in
--Figure~\ref{fig:SMPdesign:CDF of Solution Times For SEQ; PWQ; and PART}
-+\cref{fig:SMPdesign:CDF of Solution Times For SEQ; PWQ; and PART}
- assumes independent data points.
- This is not the case:  The performance tests randomly generate a maze,
- and then run all solvers on that maze.
- It therefore makes sense to plot the CDF of the ratios of
- solution times for each generated maze,
- as shown in
--Figure~\ref{fig:SMPdesign:CDF of SEQ/PWQ and SEQ/PART Solution-Time Ratios},
-+\cref{fig:SMPdesign:CDF of SEQ/PWQ and SEQ/PART Solution-Time Ratios},
- greatly reducing the CDFs' overlap.
- This plot reveals that for some mazes, PART
- is more than \emph{forty} times faster than SEQ\@.
-@@ -431,7 +429,7 @@ Further investigation showed that
- PART sometimes visited fewer than 2\,\% of the maze's cells,
- while SEQ and PWQ never visited fewer than about 9\,\%.
- The reason for this difference is shown by
--Figure~\ref{fig:SMPdesign:Reason for Small Visit Percentages}.
-+\cref{fig:SMPdesign:Reason for Small Visit Percentages}.
- If the thread traversing the solution from the upper left reaches
- the circle, the other thread cannot reach
- the upper-right portion of the maze.
-@@ -446,7 +444,7 @@ This is a sharp contrast with decades of experience with
- parallel programming, where workers have struggled
- to keep threads \emph{out} of each others' way.
- 
--Figure~\ref{fig:SMPdesign:Correlation Between Visit Percentage and Solution Time}
-+\Cref{fig:SMPdesign:Correlation Between Visit Percentage and Solution Time}
- confirms a strong correlation between cells visited and solution time
- for all three methods.
- The slope of PART's scatterplot is smaller than that of SEQ,
-@@ -467,7 +465,7 @@ The fraction of cells visited by PWQ is similar to that of SEQ\@.
- In addition, PWQ's solution time is greater than that of PART,
- even for equal visit fractions.
- The reason for this is shown in
--Figure~\ref{fig:SMPdesign:PWQ Potential Contention Points}, which has a red
-+\cref{fig:SMPdesign:PWQ Potential Contention Points}, which has a red
- circle on each cell with more than two neighbors.
- Each such cell can result in contention in PWQ, because
- one thread can enter but two threads can exit, which hurts
-@@ -485,12 +483,12 @@ Of course, SEQ never contends.
- 
- Although PART's speedup is impressive, we should not neglect sequential
- optimizations.
--Figure~\ref{fig:SMPdesign:Effect of Compiler Optimization (-O3)} shows that
-+\Cref{fig:SMPdesign:Effect of Compiler Optimization (-O3)} shows that
- SEQ, when compiled with -O3, is about twice as fast
- as unoptimized PWQ, approaching the performance of unoptimized PART\@.
- Compiling all three algorithms with -O3 gives results similar to
- (albeit faster than) those shown in
--Figure~\ref{fig:SMPdesign:CDF of SEQ/PWQ and SEQ/PART Solution-Time Ratios},
-+\cref{fig:SMPdesign:CDF of SEQ/PWQ and SEQ/PART Solution-Time Ratios},
- except that PWQ provides almost no speedup compared
- to SEQ, in keeping with Amdahl's Law~\cite{GeneAmdahl1967AmdahlsLaw}.
- However, if the goal is to double performance compared to unoptimized
-@@ -527,13 +525,13 @@ please proceed to the next section.
- The presence of algorithmic superlinear speedups suggests simulating
- parallelism via co-routines, for example, manually switching context
- between threads on each pass through the main do-while loop in
--Listing~\ref{lst:SMPdesign:Partitioned Parallel Solver Pseudocode}.
-+\cref{lst:SMPdesign:Partitioned Parallel Solver Pseudocode}.
- This context switching is straightforward because the context
- consists only of the variables \co{c} and \co{vi}: Of the numerous
- ways to achieve the effect, this is a good tradeoff between
- context-switch overhead and visit percentage.
- As can be seen in
--Figure~\ref{fig:SMPdesign:Partitioned Coroutines},
-+\cref{fig:SMPdesign:Partitioned Coroutines},
- this coroutine algorithm (COPART) is quite effective, with the performance
- on one thread being within about 30\,\% of PART on two threads
- (\path{maze_2seq.c}).
-@@ -555,8 +553,8 @@ on one thread being within about 30\,\% of PART on two threads
- \label{fig:SMPdesign:Varying Maze Size vs. COPART}
- \end{figure}
- 
--Figures~\ref{fig:SMPdesign:Varying Maze Size vs. SEQ}
--and~\ref{fig:SMPdesign:Varying Maze Size vs. COPART}
-+\Cref{fig:SMPdesign:Varying Maze Size vs. SEQ,%
-+fig:SMPdesign:Varying Maze Size vs. COPART}
- show the effects of varying maze size, comparing both PWQ and PART
- running on two threads
- against either SEQ or COPART, respectively, with 90\=/percent\-/confidence
-@@ -569,8 +567,9 @@ the square of the frequency for high frequencies~\cite{TrevorMudge2000Power},
- so that 1.4x scaling on two threads consumes the same energy
- as a single thread at equal solution speeds.
- In contrast, PWQ shows poor scalability against both SEQ and COPART
--unless unoptimized: Figures~\ref{fig:SMPdesign:Varying Maze Size vs. SEQ} 
--and~\ref{fig:SMPdesign:Varying Maze Size vs. COPART}
-+unless unoptimized:
-+\Cref{fig:SMPdesign:Varying Maze Size vs. SEQ,%
-+fig:SMPdesign:Varying Maze Size vs. COPART}
- were generated using -O3.
- 
- \begin{figure}
-@@ -580,7 +579,7 @@ were generated using -O3.
- \label{fig:SMPdesign:Mean Speedup vs. Number of Threads; 1000x1000 Maze}
- \end{figure}
- 
--Figure~\ref{fig:SMPdesign:Mean Speedup vs. Number of Threads; 1000x1000 Maze}
-+\Cref{fig:SMPdesign:Mean Speedup vs. Number of Threads; 1000x1000 Maze}
- shows the performance of PWQ and PART relative to COPART\@.
- For PART runs with more than two threads, the additional threads were
- started evenly spaced along the diagonal connecting the starting and
-@@ -600,7 +599,7 @@ there is a lower probability of the third and subsequent threads making
- useful forward progress: Only the first two threads are guaranteed to start on
- the solution line.
- This disappointing performance compared to results in
--Figure~\ref{fig:SMPdesign:Varying Maze Size vs. COPART}
-+\cref{fig:SMPdesign:Varying Maze Size vs. COPART}
- is due to the less-tightly integrated hardware available in the
- larger and older Xeon system running at 2.66\,GHz.
- 
-@@ -664,7 +663,7 @@ Yes, for this particular type of maze, intelligently applying parallelism
- identified a superior search strategy, but this sort of luck is no
- substitute for a clear focus on search strategy itself.
- 
--As noted back in Section~\ref{sec:intro:Parallel Programming Goals},
-+As noted back in \cref{sec:intro:Parallel Programming Goals},
- parallelism is but one potential optimization of many.
- A successful design needs to focus on the most important optimization.
- Much though I might wish to claim otherwise, that optimization might
-diff --git a/SMPdesign/criteria.tex b/SMPdesign/criteria.tex
-index 915454e1..a3f9bc66 100644
---- a/SMPdesign/criteria.tex
-+++ b/SMPdesign/criteria.tex
-@@ -14,7 +14,7 @@ Unfortunately, if your program is other than microscopically tiny,
- the space of possible parallel programs is so huge
- that convergence is not guaranteed in the lifetime of the universe.
- Besides, what exactly is the ``best possible parallel program''?
--After all, Section~\ref{sec:intro:Parallel Programming Goals}
-+After all, \cref{sec:intro:Parallel Programming Goals}
- called out no fewer than three parallel-programming goals of
- \IX{performance}, \IX{productivity}, and \IX{generality},
- and the best possible performance will likely come at a cost in
-@@ -38,7 +38,7 @@ are speedup,
- contention, overhead, read-to-write ratio, and complexity:
- \begin{description}
- \item[Speedup:]  As noted in
--	Section~\ref{sec:intro:Parallel Programming Goals},
-+	\cref{sec:intro:Parallel Programming Goals},
- 	increased performance is the major reason
- 	to go to all of the time and trouble
- 	required to parallelize it.
-@@ -76,7 +76,7 @@ contention, overhead, read-to-write ratio, and complexity:
- 	reducing overall synchronization overhead.
- 	Corresponding optimizations are possible for frequently
- 	updated data structures, as discussed in
--	Chapter~\ref{chp:Counting}.
-+	\cref{chp:Counting}.
- \item[Complexity:]  A parallel program is more complex than
- 	an equivalent sequential program because the parallel program
- 	has a much larger state space than does the sequential program,
-@@ -100,7 +100,7 @@ contention, overhead, read-to-write ratio, and complexity:
- 	there may be potential sequential optimizations
- 	that are cheaper and more effective than parallelization.
- 	As noted in
--	Section~\ref{sec:intro:Performance},
-+	\cref{sec:intro:Performance},
- 	parallelization is but one performance optimization of
- 	many, and is furthermore an optimization that applies
- 	most readily to CPU-based bottlenecks.
-@@ -155,7 +155,7 @@ parallel program.
- 	This can be accomplished by batching critical sections,
- 	using data ownership (see \cref{chp:Data Ownership}),
- 	using asymmetric primitives
--	(see Section~\ref{chp:Deferred Processing}),
-+	(see \cref{chp:Deferred Processing}),
- 	or by using a coarse-grained design such as \IXh{code}{locking}.
- \item	If the critical sections have high overhead compared
- 	to the primitives guarding them, the best way
-diff --git a/SMPdesign/partexercises.tex b/SMPdesign/partexercises.tex
-index a84cc74f..56aa52d1 100644
---- a/SMPdesign/partexercises.tex
-+++ b/SMPdesign/partexercises.tex
-@@ -28,7 +28,7 @@ revisits the double-ended queue.
- \ContributedBy{Figure}{fig:SMPdesign:Dining Philosophers Problem}{Kornilios Kourtis}
- \end{figure}
- 
--Figure~\ref{fig:SMPdesign:Dining Philosophers Problem} shows a diagram
-+\Cref{fig:SMPdesign:Dining Philosophers Problem} shows a diagram
- of the classic \IX{Dining Philosophers problem}~\cite{Dijkstra1971HOoSP}.
- This problem features five philosophers who do nothing but think and
- eat a ``very difficult kind of spaghetti'' which requires two forks
-@@ -57,7 +57,7 @@ eating, and because none of them may pick up their second fork until at
- least one of them has finished eating, they all starve.
- Please note that it is not sufficient to allow at least one philosopher
- to eat.
--As Figure~\ref{fig:cpu:Partial Starvation Is Also Bad}
-+As \cref{fig:cpu:Partial Starvation Is Also Bad}
- shows, starvation of even a few of the philosophers is to be avoided.
- 
- \begin{figure}
-@@ -77,7 +77,7 @@ in the late 1980s or early 1990s.\footnote{
- 	is to publish something, wait 50 years, and then see
- 	how well \emph{your} ideas stood the test of time.}
- More recent solutions number the forks as shown in
--Figure~\ref{fig:SMPdesign:Dining Philosophers Problem; Textbook Solution}.
-+\cref{fig:SMPdesign:Dining Philosophers Problem; Textbook Solution}.
- Each philosopher picks up the lowest-numbered fork next to his or her
- plate, then picks up the other fork.
- The philosopher sitting in the uppermost position in the diagram thus
-@@ -118,7 +118,7 @@ It should be possible to do better than this!
- \end{figure}
- 
- One approach is shown in
--Figure~\ref{fig:SMPdesign:Dining Philosophers Problem; Partitioned},
-+\cref{fig:SMPdesign:Dining Philosophers Problem; Partitioned},
- which includes four philosophers rather than five to better illustrate the
- partition technique.
- Here the upper and rightmost philosophers share a pair of forks,
-@@ -134,7 +134,7 @@ the acquisition and release algorithms.
- 	Philosophers Problem?
- }\QuickQuizAnswer{
- 	One such improved solution is shown in
--	Figure~\ref{fig:SMPdesign:Dining Philosophers Problem; Fully Partitioned},
-+	\cref{fig:SMPdesign:Dining Philosophers Problem; Fully Partitioned},
- 	where the philosophers are simply provided with an additional
- 	five forks.
- 	All five philosophers may now eat simultaneously, and there
-@@ -202,7 +202,7 @@ One seemingly straightforward approach would be to use a doubly
- linked list with a left-hand lock
- for left-hand-end enqueue and dequeue operations along with a right-hand
- lock for right-hand-end operations, as shown in
--Figure~\ref{fig:SMPdesign:Double-Ended Queue With Left- and Right-Hand Locks}.
-+\cref{fig:SMPdesign:Double-Ended Queue With Left- and Right-Hand Locks}.
- However, the problem with this approach is that the two locks'
- domains must overlap when there are fewer than four elements on the
- list.
-@@ -231,7 +231,7 @@ It is far better to consider other designs.
- \end{figure}
- 
- One way of forcing non-overlapping lock domains is shown in
--Figure~\ref{fig:SMPdesign:Compound Double-Ended Queue}.
-+\cref{fig:SMPdesign:Compound Double-Ended Queue}.
- Two separate double-ended queues are run in tandem, each protected by
- its own lock.
- This means that elements must occasionally be shuttled from one of
-@@ -298,7 +298,7 @@ the queue.
- 
- Given this approach, we assign one lock to guard the left-hand index,
- one to guard the right-hand index, and one lock for each hash chain.
--Figure~\ref{fig:SMPdesign:Hashed Double-Ended Queue} shows the resulting
-+\Cref{fig:SMPdesign:Hashed Double-Ended Queue} shows the resulting
- data structure given four hash chains.
- Note that the lock domains do not overlap, and that deadlock is avoided
- by acquiring the index locks before the chain locks, and by never
-@@ -314,21 +314,21 @@ acquiring more than one lock of a given type (index or chain) at a time.
- Each hash chain is itself a double-ended queue, and in this example,
- each holds every fourth element.
- The uppermost portion of
--Figure~\ref{fig:SMPdesign:Hashed Double-Ended Queue After Insertions}
-+\cref{fig:SMPdesign:Hashed Double-Ended Queue After Insertions}
- shows the state after a single element (``R$_1$'') has been
- right-enqueued, with the right-hand index having been incremented to
- reference hash chain~2.
- The middle portion of this same figure shows the state after
- three more elements have been right-enqueued.
- As you can see, the indexes are back to their initial states
--(see Figure~\ref{fig:SMPdesign:Hashed Double-Ended Queue}), however,
-+(see \cref{fig:SMPdesign:Hashed Double-Ended Queue}), however,
- each hash chain is now non-empty.
- The lower portion of this figure shows the state after three additional
- elements have been left-enqueued and an additional element has been
- right-enqueued.
- 
- From the last state shown in
--Figure~\ref{fig:SMPdesign:Hashed Double-Ended Queue After Insertions},
-+\cref{fig:SMPdesign:Hashed Double-Ended Queue After Insertions},
- a left-dequeue operation would return element ``L$_{-2}$'' and leave
- the left-hand index referencing hash chain~2, which would then
- contain only a single element (``R$_2$'').
-@@ -343,7 +343,7 @@ can be reduced to arbitrarily low levels by using a larger hash table.
- \label{fig:SMPdesign:Hashed Double-Ended Queue With 16 Elements}
- \end{figure}
- 
--Figure~\ref{fig:SMPdesign:Hashed Double-Ended Queue With 16 Elements}
-+\Cref{fig:SMPdesign:Hashed Double-Ended Queue With 16 Elements}
- shows how 16 elements would be organized in a four-hash-bucket
- parallel double-ended queue.
- Each underlying single-lock double-ended queue holds a one-quarter
-@@ -355,16 +355,16 @@ slice of the full parallel double-ended queue.
- \label{lst:SMPdesign:Lock-Based Parallel Double-Ended Queue Data Structure}
- \end{listing}
- 
--Listing~\ref{lst:SMPdesign:Lock-Based Parallel Double-Ended Queue Data Structure}
-+\Cref{lst:SMPdesign:Lock-Based Parallel Double-Ended Queue Data Structure}
- shows the corresponding C-language data structure, assuming an
- existing \co{struct deq} that provides a trivially locked
- double-ended-queue implementation.
- \begin{fcvref}[ln:SMPdesign:lockhdeq:struct_pdeq]
--This data structure contains the left-hand lock on line~\lnref{llock},
--the left-hand index on line~\lnref{lidx}, the right-hand lock on line~\lnref{rlock}
-+This data structure contains the left-hand lock on \clnref{llock},
-+the left-hand index on \clnref{lidx}, the right-hand lock on \clnref{rlock}
- (which is cache-aligned in the actual implementation),
--the right-hand index on line~\lnref{ridx}, and, finally, the hashed array
--of simple lock-based double-ended queues on line~\lnref{bkt}.
-+the right-hand index on \clnref{ridx}, and, finally, the hashed array
-+of simple lock-based double-ended queues on \clnref{bkt}.
- A high-performance implementation would of course use padding or special
- alignment directives to avoid false sharing.
- \end{fcvref}
-@@ -375,7 +375,7 @@ alignment directives to avoid false sharing.
- \label{lst:SMPdesign:Lock-Based Parallel Double-Ended Queue Implementation}
- \end{listing}
- 
--Listing~\ref{lst:SMPdesign:Lock-Based Parallel Double-Ended Queue Implementation}
-+\Cref{lst:SMPdesign:Lock-Based Parallel Double-Ended Queue Implementation}
- (\path{lockhdeq.c})
- shows the implementation of the enqueue and dequeue functions.\footnote{
- 	One could easily create a polymorphic implementation in any
-@@ -388,14 +388,14 @@ operations are trivially derived from them.
- \Clnrefrange{b}{e} show \co{pdeq_pop_l()},
- which left\-/dequeues and returns
- an element if possible, returning \co{NULL} otherwise.
--Line~\lnref{acq} acquires the left-hand spinlock,
--and line~\lnref{idx} computes the
-+\Clnref{acq} acquires the left-hand spinlock,
-+and \clnref{idx} computes the
- index to be dequeued from.
--Line~\lnref{deque} dequeues the element, and,
--if line~\lnref{check} finds the result to be
--non-\co{NULL}, line~\lnref{record} records the new left-hand index.
--Either way, line~\lnref{rel} releases the lock, and,
--finally, line~\lnref{return} returns
-+\Clnref{deque} dequeues the element, and,
-+if \clnref{check} finds the result to be
-+non-\co{NULL}, \clnref{record} records the new left-hand index.
-+Either way, \clnref{rel} releases the lock, and,
-+finally, \clnref{return} returns
- the element if there was one, or \co{NULL} otherwise.
- \end{fcvref}
- 
-@@ -403,14 +403,14 @@ the element if there was one, or \co{NULL} otherwise.
- \Clnrefrange{b}{e} show \co{pdeq_push_l()},
- which left-enqueues the specified
- element.
--Line~\lnref{acq} acquires the left-hand lock,
--and line~\lnref{idx} picks up the left-hand
-+\Clnref{acq} acquires the left-hand lock,
-+and \clnref{idx} picks up the left-hand
- index.
--Line~\lnref{enque} left-enqueues the specified element
-+\Clnref{enque} left-enqueues the specified element
- onto the double-ended queue
- indexed by the left-hand index.
--Line~\lnref{update} then updates the left-hand index
--and line~\lnref{rel} releases the lock.
-+\Clnref{update} then updates the left-hand index
-+and \clnref{rel} releases the lock.
- \end{fcvref}
- 
- As noted earlier, the right-hand operations are completely analogous
-@@ -472,7 +472,7 @@ neither locks nor atomic operations.
- \label{lst:SMPdesign:Compound Parallel Double-Ended Queue Implementation}
- \end{listing}
- 
--Listing~\ref{lst:SMPdesign:Compound Parallel Double-Ended Queue Implementation}
-+\Cref{lst:SMPdesign:Compound Parallel Double-Ended Queue Implementation}
- shows the implementation.
- Unlike the hashed implementation, this compound implementation is
- asymmetric, so that we must consider the \co{pdeq_pop_l()}
-@@ -485,71 +485,71 @@ and \co{pdeq_pop_r()} implementations separately.
- 	The need to avoid deadlock by imposing a lock hierarchy
- 	forces the asymmetry, just as it does in the fork-numbering
- 	solution to the Dining Philosophers Problem
--	(see Section~\ref{sec:SMPdesign:Dining Philosophers Problem}).
-+	(see \cref{sec:SMPdesign:Dining Philosophers Problem}).
- }\QuickQuizEnd
- 
- \begin{fcvref}[ln:SMPdesign:locktdeq:pop_push:popl]
- The \co{pdeq_pop_l()} implementation is shown on
- \clnrefrange{b}{e}
- of the figure.
--Line~\lnref{acq:l} acquires the left-hand lock,
--which line~\lnref{rel:l} releases.
--Line~\lnref{deq:ll} attempts to left-dequeue an element
-+\Clnref{acq:l} acquires the left-hand lock,
-+which \clnref{rel:l} releases.
-+\Clnref{deq:ll} attempts to left-dequeue an element
- from the left-hand underlying
- double-ended queue, and, if successful,
- skips \clnrefrange{acq:r}{skip} to simply
- return this element.
--Otherwise, line~\lnref{acq:r} acquires the right-hand lock, line~\lnref{deq:lr}
-+Otherwise, \clnref{acq:r} acquires the right-hand lock, \clnref{deq:lr}
- left-dequeues an element from the right-hand queue,
--and line~\lnref{move} moves any remaining elements on the right-hand
--queue to the left-hand queue, line~\lnref{init:r} initializes
-+and \clnref{move} moves any remaining elements on the right-hand
-+queue to the left-hand queue, \clnref{init:r} initializes
- the right-hand queue,
--and line~\lnref{rel:r} releases the right-hand lock.
--The element, if any, that was dequeued on line~\lnref{deq:lr} will be returned.
-+and \clnref{rel:r} releases the right-hand lock.
-+The element, if any, that was dequeued on \clnref{deq:lr} will be returned.
- \end{fcvref}
- 
- \begin{fcvref}[ln:SMPdesign:locktdeq:pop_push:popr]
- The \co{pdeq_pop_r()} implementation is shown on \clnrefrange{b}{e}
- of the figure.
--As before, line~\lnref{acq:r1} acquires the right-hand lock
--(and line~\lnref{rel:r2}
--releases it), and line~\lnref{deq:rr1} attempts to right-dequeue an element
-+As before, \clnref{acq:r1} acquires the right-hand lock
-+(and \clnref{rel:r2}
-+releases it), and \clnref{deq:rr1} attempts to right-dequeue an element
- from the right-hand queue, and, if successful,
- skips \clnrefrange{rel:r1}{skip2}
- to simply return this element.
--However, if line~\lnref{check1} determines that there was no element to dequeue,
--line~\lnref{rel:r1} releases the right-hand lock and
-+However, if \clnref{check1} determines that there was no element to dequeue,
-+\clnref{rel:r1} releases the right-hand lock and
- \clnrefrange{acq:l}{acq:r2} acquire both
- locks in the proper order.
--Line~\lnref{deq:rr2} then attempts to right-dequeue an element
-+\Clnref{deq:rr2} then attempts to right-dequeue an element
- from the right-hand
--list again, and if line~\lnref{check2} determines that this second attempt has
--failed, line~\lnref{deq:rl} right-dequeues an element from the left-hand queue
--(if there is one available), line~\lnref{move} moves any remaining elements
--from the left-hand queue to the right-hand queue, and line~\lnref{init:l}
-+list again, and if \clnref{check2} determines that this second attempt has
-+failed, \clnref{deq:rl} right-dequeues an element from the left-hand queue
-+(if there is one available), \clnref{move} moves any remaining elements
-+from the left-hand queue to the right-hand queue, and \clnref{init:l}
- initializes the left-hand queue.
--Either way, line~\lnref{rel:l} releases the left-hand lock.
-+Either way, \clnref{rel:l} releases the left-hand lock.
+-If control reaches line~\lnref{flag_not_set}, we won the tournament, and now holds the
++If control reaches \clnref{flag_not_set}, we won the tournament, and now holds the
+ root \co{rcu_node} structure's \co{->fqslock}.
+-If line~\lnref{flag_not_set} still sees that the global variable \co{gp_flags} is zero,
+-line~\lnref{set_flag} sets \co{gp_flags} to one, line~\lnref{invoke} invokes
++If \clnref{flag_not_set} still sees that the global variable \co{gp_flags} is zero,
++\clnref{set_flag} sets \co{gp_flags} to one, \clnref{invoke} invokes
+ \co{do_force_quiescent_state()},
+-and line~\lnref{clr_flag} resets \co{gp_flags} back to zero.
+-Either way, line~\lnref{rel2} releases the root \co{rcu_node} structure's
++and \clnref{clr_flag} resets \co{gp_flags} back to zero.
++Either way, \clnref{rel2} releases the root \co{rcu_node} structure's
+ \co{->fqslock}.
  \end{fcvref}
  
  \QuickQuizSeries{%
  \QuickQuizB{
- 	Why is it necessary to retry the right-dequeue operation
--	on line~\ref{ln:SMPdesign:locktdeq:pop_push:popr:deq:rr2} of
--	Listing~\ref{lst:SMPdesign:Compound Parallel Double-Ended Queue Implementation}?
-+	on \clnrefr{ln:SMPdesign:locktdeq:pop_push:popr:deq:rr2} of
-+	\cref{lst:SMPdesign:Compound Parallel Double-Ended Queue Implementation}?
+ 	The code in
+-	Listing~\ref{lst:locking:Conditional Locking to Reduce Contention}
++	\cref{lst:locking:Conditional Locking to Reduce Contention}
+ 	is ridiculously complicated!
+ 	Why not conditionally acquire a single global lock?
  }\QuickQuizAnswerB{
- 	\begin{fcvref}[ln:SMPdesign:locktdeq:pop_push:popr]
- 	This retry is necessary because some other thread might have
- 	enqueued an element between the time that this thread dropped
--	\co{d->rlock} on line~\lnref{rel:r1} and the time that it reacquired this
--	same lock on line~\lnref{acq:r2}.
-+	\co{d->rlock} on \clnref{rel:r1} and the time that it reacquired this
-+	same lock on \clnref{acq:r2}.
- 	\end{fcvref}
+@@ -1675,14 +1675,14 @@ Either way, line~\lnref{rel2} releases the root \co{rcu_node} structure's
+ 	but only for relatively small numbers of CPUs.
+ 	To see why it is problematic in systems with many hundreds of
+ 	CPUs, look at
+-	Figure~\ref{fig:count:Atomic Increment Scalability on x86}.
++	\cref{fig:count:Atomic Increment Scalability on x86}.
  }\QuickQuizEndB
  %
  \QuickQuizE{
- 	Surely the left-hand lock must \emph{sometimes} be available!!!
- 	So why is it necessary that
--        line~\ref{ln:SMPdesign:locktdeq:pop_push:popr:rel:r1} of
--	Listing~\ref{lst:SMPdesign:Compound Parallel Double-Ended Queue Implementation}
-+	\clnrefr{ln:SMPdesign:locktdeq:pop_push:popr:rel:r1} of
-+	\cref{lst:SMPdesign:Compound Parallel Double-Ended Queue Implementation}
- 	unconditionally release the right-hand lock?
- }\QuickQuizAnswerE{
- 	It would be possible to use \co{spin_trylock()} to attempt
-@@ -564,10 +564,10 @@ Either way, line~\lnref{rel:l} releases the left-hand lock.
- \begin{fcvref}[ln:SMPdesign:locktdeq:pop_push:pushl]
- The \co{pdeq_push_l()} implementation is shown on
- \clnrefrange{b}{e} of
--Listing~\ref{lst:SMPdesign:Compound Parallel Double-Ended Queue Implementation}.
--Line~\lnref{acq:l} acquires the left-hand spinlock,
--line~\lnref{que:l} left-enqueues the
--element onto the left-hand queue, and finally line~\lnref{rel:l} releases
-+\cref{lst:SMPdesign:Compound Parallel Double-Ended Queue Implementation}.
-+\Clnref{acq:l} acquires the left-hand spinlock,
-+\clnref{que:l} left-enqueues the
-+element onto the left-hand queue, and finally \clnref{rel:l} releases
- the lock.
+ 	\begin{fcvref}[ln:locking:Conditional Locking to Reduce Contention]
+ 	Wait a minute!
+-	If we ``win'' the tournament on line~\lnref{flag_not_set} of
+-	Listing~\ref{lst:locking:Conditional Locking to Reduce Contention},
++	If we ``win'' the tournament on \clnref{flag_not_set} of
++	\cref{lst:locking:Conditional Locking to Reduce Contention},
+ 	we get to do all the work of \co{do_force_quiescent_state()}.
+ 	Exactly how is that a win, really?
+         \end{fcvref}
+@@ -1726,11 +1726,11 @@ environments.
+ 
+ \begin{fcvref}[ln:locking:xchglock:lock_unlock]
+ This section reviews the implementation shown in
+-listing~\ref{lst:locking:Sample Lock Based on Atomic Exchange}.
++\cref{lst:locking:Sample Lock Based on Atomic Exchange}.
+ The data structure for this lock is just an \co{int}, as shown on
+-line~\lnref{typedef}, but could be any integral type.
++\clnref{typedef}, but could be any integral type.
+ The initial value of this lock is zero, meaning ``unlocked'',
+-as shown on line~\lnref{initval}.
++as shown on \clnref{initval}.
  \end{fcvref}
- \begin{fcvref}[ln:SMPdesign:locktdeq:pop_push:pushr]
-@@ -578,7 +578,7 @@ is quite similar.
+ 
+ \begin{listing}
+@@ -1743,8 +1743,8 @@ as shown on line~\lnref{initval}.
+ 	\begin{fcvref}[ln:locking:xchglock:lock_unlock]
+ 	Why not rely on the C language's default initialization of
+ 	zero instead of using the explicit initializer shown on
+-	line~\lnref{initval} of
+-	Listing~\ref{lst:locking:Sample Lock Based on Atomic Exchange}?
++	\clnref{initval} of
++	\cref{lst:locking:Sample Lock Based on Atomic Exchange}?
+ 	\end{fcvref}
+ }\QuickQuizAnswer{
+ 	Because this default initialization does not apply to locks
+@@ -1766,9 +1766,9 @@ makes another attempt to acquire the lock.
  \QuickQuiz{
- 	But in the case where data is flowing in only one direction,
- 	the algorithm shown in
--	Listing~\ref{lst:SMPdesign:Compound Parallel Double-Ended Queue Implementation}
-+	\cref{lst:SMPdesign:Compound Parallel Double-Ended Queue Implementation}
- 	will have both ends attempting to acquire the same lock
- 	whenever the consuming end empties its underlying
- 	double-ended queue.
-@@ -612,7 +612,7 @@ is quite similar.
+ 	\begin{fcvref}[ln:locking:xchglock:lock_unlock:lock]
+ 	Why bother with the inner loop on \clnrefrange{inner:b}{inner:e} of
+-	Listing~\ref{lst:locking:Sample Lock Based on Atomic Exchange}?
++	\cref{lst:locking:Sample Lock Based on Atomic Exchange}?
+ 	Why not simply repeatedly do the atomic exchange operation
+-	on line~\lnref{atmxchg}?
++	on \clnref{atmxchg}?
+ 	\end{fcvref}
+ }\QuickQuizAnswer{
+ 	\begin{fcvref}[ln:locking:xchglock:lock_unlock:lock]
+@@ -1788,14 +1788,14 @@ makes another attempt to acquire the lock.
+ \begin{fcvref}[ln:locking:xchglock:lock_unlock:unlock]
+ Lock release is carried out by the \co{xchg_unlock()} function
+ shown on \clnrefrange{b}{e}.
+-Line~\lnref{atmxchg} atomically exchanges the value zero (``unlocked'') into
++\Clnref{atmxchg} atomically exchanges the value zero (``unlocked'') into
+ the lock, thus marking it as having been released.
+ \end{fcvref}
  
- The compound implementation is somewhat more complex than the
- hashed variant presented in
--Section~\ref{sec:SMPdesign:Hashed Double-Ended Queue},
-+\cref{sec:SMPdesign:Hashed Double-Ended Queue},
- but is still reasonably simple.
- Of course, a more intelligent rebalancing scheme could be arbitrarily
- complex, but the simple scheme shown here has been shown to
-@@ -647,7 +647,7 @@ outperforms any of the parallel implementations they studied.
- Therefore, the key point is that there can be significant overhead enqueuing to
- or dequeuing from a shared queue, regardless of implementation.
- This should come as no surprise in light of the material in
--Chapter~\ref{chp:Hardware and its Habits}, given the strict
-+\cref{chp:Hardware and its Habits}, given the strict
- first-in-first-out (FIFO) nature of these queues.
+ \QuickQuiz{
+ 	\begin{fcvref}[ln:locking:xchglock:lock_unlock:unlock]
+-	Why not simply store zero into the lock word on line~\lnref{atmxchg} of
+-	Listing~\ref{lst:locking:Sample Lock Based on Atomic Exchange}?
++	Why not simply store zero into the lock word on \clnref{atmxchg} of
++	\cref{lst:locking:Sample Lock Based on Atomic Exchange}?
+ 	\end{fcvref}
+ }\QuickQuizAnswer{
+ 	This can be a legitimate implementation, but only if
+@@ -2010,7 +2010,7 @@ Instead, the CPU must wait until the token comes around to it.
+ This is useful in cases where CPUs need periodic access to the \IX{critical
+ section}, but can tolerate variances in token-circulation rate.
+ Gamsa et al.~\cite{Gamsa99} used it to implement a variant of
+-read-copy update (see Section~\ref{sec:defer:Read-Copy Update (RCU)}),
++read-copy update (see \cref{sec:defer:Read-Copy Update (RCU)}),
+ but it could also be used to protect periodic per-CPU operations such
+ as flushing per-CPU caches used by memory allocators~\cite{McKenney93},
+ garbage-collecting per-CPU data structures, or flushing per-CPU
+@@ -2061,7 +2061,7 @@ viewpoints.
+ When writing an entire application (or entire kernel), developers have
+ full control of the design, including the synchronization design.
+ Assuming that the design makes good use of partitioning, as discussed in
+-Chapter~\ref{cha:Partitioning and Synchronization Design}, locking
++\cref{cha:Partitioning and Synchronization Design}, locking
+ can be an extremely effective synchronization mechanism, as demonstrated
+ by the heavy use of locking in production-quality parallel software.
  
- Furthermore, these strict FIFO queues are strictly FIFO only with
-@@ -683,7 +683,7 @@ overall design.
+@@ -2096,14 +2096,14 @@ Library designers therefore have less control and must exercise more
+ care when laying out their synchronization design.
  
- The optimal solution to the dining philosophers problem given in
- the answer to the Quick Quiz in
--Section~\ref{sec:SMPdesign:Dining Philosophers Problem}
-+\cref{sec:SMPdesign:Dining Philosophers Problem}
- is an excellent example of ``horizontal parallelism'' or
- ``data parallelism''.
- The synchronization overhead in this case is nearly (or even exactly)
-@@ -746,7 +746,7 @@ larger units of work to obtain a given level of efficiency.
- 	This batching approach decreases contention on the queue data
- 	structures, which increases both performance and scalability,
- 	as will be seen in
--	Section~\ref{sec:SMPdesign:Synchronization Granularity}.
-+	\cref{sec:SMPdesign:Synchronization Granularity}.
- 	After all, if you must incur high synchronization overheads,
- 	be sure you are getting your money's worth.
+ Deadlock is of course of particular concern, and the techniques discussed
+-in Section~\ref{sec:locking:Deadlock} need to be applied.
++in \cref{sec:locking:Deadlock} need to be applied.
+ One popular deadlock-avoidance strategy is therefore to ensure that
+ the library's locks are independent subtrees of the enclosing program's
+ locking hierarchy.
+ However, this can be harder than it looks.
  
-@@ -758,7 +758,7 @@ larger units of work to obtain a given level of efficiency.
+ One complication was discussed in
+-Section~\ref{sec:locking:Local Locking Hierarchies}, namely
++\cref{sec:locking:Local Locking Hierarchies}, namely
+ when library functions call into application code, with \co{qsort()}'s
+ comparison-function argument being a case in point.
+ Another complication is the interaction with signal handlers.
+@@ -2140,12 +2140,12 @@ If a library function avoids callbacks and the application as a whole
+ avoids signals, then any locks acquired by that library function will
+ be leaves of the locking-hierarchy tree.
+ This arrangement avoids deadlock, as discussed in
+-Section~\ref{sec:locking:Locking Hierarchies}.
++\cref{sec:locking:Locking Hierarchies}.
+ Although this strategy works extremely well where it applies,
+ there are some applications that must use signal handlers,
+ and there are some library functions (such as the \co{qsort()} function
+ discussed in
+-Section~\ref{sec:locking:Local Locking Hierarchies})
++\cref{sec:locking:Local Locking Hierarchies})
+ that require callbacks.
  
- These two examples show just how powerful partitioning can be in
- devising parallel algorithms.
--Section~\ref{sec:SMPdesign:Locking Granularity and Performance}
-+\Cref{sec:SMPdesign:Locking Granularity and Performance}
- looks briefly at a third example, matrix multiply.
- However, all three of these examples beg for more and better design
- criteria for parallel programs, a topic taken up in the next section.
+ The strategy described in the next section can often be used in these cases.
+@@ -2173,7 +2173,7 @@ if complex data structures must be manipulated:
+ \begin{enumerate}
+ \item	Use simple data structures based on \IXacrl{nbs},
+ 	as will be discussed in
+-	Section~\ref{sec:advsync:Simple NBS}.
++	\cref{sec:advsync:Simple NBS}.
+ \item	If the data structures are too complex for reasonable use of
+ 	non-blocking synchronization, create a queue that allows
+ 	non-blocking enqueue operations.
+@@ -2206,7 +2206,7 @@ The application then acquires and releases locks as needed, so
+ that the library need not be aware of parallelism at all.
+ Instead, the application controls the parallelism, so that locking
+ can work very well, as was discussed in
+-Section~\ref{sec:locking:Locking For Applications: Hero!}.
++\cref{sec:locking:Locking For Applications: Hero!}.
+ 
+ However, this strategy fails if the
+ library implements a data structure that requires internal
+@@ -2236,7 +2236,7 @@ can work better.
+ 
+ That said, passing explicit pointers to locks to external APIs must
+ be very carefully considered, as discussed in
+-Section~\ref{sec:locking:Locking Hierarchies and Pointers to Locks}.
++\cref{sec:locking:Locking Hierarchies and Pointers to Locks}.
+ Although this practice is sometimes the right thing to do, you should do
+ yourself a favor by looking into alternative designs first.
+ 
+@@ -2244,7 +2244,7 @@ yourself a favor by looking into alternative designs first.
+ \label{sec:locking:Explicitly Avoid Callback Deadlocks}
+ 
+ The basic rule behind this strategy was discussed in
+-Section~\ref{sec:locking:Local Locking Hierarchies}: ``Release all
++\cref{sec:locking:Local Locking Hierarchies}: ``Release all
+ locks before invoking unknown code.''
+ This is usually the best approach because it allows the application to
+ ignore the library's locking hierarchy: the library remains a leaf or
+@@ -2252,7 +2252,7 @@ isolated subtree of the application's overall locking hierarchy.
+ 
+ In cases where it is not possible to release all locks before invoking
+ unknown code, the layered locking hierarchies described in
+-Section~\ref{sec:locking:Layered Locking Hierarchies} can work well.
++\cref{sec:locking:Layered Locking Hierarchies} can work well.
+ For example, if the unknown code is a signal handler, this implies that
+ the library function block signals across all lock acquisitions, which
+ can be complex and slow.
+@@ -2378,13 +2378,13 @@ So why not?
+ 
+ One reason is that exact counters do not perform or scale well on
+ multicore systems, as was
+-seen in Chapter~\ref{chp:Counting}.
++seen in \cref{chp:Counting}.
+ As a result, the parallelized implementation of the hash table will not
+ perform or scale well.
+ 
+ So what can be done about this?
+ One approach is to return an approximate count, using one of the algorithms
+-from Chapter~\ref{chp:Counting}.
++from \cref{chp:Counting}.
+ Another approach is to drop the element count altogether.
+ 
+ Either way, it will be necessary to inspect uses of the hash table to see
+@@ -2437,9 +2437,9 @@ or her own poor (though understandable) API design choices.
+ \subsubsection{Deadlock-Prone Callbacks}
+ \label{sec:locking:Deadlock-Prone Callbacks}
+ 
+-Sections~\ref{sec:locking:Local Locking Hierarchies},
+-\ref{sec:locking:Layered Locking Hierarchies},
+-and~\ref{sec:locking:Locking For Parallel Libraries: Just Another Tool}
++\Cref{sec:locking:Local Locking Hierarchies,%
++sec:locking:Layered Locking Hierarchies,%
++sec:locking:Locking For Parallel Libraries: Just Another Tool}
+ described how undisciplined use of callbacks can result in locking
+ woes.
+ These sections also described how to design your library function to
+@@ -2454,20 +2454,18 @@ it may be wise to again add a parallel-friendly API to the library in
+ order to allow existing users to convert their code incrementally.
+ Alternatively, some advocate use of transactional memory in these cases.
+ While the jury is still out on transactional memory,
+-Section~\ref{sec:future:Transactional Memory} discusses its strengths and
++\cref{sec:future:Transactional Memory} discusses its strengths and
+ weaknesses.
+ It is important to note that hardware transactional memory
+ (discussed in
+-Section~\ref{sec:future:Hardware Transactional Memory})
++\cref{sec:future:Hardware Transactional Memory})
+ cannot help here unless the hardware transactional memory implementation
+ provides \IXpl{forward-progress guarantee}, which few do.
+ Other alternatives that appear to be quite practical (if less heavily
+ hyped) include the methods discussed in
+-Sections~\ref{sec:locking:Conditional Locking},
+-and~\ref{sec:locking:Acquire Needed Locks First},
++\cref{sec:locking:Conditional Locking,sec:locking:Acquire Needed Locks First},
+ as well as those that will be discussed in
+-Chapters~\ref{chp:Data Ownership}
+-and~\ref{chp:Deferred Processing}.
++\cref{chp:Data Ownership,chp:Deferred Processing}.
+ 
+ \subsubsection{Object-Oriented Spaghetti Code}
+ \label{sec:locking:Object-Oriented Spaghetti Code}
+@@ -2487,16 +2485,14 @@ case, such things are much easier to say than to do.
+ If you are tasked with parallelizing such a beast, you can reduce the
+ number of opportunities to curse locking by using the techniques
+ described in
+-Sections~\ref{sec:locking:Conditional Locking},
+-and~\ref{sec:locking:Acquire Needed Locks First},
++\cref{sec:locking:Conditional Locking,sec:locking:Acquire Needed Locks First},
+ as well as those that will be discussed in
+-Chapters~\ref{chp:Data Ownership}
+-and~\ref{chp:Deferred Processing}.
++\cref{chp:Data Ownership,chp:Deferred Processing}.
+ This situation appears to be the use case that inspired transactional
+ memory, so it might be worth a try as well.
+ That said, the choice of synchronization mechanism should be made in
+ light of the hardware habits discussed in
+-Chapter~\ref{chp:Hardware and its Habits}.
++\cref{chp:Hardware and its Habits}.
+ After all, if the overhead of the synchronization mechanism is orders of
+ magnitude more than that of the operations being protected, the results
+ are not going to be pretty.
 -- 
 2.17.1
 
