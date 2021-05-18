@@ -3,38 +3,37 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=G5McJYPGrnnHaoxy1PCMObxjhnRlB/hfn6gB9QjLdcQ=;
-        b=O5qbGT+ZZOTss0iXWe/dwQt2VHdZVtApsM3uYoJ+st8m/1iKKiqnizWIc86U0uoZv4
-         8NJhNbzHdV62CCvKwX9/yuFudOn9U1ZBCjYvYk/+BLpVeoc37snUQaolZ+ystaXf8yM5
-         G4hKxY6dj//Nm10dVhkF2DIS/MxcIlBQWyMExlofn7QBHfDEuq+/YqihUgV8F6THh8Kc
-         rZaO5J3FxBOvEvU40cPLz9DdHGv3ZDT3aSeZmMkVfcMNJPIGXbQ4IrVDowGM2e6Qur+Z
-         /NDrFUXqxIDqM9A2RnvofmhyAK8J/+YfQv3rEY5XEd2qtjC68eJYSAae8aYH3bsWjZrc
-         afhw==
+        bh=pXyE2O8Z3ZdiA8C3PeXj9FsOoRiQ0NHgqK04Tj2jGHc=;
+        b=K4n3XihVbT2ITqCad3mbV+/Ury9Xc9dyfLL0m8PuOH5Rdn/Pl27ErFSfaxat1Pn2HM
+         lXiYfIgDktXdljR7K1AO8qq+wuvHwV/tpJEC2dtHXrJzCKSpPrkmHxxRK52La4jh20rU
+         NeTdD7dznXKZqQSp8l/RS52M4WV+CdnD1xFSyBl2oiYnVQRheHv250px6V0Tv5v7vx07
+         ZlHJ/1oaIw9rWEWGBcAhWUxbiNZBjrP5WK9rhmfPMJmmKdtHS4B3i4j7nDDfRE8ZPeIB
+         oCo5x7iqnNegb2f+X7mW3RAvTH9izrs3q1UJCz6C1xNhtxD4s29aCoiHILAcuFb/K0S9
+         PHiQ==
 MIME-Version: 1.0
 References: <20210518161244.7340-1-zhouzhouyi@gmail.com> <20210518173524.GN4441@paulmck-ThinkPad-P17-Gen-1>
-In-Reply-To: <20210518173524.GN4441@paulmck-ThinkPad-P17-Gen-1>
+ <CAABZP2zJD40KwPH0mqSLU5Dvh-pNsaHYxFg7A4WmDSMd15H22A@mail.gmail.com> <20210518183642.GP4441@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <20210518183642.GP4441@paulmck-ThinkPad-P17-Gen-1>
 From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Date: Wed, 19 May 2021 02:21:54 +0800
-Message-ID: <CAABZP2zJD40KwPH0mqSLU5Dvh-pNsaHYxFg7A4WmDSMd15H22A@mail.gmail.com>
+Date: Wed, 19 May 2021 02:54:53 +0800
+Message-ID: <CAABZP2yjqS68aOLZS6d8Vn-=ra4GeHGVnQvMHhdJ0D6SRX7QAA@mail.gmail.com>
 Subject: Re: [PATCH] RFC: possible fixing a preposition
 Content-Type: text/plain; charset="UTF-8"
 To: paulmck@kernel.org
 Cc: Yang Lu <luyang.co@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-Thanks Paul for reviewing my incorrect proposal.
+> No problem!  After all, if I were ever to have to write a document
+> in Chinese, I would need quite a bit of help.  Like the help you are
+> currently providing by doing this translation.  ;-)
+I'm so flattered ;-).
+It is a great honor for me to work with both of you.
 
-On Wed, May 19, 2021 at 1:35 AM Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> In this case, "add" as in "addition" as in arithmetic, similar to the
-> C-language "+=" operator.  But...
-I see, my English is improved a lot by this case, thank you
->
-> Would "add the value one to the global free-running rcu_gp_ctr variable"
-> work better for you?
-"add the value one to the global free-running rcu_gp_ctr variable" looks
-great to me.
+> Very good!  How about as shown below?
+> -add one to the global free-running \co{rcu_gp_ctr}
+> +add the value one to the global free-running \co{rcu_gp_ctr}
+I enjoy this commit very much.
 
-Thanks again
+Thank you
 Cheers
 Zhouyi
