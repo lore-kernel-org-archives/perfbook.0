@@ -1,63 +1,103 @@
-Return-Path: <SRS0=v+bS=KN=gmail.com=zhouzhouyi@kernel.org>
+Return-Path: <SRS0=cX2R=KN=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2f5XFP0sFacO1ZlNB8ECkBRaH1XyEJWOUn+TWQOqgKg=;
-        b=lcV7JUffL8z7OqUTJnt+jZjmGBRGwBZxVtTZd3UiRWmZpiuaDgjfWAPrwvMflX1FvZ
-         sqJNKlrCLISP4K2uOFIPpYDKKeGyPsC3zDU49Fv7EuqPdIH0o7NMMAtoSz5fGlu/Fg4b
-         4xpY5cKQ01MNDlm9gYDz+JGx89udoKPkeLbMDBxX/1FX8y5+60HfLcIdgaTF7yWiq8MN
-         4FIRqyMiwZNZUO0aSRFIS5AMs2KqSUxnlmONa3UbrLt1KNvj5ec5C3lHszh/2h7itZCs
-         PcH/V6B/kgvE12xk7v1g7q98WuVJGZecdr73hcnF5UNu8UV3ReL5x1lO3T3CcIrr8Grl
-         Ymvw==
-From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Subject: [PATCH] RFC: possible fixing a preposition 
-Date: Wed, 19 May 2021 00:12:44 +0800
-Message-Id: <20210518161244.7340-1-zhouzhouyi@gmail.com>
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=R0ibk0ZTn/HquRsk5Ki7gT6nDQSixWfw+CY9r89RQj8=;
+        b=qGc7Yoc7OnMLHVXlUW1dOzsHTeKQR20qPD8J/qpOXahnWL9pVzUBXZXd89PDJpNHUa
+         1fzH0Pz5241wpq3IV5knJHm+2PCWNHzP67eGSi2guRjck7sHIountmy/LP0HxM0YtZ76
+         +UsvPXsaAqsiblcroMjhM/SpAb6/ccTWsS7gts+OEa0jeIMijjHyinx4YY1V5Q2+MqwQ
+         yYPWnkMvt41d50bEFZDq+wDvcpfc0qzpr+EY0K//Mp8QMlHvD8+cnlP6kb2qa6srjHet
+         5x1/iG+S6EYY3Xn8bUXJ6TSwpfyNVIkVDJscOTYbxpD29GB62BukxNLcxnjmXmD7l0VM
+         T3Vg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 0/8] Employ cleveref macros, take four
+Message-ID: <9362d274-fae3-278b-348e-88a0f30f120b@gmail.com>
+Date: Tue, 18 May 2021 21:13:41 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To: paulmck@kernel.org, luyang.co@gmail.com, perfbook@vger.kernel.org
-Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-hi, Paul
+Hi Paul,
 
-In appendix B.7: "Lines 3 and 4 simply add one to
- the global free-running rcu_gp_ctr variable"
+This is (hopefully) the final round of \cref{} related updates.
 
-I looked up webster online dictionary
-https://www.merriam-webster.com/dictionary/add%20to
-it says "Definition of add to" is "to make (something) larger, 
-better, or greater"
-meanwhile rcu_gp_ctr is not changed in this statement.
+Patches 1/8 and 2/8 are unrelated updates in build scripts.
+Patch 1/8 adds patterns to catch font specifiers in .svg
+figures recently added/updated.
+Patch 2/8 gets rid of noindentafter.sty in our repository.
+Recent distros have this package on their own.
 
-My native language is not English, I try to search the web
-for an example, and I think if replace 'to' with 'and' maybe a
-better choice.
+Patches 3/8--8/8 are \cref{} related updates.
 
-Maybe my proposal is not necessary.
+I'm thinking of adding a few patterns to cleverefcheck.pl
+to catch indents by white spaces.
 
-Thanks for your time.
+At least, "sh ./utilities/cleverefcheck.sh" should pass
+after this patch set is applied.
 
-Best Wishes
-Zhouyi
----
- appendix/toyrcu/toyrcu.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Note:
 
-diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
-index be77c045..dd759ba7 100644
---- a/appendix/toyrcu/toyrcu.tex
-+++ b/appendix/toyrcu/toyrcu.tex
-@@ -976,7 +976,7 @@ The resulting \co{rcu_read_lock()} implementation is extremely
- straightforward.
- \begin{fcvref}[ln:defer:rcu:read_lock_unlock:lock]
- \Clnref{gp1,gp2} simply
--add one to the global free-running \co{rcu_gp_ctr}
-+add one and the global free-running \co{rcu_gp_ctr}
- variable and stores the resulting odd-numbered value into the
- \co{rcu_reader_gp} per-thread variable.
- \Clnref{mb} executes a memory barrier to prevent the content of the
+    styleguide.tex is not checked by the shell script.
+    I'll update it as far as I can, but it won't be
+    warning-free due to its nature.
+
+        Thanks, Akira
+
+--
+Akira Yokosawa (8):
+  fixsvgfonts: Add pattern for 'sans-serif'
+  Omit noindentafter.sty
+  defer: Employ \cref{} and its variants, take three
+  datastruct: Employ \cref{} and its variants
+  debugging: Employ \cref{} and its variants
+  formal: Employ \cref{} and its variants
+  together, advsync, memorder: Employ \cref{} and its variants
+  easy, future, appendix: Employ \cref{} and its variants
+
+ Makefile                             |   1 -
+ ack.tex                              |  40 +--
+ advsync/advsync.tex                  |   2 +-
+ advsync/rt.tex                       |   4 +-
+ appendix/questions/after.tex         |   8 +-
+ appendix/questions/removelocking.tex |   2 +-
+ appendix/toyrcu/toyrcu.tex           |  10 +-
+ appendix/whymb/whymemorybarriers.tex |   2 +-
+ datastruct/datastruct.tex            | 348 +++++++++++++--------------
+ debugging/debugging.tex              | 140 +++++------
+ defer/rcuapi.tex                     |  90 +++----
+ defer/rcuexercises.tex               |  12 +-
+ defer/rcuintro.tex                   |   2 +-
+ defer/rcurelated.tex                 |  10 +-
+ defer/rcuusage.tex                   | 181 +++++++-------
+ defer/updates.tex                    |   4 +-
+ defer/whichtochoose.tex              |  18 +-
+ easy/easy.tex                        |   6 +-
+ formal/axiomatic.tex                 |  90 +++----
+ formal/dyntickrcu.tex                |   2 +-
+ formal/formal.tex                    |   6 +-
+ formal/sat.tex                       |   2 +-
+ formal/spinhint.tex                  | 122 +++++-----
+ formal/stateless.tex                 |   2 +-
+ future/cpu.tex                       |  10 +-
+ future/formalregress.tex             |   2 +-
+ future/htm.tex                       |   2 +-
+ future/tm.tex                        |   2 +-
+ glossary.tex                         |   2 +-
+ memorder/memorder.tex                |  24 +-
+ noindentafter.sty                    | 194 ---------------
+ summary.tex                          |   2 +-
+ together/applyrcu.tex                |   4 +-
+ together/refcnt.tex                  |   4 +-
+ utilities/fixsvgfonts-urwps.sh       |   2 +
+ utilities/fixsvgfonts.sh             |   2 +
+ 36 files changed, 581 insertions(+), 773 deletions(-)
+ delete mode 100644 noindentafter.sty
+
 -- 
-2.25.1
+2.17.1
 
