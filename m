@@ -1,122 +1,81 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:58944 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:45130 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244333AbhERSbg (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Tue, 18 May 2021 14:31:36 -0400
+        id S1351277AbhERRgn (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Tue, 18 May 2021 13:36:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621362618;
-        bh=2zzolxdAf0/Fu6Sy6WEzDVTdmL87H2enOBNIHGYUU0c=;
+        s=k20201202; t=1621359324;
+        bh=/Go/B+KKjuToWcz+8GmXPRNUnY7lWF1+cEOJ1yGn0BA=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=L6fso19BeEvlqQQ8920/XkdTIF5azXd3uhtlskdlNZuD9UVh546UYccoXz2BFj6pi
-         YtlBIYBJRZCBb5vURi0kbV+DpYFMFDWCqWL76SQbSQk2Glu2cubOjDUwJlRhzyDlRi
-         Of7yj1Ld7wr21l3FWURDVaQz/3Bd84AMq1jd2YJjaoMhOoKotUazeeXDmmp8kVCc6N
-         vJmQD5liynzj0VRDGUSUBB3xcDwlB+jROYOUK9UwhXp48aebJqq6YgSTsIdMs8TGeo
-         VtIcAXHFC/d0c0L5JVNP9ib4wenLFPrrysf4fEH37b6vta2vcvUIqHJFQVhTs9f1rH
-         Zk0a+3hG46SHQ==
-Date: Tue, 18 May 2021 11:30:17 -0700
+        b=giTXTffJ/+EXndlQZ+3PRNxaSKUQNxjRIzOGJQOQUuHipBIj8XNvo0vKmIopAvyh2
+         jamGwfhUK9gd7Z55DAYOirzQjKXhAnyLJsbnbZH2w8sm+LJ6ynD1Qa9JNJWx1VtTdu
+         H9k3k6yqMl/TTfjlURXvMExgSVcdx3cZ1nuk2IA/E0KOONmqGfXG08SNDJcTCr24+L
+         yvjB/l2vQeFuu1dKS7g7e3ZAegYh68Xrx6F3E5/NNtDfBlMSpmiq2TcbgxvOxBYzV4
+         fogbmNXQLvTpLYjBy8kkcnJx5EGuquCNTurvme38jf5CPV3qHo/8RHuHLTnduqgEge
+         oRJDKT2fxJZiA==
+Date: Tue, 18 May 2021 10:35:24 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook 0/8] Employ cleveref macros, take four
-Message-ID: <20210518183017.GO4441@paulmck-ThinkPad-P17-Gen-1>
+Subject: Re: [PATCH] RFC: possible fixing a preposition
+Message-ID: <20210518173524.GN4441@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <9362d274-fae3-278b-348e-88a0f30f120b@gmail.com>
+References: <20210518161244.7340-1-zhouzhouyi@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9362d274-fae3-278b-348e-88a0f30f120b@gmail.com>
+In-Reply-To: <20210518161244.7340-1-zhouzhouyi@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Cc: luyang.co@gmail.com, perfbook@vger.kernel.org
 
-On Tue, May 18, 2021 at 09:13:41PM +0900, Akira Yokosawa wrote:
-> Hi Paul,
+On Wed, May 19, 2021 at 12:12:44AM +0800, Zhouyi Zhou wrote:
+> hi, Paul
 > 
-> This is (hopefully) the final round of \cref{} related updates.
+> In appendix B.7: "Lines 3 and 4 simply add one to
+>  the global free-running rcu_gp_ctr variable"
 > 
-> Patches 1/8 and 2/8 are unrelated updates in build scripts.
-> Patch 1/8 adds patterns to catch font specifiers in .svg
-> figures recently added/updated.
-> Patch 2/8 gets rid of noindentafter.sty in our repository.
-> Recent distros have this package on their own.
+> I looked up webster online dictionary
+> https://www.merriam-webster.com/dictionary/add%20to
+> it says "Definition of add to" is "to make (something) larger, 
+> better, or greater"
+> meanwhile rcu_gp_ctr is not changed in this statement.
+
+In this case, "add" as in "addition" as in arithmetic, similar to the
+C-language "+=" operator.  But...
+
+> My native language is not English, I try to search the web
+> for an example, and I think if replace 'to' with 'and' maybe a
+> better choice.
 > 
-> Patches 3/8--8/8 are \cref{} related updates.
-
-Applied and pushed, thank you!  And I have hereby run out of excuses
-for avoiding doing several updates on my todo list.  ;-)
-
-> I'm thinking of adding a few patterns to cleverefcheck.pl
-> to catch indents by white spaces.
-
-That sounds good -- automated error-checking can be quite helpful.
-
-> At least, "sh ./utilities/cleverefcheck.sh" should pass
-> after this patch set is applied.
- 
- And it does!
-
-> Note:
+> Maybe my proposal is not necessary.
 > 
->     styleguide.tex is not checked by the shell script.
->     I'll update it as far as I can, but it won't be
->     warning-free due to its nature.
+> Thanks for your time.
 
-Understood, and it makes sense for it to be unchecked.  It would be a
-bit annoying for the script to complain about "don't do it this way"
-examples in that file.  ;-)
+...this one falls into the "correct but confusing" bucket.
+
+Would "add the value one to the global free-running rcu_gp_ctr variable"
+work better for you?
 
 							Thanx, Paul
 
->         Thanks, Akira
+> Best Wishes
+> Zhouyi
+> ---
+>  appendix/toyrcu/toyrcu.tex | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> --
-> Akira Yokosawa (8):
->   fixsvgfonts: Add pattern for 'sans-serif'
->   Omit noindentafter.sty
->   defer: Employ \cref{} and its variants, take three
->   datastruct: Employ \cref{} and its variants
->   debugging: Employ \cref{} and its variants
->   formal: Employ \cref{} and its variants
->   together, advsync, memorder: Employ \cref{} and its variants
->   easy, future, appendix: Employ \cref{} and its variants
-> 
->  Makefile                             |   1 -
->  ack.tex                              |  40 +--
->  advsync/advsync.tex                  |   2 +-
->  advsync/rt.tex                       |   4 +-
->  appendix/questions/after.tex         |   8 +-
->  appendix/questions/removelocking.tex |   2 +-
->  appendix/toyrcu/toyrcu.tex           |  10 +-
->  appendix/whymb/whymemorybarriers.tex |   2 +-
->  datastruct/datastruct.tex            | 348 +++++++++++++--------------
->  debugging/debugging.tex              | 140 +++++------
->  defer/rcuapi.tex                     |  90 +++----
->  defer/rcuexercises.tex               |  12 +-
->  defer/rcuintro.tex                   |   2 +-
->  defer/rcurelated.tex                 |  10 +-
->  defer/rcuusage.tex                   | 181 +++++++-------
->  defer/updates.tex                    |   4 +-
->  defer/whichtochoose.tex              |  18 +-
->  easy/easy.tex                        |   6 +-
->  formal/axiomatic.tex                 |  90 +++----
->  formal/dyntickrcu.tex                |   2 +-
->  formal/formal.tex                    |   6 +-
->  formal/sat.tex                       |   2 +-
->  formal/spinhint.tex                  | 122 +++++-----
->  formal/stateless.tex                 |   2 +-
->  future/cpu.tex                       |  10 +-
->  future/formalregress.tex             |   2 +-
->  future/htm.tex                       |   2 +-
->  future/tm.tex                        |   2 +-
->  glossary.tex                         |   2 +-
->  memorder/memorder.tex                |  24 +-
->  noindentafter.sty                    | 194 ---------------
->  summary.tex                          |   2 +-
->  together/applyrcu.tex                |   4 +-
->  together/refcnt.tex                  |   4 +-
->  utilities/fixsvgfonts-urwps.sh       |   2 +
->  utilities/fixsvgfonts.sh             |   2 +
->  36 files changed, 581 insertions(+), 773 deletions(-)
->  delete mode 100644 noindentafter.sty
-> 
+> diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
+> index be77c045..dd759ba7 100644
+> --- a/appendix/toyrcu/toyrcu.tex
+> +++ b/appendix/toyrcu/toyrcu.tex
+> @@ -976,7 +976,7 @@ The resulting \co{rcu_read_lock()} implementation is extremely
+>  straightforward.
+>  \begin{fcvref}[ln:defer:rcu:read_lock_unlock:lock]
+>  \Clnref{gp1,gp2} simply
+> -add one to the global free-running \co{rcu_gp_ctr}
+> +add one and the global free-running \co{rcu_gp_ctr}
+>  variable and stores the resulting odd-numbered value into the
+>  \co{rcu_reader_gp} per-thread variable.
+>  \Clnref{mb} executes a memory barrier to prevent the content of the
 > -- 
-> 2.17.1
+> 2.25.1
 > 
