@@ -1,77 +1,104 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:59956 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1351573AbhERSiB (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Tue, 18 May 2021 14:38:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621363002;
-        bh=HaQQEot3etGiOvVEaHk/rAgROAL6Fk3WdMA83L2+p34=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=WK4w2hpRU2f0mAgEi6e6OWc+IGCniysEOzVx+PAZ70d1uA2Uh0nRvzmdN9DvZSj55
-         9MN3SrBFN1fOLKrjHhHZwPiBWZ2tEO63AUCHG0WUUIOXiI6CjCOtOz+P6JzscpU9Cl
-         Duuv7PI7WS2InDaiwwFn8UjC2haQ96hca/AhriRZy207M+a3I5M2OYOitiOTqofzN4
-         OkGKQTNzEU92+rCiWIv/UN/LMAYgtu2o4M5zHWEc2A65leKI/UDI/0vl+xfQt7+2y7
-         3K3rXJ1kj+GUg6vDdoQiI3VWMLwNZV6NBKlZKaahJyh0HRZh/CVM4TFKsOhFR5qvsN
-         i8ceIbrc2Mqeg==
-Date: Tue, 18 May 2021 11:36:42 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] RFC: possible fixing a preposition
-Message-ID: <20210518183642.GP4441@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20210518161244.7340-1-zhouzhouyi@gmail.com>
- <20210518173524.GN4441@paulmck-ThinkPad-P17-Gen-1>
- <CAABZP2zJD40KwPH0mqSLU5Dvh-pNsaHYxFg7A4WmDSMd15H22A@mail.gmail.com>
+Return-Path: <SRS0=cMq3=K6=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=owubCNTHhrFdgOv3L46D436ueyjc9bFg66BRhG8yb0U=;
+        b=ppVtybOicJUTtcsyJ3thNbMWEFdZyHYmy0hogmTxyZIIVFgTNYuqMvnIuIfjeNORN6
+         52FboNWnJY60a137YTsvkDd9/JgI/mcf8B3bNBuR/u++3TISq2GPLZAqoJ9OaVyweaPS
+         U/GiM0lPhLUPo+64yf+tvnc+XaPnqA/c2bGQ3wcyYckzCYJ3vVGsYUAr0JXPWz8IBm8Z
+         kP94UEL9tWZppDIpluljM2H4XHwGF6f5PTOcWUTA2ejEZ/9dSdTpdck3CfUkRMRae8at
+         VSUN1zzhJUZuMd48911VtCM1uSWaMeDxuPQGwxjG9XR1S1VymaeNvq6N4LAi76no0GEW
+         NNag==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] FAQ-BUILD: Remove items of obsolete issues on
+ Fedora
+Message-ID: <4d932040-16ac-74b3-688b-9a40721525b5@gmail.com>
+Date: Fri, 4 Jun 2021 11:59:22 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAABZP2zJD40KwPH0mqSLU5Dvh-pNsaHYxFg7A4WmDSMd15H22A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Cc: Yang Lu <luyang.co@gmail.com>, perfbook@vger.kernel.org
 
-On Wed, May 19, 2021 at 02:21:54AM +0800, Zhouyi Zhou wrote:
-> Thanks Paul for reviewing my incorrect proposal.
+Also indent answer to (now) #12 in the same manner as the other
+answers.
 
-No problem!  After all, if I were ever to have to write a document
-in Chinese, I would need quite a bit of help.  Like the help you are
-currently providing by doing this translation.  ;-)
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ FAQ-BUILD.txt | 47 ++++++++---------------------------------------
+ 1 file changed, 8 insertions(+), 39 deletions(-)
 
-> On Wed, May 19, 2021 at 1:35 AM Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > In this case, "add" as in "addition" as in arithmetic, similar to the
-> > C-language "+=" operator.  But...
-> I see, my English is improved a lot by this case, thank you
-> >
-> > Would "add the value one to the global free-running rcu_gp_ctr variable"
-> > work better for you?
-> "add the value one to the global free-running rcu_gp_ctr variable" looks
-> great to me.
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index 3672d4f2..80b71c42 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -38,7 +38,7 @@
+ 	A.	The "pdflatex" package is a variant of Don Knuth's
+ 		digital typesetting program, which you can install.
+ 		Alternatively, you can use the container image described
+-		in #14 below.  Otherwise, instructions follow.
++		in #13 below.  Otherwise, instructions follow.
+ 
+ 		On Ubuntu Bionic and Focal, the following list should cover
+ 		necessary packages (except for -doc packages):
+@@ -240,47 +240,16 @@
+ 		Please make sure to revert the changes before doing
+ 		"git commit" of the other updates you've made.
+ 
+-12.	Figures of gnuplot in perfbook I built have their upper end
+-	trimmed.  What am I missing?
+-
+-	A.	This is a known issue on Fedora as of November 2, 2019.
+-		Its Ghostscript (9.27) has regression in bounding box
+-		calculation. It has been fixed since in the upstream
+-		Ghostscript.
+-
+-		    https://bugs.ghostscript.com/show_bug.cgi?id=700988
+-
+-		Installing upstream Ghostscript 9.50 (or later) should
+-		work with you, but see #7 above to get a compatible a2ping.
+-
+-		"make neatfreak; make" will rebuild all the figures.
+-		The "-jN" option should accelerate the rebuild.
+-
+-	    Note:
+-		Fedora 32 has a fixed version of Ghostscript (9.52).
+-
+-13.	After updating or installing texlive packages on Fedora,
+-	build fails with the message from bibtex saying:
+-
+-		I found no \bibdata command---while reading file perfbook.aux
+-		I found no \bibstyle command---while reading file perfbook.aux
+-
+-	Is there any workaround?
+-
+-	A.	Try rebuilding database files by the following commands:
+-
+-		    sudo updmap-sys --syncwithtrees --force
+-		    sudo updmap-sys
+-
+-14.	After upgrading the userspace RCU library, and all of the code
++12.	After upgrading the userspace RCU library, and all of the code
+ 	samples making use of that library are now broken.
+ 
+-	The userspace RCU library sometimes breaks ABI, which requires
+-	that the binaries dynamically linking to it be rebuilt.
+-	Try removing the old binaries ("make clean") and then rebuilding
+-	("make").
++	A.	The userspace RCU library sometimes breaks ABI, which
++		requires that the binaries dynamically linking to it be
++		rebuilt.
++		Try removing the old binaries ("make clean") and then
++		rebuilding ("make").
+ 
+-15.	I want a stable environment to build perfbook.pdf.
++13.	I want a stable environment to build perfbook.pdf.
+ 	Can't I just use some container image?
+ 
+ 	A.	You can find a template Dockerfile under the docker/
+-- 
+2.17.1
 
-Very good!  How about as shown below?
-
-							Thanx, Paul
-
-------------------------------------------------------------------------
-
-commit 498ad5f93ea7a531bd79592b08c072ebd73bb188
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Tue May 18 11:34:25 2021 -0700
-
-    appendix/toyrcu: Wordsmith "add the value one to"
-    
-    Reported-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-
-diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
-index 9e5c01d5..39e43e30 100644
---- a/appendix/toyrcu/toyrcu.tex
-+++ b/appendix/toyrcu/toyrcu.tex
-@@ -976,7 +976,7 @@ The resulting \co{rcu_read_lock()} implementation is extremely
- straightforward.
- \begin{fcvref}[ln:defer:rcu:read_lock_unlock:lock]
- \Clnref{gp1,gp2} simply
--add one to the global free-running \co{rcu_gp_ctr}
-+add the value one to the global free-running \co{rcu_gp_ctr}
- variable and stores the resulting odd-numbered value into the
- \co{rcu_reader_gp} per-thread variable.
- \Clnref{mb} executes a memory barrier to prevent the content of the
