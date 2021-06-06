@@ -2,44 +2,52 @@ Return-Path: <SRS0=2uZh=LA=gmail.com=sj38.park@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=qDCa4rm7LFA6qFTapStrWj4y6m8pJ/a3MhmF/ZP3a7Q=;
-        b=DXx8Emh+NrIklsKlPbbSPtwWsAEhStsST2iYeaVbE6OigM6d1AY/6+4V/skTf5SkzD
-         rGRugV+G1Jvs+MEiBmGBP/3TmTUS3vCf219dXalBibWDbTrEBMEtPf5K9I2BAVZMu90W
-         xShRZlJEh1XAkW+jdquHcuzw1RQ+Fp1ll2OR4aSPEyYZOIYo50M2+hVIZGN78AcLHEFZ
-         CmpbwOn6nLw95MbSTepVGFG0VGj1Um0BjUTm2Uwhs9oH+EShy09vrq3Ng8u3whGByHQl
-         8LFvnYWUSJ7GeAxKZY4lrHpeycowPbx7WZrs33GubS8tK8BU+cQhRTlo6+dmky7mkY7g
-         GgCg==
+        bh=2KxDB5Ue3vH+HRVth455G8Eumd78comExlaI7UTMaWU=;
+        b=fkNN4iXqSCXmcPcnTHNCMvZoFrOQw9RnBCBtTy/6jBMaDv4WUD/sE46T7eWpbjbGvx
+         zQjmOQQYaEfVbKp7VNVrBrUXEn+gdQlfE6Kc2f8wVacLtJBgHpRnttX+wsSOlD+lejyP
+         FVXG6q46MFprZ0gEJPk29z2TGFSL2O4HOj7VKQTz60gXVuCbk0BpjkBC4aABfdPh3u+/
+         YNlqp13yq4Y0KJBK7VMmQojrFJAmyH2HL2PyY45pf26dlNN5jR9S2KozDmou1qh09B1C
+         MuDcY//c3LeU++rgM2i2qK8HKV9mlLpwaCc+sxpQ0W5DZBFGBKUxPLJMG7vqGdyAHXK5
+         J8Iw==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 1/2] intro: Fix a wrong opening quote ('' -> ``)
-Date: Sun,  6 Jun 2021 10:17:26 +0200
-Message-Id: <20210606081727.2125-2-sj38.park@gmail.com>
+Subject: [PATCH 2/2] intro: Add missed unbreakable spaces
+Date: Sun,  6 Jun 2021 10:17:27 +0200
+Message-Id: <20210606081727.2125-3-sj38.park@gmail.com>
 In-Reply-To: <20210606081727.2125-1-sj38.park@gmail.com>
 References: <20210606081727.2125-1-sj38.park@gmail.com>
 To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Closing quote ('') is used in place of opening quote for a sentence.
-This commit fixes it.
+This commit adds missed unbreakable spaces ('~') in the intro chapter.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- intro/intro.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ intro/intro.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/intro/intro.tex b/intro/intro.tex
-index b40abeb5..991a5f5d 100644
+index 991a5f5d..5f2690fc 100644
 --- a/intro/intro.tex
 +++ b/intro/intro.tex
-@@ -155,7 +155,7 @@ as discussed in \cref{sec:cpu:Hardware Free Lunch?}.
- 	how could a large number of open-source projects, ranging from Apache
- 	to MySQL to the Linux kernel, have managed to master it?
- 
--	A better question might be: ''Why is parallel programming {\em
-+	A better question might be: ``Why is parallel programming {\em
- 	perceived} to be so difficult?''
- 	To see the answer, let's go back to the year 1991.
- 	Paul McKenney was walking across the parking lot to Sequent's
+@@ -634,7 +634,7 @@ It should therefore be no surprise to see similar tradeoffs
+ appear in the field of parallel computing.
+ This tradeoff is shown schematically in
+ \cref{fig:intro:Tradeoff Between Productivity and Generality}.
+-Here, users~1, 2, 3, and 4 have specific jobs that they need the computer
++Here, users~1, 2, 3, and~4 have specific jobs that they need the computer
+ to help them with.
+ The most productive possible language or environment for a given user is one
+ that simply does that user's job, without requiring any programming,
+@@ -673,7 +673,7 @@ Haskell, Prolog, or Snobol), as is shown by the circular region near
+ the center of
+ \cref{fig:intro:Tradeoff Between Productivity and Generality}.
+ These languages can be considered to be general in the sense that they
+-are equally ill-suited to the jobs required by users~1, 2, 3, and 4.
++are equally ill-suited to the jobs required by users~1, 2, 3, and~4.
+ In other words, their generality comes at the expense of
+ decreased productivity when compared to domain-specific languages
+ and environments.
 -- 
 2.17.1
 
