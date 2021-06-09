@@ -1,47 +1,110 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:42620 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229885AbhFFXoQ (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sun, 6 Jun 2021 19:44:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623022946;
-        bh=9VtvjyWc+hT6PBcnjaEWaswhG4GE+XWBIj6DCm9utjw=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Kr541gYUeVSx9gv5gzsYVpWv+bHycGg5ftDOz3etLtrJXXlbM3bD8xBc1dqyVtE9w
-         Njb30jgSAlG67RnK0uzDvQ0NKACyt3AWtgMEQUbhqELqXht1DG9G/xf+Je1yYD94rM
-         1cwvVQI4GAdg5l0VKAmIIc7S7MAAYToAGh1e0Kw8mMExvE3vZ7C073GnfupG0gxWm9
-         72paMQ89ni75qxKsX2z5Dj+jhXlVsLxUTa5Up7CFeJikhvLQBcQmKJQyUwhfsOSzL6
-         SYhv/F/bHH8Pb0lrI+cmP4kTHxbPn07YBxlFQuHSYkNrxI1i0Fc8k/BXsvER/Yn2/s
-         B9dh4zeNzsOVg==
-Date: Sun, 6 Jun 2021 16:42:26 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 0/2] intro: Fix trivial nits
-Message-ID: <20210606234226.GO4397@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20210606081727.2125-1-sj38.park@gmail.com>
+Return-Path: <SRS0=+sYI=LD=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=NODVNVfXJSRbEPXc0cWVBrfquSK02kpU3INIzr7nrt8=;
+        b=ks+CM6VxbKLgmv8b7+GgD6wt527x2FBGZD1VjICTBkzPL9J5IcU9yrG8EWD4SbsSNZ
+         bsoChyUMWpgufrQ6wUcY1vmduJHoAMVo9FxbucGemMA+TlkDopP+YNXVUcZFbr2mAwOg
+         lqLaCP3gKpMXaY9TMIkd3Wmgrp3kYYkxHXfoWV7+0ihoga9TEHOROkRxj3n2RP4+zLDG
+         alSBVRxrwp9NnLTGMXtmosuo0GB/XCzRvnrB/XSLpvlWVapKbWJEHYRbiX7rhdDxxQUX
+         mFYwdGr0DydD6IbGq70HGgANv4zWbGLjT8QxoMp4Y1z/I9iABV7nyUNukgYEHODTVK4D
+         BOYw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [GIT PULL -perfbook] Add checks with regard to punctuation marks
+Message-ID: <70a41d88-1892-3937-3af5-d3db3657d74c@gmail.com>
+Date: Wed, 9 Jun 2021 11:59:42 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210606081727.2125-1-sj38.park@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Jun 06, 2021 at 10:17:25AM +0200, SeongJae Park wrote:
-> This patchset fixes trivial nits in intro chapter, which I found while
-> translating it.
-> 
-> SeongJae Park (2):
->   intro: Fix a wrong opening quote ('' -> ``)
->   intro: Add missed unbreakable spaces
+Hi Paul,
 
-Good eyes!  Queued and pushed, thank you!
+It took a while for me to sort out the spacing width after punctuation
+marks.
 
-							Thanx, Paul
+Previous updates took care of mid-sentence and end-of-sentence
+periods.
+It turns out that we need to care other punctuation marks in the
+same way.  My experiment shows that "!", "?", and ":" behaves in the
+same way as ".".
 
->  intro/intro.tex | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> -- 
-> 2.17.1
-> 
+For cleverefcheck to work, we need to make sure end-of-sentence
+punctuation marks be at the end of input lines, so periodcheck.pl
+now treats "!" and "?" in the same way as ".".
+
+cleverefcheck now checks sentences starting with lower-case words
+as well as \cref{} and its variants.
+
+It also checks indents by white spaces now.
+
+All the offending patterns in LaTeX sources have fixed.
+
+Finally "make" will run both periodcheck and cleverefcheck.
+
+As for colons, I'm not sure what is your preference with regard
+to capitalization of the next words and the spacing width after
+them, so no check is done at the moment.
+ 
+If you have some preference, I can update the scripts to enforce
+it.
+
+        Thanks, Akira
+--
+The following changes since commit a20cf5ebd8605d93bb35876a26907fe294278eb8:
+
+  defer: Fix lack of rcu_register_thread() in singleton_reader() (2021-06-08 14:58:10 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/akiyks/perfbook.git tags/for-paul-2021.06.09a
+
+for you to fetch changes up to f70493ae24172bb73ce4a0560d4c1f958baedd51:
+
+  styleguide: Adjust cleveref macro usage where possible (2021-06-09 11:28:50 +0900)
+
+----------------------------------------------------------------
+Akira Yokosawa (11):
+      cleverefcheck: Add check of sentences starting with lower-case words
+      periodcheck: Check question and exclamation marks as well
+      formal/dyntickrcu: Fix unintended paragraph break
+      memorder: Move float snippet away of QQA heading
+      treewide: Annotate punctuation marks
+      treewide: Make end-of-sentence punctuation marks be at end-of-line
+      debugging: Move period out of double quotes
+      cleverefcheck: Add check of indent by white spaces
+      treewide: Fix indents by white spaces
+      Makefile: Auto run cleverefcheck on 'make'
+      styleguide: Adjust cleveref macro usage where possible
+
+ Makefile                             |  2 ++
+ SMPdesign/partexercises.tex          |  3 +-
+ advsync/rt.tex                       |  6 ++--
+ appendix/styleguide/styleguide.tex   | 23 +++++++-------
+ appendix/toyrcu/toyrcu.tex           |  4 +--
+ appendix/whymb/whymemorybarriers.tex |  2 +-
+ count/count.tex                      |  6 ++--
+ cpu/overheads.tex                    |  2 +-
+ datastruct/datastruct.tex            |  2 +-
+ debugging/debugging.tex              | 44 ++++++++++++++------------
+ defer/defer.tex                      |  2 +-
+ defer/rcuapi.tex                     |  4 +--
+ defer/rcurelated.tex                 |  2 +-
+ defer/rcuusage.tex                   |  2 +-
+ defer/whichtochoose.tex              |  2 +-
+ easy/easy.tex                        |  3 +-
+ formal/dyntickrcu.tex                |  2 +-
+ formal/ppcmem.tex                    |  2 +-
+ formal/spinhint.tex                  | 12 +++----
+ locking/locking.tex                  |  4 +--
+ memorder/memorder.tex                | 20 ++++++------
+ together/refcnt.tex                  |  2 +-
+ toolsoftrade/toolsoftrade.tex        |  9 +++---
+ utilities/cleverefcheck.pl           | 61 ++++++++++++++++++++++++++----------
+ utilities/cleverefcheck.sh           |  1 +
+ utilities/periodcheck.pl             | 28 ++++++++++++-----
+ 26 files changed, 150 insertions(+), 100 deletions(-)
