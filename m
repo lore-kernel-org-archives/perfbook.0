@@ -1,314 +1,162 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:35890 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231844AbhFMP70 (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sun, 13 Jun 2021 11:59:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623599845;
-        bh=FXr5ti41PF9OOK/hPOhOWp7/SBy1EV381l5S567TqNY=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Qfn+XVKjUl265oTVXajhvClKVB8fr2MQ+9P2eJUSV1kvgDkY9+qNCuUCq7xDeClcU
-         8/bfuoJIwG4DMt+gCJ23ckSdyLuc/V6dVy7qokZCoTYdiwuaSIIo2INsHr43F0uoPl
-         3F0Ui+e+pNze3t7lwuPP3xxCERricjH8ss6G8jctbW4UpedGvJg6RUBEgUA6TgPZDy
-         Oi8rQesxLONVgudCCovc2pAbasis/N7/mjdcBZWYOF4HdfahYdG2Br9IEalpWt4+Zj
-         8PtdxBuDs2tdJuj8XeePKP7bBHx5K2MOhY0Jr2dgJOMsxZlT9f4p1BJxvUwOoR9Ocy
-         WEUBcdE2I2Ofg==
-Date: Sun, 13 Jun 2021 08:57:25 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH v2 -perfbook] howto, intro, cpu: Break and capitalize
- after colon
-Message-ID: <20210613155725.GM4397@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <70a41d88-1892-3937-3af5-d3db3657d74c@gmail.com>
- <20210609192347.GJ4397@paulmck-ThinkPad-P17-Gen-1>
- <a213855a-3357-0217-0973-cc76b11d40ad@gmail.com>
- <20210610212617.GW4397@paulmck-ThinkPad-P17-Gen-1>
- <b94fd29f-66a5-b4c8-cca5-6f81a75f20a7@gmail.com>
- <e6b2532d-3059-d6e4-5ae1-15feb70067f6@gmail.com>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59116 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231912AbhFMTNM (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sun, 13 Jun 2021 15:13:12 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ADF1C061574
+        for <perfbook@vger.kernel.org>; Sun, 13 Jun 2021 12:11:11 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id c11so17037498ljd.6
+        for <perfbook@vger.kernel.org>; Sun, 13 Jun 2021 12:11:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=F1i8g8RAJtSIYr99sCMG3LUfyj/Uqvy/ijPj8rfsOg0=;
+        b=VKjTUL5XdTbK5lWaYtFgTh0VAJqJekSFL3WBt7Y1yCQ0VQ5Te+yy9arqIN3IVNp7Sa
+         O4BRTd7GPxhTBVltcr5/wO3b+q7eifhADbVDdrflPpjaksUWzTz2dCN45Uck27wuvTQ7
+         urMgc9TJXI3gMbO5UX7s81/h0byV5+EsIyfvJOaszXof2jTxaWsEbTGlwvzIzhUumIr9
+         ENl+5Tigvb/sI/0MDx2AuhjmC6LFq2wk9phJH/8vg+JkSHKAzmBthDj6QrpNYAv5Kirq
+         8VZ+yMCIsJBWEapvjnohfz3BoOY2wOlMP5lTBj/4Tl5+jtlRGZKokya/6NAC1kdBdMRT
+         xt7w==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e6b2532d-3059-d6e4-5ae1-15feb70067f6@gmail.com>
+References: <CADJjh6nHYPAwnsZHG_kdNQA1G98BAct57ijL9x78=UfYG1qhyg@mail.gmail.com>
+In-Reply-To: <CADJjh6nHYPAwnsZHG_kdNQA1G98BAct57ijL9x78=UfYG1qhyg@mail.gmail.com>
+From: =?UTF-8?B?0JTQvNC40YLRgNC40Lkg0JTRjNGP0YfQtdC90LrQvg==?= 
+        <dimhen@gmail.com>
+Date: Sun, 13 Jun 2021 22:10:33 +0300
+Message-ID: <CADJjh6mMZ_FfOGxYc8z2=xNjCyycWjSKXwTW=gpSot0phA7oaw@mail.gmail.com>
+Subject: Re: FYI: TexLive 2021 FAIL
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: perfbook@vger.kernel.org
 
-On Sat, Jun 12, 2021 at 03:14:52PM +0900, Akira Yokosawa wrote:
-> Fix violations detected by the check scripts at hand.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Hi!
+perfbook-current 787eb45867670c1265add1437454a20a17347eca and TexLive
+2021-current (2021-jun-13) build PASS
 
-I have pulled this in, thank you very much!
+Thank you,
+Dmitry
 
-There is one mistake I made in my previous reply, and I have fixed
-this.  Please see below.
-
-> ---
->  cpu/cpu.tex         |  5 +++--
->  cpu/hwfreelunch.tex | 18 +++++++++++-------
->  cpu/overheads.tex   |  8 +++++---
->  cpu/overview.tex    |  8 +++++---
->  cpu/swdesign.tex    |  2 +-
->  howto/howto.tex     | 23 ++++++++++++++---------
->  intro/intro.tex     | 30 +++++++++++++++---------------
->  7 files changed, 54 insertions(+), 40 deletions(-)
-> 
-> diff --git a/cpu/cpu.tex b/cpu/cpu.tex
-> index 183feb8c..8a4afc69 100644
-> --- a/cpu/cpu.tex
-> +++ b/cpu/cpu.tex
-> @@ -54,8 +54,9 @@ So, to sum up:
->  \begin{enumerate}
->  \item	The good news is that multicore systems are inexpensive and
->  	readily available.
-> -\item	More good news:  The overhead of many synchronization operations
-> -	is much lower than it was on parallel systems from the early 2000s.
-> +\item	More good news:
-> +	The overhead of many synchronization operations is much lower
-> +	than it was on parallel systems from the early 2000s.
->  \item	The bad news is that the overhead of cache misses is still high,
->  	especially on large systems.
->  \end{enumerate}
-> diff --git a/cpu/hwfreelunch.tex b/cpu/hwfreelunch.tex
-> index 92f04f16..68c6dd5f 100644
-> --- a/cpu/hwfreelunch.tex
-> +++ b/cpu/hwfreelunch.tex
-> @@ -167,8 +167,9 @@ That said, they may be necessary steps on the path to the late Jim Gray's
->  \label{sec:cpu:Novel Materials and Processes}
->  
->  Stephen Hawking is said to have claimed that semiconductor manufacturers
-> -have but two fundamental problems: (1) the finite speed of light and
-> -(2) the atomic nature of matter~\cite{BryanGardiner2007}.
-> +have but two fundamental problems:
-> +(1)~The finite speed of light and
-> +(2)~the atomic nature of matter~\cite{BryanGardiner2007}.
-
-I should have capitalized the "the" in this last line.  I did so before
-applying your patch.
-
-							Thanx, Paul
-
->  It is possible that semiconductor manufacturers are approaching these
->  limits, but there are nevertheless a few avenues of research and
->  development focused on working around these fundamental limits.
-> @@ -228,8 +229,9 @@ general-purpose CPU will normally use a loop (possibly unrolled)
->  with a loop counter.
->  Decoding the instructions, incrementing the loop counter, testing this
->  counter, and branching back to the
-> -top of the loop are in some sense wasted effort: the real goal is
-> -instead to multiply corresponding elements of the two vectors.
-> +top of the loop are in some sense wasted effort:
-> +The real goal is instead to multiply corresponding elements of the
-> +two vectors.
->  Therefore, a specialized piece of hardware designed specifically to
->  multiply vectors could get the job done more quickly and with less
->  energy consumed.
-> @@ -263,10 +265,12 @@ These hardware accelerators are often used for media decoding,
->  so much so that a high-end MP3 player might be able to play audio
->  for several minutes---with its CPU fully powered off the entire time.
->  The purpose of these accelerators is to improve energy efficiency
-> -and thus extend battery life: special purpose hardware can often
-> -compute more efficiently than can a general-purpose CPU\@.
-> +and thus extend battery life:
-> +Special purpose hardware can often compute more efficiently than
-> +can a general-purpose CPU\@.
->  This is another example of the principle called out in
-> -\cref{sec:intro:Generality}: \IX{Generality} is almost never free.
-> +\cref{sec:intro:Generality}:
-> +\IX{Generality} is almost never free.
->  
->  Nevertheless, given the end of \IXaltr{Moore's-Law}{Moore's Law}-induced
->  single-threaded performance increases, it seems safe to assume that
-> diff --git a/cpu/overheads.tex b/cpu/overheads.tex
-> index 80d60d9d..4aeae6cd 100644
-> --- a/cpu/overheads.tex
-> +++ b/cpu/overheads.tex
-> @@ -500,8 +500,9 @@ cycles, as shown in the ``Global Comms'' row.
->  	use several rolls (or multiple cases) of toilet paper to represent
->  	the communications latency.
->  
-> -	Important safety tip: make sure to account for the needs of
-> -	those you live with when appropriating toilet paper, especially
-> +	Important safety tip:
-> +	Make sure to account for the needs of those you live with when
-> +	appropriating toilet paper, especially
->  	in 2020 or during a similar time when store shelves are free of
->  	toilet paper and much else besides.
->  
-> @@ -584,7 +585,8 @@ exceedingly efficiently, and is the subject of
->  \begin{figure}
->  \centering
->  \resizebox{3in}{!}{\includegraphics{cartoons/Data-chasing-light-wave}}
-> -\caption{Hardware and Software: On Same Side}
-> +\caption{Hardware and Software:
-> +				On Same Side}
->  \ContributedBy{Figure}{fig:cpu:Hardware and Software: On Same Side}{Melissa Broussard}
->  \end{figure}
->  
-> diff --git a/cpu/overview.tex b/cpu/overview.tex
-> index d1d23b36..33918e49 100644
-> --- a/cpu/overview.tex
-> +++ b/cpu/overview.tex
-> @@ -5,8 +5,9 @@
->  \section{Overview}
->  \label{sec:cpu:Overview}
->  %
-> -\epigraph{Mechanical Sympathy: Hardware and software working together in
-> -	  harmony.}{\emph{Martin Thompson}}
-> +\epigraph{Mechanical Sympathy:
-> +	  Hardware and software working together in harmony.}
-> +	 {\emph{Martin Thompson}}
->  
->  Careless reading of computer-system specification sheets might lead one
->  to believe that CPU performance is a footrace on a clear track, as
-> @@ -335,7 +336,8 @@ as illustrated by
->  \cref{fig:cpu:CPU Waits for I/O Completion}.
->  
->  This is one of the differences between shared-memory and distributed-system
-> -parallelism: shared-memory parallel programs must normally deal with no
-> +parallelism:
-> +Shared-memory parallel programs must normally deal with no
->  obstacle worse than a cache miss, while a distributed parallel program
->  will typically incur the larger network communication latencies.
->  In both cases, the relevant latencies can be thought of as a cost of
-> diff --git a/cpu/swdesign.tex b/cpu/swdesign.tex
-> index 63b6222f..75541229 100644
-> --- a/cpu/swdesign.tex
-> +++ b/cpu/swdesign.tex
-> @@ -82,7 +82,7 @@ be extremely infrequent and to enable very large quantities of processing.
->  }\QuickQuizEnd
->  
->  The lesson should be quite clear:
-> -parallel algorithms must be explicitly designed with these hardware
-> +Parallel algorithms must be explicitly designed with these hardware
->  properties firmly in mind.
->  One approach is to run nearly independent threads.
->  The less frequently the threads communicate, whether by \IX{atomic} operations,
-> diff --git a/howto/howto.tex b/howto/howto.tex
-> index 0f0ba293..8bc9e8e5 100644
-> --- a/howto/howto.tex
-> +++ b/howto/howto.tex
-> @@ -46,11 +46,16 @@ that it has brought to us!
->  \section{Roadmap}
->  \label{sec:howto:Roadmap}
->  %
-> -\epigraph{Cat: Where are you going? \\
-> -	  Alice: Which way should I go? \\
-> -	  Cat: That depends on where you are going. \\
-> -	  Alice: I don't know. \\
-> -	  Cat: Then it doesn't matter which way you go.}
-> +\epigraph{Cat:
-> +		Where are you going? \\
-> +	  Alice:
-> +		Which way should I go? \\
-> +	  Cat:
-> +		That depends on where you are going. \\
-> +	  Alice:
-> +		I don't know. \\
-> +	  Cat:
-> +		Then it doesn't matter which way you go.}
->  	 {\emph{Lewis Carroll, Alice in Wonderland}}
->  
->  This book is a handbook of widely applicable and heavily
-> @@ -359,8 +364,8 @@ Fortunately, there are many alternatives available to you:
->  	thorough and accessible introduction with a good set of
->  	examples.
->  \item	If you are interested in C++11, you might like
-> -	\ppl{Anthony}{Williams}'s ``C++ Concurrency in Action: Practical
-> -	Multithreading''~\cite{AnthonyWilliams2012,AnthonyWilliams2019}.
-> +	\ppl{Anthony}{Williams}'s ``C++ Concurrency in Action:
-> +	Practical Multithreading''~\cite{AnthonyWilliams2012,AnthonyWilliams2019}.
->  \item	If you are interested in C++, but in a Windows environment,
->  	you might try \ppl{Herb}{Sutter}'s ``Effective Concurrency''
->  	series in
-> @@ -528,8 +533,8 @@ namely that you are certifying that:
->  
->  This is quite similar to the Developer's Certificate of Origin (DCO)
->  1.1 used by the Linux kernel.
-> -You must use your real name:  I unfortunately cannot accept pseudonymous or
-> -anonymous contributions.
-> +You must use your real name:
-> +I unfortunately cannot accept pseudonymous or anonymous contributions.
->  
->  The language of this book is American English, however, the open-source
->  nature of this book permits translations, and I personally encourage them.
-> diff --git a/intro/intro.tex b/intro/intro.tex
-> index 5f2690fc..b185a7f7 100644
-> --- a/intro/intro.tex
-> +++ b/intro/intro.tex
-> @@ -23,11 +23,11 @@ However, new technologies that are difficult to use at introduction
->  invariably become easier over time.
->  For example, the once-rare ability to drive a car is now
->  commonplace in many countries.
-> -This dramatic change came about for two basic reasons: (1)~cars became
-> -cheaper and more readily available, so that more people had the
-> -opportunity to learn to drive, and (2)~cars became easier to operate
-> -due to automatic transmissions, automatic chokes, automatic starters,
-> -greatly improved reliability,
-> +This dramatic change came about for two basic reasons:
-> +(1)~Cars became cheaper and more readily available, so that
-> +more people had the opportunity to learn to drive,
-> +and (2)~Cars became easier to operate due to automatic transmissions,
-> +automatic chokes, automatic starters, greatly improved reliability,
->  and a host of other technological improvements.
->  
->  The same is true for many other technologies, including computers.
-> @@ -155,8 +155,8 @@ as discussed in \cref{sec:cpu:Hardware Free Lunch?}.
->  	how could a large number of open-source projects, ranging from Apache
->  	to MySQL to the Linux kernel, have managed to master it?
->  
-> -	A better question might be: ``Why is parallel programming {\em
-> -	perceived} to be so difficult?''
-> +	A better question might be:
-> +	``Why is parallel programming \emph{perceived} to be so difficult?''
->  	To see the answer, let's go back to the year 1991.
->  	Paul McKenney was walking across the parking lot to Sequent's
->  	benchmarking center carrying six dual-80486 Sequent Symmetry CPU
-> @@ -311,8 +311,8 @@ Each of these goals is elaborated upon in the following sections.
->  \label{sec:intro:Performance}
->  
->  Performance is the primary goal behind most parallel-programming effort.
-> -After all, if performance is not a concern, why not do yourself
-> -a favor:  Just write sequential code, and be happy?
-> +After all, if performance is not a concern, why not do yourself a favor:
-> +Just write sequential code, and be happy?
->  It will very likely be easier
->  and you will probably get done much more quickly.
->  
-> @@ -657,8 +657,8 @@ configuration, or other setup.
->  	Those who indulge in excessive generality will therefore fail to set
->  	the productivity bar high enough to succeed near the top of the
->  	software stack.
-> -	This fact of life even has its own acronym: YAGNI, or ``You
-> -	Ain't Gonna Need It.''
-> +	This fact of life even has its own acronym:
-> +	YAGNI, or ``You Ain't Gonna Need It.''
->  }\QuickQuizEnd
->  
->  Unfortunately, a system that does the job required by user~1 is
-> @@ -928,7 +928,7 @@ each of which is covered in the following sections.
->  \label{sec:intro:Work Partitioning}
->  
->  Work partitioning is absolutely required for parallel execution:
-> -if there is but one ``glob'' of work, then it can be executed by at
-> +If there is but one ``glob'' of work, then it can be executed by at
->  most one CPU at a time, which is by definition sequential execution.
->  However, partitioning the work requires great care.
->  For example, uneven partitioning can result in sequential execution
-> @@ -939,9 +939,9 @@ available hardware and restore performance and scalabilty.
->  Although partitioning can greatly improve performance and scalability,
->  it can also increase complexity.
->  For example, partitioning can complicate handling of global
-> -errors and events: A parallel
-> -program may need to carry out non-trivial synchronization in order
-> -to safely process such global events.
-> +errors and events:
-> +A parallel program may need to carry out non-trivial synchronization
-> +in order to safely process such global events.
->  More generally, each partition requires some sort of communication:
->  After all, if
->  a given thread did not communicate at all, it would have no effect and
-> -- 
-> 2.17.1
-> 
-> 
+=D1=81=D1=80, 19 =D0=BC=D0=B0=D1=8F 2021 =D0=B3. =D0=B2 10:19, =D0=94=D0=BC=
+=D0=B8=D1=82=D1=80=D0=B8=D0=B9 =D0=94=D1=8C=D1=8F=D1=87=D0=B5=D0=BD=D0=BA=
+=D0=BE <dimhen@gmail.com>:
+>
+> Hi!
+> Latest perfbook-git 28d9019e217717b1d96674a8e2a00641c38463eb
+> PASS with TexLive 2021-may-11
+> FAIL with TexLive-2021-may-19.
+>
+> See perfbook.log in attachment.
+> See make & TexLive update logs at bottom.
+>
+> Thank you,
+> Dmitry
+>
+> $ make
+> [...]
+> sh utilities/runfirstlatex.sh perfbook
+> pdflatex 1 for perfbook.pdf
+> [386 <./cartoons/r-2014-What-time-is-it.pdf>]
+>
+> LaTeX Warning: Reference `tab:app:questions:After Program Sample
+> Output' on page 1 undefined on input line 52.
+>
+> ! LaTeX3 Error: Key 'siunitx/group-digits' accepts only a fixed set of
+> (LaTeX3)        choices.
+> For immediate help type H <return>.
+>  ...
+>
+> l.64 \sisetup{group-digits=3Dfalse}
+>
+> ?
+> ! Emergency stop.
+>  ...
+>
+> l.64 \sisetup{group-digits=3Dfalse}
+>
+> ----- Fatal latex error, see perfbook.log for details. -----
+> make: *** [Makefile:231: perfbook.aux] Error 1
+>
+>
+> TexLive update log
+> $ tlmgr update --self
+> tlmgr: package repository http://ctan.altspu.ru/systems/texlive/tlnet (ve=
+rified)
+> tlmgr: saving backups to /run/media/dima/TexLive/tlpkg/backups
+> [1/1, ??:??/??:??] update: texlive.infra [429k] (59127 -> 59259) ... done
+> [...]
+>
+> [dima@dim perfbook]$ tlmgr update --all
+> tlmgr: package repository http://ctan.altspu.ru/systems/texlive/tlnet (ve=
+rified)
+> tlmgr: saving backups to /run/media/dima/TexLive/tlpkg/backups
+> [ 1/55] auto-remove: texlive-docindex ... done
+> [ 2/55, ??:??/??:??] update: apa7 [761k] (58835 -> 59254) ... done
+> [ 3/55, 00:08/18:40] update: babel [1656k] (58999 -> 59229) ... done
+> [ 4/55, 00:18/13:13] update: beebe [858k] (58983 -> 59190) ... done
+> [ 5/55, 00:24/13:00] update: bnumexpr [158k] (49643 -> 59244) ... done
+> [ 6/55, 00:38/19:39] update: bxjscls [1635k] (57625 -> 59253) ... done
+> [ 7/55, 01:19/27:40] update: changes [2405k] (58773 -> 59198) ... done
+> [ 8/55, 01:37/23:02] update: dviinfox [6k] (44515 -> 59216) ... done
+> [ 9/55, 01:45/24:55] update: easybook [345k] (59148 -> 59245) ... done
+> [10/55, 01:51/25:11] update: els-cas-templates [380k] (54317 -> 59170) ..=
+. done
+> [11/55, 01:58/25:31] update: euclideangeometry [1056k] (54897 -> 59246) .=
+.. done
+> [12/55, 02:39/30:28] update: europecv [1008k] (57641 -> 59162) ... done
+> [13/55, 02:51/29:33] update: huawei [365k] (58907 -> 59180) ... done
+> [14/55, 03:14/32:23] update: hvfloat [8920k] (59104 -> 59255) ... done
+> [15/55, 05:57/32:24] update: hvqrurl [105k] (52993 -> 59256) ... done
+> [16/55, 06:02/32:41] update: kpathsea [1080k] (58622 -> 59203) ... done
+> [17/55, 06:10/31:40] update: l3kernel [11376k] (59118 -> 59231) ... done
+> [18/55, 07:12/23:52] update: latexmk [560k] (59081 -> 59258) ... done
+> [19/55, 07:33/24:36] update: libertinust1math [2287k] (56861 -> 59241) ..=
+. done
+> [20/55, 08:14/25:04] update: lua-ul [116k] (58988 -> 59186) ... done
+> [21/55, 08:20/25:17] update: luatexja [3398k] (58545 -> 59248) ... done
+> [22/55, 09:29/26:14] update: marathi [170k] (58760 -> 59172) ... done
+> [23/55, 09:42/26:43] update: musixtex [2126k] (57353 -> 59240) ... done
+> [24/55, 10:25/27:12] update: newtx [6418k] (58748 -> 59238) ... done
+> [25/55, 10:59/24:47] update: newtxsf [429k] (56527 -> 59227) ... done
+> [26/55, 11:07/24:51] update: noindentafter [397k] (35709 -> 59195) ... do=
+ne
+> [27/55, 11:21/25:10] update: optex [2175k] (59055 -> 59209) ... done
+> [28/55, 11:49/25:04] update: paresse [1322k] (56621 -> 59228) ... done
+> [29/55, 12:50/26:31] update: pdfmanagement-testphase [6718k] (58520 ->
+> 59194) ... done
+> [30/55, 13:35/24:50] update: pgf [10838k] (57240 -> 59210) ... done
+> [31/55, 14:58/23:04] update: pgf-spectra [1905k] (58482 -> 59242) ... don=
+e
+> [32/55, 15:32/23:18] update: pgfplots [15025k] (59132 -> 59243) ... done
+> [33/55, 16:27/20:22] update: platex-tools [569k] (57729 -> 59211) ... don=
+e
+> [34/55, 16:35/20:23] update: plautopatch [140k] (57731 -> 59212) ... done
+> [35/55, 16:52/20:42] update: profcollege [3910k] (58995 -> 59217) ... don=
+e
+> [36/55, 17:11/20:11] update: pxjahyper [146k] (59116 -> 59165) ... done
+> [37/55, 17:17/20:16] update: qrbill [170k] (56190 -> 59232) ... done
+> [38/55, 17:34/20:34] update: siunitx [2056k] (58909 -> 59239) ... done
+> [39/55, 17:51/20:26] update: tagpdf [669k] (57955 -> 59214) ... done
+> [40/55, 18:11/20:40] update: tex4ht [2196k] (59145 -> 59249) ... done
+> [41/55, 18:29/20:31] update: texlive-scripts [494k] (59153 -> 59251) ... =
+done
+> [42/55, 18:36/20:33] update: tuda-ci [1133k] (58661 -> 59257) ... done
+> [43/55, 18:53/20:37] update: unravel [907k] (52822 -> 59175) ... done
+> [44/55, 19:11/20:45] update: vancouver [143k] (55423 -> 59192) ... done
+> [45/55, 20:08/21:45] update: worldflags [3943k] (59021 -> 59171) ... done
+> [46/55, 20:38/21:26] update: xetexko [311k] (58929 -> 59215) ... done
+> [47/55, 21:07/21:52] update: xint [2509k] (59089 -> 59161) ... done
+> [48/55, 21:27/21:41] auto-install: codehigh (59173) [88k] ... done
+> [49/55, 21:30/21:43] auto-install: pdfextra (59204) [633k] ... done
+> [50/55, 21:34/21:39] auto-install: tabularray (59183) [336k] ... done
+> [51/55, 21:43/21:44] auto-install: tiscreen (59247) [122k] ... done
+> [52/55, 21:46/21:46] update: collection-basic [1k] (56569 -> 59159) ... d=
+one
+> [53/55, 21:57/21:57] update: collection-latexextra [7k] (59009 ->
+> 59183) ... done
+> [54/55, 22:02/22:02] update: collection-luatex [1k] (58131 -> 59184) ... =
+done
+> [55/55, 22:10/22:10] update: collection-mathscience [2k] (57759 ->
+> 59247) ... done
