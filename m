@@ -1,62 +1,79 @@
-Return-Path: <SRS0=zoNZ=LI=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZZx//+aPVswUp/jgrzmAehr229ifNe/1xUdB+d4a3nY=;
-        b=l3U7SLE54E4ZPQYIen89Kn4PYLDYPpNc2wwUQxqw/8CkyIqRtiNI7DpLztr9CNO8pF
-         I3XWX3lvEXkCgXNvOhx9gVbFLRENlv5hMpdF82yabbwjeyVpHOmEqDierRCh3thrxJfL
-         75NHKdVlS75PltTFSY/UNh9099ekLYC7tYTwSxXiIgBEDZX9ZGz66+F0oTMi/NoF6qNY
-         7mQWVL7jDOcpxob1jhyPfsRDu9ElHnmvZYAs8gkXwWYVCqaYVoHUi7pdBhuLvXaQ3/RU
-         8ck7DzznPO3JcocOYIjqDbAja0UQY3XNHgcczuTHA9jKc84X6U/1SrhdizLG5Ac75wIT
-         ZqwQ==
-Subject: [PATCH -perfbook 2/2] Fix typos (scalability)
-References: <f3899671-ca23-631b-af10-cb20e0bf84d1@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <bbd41fa6-d0f9-0db4-77c1-f83b607f8c7d@gmail.com>
-Date: Mon, 14 Jun 2021 13:01:23 +0900
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:36906 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229596AbhFNEm2 (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Mon, 14 Jun 2021 00:42:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623645626;
+        bh=NtuLXE/+GaoiJojlWgnqjGLM0LaChxSuHyNb70lHg2I=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=b1HGsAfkqz9xvgVOdr0n0V3+p+kVFFJsdWwuVC4h/G+Jd6JHmT+H+RGOOrSGoZmol
+         7D2OFJt51ulAuffMr+5R4Ie+FFua9UUX7IeSRkVkviqTclTz/DYal7tgIubXhuJ7va
+         lRGdJ0Z+dnR6Aj8v5Ns7SO5hwdq/05nNsFE6vb5fD8tn4ktoPfzJErhPgJLfmQekKh
+         HXPCXucf+7YDZlrGaJXmS7odp1oXWmwIK0qGmemSbcxcj0E609nQC6n82nPlFm3cmr
+         RAcloZXtKuz3fYMrfIRIE/4rbRLG4qOqcWZOzYEHXO45FAZ+plNUgdy1h8RE2YcbKF
+         oFxXa9jFhxaXQ==
+Date: Sun, 13 Jun 2021 21:40:26 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v2 -perfbook] howto, intro, cpu: Break and capitalize
+ after colon
+Message-ID: <20210614044026.GP4397@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <70a41d88-1892-3937-3af5-d3db3657d74c@gmail.com>
+ <20210609192347.GJ4397@paulmck-ThinkPad-P17-Gen-1>
+ <a213855a-3357-0217-0973-cc76b11d40ad@gmail.com>
+ <20210610212617.GW4397@paulmck-ThinkPad-P17-Gen-1>
+ <b94fd29f-66a5-b4c8-cca5-6f81a75f20a7@gmail.com>
+ <e6b2532d-3059-d6e4-5ae1-15feb70067f6@gmail.com>
+ <20210613155725.GM4397@paulmck-ThinkPad-P17-Gen-1>
+ <e7bd8e4b-c6ba-5eeb-6d6f-b56d29c75ff1@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <f3899671-ca23-631b-af10-cb20e0bf84d1@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e7bd8e4b-c6ba-5eeb-6d6f-b56d29c75ff1@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- appendix/questions/ordering.tex | 2 +-
- intro/intro.tex                 | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Mon, Jun 14, 2021 at 07:58:59AM +0900, Akira Yokosawa wrote:
+> On Sun, 13 Jun 2021 08:57:25 -0700, Paul E. McKenney wrote:
+> > On Sat, Jun 12, 2021 at 03:14:52PM +0900, Akira Yokosawa wrote:
+> >> Fix violations detected by the check scripts at hand.
+> >>
+> >> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> > 
+> > I have pulled this in, thank you very much!
+> > 
+> > There is one mistake I made in my previous reply, and I have fixed
+> > this.  Please see below.
+> > 
+> [...]
+> >> diff --git a/cpu/hwfreelunch.tex b/cpu/hwfreelunch.tex
+> >> index 92f04f16..68c6dd5f 100644
+> >> --- a/cpu/hwfreelunch.tex
+> >> +++ b/cpu/hwfreelunch.tex
+> >> @@ -167,8 +167,9 @@ That said, they may be necessary steps on the path to the late Jim Gray's
+> >>  \label{sec:cpu:Novel Materials and Processes}
+> >>  
+> >>  Stephen Hawking is said to have claimed that semiconductor manufacturers
+> >> -have but two fundamental problems: (1) the finite speed of light and
+> >> -(2) the atomic nature of matter~\cite{BryanGardiner2007}.
+> >> +have but two fundamental problems:
+> >> +(1)~The finite speed of light and
+> >> +(2)~the atomic nature of matter~\cite{BryanGardiner2007}.
+> > 
+> > I should have capitalized the "the" in this last line.  I did so before
+> > applying your patch.
+> 
+> Well, I'm afraid this pattern is well beyond the capability of the dumb
+> perl script.  (Hint: It only looks at the next input line of colon.)
 
-diff --git a/appendix/questions/ordering.tex b/appendix/questions/ordering.tex
-index c3015f73..298600f9 100644
---- a/appendix/questions/ordering.tex
-+++ b/appendix/questions/ordering.tex
-@@ -16,7 +16,7 @@ the other?
- The answer, as is so often the case, is ``it depends''.
- 
- One approach is to construct a strongly ordered system, then examine
--its performance and scalablity.
-+its performance and scalability.
- If these suffice, the system is good and sufficient, and no more need
- be done.
- Otherwise, undertake careful analysis
-diff --git a/intro/intro.tex b/intro/intro.tex
-index b185a7f7..28c0bf50 100644
---- a/intro/intro.tex
-+++ b/intro/intro.tex
-@@ -934,7 +934,7 @@ However, partitioning the work requires great care.
- For example, uneven partitioning can result in sequential execution
- once the small partitions have completed~\cite{GeneAmdahl1967AmdahlsLaw}.
- In less extreme cases, load balancing can be used to fully utilize
--available hardware and restore performance and scalabilty.
-+available hardware and restore performance and scalability.
- 
- Although partitioning can greatly improve performance and scalability,
- it can also increase complexity.
--- 
-2.17.1
+I cannot complain, given that you have taken the checking scripts far
+beyond what I expected.  Having a few manual checks still required
+is no dishonor.  ;-)
 
+> Anyway, I'll update the other chapters in the same manner.
 
+Thank you very much!
+
+							Thanx, Paul
