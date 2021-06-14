@@ -1,21 +1,22 @@
 Return-Path: <SRS0=zoNZ=LI=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=or8jTPCs6ZJIzuVSB76/Zr70FpVAquW7tRMpjV6SPTY=;
-        b=vdx+H34LbNCe/6Mr1TH4PhiTV5X3vxpvXIW2IBCJLYnGlvrxhWrYtzYAgI9soSvyfI
-         gqQOf2pzdGCPepXQVaV9z/UfWQE89t//LhyXrUbAIu0rSSH8m5Ww7K4YZ5+lNsP5JPwt
-         w7JR1rWoG05eK+2Qc6XX7J+cIS1IYjBpA6r/2NBMLc9FcWoXS81AXn/BHq5Si/mvsPUC
-         ud47yoVsBddZuuBgfSEM/aVh7WWuLxy0jPN/P2D07yEcfQ38XITb9jBo05OElDNlm6Yh
-         8F2jW92MMsH/2zzWciWKYH4etKM0mLtYFkNJQksGK8Wqhjl+nPUFx465xjgBREAhCLKP
-         9yQw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZZx//+aPVswUp/jgrzmAehr229ifNe/1xUdB+d4a3nY=;
+        b=l3U7SLE54E4ZPQYIen89Kn4PYLDYPpNc2wwUQxqw/8CkyIqRtiNI7DpLztr9CNO8pF
+         I3XWX3lvEXkCgXNvOhx9gVbFLRENlv5hMpdF82yabbwjeyVpHOmEqDierRCh3thrxJfL
+         75NHKdVlS75PltTFSY/UNh9099ekLYC7tYTwSxXiIgBEDZX9ZGz66+F0oTMi/NoF6qNY
+         7mQWVL7jDOcpxob1jhyPfsRDu9ElHnmvZYAs8gkXwWYVCqaYVoHUi7pdBhuLvXaQ3/RU
+         8ck7DzznPO3JcocOYIjqDbAja0UQY3XNHgcczuTHA9jKc84X6U/1SrhdizLG5Ac75wIT
+         ZqwQ==
+Subject: [PATCH -perfbook 2/2] Fix typos (scalability)
+References: <f3899671-ca23-631b-af10-cb20e0bf84d1@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 1/2] defer/rcuusage: Put path name of singleton
- get/set code snippets
-Message-ID: <f3899671-ca23-631b-af10-cb20e0bf84d1@gmail.com>
-Date: Mon, 14 Jun 2021 13:00:25 +0900
+Message-ID: <bbd41fa6-d0f9-0db4-77c1-f83b607f8c7d@gmail.com>
+Date: Mon, 14 Jun 2021 13:01:23 +0900
 MIME-Version: 1.0
+In-Reply-To: <f3899671-ca23-631b-af10-cb20e0bf84d1@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -23,49 +24,39 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-As Listing 9.20 shows set_config() as a whole, replace the reference
-to the line-count range with that to the Listing itself.
-Also adjust conjugation of verbs.
-
-Fixes: 787eb4586767 ("defer/rcuusage: Add RCU space-time code and diagram")
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
-Hi Paul,
+ appendix/questions/ordering.tex | 2 +-
+ intro/intro.tex                 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-These patches are trivial fixes independent of the planned
-colon-related changes.
-
-        Thanks, Akira
---
- defer/rcuusage.tex | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
-index 8e705ce4..b3d79d13 100644
---- a/defer/rcuusage.tex
-+++ b/defer/rcuusage.tex
-@@ -798,7 +798,7 @@ by the RCU singleton data structure illustrated in
- \cref{fig:defer:Insertion With Concurrent Readers,fig:defer:Deletion With Concurrent Readers}.
- This structure is defined on \clnrefrange{myconfig.b}{myconfig.e} of
- \cref{lst:defer:Singleton Get}, and contains two integer fields,
--\co{->a} and \co{->b}.
-+\co{->a} and \co{->b} (\path{singleton.c}).
- The current instance of this structure is referenced by the \co{curconfig}
- pointer defined on \clnref{myconfig.e}.
- \end{fcvref}
-@@ -828,9 +828,9 @@ with each other.
- \end{fcvref}
+diff --git a/appendix/questions/ordering.tex b/appendix/questions/ordering.tex
+index c3015f73..298600f9 100644
+--- a/appendix/questions/ordering.tex
++++ b/appendix/questions/ordering.tex
+@@ -16,7 +16,7 @@ the other?
+ The answer, as is so often the case, is ``it depends''.
  
- \begin{fcvref}[ln:defer:singleton:set]
--The structure is updated by the \co{set_config()} function shown on
--\clnrefrange{set_config.b}{set_config.e}.
--\Clnrefrange{allocinit.b}{allocinit.e} allocates and initializes a
-+The structure is updated by the \co{set_config()} function shown in
-+\cref{lst:defer:Singleton Set}.
-+\Clnrefrange{allocinit.b}{allocinit.e} allocate and initialize a
- new \co{myconfig} structure.
- \Clnref{xchg} atomically exchanges a pointer to this new structure
- with the pointer to the old structure in \co{curconfig}, while also
+ One approach is to construct a strongly ordered system, then examine
+-its performance and scalablity.
++its performance and scalability.
+ If these suffice, the system is good and sufficient, and no more need
+ be done.
+ Otherwise, undertake careful analysis
+diff --git a/intro/intro.tex b/intro/intro.tex
+index b185a7f7..28c0bf50 100644
+--- a/intro/intro.tex
++++ b/intro/intro.tex
+@@ -934,7 +934,7 @@ However, partitioning the work requires great care.
+ For example, uneven partitioning can result in sequential execution
+ once the small partitions have completed~\cite{GeneAmdahl1967AmdahlsLaw}.
+ In less extreme cases, load balancing can be used to fully utilize
+-available hardware and restore performance and scalabilty.
++available hardware and restore performance and scalability.
+ 
+ Although partitioning can greatly improve performance and scalability,
+ it can also increase complexity.
 -- 
 2.17.1
+
 
