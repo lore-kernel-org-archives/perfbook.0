@@ -1,81 +1,140 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:36978 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229645AbhFNEnu (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Mon, 14 Jun 2021 00:43:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623645708;
-        bh=mKZl4w7fuGl0uWE1AfV8xLVHj1u+BYoHDAB4cr5/Nr0=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=cfCw3MLPDBsjfc5qfBfWbznIOGP19XYESivUgowhSdxofpf28gUzuaDsgFZzCO6e/
-         da4J6Ggr2Loy2P/0QckZyHvRF2lG8SCeEnH18Gd4LNr2vgPb3MCVgQNNmSodk8RAQF
-         LkRO/8VrTo825+DKEyC4ZcZn9bqRn/CF1AQ8yGajFgYC5/bS3He7Odo1OT+tcJNz9I
-         ITzXcE44c0dihBSs6bGdgv+gAqXzkm31b0iKM/SOrqEkGfJWnTTq9VNZXLELvhhEP+
-         FI5neTOBm7AAzW99ydwJtYRnCpixDjGxZU9nQrftxOjNhZ5v22BFgsIHZtXO2urGXE
-         2853g6p4S9L7Q==
-Date: Sun, 13 Jun 2021 21:41:47 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook 1/2] defer/rcuusage: Put path name of singleton
- get/set code snippets
-Message-ID: <20210614044147.GQ4397@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <f3899671-ca23-631b-af10-cb20e0bf84d1@gmail.com>
+Return-Path: <SRS0=8gqx=LL=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=fZEEseIa78oNE9gbQdq+rG4oq1SnTLnJH7SQBm6nrJ0=;
+        b=tyAQxG2tXYnMH5eZ4/4aqeVpg18lP5wkAvtFvm3+q5DzPpnQnAUqENUEEr2+MH/xoZ
+         MdaLl+52GHAVG/Ej5s/7dS+I6C7i54xSsaFh3q+Ts/j++g+oLjhlZxQ5TyVUaD9ptw/Y
+         c88HSwEL5vxIBFvyDoSoBob1CgH0UGk8VF3In7VHBHfQSjkd09jDShL+zjjsMN0Ui0OT
+         3ZcAwclZs6WP3XQ18WpK+Sdm9L8UFYoF+gCs9zoAS6Kjp3/8YP/5DT1Cq34DNkBQNoW8
+         7g4RWk7GRI6XP5JvpQP9P3AAVEsiakxRN1A9j2rUjV/axKAZiuRbfXUTiRhppEDEwTDj
+         dd1Q==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [RFC PATCH -perfbook] intro, cpu: Use inline enumerate list
+Message-ID: <8b362a1e-71f6-2528-d990-e4283a36fda0@gmail.com>
+Date: Thu, 17 Jun 2021 20:22:27 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f3899671-ca23-631b-af10-cb20e0bf84d1@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Jun 14, 2021 at 01:00:25PM +0900, Akira Yokosawa wrote:
-> As Listing 9.20 shows set_config() as a whole, replace the reference
-> to the line-count range with that to the Listing itself.
-> Also adjust conjugation of verbs.
-> 
-> Fixes: 787eb4586767 ("defer/rcuusage: Add RCU space-time code and diagram")
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
-> Hi Paul,
-> 
-> These patches are trivial fixes independent of the planned
-> colon-related changes.
+The "enumitem" package provides inline list option.
+Inline enumerate list can be applied to the pattern of:
 
-Good eyes on both patches, queued and pushed, thank you!
+    ... two basic reasons:
+    (1)~The finite speed of light and
+    (2)~The atomic nature of matter ...
 
-							Thanx, Paul
+as follows:
 
->         Thanks, Akira
-> --
->  defer/rcuusage.tex | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
-> index 8e705ce4..b3d79d13 100644
-> --- a/defer/rcuusage.tex
-> +++ b/defer/rcuusage.tex
-> @@ -798,7 +798,7 @@ by the RCU singleton data structure illustrated in
->  \cref{fig:defer:Insertion With Concurrent Readers,fig:defer:Deletion With Concurrent Readers}.
->  This structure is defined on \clnrefrange{myconfig.b}{myconfig.e} of
->  \cref{lst:defer:Singleton Get}, and contains two integer fields,
-> -\co{->a} and \co{->b}.
-> +\co{->a} and \co{->b} (\path{singleton.c}).
->  The current instance of this structure is referenced by the \co{curconfig}
->  pointer defined on \clnref{myconfig.e}.
->  \end{fcvref}
-> @@ -828,9 +828,9 @@ with each other.
->  \end{fcvref}
->  
->  \begin{fcvref}[ln:defer:singleton:set]
-> -The structure is updated by the \co{set_config()} function shown on
-> -\clnrefrange{set_config.b}{set_config.e}.
-> -\Clnrefrange{allocinit.b}{allocinit.e} allocates and initializes a
-> +The structure is updated by the \co{set_config()} function shown in
-> +\cref{lst:defer:Singleton Set}.
-> +\Clnrefrange{allocinit.b}{allocinit.e} allocate and initialize a
->  new \co{myconfig} structure.
->  \Clnref{xchg} atomically exchanges a pointer to this new structure
->  with the pointer to the old structure in \co{curconfig}, while also
-> -- 
-> 2.17.1
-> 
+    ... two basic reasons:
+    \begin{enumerate*}[(1)]
+    \item The finite speed of light and
+    \item The atomic nature of matter ...
+    \end{enumerate*}
+
+Violation to this pattern can be caught by a perl regex for:
+
+    o A lower-case word appears behind "\item".
+
+The check script will be updated in a later patch.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
+
+I said earlier:
+
+>>>  Stephen Hawking is said to have claimed that semiconductor manufacturers
+>>> -have but two fundamental problems: (1) the finite speed of light and
+>>> -(2) the atomic nature of matter~\cite{BryanGardiner2007}.
+>>> +have but two fundamental problems:
+>>> +(1)~The finite speed of light and
+>>> +(2)~the atomic nature of matter~\cite{BryanGardiner2007}.
+>> 
+>> I should have capitalized the "the" in this last line.  I did so before
+>> applying your patch.
+>
+> Well, I'm afraid this pattern is well beyond the capability of the dumb
+> perl script.  (Hint: It only looks at the next input line of colon.)
+
+, but it turned out that it is possible to detect if we use the inline
+enumerate list instead.
+
+Does this change look reasonable to you? 
+It won't affect the look of the resulting PDF.
+
+        Thanks, Akira
+--
+ cpu/hwfreelunch.tex | 6 ++++--
+ intro/intro.tex     | 8 +++++---
+ perfbook-lt.tex     | 4 +++-
+ 3 files changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/cpu/hwfreelunch.tex b/cpu/hwfreelunch.tex
+index 59079a9d..b0d91758 100644
+--- a/cpu/hwfreelunch.tex
++++ b/cpu/hwfreelunch.tex
+@@ -168,8 +168,10 @@ That said, they may be necessary steps on the path to the late Jim Gray's
+ 
+ Stephen Hawking is said to have claimed that semiconductor manufacturers
+ have but two fundamental problems:
+-(1)~The finite speed of light and
+-(2)~The atomic nature of matter~\cite{BryanGardiner2007}.
++\begin{enumerate*}[(1)]
++\item The finite speed of light and
++\item The atomic nature of matter~\cite{BryanGardiner2007}.
++\end{enumerate*}
+ It is possible that semiconductor manufacturers are approaching these
+ limits, but there are nevertheless a few avenues of research and
+ development focused on working around these fundamental limits.
+diff --git a/intro/intro.tex b/intro/intro.tex
+index 28c0bf50..93d78dd9 100644
+--- a/intro/intro.tex
++++ b/intro/intro.tex
+@@ -24,11 +24,13 @@ invariably become easier over time.
+ For example, the once-rare ability to drive a car is now
+ commonplace in many countries.
+ This dramatic change came about for two basic reasons:
+-(1)~Cars became cheaper and more readily available, so that
+-more people had the opportunity to learn to drive,
+-and (2)~Cars became easier to operate due to automatic transmissions,
++\begin{enumerate*}[(1)]
++\item Cars became cheaper and more readily available, so that
++more people had the opportunity to learn to drive, and
++\item Cars became easier to operate due to automatic transmissions,
+ automatic chokes, automatic starters, greatly improved reliability,
+ and a host of other technological improvements.
++\end{enumerate*}
+ 
+ The same is true for many other technologies, including computers.
+ It is no longer necessary to operate a keypunch in order to program.
+diff --git a/perfbook-lt.tex b/perfbook-lt.tex
+index 9e30a1a4..62959e04 100644
+--- a/perfbook-lt.tex
++++ b/perfbook-lt.tex
+@@ -39,7 +39,7 @@
+ \usepackage{graphicx}
+ \usepackage{rotating}
+ \usepackage{setspace}
+-\usepackage[shortlabels]{enumitem}
++\usepackage[shortlabels,inline]{enumitem}
+ \setlist[description]{style=unboxed}
+ \newlist{sequence}{enumerate}{10}
+ \setlist[sequence]{label*=\arabic*}
+@@ -308,6 +308,8 @@
+ \crefname{sublisting}{Listing}{Listings}
+ \crefname{sequencei}{step}{steps}
+ \Crefname{sequencei}{Step}{Steps}
++\crefname{enumi}{item}{items}
++\Crefname{enumi}{Item}{Items}
+ \crefname{page}{page}{pages}
+ \Crefname{page}{Page}{Pages}
+ \Crefformat{equation}{Equation~#2#1#3}
+-- 
+2.17.1
+
