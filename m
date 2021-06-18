@@ -1,36 +1,77 @@
-Return-Path: <SRS0=6PvR=LM=gmail.com=zhouzhouyi@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XkFJQuMZN7N8UGEunfK4GzGFIhBBxH3YP3tAMuDlB6k=;
-        b=SQuy99HKR40Za/IdGXiw9X+Bo/PYsr7nDp65MnLzS1dhzaStxdPY25zOg2CFNRzJaX
-         NgA19HwX22P6EMzn3HM46JBlkiAaMMye2oQloWZy0bFM59Pd7jAU8Si2IiB6J1qxZarK
-         jJHfnAdJsbhR1o+OoFKXLV5s74O3O/ol4xIfLlCC8CW9lT09JrBvy4sGgnUCy4cTKnx4
-         ztuzS73QSTclK4DtUOt89RayR8v/kIwT16w8R5d1aZ0HFewNFKOzVQwiWJ+AqQg8NGwt
-         ZOk0GtA510JOyz9u0+Q/6F3SS9DPVynPcTnMHHGzAOu2/tlB8tubDNHyqToHNJJgUqeH
-         lCAA==
-MIME-Version: 1.0
-References: <1623989869-17490-1-git-send-email-zhouzhouyi@gmail.com> <20210618225331.GL4397@paulmck-ThinkPad-P17-Gen-1>
-In-Reply-To: <20210618225331.GL4397@paulmck-ThinkPad-P17-Gen-1>
-From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Date: Sat, 19 Jun 2021 07:50:50 +0800
-Message-ID: <CAABZP2wHKZ7iQTgWTjy2T3+KNpn51Q=uNejsOSbryA55pMJGoA@mail.gmail.com>
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:42704 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231270AbhFRWzm (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Fri, 18 Jun 2021 18:55:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624056812;
+        bh=Ckt7OXWtIBrwEyhOgYk3Ih1D8h4uptuuCgXrbl2kCfk=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=UvTQNuurqb2TwiA7SfNCVe2ZCZMbr8r/jAapt9N2PDF0ir3JFqdcF02KS0x0PmCVt
+         +vcDaO6ki9IzIF/Y4IR1Mayxe3v9ccSrNfMrWVfyMtangi3EnJbkyJ2i6lyIOlYcxj
+         ywGDk2IKreexgzhygPfKBm5pjmxOGfxjTr05u58ilxc6KjWnazcHOIqNzDU9RZOaNX
+         vj1Gn/+7aUXnZ2Kxs1aPq/QD2F1KwR5gpiUjT0OOez7Ql7h4DqnrpI2F08EBYo4D0m
+         4AURUvxw+Upjjy2I5GT6njVE9pCuruCEl3kzjC/ucMGM2BJDFJjnf6k86pDVnREn2N
+         s7ZgaEfNKdWTQ==
+Date: Fri, 18 Jun 2021 15:53:31 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
 Subject: Re: [PATCH -perfbook] cpu: add conj 'than' to a defective sentence
-Content-Type: text/plain; charset="UTF-8"
-To: paulmck@kernel.org
-Cc: 340442286 <340442286@qq.com>, perfbook@vger.kernel.org, Yang Lu <luyang.co@gmail.com>
+Message-ID: <20210618225331.GL4397@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <1623989869-17490-1-git-send-email-zhouzhouyi@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1623989869-17490-1-git-send-email-zhouzhouyi@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Cc: 340442286@qq.com, perfbook@vger.kernel.org, luyang.co@gmail.com
 
-Thank you Paul,
+On Fri, Jun 18, 2021 at 12:17:49PM +0800, Zhouyi Zhou wrote:
+> Hi Paul,
+> 
+> I guess '... represents a reasonably large system with no fewer
+> 448 hardware threads' is a defective sentence, it needs a conj: 'than'.
+> 
+> Sorry for bothering you if I am wrong, because my English is not quite
+> good :-)
+> 
+> Thanks
+> Zhouyi
+> 
+> Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com> 
 
-Your encouragement is my driving force to go on.  And thank you for
-adjusting the commit
-log.
+You are quite right, and thank you for spotting this and for sending the
+patch!  I wordsmithed the commit log, in part to avoid the age-old debate
+as to whether a given use of "than" is a conjunction or a preposition.
+You probably had it right, but why take the chance?  ;-)
 
-Cheers
-Zhouyi
+							Thanx, Paul
 
-On Sat, Jun 19, 2021 at 6:53 AM Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Fri, Jun 18, 2021 at 12:17:49PM +0800, Zhouyi Zhou wrote:
+------------------------------------------------------------------------
+
+commit 8fc0705251d3409591edfaf62a4373ffcec5794e
+Author: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Date:   Fri Jun 18 12:17:49 2021 +0800
+
+    cpu: Add 'than' to a defective sentence
+    
+    The sentence '... represents a reasonably large system with no fewer
+    448 hardware threads' is missing a "than".  This commit adds it.
+    
+    Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+
+diff --git a/cpu/overheads.tex b/cpu/overheads.tex
+index 4aeae6cd..28462d49 100644
+--- a/cpu/overheads.tex
++++ b/cpu/overheads.tex
+@@ -354,7 +354,7 @@ thousand clock cycles.
+ 	\cref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
+ 	on
+ 	\cpageref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
+-	represents a reasonably large system with no fewer 448~hardware
++	represents a reasonably large system with no fewer than 448~hardware
+ 	threads.
+ 	Smaller systems often achieve better latency, as may be seen in
+ 	\cref{tab:cpu:Performance of Synchronization Mechanisms on 16-CPU 2.8GHz Intel X5550 (Nehalem) System},
