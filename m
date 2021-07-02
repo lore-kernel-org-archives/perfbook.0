@@ -1,77 +1,69 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:42704 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231270AbhFRWzm (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Fri, 18 Jun 2021 18:55:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624056812;
-        bh=Ckt7OXWtIBrwEyhOgYk3Ih1D8h4uptuuCgXrbl2kCfk=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=UvTQNuurqb2TwiA7SfNCVe2ZCZMbr8r/jAapt9N2PDF0ir3JFqdcF02KS0x0PmCVt
-         +vcDaO6ki9IzIF/Y4IR1Mayxe3v9ccSrNfMrWVfyMtangi3EnJbkyJ2i6lyIOlYcxj
-         ywGDk2IKreexgzhygPfKBm5pjmxOGfxjTr05u58ilxc6KjWnazcHOIqNzDU9RZOaNX
-         vj1Gn/+7aUXnZ2Kxs1aPq/QD2F1KwR5gpiUjT0OOez7Ql7h4DqnrpI2F08EBYo4D0m
-         4AURUvxw+Upjjy2I5GT6njVE9pCuruCEl3kzjC/ucMGM2BJDFJjnf6k86pDVnREn2N
-         s7ZgaEfNKdWTQ==
-Date: Fri, 18 Jun 2021 15:53:31 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] cpu: add conj 'than' to a defective sentence
-Message-ID: <20210618225331.GL4397@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <1623989869-17490-1-git-send-email-zhouzhouyi@gmail.com>
+Return-Path: <SRS0=JVx/=L2=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=mi2cEcmRDUfL370JJ2yFD64H5xG/lgA4KQNF6dDp9Mg=;
+        b=UPSPK+FB4ChApytH1Id3rPCwx8fDgNPwQpQNdF1UOvzzGdBqWZIAep9nxPeI64Edc7
+         0lL5a8IQLONeaHTttkijxiddaJVIhQ2UtS6/4xqO76b/q6dCci6KGPN/0akmKhUu0a3S
+         D/sav9mtJ5bi89AbkMXcoB27Ra9/8voebhuiCmOBjSMEdByH5XbHLecU2iIy1J10qtZz
+         +g5h997OKPxpZ+JushfjKxaL93peDLQrDn8r/c0lVP4l4JmeUF5bx3sDsDXQt4glyD50
+         1+IU20eSniMrMEFb/mb3ailqHXDJdz3g/Niba5YzbLGWXLuF+5EHX/yJD8fJUsyYhtSg
+         aemw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] future/htm: Remove ref to Tabel 17.3 in QQ
+Message-ID: <27d3f40f-e51f-7f92-1bfa-e64149a55b37@gmail.com>
+Date: Fri, 2 Jul 2021 10:52:21 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1623989869-17490-1-git-send-email-zhouzhouyi@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Cc: 340442286@qq.com, perfbook@vger.kernel.org, luyang.co@gmail.com
 
-On Fri, Jun 18, 2021 at 12:17:49PM +0800, Zhouyi Zhou wrote:
-> Hi Paul,
-> 
-> I guess '... represents a reasonably large system with no fewer
-> 448 hardware threads' is a defective sentence, it needs a conj: 'than'.
-> 
-> Sorry for bothering you if I am wrong, because my English is not quite
-> good :-)
-> 
-> Thanks
-> Zhouyi
-> 
-> Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com> 
+Table 17.3 is not available in EBook-size builds.
+For compatibility, remove reference to the combined table in Quick
+Quiz added in commit 279c38a988f9 ("future/htm: Add some HTM
+hardware-reliability anecdotes").
 
-You are quite right, and thank you for spotting this and for sending the
-patch!  I wordsmithed the commit log, in part to avoid the age-old debate
-as to whether a given use of "than" is a conjunction or a preposition.
-You probably had it right, but why take the chance?  ;-)
+Fixes: 279c38a988f9 ("future/htm: Add some HTM hardware-reliability anecdotes")
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
 
-							Thanx, Paul
+Current master fails to build "eb".
+I think reference to Table 17.3 is not essential to the Quick Quiz
+and just removed it.
+If you think otherwise, it can be made conditional by \IfEbookSize{}{}.
 
-------------------------------------------------------------------------
+        Thanks, Akira
 
-commit 8fc0705251d3409591edfaf62a4373ffcec5794e
-Author: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Date:   Fri Jun 18 12:17:49 2021 +0800
+PS: As for hardware implementation of transactional memory,
+Power ISA v3.1 deprecated it [1].
+It might be worth mentioning it in the Answer to the QQ.
+In the post specter world, it looks like almost impossible for hardware
+designers to come up with a secure implementation of HTM...
 
-    cpu: Add 'than' to a defective sentence
-    
-    The sentence '... represents a reasonably large system with no fewer
-    448 hardware threads' is missing a "than".  This commit adds it.
-    
-    Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+[1]: Appendix A of Power ISA v3.1 at
+    https://ibm.ent.box.com/s/hhjfw0x0lrbtyzmiaffnbxh2fuo0fog0
+--
+ future/htm.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/cpu/overheads.tex b/cpu/overheads.tex
-index 4aeae6cd..28462d49 100644
---- a/cpu/overheads.tex
-+++ b/cpu/overheads.tex
-@@ -354,7 +354,7 @@ thousand clock cycles.
- 	\cref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
- 	on
- 	\cpageref{tab:cpu:CPU 0 View of Synchronization Mechanisms on 8-Socket System With Intel Xeon Platinum 8176 CPUs at 2.10GHz}
--	represents a reasonably large system with no fewer 448~hardware
-+	represents a reasonably large system with no fewer than 448~hardware
- 	threads.
- 	Smaller systems often achieve better latency, as may be seen in
- 	\cref{tab:cpu:Performance of Synchronization Mechanisms on 16-CPU 2.8GHz Intel X5550 (Nehalem) System},
+diff --git a/future/htm.tex b/future/htm.tex
+index abc80daf..3ff9bf24 100644
+--- a/future/htm.tex
++++ b/future/htm.tex
+@@ -917,7 +917,7 @@ tab:future:Comparison of Locking (Augmented by RCU or Hazard Pointers) and HTM}.
+ }
+ 
+ \QuickQuiz{
+-	\Cref{tab:future:Comparison of Locking and HTM,tab:future:Comparison of Locking (Plain and Augmented) and HTM,tab:future:Comparison of Locking (Augmented by RCU or Hazard Pointers) and HTM}
++	\Cref{tab:future:Comparison of Locking and HTM,tab:future:Comparison of Locking (Augmented by RCU or Hazard Pointers) and HTM}
+ 	state that hardware is only starting to become available.
+ 	But hasn't HTM hardware support been widely available
+ 	for almost a full decade?
+-- 
+2.17.1
+
