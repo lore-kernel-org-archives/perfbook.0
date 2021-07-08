@@ -1,99 +1,88 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:38418 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229540AbhGDPyS (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Sun, 4 Jul 2021 11:54:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625413903;
-        bh=FYzVrXiowX9ZJsWC6df8dIXjZCjoSs+fW5BxIbP+rQk=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=nR5WlyxcG5T4Eq+zT7t4M9Sl+ebn/aW/8tceGk06aRPDn+fVKVEE0M8Dp00jX0Cf5
-         mgVLmshka1sUQxFGTZm+dgJiQLDhyUnBpm96fsLsiJfd+iPhwq8I4YBtM8HTNuMmwJ
-         Ncl5HN/O6Lq2P6jESv1DoHnq5mnisiaJ7T9DnIeJqfEZSiIbTaKiAFA+J3ynsswGGq
-         ozKWWTmZMJWCMHGj2nTYbYeJ4u1EReJL/mnRRyqjZ96ZKEENqPvOY/49THqSlPZUYJ
-         UdypTAqz0LSZso8VSfddFmK5vLcA3PZq253m+05sibKXpDrPjp9LTDUD3vQL3i4GKs
-         sDYj5eqIoFmcA==
-Date: Sun, 4 Jul 2021 08:51:42 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook v2] future/htm, summary: Fix typos (missing '\'
- in indexing macros)
-Message-ID: <20210704155142.GQ4397@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <3b7aac15-128e-56d4-6662-9fa686f94dd1@gmail.com>
- <cea0f767-c1dd-731c-a2cb-3e28e80a0ad0@gmail.com>
+Return-Path: <SRS0=5QGv=MA=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=Yc3j8s+znebQ77vNBPqEjjewPBK4qNQH20JXPoSFDqo=;
+        b=I5w00doDDG0/bQT8trlGEFFGHB8bt+wOb7v++pWkGj72s73E0BKUTCl/6lygPUT+Dx
+         OrXehBWHoEmr2gyeiZuRjoT39kGWhI9R/DWvOG4dWjbg7vho05QWFVGg7WagkwZN6xBI
+         E8BBEvXuzlPmUkpStb0K8S/URSyulGjNHLUNgo2680MByZlMIm+5SMtKurEvfJBPjBBy
+         eBtcwa+wKEvnvLQjrK+cVOorfTSMSrq1V5IsxcmGbiLj4Wlaa11ugoUWME47vgcyRZyY
+         3Bz6ftw4sBb4dzmYMQY0wJ4KI6fRWsvm9W7+w0Ab0CgOGhai3oDfyEgT/84Rr2uIp9Aj
+         +s7w==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 0/6] Break and capitalize after colon, take two
+Message-ID: <b502a83e-5a41-8ccb-1170-8cefd589e1a2@gmail.com>
+Date: Thu, 8 Jul 2021 19:40:16 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cea0f767-c1dd-731c-a2cb-3e28e80a0ad0@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Fri, Jul 02, 2021 at 08:08:26PM +0900, Akira Yokosawa wrote:
-> Fixes: b97d9921b0fd ("acronym: future/htm: Tag TM, HTM, STM, and RCU via acronym dictionary")
-> Fixes: de25a117a9c6 ("index: Add index and acronym tags, take one")
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
-> Hi again,
-> 
-> I said:
-> 
-> > I'm thinking of adding some rules in the check script to catch
-> > this sort of typo.
-> 
-> , and a tentative script caught two other typos.
-> 
-> This v2 patch fixes three typos at once.
-> 
-> Updated check script will be posted later along with other punctuation
-> convention fixes.
+Hi Paul,
 
-Queued and pushed, thank you!
+Here are colon related tweaks though Chapter 9.
 
-							Thanx, Paul
+Patches 1/6 -- 3/6 don't change sentences/clauses/phrases except
+for capitalization.
+Patches 4/6 -- 6/6 remove redundant looking Oxford commas in
+two-item enumeration lists.
+However, I'm not sure Patches 4/6 -- 6/6 are the right fixes or not.
 
->         Thanks, Akira
-> --
->  future/htm.tex | 4 ++--
->  summary.tex    | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/future/htm.tex b/future/htm.tex
-> index dc67ba23..7458f436 100644
-> --- a/future/htm.tex
-> +++ b/future/htm.tex
-> @@ -150,7 +150,7 @@ HTM is therefore a very real possibility for large non-partitionable
->  data structures, at least assuming relatively small updates.
+Please pick whichever ones you'd like.
+
+NOTE: There is a hunk in Patch 3/6:
+
+> @@ -535,9 +537,10 @@ and with increasing use of hazard pointers in other projects, demonstrates
+>  that tolerance for such inconsistencies is more common than one might
+>  imagine.
+>  This is especially the case given that single-item lookups are much more
+> -common than traversals:  After all, (1)~concurrent updates are less likely
+> -to affect a single-item lookup than they are a full traversal, and
+> -(2)~an isolated single-item lookup cannot detect such inconsistencies.
+> +common than traversals:
+> +After all, (1)~concurrent updates are less likely to affect a single-item
+> +lookup than they are a full traversal, and (2)~an isolated single-item
+> +lookup cannot detect such inconsistencies.
 >  
->  \QuickQuiz{
-> -	Why are relatively small updates important to IXacr{htm} performance
-> +	Why are relatively small updates important to \IXacr{htm} performance
->  	and scalability?
->  }\QuickQuizAnswer{
->  	The larger the updates, the greater the probability of conflict,
-> @@ -252,7 +252,7 @@ write~\cite{RaviRajwar2012TSX}.
->  schemes~\cite{CScottAnanian2006,KevinEMoore2006}
->  use DRAM as an extremely large victim cache, but integrating such schemes
->  into a production-quality
-> -IXalt{cache-coherence}{cache coherence} mechanism is still an unsolved
-> +\IXalt{cache-coherence}{cache coherence} mechanism is still an unsolved
->  problem.
->  In addition, use of DRAM as a victim cache may have unfortunate
->  performance and energy-efficiency consequences, particularly
-> diff --git a/summary.tex b/summary.tex
-> index 63187998..2ed43920 100644
-> --- a/summary.tex
-> +++ b/summary.tex
-> @@ -86,7 +86,7 @@ And that goes at least double for concurrent code.
->  where combining concurrency mechanisms with each other or with other
->  design tricks can greatly ease parallel programmers' lives.
->  \Cref{sec:advsync:Advanced Synchronization} looked at advanced
-> -synchronization methods, including lockless programming, IXacrl{nbs},
-> +synchronization methods, including lockless programming, \IXacrl{nbs},
->  and parallel real-time computing.
->  \Cref{chp:Advanced Synchronization: Memory Ordering} dug into the
->  critically important topic of memory ordering, presenting techniques
-> -- 
-> 2.17.1
-> 
-> 
+>  From a more theoretical viewpoint, there are even some special cases where
+>  RCU readers can be considered to be fully ordered with updaters, despite
+
+, where the inline enumerated list is not converted to the "enumerate*" list.
+This one is lead by "After all," not by a colon, and I kept the lowercase
+words following (1) and (2).
+
+This level of fluctuation is unavoidable in natural language text,
+I suppose.
+
+        Thanks, Akira
+
+--
+Akira Yokosawa (6):
+  toolsoftrade, count, SMPdesign: Break and capitalize after colon
+  locking: Break and capitalize after colon
+  defer: Break and capitalize after colon
+  count: Remove Oxford comma in two-item enumeration list
+  locking: Remove Oxford comma in two-item list
+  defer: Remove Oxford comma in two-item list
+
+ SMPdesign/SMPdesign.tex       | 23 ++++----
+ SMPdesign/beyond.tex          | 19 +++----
+ count/count.tex               | 66 ++++++++++++-----------
+ defer/hazptr.tex              |  9 ++--
+ defer/rcufundamental.tex      | 29 ++++++-----
+ defer/rcuintro.tex            |  6 ++-
+ defer/rcuusage.tex            | 34 +++++++-----
+ defer/seqlock.tex             | 12 +++--
+ defer/whichtochoose.tex       | 19 ++++---
+ locking/locking-existence.tex |  4 +-
+ locking/locking.tex           | 98 ++++++++++++++++++++---------------
+ toolsoftrade/toolsoftrade.tex | 31 ++++++-----
+ 12 files changed, 201 insertions(+), 149 deletions(-)
+
+-- 
+2.17.1
+
