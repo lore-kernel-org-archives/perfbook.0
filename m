@@ -1,175 +1,53 @@
-Return-Path: <SRS0=yarM=MZ=gmail.com=zhouzhouyi@kernel.org>
+Return-Path: <SRS0=y49c=M5=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=f8a00deIfen2wzjz9WobIiGcZ4cT7Dt730XfsdLtQU8=;
-        b=opx0DGNS9Fz1eUtmuwIpC6jUPiIMn3lQEm46LUwJX03sRAikFSX3KiyoBn7ReHZ7+a
-         KODukN06a4EENtAEfYRQdb5dynpFilr3wgzTKxNmT3dfTK9Mtlz0HmNgEuC4XkIh7mgS
-         vpwgoSy1pgAxDcFGv0ATGcKXJ5sEjQUURkGQxr694YWP1MFlGThYsjdQO/A1jm5hiwk1
-         Y6eUCx4fyaPVGnlLuNi7tSdmMjVjTZA5/8SqvTm4DkJAH0ts5nluc2qLFPpzCYMlOgn7
-         yFT6rdb9x0PWkBW1tcntqt7ncV/DCW/8GV4aq+7ZIdAjTuRtCy7c+Act6oL7H03Tq/Mb
-         cQQQ==
-From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Subject: [PATCH-perfbook] defer: turn letters of abbreviation for rcu to upcase 
-Date: Mon,  2 Aug 2021 17:28:42 +0800
-Message-Id: <20210802092842.10435-1-zhouzhouyi@gmail.com>
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=CQ51X8R8dxgy9vva4BNsIvJd/Pa1xdHdNc4Rk4iUH2U=;
+        b=LE8+gKxMkqSC/dn0IZjebdCI0H7BGsK9o44QwDC1VVIvzKP5O8534ORPFJ3sx7TAvq
+         LuAtVadKu4rktQ98WT69kfHjCAepAYoIYUB+EaHumlqz26IU76Kp5el+txD/iejMJkx2
+         oHid5SkQbin8f2XaLT6jNwON3uhJfD9igjINH5b+/TJTnVpJvWx/cWZ3LORuwhzo+wq1
+         UCM0Idx5QIYFyICoymruAd7ao4g4KWYuTBPH3TatMXhNfQjal01aRz1ahCWRbPmgIuLA
+         ffa4Qaq1WBGfZbcQR3Oq4RP/iIq1csmSb8yES7MwoVQG/4IlC8ACdZiy++RJNNZD7nDM
+         jQVg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] datastruct: Allow 'breaklines' in hash_resize() for
+ ebook-size builds
+Message-ID: <f04cd86d-59d0-93ea-dfdf-a617dba03950@gmail.com>
+Date: Fri, 6 Aug 2021 11:44:21 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To: paulmck@kernel.org, perfbook@vger.kernel.org, luyang.co@gmail.com
-Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Balbir Singh <bsingharora@gmail.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+This code snippet already has the special tabsize of 6 for 1c and 2c builds.
+However, it is too wide for ebook-size builds.
+As a workaround, add "breaklines=true" in the option list and permit folding
+of long lines.
 
-I think turn letters of abbreviation for rcu to upcase in
-the figures and the text is more academic.
-
-Correct me if I am wrong.
-
-As too blow my own horn and sing my own praises, 
-I have the experience of publishing short paper in
-one of ACM flagship conference once ;-)
-
-https://dl.acm.org/doi/10.1145/2769458.2769486
-
-Best Wishes
-Zhouyi
-
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Balbir Singh <bsingharora@gmail.com>
 ---
- defer/rcuusage.tex               | 4 ++--
- defer/refRCUperfPREEMPT.eps      | 2 +-
- defer/refRCUperfwt.eps           | 2 +-
- defer/refRCUperfwtPREEMPT.eps    | 2 +-
- defer/refcntRCUperf.eps          | 2 +-
- defer/rwlockRCUperf.eps          | 2 +-
- defer/rwlockRCUperfPREEMPT.eps   | 2 +-
- defer/rwlockRCUperfwt.eps        | 2 +-
- defer/rwlockRCUperfwtPREEMPT.eps | 2 +-
- 9 files changed, 10 insertions(+), 10 deletions(-)
+ CodeSamples/datastruct/hash/hash_resize.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
-index b08a31d7..ddbb180c 100644
---- a/defer/rcuusage.tex
-+++ b/defer/rcuusage.tex
-@@ -335,11 +335,11 @@ which was generated on a 448-CPU 2.10\,GHz Intel x86 system.
- }\QuickQuizEndM
+diff --git a/CodeSamples/datastruct/hash/hash_resize.c b/CodeSamples/datastruct/hash/hash_resize.c
+index 6e450e3c..d084264f 100644
+--- a/CodeSamples/datastruct/hash/hash_resize.c
++++ b/CodeSamples/datastruct/hash/hash_resize.c
+@@ -276,7 +276,7 @@ void hashtab_del(struct ht_elem *htep,			//\lnlbl{del:b}
+ }							//\lnlbl{del:e}
+ //\end{snippet}
  
- \QuickQuizE{
--	Why is there such large variation for the \co{rcu} trace in
-+	Why is there such large variation for the \co{RCU} trace in
- 	\cref{fig:defer:Performance Advantage of RCU Over Reader-Writer Locking}?
- }\QuickQuizAnswerE{
- 	Keep in mind that this is a log-log plot, so those large-seeming
--	\co{rcu} variances in reality span only a few hundred picoseconds.
-+	\co{RCU} variances in reality span only a few hundred picoseconds.
- 	And that is such a short time that anything could cause it.
- 	However, given that the variance decreases with both small and
- 	large numbers of CPUs, one hypothesis is that the variation is
-diff --git a/defer/refRCUperfPREEMPT.eps b/defer/refRCUperfPREEMPT.eps
-index 7a1c1885..2da2a21c 100644
---- a/defer/refRCUperfPREEMPT.eps
-+++ b/defer/refRCUperfPREEMPT.eps
-@@ -2209,7 +2209,7 @@ Z stroke
- 1.000 UP
- LCb setrgbcolor
- 1729 1458 M
--[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (rcu)]
-+[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (RCU)]
- ] -33.3 MLshow
- LCb setrgbcolor
- 1066 2212 M
-diff --git a/defer/refRCUperfwt.eps b/defer/refRCUperfwt.eps
-index dd02435f..1020096b 100644
---- a/defer/refRCUperfwt.eps
-+++ b/defer/refRCUperfwt.eps
-@@ -2170,7 +2170,7 @@ Z stroke
- 1.000 UP
- LCb setrgbcolor
- 1453 1632 M
--[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (rcu)]
-+[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (RCU)]
- ] -33.3 MLshow
- LCb setrgbcolor
- 888 2188 M
-diff --git a/defer/refRCUperfwtPREEMPT.eps b/defer/refRCUperfwtPREEMPT.eps
-index 282ad76a..039379ad 100644
---- a/defer/refRCUperfwtPREEMPT.eps
-+++ b/defer/refRCUperfwtPREEMPT.eps
-@@ -446,7 +446,7 @@ grestore
- LTb
- 1146 587 M
- gsave 0 setgray
--(rcu) Lshow
-+(RCU) Lshow
- grestore
- LTb
- 716 830 M
-diff --git a/defer/refcntRCUperf.eps b/defer/refcntRCUperf.eps
-index 6c6bec49..cff69001 100644
---- a/defer/refcntRCUperf.eps
-+++ b/defer/refcntRCUperf.eps
-@@ -2252,7 +2252,7 @@ Z stroke
- 1.000 UP
- LCb setrgbcolor
- 1729 1471 M
--[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (rcu)]
-+[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (RCU)]
- ] -33.3 MLshow
- LCb setrgbcolor
- 1066 2309 M
-diff --git a/defer/rwlockRCUperf.eps b/defer/rwlockRCUperf.eps
-index 4b17fffc..3211a40a 100644
---- a/defer/rwlockRCUperf.eps
-+++ b/defer/rwlockRCUperf.eps
-@@ -2252,7 +2252,7 @@ Z stroke
- 1.000 UP
- LCb setrgbcolor
- 1729 1721 M
--[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (rcu)]
-+[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (RCU)]
- ] -33.3 MLshow
- LCb setrgbcolor
- 1066 2386 M
-diff --git a/defer/rwlockRCUperfPREEMPT.eps b/defer/rwlockRCUperfPREEMPT.eps
-index c5d088fc..01f735a3 100644
---- a/defer/rwlockRCUperfPREEMPT.eps
-+++ b/defer/rwlockRCUperfPREEMPT.eps
-@@ -2209,7 +2209,7 @@ Z stroke
- 1.000 UP
- LCb setrgbcolor
- 1729 1458 M
--[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (rcu)]
-+[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (RCU)]
- ] -33.3 MLshow
- LCb setrgbcolor
- 1066 2288 M
-diff --git a/defer/rwlockRCUperfwt.eps b/defer/rwlockRCUperfwt.eps
-index e6dd6840..33704a59 100644
---- a/defer/rwlockRCUperfwt.eps
-+++ b/defer/rwlockRCUperfwt.eps
-@@ -2170,7 +2170,7 @@ Z stroke
- 1.000 UP
- LCb setrgbcolor
- 1189 1454 M
--[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (rcu)]
-+[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (RCU)]
- ] -33.3 MLshow
- LCb setrgbcolor
- 888 2188 M
-diff --git a/defer/rwlockRCUperfwtPREEMPT.eps b/defer/rwlockRCUperfwtPREEMPT.eps
-index b17b4585..d994e607 100644
---- a/defer/rwlockRCUperfwtPREEMPT.eps
-+++ b/defer/rwlockRCUperfwtPREEMPT.eps
-@@ -446,7 +446,7 @@ grestore
- LTb
- 1146 587 M
- gsave 0 setgray
--(rcu) Lshow
-+(RCU) Lshow
- grestore
- LTb
- 802 1375 M
+-//\begin{snippet}[labelbase=ln:datastruct:hash_resize:resize,commandchars=\\\@\$,tabsize=6]
++//\begin{snippet}[labelbase=ln:datastruct:hash_resize:resize,commandchars=\\\@\$,tabsize=6,breaklines=true]
+ /* Resize a hash table. */
+ int hashtab_resize(struct hashtab *htp_master,
+                    unsigned long nbuckets,
 -- 
-2.25.1
+2.17.1
+
 
