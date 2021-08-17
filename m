@@ -3,18 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=RXFNUS/02ZgAKwETfzc/ENNmpDEZIud1hS9JglGYqDU=;
-        b=HILCWMNhfIeahI0sMRs7eWhJzN93FBItL7Rawr1vOdR04tkHw0j8EqrVlHaVNeBG1E
-         iDPr2Z/UBIm9BsBTeCCcx/mceI9SydnP48iirpUhfBiAg1UKcvxdAPILMEoSQQrabF2E
-         0CM/vnob7pf2NAxsQrCgN1sE/aCjoOOw2ieorGdyl4xA9FqBQ0ZERytGUOxWmYccYgjO
-         aRMxmyKYCeq/8x/i+EhGGkmpO+mye8/iBNHcUttrMXD6lyoAKbxnhx+FJuuaF2BzPh6Q
-         trxKe8eU5gSb95BMcwpCUsFjvtYEnJQfGxkBYwT0e9fcmZC9tY4FT30LPPFs99aRflRm
-         hVxQ==
-Subject: [PATCH -perfbook 08/11] periodcheck: Improve regex
+        bh=auDAvfILk2tqgu8/iT1poJEKxh+LfiK+aChoLWr0gEw=;
+        b=d6rS3Tj2scpr3LzDWk5hBtPKCqix9WHOvG83XXE0kl1Ku8K9FGdO90UioynUGeOJvi
+         S384ntdsCmZWda2mZPGubB8rj/FvTuKm7EW7rjBuDy3Cc0qlBru4mGMWYpUktqkyztnt
+         F/Vh2phwVIN/rQs+l6wpqhjZtODP+HLR8UkWXrLKa0ySuauB3OejXx6RIDQNuBtQKj7q
+         qsWLoPO4RT/GwoyRs7D+9I0+ToAOZ58hYerB0E0amK3yO7v7VgxTz0Ck/k/OpLe6kfN2
+         LhvDI/F59wj+JePJGSOp7ppiXSaeAroJKlgUNr4yRKHwBKdu5gY5Rk7eUO6FOmzYuBCq
+         Mzig==
+Subject: [PATCH -perfbook 09/11] periodcheck: Use counter to prevent false
+ negatives
 References: <9f71d7d5-b9bb-ceeb-6acb-e889821eeeb9@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <e66a446c-d4fa-e52a-de12-9e81e0ab2cf5@gmail.com>
-Date: Tue, 17 Aug 2021 19:35:43 +0900
+Message-ID: <02fd2326-18f7-608e-663c-8c5bd5185cfa@gmail.com>
+Date: Tue, 17 Aug 2021 19:37:11 +0900
 MIME-Version: 1.0
 In-Reply-To: <9f71d7d5-b9bb-ceeb-6acb-e889821eeeb9@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,74 +25,166 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Add patterns to catch end-of-sentence punctuation marks in front
-of quotation marks and/or parentheses.
+Assigning 1 to $safe in one rule can cause a false negative when there
+is earlier match(es) to violation pattern(s) on the same input line.
 
-Also add patterns to treat lines ending with "\\" as exceptions.
-
-Add autodate.tex to the exception list in periodcheck.sh.
+By using a counter and incrementing/decrementing it on a particular
+pattern-match, such false negatives can be prevented.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/periodcheck.pl | 17 +++++++++++------
- utilities/periodcheck.sh |  1 +
- 2 files changed, 12 insertions(+), 6 deletions(-)
+ utilities/cleverefcheck.pl | 37 +++++++++++++++++--------------------
+ utilities/periodcheck.pl   | 22 +++++++++++-----------
+ 2 files changed, 28 insertions(+), 31 deletions(-)
 
-diff --git a/utilities/periodcheck.pl b/utilities/periodcheck.pl
-index f46052c5..9d1985d1 100755
---- a/utilities/periodcheck.pl
-+++ b/utilities/periodcheck.pl
-@@ -60,9 +60,9 @@ sub check_line {
+diff --git a/utilities/cleverefcheck.pl b/utilities/cleverefcheck.pl
+index 06d4928a..69497893 100755
+--- a/utilities/cleverefcheck.pl
++++ b/utilities/cleverefcheck.pl
+@@ -17,7 +17,7 @@ my $line;
+ my $new_sentence = 1;
+ my $line_num = 0;
+ my $skip = 0;
+-my $safe = 0;
++my $ng = 0;
+ my $Verbatim_begin = qr/\\begin\{(Verbatim|tabula|equation|SaveVerb|verbbox)/ ;
+ my $Verbatim_end = qr/\\end\{(Verbatim|tabula|equation|SaveVerb|verbbox)/ ;
+ my $label_ptn = qr/(^\s*|\{)(,?[a-z]{3,4}:([a-zMPS]+:)?[^\},]+)(\}|,)/ ;
+@@ -44,56 +44,53 @@ sub check_line {
+ 	}
      }
      unless ($skip) {
- 	$safe = 1;
--	if ($line =~ /^(?=[\s]*+[^%])[^%]*[A-Z][\.\?\!\:][\)\}\']*$/ ||
--	    $line =~ /^(?=[\s]*+[^%])[^%]*[A-Z][\.\?\!\:]\\footnote/ ||
--	    $line =~ /^(?=[\s]*+[^%])[^%]*[Aa]crm?\{.+\}[\.\?\!\:][\)\}\']*$/ ) {
-+	if ($line =~ /^(?=[\s]*+[^%])[^%]*[A-Z][\)\']*[\.\?\!\:][\)\}\']*$/ ||
-+	    $line =~ /^(?=[\s]*+[^%])[^%]*[A-Z][\)\']*[\.\?\!\:]\\footnote/ ||
-+	    $line =~ /^(?=[\s]*+[^%])[^%]*[Aa]crm?\{.+\}[\)\']*[\.\?\!\:][\)\}\']*$/ ) {
- 	    $safe = 0;
+-	$safe = 1;
++	$ng = 0;
+ 	if ($line =~ /^(?=[\s]*+[^%])[^%]*\\ref\{/ ||
+ 	    $line =~ /^(?=[\s]*+[^%])[^%]*\\pageref\{/ ||
+ 	    $line =~ /^(?=[\s]*+[^%])[^%]*\\lnref\{/) {
+-	    $safe = 0;
++	    $ng += 1;
+ 	    if ($line =~ /or~\\lnref\{/ ||
+ 		$line =~ /item~\\ref\{/) {
+-		$safe = 1;
++		$ng -= 1;
+ 	    }
+ 	}
+-	if ($new_sentence == 1 &&
++	if ($new_sentence != 0 &&
+ 	    ($line =~ /^\s*\\cref/ || $line =~ /^\s*\\cpageref/ ||
+ 	     $line =~ /^\s*\\clnref/)) {
+-	    $safe = 0;
++	    $ng += 1;
+ 	}
+-	if ($line =~ /^\s*\\Cref/ || $line =~ /^\s*\\Cpageref/ ||
+-	    $line =~ /^\s*\\Clnref/) {
+-	    if ($new_sentence == 1) {
+-		$safe = 1;
+-	    } elsif ($new_sentence == 0) {
+-		$safe = 0;
+-	    }
++	if ($new_sentence == 0 &&
++	    ($line =~ /^\s*\\Cref/ || $line =~ /^\s*\\Cpageref/ ||
++	     $line =~ /^\s*\\Clnref/)) {
++	    $ng += 1;
+ 	}
+ 	if ($line =~ /^(?=[\s]*+[^%])[^%]*[^\s]+\s*\\Cref/ ||
+ 	    $line =~ /^(?=[\s]*+[^%])[^%]*[^\s]+\s*\\Cpageref/ ||
+ 	    $line =~ /^(?=[\s]*+[^%])[^%]*[^\s]+\s*\\Clnref/) {
+-	    $safe = 0;
++	    $ng += 1;
+ 	    if ($line =~ /^(?=[\s]*+[^%])[^%]*^\s*\\item\s+\\C/ ) {
+-		$safe = 1;
++		$ng -= 1;
+ 	    }
+ 	}
+ 	if ($line =~ /^(?=[\s]*+[^%])[^%]*^\s*\\item\s+[a-z]/ ) {
+-	    $safe = 0;
++	    $ng += 1;
+ 	}
+ 	if ($new_sentence) {
+ 	    if ($line =~ /^\s*`*[a-z]/ || $line =~ /^\s*\\acr/ ||
+ 		$line =~ /^\s*\\IX[^A\{]*\{[a-z]/ ) {
+-		$safe = 0;
++		$ng += 1;
+ 	    }
+ 	}
+ 	if ($new_sentence == 2) { # after colon
+ 	    if ($line =~ /^\s*\([0-9a-z]+\)/ ) {
+-		$safe = 0;
++		$ng += 1;
+ 	    }
+ 	}
+ 	if ($line =~ /^[ ]{8}/ ||  # indent by white speces (should be TAB)
+ 	    $line =~ /^(?=[\s]*+[^%])[^%][ ]+\t/) { # TAB after white space
+-	    $safe = 0;
++	    $ng += 1;
+ 	}
+-	unless ($safe) {
++	if ($ng) {
+ 	    print $ARGV[0], ':', $line_num, ':', $raw_line;
+ 	}
+     }
+diff --git a/utilities/periodcheck.pl b/utilities/periodcheck.pl
+index 9d1985d1..88fd59c0 100755
+--- a/utilities/periodcheck.pl
++++ b/utilities/periodcheck.pl
+@@ -26,7 +26,7 @@ my $line;
+ my $next_line;
+ my $line_num = 0;
+ my $skip = 0;
+-my $safe = 0;
++my $ng;
+ my $Verbatim_begin = qr/\\begin\{(Verbatim|tabula|equation)/ ;
+ my $Verbatim_end = qr/\\end\{(Verbatim|tabular|equation)/ ;
+ my $label_ptn = qr/(^\s*|\{)(,?[a-z]{3,4}:([a-zMPS]+:)?[^\},]+)(\}|,)/ ;
+@@ -59,38 +59,38 @@ sub check_line {
+ 	$skip = 1;
+     }
+     unless ($skip) {
+-	$safe = 1;
++	$ng = 0;
+ 	if ($line =~ /^(?=[\s]*+[^%])[^%]*[A-Z][\)\']*[\.\?\!\:][\)\}\']*$/ ||
+ 	    $line =~ /^(?=[\s]*+[^%])[^%]*[A-Z][\)\']*[\.\?\!\:]\\footnote/ ||
+-	    $line =~ /^(?=[\s]*+[^%])[^%]*[Aa]crm?\{.+\}[\)\']*[\.\?\!\:][\)\}\']*$/ ) {
+-	    $safe = 0;
++	    $line =~ /^(?=[\s]*+[^%])[^%]*[Aa]crm?(f|fst)?\{.+\}[\)\']*[\.\?\!\:][\)\}\']*$/ ) {
++	    $ng += 1;
  	    if ($next_line =~ /^\s*$/ || $next_line =~ /^\s*%/ ||
  		$next_line =~ /\\item/ ||
-@@ -72,9 +72,14 @@ sub check_line {
- 		$safe = 1;
+ 		$next_line =~ /\\E?QuickQuizAnswer[BEM]?\{/ ||
+ 		$next_line =~ /\\E?QuickQuizEnd[BEM]?/ ||
+ 		$next_line =~ /\\end\{(quot|enum|item|sequ)/ ) {
+-		$safe = 1;
++		$ng -= 1;
  	    }
  	}
--	if ($line =~ /^(?=[\s]*+[^%])[^%]*[a-z\}][\.\?\!][\)\}\']*\s[^\\]+/ ||
--	    $line =~ /^(?=[\s]*+[^%])[^%]*.*:[\)\}\']*\s[^\\]+/) {
-+	if ($line =~ /^(?=[\s]*+[^%])[^%]*[a-z][\)\}\']*[\.\?\!][\)\}\']*\s+[^%]/ ||
-+#	    $line =~ /^(?=[\s]*+[^%])[^%]*.*\.[\)\}\']*\s+[^%]/ ||  # Uncomment for full check
-+	    $line =~ /^(?=[\s]*+[^%])[^%]*.*:[\)\}\']*\s+[^%]/ ) {
- 	    $safe = 0;
-+	    if ($line =~ /^(?=[\s]*+[^%])[^%]*[a-z][\)\}\']*[\.\?\!][\)\}\']*\s+\\\\/ ||
-+		$line =~ /^(?=[\s]*+[^%])[^%]*.*[\.:][\)\}\']*\s+\\\\/ ) {
-+		$safe = 1;
-+	    }
+ 	if ($line =~ /^(?=[\s]*+[^%])[^%]*[a-z][\)\}\']*[\.\?\!][\)\}\']*\s+[^%]/ ||
+ #	    $line =~ /^(?=[\s]*+[^%])[^%]*.*\.[\)\}\']*\s+[^%]/ ||  # Uncomment for full check
+ 	    $line =~ /^(?=[\s]*+[^%])[^%]*.*:[\)\}\']*\s+[^%]/ ) {
+-	    $safe = 0;
++	    $ng += 1;
+ 	    if ($line =~ /^(?=[\s]*+[^%])[^%]*[a-z][\)\}\']*[\.\?\!][\)\}\']*\s+\\\\/ ||
+ 		$line =~ /^(?=[\s]*+[^%])[^%]*.*[\.:][\)\}\']*\s+\\\\/ ) {
+-		$safe = 1;
++		$ng -= 1;
+ 	    }
  	}
  	if ($line =~ /^(?=[\s]*+[^%])[^%]*[^~]\\cite/) {
- 	    $safe = 0;
-@@ -82,7 +87,7 @@ sub check_line {
- 		$safe = 1;
+-	    $safe = 0;
++	    $ng += 1;
+ 	    if ($line =~ /^(?=[\s]*+[^%])[^%]*~\(\\cite/) {
+-		$safe = 1;
++		$ng -= 1;
  	    }
  	}
--	if ($line =~ /^(?=[\s]*+[^%])[^%]*\\\@[\.\?\!\:][\)\}\']*\s+[^\s%]+/){
-+	if ($line =~ /^(?=[\s]*+[^%])[^%]*\\\@[\.\?\!\:][\)\}\']*\s+[^%]/){
- 	    $safe = 0;
+ 	if ($line =~ /^(?=[\s]*+[^%])[^%]*\\\@[\.\?\!\:][\)\}\']*\s+[^%]/){
+-	    $safe = 0;
++	    $ng += 1;
  	}
- 	unless ($safe) {
-diff --git a/utilities/periodcheck.sh b/utilities/periodcheck.sh
-index d6cd7510..4fff091b 100755
---- a/utilities/periodcheck.sh
-+++ b/utilities/periodcheck.sh
-@@ -11,6 +11,7 @@ do
- 	./glsdict.tex) ;;
- 	./origpub.tex) ;;
- 	./contrib.tex) ;;
-+	./autodate.tex) ;;
- 	./future/HTMtable*) ;;
- 	./appendix/styleguide*) ;;
- 	*) tex_sources="$tex_sources $f" ;;
+-	unless ($safe) {
++	if ($ng) {
+ 	    print $ARGV[0], ':', $line_num, ':', $line_raw;
+ 	}
+     }
 -- 
 2.17.1
 
