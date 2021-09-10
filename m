@@ -3,19 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JHHSJINWPOWNA1AbcEjTS4L0jqAEEpXW8YHgdsOAAvY=;
-        b=De7raP1IiGTCm78AuMdlC65yWmQUY8BVP6lligRJEesZzHwg4XLsrkL0XNNkg3VB7Y
-         2pNnepUO031ehO2XnQVslQsDwF0j6Lm4Ct2yhWIxEeL5367VxkszhZX8dcKBwyPenI79
-         B2WCV+93e9f9SURE4BYByIUX4SGb3uaqovdjPU2LNftA1/9Z8vIh9r4hQcYks9WkcvIo
-         KPubSvpiQJZPxwhdySZpoJ/jLnpHldh+o5cVcH5qZfRkgf0LYu01itsiD2BcXf0keNvD
-         NSVSJcBhHe0iooES6jDtmpE4nY7Y/uHWL1G/CSctxiMr4DIf3bbYFd2pg3144aYmPt7D
-         TZnA==
-Subject: [PATCH --perfbook v2 1/3] formal: Fix another path of
- RCU-test-ratio.pdf
+        bh=JT9rm7yMW1GgkdFTEHHe9/Sa3y0RlGuu9C8eDnmN/M8=;
+        b=axl2x9qPwmG1v3mZVnBdH0zhXAbZdk8OgLospcV59WTpkmDIyc3dJug620YqQ6MPog
+         ZhiAoGUfSqIU9qA2nfoGCYfx2MqzPqZcqBj4KEXmYNAFHIHHJY0Os2vYVoj2X4PP6oVU
+         SIGB5AFuvTGwM1NApHLMfksqS11LIACOwRQavfgArQ8ayHiv2GQ35IgTZQchhaJV1TH9
+         RReHLqXh67YgHjvzs1pK/lbLOt1QoTJKW/Lj+1oUrDl6SeStTgLevPFYboWY6S0Zkuo+
+         AWaNlTh0yOHqi60DW3PfBC6atcLAsyG+VoFM3ha/7Pj/3Z6JeBCXkN5ODoEPQGTc9nyW
+         nQNg==
+Subject: [PATCH --perfbook v2 2/3] Makefile: Ignore .eps files under
+ CodeSamples/.../OLD-*/
 References: <19d34b29-3ccf-39c9-c933-c53fcf552a47@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <2a11d7b2-6fc1-5897-ceb4-2ea8e9722163@gmail.com>
-Date: Fri, 10 Sep 2021 19:11:44 +0900
+Message-ID: <f1789762-cdeb-661c-218e-04356d9ebbd9@gmail.com>
+Date: Fri, 10 Sep 2021 19:12:33 +0900
 MIME-Version: 1.0
 In-Reply-To: <19d34b29-3ccf-39c9-c933-c53fcf552a47@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,29 +25,28 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-This plot is conditionally included from three places.
-Fix remaining one commit 6cebe12f7e29 ("formal: Move formal/data to
-CodeSamples/formal/data") failed to update.
-
-Fixes: 6cebe12f7e29 ("formal: Move formal/data to CodeSamples/formal/data")
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- formal/formal.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Makefile | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/formal/formal.tex b/formal/formal.tex
-index 55a5ed98..c79360ed 100644
---- a/formal/formal.tex
-+++ b/formal/formal.tex
-@@ -262,7 +262,7 @@ validation, and that is the insurance policy.
- \IfTwoColumn{
- \begin{figure*}
- \centering
--\resizebox{6in}{!}{\includegraphics{formal/RCU-test-ratio.pdf}}
-+\resizebox{6in}{!}{\includegraphics{CodeSamples/formal/data/RCU-test-ratio.pdf}}
- \caption{Linux-Kernel RCU Test Code}
- \label{fig:formal:Linux-Kernel RCU Test Code}
- \end{figure*}
+diff --git a/Makefile b/Makefile
+index 3df1810e..73b64e12 100644
+--- a/Makefile
++++ b/Makefile
+@@ -67,7 +67,11 @@ EPSSOURCES_DUP := \
+ 	$(EPSSOURCES_FROM_DOT) \
+ 	$(EPSSOURCES_FROM_FIG)
+ 
+-EPSSOURCES := $(sort $(filter-out $(OBSOLETE_FILES),$(EPSSOURCES_DUP)))
++EPSSOURCES_OLD := \
++	$(wildcard CodeSamples/*/*/OLD-*/*.eps) \
++	$(wildcard CodeSamples/*/*/*/OLD-*/*.eps)
++
++EPSSOURCES := $(sort $(filter-out $(EPSSOURCES_OLD),$(filter-out $(OBSOLETE_FILES),$(EPSSOURCES_DUP))))
+ 
+ PDFTARGETS_OF_EPS := $(EPSSOURCES:%.eps=%.pdf)
+ 
 -- 
 2.17.1
 
