@@ -1,115 +1,189 @@
-Return-Path: <SRS0=8s4x=OA=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=WW5gXBDtdwqRSNAr1NF/77Js9syRzsGSo0g6JIlzU0o=;
-        b=QVVlkubI6GCbN6DzjKF6lax42r3HE9uIPP23iRFs8EZziiygGs0cV6lsXMvF9H1Ahc
-         spHxfVc/X1eO8xgEfEIx5LzLXR6UVGyoJoM7EU1+bDUa4Ip3gwEZ5VF1JA3/qUFLldRA
-         XMo5O/1+CB0XImLcPh3hfm31EboVid1lTcfmYDLXF6+DxUSLtHRAD6pf7RxSmKvvJ00a
-         94HJSKFEAU8GAFZ6WVOkEy9jiYCnVaHrGcS/tprk3+Aq/o0pJfH4QLSXBn/KVLS1RDoG
-         6zGUvNGCEHrHZiV+zZLZ8TKtBWKq+oD0mwSJdtimIf0EYSkbFI8OWO5330KwiRChn7oG
-         mkng==
-Subject: [INCOMPLETE PATCH --perfbook v2 3/3] datastruct: Remove stray .eps
- files
-References: <19d34b29-3ccf-39c9-c933-c53fcf552a47@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <f756cff4-7fde-3d25-a95c-bad5917fbd2a@gmail.com>
-Date: Fri, 10 Sep 2021 19:13:48 +0900
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:45964 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230037AbhIJEcc (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Fri, 10 Sep 2021 00:32:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631248282;
+        bh=uAIxt96bYQK0VgaMmPkAyCkoOPwJGIdRlm87QOCwRoI=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=r1wLaQx/J13GvLQR2vhglAS7ZJL4zIEVnSW5pQtAIZ0tg+lB33qE0nnPAAzCrdlLV
+         ei8LgdXm/rlULFBru4kuHw31+MHdZvC930PTM6A03OwYzpII77OjQy/hwxrFh0iiot
+         H1G2MNgBYEbuGhotM0tWZqgctR9GN4aFsErlgNWfeRMmYP8rOzggcS7Kqfxys8F9JD
+         PPN28zjFvHxPaZ2kjcfQpld77wtkf8iSI4+iJ/3S5CwJVlK4AAk4r8jqXXuCySyae/
+         x3UZZSWlA6TlrGW/qi/4UGyXYslTCBTJMutfluNoN7iFVIid5mgbuByBFW4ckvxCuX
+         QxPGNBMsx9cEg==
+Date: Thu, 9 Sep 2021 21:31:21 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH -perfbook 0/2] formal: Move data dir to
+ CodeSamples/fomral/data
+Message-ID: <20210910043121.GG4156@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <cda34cf6-0201-2b80-13de-afa13a1fd02c@gmail.com>
+ <20210909172952.GC4156@paulmck-ThinkPad-P17-Gen-1>
+ <6279fa20-1574-fafe-1db7-5b57da660df9@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <19d34b29-3ccf-39c9-c933-c53fcf552a47@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6279fa20-1574-fafe-1db7-5b57da660df9@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- datastruct/perftest.eps          | 2252 -------------------------
- datastruct/perftestlin.eps       | 2102 -----------------------
- datastruct/perftestresize.eps    | 2637 -----------------------------
- datastruct/perftestresizebig.eps | 2699 ------------------------------
- datastruct/zoocatall.eps         | 2210 ------------------------
- datastruct/zoocatalllin.eps      | 2102 -----------------------
- datastruct/zoocatonly.eps        | 2206 ------------------------
- datastruct/zoocatonlylin.eps     | 2102 -----------------------
- datastruct/zoocpu.eps            | 2327 --------------------------
- datastruct/zoocpubktlin.eps      | 2106 -----------------------
- datastruct/zoocpubktlin8.eps     | 2196 ------------------------
- datastruct/zoocpubktsizelin.eps  | 2153 ------------------------
- datastruct/zoocpulin.eps         | 2249 -------------------------
- datastruct/zooupdate.eps         | 2268 -------------------------
- datastruct/zooupdatelu.eps       | 2210 ------------------------
- datastruct/zooupdatelulin.eps    | 2174 ------------------------
- 16 files changed, 35993 deletions(-)
- delete mode 100644 datastruct/perftest.eps
- delete mode 100644 datastruct/perftestlin.eps
- delete mode 100644 datastruct/perftestresize.eps
- delete mode 100644 datastruct/perftestresizebig.eps
- delete mode 100644 datastruct/zoocatall.eps
- delete mode 100644 datastruct/zoocatalllin.eps
- delete mode 100644 datastruct/zoocatonly.eps
- delete mode 100644 datastruct/zoocatonlylin.eps
- delete mode 100644 datastruct/zoocpu.eps
- delete mode 100644 datastruct/zoocpubktlin.eps
- delete mode 100644 datastruct/zoocpubktlin8.eps
- delete mode 100644 datastruct/zoocpubktsizelin.eps
- delete mode 100644 datastruct/zoocpulin.eps
- delete mode 100644 datastruct/zooupdate.eps
- delete mode 100644 datastruct/zooupdatelu.eps
- delete mode 100644 datastruct/zooupdatelulin.eps
+On Fri, Sep 10, 2021 at 07:31:33AM +0900, Akira Yokosawa wrote:
+> On Thu, 9 Sep 2021 10:29:52 -0700, Paul E. McKenney wrote:
+> > On Thu, Sep 09, 2021 at 01:00:03PM +0900, Akira Yokosawa wrote:
+> >> Hi Paul,
+> >>
+> >> So this patch set moves formal/data and formal/RCU-test-ratio.eps
+> >> to CodeSamples/formal/data.
+> >>
+> >> Patch 1/2 does the movement.
+> >> Patch 2/2 puts symlink to the moved .eps file under formal/.
+> >>
+> >> Actually, patch 2/2 is optional within the scope of this set.
+> >> It presents an idea of organizing .eps files generated by gnuplot
+> >> under CodeSamples/ so that redundant .eps -> .pdf conversions
+> >> can be avoided.
+> >>
+> >> Currently, I observe three ways to include gnuplot outputs.
+> >>
+> >> 1) Copy generated .eps files manually to the relevant chapter's
+> >> subdirectory (after running the plot script).
+> >>
+> >> 2) Run a plot script under CodeSamples/ and the generated .eps
+> >> files are automatically copied by commands in the script.
+> >>
+> >> 3) Use paths of .pdf versions of .eps files under CodeSamples/...
+> >> as the argument to the \includegraphics{} macros (no copying
+> >> involved).
+> >>
+> >> Most recent plots are managed by 3).
+> > 
+> > Good point!  I moved (partially, as you noted) to #3 in part because #1
+> > and #2 make it annoying to work out where the generated .eps came from.
+> > 
+> >> However, to accommodate 3), a wildcard pattern in Makefile was
+> >> extended to include deep subdirectories under CodeSamples/
+> >> (commit 57b442c02db3 "Makefile: Extend wildcard pattern to catch
+> >> .eps files under CodeSamples").
+> >> So it now picks up a lot of unused older gnuplot plots, and causes
+> >> redundant .eps -> .pdf conversions.
+> > 
+> > And you are right, that is definitely not a good thing.  And it just
+> > gets worse over time as more data is regenerated.
+> > 
+> >> So, I suggest using symlink, e.g.,
+> >> formal/xxx.eps -> CodeSamples/formal/data/xxx.eps, and remove
+> >> CodeSamples/ from the wildcard pattern in Makefile.
+> >>
+> >> That is, if it is OK to use symlink as in patch 2/2.
+> > 
+> > I would prefer to avoid quite that many symlinks.
+> 
+> I see.
+> 
+> > 
+> >> Another advantage of this idea is that it would be easier to
+> >> find out where a particular gnuplot image is originated.
+> > 
+> > Exactly!  Both #3 and symlink do that.  In #3, you just look at the
+> > latex for the figure, and with the symlink, just run "ls -l".
+> > 
+> >> By copying .eps files from CodeSamples/... to other directories,
+> >> you lose such origin info.  This won't be a issue if there is a
+> >> single .eps file of the same name under CodeSamples/, but this is
+> >> not always the case.
+> >>
+> >> Symlinks can retain their origins.
+> >>
+> >> So, for example, when Zhouyi changed "rcu" to "RCU" in gnuplot
+> >> generated plots (commit 2a2ca773005f "Change trace labels from
+> >> "rcu" to "RCU""), he could have find out which scripts need
+> >> updates more easily.
+> >>
+> >> As a matter of fact, he failed to update .eps files
+> >> under CodeSamples/.  For example:
+> >>
+> >>     $ diff -u CodeSamples/defer/data/rcuscale.hps.2020.05.28a/refRCUperfPREEMPT.eps defer/refRCUperfPREEMPT.eps
+> >>     --- CodeSamples/defer/data/rcuscale.hps.2020.05.28a/refRCUperfPREEMPT.eps	2021-08-12 13:48:28.580153786 +0900
+> >>     +++ defer/refRCUperfPREEMPT.eps	2021-08-17 13:14:58.114517535 +0900
+> >>     @@ -2209,7 +2209,7 @@
+> >>      1.000 UP
+> >>      LCb setrgbcolor
+> >>      1729 1458 M
+> >>     -[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (rcu)]
+> >>     +[ [(NimbusSanL-Regu) 100.0 0.0 true true 0 (RCU)]
+> >>      ] -33.3 MLshow
+> >>      LCb setrgbcolor
+> >>      1066 2212 M
+> >>
+> >> If Patch 2/2 looks good to you, I'll do the changes along this idea
+> >> and update the wildcard pattern in Makefile.
+> > 
+> > How about if I "git mv" the directories containing old data to some
+> > name starting (say) with "OLD-", so that the hash.2013.12.02a directory
+> > within CodeSamples/datastruct/hash/data becomes OLD-hash.2013.12.02a?
+> > Then the Makefile could ignore .eps files in directories starting with
+> > "OLD-"?  And yes, would probably be an annoying change to the Makefile.
+> > The only way I know to do it is to automatically generate that portion
+> > of the Makefile and include it.  :-/
+> 
+> I think gnu-make's wildcard function can contain the pattern of (say):
+> 
+>     CodeSamples/*/*/OLD-*/*.eps
+> 
+> This will match the .eps files under OLD-hash.2013.12.02a.
+> A few more additional patterns can make a list of .eps files to be
+> ignored.
+> Then the list of latest .eps files can be made by the "filter-out"
+> function.
+> 
+> So your idea should work without that annoying change to the
+> Makefile. 
 
-diff --git a/datastruct/perftest.eps b/datastruct/perftest.eps
-deleted file mode 100644
-index 6ba4b2c7..00000000
-diff --git a/datastruct/perftestlin.eps b/datastruct/perftestlin.eps
-deleted file mode 100644
-index 615bbcbd..00000000
-diff --git a/datastruct/perftestresize.eps b/datastruct/perftestresize.eps
-deleted file mode 100644
-index be3e621f..00000000
-diff --git a/datastruct/perftestresizebig.eps b/datastruct/perftestresizebig.eps
-deleted file mode 100644
-index 1a2f31a1..00000000
-diff --git a/datastruct/zoocatall.eps b/datastruct/zoocatall.eps
-deleted file mode 100644
-index eb22b82f..00000000
-diff --git a/datastruct/zoocatalllin.eps b/datastruct/zoocatalllin.eps
-deleted file mode 100644
-index 1074b86e..00000000
-diff --git a/datastruct/zoocatonly.eps b/datastruct/zoocatonly.eps
-deleted file mode 100644
-index 170d562a..00000000
-diff --git a/datastruct/zoocatonlylin.eps b/datastruct/zoocatonlylin.eps
-deleted file mode 100644
-index b669ff75..00000000
-diff --git a/datastruct/zoocpu.eps b/datastruct/zoocpu.eps
-deleted file mode 100644
-index 51e8f908..00000000
-diff --git a/datastruct/zoocpubktlin.eps b/datastruct/zoocpubktlin.eps
-deleted file mode 100644
-index 101cf178..00000000
-diff --git a/datastruct/zoocpubktlin8.eps b/datastruct/zoocpubktlin8.eps
-deleted file mode 100644
-index 434e007e..00000000
-diff --git a/datastruct/zoocpubktsizelin.eps b/datastruct/zoocpubktsizelin.eps
-deleted file mode 100644
-index 95a5c8df..00000000
-diff --git a/datastruct/zoocpulin.eps b/datastruct/zoocpulin.eps
-deleted file mode 100644
-index 90e8be8d..00000000
-diff --git a/datastruct/zooupdate.eps b/datastruct/zooupdate.eps
-deleted file mode 100644
-index 01bdb903..00000000
-diff --git a/datastruct/zooupdatelu.eps b/datastruct/zooupdatelu.eps
-deleted file mode 100644
-index 3d5efac6..00000000
-diff --git a/datastruct/zooupdatelulin.eps b/datastruct/zooupdatelulin.eps
-deleted file mode 100644
-index 1a778b6b..00000000
--- 
-2.17.1
+Even better!
 
+> Paul, please go ahead and "git mv" to the "OLD-" directories.
 
+I have done those in CodeSamples/datastruct/hash/data.  Does that one
+work the way that you had in mind?
+
+> I will update the Makefile as a follow-up change.
+
+Sounds good -- if the first commit looks good to you, I will do the rest.
+
+f891fa5c6e8b ("datastruct/hash: Mark directories of unused data")
+
+							Thanx, Paul
+
+>         Thanks, Akira
+> 
+> > 
+> > Or is there a better way?
+> > 
+> > (For the moment, I will apply 1/2, and thank you!)
+> > 
+> > 							Thanx, Paul
+> > 
+> >>         Thanks, Akira
+> >> --
+> >> Akira Yokosawa (2):
+> >>   formal: Move formal/data to CodeSamples/formal/data
+> >>   formal: Use symlink to .eps file under CodeSamples/formal/data
+> >>
+> >>  .../formal}/data/.gitignore                   |    1 -
+> >>  CodeSamples/formal/data/RCU-test-ratio.eps    | 4370 ++++++++++++++++
+> >>  {formal => CodeSamples/formal}/data/plot.sh   |    2 -
+> >>  .../formal}/data/rcu-test.dat                 |    0
+> >>  formal/RCU-test-ratio.eps                     | 4371 +----------------
+> >>  5 files changed, 4371 insertions(+), 4373 deletions(-)
+> >>  rename {formal => CodeSamples/formal}/data/.gitignore (50%)
+> >>  create mode 100644 CodeSamples/formal/data/RCU-test-ratio.eps
+> >>  rename {formal => CodeSamples/formal}/data/plot.sh (96%)
+> >>  rename {formal => CodeSamples/formal}/data/rcu-test.dat (100%)
+> >>  mode change 100644 => 120000 formal/RCU-test-ratio.eps
+> >>
+> >> -- 
+> >> 2.17.1
+> >>
