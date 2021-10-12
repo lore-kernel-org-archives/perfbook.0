@@ -1,119 +1,52 @@
-Return-Path: <SRS0=vqDK=OX=gmail.com=akiyks@kernel.org>
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38852 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230362AbhJLCgp (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Mon, 11 Oct 2021 22:36:45 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 540A6C061570
+        for <perfbook@vger.kernel.org>; Mon, 11 Oct 2021 19:34:44 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id 21so6348041plo.13
+        for <perfbook@vger.kernel.org>; Mon, 11 Oct 2021 19:34:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sjYzMiu1Q2LTB93auZwCeSpMmSp3RO88Zv3ytnjgNqM=;
-        b=OyCe91tvSBlXqLmFyYUcW0VpBTwdpzp/9ucEpQVNGDzz1Wfz47RWI2yXOyR7+hkXXh
-         9jcnxJ+92Z8zr53SZ2+rx22JbVu2vLLAYfrTE7lhjVnLN0LeXptl5xyz4Qrox1XAdT0Z
-         Gc9S9psvMe7bm448yd4EGdhwhDdvPHWHWkOoK2hR2UUUByV/w6Zpk3CtjXP4fiZU/rqo
-         1yIftvpk2A4ooY/DFzXHvBTFIL34J/JXnH7OmN3/k3PD84L3+C7DiGQPtGJZDfmaPmSW
-         Go2S9I5ukAyALci3YF2g7O+5w84T/pdqKwfXl0SQgcssKXxTg81gCydG+hlgBLIH1GpV
-         bw7g==
-Subject: [PATCH -perfbook 6/6] Makefile: Don't run fixfonts on .eps with
- embedded font
-References: <44597b0c-d73e-bacf-a3f1-2c5544d75f38@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <0f40a488-61a4-5c18-b1bf-84715fc82568@gmail.com>
-Date: Mon, 4 Oct 2021 00:01:39 +0900
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SS11mUVtew5dugNfKkVOx7qyjSGtZZjtYjd30/7M6HA=;
+        b=Ac3muVg0vXgh5daMtTDaoFJWLf4XjDuSCE/FX1Uu5uy7ChOtsraguexoU6YajxIdIY
+         WtkFD3G9SgymSgQexfCbyCKKdwTv2EZYorDHsGGQ/g8vVXYqzNaVPqKf9TSI/HcuXUmX
+         4o2lWYY1j0Rs6hIufO/gsQeRZltLuNZ04EnsHfulkl3cOaRsVLJpGpQkahj23dx5WUnD
+         r75y5Z1LH/kt0RKvDyJ2JY3oe+ngE96o+9/BmFSyZdLC/dosuAvKPoH7qCZHhtuHcXZT
+         fit8cdei1Vm42kbycYi3KE/beqHji0av3pp2dN/3zTkPw/slrLdkUmIOTeWl5hrR3nSU
+         3/cw==
+From: Chin En Lin <shiyn.lin@gmail.com>
+Subject: [PATCH] toolsoftrade: Fix typo
+Date: Tue, 12 Oct 2021 10:34:38 +0800
+Message-Id: <20211012023438.5322-1-shiyn.lin@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <44597b0c-d73e-bacf-a3f1-2c5544d75f38@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Transfer-Encoding: 8bit
 List-ID: <perfbook.vger.kernel.org>
+To: perfbook@vger.kernel.org
+Cc: Chin En Lin <shiyn.lin@gmail.com>
 
-Most of our .eps files from gnuplot have the NimbusSanL font embedded.
-Therefore, they don't need font adjustment by the fixfonts script
-even on systems without NimbusSanL font installed.
-
-Embedded font data has the keyword of "/FontMatrix".
-Use it as a hint for determining whether fixfonts is necessary or not.
-
-.eps files of scanned images under cartoons/ don't need fixfonts,
-either.
-
-Create lists of .pdf files of those files and use the recipe
-with fixfonts only for PDF_TARGETS_OF_GNUPLOT_NEEDFIXFONTS.
-
-Move other targets of EPSORIG files (PDFTARGETS_OF_EPSORIG_NOFIXFONTS)
-to the recipe of PDFTARGETS_OF_EPSOTHER, which consists of figures
-originating from .fig and .dot files and already taken care of
-by the FIXANEPSFONTS script.
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Chin En Lin <shiyn.lin@gmail.com>
 ---
- Makefile         | 7 +++++++
- a2ping-rule.mk   | 4 ++--
- epstopdf-rule.mk | 4 ++--
- 3 files changed, 11 insertions(+), 4 deletions(-)
+ toolsoftrade/toolsoftrade.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index 29c067c0..3202ad6f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -79,7 +79,14 @@ PDFTARGETS_OF_EPS := $(EPSSOURCES:%.eps=%.pdf)
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 8c86d728..c9f5b399 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -2052,7 +2052,7 @@ which are up next.
  
- EPSORIGIN := $(filter-out $(EPSSOURCES_FROM_TEX) $(EPSSOURCES_FROM_DOT) $(EPSSOURCES_FROM_FIG),$(EPSSOURCES))
- 
-+GNUPLOT_ORIG := $(shell grep -l gnuplot $(EPSORIGIN))
-+GNUPLOT_ORIG_NOFIXFONTS := $(shell grep -l '/FontMatrix' $(GNUPLOT_ORIG))
-+GNUPLOT_ORIG_NEEDFIXFONTS := $(filter-out $(GNUPLOT_ORIG_NOFIXFONTS),$(GNUPLOT_ORIG))
-+EPSORIG_NOFIXFONTS := $(filter-out $(GNUPLOT_ORIG_NEEDFIXFONTS),$(EPSORIGIN))
-+
- PDFTARGETS_OF_EPSORIG := $(EPSORIGIN:%.eps=%.pdf)
-+PDFTARGETS_OF_GNUPLOT_NEEDFIXFONTS := $(GNUPLOT_ORIG_NEEDFIXFONTS:%.eps=%.pdf)
-+PDFTARGETS_OF_EPSORIG_NOFIXFONTS := $(EPSORIG_NOFIXFONTS:%.eps=%.pdf)
- 
- PDFTARGETS_OF_EPSOTHER := $(filter-out $(PDFTARGETS_OF_EPSORIG) $(PDFTARGETS_OF_TEX),$(PDFTARGETS_OF_EPS))
- 
-diff --git a/a2ping-rule.mk b/a2ping-rule.mk
-index 296fc575..c0e170f1 100644
---- a/a2ping-rule.mk
-+++ b/a2ping-rule.mk
-@@ -29,7 +29,7 @@ ifdef A2PING
-   endif
- endif
- 
--$(PDFTARGETS_OF_EPSORIG): %.pdf: %.eps
-+$(PDFTARGETS_OF_GNUPLOT_NEEDFIXFONTS): %.pdf: %.eps
- 	@echo "$< --> $@"
- ifndef A2PING
- 	$(error $< --> $@: a2ping not found. Please install it)
-@@ -58,7 +58,7 @@ else
- 	@a2ping --below --hires --bboxfrom=compute-gs $< $@ > /dev/null 2>&1
- endif
- 
--$(PDFTARGETS_OF_EPSOTHER): %.pdf: %.eps
-+$(PDFTARGETS_OF_EPSORIG_NOFIXFONTS) $(PDFTARGETS_OF_EPSOTHER): %.pdf: %.eps
- 	@echo "$< --> $@"
- ifndef A2PING
- 	$(error $< --> $@: a2ping not found. Please install it)
-diff --git a/epstopdf-rule.mk b/epstopdf-rule.mk
-index 5bf4a435..1c3a2041 100644
---- a/epstopdf-rule.mk
-+++ b/epstopdf-rule.mk
-@@ -8,7 +8,7 @@ EPSTOPDF := $(shell which epstopdf 2>/dev/null)
- GS_953_OR_LATER := $(shell gs --version | grep -c -E "9\.5[3-9].?")
- GS_OPT=--gsopt=-dPDFSETTINGS=/ebook
- 
--$(PDFTARGETS_OF_EPSORIG): %.pdf: %.eps
-+$(PDFTARGETS_OF_GNUPLOT_NEEDFIXFONTS): %.pdf: %.eps
- 	@echo "$< --> $@"
- ifndef EPSTOPDF
- 	$(error $< --> $@: epstopdf not found. Please install it)
-@@ -32,7 +32,7 @@ else
- endif
- 	@rm -f $(basename $<)__.eps
- 
--$(PDFTARGETS_OF_EPSOTHER): %.pdf: %.eps
-+$(PDFTARGETS_OF_EPSORIG_NOFIXFONTS) $(PDFTARGETS_OF_EPSOTHER): %.pdf: %.eps
- 	@echo "$< --> $@"
- ifndef EPSTOPDF
- 	$(error $< --> $@: epstopdf not found. Please install it)
+ Although it is now much maligned, before the advent of C11 and
+ C++11~\cite{PeteBecker2011N3242}, the \apic{volatile} keyword was an
+-indispensible tool in the parallel programmer's toolbox.
++indispensable tool in the parallel programmer's toolbox.
+ This raises the question of exactly what \co{volatile} means,
+ a question that is not answered with excessive precision even
+ by more recent versions of this standard~\cite{RichardSmith2019N4800}.\footnote{
 -- 
-2.17.1
-
+2.24.3 (Apple Git-128)
 
