@@ -1,56 +1,63 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:60824 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233128AbhJMATf (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Tue, 12 Oct 2021 20:19:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634084253;
-        bh=0N59gnPE6QhClPjaKS+NGIlZuaqT0/K1dtElqmuaECk=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=e/Bj13yojDfLmPjD2GTaOGM95/Nv3F2+LAJSnQBA1lR3YFzfygJCJxTh9iw6zqVXJ
-         I5D+4cDs+Fg6lUFCPiZFuYHKa+NwDF5XIybAOOt/1mWWBVDipfV7i3lUM5MHUEDxMm
-         d/cpElt1WDBbK7xtq2FoiGlw+NZUkHlSk3If0ih4xnwX6rx8lLQecTeroPq4kRhSTe
-         2EbAMa4FyJqsSG6sIdhLCnoJvhcOXU59SZj7i1QTdilVlqk6RvE2beNcvMz8ioIvda
-         tWn9t1/O8Mjyx33e75rdIKmj9rumpKqDjf8wslExFw6o6wdnSSvzvYmce6h920ma1c
-         ezJr7Qs5CPpJg==
-Date: Tue, 12 Oct 2021 17:17:32 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] toolsoftrade: Fix typo
-Message-ID: <20211013001732.GO880162@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20211012023438.5322-1-shiyn.lin@gmail.com>
+Return-Path: <SRS0=LG5i=PF=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=17SgFL7ZFYPdsGrPnuRn15aLVyxPMrQFLk1Ir+xsXdw=;
+        b=Ul85Pd6pIZfLu3zdCNOxGFJqGqna2ZtPMUhtwXLtYnRSC2lvoNewpSgsZsU7iL100C
+         yk6NtFHxXdzbMTLut9guKSdPo+uBlGPbmc1rfD0plaN+2p2uHCbvI0+Fxo8riYJP99Sx
+         /xiOgBMuWI8O4p4MXPu3jYhM8FDffq6L8NSwxJdfGubmmIwF9Oi5mZk2NRVHDnPUeuPm
+         RrZJMsp2lPmZQNe6FmAWt+FWngiFXd32wgb2K4IivXFhEtcX9qH2SRQbeO0hh54Yfk2m
+         nisGINqykDQPne15u9w2xf/SnoYiY0tbY/YuVfekZdPel2Z9umS3t2E9Od7mX0Zc8T3O
+         NofQ==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 0/3] Updates of docker/ and Makefile
+Message-ID: <e803eeb3-d39d-8bbf-4e5e-d7c3fbbfcd84@gmail.com>
+Date: Sun, 17 Oct 2021 17:13:37 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211012023438.5322-1-shiyn.lin@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Chin En Lin <shiyn.lin@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, Oct 12, 2021 at 10:34:38AM +0800, Chin En Lin wrote:
-> Signed-off-by: Chin En Lin <shiyn.lin@gmail.com>
+Hi Paul,
 
-Good eyes!  Queued and pushed, thank you!
+This patch set consists of updates under docker/ and Makefile.
 
-							Thanx, Paul
+Patch 1/3 updates Dockerfiles under docker/.
+It adds a couple of font packages in Dockerfile.fedora and
+adds "gnuplot" and "time" commands in all three Dockerfiles.
 
-> ---
->  toolsoftrade/toolsoftrade.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-> index 8c86d728..c9f5b399 100644
-> --- a/toolsoftrade/toolsoftrade.tex
-> +++ b/toolsoftrade/toolsoftrade.tex
-> @@ -2052,7 +2052,7 @@ which are up next.
->  
->  Although it is now much maligned, before the advent of C11 and
->  C++11~\cite{PeteBecker2011N3242}, the \apic{volatile} keyword was an
-> -indispensible tool in the parallel programmer's toolbox.
-> +indispensable tool in the parallel programmer's toolbox.
->  This raises the question of exactly what \co{volatile} means,
->  a question that is not answered with excessive precision even
->  by more recent versions of this standard~\cite{RichardSmith2019N4800}.\footnote{
-> -- 
-> 2.24.3 (Apple Git-128)
-> 
+Patch 2/3 shortens progress reports from "make".
+
+    Old example: intro/PPGrelation.svg --> intro/PPGrelation.pdf
+    New example: intro/PPGrelation.svg --> .pdf
+
+Patch 3/3 switches the default "esp --> pdf" rules to those in
+epstopdf-rule.mk.
+
+To see the effect of patches 2/3 and 3/3, a "make neatfreak"
+before "make" or "make -jN" is needed.
+
+        Thanks, Akira
+--
+Akira Yokosawa (3):
+  docker: Add some fonts and commands
+  Makefile: Shorten progress report (dir/filename.src --> .dst)
+  Makefile: Promote epstopdf-rule.mk as the default
+
+ Makefile                 | 16 ++++++++--------
+ a2ping-rule.mk           |  6 +++---
+ docker/Dockerfile        |  8 +++++---
+ docker/Dockerfile.bionic |  8 +++++---
+ docker/Dockerfile.fedora | 11 ++++++++---
+ epstopdf-rule.mk         |  6 +++---
+ 6 files changed, 32 insertions(+), 23 deletions(-)
+
+
+base-commit: d28c5aa8c1dad57c76554743cc4e59a18d367303
+-- 
+2.17.1
+
