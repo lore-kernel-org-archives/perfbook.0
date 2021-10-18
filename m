@@ -1,24 +1,28 @@
 Return-Path: <SRS0=U37W=PG=gmail.com=sj38.park@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=yPmOw43upX/V1t/3a+HECkzo6iIo8J54O+hmCyTSfHQ=;
-        b=mZbTlgOItXsO3dzDJYry2T5WmVzoxX5yQ9jhmHRLdEuqFbaZUkrKwv0bPXPl3XpPFE
-         9mkb1yHF/T6YGpUsnE+X1FslHO9RdckzHNNCpi9H8AqiJgdhISl1KkP5VwUq8/+ZAOyz
-         oio3+RNMUwezytgrqkuj2ghGUBsgCau17VQd9H47koFKGS5JGIoDbi/eFXGKaaFwtBzW
-         J/fs2rXrU9XsObc1rSg/4oPsBFYjD+1K/Navlv0OOxlayKzU/uIWErZGPqBtEq5xrrAs
-         x02s3OO1/sJs9ST1k3Zh58ipvfqiD75ykXLW6pw5DNPbMfq4dnuJsR7nP4xMcPKqPkmV
-         R+9g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=fTeN2+7W8vMKoHuvXibkrgdCikljkX6HhS27yXD1Z1s=;
+        b=lHO7O7n1rkW4uwVjZlPkPzyJL7Bz0/1hDhmArTbh6AoPYBakRlke3JV/HvikV3JzCo
+         tE8XuBeC2zQJbwYaTg5plELVObh/c/BgLu3PjHhDCrXNZGFMHSdpBIJeaGzRjlYG6SUk
+         YgXn6Y4uDZ3HGqoKT6WRxImcxMRw5dKh8GTcPluuBokNTh472+EXBnmYnn3sRJO1kget
+         vpnsJEmkyjFaeI2lNoEHykTX9WKQtiSkxeXx5s9FXAuyAU19vA6TAzolEDmGT29cJHhU
+         o5SiS8HeZtU/YyHBleDfiNy8IGVk6s1C99sHdFiTbenuGLdsTvu2JCTW/uPwpWcAQEkG
+         IlVg==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 1/5] toolsoftrade: Consistently add parentheses to function names
-Date: Mon, 18 Oct 2021 10:44:35 +0200
-Message-Id: <20211018084439.7112-1-sj38.park@gmail.com>
+Subject: [PATCH 2/5] toolsoftrade: Add arguments in 'WRITE_ONCE()' example
+Date: Mon, 18 Oct 2021 10:44:36 +0200
+Message-Id: <20211018084439.7112-2-sj38.park@gmail.com>
+In-Reply-To: <20211018084439.7112-1-sj38.park@gmail.com>
+References: <20211018084439.7112-1-sj38.park@gmail.com>
 To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Parentheses are appended to all function names including 'mythread()',
-but one case is not.  This commit adds parentheses there.
+A sentence explaining common things between 'READ_ONCE()' and
+'__atomic_load_n()' provides arguments, but the explanation for
+'WRITE_ONCE()' doesn't.  This commit makes it also consistently provides
+the arguments.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
@@ -26,18 +30,18 @@ Signed-off-by: SeongJae Park <sj38.park@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index c9f5b399..b2694da2 100644
+index b2694da2..bc332aba 100644
 --- a/toolsoftrade/toolsoftrade.tex
 +++ b/toolsoftrade/toolsoftrade.tex
-@@ -344,7 +344,7 @@ ID of the thread to be created, the second \co{NULL} argument is a pointer
- to an optional \co{pthread_attr_t}, the third argument is the function
- (in this case, \co{mythread()})
- that is to be invoked by the new thread, and the last \co{NULL} argument
--is the argument that will be passed to \co{mythread}.
-+is the argument that will be passed to \co{mythread()}.
- \end{fcvref}
- 
- \begin{listing}
+@@ -544,7 +544,7 @@ primitives.
+ 	\cref{chp:Advanced Synchronization: Memory Ordering}.
+ 	In the meantime, \co{READ_ONCE(x)} has much in common with
+ 	the \GCC\  intrinsic \co{__atomic_load_n(&x, __ATOMIC_RELAXED)}
+-	and \co{WRITE_ONCE()} has much in common with the \GCC\ 
++	and \co{WRITE_ONCE(x, v)} has much in common with the \GCC\
+ 	intrinsic \co{__atomic_store_n(&x, v, __ATOMIC_RELAXED)}.
+ }\QuickQuizEndE
+ }
 -- 
 2.17.1
 
