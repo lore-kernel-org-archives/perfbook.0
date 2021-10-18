@@ -2,41 +2,61 @@ Return-Path: <SRS0=U37W=PG=gmail.com=sj38.park@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=+mA9EFojfLeVdPeDnw4oO0+vF9XMxGnVqjxz5fo4G1c=;
-        b=ZT2DywVLT2vAH61nmb0rFMngHc9z3S8zHaYZADvZU1fKhCpS2OTBnUHSCOLROK3sOF
-         7ikKkt93OEgFu+C3cQPVfSQDAHoiIMdpSA3ZB/17sJAT1NXS7y3ZUtqDNyQgqCLYKL/C
-         3x5gKRDFRm2nYm8nz5SaRyKuysoFbg3VcArNH847kvBgK1wPC3hH72+PjbM5Cvkd+7Ot
-         rXX0sLkHKXcVtw3hqTbRxbc/d98k1fmlpi9im+AaoZ74+aQ9rrzGpOaTneLVgCGHh7ef
-         VQeK6F1Loynj33yZaKLu08JEfz99VobrAKtdJhpAcOxIJpSRlrn0g/8V/j2CT7rF5qVC
-         dUtA==
+        bh=v+wMJmNsq3h3p+xtkKGhdaSHYKvmShPoQKr9oh3eK1M=;
+        b=TrJjs18eqN7+LgtIZPgzLRg1nX7pVZ5OKlJao1hvJLwTrJ58AS63Si3kTpTvRztpBz
+         Fc1vBRO7KhlyvgPuhhJ/LnA9fEfDWzUkCr75emkwciHSUC8r9jhcFwQbgDL9eh8M/pcp
+         ydJzmOwhvItb6RtjgHmHop4Ld3aI+CGbX36eljHuRFpePIybGYqwkdxA1i2HzsWetHQu
+         FNO1i5Qx3SEiRe+OxaLfn2qvw4h8qWDe3PD8xVUb2xK3dMdlfEWO46eIGqRjWzFLs4zb
+         YogfJ4LzR4nM1uKkRaDgrXD77VgyP2FmF6139pnlbyDt5mjIY1XxJFeVtRz4Zb2JVyvH
+         ZUtg==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 4/5] toolsoftrade: Fix a typo
-Date: Mon, 18 Oct 2021 10:44:38 +0200
-Message-Id: <20211018084439.7112-4-sj38.park@gmail.com>
+Subject: [PATCH 5/5] toolsoftrade: Use '\co{}' instead of '{\tt}'
+Date: Mon, 18 Oct 2021 10:44:39 +0200
+Message-Id: <20211018084439.7112-5-sj38.park@gmail.com>
 In-Reply-To: <20211018084439.7112-1-sj38.park@gmail.com>
 References: <20211018084439.7112-1-sj38.park@gmail.com>
 To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
+There is a sentence using '{\tt}' instead of '\co{}'.  This commit
+updates those.
+
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- toolsoftrade/toolsoftrade.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ toolsoftrade/toolsoftrade.tex | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index f0fb360c..7cbe2f0b 100644
+index 7cbe2f0b..8badbcaf 100644
 --- a/toolsoftrade/toolsoftrade.tex
 +++ b/toolsoftrade/toolsoftrade.tex
-@@ -851,7 +851,7 @@ rights to assume that the value of \co{goflag} would never change.
- 	This leads to the question of how one thread can gain access to
- 	another thread's \apig{__thread} variable, and the answer is that
- 	the second thread must store a pointer to its \apig{__thread}
--	pointer somewhere that the first thread has access to.
-+	variable somewhere that the first thread has access to.
- 	One common approach is to maintain a linked list with one
- 	element per thread, and to store the address of each thread's
- 	\apig{__thread} variable in the corresponding element.
+@@ -1448,10 +1448,10 @@ spin_unlock(&mutex);
+ \end{VerbatimU}
+ 
+ \QuickQuiz{
+-	What problems could occur if the variable {\tt counter} were
+-	incremented without the protection of {\tt mutex}?
++	What problems could occur if the variable \co{counter} were
++	incremented without the protection of \co{mutex}?
+ }\QuickQuizAnswer{
+-	On CPUs with load-store architectures, incrementing {\tt counter}
++	On CPUs with load-store architectures, incrementing \co{counter}
+ 	might compile into something like the following:
+ 
+ \begin{VerbatimU}
+@@ -1461,9 +1461,9 @@ STORE r0,counter
+ \end{VerbatimU}
+ 
+ 	On such machines, two threads might simultaneously load the
+-	value of {\tt counter}, each increment it, and each store the
++	value of \co{counter}, each increment it, and each store the
+ 	result.
+-	The new value of {\tt counter} will then only be one greater
++	The new value of \co{counter} will then only be one greater
+ 	than before, despite two threads each incrementing it.
+ }\QuickQuizEnd
+ 
 -- 
 2.17.1
 
