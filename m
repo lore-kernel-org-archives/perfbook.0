@@ -1,60 +1,64 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:36024 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231634AbhJRQGl (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Mon, 18 Oct 2021 12:06:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634573070;
-        bh=E3if0OSyBVpaPuwyyEvLM5HswXz7vey2uX8+gS3UC64=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Ili3mmgrd+XuXne8klttfgDbC2JfsYUZdmaX3dANhoTKjJcLVXhsAzqBb8o70xGoE
-         aqnI8iDMcShz/SAHDK+lqzQ75bZWXWcagv0QhlOsCyIZ7zGyTrHAhzKSNOKtJycPlp
-         Tt4DFXRU40QJdl4XqHdcdOPEBH47T3LV3ylJwFVQRlsYc9a1TcbuccGkZH3jRYaUL4
-         3p2bjgFTsSpFiKEnD5mzA7z0BhW3WGNGdu+YguJzPMH/oFlyndWrNAeOFFWPyZqeKx
-         PbyFZpJpefr8r2TwHmQY+yk/Q4r/emLHR3bUVE/T4RV0mjCSCQ++xnCOP9J7/oQdDK
-         pXGNLy204c8gw==
-Date: Mon, 18 Oct 2021 09:04:30 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 1/5] toolsoftrade: Consistently add parentheses to
- function names
-Message-ID: <20211018160430.GR880162@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20211018084439.7112-1-sj38.park@gmail.com>
+Return-Path: <SRS0=qhXQ=PH=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=Sh0j7NU/+D9ESxcMbbZ6l+EK+mPMR7Buv2+YV3AYcYU=;
+        b=U6Md1FABxXiSnFnHiAP4Bet96haKL4JAf4IHvwRQ1snRyyBcIaPD5qQ8l1XbrvSDKz
+         6Qch0JKAUiJT5zxUBj5pHf9UOmUYw5jbblQLzpPE29PTifbyryx7Cdf3A2sGqNhrs59w
+         xvBj5yGvVTgtDa5UtcCG9O3PsRhtYOBeKl019tTVs5x5nD+lijpNOTSM9YD6k+8Ts6X9
+         LV/9hjMyNUX4bsWA+SF18zaWWUjyBrNMxfmcKM8MCnI1c3cpL6ON7t9EdXZgE8H2GDdv
+         NQNPSA5cpCBw3sk5nkuOsVW0aa6gOJmA462CQraHI84MnmoxGMQgSXzpzu3Mww7HCacV
+         jnAw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] fixsvgfonts-urwps: Add patterns for 'URW Gothic'
+Message-ID: <2ac75ef4-c43a-195a-f788-15f375e3b20b@gmail.com>
+Date: Tue, 19 Oct 2021 11:06:41 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211018084439.7112-1-sj38.park@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj38.park@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Oct 18, 2021 at 10:44:35AM +0200, SeongJae Park wrote:
-> Parentheses are appended to all function names including 'mythread()',
-> but one case is not.  This commit adds parentheses there.
-> 
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+When built on Ubuntu Focal, Figure 3.9
+(cartoons/r-2014-CPU-track-meet-phone-booth.pdf) does not have the
+"TELE" sign.
 
-Queued and pushed the series, thank you!
+Ubuntu Hirsute and Fedora 34 don't have this issue, so it looks
+like Ubuntu Focal lacks some configs for font-name aliases under
+/etc/fonts/.
 
-							Thanx, Paul
+As a workaround, add patterns taking care of "URL Gothic".
 
-> ---
->  toolsoftrade/toolsoftrade.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-> index c9f5b399..b2694da2 100644
-> --- a/toolsoftrade/toolsoftrade.tex
-> +++ b/toolsoftrade/toolsoftrade.tex
-> @@ -344,7 +344,7 @@ ID of the thread to be created, the second \co{NULL} argument is a pointer
->  to an optional \co{pthread_attr_t}, the third argument is the function
->  (in this case, \co{mythread()})
->  that is to be invoked by the new thread, and the last \co{NULL} argument
-> -is the argument that will be passed to \co{mythread}.
-> +is the argument that will be passed to \co{mythread()}.
->  \end{fcvref}
->  
->  \begin{listing}
-> -- 
-> 2.17.1
-> 
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
+
+I'm not sure if you have the same issue on your Ubuntu 20.04,
+but I noticed it and tested the workaround on the container image at
+docker.io/akiyks/perfbook-build-focal:latest.
+
+        Thanks, Akira
+--
+ utilities/fixsvgfonts-urwps.sh | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/utilities/fixsvgfonts-urwps.sh b/utilities/fixsvgfonts-urwps.sh
+index a3dcd91a..21eb1534 100644
+--- a/utilities/fixsvgfonts-urwps.sh
++++ b/utilities/fixsvgfonts-urwps.sh
+@@ -17,4 +17,6 @@ sed	-e 's+:Helvetica+:Nimbus Sans+g' \
+ 	-e 's+:Nimbus Sans L+:Nimbus Sans+g' \
+ 	-e 's+="Nimbus Sans L+="Nimbus Sans+g' \
+ 	-e 's+:Nimbus Mono L+:Nimbus Mono PS+g' \
+-	-e 's+="Nimbus Mono L+="Nimbus Mono PS+g'
++	-e 's+="Nimbus Mono L+="Nimbus Mono PS+g' \
++	-e 's+:URW Gothic L+:URW Gothic+g' \
++	-e 's+="URW Gothic L+="URW Gothic+g'
+
+base-commit: 6991663ee8e326bae30cf6e82c69afb310c2b250
+-- 
+2.17.1
+
