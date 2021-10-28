@@ -1,65 +1,65 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:57494 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231738AbhJUQ6p (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Thu, 21 Oct 2021 12:58:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634835389;
-        bh=TCYu1ra/a7L/uL9MzLpwumupdBbVALJn76Dg3G2LAwY=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=hYyG0KAs2nhy7b52iIjx/etDoAqM4r3ftkxiEIQsAuGZ4s9Pwd0hi0mgNaf1XelsI
-         0FtZTRSfZJgRZNADGZ3WZhQDWQds8+cEeQ7cQtH1Eq/s815wrva/KZ2wRGqUNdOuCv
-         pHiOxxHUVwjM3JXXFBeJAKkPTHfopaN80GDG7OlyvJ4WVQyyavAJE05TXmHm54sIq+
-         aamAAK75V5b4apSToP0/t4aKqCViNzAz480Q8TE4jRjQE0VjwyOnZV6jDNoYWGB3yO
-         FtMbsBH5E2Sv/ofUnLdRsyeQpDqU+Hjtp42M/eKgxly/B++mZNa0mfdkjHvMBoWqIo
-         IaUU3q6SSc+2g==
-Date: Thu, 21 Oct 2021 09:56:29 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH-perfbook] memorder: fix a typo in answer to QQ 15.33
-Message-ID: <20211021165629.GS880162@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20211021073251.8821-1-zhouzhouyi@gmail.com>
+Return-Path: <SRS0=onBR=PQ=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=VdskEVg5zNH1+cJgzPKwFr/KGix9y8vbVdftxwePfw0=;
+        b=lTohrJvkWq7rjmAZyBuxTHaCLh63Xa8rLHA6/4p5vayFac7QRekFPUlelB1olqL1nB
+         HUfWBta3zAkh8o04cYUD01t+Sv6wSf3o3tgl2+t4wUGZinwy4sSJ3Dxjv04yMl/nWjHQ
+         /VKM61klA9EfVE/s52zLg4gZ3Misr1+A/7t3DwKaDlfm3yL1xI9z1pOme+Wj5733HLTO
+         G7+aSTC4UUY8n23brZnrg8Q1h7NNPTGayFk9vuDBI54eWRDuLlDfEDg28ExXSaMTeIvY
+         IoaiRARoXG5LDrx3gAHwart8GG60fFqB9VhHQ41SwG4jEnM9nMvBaNcIPD82FoVvjcgw
+         w2vA==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 0/5] Misc tweaks of figures
+Message-ID: <48719e0e-2828-7017-8efe-249dff1ef2a2@gmail.com>
+Date: Thu, 28 Oct 2021 09:12:32 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211021073251.8821-1-zhouzhouyi@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Cc: perfbook@vger.kernel.org, luyang.co@gmail.com
 
-On Thu, Oct 21, 2021 at 03:32:51PM +0800, Zhouyi Zhou wrote:
-> In answer to Quick Quiz 15.33, update() here should be updater().
-> 
-> Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
-> ---
-> Hi Paul,
-> 
-> In answer to Quick Quiz 15.33, update() here should be updater().
-> By the way, I tried to follow Akira's patch as an example to make a
-> good looking patch ;-)
+Hi Paul,
 
-Good eyes, and the patch does look good, thank you!  Queued and pushed.
+This patch set consists of minor tweaks of figures.
 
-							Thanx, Paul
+Patch 1/5 shrinks a couple of unnecessarily large figures.
 
->    Thanks Zhouyi
-> --
->  memorder/memorder.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-> index debfbcc3..eae93f9e 100644
-> --- a/memorder/memorder.tex
-> +++ b/memorder/memorder.tex
-> @@ -2830,7 +2830,7 @@ instead of the expected value 144.
->  	not order later loads, only later stores.
->  	If you really need ordering, you could place an \co{smp_rmb()}
->  	between \clnref{equ,pc}.
-> -	Or better yet, have \co{update()}
-> +	Or better yet, have \co{updater()}
->  	allocate two structures instead of reusing the structure.
->  	For more information, see
->  	\cref{sec:memorder:Control-Dependency Calamities}.
-> -- 
-> 2.25.1
-> 
+Patches 2/5--4/5 take care of Figure 10.19 and its derivative,
+Figure E.7.
+Consistently using solid traces for resizable hash tables
+helps readers to follow the discussion.
+Patch 4/5 also adds a footnote on the upper three traces which
+look like two traces.
+
+Patch 5/5 changes marks of "x)" to "(x)" so that they match
+how they are called out in the text.
+
+        Thanks, Akira
+--
+Akira Yokosawa (5):
+  Shrink Figures 9.27 and 14.3 in 2c builds
+  datastruct: Break gnuplot command line per each plot trace
+  datastruct: Use consistent dash type in Figures 10.19 and E.7
+  datastruct: Expand on the dash type of traces in Figure 10.19
+  datastruct: Change marks in Figures 10.20 and 10.21 to "(x)"
+
+ .../data/hps.resize.2020.09.05a/perftestresize.eps | 10 +++++-----
+ .../data/hps.resize.2020.09.05a/plots-resize.sh    |  7 ++++++-
+ .../hps.resize.2020.09.27a/perftestresizebig.eps   | 10 +++++-----
+ .../data/hps.resize.2020.09.27a/plots-resize.sh    |  8 +++++++-
+ advsync/rt.tex                                     |  2 +-
+ datastruct/datastruct.tex                          | 13 ++++++++-----
+ datastruct/zipperhashgrow.svg                      | 14 +++++++-------
+ datastruct/zipperhashshrink.svg                    | 12 ++++++------
+ defer/rcuusage.tex                                 |  2 +-
+ 9 files changed, 46 insertions(+), 32 deletions(-)
+
+
+base-commit: 333422f99c550d4ba5809525e7eeebf1a5ab16e8
+-- 
+2.17.1
+
