@@ -1,164 +1,75 @@
-Return-Path: <SRS0=onBR=PQ=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Dimo5Xj2KaXH9nsT1No5oeIIh2iRQqrjZisJ0E7MTeM=;
-        b=nlmGhuBhxXuLwGwLxzHJNKiHWIUFFdWoRR7y0V2+VXTuV805Mysesv39Wqs340x9vU
-         KTQ3P0ywhtKqdr6KEr/Kh6yS6xQvkYMElVSVh4z2wjJhmeh3gvjP32z8L78Fnyn5mFaQ
-         AxHB9tLAWyrkfjVQxzubwmhuG8WiXo33hK0Vg1sIJ9PXgCq6VP9HTn++RLJlr+kGluSV
-         vR7Wz4yvobPQV2G40BncId2YQWPv8HhLcI2COVP+58w9jq2Iue2zNqaZdetzvstCM9nh
-         MqtCy2C5m/7z3VQ6jKza8MfMMVDQTm93KXSF0B4ffpkcAihdeKP2mbK/II0YLSWku33t
-         Ihuw==
-Subject: [PATCH -perfbook 5/5] datastruct: Change marks in Figures 10.20 and
- 10.21 to "(x)"
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from mail.kernel.org ([198.145.29.99]:42696 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229887AbhJ1Ns4 (ORCPT <rfc822;perfbook@vger.kernel.org>);
+        Thu, 28 Oct 2021 09:48:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635428789;
+        bh=Rfd9FRFvFt6FkjhI4ZzKO3C7gwx5r26m84+ko7+r6xM=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=mDvFbfia0K9/Usl0quIpUkLjYDpiOy7l+GcspnQXRLrYBJDwVtsKanuivCFdIQPl/
+         n5VNtQNqZvSqzVm5QHBT4HQWEXBVfnFIZc8Tdb0vpehWyR5EviwtIiHrkbwC4TqC6m
+         XfuRuhyhgz0k5w3jKySUL5p8tTFBJLEBLKCb3HaUY+PGui+qBEpRbNyJX4mNoM0fME
+         cyPG+aARsMxcjlbuYP83l+wO3/uo/RP9W0NZI/NcmBBDbgBpXzO1Vjo65INdY4tois
+         RD+ZNWkQ1MO2GKtN13JmAvKMv5SfzNHA4C9zN9Vw+y1G/AniGy7KTz/QTzIrBWkENG
+         7fS9D5V+ckjrw==
+Date: Thu, 28 Oct 2021 06:46:28 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH -perfbook 0/5] Misc tweaks of figures
+Message-ID: <20211028134628.GD880162@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
 References: <48719e0e-2828-7017-8efe-249dff1ef2a2@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <8e420a24-13d0-953e-2513-911a01f3f08e@gmail.com>
-Date: Thu, 28 Oct 2021 09:20:23 +0900
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <48719e0e-2828-7017-8efe-249dff1ef2a2@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-This change improves consistency with the text.
+On Thu, Oct 28, 2021 at 09:12:32AM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> This patch set consists of minor tweaks of figures.
+> 
+> Patch 1/5 shrinks a couple of unnecessarily large figures.
+> 
+> Patches 2/5--4/5 take care of Figure 10.19 and its derivative,
+> Figure E.7.
+> Consistently using solid traces for resizable hash tables
+> helps readers to follow the discussion.
+> Patch 4/5 also adds a footnote on the upper three traces which
+> look like two traces.
+> 
+> Patch 5/5 changes marks of "x)" to "(x)" so that they match
+> how they are called out in the text.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- datastruct/zipperhashgrow.svg   | 14 +++++++-------
- datastruct/zipperhashshrink.svg | 12 ++++++------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+Looks good, thank you!  Queued and pushed.
 
-diff --git a/datastruct/zipperhashgrow.svg b/datastruct/zipperhashgrow.svg
-index 1d35b17a..b0e8e62c 100644
---- a/datastruct/zipperhashgrow.svg
-+++ b/datastruct/zipperhashgrow.svg
-@@ -165,7 +165,7 @@
-          sodipodi:role="line"
-          id="tspan2987"
-          x="17.100805"
--         y="452.72961">g)</tspan></text>
-+         y="452.72961">(g)</tspan></text>
-     <g
-        id="g3763"
-        transform="translate(0,422)">
-@@ -339,7 +339,7 @@
-          y="78.729584"
-          x="17.100805"
-          id="tspan5034"
--         sodipodi:role="line">b)</tspan></text>
-+         sodipodi:role="line">(b)</tspan></text>
-     <g
-        id="g5036"
-        transform="translate(0,38)"
-@@ -403,7 +403,7 @@
-          sodipodi:role="line"
-          id="tspan5468"
-          x="17.100805"
--         y="162.72958">c)</tspan></text>
-+         y="162.72958">(c)</tspan></text>
-     <text
-        sodipodi:linespacing="125%"
-        id="text5552"
-@@ -414,7 +414,7 @@
-          y="248.72958"
-          x="17.100805"
-          id="tspan5554"
--         sodipodi:role="line">d)</tspan></text>
-+         sodipodi:role="line">(d)</tspan></text>
-     <text
-        xml:space="preserve"
-        style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-@@ -425,7 +425,7 @@
-          sodipodi:role="line"
-          id="tspan5621"
-          x="17.100805"
--         y="328.72958">e)</tspan></text>
-+         y="328.72958">(e)</tspan></text>
-     <text
-        sodipodi:linespacing="125%"
-        id="text5681"
-@@ -436,7 +436,7 @@
-          y="22.410172"
-          x="16.510962"
-          id="tspan5683"
--         sodipodi:role="line">a)</tspan></text>
-+         sodipodi:role="line">(a)</tspan></text>
-     <g
-        id="g3318"
-        transform="translate(-0.72284698,0)">
-@@ -1256,7 +1256,7 @@
-          y="390.72958"
-          x="17.100805"
-          id="tspan4442"
--         sodipodi:role="line">f)</tspan></text>
-+         sodipodi:role="line">(f)</tspan></text>
-     <g
-        id="g4444"
-        transform="translate(0,360)"
-diff --git a/datastruct/zipperhashshrink.svg b/datastruct/zipperhashshrink.svg
-index ea77664a..f62b53c8 100644
---- a/datastruct/zipperhashshrink.svg
-+++ b/datastruct/zipperhashshrink.svg
-@@ -109,7 +109,7 @@
-          sodipodi:role="line"
-          id="tspan2987"
-          x="17.100805"
--         y="30.72958">a)</tspan></text>
-+         y="30.72958">(a)</tspan></text>
-     <g
-        id="g3763">
-       <rect
-@@ -282,7 +282,7 @@
-          y="88.729584"
-          x="17.100805"
-          id="tspan5034"
--         sodipodi:role="line">b)</tspan></text>
-+         sodipodi:role="line">(b)</tspan></text>
-     <g
-        id="g5036"
-        transform="translate(0,58)">
-@@ -504,7 +504,7 @@
-          sodipodi:role="line"
-          id="tspan5468"
-          x="17.100805"
--         y="172.72958">c)</tspan></text>
-+         y="172.72958">(c)</tspan></text>
-     <g
-        transform="translate(0,142)"
-        id="g5470">
-@@ -697,7 +697,7 @@
-          y="258.72958"
-          x="17.100805"
-          id="tspan5554"
--         sodipodi:role="line">d)</tspan></text>
-+         sodipodi:role="line">(d)</tspan></text>
-     <g
-        id="g5556"
-        transform="translate(0,228)">
-@@ -890,7 +890,7 @@
-          sodipodi:role="line"
-          id="tspan5621"
-          x="17.100805"
--         y="340.72958">e)</tspan></text>
-+         y="340.72958">(e)</tspan></text>
-     <g
-        transform="translate(0,310)"
-        id="g5623"
-@@ -1074,7 +1074,7 @@
-          y="416.51285"
-          x="17.100805"
-          id="tspan5683"
--         sodipodi:role="line">f)</tspan></text>
-+         sodipodi:role="line">(f)</tspan></text>
-     <path
-        transform="translate(106.08632,395.53399)"
-        d="m 134.85536,18.471052 c 0,3.626297 -2.9397,6.565992 -6.56599,6.565992 -3.6263,0 -6.56599,-2.939695 -6.56599,-6.565992 0,-3.626297 2.93969,-6.565991 6.56599,-6.565991 3.62629,0 6.56599,2.939694 6.56599,6.565991 z"
--- 
-2.17.1
+							Thanx, Paul
 
-
+>         Thanks, Akira
+> --
+> Akira Yokosawa (5):
+>   Shrink Figures 9.27 and 14.3 in 2c builds
+>   datastruct: Break gnuplot command line per each plot trace
+>   datastruct: Use consistent dash type in Figures 10.19 and E.7
+>   datastruct: Expand on the dash type of traces in Figure 10.19
+>   datastruct: Change marks in Figures 10.20 and 10.21 to "(x)"
+> 
+>  .../data/hps.resize.2020.09.05a/perftestresize.eps | 10 +++++-----
+>  .../data/hps.resize.2020.09.05a/plots-resize.sh    |  7 ++++++-
+>  .../hps.resize.2020.09.27a/perftestresizebig.eps   | 10 +++++-----
+>  .../data/hps.resize.2020.09.27a/plots-resize.sh    |  8 +++++++-
+>  advsync/rt.tex                                     |  2 +-
+>  datastruct/datastruct.tex                          | 13 ++++++++-----
+>  datastruct/zipperhashgrow.svg                      | 14 +++++++-------
+>  datastruct/zipperhashshrink.svg                    | 12 ++++++------
+>  defer/rcuusage.tex                                 |  2 +-
+>  9 files changed, 46 insertions(+), 32 deletions(-)
+> 
+> 
+> base-commit: 333422f99c550d4ba5809525e7eeebf1a5ab16e8
+> -- 
+> 2.17.1
+> 
