@@ -1,20 +1,22 @@
 Return-Path: <SRS0=onBR=PQ=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=VdskEVg5zNH1+cJgzPKwFr/KGix9y8vbVdftxwePfw0=;
-        b=lTohrJvkWq7rjmAZyBuxTHaCLh63Xa8rLHA6/4p5vayFac7QRekFPUlelB1olqL1nB
-         HUfWBta3zAkh8o04cYUD01t+Sv6wSf3o3tgl2+t4wUGZinwy4sSJ3Dxjv04yMl/nWjHQ
-         /VKM61klA9EfVE/s52zLg4gZ3Misr1+A/7t3DwKaDlfm3yL1xI9z1pOme+Wj5733HLTO
-         G7+aSTC4UUY8n23brZnrg8Q1h7NNPTGayFk9vuDBI54eWRDuLlDfEDg28ExXSaMTeIvY
-         IoaiRARoXG5LDrx3gAHwart8GG60fFqB9VhHQ41SwG4jEnM9nMvBaNcIPD82FoVvjcgw
-         w2vA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=z+XtMCOwiT+hlbMs2+xy1bwOBLgCnRpNMw/r+aWvW3o=;
+        b=l+DGD2QtDnRbR76XWwz05CkI8swgGcatmTa+WlMckuwOEK0EYcNJNQ5XvqzkTMlHZO
+         Gym77ulvwNe6Rwv/XA/LglyJ/1LC0VF1rgWBafRfTI03VweLrDovIx/RUc1Eog1qLUmn
+         LUmK6LG78uWGZr25DHygyqI/3qjTTSsEWQ1cpoJU1+6s9mYPIp67Mlql5nemflXLSfFK
+         3xVbUOs9yZA/hecSxPTCipAr/GZjRFxPaisxBZCPgkj2RggunaZm77/WnHkGl7D3Hob9
+         vhjExjTXTLVMp8gra7aEozwT7YOlRPZVoBYsM6U4g6X3RzLLbsBC9kkwgoQBdieDrgFV
+         002w==
+Subject: [PATCH -perfbook 1/5] Shrink Figures 9.27 and 14.3 in 2c builds
+References: <48719e0e-2828-7017-8efe-249dff1ef2a2@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 0/5] Misc tweaks of figures
-Message-ID: <48719e0e-2828-7017-8efe-249dff1ef2a2@gmail.com>
-Date: Thu, 28 Oct 2021 09:12:32 +0900
+Message-ID: <1e6842a6-92fe-678c-a2ad-8f85d08cce22@gmail.com>
+Date: Thu, 28 Oct 2021 09:14:24 +0900
 MIME-Version: 1.0
+In-Reply-To: <48719e0e-2828-7017-8efe-249dff1ef2a2@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,44 +24,42 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+\textwidth is too large for them in 2c builds.
+Use \onecolumntextwidth defined in the preamble instead.
 
-This patch set consists of minor tweaks of figures.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ advsync/rt.tex     | 2 +-
+ defer/rcuusage.tex | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Patch 1/5 shrinks a couple of unnecessarily large figures.
-
-Patches 2/5--4/5 take care of Figure 10.19 and its derivative,
-Figure E.7.
-Consistently using solid traces for resizable hash tables
-helps readers to follow the discussion.
-Patch 4/5 also adds a footnote on the upper three traces which
-look like two traces.
-
-Patch 5/5 changes marks of "x)" to "(x)" so that they match
-how they are called out in the text.
-
-        Thanks, Akira
---
-Akira Yokosawa (5):
-  Shrink Figures 9.27 and 14.3 in 2c builds
-  datastruct: Break gnuplot command line per each plot trace
-  datastruct: Use consistent dash type in Figures 10.19 and E.7
-  datastruct: Expand on the dash type of traces in Figure 10.19
-  datastruct: Change marks in Figures 10.20 and 10.21 to "(x)"
-
- .../data/hps.resize.2020.09.05a/perftestresize.eps | 10 +++++-----
- .../data/hps.resize.2020.09.05a/plots-resize.sh    |  7 ++++++-
- .../hps.resize.2020.09.27a/perftestresizebig.eps   | 10 +++++-----
- .../data/hps.resize.2020.09.27a/plots-resize.sh    |  8 +++++++-
- advsync/rt.tex                                     |  2 +-
- datastruct/datastruct.tex                          | 13 ++++++++-----
- datastruct/zipperhashgrow.svg                      | 14 +++++++-------
- datastruct/zipperhashshrink.svg                    | 12 ++++++------
- defer/rcuusage.tex                                 |  2 +-
- 9 files changed, 46 insertions(+), 32 deletions(-)
-
-
-base-commit: 333422f99c550d4ba5809525e7eeebf1a5ab16e8
+diff --git a/advsync/rt.tex b/advsync/rt.tex
+index b82153d9..69b80ec6 100644
+--- a/advsync/rt.tex
++++ b/advsync/rt.tex
+@@ -133,7 +133,7 @@ it can alert the hospital staff.
+ 
+ \begin{figure*}
+ \centering
+-\resizebox{\textwidth}{!}{\rotatebox{90}{\includegraphics{cartoons/realtime-lazy-crop}}}
++\resizebox{\onecolumntextwidth}{!}{\rotatebox{90}{\includegraphics{cartoons/realtime-lazy-crop}}}
+ \caption{Real-Time Response:
+ 			     Notification Insufficient}
+ \ContributedBy{Figure}{fig:advsync:Real-Time Response: Notification Insufficient}{Melissa Broussard}
+diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
+index f61daa09..977ffdaf 100644
+--- a/defer/rcuusage.tex
++++ b/defer/rcuusage.tex
+@@ -855,7 +855,7 @@ longer any readers still referencing it.
+ 
+ \begin{figure*}
+ \centering
+-\resizebox{\textwidth}{!}{\includegraphics{defer/RCUspacetime}}
++\resizebox{\onecolumntextwidth}{!}{\includegraphics{defer/RCUspacetime}}
+ \caption{RCU Spatial/Temporal Synchronization}
+ \label{fig:defer:RCU Spatial/Temporal Synchronization}
+ \end{figure*}
 -- 
 2.17.1
+
 
