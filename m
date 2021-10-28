@@ -3,19 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0CevqBcEQJ4Go3uVErcMrnK4Ayo0W4gjxKV7PaGJn20=;
-        b=cdd2bGx8eK6fvucehjJpB29pbTSp63Q9A7nuLnbQbr3GRIWRXLo7Gb4snqQi8Ht1Ly
-         +xhA7/LO+JgJaqP892QGIz4jc1WJp7f2LNDz4wcmlbwhN2JRCbaKUTot+2L2HNxShB84
-         WXXnuutLN1jqAT0n+HlFymLdQebNI+bsxBe8OAHjpUQMO0IfltS1bOienvjiidVcwJSf
-         DEyYFIf5Y5ENbCaRftsH4WCnsWN4vf/jpHWDui++yv1/07RrG/Qtd9tKp5hqTVx2VD59
-         16+Vz0vFpLw4QHAD+dwXZu0/f8Q/phY+v19zw4yEfhk6XfllWXhYL4L7XD7BWwAdeC+0
-         nKgg==
-Subject: [PATCH -perfbook 3/5] datastruct: Use consistent dash type in Figures
- 10.19 and E.7
+        bh=ZKhMXWdgqQvIowlr0O1nyBuVk1nN3mqj2rKVZ1PBL/Y=;
+        b=oJWHgTrqZoG6OhYYHCVBGpXw51In5lGkIYW0dh/xD0tw98/6IQfLLDDUbEwqrfbZRa
+         ZI8I0ZZpye+oekf3RemAD/dfokXid2ihRyVtaa0uDK4OFAzlPmIXAPCmia9B8S4kqZwr
+         YQ790Y+CYEAfaVNzcaaWaE1KR//fGTQUFl7ePOcbr7+oq3EW1JMfJJcRLOdpIRaF5f8W
+         FX9Ue48wbx3X4BsQb/4KnNo7qf7veHWD6/iOEZSzE3zBU6EUxAev1uhj91chlFTLJ383
+         9U/J/ZJVOwgSb4eiCaz0UOy6wdbKyg2JdB2SUKy/xz+31ik1GpsrSdw/BK2Gvmk8748t
+         RfAg==
+Subject: [PATCH -perfbook 4/5] datastruct: Expand on the dash type of traces
+ in Figure 10.19
 References: <48719e0e-2828-7017-8efe-249dff1ef2a2@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <37f535c0-7fa3-95d7-1003-18dfe59e8819@gmail.com>
-Date: Thu, 28 Oct 2021 09:16:36 +0900
+Message-ID: <1156dd65-03a8-a47d-1747-06825a46f3b2@gmail.com>
+Date: Thu, 28 Oct 2021 09:19:22 +0900
 MIME-Version: 1.0
 In-Reply-To: <48719e0e-2828-7017-8efe-249dff1ef2a2@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,172 +25,48 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Use solid lines for traces of resizable hash tables.
+The text reads "The uppermost three traces", but there appear
+to be only two traces.
+Put a footnote explaining how the dashed trace is composed.
+
+Also mention the dash types in the text.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- .../data/hps.resize.2020.09.05a/perftestresize.eps | 10 +++++-----
- .../data/hps.resize.2020.09.05a/plots-resize.sh    | 12 ++++++------
- .../hps.resize.2020.09.27a/perftestresizebig.eps   | 10 +++++-----
- .../data/hps.resize.2020.09.27a/plots-resize.sh    | 14 +++++++-------
- 4 files changed, 23 insertions(+), 23 deletions(-)
+ datastruct/datastruct.tex | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/CodeSamples/datastruct/hash/data/hps.resize.2020.09.05a/perftestresize.eps b/CodeSamples/datastruct/hash/data/hps.resize.2020.09.05a/perftestresize.eps
-index be3e621f..31d609e4 100644
---- a/CodeSamples/datastruct/hash/data/hps.resize.2020.09.05a/perftestresize.eps
-+++ b/CodeSamples/datastruct/hash/data/hps.resize.2020.09.05a/perftestresize.eps
-@@ -1,7 +1,7 @@
- %!PS-Adobe-2.0
- %%Title: perftestresize.eps
- %%Creator: gnuplot 5.2 patchlevel 2
--%%CreationDate: Sat Sep 26 14:47:30 2020
-+%%CreationDate: Fri Oct 22 17:49:45 2021
- %%DocumentFonts: (atend)
- %%BoundingBox: 50 50 302 410
- %%Orientation: Portrait
-@@ -1872,7 +1872,7 @@ SDict begin [
-   /Creator (gnuplot 5.2 patchlevel 2)
- %  /Producer (gnuplot)
- %  /Keywords ()
--  /CreationDate (Sat Sep 26 14:47:30 2020)
-+  /CreationDate (Fri Oct 22 17:49:45 2021)
-   /DOCINFO pdfmark
- end
- } ifelse
-@@ -2247,6 +2247,7 @@ LTb
- % Begin plot #1
- 1.000 UL
- LTb
-+LT1
- LCb setrgbcolor
- /NimbusSanL-Regu findfont 100 scalefont setfont
- /vshift -33 def
-@@ -2308,7 +2309,6 @@ LCb setrgbcolor
- % Begin plot #2
- stroke
- LTb
--LT1
- LCb setrgbcolor
- /NimbusSanL-Regu findfont 100 scalefont setfont
- 670 1161 M
-@@ -2430,7 +2430,7 @@ LCb setrgbcolor
- % Begin plot #4
- stroke
- LTb
--LT3
-+LT1
- LCb setrgbcolor
- /NimbusSanL-Regu findfont 100 scalefont setfont
- 670 1576 M
-@@ -2553,7 +2553,7 @@ LCb setrgbcolor
- stroke
- 1.200 UL
- LTb
--[8.0 dl1 4.0 dl2 1.0 dl1 2.5 dl2 1.0 dl1 2.5 dl2 1.0 dl1 4.0 dl2 ] 0 setdash
-+LT2
- LCb setrgbcolor
- /NimbusSanL-Regu findfont 100 scalefont setfont
- 670 1577 M
-diff --git a/CodeSamples/datastruct/hash/data/hps.resize.2020.09.05a/plots-resize.sh b/CodeSamples/datastruct/hash/data/hps.resize.2020.09.05a/plots-resize.sh
-index 892c801a..4a91c638 100644
---- a/CodeSamples/datastruct/hash/data/hps.resize.2020.09.05a/plots-resize.sh
-+++ b/CodeSamples/datastruct/hash/data/hps.resize.2020.09.05a/plots-resize.sh
-@@ -48,10 +48,10 @@ set label 2 "2,097,152" at 10,8000 left
- # set label 3 "131,072" at 10,5000 left
- # set label 4 "rwlock" at 0.3,1.6 left
- # set label 5 "refcnt" at 0.15,2.8 left
--plot "perftestS.2097152.${tag}.dat" w l,\
--     "perftestR.2097152.${tag}.dat" w l,\
--     "perftestL.2097152.${tag}.dat" w l,\
--     "perftestS.262144.${tag}.dat" w l,\
--     "perftestR.262144.${tag}.dat" w l,\
--     "perftestL.262144.${tag}.dat" w l
-+plot "perftestS.2097152.${tag}.dat" dt 2 w l,\
-+     "perftestR.2097152.${tag}.dat" dt 1 w l,\
-+     "perftestL.2097152.${tag}.dat" dt 3 w l,\
-+     "perftestS.262144.${tag}.dat" dt 2 w l,\
-+     "perftestR.262144.${tag}.dat" dt 1 w l,\
-+     "perftestL.262144.${tag}.dat" dt 3 w l
- ---EOF---
-diff --git a/CodeSamples/datastruct/hash/data/hps.resize.2020.09.27a/perftestresizebig.eps b/CodeSamples/datastruct/hash/data/hps.resize.2020.09.27a/perftestresizebig.eps
-index 1a2f31a1..ddc0b91e 100644
---- a/CodeSamples/datastruct/hash/data/hps.resize.2020.09.27a/perftestresizebig.eps
-+++ b/CodeSamples/datastruct/hash/data/hps.resize.2020.09.27a/perftestresizebig.eps
-@@ -1,7 +1,7 @@
- %!PS-Adobe-2.0
- %%Title: perftestresizebig.eps
- %%Creator: gnuplot 5.2 patchlevel 2
--%%CreationDate: Sun Sep 27 15:11:07 2020
-+%%CreationDate: Fri Oct 22 18:24:07 2021
- %%DocumentFonts: (atend)
- %%BoundingBox: 50 50 302 410
- %%Orientation: Portrait
-@@ -1872,7 +1872,7 @@ SDict begin [
-   /Creator (gnuplot 5.2 patchlevel 2)
- %  /Producer (gnuplot)
- %  /Keywords ()
--  /CreationDate (Sun Sep 27 15:11:07 2020)
-+  /CreationDate (Fri Oct 22 18:24:07 2021)
-   /DOCINFO pdfmark
- end
- } ifelse
-@@ -2247,6 +2247,7 @@ LTb
- % Begin plot #1
- 1.000 UL
- LTb
-+LT1
- LCb setrgbcolor
- /NimbusSanL-Regu findfont 100 scalefont setfont
- /vshift -33 def
-@@ -2308,7 +2309,6 @@ LCb setrgbcolor
- % Begin plot #2
- stroke
- LTb
--LT1
- LCb setrgbcolor
- /NimbusSanL-Regu findfont 100 scalefont setfont
- 670 1161 M
-@@ -2430,7 +2430,7 @@ LCb setrgbcolor
- % Begin plot #4
- stroke
- LTb
--LT3
-+LT1
- LCb setrgbcolor
- /NimbusSanL-Regu findfont 100 scalefont setfont
- 670 1576 M
-@@ -2553,7 +2553,7 @@ LCb setrgbcolor
- stroke
- 1.200 UL
- LTb
--[8.0 dl1 4.0 dl2 1.0 dl1 2.5 dl2 1.0 dl1 2.5 dl2 1.0 dl1 4.0 dl2 ] 0 setdash
-+LT2
- LCb setrgbcolor
- /NimbusSanL-Regu findfont 100 scalefont setfont
- 670 1577 M
-diff --git a/CodeSamples/datastruct/hash/data/hps.resize.2020.09.27a/plots-resize.sh b/CodeSamples/datastruct/hash/data/hps.resize.2020.09.27a/plots-resize.sh
-index f06727cb..2a7abd63 100644
---- a/CodeSamples/datastruct/hash/data/hps.resize.2020.09.27a/plots-resize.sh
-+++ b/CodeSamples/datastruct/hash/data/hps.resize.2020.09.27a/plots-resize.sh
-@@ -50,11 +50,11 @@ set label 2 "2,097,152" at 10,8000 left
- # set label 3 "131,072" at 10,5000 left
- # set label 4 "rwlock" at 0.3,1.6 left
- # set label 5 "refcnt" at 0.15,2.8 left
--plot "perftestS.2097152.${tag}.dat" w l,\
--     "perftestR.2097152.${tag}.dat" w l,\
--     "perftestL.2097152.${tag}.dat" w l,\
--     "perftestS.262144.${tag}.dat" w l,\
--     "perftestR.262144.${tag}.dat" w l,\
--     "perftestL.262144.${tag}.dat" w l,\
--     "perftestL.2097152.hps.2020.09.27a.dat" w l
-+plot "perftestS.2097152.${tag}.dat" dt 2 w l,\
-+     "perftestR.2097152.${tag}.dat" dt 1 w l,\
-+     "perftestL.2097152.${tag}.dat" dt 3 w l,\
-+     "perftestS.262144.${tag}.dat" dt 2 w l,\
-+     "perftestR.262144.${tag}.dat" dt 1 w l,\
-+     "perftestL.262144.${tag}.dat" dt 3 w l,\
-+     "perftestL.2097152.hps.2020.09.27a.dat" dt 7 w l
- ---EOF---
+diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
+index d8cab069..ba429dfc 100644
+--- a/datastruct/datastruct.tex
++++ b/datastruct/datastruct.tex
+@@ -1613,7 +1613,10 @@ fixed-size 524,288-bucket hash table, and a third for a resizable
+ hash table that shifts back and forth between 262,144 and 524,288
+ buckets, with a one-millisecond pause between each resize operation.
+ 
+-The uppermost three traces are for the 262,144-element hash table.
++The uppermost three traces are for the 262,144-element hash table.\footnote{
++	You see only two traces?
++	The dashed one is composed of two traces that differ
++	only slightly, hence the irregular-looking dash pattern.}
+ The dashed trace corresponds to the two fixed-size hash tables,
+ and the solid trace to the resizable hash table.
+ In this case, the short hash chains cause normal lookup overhead
+@@ -1626,10 +1629,10 @@ In particular, the entire hash table fits into L3 cache.
+ % millisecond is clearly too short a time.
+ 
+ The lower three traces are for the 2,097,152-element hash table.
+-The upper trace corresponds to the 262,144-bucket fixed-size hash table,
+-the trace in the middle for low CPU counts and at the bottom for high
+-CPU counts to the resizable hash table, and the other trace
+-to the 524,288-bucket fixed-size hash table.
++The upper dashed trace corresponds to the 262,144-bucket fixed-size
++hash table, the solid trace in the middle for low CPU counts and at
++the bottom for high CPU counts to the resizable hash table,
++and the other trace to the 524,288-bucket fixed-size hash table.
+ The fact that there are now an average of eight elements per bucket
+ can only be expected to produce a sharp decrease in performance,
+ as in fact is shown in the graph.
 -- 
 2.17.1
 
