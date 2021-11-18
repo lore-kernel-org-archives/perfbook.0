@@ -1,67 +1,54 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mail.kernel.org ([198.145.29.99]:37066 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239288AbhKQROk (ORCPT <rfc822;perfbook@vger.kernel.org>);
-        Wed, 17 Nov 2021 12:14:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637169101;
-        bh=iD2mEXdo3TsYKvoMLlmBASk1yjo2z/kigu/Tk5cdXx4=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=NrfKs39FkAZF0VIpEtHfRPurUmywfGjBVkFvGbF3R7LXw5PA9TEWAwrqtu49qox3G
-         hSUiPrw85uBBLqE0xakDEW1YjzFMgA2Upwi2s0u2S15+r9ycZSDa/qN2hJqjswnOaq
-         xqPbSmZZjQIWHxKQlIQOt67ZzLtorcWVJiuBBS4Xb61SROZFj2Z9QywD9ZqGfvjWaw
-         3bkUKMAwO9NNDCiBamNQyuN3OjiBXMr59o9fdyCiwS7SOrrsE7mHAllZJcfui3EiBN
-         zaEVE5TXOqb+rZW5nA8OAJ1zsfReYYk9v8ahJVGfHgHX+aQ/+0IdcBgEIaKqSfi6BV
-         7v/LfbBKaDV1Q==
-Date: Wed, 17 Nov 2021 09:11:41 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] Revert "docker: Stay with Fedora 34"
-Message-ID: <20211117171141.GI641268@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <11bf80e4-ff2d-9be3-5272-b8ad9a3c31e1@gmail.com>
+Return-Path: <SRS0=ElMv=QF=gmail.com=zhouzhouyi@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hYEym8B1IRmxg1z9YzY3jUjh3bb0vywSykfvFWAiT7g=;
+        b=qlHkUM9YeMyEBfVsV1HnVBHiZT9eqmvSMOxCcbwzVxlb30Y0ZSJnvcbLoz5eIUiCPN
+         Yb+plzxOEvQ2lIWOeXFdBSWFPgAf0x/1y4rE6DzrWjKlHgEy5ycswZhVweUu5xo5Q7Ak
+         XKMKnDAXGNZ0BCQOoqNyLr+lcCJ+hKCnvTla3lg0bW0jX6bGev1maQPEIzwyGqkQcR6T
+         JqyVJEy6BbQB6GLES0QodjaiMbjJcdAb+KKGBD3LwBy/eww/KxYeM8mzzE8uXgmumRE1
+         Mkwl1XIsHi39UgNXLnSQg4bX4nM2B/i1Yc17cBGAiV8y6++kTeu1oatPWcifflJZxfe/
+         U3kw==
+From: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Subject: [PATCH-perfbook] ordering: fix typo in QQ A.5
+Date: Thu, 18 Nov 2021 14:58:30 +0800
+Message-Id: <20211118065830.14709-1-zhouzhouyi@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <11bf80e4-ff2d-9be3-5272-b8ad9a3c31e1@gmail.com>
+Content-Transfer-Encoding: 8bit
+To: paulmck@kernel.org, perfbook@vger.kernel.org, luyang.co@gmail.com
+Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Nov 17, 2021 at 11:29:44PM +0900, Akira Yokosawa wrote:
-> This reverts commit a1f2577ee2be1a464c2e63191f17f21f24fc81f8.
-> 
-> Fedora's Inkscape team has proactively applied the fix to the
-> issue at https://bugzilla.redhat.com/show_bug.cgi?id=2018036
-> and has released inkscape-1.1.1-2.
-> 
-> Now it should be safe for perfbook to build container images from
-> fedora:latest.
-> 
-> Note: Upstream Inkscape will fix this issue with the point release
-> of 1.1.2, which is scheduled to be released in January 2022.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+In QQ A.5, the pronoun "that" should be preposition "than". And the
+word "imptementations" should be "implementations".
 
-Queued and pushed, thank you!
+Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+---
+Hi Paul,
 
-							Thanx, Paul
+I fixes some typo in QQ A.5
 
-> ---
->  docker/Dockerfile.fedora | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/docker/Dockerfile.fedora b/docker/Dockerfile.fedora
-> index c2af8d11..91633948 100644
-> --- a/docker/Dockerfile.fedora
-> +++ b/docker/Dockerfile.fedora
-> @@ -1,4 +1,4 @@
-> -FROM fedora:34
-> +FROM fedora:latest
->  
->  RUN dnf -y update && dnf install -y --setopt=tsflags=nodocs \
->      fig2ps graphviz inkscape make git vim nano gnuplot-minimal groff time \
-> 
-> base-commit: 10fb038cd0da1be1db8766a9d2df120ebf6ca28d
-> -- 
-> 2.17.1
-> 
+Thanks Zhouyi
+--
+ appendix/questions/ordering.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/appendix/questions/ordering.tex b/appendix/questions/ordering.tex
+index 298600f9..05217bc8 100644
+--- a/appendix/questions/ordering.tex
++++ b/appendix/questions/ordering.tex
+@@ -97,8 +97,8 @@ than the semantics given by the options above.
+ 
+ \QuickQuiz{
+ 	But if fully ordered implementations cannot offer stronger
+-	guarantees that the better performing and more scalable weakly
+-	ordered imptementations, why bother with full ordering?
++	guarantees than the better performing and more scalable weakly
++	ordered implementations, why bother with full ordering?
+ }\QuickQuizAnswer{
+ 	Because strongly ordered implementations are sometimes
+ 	able to provide greater consistency among sets of calls to
+-- 
+2.25.1
+
