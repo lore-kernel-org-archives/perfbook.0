@@ -1,75 +1,50 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39104 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236321AbhK2XAK (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 29 Nov 2021 18:00:10 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A67A6C0980CC
-        for <perfbook@vger.kernel.org>; Mon, 29 Nov 2021 11:01:08 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8CCF3B815C5
-        for <perfbook@vger.kernel.org>; Mon, 29 Nov 2021 19:01:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638212465;
-        bh=7liP9IDH50lKQxSdqDfp7VXeV4YJ4QomeGQh3Kd8rB0=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=DRaJ/LyG+dJ1V8L1fjCBkKcDoigPfHa1w7Uu+j+2uYBjQ07AtjJs9+aHlbKk4lNuU
-         CN3BuwAhS7vT+jGPKVFfqqWYsdElwwnGZgQK2S0zWgVmDlk+Hqq16SjQRzKlN7dsdn
-         Ks2WW4GmPm+0p/EGxtUmXZ//6cnbaSVaxCYGdt/CxbNhdqjyOSf8epkKHmCdqHOCM+
-         DYDoRnmdhnZ8Jc0L/280Ri66li+iE3DDOG2fDDQvbpakV1/ohKglZ5DduHGBtjpotH
-         lkw6PF92IdKNF6/ZoK45M4qSZeMIBE67yZRuPWtiAXPHZ+Ky6PBy6Zn0chnEG2t46z
-         tH8iirrpAPbFg==
-Date: Mon, 29 Nov 2021 11:01:04 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH-perfbook] toyrcu: add missing close paren in QQ B.13
-Message-ID: <20211129190104.GL641268@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20211127040702.15879-1-zhouzhouyi@gmail.com>
+Return-Path: <SRS0=KNbq=QX=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=h1c0BgJw4xB3URTbcTJ+x3utBwL2ppRqDONXrJ9bKHc=;
+        b=I2hQn9H+ek+BAXXIx9nchC7pY5jDfdm1cxB4+CbkAgf5+WF71CpKVn9r+irkAbMfHe
+         LucKlzKDeEv29bGWCicLP5p+X1JCFzaOROKt4mE+ujs7ZjTzZklNC/TMRyyAModY3nqf
+         vZAerv2DzGik3RzWzvmQLmeA9YgvFjDAYorzdvlgeG6YlgJ1DmHKnfdr+81Dd4CpnHr+
+         5wegTqujd+qXLSqB6ebw2g2ISvasQwn/QRQD0RSKDtooewqMLIWGMfqgFW4b0DyMYa/w
+         C73rqX+5+EmphtdKDY4SADc2iomq0Nz4YobOvcI05QC9pqF2v3OyWpS2qoFQI7iHh6YF
+         RxNw==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 1/2] defer: Use \twocolumnwidth in Figure 9.24
+Message-ID: <739396e3-6ade-95cf-07dc-098cd8066bde@gmail.com>
+Date: Mon, 6 Dec 2021 12:01:48 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211127040702.15879-1-zhouzhouyi@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Cc: perfbook@vger.kernel.org, luyang.co@gmail.com
 
-On Sat, Nov 27, 2021 at 12:07:02PM +0800, Zhouyi Zhou wrote:
-> Add missing close paren in QQ B.13.
-> 
-> Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
-> ---
-> Hi Paul,
-> 
-> I think there is a close paren missing in QQ B.13, so I add it.
-> (I invoked make this time ;-)).
+Using \columnwidth results in a too large figure in 1c and eb
+builds.
 
-Very good!  ;-)
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ defer/rcuusage.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Queued and pushed, good eyes, and thank you!
+diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
+index 8d81a9d5..01342fda 100644
+--- a/defer/rcuusage.tex
++++ b/defer/rcuusage.tex
+@@ -416,7 +416,7 @@ was shown in the previous sections.
+ 
+ \begin{figure}
+ \centering
+-\resizebox{\columnwidth}{!}{\includegraphics{defer/RCUphasedstatechange}}
++\resizebox{\twocolumnwidth}{!}{\includegraphics{defer/RCUphasedstatechange}}
+ \caption{Phased State Change for Maintenance Operation}
+ \label{fig:defer:Phased State Change for Maintenance Operation}
+ \end{figure}
 
-							Thanx, Paul
+base-commit: b88e3be21e3695740422a41933bb32ae51522f01
+-- 
+2.17.1
 
-> Thanks
-> Zhouyi
-> --
->  appendix/toyrcu/toyrcu.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
-> index 0824fdd3..9c474a37 100644
-> --- a/appendix/toyrcu/toyrcu.tex
-> +++ b/appendix/toyrcu/toyrcu.tex
-> @@ -755,7 +755,7 @@ adding them on their first call to \co{rcu_read_lock()}.
->  \QuickQuiz{
->  	Great, if we have $N$ threads, we can have $2N$ ten-millisecond
->  	waits (one set per \co{flip_counter_and_wait()} invocation,
-> -	and even that assumes that we wait only once for each thread.
-> +	and even that assumes that we wait only once for each thread).
->  	Don't we need the grace period to complete \emph{much} more quickly?
->  }\QuickQuizAnswer{
->  	Keep in mind that we only wait for a given thread if that thread
-> -- 
-> 2.25.1
-> 
