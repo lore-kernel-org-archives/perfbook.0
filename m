@@ -3,19 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1jvVkAmp7niGurdKgp5Lw2L/S/luWLGuZHi0eF4j5Mg=;
-        b=bsdrf3BNGnJhlHhrn+rdBy0ac2VuRxqS7Cd0QgWkPhkfQwmtIFoXYBDVcTAgfW0qoV
-         5Wnh+fBP7z4MV9baYrK+QJPTI4SgrmGTsQIyKlHKmzlUXUeTWkSnV5zJrR3TzWN3xN1f
-         xrlqXHd3HFbPOwu08qAoUff2FdOjNb5CqAWwkTUdw6ReW6K999HRwqp8jF98K3o5Fcj9
-         iXwfgdANgh1pHDxeB3xkkGkO1hcsO94LEjjrbM2/Chg95NyEgPPPFtmKMA7ugXOnAf4j
-         W3zhNt8S1rGBw5iZw7awv08vVa4naCGSZyQeAjkIurBsaRHLn4uMHOU5DXADW6I5d+Z7
-         7EZQ==
-Subject: [PATCH -perfbook 2/4] cleverefcheck.pl: Add test of \begin{...} at
- head of QQA
+        bh=1mWXdHRWz0cQ7wL5LB4Z+6tPQEQxRdU9er7Dn0XTmlk=;
+        b=POa9TOkr5qNAPl19LN0c8P9rpmXF9qdNY/t2V1alya8UvghMlbrK3N3/VJDyM/ijJA
+         EZlPZurGJFwN+joAP1WMTLoUdpGRvTGSLw8kv+17VQIgEKTgp+F092xc9ln2XwhTyKe8
+         XHywWSiSIlIQiQHhpvO3fQuPiJivFWvs/u4azi3YrgF9jxpOWnkdQErzYvI4VBWoMj4G
+         12MXoEVHu3jNn2+0fV2sTYvustON6sGxUB4CrFtE3vEyezcJSzw/sB9/WdssZ5oCeKV2
+         +9CUTTKVeAs3SrSiVSAWUY2uLgm8tbayRN9ha4ghY7ppezBBGHZFtrUoSlfandqKb89X
+         B9og==
+Subject: [PATCH -perfbook 3/4] cleverefcheck.pl: Add test of \begin{...} next
+ to epigraph
 References: <4350078f-4054-cb28-157b-305d6df087ea@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <bff4b6a9-c8fd-e026-75f6-16f422ca652b@gmail.com>
-Date: Wed, 8 Dec 2021 16:41:26 +0900
+Message-ID: <4f7654f2-738a-2986-2cb1-fc0177cec135@gmail.com>
+Date: Wed, 8 Dec 2021 16:49:10 +0900
 MIME-Version: 1.0
 In-Reply-To: <4350078f-4054-cb28-157b-305d6df087ea@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,63 +25,72 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-QQA's heading of "Answer:" looks similar to a section heading,
-but it behaves differently when there is some environment next
-to it.
-Also, if there is an empty line at the head of QQA, "Answer:" can
-be widowed.
+If a section heading has an epigraph next to it and an
+environment of some sort follows the epigraph, the behavior
+of a proper LaTeX heading is lost.
 
-Add tests to detect such potential break patterns in QQA.
+Add tests to detect such potential break patterns following
+epigraphs.
 
-Note: \begin{fcvref} is an exception.  It doesn't induce
-page/column break.
+Notes:
+  o "Any environment" does not include "fcvref".
+  o "listing" is caught by other tests for it.
+  o glossary.tex has "description" list next to its epigraph.
+    As it is at the head of an appendix and won't cause
+    page/colum break, it is ignored.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/cleverefcheck.pl | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ utilities/cleverefcheck.pl | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/utilities/cleverefcheck.pl b/utilities/cleverefcheck.pl
-index f46cd89f..74ac9d72 100755
+index 74ac9d72..6e9a59e8 100755
 --- a/utilities/cleverefcheck.pl
 +++ b/utilities/cleverefcheck.pl
-@@ -27,9 +27,11 @@ my $ppl_ptn = qr/(^|\s+)ppl[^\s\{]*{/ ;
- my $acr_ptn = qr/(^|\s+)[aA]cr[^\s\{]*{/ ;
+@@ -28,10 +28,12 @@ my $acr_ptn = qr/(^|\s+)[aA]cr[^\s\{]*{/ ;
  my $heading_ptn = qr/(\\chapter|\\section|\\subsection|\\subsubsection)/ ;
  my $listing_ptn = qr/\\begin\{(listing|Verbatim)/ ;
-+my $qqa_ptn = qr/\\E?QuickQuizAnswer[BEM]?/ ;
+ my $qqa_ptn = qr/\\E?QuickQuizAnswer[BEM]?/ ;
++my $epig_ptn = qr/\\[Ee]pigraph/ ;
  my $in_footnote = 0 ;
  my $footnote_save = 0;
  my $after_heading = 0;
-+my $after_qqa = 0;
+ my $after_qqa = 0;
++my $after_epig = 0;
  
  sub check_line {
      my $raw_line = $line;
-@@ -117,6 +119,18 @@ sub check_line {
+@@ -117,6 +119,7 @@ sub check_line {
+ 	if ($line =~ /$listing_ptn/) {
+ 	    print $ARGV[0], ':', $line_num, ':', $raw_line, "^^^ listing next to heading ^^^\n";
  	    $after_heading = 0 ;
++	    $after_epig = 0 ;  # after epigraph or not does not matter for listing
  	}
      }
-+    if ($after_qqa) {
-+	if ($line =~ /^\s*$/) {
-+	    print $ARGV[0], ':', $line_num, ':', $raw_line, "~~~ Empty line at QQA head ^^^\n" ;
+     if ($after_qqa) {
+@@ -131,6 +134,15 @@ sub check_line {
+ 	    $after_qqa = 0;
+ 	}
+     }
++    if ($after_epig) {
++	if ($line =~ /^\s*$/) {  # empty line ends epigraph
++	    $after_epig -= 1 ;
 +	}
-+	if ($line =~ /^\s*\\begin/ && $line !~ /fcvref/) {
-+	    print $ARGV[0], ':', $line_num, ':', $raw_line, "^^^ environment next to QQA ~~~\n";
-+	    $after_qqa = 0 ;
-+	}
-+	if ($line =~ /^\s*\{*[^\\]+/) {
-+	    $after_qqa = 0;
++	if ($line =~ /^\s*\\begin/ && $line !~ /(fcvref|listing)/) {
++	    print $ARGV[0], ':', $line_num, ':', $raw_line, "^^^ environment next to epigraph ^^^\n";
++	    $after_epig = 0 ;
 +	}
 +    }
      if ($line =~ /$Verbatim_end/) {
  	$skip = 0;
      } else {
-@@ -153,6 +167,9 @@ sub check_line {
-     if ($line =~ /$heading_ptn/) {
- 	$after_heading = 1 ;
+@@ -170,6 +182,9 @@ sub check_line {
+     if ($line =~ /$qqa_ptn/) {
+ 	$after_qqa = 1 ;
      }
-+    if ($line =~ /$qqa_ptn/) {
-+	$after_qqa = 1 ;
++    if ($line =~ /$epig_ptn/ && $ARGV[0] !~ /glossary\.tex/) { # exempt glossary.tex
++	$after_epig = 2 ;
 +    }
  }
  
