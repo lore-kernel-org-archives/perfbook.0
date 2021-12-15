@@ -1,64 +1,53 @@
-Return-Path: <SRS0=jiRn=Q2=gmail.com=zhouzhouyi@kernel.org>
+Return-Path: <SRS0=f53t=RA=gmail.com=zhouzhouyi@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/FUz2rHpXN4/kLka/Cb6BwwCMKSnALeX7YrxiPQtkZc=;
-        b=n4ftFpE0coier5+N987m7TdK058NkNxxPjsR31hpVV+LsiI3VYiDziFP9Te2bR0aSb
-         i7idJRSGrdWdJW/DTmkY3NO/h21iOjwW4MHS1ZFVkqlqBJk9ssMvBM5QrACua5/zDM5P
-         DWFBSAXGFBqDqMCZnx7YgFdmH94GrRixhvLQApCGzvwReBfoI0lYOXEnGQZ8M+ny/LkR
-         TFmm3Ki3T5mAq3LKroeJ1rrSmTzvgQ1HbPn23bn88mBLKKAPS96xKX+1dOACBjUjnkop
-         pS1D+WKvZ1TJvImSfnZXLC4ywIvSsNvkYi+POoxjFL1sx1y7+zEdXNnFyierEsD7bsCu
-         7rHg==
-MIME-Version: 1.0
-References: <4350078f-4054-cb28-157b-305d6df087ea@gmail.com>
- <20211208195547.GY641268@paulmck-ThinkPad-P17-Gen-1> <fe2d7604-8263-357b-a3c7-0ff59038e67a@gmail.com>
- <20211208235858.GA641268@paulmck-ThinkPad-P17-Gen-1> <7ab89db4-75eb-8e40-7601-a302cf1865d3@gmail.com>
-In-Reply-To: <7ab89db4-75eb-8e40-7601-a302cf1865d3@gmail.com>
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AX7PvTHSJGknmp2b0wn9/HKaJ65C2DXjzB6yKtqULlI=;
+        b=ELYsFYY0M/LE3yx2T59xGXkhbcoc1B/nR7ncJmVBMhrMoeq97UoOH0A15ByeQa41Zr
+         TdMi+YRY36bSbI6eiG8ik/8zqvZHbxJg3pc9eSl8iiFrzt9DZk/KT9WOQTKGXzJETlb2
+         yA1KALmXVynaGkh28+fDzIsSNci1lVileSm8gUE3SvlMYKQ92QatsjkPUaHJHULYKHj8
+         42oD0ZQI2CwCkpT1CuIr4In+y5cB1ZShBb6OP1Sfx5NJLTmf8sIFJPETw+bJOjLi89Dt
+         meXUdz87f8JwQZLcG2HGlcm+Lk2c96rbVTK+4ToXoiFu8RfVpb9xsTaY04fCobwhVJUZ
+         pwYA==
 From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Date: Thu, 9 Dec 2021 14:28:47 +0800
-Message-ID: <CAABZP2xZk_4=Ncc901Vyf-8t+nyZW44O-Qtijx4QaXcz3nk8vw@mail.gmail.com>
-Subject: Re: [PATCH -perfbook 0/4] Address potential widowing of headings
-Content-Type: text/plain; charset="UTF-8"
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: paulmck@kernel.org, perfbook@vger.kernel.org
+Subject: [PATCH-perfbook] glossary: remove duplicated "of"
+Date: Wed, 15 Dec 2021 11:32:55 +0800
+Message-Id: <20211215033255.15998-1-zhouzhouyi@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+To: paulmck@kernel.org, perfbook@vger.kernel.org, luyang.co@gmail.com
+Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Thu, Dec 9, 2021 at 9:30 AM Akira Yokosawa <akiyks@gmail.com> wrote:
->
-> On Wed, 8 Dec 2021 15:58:58 -0800, Paul E. McKenney wrote:
-> > On Thu, Dec 09, 2021 at 07:20:20AM +0900, Akira Yokosawa wrote:
-> [...]
-> >> So the diff below looks somewhat out of context, because the Quiz
-> >> part of QQ A.2 is "How could there be such a large gap between
-> >> successive consumer reads?".
-> >>
-> >> ----
-> >> @@ -175,7 +175,7 @@ seq    & \multicolumn{1}{c}{time (seconds)} & delta~  &  a &  b &  c \\
-> >>         consumer reads?
-> >>         See \path{timelocked.c} for full code.
-> >>  }\QuickQuizAnswer{
-> >> -       Here are possible scenarios:
-> >> +       Here are a few of the errors:
-> >>
-> >>         \begin{enumerate}
-> >>         \item   The consumer might be preempted for long time periods.
-> >> ----
-> >>
-> >> Thoughts?
-> >
-> > I changed this to "Here are a few reasons for such gaps:".  Does
-> > that work for you?
->
-> Works for me!
+Remove duplicated "of" from the description of keyword "Efficiency".
 
-Works for me too ;-)
->
->         Thanks, Akira
->
-> >
-> >                                               Thanx, Paul
-> >
-> >>         Thanks, Akira
-> [...]
-Thanks, Zhouyi
+Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+---
+Hi Paul,
+
+I think there is a duplicated "of" in the description of keyword "Efficiency", so
+I remove it.
+
+Thanks
+Zhouyi
+--
+ glossary.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/glossary.tex b/glossary.tex
+index c6266b15..7e633673 100644
+--- a/glossary.tex
++++ b/glossary.tex
+@@ -189,7 +189,7 @@
+ 	A cache with only one way, so that it may hold only one cache
+ 	line with a given hash value.
+ \item[\IX{Efficiency}:]
+-	A measure of effectiveness normally expressed as a ratio of
++	A measure of effectiveness normally expressed as a ratio 
+ 	of some metric actually achieved to some maximum value.
+ 	The maximum value might be a theoretical maximum, but in
+ 	parallel programming is often based on the corresponding
+-- 
+2.25.1
+
