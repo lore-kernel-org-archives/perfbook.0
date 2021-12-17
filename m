@@ -1,146 +1,169 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59556 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230216AbhLQRfG (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Fri, 17 Dec 2021 12:35:06 -0500
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78F6CC061574
-        for <perfbook@vger.kernel.org>; Fri, 17 Dec 2021 09:35:06 -0800 (PST)
-Received: by mail-lj1-x230.google.com with SMTP id l7so4534187lja.2
-        for <perfbook@vger.kernel.org>; Fri, 17 Dec 2021 09:35:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=0ymZoOJDa6hrpICszZK69WxuEroV9lvlFljNqKwbBek=;
-        b=DGVkE+XI7Od0LFWmyfmrcFRLSMq3zTEdGfNRpF6uT5cUhCrPCLDDqTwjzLLrJy+dAS
-         Luyrk8e1xPUAIFUTM+8ROHP1dXolZXSuSOJmoyQ1jnzK9oQHDOv4/zmzafnSkRrC1O2B
-         pY57APBwRHqXZEDVnFIV8eEqAl3GCNMrIKgix9JjO9h+EjfzBWeJU/N3WvoQXysEJkJG
-         4vZ4f4B5KmfacXX3HSHOsPA36q5qOBbjFmcAH7Kpkc5K0FJHMYBKBwWMIZ+dVY7CHjWM
-         VX0BD7OciLgLpebvUaJ8t9xWtzfA1mAqStv5uXwKJoc5IuisrSWSlkyrvhOUjFjKR1Ow
-         vk9g==
+Received: from ams.source.kernel.org ([145.40.68.75]:54278 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229512AbhLQXQc (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Fri, 17 Dec 2021 18:16:32 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 69485B82B2A
+        for <perfbook@vger.kernel.org>; Fri, 17 Dec 2021 23:16:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639782990;
+        bh=X6/5L8kK7cMYM2lh6vCWtF0a7wgQf7L9bfPD7+J4c2g=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=U7Ky+sOFYQZjcWI1euN39zCPXSMNEh8xJ71wDFjxBQPl/RIGEv5cunQRYsGCtTert
+         7Wflaul2CijO8tLpt17eF3gRZBtUNJ+JYaAD343Rh9coS6NBJQK1dEKbAHmKXBsbsS
+         +ZEiGOhxLgqVjClf5tzhCQhLlAbnsHirNeOMAgShCv0G1mk2+u7Tx5gefupunsjUXq
+         H6Uxe96N5rwZuPDSWQMSIqnD8n+R4GxD2jFmnlkqqICtADJUAsrtVpe2bzPg+97gzg
+         CF+sUv7vtbd+ZJz7GWaln/CQyk0AY55Eq34s3wJQbOFXbAihorxx/MHKSetZk/+nUL
+         zx0h3JzLzlykw==
+Date: Fri, 17 Dec 2021 15:16:29 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: Minor fixes to Section 9.5
+Message-ID: <20211217231629.GE641268@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <CAJbg=FVZJy5KW_=7etupx6GzOG19+DB3omZ2KE31AmVkPufEPw@mail.gmail.com>
 MIME-Version: 1.0
-From: Elad Lahav <e2lahav@gmail.com>
-Date: Fri, 17 Dec 2021 12:34:53 -0500
-Message-ID: <CAJbg=FVZJy5KW_=7etupx6GzOG19+DB3omZ2KE31AmVkPufEPw@mail.gmail.com>
-Subject: Minor fixes to Section 9.5
-Content-Type: multipart/mixed; boundary="00000000000099b0a405d35af5f1"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJbg=FVZJy5KW_=7etupx6GzOG19+DB3omZ2KE31AmVkPufEPw@mail.gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
+To: Elad Lahav <e2lahav@gmail.com>
+Cc: perfbook@vger.kernel.org
 
---00000000000099b0a405d35af5f1
-Content-Type: text/plain; charset="UTF-8"
+On Fri, Dec 17, 2021 at 12:34:53PM -0500, Elad Lahav wrote:
+> I have some (potentially) more interesting comments about this
+> section, but I'll defer those to after I've read Chapter 15, which may
+> already address them.
 
-I have some (potentially) more interesting comments about this
-section, but I'll defer those to after I've read Chapter 15, which may
-already address them.
+Good eyes, thank you!
 
---Elad
+I added your Signed-off-by as shown below, so please let me know if
+you have objections.  (Similar to that of the Linux kernel, and please
+see the perfbook file "FAQ.txt" item 5 for more info.)
 
---00000000000099b0a405d35af5f1
-Content-Type: text/x-patch; charset="US-ASCII"; name="rcu.diff"
-Content-Disposition: attachment; filename="rcu.diff"
-Content-Transfer-Encoding: base64
-Content-ID: <f_kxao8sap0>
-X-Attachment-Id: f_kxao8sap0
+							Thanx, Paul
 
-ZGlmZiAtLWdpdCBhL2RlZmVyL3JjdWFwaS50ZXggYi9kZWZlci9yY3VhcGkudGV4CmluZGV4IDk2
-ZmFmZWI1Li5hMzdhNmYyNiAxMDA2NDQKLS0tIGEvZGVmZXIvcmN1YXBpLnRleAorKysgYi9kZWZl
-ci9yY3VhcGkudGV4CkBAIC05OTIsMTMgKzk5MiwxMyBAQCBsb2NrZGVwIHN1cHBvcnQgJgogXENy
-ZWZ7dGFiOmRlZmVyOlJDVSBEaWFnbm9zdGljIEFQSXN9CiBzaG93cyBSQ1UncyBkaWFnbm9zdGlj
-IEFQSXMuCgotVGhlIFxjb3tfX3JjdX0gbWFya3MgYW4gUkNVLXByb3RlY3RlZCBwb2ludGVyLCBm
-b3IgZXhhbXBsZSwKK1RoZSBcY297X19yY3V9IHRhZyBtYXJrcyBhbiBSQ1UtcHJvdGVjdGVkIHBv
-aW50ZXIsIGZvciBleGFtcGxlLAogXHF0Y297c3RydWN0IGZvbyBfX3JjdSAqcDt9LgogUG9pbnRl
-cnMgdGhhdCBtaWdodCBiZSBwYXNzZWQgdG8gXGNve3JjdV9kZXJlZmVyZW5jZSgpfSBjYW4gYmUg
-bWFya2VkLAogYnV0IHBvaW50ZXJzIGhvbGRpbmcgdmFsdWVzIHJldHVybmVkIGZyb20gXGNve3Jj
-dV9kZXJlZmVyZW5jZSgpfQogc2hvdWxkIG5vdCBiZS4KIFByb3ZpZGluZyB0aGVzZSBtYXJraW5n
-cyBvbiB2YXJpYWJsZXMsIHN0cnVjdHVyZSBmaWVsZHMsIGZ1bmN0aW9uCi1wYXJhbWV0ZXJzLCBh
-bmQgcmV0dXJuIHZhbHVlcyBhbGxvdyB0aGUgTGludXgga2VybmVsJ3MgXGNve3NwYXJzZX0KK3Bh
-cmFtZXRlcnMsIGFuZCByZXR1cm4gdmFsdWVzIGFsbG93cyB0aGUgTGludXgga2VybmVsJ3MgXGNv
-e3NwYXJzZX0KIHRvb2wgdG8gZGV0ZWN0IHNpdHV0YXRpb25zIHdoZXJlIFJDVS1wcm90ZWN0ZWQg
-cG9pbnRlcnMgYXJlCiBpbmNvcnJlY3RseSBhY2Nlc3NlZCB1c2luZyBwbGFpbiBDLWxhbmd1YWdl
-IGxvYWRzIGFuZCBzdG9yZXMuCgpAQCAtMTAyOCw3ICsxMDI4LDcgQEAgQ2FsbGJhY2sgY2hlY2tp
-bmcgaXMgcHJvdmlkZWQgYnkgXGNve3JjdV9oZWFkX2luaXQoKX0gYW5kCiBcY297cmN1X2hlYWRf
-YWZ0ZXJfY2FsbF9yY3UoKX0uCiBUaGUgZm9ybWVyIGlzIGludm9rZWQgb24gYW4gXGNve3JjdV9o
-ZWFkfSBzdHJ1Y3R1cmUgYmVmb3JlIGl0IGlzIHBhc3NlZAogdG8gXGNve2NhbGxfcmN1KCl9LCBh
-bmQgdGhlbiBcY297cmN1X2hlYWRfYWZ0ZXJfY2FsbF9yY3UoKX0gd2lsbAotY2hlY2sgdG8gc2Vl
-IGlmIHRoZSBjYWxsYmFjayBpcyBoYXMgYmVlbiBpbnZva2VkIHdpdGggdGhlIHNwZWNpZmllZAor
-Y2hlY2sgdG8gc2VlIGlmIHRoZSBjYWxsYmFjayBoYXMgYmVlbiBpbnZva2VkIHdpdGggdGhlIHNw
-ZWNpZmllZAogZnVuY3Rpb24uCgogU3VwcG9ydCBmb3IgbG9ja2RlcH5cY2l0ZXtKb25hdGhhbkNv
-cmJldDIwMDZsb2NrZGVwfSBpbmNsdWRlcwpAQCAtMTA1Niw3ICsxMDU2LDcgQEAgZXZlbiBvZmZs
-aW5lIENQVXMsIHdoaWNoIG1lYW5zIHRoYXQgXGNve3JjdV9pc193YXRjaGluZygpfSBkb2VzIG5v
-dAogYXBwbHkgdG8gU1JDVVxALgoKIFxjb3tSQ1VfTE9DS0RFUF9XQVJOKCl9IGVtaXRzIGEgd2Fy
-bmluZyBpZiBsb2NrZGVwIGlzIGVuYWJsZWQgYW5kIGlmCi1pdHMgYXJndW1lbnQgZXZhbHVhdGVk
-IHRvIFxjb3t0cnVlfS4KK2l0cyBhcmd1bWVudCBldmFsdWF0ZXMgdG8gXGNve3RydWV9LgogRm9y
-IGV4YW1wbGUsIFxjb3tSQ1VfTE9DS0RFUF9XQVJOKCFyY3VfcmVhZF9sb2NrX2hlbGQoKSl9IHdv
-dWxkIGVtaXQgYQogd2FybmluZyBpZiBpbnZva2VkIG91dHNpZGUgb2YgYW4gUkNVIHJlYWQtc2lk
-ZSBjcml0aWNhbCBzZWN0aW9uLgoKZGlmZiAtLWdpdCBhL2RlZmVyL3JjdWZ1bmRhbWVudGFsLnRl
-eCBiL2RlZmVyL3JjdWZ1bmRhbWVudGFsLnRleAppbmRleCBiYWNiYWJlYy4uY2VhZWYwMjQgMTAw
-NjQ0Ci0tLSBhL2RlZmVyL3JjdWZ1bmRhbWVudGFsLnRleAorKysgYi9kZWZlci9yY3VmdW5kYW1l
-bnRhbC50ZXgKQEAgLTIwNCw4ICsyMDQsOCBAQCBBcyBoaW50ZWQgYXQgaW4KIHNlY3Rpb24gc3Rh
-cnRzIHdpdGggYW4gXGNve3JjdV9yZWFkX2xvY2soKX0gcHJpbWl0aXZlLCBhbmQgZW5kcyB3aXRo
-IGEKIGNvcnJlc3BvbmRpbmcgXGNve3JjdV9yZWFkX3VubG9jaygpfSBwcmltaXRpdmUuCiBSQ1Ug
-cmVhZC1zaWRlIGNyaXRpY2FsIHNlY3Rpb25zIGNhbiBiZSBuZXN0ZWQsIGFuZCBtYXkgY29udGFp
-biBwcmV0dHkKLW11Y2ggYW55IGNvZGUsIGFzIGxvbmcgYXMgdGhhdCBjb2RlIGRvZXMgbm90IGNv
-bnRhaW4gYSBxdWllc2NlbnQgc3RhdGUsCi1mb3IgZXhhbXBsZSwgd2l0aGluIHRoZSBMaW51eCBr
-ZXJuZWwsIGl0IGlzIGlsbGVnYWwgdG8gc2xlZXAgd2l0aGluCittdWNoIGFueSBjb2RlLCBhcyBs
-b25nIGFzIHRoYXQgY29kZSBkb2VzIG5vdCBjb250YWluIGEgcXVpZXNjZW50IHN0YXRlLgorRm9y
-IGV4YW1wbGUsIHdpdGhpbiB0aGUgTGludXgga2VybmVsLCBpdCBpcyBpbGxlZ2FsIHRvIHNsZWVw
-IHdpdGhpbgogYW4gUkNVIHJlYWQtc2lkZSBjcml0aWNhbCBzZWN0aW9uIGJlY2F1c2UgYSBjb250
-ZXh0IHN3aXRjaCBpcyBhIHF1aWVzY2VudAogc3RhdGUuXGZvb3Rub3RlewogCUhvd2V2ZXIsIGEg
-c3BlY2lhbCBmb3JtIG9mIFJDVSBjYWxsZWQgU1JDVX5cY2l0ZXtQYXVsRU1jS2VubmV5MjAwNmN9
-CkBAIC0zOTgsOCArMzk4LDggQEAgSW4gdGhlIHNlY29uZCBzY2VuYXJpbywgdGhlIHJlYWRlciBk
-b2VzIG5vdCBzdGFydCBleGVjdXRpb24gdW50aWwKIGFmdGVyIHRoZSByZW1vdmFsIGhhcyBjb21w
-bGV0ZWQuCiBUaGUgcmVhZGVyIGNhbm5vdCBwb3NzaWJseSBvYnRhaW4gYSByZWZlcmVuY2UgdG8g
-dGhlIGFscmVhZHktcmVtb3ZlZAogZGF0YSBlbGVtZW50LCBzbyB0aGlzIGVsZW1lbnQgbWF5IGJl
-IGZyZWVkIGJlZm9yZSB0aGUgcmVhZGVyIGNvbXBsZXRlcy4KLVRoZSB0aGlyZCBzY2VuYXJpbyBp
-cyBsaWtlIHRoZSBzZWNvbmQsIGJ1dCBpbGx1c3RyYXRlcyB0aGF0IHdoZW4gdGhlCi1yZWFkZXIg
-Y2Fubm90IHBvc3NpYmx5IG9idGFpbiBhIHJlZmVyZW5jZSB0byBlbGVtZW50LCBpdCBpcyBzdGls
-bAorVGhlIHRoaXJkIHNjZW5hcmlvIGlzIGxpa2UgdGhlIHNlY29uZCwgYnV0IGlsbHVzdHJhdGVz
-IHRoYXQgZXZlbiB3aGVuIHRoZQorcmVhZGVyIGNhbm5vdCBwb3NzaWJseSBvYnRhaW4gYSByZWZl
-cmVuY2UgdG8gYW4gZWxlbWVudCwgaXQgaXMgc3RpbGwKIHBlcm1pc3NpYmxlIHRvIGRlZmVyIHRo
-ZSBmcmVlaW5nIG9mIHRoYXQgZWxlbWVudCB1bnRpbCBhZnRlciB0aGUKIHJlYWRlciBjb21wbGV0
-ZXMuCiBJbiB0aGUgZm91cnRoIGFuZCBmaW5hbCBzY2VuYXJpbywgdGhlIHJlYWRlciBzdGFydHMg
-ZXhlY3V0aW9uIGJlZm9yZQpAQCAtNzAwLDcgKzcwMCw3IEBAIGFsZ29yaXRobXM6CiAJT24gc3Vi
-c2VxdWVudCByZWFkZXJzPykKIH1cUXVpY2tRdWl6RW5kCgotVGhlc2UgdGhyZWUgUkNVIGNvbXBv
-bmVudHMgYWxsb3cgZGF0YSB0byBiZSB1cGRhdGVkIGluIGZhY2Ugb2YgY29uY3VycmVudAorVGhl
-c2UgdGhyZWUgUkNVIGNvbXBvbmVudHMgYWxsb3cgZGF0YSB0byBiZSB1cGRhdGVkIGluIHRoZSBm
-YWNlIG9mIGNvbmN1cnJlbnQKIHJlYWRlcnMgdGhhdCBtaWdodCBiZSBleGVjdXRpbmcgdGhlIHNh
-bWUgc2VxdWVuY2Ugb2YgbWFjaGluZSBpbnN0cnVjdGlvbnMKIHRoYXQgd291bGQgYmUgdXNlZCBi
-eSBhIHJlYWRlciBpbiBhIHNpbmdsZS10aHJlYWRlZCBpbXBsZW1lbnRhdGlvbi4KIFRoZXNlIFJD
-VSBjb21wb25lbnRzIGNhbiBiZSBjb21iaW5lZCBpbiBkaWZmZXJlbnQgd2F5cyB0byBpbXBsZW1l
-bnQgYQpkaWZmIC0tZ2l0IGEvZGVmZXIvcmN1cmVsYXRlZC50ZXggYi9kZWZlci9yY3VyZWxhdGVk
-LnRleAppbmRleCAyOGYwMTNkNi4uNDg2MjJkZjggMTAwNjQ0Ci0tLSBhL2RlZmVyL3JjdXJlbGF0
-ZWQudGV4CisrKyBiL2RlZmVyL3JjdXJlbGF0ZWQudGV4CkBAIC03LDcgKzcsNyBAQAogXE9yaWdp
-bmFsbHlQdWJsaXNoZWR7U2VjdGlvbn17c2VjOmRlZmVyOlJDVSBSZWxhdGVkIFdvcmt9e1JDVSBS
-ZWxhdGVkIFdvcmt9e0xpbnV4IFdlZWtseSBOZXdzfXtQYXVsRU1jS2VubmV5MjAxNFJlYWRNb3N0
-bHl9CiBcT3JpZ2luYWxseVB1Ymxpc2hlZHtTZWN0aW9ufXtzZWM6ZGVmZXI6UkNVIFJlbGF0ZWQg
-V29ya317UkNVIFJlbGF0ZWQgV29ya317TGludXggV2Vla2x5IE5ld3N9e1BhdWxFTWNLZW5uZXky
-MDE1UmVhZE1vc3RseX0KCi1UaGUga25vd24gZmlyc3QgbWVudGlvbiBvZiBhbnl0aGluZyByZXNl
-bWJsaW5nIFJDVSB0b29rIHRoZSBmb3JtIG9mIGEgYnVnCitUaGUgZmlyc3Qga25vd24gbWVudGlv
-biBvZiBhbnl0aGluZyByZXNlbWJsaW5nIFJDVSB0b29rIHRoZSBmb3JtIG9mIGEgYnVnCiByZXBv
-cnQgZnJvbQogXHBwbHtEb25hbGR9e0tudXRofX5cY2l0ZVtwYWdlIDQxMyBvZiBGdW5kYW1lbnRh
-bCBBbGdvcml0aG1zXXtLbnV0aDczfQogYWdhaW5zdCBccHBse0pvc2VwaH17V2VpemVuYmF1bX0n
-cyBTTElQIGxpc3QtcHJvY2Vzc2luZyBmYWNpbGl0eSBmb3IKZGlmZiAtLWdpdCBhL2RlZmVyL3Jj
-dXVzYWdlLnRleCBiL2RlZmVyL3JjdXVzYWdlLnRleAppbmRleCBhMDcwZDE5ZC4uMmMyNGNkYTcg
-MTAwNjQ0Ci0tLSBhL2RlZmVyL3JjdXVzYWdlLnRleAorKysgYi9kZWZlci9yY3V1c2FnZS50ZXgK
-QEAgLTg4Miw3ICs4ODIsNyBAQCBzdHJ1Y3R1cmVzIHRoYXQgYXJlIGRlc2lnbmVkIGZvciBhZGRp
-dGlvbiBhcyB3ZWxsIGFzIGRlbGV0aW9uLgogUGVyaGFwcyB0aGUgbW9zdCBjb21tb24gdXNlIG9m
-IFJDVSB3aXRoaW4gdGhlIExpbnV4IGtlcm5lbCBpcyBhcwogYSByZXBsYWNlbWVudCBmb3IgcmVh
-ZGVyLXdyaXRlciBsb2NraW5nIGluIHJlYWQtaW50ZW5zaXZlIHNpdHVhdGlvbnMuCiBOZXZlcnRo
-ZWxlc3MsIHRoaXMgdXNlIG9mIFJDVSB3YXMgbm90IGltbWVkaWF0ZWx5IGFwcGFyZW50IHRvIG1l
-Ci1hdCB0aGUgb3V0c2V0LCBpbiBmYWN0LCBJIGNob3NlIHRvIGltcGxlbWVudCBhIGxpZ2h0d2Vp
-Z2h0IHJlYWRlci13cml0ZXIKK2F0IHRoZSBvdXRzZXQuIEluIGZhY3QsIEkgY2hvc2UgdG8gaW1w
-bGVtZW50IGEgbGlnaHR3ZWlnaHQgcmVhZGVyLXdyaXRlcgogbG9ja35cY2l0ZXtXaWxzb25DSHNp
-ZWg5MmF9XGZvb3Rub3RlewogCVNpbWlsYXIgdG8gXGNve2JybG9ja30gaW4gdGhlIDIuNCBMaW51
-eCBrZXJuZWwgYW5kIHRvCiAJXGNve2xnbG9ja30gaW4gbW9yZSByZWNlbnQgTGludXgga2VybmVs
-cy59CkBAIC0xNjUyLDcgKzE2NTIsNyBAQCByY3VfcmVhZF91bmxvY2soKTsgIC8qIHJlbGVhc2Ug
-cmVmZXJlbmNlLiAqLwogVGhlIGNvbWJpbmF0aW9uIG9mIHRoZSBcY297cmN1X3JlYWRfbG9jaygp
-fSBhbmQgXGNve3JjdV9kZXJlZmVyZW5jZSgpfQogcHJpbWl0aXZlcyBjYW4gYmUgdGhvdWdodCBv
-ZiBhcyBhY3F1aXJpbmcgYSByZWZlcmVuY2UgdG8gXGNve3B9LAogYmVjYXVzZSBhIGdyYWNlIHBl
-cmlvZCBzdGFydGluZyBhZnRlciB0aGUgXGNve3JjdV9kZXJlZmVyZW5jZSgpfQotYXNzaWducyB0
-byBcY297cH0gY2Fubm90IHBvc3NpYmx5IGVuZCB1bnRpbCBhZnRlciB3ZSByZWFjaCB0aGUgbWF0
-Y2hpbmcKK2Fzc2lnbm1lbnQgdG8gXGNve3B9IGNhbm5vdCBwb3NzaWJseSBlbmQgdW50aWwgYWZ0
-ZXIgd2UgcmVhY2ggdGhlIG1hdGNoaW5nCiBcY297cmN1X3JlYWRfdW5sb2NrKCl9LgogVGhpcyBy
-ZWZlcmVuY2UtY291bnRpbmcgc2NoZW1lIGlzIHJlc3RyaWN0ZWQgaW4gdGhhdAogd2UgYXJlIG5v
-dCBhbGxvd2VkIHRvIGJsb2NrIGluIFJDVSByZWFkLXNpZGUgY3JpdGljYWwgc2VjdGlvbnMsCg==
---00000000000099b0a405d35af5f1--
+------------------------------------------------------------------------
+
+commit 037ad7be6c8914eb7f6d23d8b6846fecdae9c8c0
+Author: Elad Lahav <e2lahav@gmail.com>
+Date:   Fri Dec 17 12:34:53 2021 -0500
+
+    Minor fixes to Section 9.5
+    
+    [ paulmck: Put end of sentence at end of line. ]
+    
+    Signed-off-by: Elad Lahav <e2lahav@gmail.com>
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+
+diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+index 96fafeb5..a37a6f26 100644
+--- a/defer/rcuapi.tex
++++ b/defer/rcuapi.tex
+@@ -992,13 +992,13 @@ lockdep support &
+ \Cref{tab:defer:RCU Diagnostic APIs}
+ shows RCU's diagnostic APIs.
+ 
+-The \co{__rcu} marks an RCU-protected pointer, for example,
++The \co{__rcu} tag marks an RCU-protected pointer, for example,
+ \qtco{struct foo __rcu *p;}.
+ Pointers that might be passed to \co{rcu_dereference()} can be marked,
+ but pointers holding values returned from \co{rcu_dereference()}
+ should not be.
+ Providing these markings on variables, structure fields, function
+-parameters, and return values allow the Linux kernel's \co{sparse}
++parameters, and return values allows the Linux kernel's \co{sparse}
+ tool to detect situtations where RCU-protected pointers are
+ incorrectly accessed using plain C-language loads and stores.
+ 
+@@ -1028,7 +1028,7 @@ Callback checking is provided by \co{rcu_head_init()} and
+ \co{rcu_head_after_call_rcu()}.
+ The former is invoked on an \co{rcu_head} structure before it is passed
+ to \co{call_rcu()}, and then \co{rcu_head_after_call_rcu()} will
+-check to see if the callback is has been invoked with the specified
++check to see if the callback has been invoked with the specified
+ function.
+ 
+ Support for lockdep~\cite{JonathanCorbet2006lockdep} includes
+@@ -1056,7 +1056,7 @@ even offline CPUs, which means that \co{rcu_is_watching()} does not
+ apply to SRCU\@.
+ 
+ \co{RCU_LOCKDEP_WARN()} emits a warning if lockdep is enabled and if
+-its argument evaluated to \co{true}.
++its argument evaluates to \co{true}.
+ For example, \co{RCU_LOCKDEP_WARN(!rcu_read_lock_held())} would emit a
+ warning if invoked outside of an RCU read-side critical section.
+ 
+diff --git a/defer/rcufundamental.tex b/defer/rcufundamental.tex
+index bacbabec..109221fd 100644
+--- a/defer/rcufundamental.tex
++++ b/defer/rcufundamental.tex
+@@ -204,8 +204,8 @@ As hinted at in
+ section starts with an \co{rcu_read_lock()} primitive, and ends with a
+ corresponding \co{rcu_read_unlock()} primitive.
+ RCU read-side critical sections can be nested, and may contain pretty
+-much any code, as long as that code does not contain a quiescent state,
+-for example, within the Linux kernel, it is illegal to sleep within
++much any code, as long as that code does not contain a quiescent state.
++For example, within the Linux kernel, it is illegal to sleep within
+ an RCU read-side critical section because a context switch is a quiescent
+ state.\footnote{
+ 	However, a special form of RCU called SRCU~\cite{PaulEMcKenney2006c}
+@@ -398,8 +398,8 @@ In the second scenario, the reader does not start execution until
+ after the removal has completed.
+ The reader cannot possibly obtain a reference to the already-removed
+ data element, so this element may be freed before the reader completes.
+-The third scenario is like the second, but illustrates that when the
+-reader cannot possibly obtain a reference to element, it is still
++The third scenario is like the second, but illustrates that even when the
++reader cannot possibly obtain a reference to an element, it is still
+ permissible to defer the freeing of that element until after the
+ reader completes.
+ In the fourth and final scenario, the reader starts execution before
+@@ -700,7 +700,7 @@ algorithms:
+ 	On subsequent readers?)
+ }\QuickQuizEnd
+ 
+-These three RCU components allow data to be updated in face of concurrent
++These three RCU components allow data to be updated in the face of concurrent
+ readers that might be executing the same sequence of machine instructions
+ that would be used by a reader in a single-threaded implementation.
+ These RCU components can be combined in different ways to implement a
+diff --git a/defer/rcurelated.tex b/defer/rcurelated.tex
+index 28f013d6..48622df8 100644
+--- a/defer/rcurelated.tex
++++ b/defer/rcurelated.tex
+@@ -7,7 +7,7 @@
+ \OriginallyPublished{Section}{sec:defer:RCU Related Work}{RCU Related Work}{Linux Weekly News}{PaulEMcKenney2014ReadMostly}
+ \OriginallyPublished{Section}{sec:defer:RCU Related Work}{RCU Related Work}{Linux Weekly News}{PaulEMcKenney2015ReadMostly}
+ 
+-The known first mention of anything resembling RCU took the form of a bug
++The first known mention of anything resembling RCU took the form of a bug
+ report from
+ \ppl{Donald}{Knuth}~\cite[page 413 of Fundamental Algorithms]{Knuth73}
+ against \ppl{Joseph}{Weizenbaum}'s SLIP list-processing facility for
+diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
+index 028c2259..7e154fac 100644
+--- a/defer/rcuusage.tex
++++ b/defer/rcuusage.tex
+@@ -903,7 +903,8 @@ structures that are designed for addition as well as deletion.
+ Perhaps the most common use of RCU within the Linux kernel is as
+ a replacement for reader-writer locking in read-intensive situations.
+ Nevertheless, this use of RCU was not immediately apparent to me
+-at the outset, in fact, I chose to implement a lightweight reader-writer
++at the outset.
++In fact, I chose to implement a lightweight reader-writer
+ lock~\cite{WilsonCHsieh92a}\footnote{
+ 	Similar to \co{brlock} in the 2.4 Linux kernel and to
+ 	\co{lglock} in more recent Linux kernels.}
+@@ -1652,7 +1653,7 @@ rcu_read_unlock();  /* release reference. */
+ The combination of the \co{rcu_read_lock()} and \co{rcu_dereference()}
+ primitives can be thought of as acquiring a reference to \co{p},
+ because a grace period starting after the \co{rcu_dereference()}
+-assigns to \co{p} cannot possibly end until after we reach the matching
++assignment to \co{p} cannot possibly end until after we reach the matching
+ \co{rcu_read_unlock()}.
+ This reference-counting scheme is restricted in that
+ we are not allowed to block in RCU read-side critical sections,
