@@ -1,144 +1,146 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32958 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235489AbhLQPpq (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Fri, 17 Dec 2021 10:45:46 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA6CAC061574
-        for <perfbook@vger.kernel.org>; Fri, 17 Dec 2021 07:45:45 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 33DFA62279
-        for <perfbook@vger.kernel.org>; Fri, 17 Dec 2021 15:45:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639755944;
-        bh=4ra5/EKvWTPbZCCjpVhVyW3ySTprFZ9Y55q24uikKws=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=rmVKL83kdzAOCX/u5youhtsJbU7amMYerfAFTX3jRpp5gBdv70VewWDxu7/CBH1gY
-         n+ZJdQyb92TaGy/nWCvMFmgL63wPVaGczh2M/9Gz64I9s6WyIleSoNep7C5MAyykTf
-         Fu6ZH4q8Ql3hKjPnn6i9zW9rkVUG8GO0orlsZf/sZpnO8BJJDBFup5jC1G+nu5txAF
-         1WNWVq0wbJy259UHPbSZX+81f5JU1DhmE3MIUGu6dax2gWFjbry7lq/tl80hKTw9sC
-         2VS5rXiNVZxVtQh5J9Wt0uPloL3LWPO0EhXH2z9KQGrWZ00GTCJ9l78R8ute+qK07Q
-         KUcTKgplhtPIw==
-Date: Fri, 17 Dec 2021 07:45:44 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] defer: Retouch RCUusecases.svg by Inkscape
- 1.1.1
-Message-ID: <20211217154544.GR641268@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <df989143-2daf-1f80-7800-d514a21c9607@gmail.com>
- <3d3d0475-50aa-28dd-92a0-56ad7ba4dca1@gmail.com>
- <20211216152304.GL641268@paulmck-ThinkPad-P17-Gen-1>
- <f7e2e4d6-09bb-a173-c3e8-3246577a943d@gmail.com>
+        with ESMTP id S230216AbhLQRfG (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Fri, 17 Dec 2021 12:35:06 -0500
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78F6CC061574
+        for <perfbook@vger.kernel.org>; Fri, 17 Dec 2021 09:35:06 -0800 (PST)
+Received: by mail-lj1-x230.google.com with SMTP id l7so4534187lja.2
+        for <perfbook@vger.kernel.org>; Fri, 17 Dec 2021 09:35:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=0ymZoOJDa6hrpICszZK69WxuEroV9lvlFljNqKwbBek=;
+        b=DGVkE+XI7Od0LFWmyfmrcFRLSMq3zTEdGfNRpF6uT5cUhCrPCLDDqTwjzLLrJy+dAS
+         Luyrk8e1xPUAIFUTM+8ROHP1dXolZXSuSOJmoyQ1jnzK9oQHDOv4/zmzafnSkRrC1O2B
+         pY57APBwRHqXZEDVnFIV8eEqAl3GCNMrIKgix9JjO9h+EjfzBWeJU/N3WvoQXysEJkJG
+         4vZ4f4B5KmfacXX3HSHOsPA36q5qOBbjFmcAH7Kpkc5K0FJHMYBKBwWMIZ+dVY7CHjWM
+         VX0BD7OciLgLpebvUaJ8t9xWtzfA1mAqStv5uXwKJoc5IuisrSWSlkyrvhOUjFjKR1Ow
+         vk9g==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f7e2e4d6-09bb-a173-c3e8-3246577a943d@gmail.com>
+From: Elad Lahav <e2lahav@gmail.com>
+Date: Fri, 17 Dec 2021 12:34:53 -0500
+Message-ID: <CAJbg=FVZJy5KW_=7etupx6GzOG19+DB3omZ2KE31AmVkPufEPw@mail.gmail.com>
+Subject: Minor fixes to Section 9.5
+Content-Type: multipart/mixed; boundary="00000000000099b0a405d35af5f1"
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: perfbook@vger.kernel.org
 
-On Fri, Dec 17, 2021 at 10:17:40AM +0900, Akira Yokosawa wrote:
-> On Thu, 16 Dec 2021 07:23:04 -0800, Paul E. McKenney wrote:
-> > On Thu, Dec 16, 2021 at 11:06:45PM +0900, Akira Yokosawa wrote:
-> >> On Thu, 16 Dec 2021 16:59:13 +0900, Akira Yokosawa wrote:
-> >>> Some of texts in the figure are lost when rendered by Inkscape
-> >>> 1.1.1 on Fedora 35.
-> >>> Those texts are placed far left from the viewBox of the figure
-> >>> when opened in Inkscape 1.1.1.
-> >>>
-> >>> This issue is similar to the one resolved by commit 36b07176210d
-> >>> ("defer: Make RCUspacetime.svg compatible with Inkscape 1.0 and
-> >>> later").
-> >>>
-> >>> Ungroup and adjust x-coordinates of those texts by Inkscape 1.1.1.
-> >>>
-> >>> Resulting SVG is compatible with Inkscape 0.92.x on Ubuntu 18.04
-> >>> and Ubuntu 20.04 as well as Inkscape >=1.0.
-> >>
-> >> Well, Firefox still has trouble with this.... (much better, but
-> >> still)
-> >>
-> >> Paul, please wait for v2.
-> > 
-> > Idiot here forgot to do the inkscape editing on his Fedora system,
-> > apologies!
-> > 
-> > Let me try that.
-> > 
-> 
-> I'm seeing the refined SVG in Firefox, and it still lacks some of
-> texts.
-> 
-> Now I'm opening the SVG in a text editor...
-> 
-> Oh, there actually are a dozen of "transform="rotate(90)"
-> and "transform="rotate(-90)" directives.
-> So you did rotate those texts, didn't you?
+--00000000000099b0a405d35af5f1
+Content-Type: text/plain; charset="UTF-8"
 
-When I opened the diagram under Fedora, the text at the tops of many of
-the boxes was displaced to the left by a couple of page widths worth.
+I have some (potentially) more interesting comments about this
+section, but I'll defer those to after I've read Chapter 15, which may
+already address them.
 
-All I did was go into the top-level group, make like I was going to change
-the text of one of the affected text boxes, add a couple of rectangles,
-and then delete them.  The idea was to force inkscape to save the diagram.
+--Elad
 
-> For perfbook, web-browser compatibility is not an issue,
-> but it might bite you when you reuse this figure in an
-> html page.
-> 
-> And I've now noticed that RCUspacetime.svg is not rendered
-> right in Firefox, either.
-> 
-> Let me see if there is a way to make them browser compatible.
+--00000000000099b0a405d35af5f1
+Content-Type: text/x-patch; charset="US-ASCII"; name="rcu.diff"
+Content-Disposition: attachment; filename="rcu.diff"
+Content-Transfer-Encoding: base64
+Content-ID: <f_kxao8sap0>
+X-Attachment-Id: f_kxao8sap0
 
-I will pull in your patches and see what it looks like.  I had not
-considered it before, but I do agree that having a browser-compatible
-.svg is a very good thing, so thank you for checking up on this.
-
-For my part, what I have done is to uninstall inkscape on the problematic
-system.  This should help prevent future instances of corruption.  :-/
-
-Again, thank you for checking up on this and debugging it!
-
-> > Ah, and I am expecting to do a release before the end of this year,
-> > preferably sooner.  This is not a big deal at all:  Release rather
-> > than edition!
-> 
-> Nice!
-> I'll review new contents in rcuusage.tex this weekend.
-
-Looking forward to it!
-
-							Thanx, Paul
-
->         Thanks, Akira
-> 
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> >>         Thanks, Akira
-> >>
-> >>>
-> >>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> >>> ---
-> >>> Hi Paul,
-> >>>
-> >>> So I said you are safe as far as you don't rotate texts.
-> >>> Apparently I was wrong!
-> >>>
-> >>> I'm suspecting the cause of the incompatibility is likely related to
-> >>> grouping of texts and doing some operation on the grouped text.
-> >>>
-> >>> In this retouch, I did ungrouping only.  So you might need to do
-> >>> proper grouping if you need further edit.
-> >>>
-> >>>         Thanks, Akira
-> >>> --
-> >>>  defer/RCUusecases.svg | 1406 +++++++++++++++++++----------------------
-> >>>  1 file changed, 656 insertions(+), 750 deletions(-)
-> >>>
-> >>> diff --git a/defer/RCUusecases.svg b/defer/RCUusecases.svg
-> >> [...]
+ZGlmZiAtLWdpdCBhL2RlZmVyL3JjdWFwaS50ZXggYi9kZWZlci9yY3VhcGkudGV4CmluZGV4IDk2
+ZmFmZWI1Li5hMzdhNmYyNiAxMDA2NDQKLS0tIGEvZGVmZXIvcmN1YXBpLnRleAorKysgYi9kZWZl
+ci9yY3VhcGkudGV4CkBAIC05OTIsMTMgKzk5MiwxMyBAQCBsb2NrZGVwIHN1cHBvcnQgJgogXENy
+ZWZ7dGFiOmRlZmVyOlJDVSBEaWFnbm9zdGljIEFQSXN9CiBzaG93cyBSQ1UncyBkaWFnbm9zdGlj
+IEFQSXMuCgotVGhlIFxjb3tfX3JjdX0gbWFya3MgYW4gUkNVLXByb3RlY3RlZCBwb2ludGVyLCBm
+b3IgZXhhbXBsZSwKK1RoZSBcY297X19yY3V9IHRhZyBtYXJrcyBhbiBSQ1UtcHJvdGVjdGVkIHBv
+aW50ZXIsIGZvciBleGFtcGxlLAogXHF0Y297c3RydWN0IGZvbyBfX3JjdSAqcDt9LgogUG9pbnRl
+cnMgdGhhdCBtaWdodCBiZSBwYXNzZWQgdG8gXGNve3JjdV9kZXJlZmVyZW5jZSgpfSBjYW4gYmUg
+bWFya2VkLAogYnV0IHBvaW50ZXJzIGhvbGRpbmcgdmFsdWVzIHJldHVybmVkIGZyb20gXGNve3Jj
+dV9kZXJlZmVyZW5jZSgpfQogc2hvdWxkIG5vdCBiZS4KIFByb3ZpZGluZyB0aGVzZSBtYXJraW5n
+cyBvbiB2YXJpYWJsZXMsIHN0cnVjdHVyZSBmaWVsZHMsIGZ1bmN0aW9uCi1wYXJhbWV0ZXJzLCBh
+bmQgcmV0dXJuIHZhbHVlcyBhbGxvdyB0aGUgTGludXgga2VybmVsJ3MgXGNve3NwYXJzZX0KK3Bh
+cmFtZXRlcnMsIGFuZCByZXR1cm4gdmFsdWVzIGFsbG93cyB0aGUgTGludXgga2VybmVsJ3MgXGNv
+e3NwYXJzZX0KIHRvb2wgdG8gZGV0ZWN0IHNpdHV0YXRpb25zIHdoZXJlIFJDVS1wcm90ZWN0ZWQg
+cG9pbnRlcnMgYXJlCiBpbmNvcnJlY3RseSBhY2Nlc3NlZCB1c2luZyBwbGFpbiBDLWxhbmd1YWdl
+IGxvYWRzIGFuZCBzdG9yZXMuCgpAQCAtMTAyOCw3ICsxMDI4LDcgQEAgQ2FsbGJhY2sgY2hlY2tp
+bmcgaXMgcHJvdmlkZWQgYnkgXGNve3JjdV9oZWFkX2luaXQoKX0gYW5kCiBcY297cmN1X2hlYWRf
+YWZ0ZXJfY2FsbF9yY3UoKX0uCiBUaGUgZm9ybWVyIGlzIGludm9rZWQgb24gYW4gXGNve3JjdV9o
+ZWFkfSBzdHJ1Y3R1cmUgYmVmb3JlIGl0IGlzIHBhc3NlZAogdG8gXGNve2NhbGxfcmN1KCl9LCBh
+bmQgdGhlbiBcY297cmN1X2hlYWRfYWZ0ZXJfY2FsbF9yY3UoKX0gd2lsbAotY2hlY2sgdG8gc2Vl
+IGlmIHRoZSBjYWxsYmFjayBpcyBoYXMgYmVlbiBpbnZva2VkIHdpdGggdGhlIHNwZWNpZmllZAor
+Y2hlY2sgdG8gc2VlIGlmIHRoZSBjYWxsYmFjayBoYXMgYmVlbiBpbnZva2VkIHdpdGggdGhlIHNw
+ZWNpZmllZAogZnVuY3Rpb24uCgogU3VwcG9ydCBmb3IgbG9ja2RlcH5cY2l0ZXtKb25hdGhhbkNv
+cmJldDIwMDZsb2NrZGVwfSBpbmNsdWRlcwpAQCAtMTA1Niw3ICsxMDU2LDcgQEAgZXZlbiBvZmZs
+aW5lIENQVXMsIHdoaWNoIG1lYW5zIHRoYXQgXGNve3JjdV9pc193YXRjaGluZygpfSBkb2VzIG5v
+dAogYXBwbHkgdG8gU1JDVVxALgoKIFxjb3tSQ1VfTE9DS0RFUF9XQVJOKCl9IGVtaXRzIGEgd2Fy
+bmluZyBpZiBsb2NrZGVwIGlzIGVuYWJsZWQgYW5kIGlmCi1pdHMgYXJndW1lbnQgZXZhbHVhdGVk
+IHRvIFxjb3t0cnVlfS4KK2l0cyBhcmd1bWVudCBldmFsdWF0ZXMgdG8gXGNve3RydWV9LgogRm9y
+IGV4YW1wbGUsIFxjb3tSQ1VfTE9DS0RFUF9XQVJOKCFyY3VfcmVhZF9sb2NrX2hlbGQoKSl9IHdv
+dWxkIGVtaXQgYQogd2FybmluZyBpZiBpbnZva2VkIG91dHNpZGUgb2YgYW4gUkNVIHJlYWQtc2lk
+ZSBjcml0aWNhbCBzZWN0aW9uLgoKZGlmZiAtLWdpdCBhL2RlZmVyL3JjdWZ1bmRhbWVudGFsLnRl
+eCBiL2RlZmVyL3JjdWZ1bmRhbWVudGFsLnRleAppbmRleCBiYWNiYWJlYy4uY2VhZWYwMjQgMTAw
+NjQ0Ci0tLSBhL2RlZmVyL3JjdWZ1bmRhbWVudGFsLnRleAorKysgYi9kZWZlci9yY3VmdW5kYW1l
+bnRhbC50ZXgKQEAgLTIwNCw4ICsyMDQsOCBAQCBBcyBoaW50ZWQgYXQgaW4KIHNlY3Rpb24gc3Rh
+cnRzIHdpdGggYW4gXGNve3JjdV9yZWFkX2xvY2soKX0gcHJpbWl0aXZlLCBhbmQgZW5kcyB3aXRo
+IGEKIGNvcnJlc3BvbmRpbmcgXGNve3JjdV9yZWFkX3VubG9jaygpfSBwcmltaXRpdmUuCiBSQ1Ug
+cmVhZC1zaWRlIGNyaXRpY2FsIHNlY3Rpb25zIGNhbiBiZSBuZXN0ZWQsIGFuZCBtYXkgY29udGFp
+biBwcmV0dHkKLW11Y2ggYW55IGNvZGUsIGFzIGxvbmcgYXMgdGhhdCBjb2RlIGRvZXMgbm90IGNv
+bnRhaW4gYSBxdWllc2NlbnQgc3RhdGUsCi1mb3IgZXhhbXBsZSwgd2l0aGluIHRoZSBMaW51eCBr
+ZXJuZWwsIGl0IGlzIGlsbGVnYWwgdG8gc2xlZXAgd2l0aGluCittdWNoIGFueSBjb2RlLCBhcyBs
+b25nIGFzIHRoYXQgY29kZSBkb2VzIG5vdCBjb250YWluIGEgcXVpZXNjZW50IHN0YXRlLgorRm9y
+IGV4YW1wbGUsIHdpdGhpbiB0aGUgTGludXgga2VybmVsLCBpdCBpcyBpbGxlZ2FsIHRvIHNsZWVw
+IHdpdGhpbgogYW4gUkNVIHJlYWQtc2lkZSBjcml0aWNhbCBzZWN0aW9uIGJlY2F1c2UgYSBjb250
+ZXh0IHN3aXRjaCBpcyBhIHF1aWVzY2VudAogc3RhdGUuXGZvb3Rub3RlewogCUhvd2V2ZXIsIGEg
+c3BlY2lhbCBmb3JtIG9mIFJDVSBjYWxsZWQgU1JDVX5cY2l0ZXtQYXVsRU1jS2VubmV5MjAwNmN9
+CkBAIC0zOTgsOCArMzk4LDggQEAgSW4gdGhlIHNlY29uZCBzY2VuYXJpbywgdGhlIHJlYWRlciBk
+b2VzIG5vdCBzdGFydCBleGVjdXRpb24gdW50aWwKIGFmdGVyIHRoZSByZW1vdmFsIGhhcyBjb21w
+bGV0ZWQuCiBUaGUgcmVhZGVyIGNhbm5vdCBwb3NzaWJseSBvYnRhaW4gYSByZWZlcmVuY2UgdG8g
+dGhlIGFscmVhZHktcmVtb3ZlZAogZGF0YSBlbGVtZW50LCBzbyB0aGlzIGVsZW1lbnQgbWF5IGJl
+IGZyZWVkIGJlZm9yZSB0aGUgcmVhZGVyIGNvbXBsZXRlcy4KLVRoZSB0aGlyZCBzY2VuYXJpbyBp
+cyBsaWtlIHRoZSBzZWNvbmQsIGJ1dCBpbGx1c3RyYXRlcyB0aGF0IHdoZW4gdGhlCi1yZWFkZXIg
+Y2Fubm90IHBvc3NpYmx5IG9idGFpbiBhIHJlZmVyZW5jZSB0byBlbGVtZW50LCBpdCBpcyBzdGls
+bAorVGhlIHRoaXJkIHNjZW5hcmlvIGlzIGxpa2UgdGhlIHNlY29uZCwgYnV0IGlsbHVzdHJhdGVz
+IHRoYXQgZXZlbiB3aGVuIHRoZQorcmVhZGVyIGNhbm5vdCBwb3NzaWJseSBvYnRhaW4gYSByZWZl
+cmVuY2UgdG8gYW4gZWxlbWVudCwgaXQgaXMgc3RpbGwKIHBlcm1pc3NpYmxlIHRvIGRlZmVyIHRo
+ZSBmcmVlaW5nIG9mIHRoYXQgZWxlbWVudCB1bnRpbCBhZnRlciB0aGUKIHJlYWRlciBjb21wbGV0
+ZXMuCiBJbiB0aGUgZm91cnRoIGFuZCBmaW5hbCBzY2VuYXJpbywgdGhlIHJlYWRlciBzdGFydHMg
+ZXhlY3V0aW9uIGJlZm9yZQpAQCAtNzAwLDcgKzcwMCw3IEBAIGFsZ29yaXRobXM6CiAJT24gc3Vi
+c2VxdWVudCByZWFkZXJzPykKIH1cUXVpY2tRdWl6RW5kCgotVGhlc2UgdGhyZWUgUkNVIGNvbXBv
+bmVudHMgYWxsb3cgZGF0YSB0byBiZSB1cGRhdGVkIGluIGZhY2Ugb2YgY29uY3VycmVudAorVGhl
+c2UgdGhyZWUgUkNVIGNvbXBvbmVudHMgYWxsb3cgZGF0YSB0byBiZSB1cGRhdGVkIGluIHRoZSBm
+YWNlIG9mIGNvbmN1cnJlbnQKIHJlYWRlcnMgdGhhdCBtaWdodCBiZSBleGVjdXRpbmcgdGhlIHNh
+bWUgc2VxdWVuY2Ugb2YgbWFjaGluZSBpbnN0cnVjdGlvbnMKIHRoYXQgd291bGQgYmUgdXNlZCBi
+eSBhIHJlYWRlciBpbiBhIHNpbmdsZS10aHJlYWRlZCBpbXBsZW1lbnRhdGlvbi4KIFRoZXNlIFJD
+VSBjb21wb25lbnRzIGNhbiBiZSBjb21iaW5lZCBpbiBkaWZmZXJlbnQgd2F5cyB0byBpbXBsZW1l
+bnQgYQpkaWZmIC0tZ2l0IGEvZGVmZXIvcmN1cmVsYXRlZC50ZXggYi9kZWZlci9yY3VyZWxhdGVk
+LnRleAppbmRleCAyOGYwMTNkNi4uNDg2MjJkZjggMTAwNjQ0Ci0tLSBhL2RlZmVyL3JjdXJlbGF0
+ZWQudGV4CisrKyBiL2RlZmVyL3JjdXJlbGF0ZWQudGV4CkBAIC03LDcgKzcsNyBAQAogXE9yaWdp
+bmFsbHlQdWJsaXNoZWR7U2VjdGlvbn17c2VjOmRlZmVyOlJDVSBSZWxhdGVkIFdvcmt9e1JDVSBS
+ZWxhdGVkIFdvcmt9e0xpbnV4IFdlZWtseSBOZXdzfXtQYXVsRU1jS2VubmV5MjAxNFJlYWRNb3N0
+bHl9CiBcT3JpZ2luYWxseVB1Ymxpc2hlZHtTZWN0aW9ufXtzZWM6ZGVmZXI6UkNVIFJlbGF0ZWQg
+V29ya317UkNVIFJlbGF0ZWQgV29ya317TGludXggV2Vla2x5IE5ld3N9e1BhdWxFTWNLZW5uZXky
+MDE1UmVhZE1vc3RseX0KCi1UaGUga25vd24gZmlyc3QgbWVudGlvbiBvZiBhbnl0aGluZyByZXNl
+bWJsaW5nIFJDVSB0b29rIHRoZSBmb3JtIG9mIGEgYnVnCitUaGUgZmlyc3Qga25vd24gbWVudGlv
+biBvZiBhbnl0aGluZyByZXNlbWJsaW5nIFJDVSB0b29rIHRoZSBmb3JtIG9mIGEgYnVnCiByZXBv
+cnQgZnJvbQogXHBwbHtEb25hbGR9e0tudXRofX5cY2l0ZVtwYWdlIDQxMyBvZiBGdW5kYW1lbnRh
+bCBBbGdvcml0aG1zXXtLbnV0aDczfQogYWdhaW5zdCBccHBse0pvc2VwaH17V2VpemVuYmF1bX0n
+cyBTTElQIGxpc3QtcHJvY2Vzc2luZyBmYWNpbGl0eSBmb3IKZGlmZiAtLWdpdCBhL2RlZmVyL3Jj
+dXVzYWdlLnRleCBiL2RlZmVyL3JjdXVzYWdlLnRleAppbmRleCBhMDcwZDE5ZC4uMmMyNGNkYTcg
+MTAwNjQ0Ci0tLSBhL2RlZmVyL3JjdXVzYWdlLnRleAorKysgYi9kZWZlci9yY3V1c2FnZS50ZXgK
+QEAgLTg4Miw3ICs4ODIsNyBAQCBzdHJ1Y3R1cmVzIHRoYXQgYXJlIGRlc2lnbmVkIGZvciBhZGRp
+dGlvbiBhcyB3ZWxsIGFzIGRlbGV0aW9uLgogUGVyaGFwcyB0aGUgbW9zdCBjb21tb24gdXNlIG9m
+IFJDVSB3aXRoaW4gdGhlIExpbnV4IGtlcm5lbCBpcyBhcwogYSByZXBsYWNlbWVudCBmb3IgcmVh
+ZGVyLXdyaXRlciBsb2NraW5nIGluIHJlYWQtaW50ZW5zaXZlIHNpdHVhdGlvbnMuCiBOZXZlcnRo
+ZWxlc3MsIHRoaXMgdXNlIG9mIFJDVSB3YXMgbm90IGltbWVkaWF0ZWx5IGFwcGFyZW50IHRvIG1l
+Ci1hdCB0aGUgb3V0c2V0LCBpbiBmYWN0LCBJIGNob3NlIHRvIGltcGxlbWVudCBhIGxpZ2h0d2Vp
+Z2h0IHJlYWRlci13cml0ZXIKK2F0IHRoZSBvdXRzZXQuIEluIGZhY3QsIEkgY2hvc2UgdG8gaW1w
+bGVtZW50IGEgbGlnaHR3ZWlnaHQgcmVhZGVyLXdyaXRlcgogbG9ja35cY2l0ZXtXaWxzb25DSHNp
+ZWg5MmF9XGZvb3Rub3RlewogCVNpbWlsYXIgdG8gXGNve2JybG9ja30gaW4gdGhlIDIuNCBMaW51
+eCBrZXJuZWwgYW5kIHRvCiAJXGNve2xnbG9ja30gaW4gbW9yZSByZWNlbnQgTGludXgga2VybmVs
+cy59CkBAIC0xNjUyLDcgKzE2NTIsNyBAQCByY3VfcmVhZF91bmxvY2soKTsgIC8qIHJlbGVhc2Ug
+cmVmZXJlbmNlLiAqLwogVGhlIGNvbWJpbmF0aW9uIG9mIHRoZSBcY297cmN1X3JlYWRfbG9jaygp
+fSBhbmQgXGNve3JjdV9kZXJlZmVyZW5jZSgpfQogcHJpbWl0aXZlcyBjYW4gYmUgdGhvdWdodCBv
+ZiBhcyBhY3F1aXJpbmcgYSByZWZlcmVuY2UgdG8gXGNve3B9LAogYmVjYXVzZSBhIGdyYWNlIHBl
+cmlvZCBzdGFydGluZyBhZnRlciB0aGUgXGNve3JjdV9kZXJlZmVyZW5jZSgpfQotYXNzaWducyB0
+byBcY297cH0gY2Fubm90IHBvc3NpYmx5IGVuZCB1bnRpbCBhZnRlciB3ZSByZWFjaCB0aGUgbWF0
+Y2hpbmcKK2Fzc2lnbm1lbnQgdG8gXGNve3B9IGNhbm5vdCBwb3NzaWJseSBlbmQgdW50aWwgYWZ0
+ZXIgd2UgcmVhY2ggdGhlIG1hdGNoaW5nCiBcY297cmN1X3JlYWRfdW5sb2NrKCl9LgogVGhpcyBy
+ZWZlcmVuY2UtY291bnRpbmcgc2NoZW1lIGlzIHJlc3RyaWN0ZWQgaW4gdGhhdAogd2UgYXJlIG5v
+dCBhbGxvd2VkIHRvIGJsb2NrIGluIFJDVSByZWFkLXNpZGUgY3JpdGljYWwgc2VjdGlvbnMsCg==
+--00000000000099b0a405d35af5f1--
