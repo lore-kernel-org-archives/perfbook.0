@@ -1,20 +1,23 @@
 Return-Path: <SRS0=Pd6x=RG=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=EPBDRBUoCuM5wRrIBbEas0SKFyzLgx+Hf14W3ahp/DU=;
-        b=dzO9HTde6d8m3brVQNc252yxfFscNGjkq/G4WZTIic/EpbG7nweTsL6en7y6ojsS83
-         AaIdM0dV8gyC8cC3EGw85c3y3wWFz4XJa22skZ4sxdoEZxKhN4ctDeEEGgRboVEX8AoD
-         uCosh9nqGJ1IVH9R38mOwAOgdg8TxM6/DspRPm7XdvtNJzzhqpf/VdMmHzD4QAqHRsBV
-         15kSRk/fQfldKPpkAQTZh1H1MR1uD3LF+GCkvF2esSuln2j6Dlfd47Re74tFBodlSyt5
-         08Tp1b9hXdsYbRe9gQbyxMh8NwkcwkAAOUenArz9naVu0h3WcE19bc0MCJAI158GoF+p
-         1mqg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=gMH/9aXsKaABQG4F+mox7achwNQc3V57Nl898lWzFdY=;
+        b=oNGQrASn8FLDtxRFXAr6LsdAKS6pzVmvYov9x8/CcAydj08qnn/zXKMB8c08m0RTNY
+         oNkfO2PlnD2kMP15GOUjPVbHo06NUHAsvLTCwxSRTHCeqX+EVPbNAlWGPWtsvjN07bxe
+         GpQC79hLpZngoU+DSYuKt6g3nAqPYJ0tYQ4oIgT5zHU1jug0yLJ/juqostXK0Qqw+zs+
+         C9HflPeKaq916soGxSS4UAvbI/w+O3OL9IwzwKR1MfuG+wxtpaUhwwDIWfeHx7iBDKMx
+         SB2pdKq1pPT0Nthg0GRJcHmlIKPJ+hDV/8+3o2AeUDs/lLjSXp4YmC/FH8hX20R7+xXp
+         13gg==
+Subject: [PATCH -perfbook 2/2] defer, future: Fix typos (traversal,
+ indispensable)
+References: <cd109ef0-2469-7045-d582-32a425cfb1d1@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 1/2] defer/rcuusage: Reflect subsection reordering
-Message-ID: <cd109ef0-2469-7045-d582-32a425cfb1d1@gmail.com>
-Date: Tue, 21 Dec 2021 16:11:39 +0900
+Message-ID: <12dc4607-37fd-5909-0244-010fc6191abb@gmail.com>
+Date: Tue, 21 Dec 2021 16:12:46 +0900
 MIME-Version: 1.0
+In-Reply-To: <cd109ef0-2469-7045-d582-32a425cfb1d1@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -22,39 +25,50 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Subsection of "Type-Safe Memory" was moved upward in commit
-e22df8aea3f2 ("defer/rcuusage: Move type-safe-memory section").
-
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
-Hi Paul,
+ defer/rcuapi.tex         | 2 +-
+ defer/rcufundamental.tex | 2 +-
+ future/formalregress.tex | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-This patch and the next are last minute nitpicks for the
-upcoming release.
-
-        Thanks, Akira
---
- defer/rcuusage.tex | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
-index 3fbe73be..811dd32a 100644
---- a/defer/rcuusage.tex
-+++ b/defer/rcuusage.tex
-@@ -588,8 +588,9 @@ element being freed and reallocated as the same type of structure
- while they are referencing it, but must prohibit a change in type.
- This guarantee, called ``type-safe memory'' in
- academic literature~\cite{Cheriton96a},
--is weaker than the existence guarantees in the
--previous section, and is therefore quite a bit harder to work with.
-+is weaker than the existence guarantees discussed
-+in \cref{sec:defer:Existence Guarantee},
-+and is therefore quite a bit harder to work with.
- Type-safe memory algorithms in the Linux kernel make use of slab caches,
- specially marking these caches with \co{SLAB_TYPESAFE_BY_RCU}
- so that RCU is used when returning a freed-up
-
-base-commit: a8f5948a1b8921941bf4039e278aa7929f64c322
+diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+index a37a6f26..ee939341 100644
+--- a/defer/rcuapi.tex
++++ b/defer/rcuapi.tex
+@@ -440,7 +440,7 @@ Pointer publish &
+ 	\tco{RCU_POINTER_INITIALIZER()} &
+ 		Compile-time constant \\
+ \midrule
+-Pointer subscribe (traveral) &
++Pointer subscribe (traversal) &
+ 	\tco{rcu_access_pointer()} &
+ 		Simple instructions \\
+ &
+diff --git a/defer/rcufundamental.tex b/defer/rcufundamental.tex
+index 109221fd..f4c6f2a9 100644
+--- a/defer/rcufundamental.tex
++++ b/defer/rcufundamental.tex
+@@ -486,7 +486,7 @@ during the full traversal (B, C, and~D), and might or might not
+ encounter data items that were present for only part of the
+ traversal (A and~E)\@.
+ Therefore, in this particular case, it is perfectly legitimate for
+-the reader traveral to encounter all five elements.
++the reader traversal to encounter all five elements.
+ If this outcome is problematic, another way to resolve this situation is
+ through use of stronger synchronization mechanisms, such as reader-writer
+ locking, or clever use of timestamps and versioning.
+diff --git a/future/formalregress.tex b/future/formalregress.tex
+index d5babe82..12d3e5d8 100644
+--- a/future/formalregress.tex
++++ b/future/formalregress.tex
+@@ -714,4 +714,4 @@ Just not for regression testing.
+ However, this might well change.
+ After all, formal verification tools made impressive strides in the 2010s.
+ If that progress continues, formal verification might well become an
+-indispensible tool in the parallel programmer's validation toolbox.
++indispensable tool in the parallel programmer's validation toolbox.
 -- 
 2.17.1
+
 
