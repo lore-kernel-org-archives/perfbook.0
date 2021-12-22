@@ -1,112 +1,80 @@
-Return-Path: <SRS0=2gMv=RH=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sQFJizDhukRAVWtMiGMcYUguKKNC7GDChquk11g6FJA=;
-        b=Dfp+LnLr9Bu9qir70xpa2Cu07uico5pHC5vR/i6jG/hMUlDBHKdnfuaQ8zN8lbG1el
-         4FsmGz3fkc8wBQ2Onll+peRsyUjLRa51KYlvgskYyJsnIBg8wfAGJnq7H/riOe7q7xYa
-         6YUuQQMxyxMf1ifj4G/xYEjy/tm30yLnFQ98cqOMMnbN/wuupmGhdt2MHpCQsxsUU7H7
-         lIcCAOEy+dPO1+R1yHVLVPdUXiwIq3sxWX70ZsYp/Hqd8PYZ61/PYs3rHFjAvup92DRK
-         BZJ+lD7ftK7BkXTNok9qhP5USnGQukxPk4qjMdf+iqtKdE7tEsMybihg9ZOWPrTACdVa
-         N28g==
-Subject: Re: Section 9.5: Nobody expects the Spanish Acquisition!
-References: <CAJbg=FWZG2EicBGKBbVzYnhH7oT3FqkwY738pmra9G9riGssVQ@mail.gmail.com>
- <b2851e07-d804-eff9-cb48-c636a159f868@gmail.com>
- <4f0ee3e7-73dc-9a76-0272-c49c2f09ccbc@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <5be72d6b-54e8-4ac2-dd8d-cb9a8fd2d436@gmail.com>
-Date: Wed, 22 Dec 2021 23:35:02 +0900
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41602 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242480AbhLVEhs (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 21 Dec 2021 23:37:48 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58B86C061574
+        for <perfbook@vger.kernel.org>; Tue, 21 Dec 2021 20:37:48 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 23DEBB81109
+        for <perfbook@vger.kernel.org>; Wed, 22 Dec 2021 04:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1640147865;
+        bh=sGn3S27ieqDFnBzlZsCO4b02sFXgJEkw4SJptP5LPK4=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=ZWSPXlmCTXzf4ET9EDEuYfkKvc2pAT7hBFZgYK9anlMgstU6c3TjjV/dfm2YZKekl
+         wqE6dWLE/W2p22xoV7pls4ohzvIkDSs9tMYSxqdYk31J0qJytLh9p/qx2fDtUk3ol7
+         Z+XJ1Tn50wjGrrKvp4PHJ4V2D1+yLonMp2pto2L2LdntUWrdopsMqqCwkRr5rQzQY6
+         0MH8PBKS0lcblQ5xjk4vTySvO2oixovJE0ZgtCc0WUBTcwEsk5B0Cl3DYp7LQcbuld
+         mJhtXgk/uEKP5r5/P+k/y/96877iN7S0xOarwEAx5XrSZA8cXn5RZRd9r8T6ybLWaB
+         wZR7sRJ6TpMMg==
+Date: Tue, 21 Dec 2021 20:37:45 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH -perfbook 1/2] defer/rcuusage: Reflect subsection
+ reordering
+Message-ID: <20211222043745.GE4109570@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <cd109ef0-2469-7045-d582-32a425cfb1d1@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <4f0ee3e7-73dc-9a76-0272-c49c2f09ccbc@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-To: Elad Lahav <e2lahav@gmail.com>
-Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cd109ef0-2469-7045-d582-32a425cfb1d1@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Hi,
+On Tue, Dec 21, 2021 at 04:11:39PM +0900, Akira Yokosawa wrote:
+> Subsection of "Type-Safe Memory" was moved upward in commit
+> e22df8aea3f2 ("defer/rcuusage: Move type-safe-memory section").
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-On Wed, 22 Dec 2021 07:15:54 -0500, Elad Lahav wrote:
-> Hi Akira,
->=20
->> I think this is mostly covered in Section 9.5.2.1 "Publish-Subscribe
->> Mechanism" and Figure 9.10 "Publication/Subscription Constraints".
->=20
-> I don't believe it is. I think you can infer that from reading sections=
- 9.5
-> and chapter 15, but it is never made explicit.
+I queued and pushed both, thank you!
 
-I agree it is not explicit.
+							Thanx, Paul
 
->=20
-> Sub-section 9.5.2.1 talks about the use of rcu_dereference() to obtain =
-a
-> pointer, but it doesn't go very deep into how that's implemented. You w=
-ould
-> think that the writer's use of store-release semantics would necessitat=
-e
-> the reader's use of load-acquire semantics, but the discussion here, th=
-e
-> previous examples, and a quick inspection of how rcu_dereference() is
-> implemented, suggest that a READ_ONCE() is sufficient (or some less
-> Linux-kernel-specific equivalent).
->=20
-> If I am a naive reader (and a lazy one, who haven't read chapter 15 and=
- made
-> the necessary connection), I could write something like:
->=20
-> =C2=A0=C2=A0=C2=A0 struct foo_s {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int a;
-> =C2=A0=C2=A0=C2=A0 } foo;
-> =C2=A0=C2=A0=C2=A0 int b;
-> =C2=A0=C2=A0=C2=A0 struct foo_s *g_foop =3D &foo;
->=20
-> =C2=A0=C2=A0=C2=A0 // Reader
-> =C2=A0=C2=A0=C2=A0 rcu_read_lock();
-> =C2=A0=C2=A0=C2=A0 struct foo *l_foop =3D rcu_dereference(g_foop);
-> =C2=A0=C2=A0=C2=A0 use(l_foop->a);
-> =C2=A0=C2=A0=C2=A0 use(b);
-> =C2=A0=C2=A0=C2=A0 rcu_read_unlock();
->=20
-> =C2=A0=C2=A0=C2=A0 // Writer
-> =C2=A0=C2=A0=C2=A0 struct foo *l_foop =3D malloc(sizeof(struct foo));
-> =C2=A0=C2=A0=C2=A0 l_foop->a =3D 1;
-> =C2=A0=C2=A0=C2=A0 b =3D 2;
-> =C2=A0=C2=A0=C2=A0 // Release semantics ensure previous stores are obse=
-rved
-> =C2=A0=C2=A0=C2=A0 rcu_assign_pointer(g_foop, l_foop);
->=20
-> But since b has no address dependency to g_foop and since neither
-> rcu_read_lock() nor rcu_dereference() impose acquire semantics, then
-> the reader may not observe the new value of b.
-
-No, it may not.
-So what you want is the mention of "address dependency" somewhere in
-Section 9.5.2.1?
-
->=20
-> Again, I may be missing something, but this seems to be a major point
-> that needs to be explained and emphasized.
-
-I guess Paul is intentionally avoiding discussions on memory ordering
-here in Section 9.5.
-
-Such a discussion would easily frighten naive readers...
-
-Anyway, I guess Paul would have some good compromise to satisfy you.=20
-
->=20
->> BTW, I couldn't figure out what you meant by "the Spanish
->> Acquisition"...
-> It's a reference to an old Monty Python skit. Apologies for the silly p=
-un...
-
-Ah, now I guess I see the pun of "acquire" and "acquisition".  ;-)
-
-        Thanks, Akira
-
->=20
-> --Elad
-
+> ---
+> Hi Paul,
+> 
+> This patch and the next are last minute nitpicks for the
+> upcoming release.
+> 
+>         Thanks, Akira
+> --
+>  defer/rcuusage.tex | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
+> index 3fbe73be..811dd32a 100644
+> --- a/defer/rcuusage.tex
+> +++ b/defer/rcuusage.tex
+> @@ -588,8 +588,9 @@ element being freed and reallocated as the same type of structure
+>  while they are referencing it, but must prohibit a change in type.
+>  This guarantee, called ``type-safe memory'' in
+>  academic literature~\cite{Cheriton96a},
+> -is weaker than the existence guarantees in the
+> -previous section, and is therefore quite a bit harder to work with.
+> +is weaker than the existence guarantees discussed
+> +in \cref{sec:defer:Existence Guarantee},
+> +and is therefore quite a bit harder to work with.
+>  Type-safe memory algorithms in the Linux kernel make use of slab caches,
+>  specially marking these caches with \co{SLAB_TYPESAFE_BY_RCU}
+>  so that RCU is used when returning a freed-up
+> 
+> base-commit: a8f5948a1b8921941bf4039e278aa7929f64c322
+> -- 
+> 2.17.1
+> 
