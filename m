@@ -1,48 +1,67 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58192 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235860AbhLUPVG (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 21 Dec 2021 10:21:06 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B64DFC06173F
-        for <perfbook@vger.kernel.org>; Tue, 21 Dec 2021 07:21:05 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id bq20so29039661lfb.4
-        for <perfbook@vger.kernel.org>; Tue, 21 Dec 2021 07:21:05 -0800 (PST)
+Return-Path: <SRS0=2gMv=RH=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=X956mEqUMcjp53uq6xkdG/dJf5MXVFKoP0jz/Mr8Fh8=;
-        b=hwnh/Pt4+Dt3aNxcLi4E8WQ6+4X+/60UJcHZQwow0F5a7VBBOm7Qeju3gKn6c1u/Jh
-         EOipvOA9VtTtf5jcbNzo5SpKiOjeNnvbbzop5vjtEflC+ALZgo2FexNAEn7MPD3jLHEs
-         tjZ1xXgWuwT7I0/BbSuISx1MmBI9o8BWx8coadh/LOx/EikGHhyqg2kGphdGlZV5IYli
-         jsY7YE42pEcyXOXIOAZkisheuqEbrIz7gPnTvAbRROfcPFktUIFDGyczNXyqiFCQHFeX
-         33u6cHE6g3q3Dyiu4tMY3i6y9EZFFC0Y3A+wJBoi3qAKWi3Zq/YtHclDqJUJGbH4v3UM
-         chBw==
+        h=subject:to:references:cc:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=cKIWIR+uGZ3EUlsF2JNqIK1yOqw+eyWAlXQyZWWC4dM=;
+        b=Eam5wnLpU2eLpS0N8avaVFCMBjbgalnrNAZc9Y1JYiOlgN4bSdBKoGubHcftLprnNY
+         eJC8hBtrY2LT0z6O/wWQhoDeEau3Je44sf35EUiIhzPDv2ZLp/1p6OwleXbzF6Jml8qE
+         wUFznWbfRc0aGRXEkOEySSj8ImD4+K0Ger5XD3QeBeNgJ77P2NEWKmph2I3SiNDDTRDx
+         Z2hu2XvJgw6ZXOJfYOXkSni+smRWFpHAKKSmyfQzwpb6hZTbYyGqaihp41cjH1mWlO+6
+         3Nv6JwL3dzHLeWPiHCGmv9dfxsTJpuHNjPaElb3rW8hwZHCfjDKxR1KW8EvRyDqUihth
+         Lasw==
+Subject: Re: Section 9.5: Nobody expects the Spanish Acquisition!
+References: <CAJbg=FWZG2EicBGKBbVzYnhH7oT3FqkwY738pmra9G9riGssVQ@mail.gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <b2851e07-d804-eff9-cb48-c636a159f868@gmail.com>
+Date: Wed, 22 Dec 2021 17:21:27 +0900
 MIME-Version: 1.0
-From: Elad Lahav <e2lahav@gmail.com>
-Date: Tue, 21 Dec 2021 10:20:52 -0500
-Message-ID: <CAJbg=FWZG2EicBGKBbVzYnhH7oT3FqkwY738pmra9G9riGssVQ@mail.gmail.com>
-Subject: Section 9.5: Nobody expects the Spanish Acquisition!
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAJbg=FWZG2EicBGKBbVzYnhH7oT3FqkwY738pmra9G9riGssVQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: Elad Lahav <e2lahav@gmail.com>
+Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
 
-Hi Paul,
+(+explicit Cc: Paul)
 
-As promised, I have a potentially more interesting comment regarding
-Section 9.5. Throughout this section, from the very first example, the
-writer uses release semantics, but the readers are not obligated to
-use acquire semantics, at least on sensible architectures (with
-apologies to employees of HP nee Compaq nee Digital).
+Hi Elad,
 
-If I understand correctly, these relaxed semantics are the result of
-an address dependency, with the data protected by the RCU critical
-section residing in a structure whose address is stored by the pointer
-dereferenced by a reader. The reader cannot consider any data outside
-of this structure as protected by the critical section. This is a
-critical point without which the examples won't work reliably.
+On Tue, 21 Dec 2021 10:20:52 -0500, Elad Lahav wrote:
+> Hi Paul,
+> 
+> As promised, I have a potentially more interesting comment regarding
+> Section 9.5. Throughout this section, from the very first example, the
+> writer uses release semantics, but the readers are not obligated to
+> use acquire semantics, at least on sensible architectures (with
+> apologies to employees of HP nee Compaq nee Digital).
 
-Am I missing something? If not, I think that this point should be
-emphasized early on, with a link to Section 15.2.3.
+  ;-)
 
---Elad
+> 
+> If I understand correctly, these relaxed semantics are the result of
+> an address dependency, with the data protected by the RCU critical
+> section residing in a structure whose address is stored by the pointer
+> dereferenced by a reader. The reader cannot consider any data outside
+> of this structure as protected by the critical section. This is a
+> critical point without which the examples won't work reliably.
+
+I think this is mostly covered in Section 9.5.2.1 "Publish-Subscribe
+Mechanism" and Figure 9.10 "Publication/Subscription Constraints".
+
+> 
+> Am I missing something? If not, I think that this point should be
+> emphasized early on, with a link to Section 15.2.3.
+
+There is such a reference in Section 9.5.2.1 just below Quick Quiz
+9.28.  You mean you find this too late?
+
+        Thanks, Akira
+
+BTW, I couldn't figure out what you meant by "the Spanish
+Acquisition"...
+
+> 
+> --Elad
+> 
