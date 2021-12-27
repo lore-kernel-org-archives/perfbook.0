@@ -2,24 +2,25 @@ Return-Path: <SRS0=M9fC=RM=gmail.com=sj38.park@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=4VJbi0onqS1fo+DhViuBc4TNRlSY2GLO8AnOGqjnniA=;
-        b=UKORJrR/vr37XZm3JOoPW+vKlIeGKuL0V8O/BQfygegip/Yr3eC4SguF24PpCuThIk
-         AqqwSyWKOUrTBDpp+T66v2kYz5iqh6aFu/JgoA3jLTdWGLgeO0Vvt8gchHyfv5T91Ml2
-         /1ZP0VFiA7pnv6OhQXKt7o6JSIkLfeR24MpxgSldJaCORzjs112MK0qBfR5jNQRW3IsF
-         +Q3QV9sohHvfC2ji4vUoX0Trm3KsUu39OUTNDPAVK4bRZh7A5NJZkb/qPdSuZPVQVhCR
-         vbouoeBLx3UeTqAC6AGfMTHy3CXI/m0CqqTLasA6iq7eWkvXdTPm9jakwRVsc01DBSGB
-         IOvQ==
+        bh=ZOga63yBt1UkdIV/5uCPQ12+uMyJ39CC0KZVN29px5I=;
+        b=mARGHQT9j+TvB7QZQUVgjmkZ/5Pk2ePu+Tdtd7S+uxksZYj8z3F+Sq6ZaCLLo1NxoZ
+         Se6ZGsWlb0ek+76yH8NYZmck5EAFZ2orao/wC2VPzWx/pbc6qfCf4n5Y0VxY6bNNDfmd
+         LENy/wGYcs6bE7Nzx/xoXXht5+Kxu4jHHz695ILWEwgrp6ofaKVgWyxa8M1U2GKyf8wK
+         3CA1aJl5Ee7WPxLh7aaLyS9Tlb+DNj7tfiULK27ib9COTwhY3bHR+JGeHVyiJ4QVb0MQ
+         oXgsvrbZRRZ2odrvQKLwo1v2nE+NoONePB3eLEU5y7iAbuL+85E0sZRTxop6K08BFAll
+         VJQg==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 1/2] count: Adds a missed unbreakable space
-Date: Mon, 27 Dec 2021 09:52:12 +0100
-Message-Id: <20211227085213.9246-2-sj38.park@gmail.com>
+Subject: [PATCH 2/2] count: Add missed parentheses for balance_count()
+Date: Mon, 27 Dec 2021 09:52:13 +0100
+Message-Id: <20211227085213.9246-3-sj38.park@gmail.com>
 In-Reply-To: <20211227085213.9246-1-sj38.park@gmail.com>
 References: <20211227085213.9246-1-sj38.park@gmail.com>
 To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-This commit adds a missed unbreakable space in count chapter.
+A sentence in count/count.tex doesn't append parentheses for
+balance_count().  Let's add it so that it can be more consistent.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
@@ -27,18 +28,18 @@ Signed-off-by: SeongJae Park <sj38.park@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/count/count.tex b/count/count.tex
-index a9a36b27..7d7701ff 100644
+index 7d7701ff..c8aa959b 100644
 --- a/count/count.tex
 +++ b/count/count.tex
-@@ -1157,7 +1157,7 @@ on a parallel machine.
+@@ -1682,7 +1682,7 @@ Finally, in either case,
  
- 	To see this, suppose that thread~0 adds the value three to its
- 	counter, thread~1 adds the value five to its counter, and
--	threads~2 and 3 sum the counters.
-+	threads~2 and~3 sum the counters.
- 	If the system is ``weakly ordered'' or if the compiler
- 	uses aggressive optimizations, thread~2 might find the
- 	sum to be three and thread~3 might find the sum to be five.
+ It is helpful to look at a schematic depicting how the relationship
+ of the counters changes with the execution of first
+-\co{globalize_count()} and then \co{balance_count}, as shown in
++\co{globalize_count()} and then \co{balance_count()}, as shown in
+ \cref{fig:count:Schematic of Globalization and Balancing}.
+ Time advances from left to right, with the leftmost configuration
+ roughly that of
 -- 
 2.17.1
 
