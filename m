@@ -1,112 +1,100 @@
-Return-Path: <SRS0=PC34=RQ=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=NSf6=RQ=gmail.com=maplewish117@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FuSPz2hq5Ee2NipcclhGO3kf4P36reNMOxmT52B+Ql8=;
-        b=iHTgSa4WEqPnBkp1qW2isjE5aO3IU2CbpkjLos6/MjYjbJGDjf0qczn0cwI+QKOfC1
-         RfZfb/NI4HZ5GLOM3cf/dWDDs/rBdEoOx13Xn0KLzOiW92xYzyB4KmEmwCUlPsRsVFzg
-         SUoLDUzH2YqyyCE+lUJpw4VItii93d5ub4OkLkFDYgOMlFT1G+lIlBdbu7b+0PRFfWp+
-         apYpHcwNRR1xn8RUFkd2b//fC7bta6K5JXW7BreRfvqs6Uq7ByMdXpMBUY76f7o3sA2p
-         4p839ZWmoyi3AJtWiyxC/4g2lf5BbMCbCVvGMWbLjtJeEKvus6RMr/j2L40gGYs93udI
-         uE5g==
-Subject: Re: [PATCH -perfbook] defer: Retouch SVG files for browser
- compatibility (2nd attempt)
-References: <f4bf6a67-ff75-51d3-1253-a17042439ade@gmail.com>
- <20211231173756.GG4109570@paulmck-ThinkPad-P17-Gen-1>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <6525231c-a11f-0085-4b28-bbcd8701ab3a@gmail.com>
-Date: Sat, 1 Jan 2022 08:48:34 +0900
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jJ8mdME++Cykr4jtjOCg8eRqi1lqGHmVtRSCr1R6PE0=;
+        b=mxxXsM82MCKYjBfA4Q8o+dmvuOCt0HdhvhDjCHaTH+CQcEXNJWwZB+YAO+0RssGZKJ
+         ckrkG6EW7sR45OXoZz33fpHLaPAEA9zuOTZLsV9/IXCmopNPQSQq8PNTlq6Uem8/vekM
+         XcFiwdTrSrjRVIUS2hCg1Zb3zyMGOj3uLMR5rXDyltY/Revsj4VdXK7H20ouZ2wCLvlf
+         MgUjA7VgqWzbA+nPDi+j66K8s4Y9tj0F3Lh3syQ/iWssu4B4FVVf/AIkPizIux9VgvyC
+         fhpPxuF+987UMena7bzyFw7Bs5Tqzbrc4ePji568YmGpYEJZcvfMJifuw55i/Y79t1eT
+         sSjQ==
+From: Xuwei FU <maplewish117@gmail.com>
+Subject: [PATCH] Fix svg in chapter7: change incorrect "Lock B" in `qsort` to "Lock C".
+Date: Fri, 31 Dec 2021 17:29:38 +0800
+Message-Id: <20211231092937.45331-1-maplewish117@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20211231173756.GG4109570@paulmck-ThinkPad-P17-Gen-1>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Transfer-Encoding: 8bit
+To: paulmck@kernel.org
+Cc: Xuwei Fu <maplewish117@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-On Fri, 31 Dec 2021 09:37:56 -0800, Paul E. McKenney wrote:
-> On Fri, Dec 31, 2021 at 11:29:21AM +0900, Akira Yokosawa wrote:
->> In <text> elements which are misplaced when viewed in a browser,
->> there are "transform" directives of the form:
->>
->>     transform="scale(-1)"
->>
->> (indicating rotation of 180 degrees), and attributes of:
->>
->>     writing-mode:tb-rl
->>
->> (top to bottom, right to left: Normally used in vertical text in
->> Asian languages.  "lr-tb" is the normal choice in English.)
->>
->> By manually removing those transform directives and replacing
->> "tb-rl" with "lr-tb" by a text editor; then ungrouping, rotating,
->> and moving those text elements by Inkscape 1.1.1; browser-compatible
->> SVGs have been obtained.
->>
->> Regrouping of edited text elements have been done as a final stage.
-> 
-> Looks good, thank you!  Queued, and will push soon.
-> 
-> I grouped the "Delete-Only List" box, which might well have been
-> ungrouped to start with.
+From: Xuwei Fu <maplewish117@gmail.com>
 
-Ah, I missed that one.
+Signed-off-by: Xuwei Fu <maplewish117@gmail.com>
+---
 
->                           This also serves as a test of Inkskcape> v1.1 modifying a drawing produced by Inkscape v1.1.1.  ;-)
+Hi, paul.
 
-Nice!
+In Chapter7's "Local Locking Hierarchies", 
+ the "Lock B" in `qsort` is confusing, qsort 
+ should acquire "Lock C" rather than "Lock B".
 
-> 
->> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->> ---
->> Hi Paul,
->>
->> I've not figured out what operations corrupted those text elements in
->> RCUspacetime.svg.
->> So take this fix as a "happens to work" kind of thing.
->>
->> Do you have any clue as to why those text elements have 180 degree
->> rotation and vertical writing mode?
-> 
-> My best guess is that in the process of copying old figures to make
-> new figures, I took some 90-degree rotated text and rotated it back.
-> That -should- result in zero-degree rotation, but if the two verions
-> of Inkscape used different pivot point for rotation, it would not have
-> been possible to simply cancel the rotations, at least without quite a
-> bit more math than I would expect to be applied.
+In this patch, "Lock B" in `qsort`  in svg is 
+ changed to "Lock C".
 
-I'm still wondering where that "tb-rl" mode come from.
+   Thanks, Xuwei
 
-> 
->> I guess you copied such a text element to RCUusecases.svg and edited
->> and copied it in Inkscape.  So I suspect RCUusecases.svg was corrupted
->> from the very beginning.
-> 
-> That is my guess.
-> 
->> After this update, you should be able to edit both SVGs by Inkscape
->> as you'd like, I suppose.
-> 
-> Looks good at the moment, but I am curious as to what your version
-> of Inkscape thinks.  ;-)
+--
+ locking/LayeredLockHierarchy.svg  | 2 +-
+ locking/LocalLockHierarchy.svg    | 2 +-
+ locking/NoLockHierarchy.svg       | 2 +-
+ locking/NonLocalLockHierarchy.svg | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-Will see when you push your grouping.
+diff --git a/locking/LayeredLockHierarchy.svg b/locking/LayeredLockHierarchy.svg
+index 05f0682f..49773940 100644
+--- a/locking/LayeredLockHierarchy.svg
++++ b/locking/LayeredLockHierarchy.svg
+@@ -334,7 +334,7 @@
+              id="tspan3715-6-2-5"
+              x="42.601532"
+              y="70.638107"
+-             style="font-size:4.93888903px;stroke-width:0.26458332">Lock B</tspan></text>
++             style="font-size:4.93888903px;stroke-width:0.26458332">Lock C</tspan></text>
+       </g>
+       <text
+          id="text3717-3-7-3-9"
+diff --git a/locking/LocalLockHierarchy.svg b/locking/LocalLockHierarchy.svg
+index e4100879..bbe3bc92 100644
+--- a/locking/LocalLockHierarchy.svg
++++ b/locking/LocalLockHierarchy.svg
+@@ -321,7 +321,7 @@
+              id="tspan3715-6-2-5"
+              x="42.601532"
+              y="70.638107"
+-             style="font-size:4.93888903px;stroke-width:0.26458332">Lock B</tspan></text>
++             style="font-size:4.93888903px;stroke-width:0.26458332">Lock C</tspan></text>
+       </g>
+       <text
+          id="text3717-3-7-3-9"
+diff --git a/locking/NoLockHierarchy.svg b/locking/NoLockHierarchy.svg
+index f892037d..7479ee62 100644
+--- a/locking/NoLockHierarchy.svg
++++ b/locking/NoLockHierarchy.svg
+@@ -298,7 +298,7 @@
+              id="tspan3715-6-2-5"
+              x="42.601532"
+              y="70.638107"
+-             style="font-size:4.93888903px;stroke-width:0.26458332">Lock B</tspan></text>
++             style="font-size:4.93888903px;stroke-width:0.26458332">Lock C</tspan></text>
+       </g>
+       <text
+          id="text3717-3-7-3-9"
+diff --git a/locking/NonLocalLockHierarchy.svg b/locking/NonLocalLockHierarchy.svg
+index 264f6f14..fb686d23 100644
+--- a/locking/NonLocalLockHierarchy.svg
++++ b/locking/NonLocalLockHierarchy.svg
+@@ -321,7 +321,7 @@
+              id="tspan3715-6-2-5"
+              x="42.601532"
+              y="70.638107"
+-             style="font-size:4.93888903px;stroke-width:0.26458332">Lock B</tspan></text>
++             style="font-size:4.93888903px;stroke-width:0.26458332">Lock C</tspan></text>
+       </g>
+       <text
+          id="text3717-3-7-3-9"
+-- 
+2.27.0
 
-> 
-> And Happy New Year!!!
-
-Happy New Year!
-
-        Thanks, Akira
-> 
-> 							Thanx, Paul
-> 
->>         Thanks, Akira
->> --
->>  defer/RCUspacetime.svg |  88 +++--
->>  defer/RCUusecases.svg  | 707 ++++++++++++++++++++---------------------
->>  2 files changed, 378 insertions(+), 417 deletions(-)
->>
-[...]
