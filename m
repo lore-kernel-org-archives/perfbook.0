@@ -3,19 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=E6viYtvIVNOY4dnUKTEg2JI+g6GdvkFBbiN5ACQCm8M=;
-        b=SNoiNWHBos6oyeHv9OJIFM+gNhdxkC+2Q/ztMrSv0zyGrStOMYUqVqqcBtCnhFB6/l
-         1kcBAKikD9HBI130R3hb1RMdqzuzvrUUKUWWrdvIwi5Z0W6DPw3ad+qRITlyLISIGAlz
-         o9B5z/y5BCaLtEn/rLFs/IAfPu5Gj2HbNBVri7afN4FtEuM5tzyG4HgzpFN4/qppljrH
-         hRXuEB1YHzwLQlzkAUirFlTYlgrhXdzMK5dsWZ4fSctuyLOBD2PVeaf7WhrtYK7LaT2/
-         VJe76W26YWaeCprfwFJGoCtkgso24PuwDjj43kr0yiaUJRh7LiJcl+H93dfBCTVZACKy
-         Obaw==
-Subject: [PATCH RESEND -perfbook 02/10] index: Add tags for 'existence
- guarantee'
+        bh=IFOBm46cgGBpW9Z+UXAwaPfYYKAVMmL3lqYJm30I1kw=;
+        b=Ee7zAYFMa9OFmw6kfcJP+LDGrMyroYUhonq4Qnx2r9vC4Bfy+O3FQZehIFwZca71yi
+         2EebprRAf00dW9ykJVu32G8IoPhBgfIp/aRzQ+BMEQm/SN32CiI2GQCKIpm2UyC8HRE0
+         u54MCBAq9I9k5/7MowLHjYWsFgA9ggEji5EYWspWxILmZXjuFQmtbvH9eaLP8S2Tt7P/
+         7MXQhtgcv9Oq3vs7KipKz4vjhmWIbc1HSkji8ppnyzvE4iavp4z0J4tnR7mGhn5nDS5h
+         OX35+faBZ1qhnCpGWSGuA3z6g734YIpcheFhOFxhvciExKHB31Ae9ofkuyP+0K6VCKvR
+         l3ow==
+Subject: [PATCH RESEND -perfbook 03/10] index: Add tags for 'type-safe memory'
 References: <d61bf71a-d3ed-1561-62ee-15d4537443da@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <4e40ee07-86d0-ebe3-3c08-5b8ac5993abe@gmail.com>
-Date: Thu, 6 Jan 2022 16:35:15 +0900
+Message-ID: <f883e06c-1aa1-46ef-45a4-beed66010945@gmail.com>
+Date: Thu, 6 Jan 2022 16:36:19 +0900
 MIME-Version: 1.0
 In-Reply-To: <d61bf71a-d3ed-1561-62ee-15d4537443da@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,91 +24,55 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
+"Type-safety guarantee" is indexed by this tag as well.
+
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- SMPdesign/SMPdesign.tex       | 4 ++--
- defer/rcuusage.tex            | 4 ++--
- defer/whichtochoose.tex       | 2 +-
- locking/locking-existence.tex | 2 +-
- together/refcnt.tex           | 2 +-
- 5 files changed, 7 insertions(+), 7 deletions(-)
+ defer/rcuapi.tex    | 2 +-
+ defer/rcuusage.tex  | 2 +-
+ together/refcnt.tex | 3 ++-
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
-index b2ebabf5..8f4655bc 100644
---- a/SMPdesign/SMPdesign.tex
-+++ b/SMPdesign/SMPdesign.tex
-@@ -415,8 +415,8 @@ bucket from being freed during the time that its lock was being acquired.
- 	What are some ways of preventing a structure from being freed while
- 	its lock is being acquired?
- }\QuickQuizAnswer{
--	Here are a few possible solutions to this \emph{existence guarantee}
--	problem:
-+	Here are a few possible solutions to this
-+	\emph{\IX{existence guarantee}} problem:
+diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+index ee939341..c152251b 100644
+--- a/defer/rcuapi.tex
++++ b/defer/rcuapi.tex
+@@ -242,7 +242,7 @@ The \co{rcu_barrier()} primitive does this job.
+ }
  
- 	\begin{enumerate}
- 	\item	Provide a statically allocated lock that is held while
+ Finally, RCU may be used to provide
+-type-safe memory~\cite{Cheriton96a}, as described in
++\IX{type-safe memory}~\cite{Cheriton96a}, as described in
+ \cref{sec:defer:Type-Safe Memory}.
+ In the context of RCU, type-safe memory guarantees that a given
+ data element will not change type during any RCU read-side critical section
 diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
-index c663be0b..f69201bb 100644
+index f69201bb..a3a17f61 100644
 --- a/defer/rcuusage.tex
 +++ b/defer/rcuusage.tex
-@@ -588,7 +588,7 @@ element being freed and reallocated as the same type of structure
+@@ -586,7 +586,7 @@ same type.
+ In other words, these lockless algorithms can tolerate a given data
+ element being freed and reallocated as the same type of structure
  while they are referencing it, but must prohibit a change in type.
- This guarantee, called ``type-safe memory'' in
+-This guarantee, called ``type-safe memory'' in
++This guarantee, called ``\IX{type-safe memory}'' in
  academic literature~\cite{Cheriton96a},
--is weaker than the existence guarantees discussed
-+is weaker than the \IXpl{existence guarantee} discussed
+ is weaker than the \IXpl{existence guarantee} discussed
  in \cref{sec:defer:Existence Guarantee},
- and is therefore quite a bit harder to work with.
- Type-safe memory algorithms in the Linux kernel make use of slab caches,
-@@ -702,7 +702,7 @@ top of the existence guarantees described in the next section.
- \label{sec:defer:Existence Guarantee}
- 
- Gamsa et al.~\cite{Gamsa99}
--discuss existence guarantees and describe how a mechanism
-+discuss \IXpl{existence guarantee} and describe how a mechanism
- resembling RCU can be used to provide these existence guarantees
- (see Section~5 on page 7 of the PDF), and
- \cref{sec:locking:Lock-Based Existence Guarantees}
-diff --git a/defer/whichtochoose.tex b/defer/whichtochoose.tex
-index 4782c036..e54ad1df 100644
---- a/defer/whichtochoose.tex
-+++ b/defer/whichtochoose.tex
-@@ -261,7 +261,7 @@ provides more-detailed rules of thumb that can help you choose among the
- four deferred-processing techniques presented in this chapter.
- 
- As shown in the ``Existence Guarantee'' row,
--if you need existence guarantees for linked
-+if you need \IXpl{existence guarantee} for linked
- data elements, you must use reference counting, hazard pointers, or RCU\@.
- Sequence locks do not provide existence guarantees, instead providing
- detection of updates, retrying any read-side critical sections
-diff --git a/locking/locking-existence.tex b/locking/locking-existence.tex
-index 38e432a2..d0ee690c 100644
---- a/locking/locking-existence.tex
-+++ b/locking/locking-existence.tex
-@@ -8,7 +8,7 @@
- \epigraph{Existence precedes and rules essence.}{\emph{Jean-Paul Sartre}}
- 
- A key challenge in parallel programming is to provide
--\emph{existence guarantees}~\cite{Gamsa99},
-+\emph{\IXpl{existence guarantee}}~\cite{Gamsa99},
- so that attempts to access a given object can rely on that object
- being in existence throughout a given access attempt.
- 
 diff --git a/together/refcnt.tex b/together/refcnt.tex
-index 292bdbd1..56c6baa9 100644
+index 56c6baa9..1963ddd2 100644
 --- a/together/refcnt.tex
 +++ b/together/refcnt.tex
-@@ -31,7 +31,7 @@ use in concurrent software, including:
- 	might seek help from another thread that already has a reference.
- \item	In some cases, hazard pointers may be used as a drop-in
- 	replacement for reference counters.
--\item	An existence guarantee is provided for the object, thus preventing
-+\item	An \IX{existence guarantee} is provided for the object, thus preventing
- 	it from being freed while some other entity might be attempting
- 	to acquire a reference.
- 	Existence guarantees are often provided by automatic
+@@ -38,7 +38,8 @@ use in concurrent software, including:
+ 	garbage collectors, and, as is seen in
+ 	\cref{sec:defer:Hazard Pointers,sec:defer:Read-Copy Update (RCU)},
+ 	by hazard pointers and RCU, respectively.
+-\item	A type-safety guarantee is provided for the object.
++\item	A \IXalt{type-safety guarantee}{type-safe memory}
++	is provided for the object.
+ 	An additional identity check must be performed once
+ 	the reference is acquired.
+ 	Type-safety guarantees can be provided by special-purpose
 -- 
 2.17.1
 
