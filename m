@@ -1,114 +1,79 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53648 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241052AbiAFQTr (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Thu, 6 Jan 2022 11:19:47 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301FCC061245
-        for <perfbook@vger.kernel.org>; Thu,  6 Jan 2022 08:19:47 -0800 (PST)
+Received: from ams.source.kernel.org ([145.40.68.75]:39376 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244173AbiAFVPn (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Thu, 6 Jan 2022 16:15:43 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8802361ADE
-        for <perfbook@vger.kernel.org>; Thu,  6 Jan 2022 16:19:46 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 59AA9B8175C
+        for <perfbook@vger.kernel.org>; Thu,  6 Jan 2022 21:15:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641485985;
-        bh=8x8r/pZdf0JgHFX5U3YZxua8Y2Mr1h706zbGvv6nUbw=;
+        s=k20201202; t=1641503741;
+        bh=ZMEivpZ2F2PgH5jHQJ0dAkLsJ6oYE/NVFhr1See1cAg=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=SnqTWzTEtSFExOotn5qnRldCBt9w74v05cjAILbaygR7TbKTQnbk7RqfRhxVTJZqb
-         S/RmOBpDYJQIUOPCp8uaZb93sTuf0LkYEFCLI9unJ7az54ie7zCGcL33Z35IBeiVlw
-         /xoe4f2XlxJ/e36rQUwuHIAEqAaXLyzs4F+5Y/bI8OTEHDSsi6EzZwJEcPFP0COL9S
-         pE77hete9zkkUrbQe9NErhzFAWmJzdg5hxuG0KUBjAwYP1dKbv0g1WdpCMTKsXJRjz
-         5d7SYs81z06sMqINJLvR2aQxGY0a9s0kT5TdbpxS3cum3W2BFgPHFh79uSBP2orPaZ
-         OOw/ADKt6/FSA==
-Date: Thu, 6 Jan 2022 08:19:45 -0800
+        b=pthEK3H+KWOv5BoHgZI5/aNQRxi2mD2K7DP7DL6CnbZtZaQJaoSCy2EvqVTSV+UOI
+         MCv13Ly3IaXx0YlTlWo8aj3BJpX06oVvPXqDo6003XxVdigc8aOXCLsTfhX93qeExx
+         ZCDJs6uhlDOSvFdNNtoJO28cGkNW7NWn3i42dCCjC8LI5LzjQ/8xb+bImy6qPn3xmK
+         2Pmx2hxIgDDh+OraPdgWWA3Ooe98mvKT0YFksgyLbih0AXyrMQuIOoQ5EMyAYCGgM5
+         CNmbcF5GvBUlf/izcA/86kvTRpQe6DMAPpFigVqUnqzPq9W30WfZifqIK+yt5hinuU
+         8LTediK6+cmbA==
+Date: Thu, 6 Jan 2022 13:15:40 -0800
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH RESEND -perfbook 00/10] Index and acronym updates
-Message-ID: <20220106161945.GK4202@paulmck-ThinkPad-P17-Gen-1>
+Subject: Re: Section 9.5: Nobody expects the Spanish Acquisition!
+Message-ID: <20220106211540.GA1550084@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <d61bf71a-d3ed-1561-62ee-15d4537443da@gmail.com>
+References: <CAJbg=FUHcqEXE+MgXif0n=e09xYFoGFfmhjvY1=pnC6QCCRh2w@mail.gmail.com>
+ <20211223022957.GM4109570@paulmck-ThinkPad-P17-Gen-1>
+ <b2c80a98-ed14-7e0d-c309-3f3ea029018a@gmail.com>
+ <CAJbg=FXxhA1d23EzAG2TfnyxVVd58khApBerH4vdU99FYwepuQ@mail.gmail.com>
+ <50fb6c6c-cc9b-691e-b08b-233fd1a02001@gmail.com>
+ <CAJbg=FUXcd4MLS0QxHV9rG=WwjEzsCo0Q2WuLUJC1-meygCu=g@mail.gmail.com>
+ <20220104000506.GD4202@paulmck-ThinkPad-P17-Gen-1>
+ <ae38a23a-a5ac-055f-3039-c10e46160e13@gmail.com>
+ <CAJbg=FULL3obUqKPKK=BD4o9Wr-WbcFH9GoAAFQ7Vh7EfqphtQ@mail.gmail.com>
+ <20220105020414.GI4202@paulmck-ThinkPad-P17-Gen-1>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d61bf71a-d3ed-1561-62ee-15d4537443da@gmail.com>
+In-Reply-To: <20220105020414.GI4202@paulmck-ThinkPad-P17-Gen-1>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: Elad Lahav <e2lahav@gmail.com>
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 
-On Thu, Jan 06, 2022 at 04:29:25PM +0900, Akira Yokosawa wrote:
-> Hi Paul,
+On Tue, Jan 04, 2022 at 06:04:14PM -0800, Paul E. McKenney wrote:
+> On Tue, Jan 04, 2022 at 06:47:42AM -0500, Elad Lahav wrote:
+
+[ . . . ]
+
+> > > Your response makes me think that I need to explain better what I am
+> > > trying to do here. Reading section 9.5 it is not always clear to me what
+> > > constitutes a description of RCU and what a description of "RCU in the
+> > > Linux kernel". I decided to try and come up with a more abstract
+> > > description using the code I attached. It may be just a straw man, but
+> > > at least it gives us something to point at while discussing (which I
+> > > guess is a redundant definition of a "straw man"...).
 > 
-> This is another round of *never-ending* indexing updates.
-
-Maintaining indexes is non-trivial, no two ways about it!
-
-So special thanks for this series!
-
-At some point, for the index entries with lots of references, it may
-be necesary to flag the most important references.  I sometimes see
-such entries italicized or marked with "ff", though I freely confess
-that I have no idea what the rationale for "ff" might be.
-
-We are probably not yet to the point where this matters, though.
-
-> Patches 1/10--3/10 add indexing tags to terms recently added in Glossary.
-> Patch 4/10 adds API indexing tags in rcuapi.
-> Patch 5/10 fixes a typo found while working on Patch 4/10.
+> Hmmm...  Maybe I should add a section following 9.5.1.1 ("Minimal
+> Insertion and Deletion") describing the core API:
 > 
-> Patch 6/10 adds indexing tags for userspace-RCU APIs in datastruct.
-> Those APIs are also used in code snippets of other chapters, but are
-> seldom mentioned from the text in later chapters/sections.
+> 	rcu_read_lock(): Start an RCU read-side critical section.
+> 	rcu_read_unlock(): End an RCU read-side critical section.
+> 	rcu_dereference(): Safely load an RCU-protected pointer.
+> 	synchronize_rcu(): Wait for all pre-existing RCU read-side
+> 		critical sections to complete.
+> 	call_rcu(): Invoke the specified function with the specified
+> 		rcu_head pointer argument after all pre-existing
+> 		RCU read-side critical sections complete.
+> 	rcu_assign_pointer(): Safely update an RCU-protected pointer.
+> 	rcu_dereference_protected(): Safely load an RCU-protected
+> 		pointer within an update.  (Just debugging, as you
+> 		can safely do a C-language load.  So I will probably
+> 		omit this one.)
 > 
-> Patches 7/10 and 8/10 add API indexing tags in count and locking.
-> Patch 9/10 defines acronym of QSBR and adds tags for QSBR and EBR.
-> 
-> Patch 10/10 defines acronym of RAII and adds its tags.  The "WIP" in
-> the title indicates changes in the appearance of first-time form from
-> quoted string to emphasized modifier form.  Please keep it with the change
-> log amended if the new appearance looks good/acceptable to you.
+> Does that help?
 
-I kept 10/10, removing the "WIP" on the second try.  ;-)
-
-Queued and pushed, and again, thank you!
+Hearing no objections, I added this section and propagated these APIs
+into the following sections.  I hope that is helpful.
 
 							Thanx, Paul
-
->         Thanks, Akira
-> --
-> Akira Yokosawa (10):
->   index: Add tags for 'reference count'
->   index: Add tags for 'existence guarantee'
->   index: Add tags for 'type-safe memory'
->   defer/rcuapi: Add index tags for RCU APIs
->   defer/rcuapi: Fix typo 'get_nulls_values()'
->   datastruct: Add index tags for userspace-RCU APIs
->   count: Add index tags to APIs
->   locking: Add index tags to APIs
->   treewide: Add acronym tags for QSBR and EBR
->   WIP locking: Add acronym tag for RAII
-> 
->  SMPdesign/SMPdesign.tex       |   4 +-
->  appendix/toyrcu/toyrcu.tex    |   3 +-
->  count/count.tex               |  16 ++---
->  datastruct/datastruct.tex     |  14 ++--
->  defer/rcuapi.tex              | 120 +++++++++++++++++-----------------
->  defer/rcuintro.tex            |   3 +-
->  defer/rcurelated.tex          |   4 +-
->  defer/rcuusage.tex            |  11 ++--
->  defer/refcnt.tex              |   3 +-
->  defer/whichtochoose.tex       |   9 ++-
->  future/tm.tex                 |   3 +-
->  glsdict.tex                   |   2 +
->  locking/locking-existence.tex |   2 +-
->  locking/locking.tex           |  20 +++---
->  memorder/memorder.tex         |   2 +-
->  together/applyrcu.tex         |   2 +-
->  together/refcnt.tex           |   8 ++-
->  toolsoftrade/toolsoftrade.tex |   4 +-
->  18 files changed, 118 insertions(+), 112 deletions(-)
-> 
-> 
-> base-commit: 3cc2d7eede268930304b35fdce6121e18b2ceef6
-> -- 
-> 2.17.1
-> 
