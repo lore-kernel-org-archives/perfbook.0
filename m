@@ -3,19 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2G2PrMSgT+9YKucOVUrN3Ff8gLpnzJWrYl7tWf8A/QE=;
-        b=i30ExaXd8tcJLChUfRD8a9wXDLNlPWJJb//EUXwahkxLztIVTybiijRlcqjWBhKfdN
-         2csABCgsEAk0lJTH/nDBZ8KhGxXZdM/qzjJKo/wtjGuBphC2mS0s3G2+mCaya1qv+Q67
-         WJIxPpkCVvmXGWRBBqFuIOUT1HiVucJ22W3W9i4no0TvSc0ClHZoajzj/q79yxRe5i5C
-         T1yrn1axinNYYVWyimHdirh7zixd7L7e/XMrT3topgm1A75x2F1Lzh8EeNLnOoNxJXNa
-         Yw/PyIMPXWs+FKWPr2IoZCqmKLYB4Mb75XXHlC+N/JxHn6RMtJdf2pD5M+ITC60Xdegk
-         OCpw==
-Subject: [PATCH RESEND -perfbook 05/10] defer/rcuapi: Fix typo
- 'get_nulls_values()'
+        bh=KHY5HlQMgy+9ZjH4RHSMibvdPEcKPNgdTHqi35J4+MA=;
+        b=oUF17yZeQp+d/P/ZcxNnJOTLtAzyI3gwH13QlcZXxl8oA3CXFKvi4lUeQO2UDzCPz0
+         L7XGXgux0LfW0Y9v1xM7RaDqQzI+G/azdABLrYnvfbxP5Ymyvv7Wd4gzuKHIRyHYKE0W
+         IWS0sZ0G3+Y3o3fmHcHcz/uIz1v40g/EuRE2tZgj338RFbi27dmXlQC+Jut/+jChdoJt
+         FxWZteV4dSyHQGEPSoo+fz+nUXHwN4gslh3+Lr15kZvUVbjm18NkI01U0cfYvuYeYbsl
+         ct1fpKw8dqRsp+uE7HdQKtp+BxGkw8kSn+AfVeLGwtTPtK5NSS0INNopgDtWgcvyIWXn
+         KI0g==
+Subject: [PATCH RESEND -perfbook 06/10] datastruct: Add index tags for
+ userspace-RCU APIs
 References: <d61bf71a-d3ed-1561-62ee-15d4537443da@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <f9515da9-3de4-65c9-c68d-96266d4cd6f2@gmail.com>
-Date: Thu, 6 Jan 2022 16:38:36 +0900
+Message-ID: <da93dd20-9345-5676-dde0-cb3efcbd5e69@gmail.com>
+Date: Thu, 6 Jan 2022 16:39:40 +0900
 MIME-Version: 1.0
 In-Reply-To: <d61bf71a-d3ed-1561-62ee-15d4537443da@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -27,22 +27,41 @@ List-ID: <perfbook.vger.kernel.org>
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- defer/rcuapi.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ datastruct/datastruct.tex | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-index 6cd30c0f..ecbd4863 100644
---- a/defer/rcuapi.tex
-+++ b/defer/rcuapi.tex
-@@ -683,7 +683,7 @@ if passed an \co{hlist_nulls} \co{NULL} pointer) to determine when
- it reaches the end of a list, and the \apik{get_nulls_value()} function
- (which returns its argument's \co{NULL}-pointer identifier) to fetch
- the type of \co{NULL} pointer.
--When \co{get_nulls_values()} returns an unexpected value, the reader
-+When \co{get_nulls_value()} returns an unexpected value, the reader
- can take corrective action, for example, restarting its traversal from
- the beginning.
- 
+diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
+index 7186b611..99da03bf 100644
+--- a/datastruct/datastruct.tex
++++ b/datastruct/datastruct.tex
+@@ -493,8 +493,8 @@ shows \co{hashtab_lookup()} for the RCU-protected per-bucket-locked
+ hash table.
+ This is identical to that in
+ \cref{lst:datastruct:Hash-Table Lookup}
+-except that \co{cds_list_for_each_entry()} is replaced
+-by \co{cds_list_for_each_entry_rcu()}.
++except that \apiur{cds_list_for_each_entry()} is replaced
++by \apiur{cds_list_for_each_entry_rcu()}.
+ Both of these primitives traverse the hash chain referenced
+ by \co{htb->htb_head} but \co{cds_list_for_each_entry_rcu()} also
+ correctly enforces memory ordering in case of concurrent insertion.
+@@ -545,12 +545,12 @@ shows \co{hashtab_add()} and \co{hashtab_del()}, both of which
+ are quite similar to their counterparts in the non-RCU hash table
+ shown in
+ \cref{lst:datastruct:Hash-Table Modification}.
+-The \co{hashtab_add()} function uses \co{cds_list_add_rcu()} instead
+-of \co{cds_list_add()} in order to ensure proper ordering when
++The \co{hashtab_add()} function uses \apiur{cds_list_add_rcu()} instead
++of \apiur{cds_list_add()} in order to ensure proper ordering when
+ an element is added to the hash table at the same time that it is
+ being looked up.
+-The \co{hashtab_del()} function uses \co{cds_list_del_rcu()} instead
+-of \co{cds_list_del_init()} to allow for the case where an element is
++The \co{hashtab_del()} function uses \apiur{cds_list_del_rcu()} instead
++of \apiur{cds_list_del_init()} to allow for the case where an element is
+ looked up just before it is deleted.
+ Unlike \co{cds_list_del_init()}, \co{cds_list_del_rcu()} leaves the
+ forward pointer intact, so that \co{hashtab_lookup()} can traverse
 -- 
 2.17.1
 
