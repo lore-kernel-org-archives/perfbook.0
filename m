@@ -1,79 +1,80 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from ams.source.kernel.org ([145.40.68.75]:39376 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244173AbiAFVPn (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Thu, 6 Jan 2022 16:15:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54616 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232227AbiAGPNj (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Fri, 7 Jan 2022 10:13:39 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7CB7C061574
+        for <perfbook@vger.kernel.org>; Fri,  7 Jan 2022 07:13:38 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 59AA9B8175C
-        for <perfbook@vger.kernel.org>; Thu,  6 Jan 2022 21:15:42 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AE5C7B8262C
+        for <perfbook@vger.kernel.org>; Fri,  7 Jan 2022 15:13:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641503741;
-        bh=ZMEivpZ2F2PgH5jHQJ0dAkLsJ6oYE/NVFhr1See1cAg=;
+        s=k20201202; t=1641568416;
+        bh=lteBlLPxj/Iqfa+BnYYdFsKAlaqOeCkkaZAkA5CVRBk=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=pthEK3H+KWOv5BoHgZI5/aNQRxi2mD2K7DP7DL6CnbZtZaQJaoSCy2EvqVTSV+UOI
-         MCv13Ly3IaXx0YlTlWo8aj3BJpX06oVvPXqDo6003XxVdigc8aOXCLsTfhX93qeExx
-         ZCDJs6uhlDOSvFdNNtoJO28cGkNW7NWn3i42dCCjC8LI5LzjQ/8xb+bImy6qPn3xmK
-         2Pmx2hxIgDDh+OraPdgWWA3Ooe98mvKT0YFksgyLbih0AXyrMQuIOoQ5EMyAYCGgM5
-         CNmbcF5GvBUlf/izcA/86kvTRpQe6DMAPpFigVqUnqzPq9W30WfZifqIK+yt5hinuU
-         8LTediK6+cmbA==
-Date: Thu, 6 Jan 2022 13:15:40 -0800
+        b=H/1PVO9ge+AA5F6Wv3j8NJKJA559tjW0RU4j30BqtxpDLkQbejcnNVZi7lPNAE1Ci
+         FcqzrMfFiCxt+FeUsqxrtCklkkLnW+Aq0KDNkDqd0qBRr3z7ST3ykS7q7PymOhVYDT
+         D989S+I4JLtQOuDwxXpXtCfH86lEKG4zt6zuMm8gFFgcvpw7Inhjr/vzYry7iIJvIR
+         9cTs8onf91pKGmvYnL4dR+fWqpanFFZseTi1Xo6Ntj9MYRqokCyzIg5RLaVOP4oT+M
+         q+0ycY3h3ElTxdZ9BqWQ0pZKHZx6siqiLFd1efHJm0969huraPrhxYKMGXG1x5aMnO
+         B14z8CkkiPTsw==
+Date: Fri, 7 Jan 2022 07:13:35 -0800
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: Section 9.5: Nobody expects the Spanish Acquisition!
-Message-ID: <20220106211540.GA1550084@paulmck-ThinkPad-P17-Gen-1>
+Subject: Re: [PATCH -perfbook 1/2] punctcheck.pl: Fix false positive by
+ stricter pattern for \acr{}
+Message-ID: <20220107151335.GO4202@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <CAJbg=FUHcqEXE+MgXif0n=e09xYFoGFfmhjvY1=pnC6QCCRh2w@mail.gmail.com>
- <20211223022957.GM4109570@paulmck-ThinkPad-P17-Gen-1>
- <b2c80a98-ed14-7e0d-c309-3f3ea029018a@gmail.com>
- <CAJbg=FXxhA1d23EzAG2TfnyxVVd58khApBerH4vdU99FYwepuQ@mail.gmail.com>
- <50fb6c6c-cc9b-691e-b08b-233fd1a02001@gmail.com>
- <CAJbg=FUXcd4MLS0QxHV9rG=WwjEzsCo0Q2WuLUJC1-meygCu=g@mail.gmail.com>
- <20220104000506.GD4202@paulmck-ThinkPad-P17-Gen-1>
- <ae38a23a-a5ac-055f-3039-c10e46160e13@gmail.com>
- <CAJbg=FULL3obUqKPKK=BD4o9Wr-WbcFH9GoAAFQ7Vh7EfqphtQ@mail.gmail.com>
- <20220105020414.GI4202@paulmck-ThinkPad-P17-Gen-1>
+References: <29dac258-de72-0b10-3778-4e34fe4005ce@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220105020414.GI4202@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <29dac258-de72-0b10-3778-4e34fe4005ce@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Elad Lahav <e2lahav@gmail.com>
-Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-On Tue, Jan 04, 2022 at 06:04:14PM -0800, Paul E. McKenney wrote:
-> On Tue, Jan 04, 2022 at 06:47:42AM -0500, Elad Lahav wrote:
-
-[ . . . ]
-
-> > > Your response makes me think that I need to explain better what I am
-> > > trying to do here. Reading section 9.5 it is not always clear to me what
-> > > constitutes a description of RCU and what a description of "RCU in the
-> > > Linux kernel". I decided to try and come up with a more abstract
-> > > description using the code I attached. It may be just a straw man, but
-> > > at least it gives us something to point at while discussing (which I
-> > > guess is a redundant definition of a "straw man"...).
+On Fri, Jan 07, 2022 at 12:48:37PM +0900, Akira Yokosawa wrote:
+> A false positive in defer/rcuintro.tex by punctcheck.pl made
+> Paul do a wrong band-aide change in commit 8e3364bead00
+> ("defer/rcuintro: Fix ThomasEHart2006a punctuation issue.").
 > 
-> Hmmm...  Maybe I should add a section following 9.5.1.1 ("Minimal
-> Insertion and Deletion") describing the core API:
+> It was because the pattern "\{.+\}" matches all of
+> "{qsbr}~\cite{ThomasEHart2006a}" and the script saw the
+> sentence as if it ended with "\IXacrfst{}."
 > 
-> 	rcu_read_lock(): Start an RCU read-side critical section.
-> 	rcu_read_unlock(): End an RCU read-side critical section.
-> 	rcu_dereference(): Safely load an RCU-protected pointer.
-> 	synchronize_rcu(): Wait for all pre-existing RCU read-side
-> 		critical sections to complete.
-> 	call_rcu(): Invoke the specified function with the specified
-> 		rcu_head pointer argument after all pre-existing
-> 		RCU read-side critical sections complete.
-> 	rcu_assign_pointer(): Safely update an RCU-protected pointer.
-> 	rcu_dereference_protected(): Safely load an RCU-protected
-> 		pointer within an update.  (Just debugging, as you
-> 		can safely do a C-language load.  So I will probably
-> 		omit this one.)
+> Silence the false positive by using a stricter pattern of
+> "\{[^\}]+\}".
 > 
-> Does that help?
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-Hearing no objections, I added this section and propagated these APIs
-into the following sections.  I hope that is helpful.
+I was wondering about that.  ;-)
+
+Queued, thank you!!!
 
 							Thanx, Paul
+
+> ---
+>  utilities/punctcheck.pl | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/utilities/punctcheck.pl b/utilities/punctcheck.pl
+> index 3488e5b6..7d23cc57 100755
+> --- a/utilities/punctcheck.pl
+> +++ b/utilities/punctcheck.pl
+> @@ -62,7 +62,7 @@ sub check_line {
+>  	$ng = 0;
+>  	if ($line =~ /^(?=[\s]*+[^%])[^%]*[A-Z][\)\']*[\.\?\!\:][\)\}\']*$/ ||
+>  	    $line =~ /^(?=[\s]*+[^%])[^%]*[A-Z][\)\']*[\.\?\!\:]\\footnote/ ||
+> -	    $line =~ /^(?=[\s]*+[^%])[^%]*[Aa]crm?(f|fst)?\{.+\}[\)\']*[\.\?\!\:][\)\}\']*$/ ||
+> +	    $line =~ /^(?=[\s]*+[^%])[^%]*[Aa]crm?(f|fst)?\{[^\}]+\}[\)\']*[\.\?\!\:][\)\}\']*$/ ||
+>  	    $line_raw =~ /\\[Cc]ref\{(cha|chp)\:app:[^\}]*\}[\.\?\!\:][\)\}\']*$/ ) {
+>  	    $ng += 1;
+>  	    if ($next_line =~ /^\s*$/ || $next_line =~ /^\s*%/ ||
+> 
+> base-commit: f21271f0939bb620a95b1bb3d76ac0259c4bb54c
+> -- 
+> 2.17.1
+> 
