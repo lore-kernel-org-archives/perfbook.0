@@ -1,73 +1,63 @@
-Return-Path: <SRS0=7ZAc=SC=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=fdso=R7=gmail.com=zhouzhouyi@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qTZgZiGfqWMNz35aAbzaNtRw9rXaMLgRTWwu+dPAwyk=;
-        b=RgKxn2YcLGaaLdpJm6KidxUBi+bum+HF0jkUIAE73c1VZbLtc/rFViPx31iKyqumJQ
-         5rbhynVLuOfNL83QnEgkrJAkQzpA0R9ofaKfXVRZgwfoABaa6GBaQKQ+k1XnoU/ilJU0
-         3PbvTyZB2PHC22ce+2/tvTpWoz1PQ7xlmruhwI+Nhk2/4fto7TrO6b4vO9LaDKJcz7hw
-         5UJkkaNEC1jf6WmjPdhALV/7ilLWWK1khAKD5aRnRVX+3d9ZmCBhSVXV0R572dtFTgj5
-         cBUIl9oHpexXeI5w+5NQ29XlN+Kwc0oR99hWivSZ9nDHgpjyi4BEjXO0rozNELOl5wer
-         nRwg==
-Subject: [PATCH -perfbook 6/6] index: Retouch prenotes
-References: <014dcadf-e5ff-3a73-3b5a-a7951375d642@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <842878f6-c24f-747d-f417-3450db0fe0d1@gmail.com>
-Date: Tue, 18 Jan 2022 19:57:56 +0900
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KNQ0leWCRiKs/lm4z/FQpKuDDueQytQsoDBpLig/6AI=;
+        b=ZIxA4Pl9e+oinDMrN7x5FJkJ49i7AKvs9nheAggmu3lEwYpUzFFmSjTCVlWjKrfyKV
+         bP45oJDOGRTlaQor0yq0WMmGeztYEuCvQshuEBjPPMO29jcsHfrrZhMuJxHA8UGXHyAg
+         epAAlfEnfxV07s/3Mq4MD0wcqe1R9K97VR7lX1CAhfknNPqnMRpawlhJysxBBd485bBa
+         okBVwgxH2iVf5C2j6Auh+0xlDDQaXDZvAFzLWfwzPJl84ffDFcd+1kcZqwTTm8I3Whmq
+         EsxsHOrAbecEVsmQcXMqCpMjsCRq2bry3bnhjcJxA76eXbBbKWUeZ9CZxX1MhkJZ+vvm
+         s6nA==
+From: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Subject: [PATCH-perfbook] make a ref item (Liang2018) better
+Date: Sat, 15 Jan 2022 12:06:06 +0800
+Message-Id: <20220115040606.22618-1-zhouzhouyi@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <014dcadf-e5ff-3a73-3b5a-a7951375d642@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Transfer-Encoding: 8bit
+To: paulmck@kernel.org, akiyks@gmail.com, luyang.co@gmail.com, perfbook@vger.kernel.org
+Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Concise note on general index is suggested by Paul.
+make the reference item: Liang2018 better by following the style of
+https://ieeexplore.ieee.org/document/8341980
 
-Suggested-by: Paul E. McKenney <paulmck@kernel.org>
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
 ---
- perfbook-lt.tex | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
+Hi Paul and Akira
 
-diff --git a/perfbook-lt.tex b/perfbook-lt.tex
-index a5bb32c5..085ce55d 100644
---- a/perfbook-lt.tex
-+++ b/perfbook-lt.tex
-@@ -682,14 +682,24 @@
+I think we could make the reference item better by following
+the style of https://ieeexplore.ieee.org/document/8341980
+
+and I invoked 'make' before submitting ;-)
+
+Thank you for your constant encouragement ;-)
+
+
+Thanks
+Zhouyi
+--
+ bib/swtools.bib | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/bib/swtools.bib b/bib/swtools.bib
+index 31ce0025..cab1909d 100644
+--- a/bib/swtools.bib
++++ b/bib/swtools.bib
+@@ -737,8 +737,11 @@ Michalis Kokologiannakis",
+ @inproceedings{Liang:2018:VTB,
+  title = "Verification of Tree-Based Hierarchical {Read-Copy Update} in the {Linux Kernel}",
+  author = "Lihao Liang and Paul E. McKenney and Daniel Kroening and Tom Melham",
++ day = "19--23",
++ month = "March",
+  year = "2018",
+- booktitle = "2018 Design, Automation {\&amp;} Test in Europe Conference {\&amp;} Exhibition, {DATE} 2018, Dresden, Germany, March 19--23, 2018",
++ booktitle = "2018 Design, Automation {\&} Test in Europe Conference {\&} Exhibition (DATE)",
++ address = "Dresden, Germany",
+  url = "http://www.cs.ox.ac.uk/tom.melham/pub/Liang-2018-VTB.pdf",
  }
- \printglossary[type=\acronymtype]
- \phantomsection
--\setindexprenote{\footnotesize Note on page number styles:
--  \BF{Bold} indicates fair amount of discussion,
--  \GL{underline} indicates a definition in glossary or elsewhere.}
-+\setindexprenote{%
-+  \hfill\begin{minipage}{1in}
-+    \footnotesize%
-+    \BF{Bold}: Major reference.
-+    \GL{Underline}: Definition.
-+    \vspace*{1ex}
-+  \end{minipage}
-+}
- \printindex
- \phantomsection
--\setindexprenote{\footnotesize (c):~Cxx standard, (g):~GCC extension,
--  (k):~Linux kernel, (kh):~Linux kernel historic, (pf):~perfbook CodeSamples,
--  (px):~POSIX, (ur):~userspace RCU}
-+\setindexprenote{%
-+  \hfill\begin{minipage}{2.6in}
-+    \footnotesize (c):~Cxx standard, (g):~GCC extension,
-+    (k):~Linux kernel, (kh):~Linux kernel historic, (pf):~perfbook CodeSamples,
-+    (px):~POSIX, (ur):~userspace RCU\@.
-+    \vspace*{1ex}
-+  \end{minipage}
-+}
- \printindex[api]
- \IfEbookSize{}{
- \restoregeometry
+ 
 -- 
-2.17.1
-
+2.25.1
 
