@@ -3,18 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2HMveR5C8rtzo7T+qhKC58tcrlvy41duVdiP5JmNvCI=;
-        b=FkTWX/2zQYJEgxf9fnex8TvjcU5troleu9pCnpFqqItSywMoJAZDOQ93D7Ek9folLv
-         VA1OJJurvyLAjizCwPTX1PIsxNF2/kJPbXgSokxtu43kcF0s6777qpipHPlYCfN+ioUk
-         YcUa055SI2eVdXtgZ4QeU63IZTdHfU2UVbXtMnUaeBS6kj1yDQFlSNqWLm+EPVE77wtx
-         iEYDHP5odRdnkC6qmtpHHcynJ47ndvpq2Oe4v/7cfSnn3QSv7HiHbt8HnUPaOSA4e1fh
-         kKR0gftUj1q0Bb3McM82H3tIjA8zVmOaCWZTh3i64ry2BSeNW/kqIe4tdMFcrmvFQQ+v
-         Pyvg==
-Subject: [PATCH -perfbook 1/6] index: Initial page number format support
+        bh=M8PVMFdEBq/FY096VY1IpXMFWk/3YzfwX2fddPEnXG8=;
+        b=jzogh7h0JzfFg45xlPt6mxuFNdOycoY2RMIMhaOe2fMX7fEH4DmP2wItoNP0HSZifb
+         6AlHnltxlYKw2xWtjlXqTcjO9ZwfD3MwJX++JKYLw5DHhV2f8/huTSCQfrEam+v+YFej
+         sIJr2Ysy0Pi3ZK7aBNpoVgiFzNk0yb7b1/nVjGADlO/NE8NYhfzTF5mxHm9RxUP3AYRN
+         ck4uG6nH03dD74ZryWC2VismNPFYGGrdTuRup7Jv3Lzz9HdZpZ80m0+bcxHBDa8GdIkh
+         Yenhrq0BzhSC+Yf0E5ChazjwALjWxh9/YYU2HOsMAF+N700A3+Axq9H36AY3sDxwHYmH
+         A96A==
+Subject: [PATCH -perfbook 2/6] locking, defer: POC of bold face page number in
+ index
 References: <014dcadf-e5ff-3a73-3b5a-a7951375d642@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <df0fe742-f690-f7fa-afa3-4652a018c34e@gmail.com>
-Date: Tue, 18 Jan 2022 19:52:14 +0900
+Message-ID: <b901ec66-9d48-3ddf-7ac0-360b97c68fc2@gmail.com>
+Date: Tue, 18 Jan 2022 19:53:46 +0900
 MIME-Version: 1.0
 In-Reply-To: <014dcadf-e5ff-3a73-3b5a-a7951375d642@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -24,135 +25,65 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-If plain \index{} macro were used for tagging terms, one could
-say:
+Example uses of \IXB (for deadlock) and \IXBacrfst (for acronym RCU).
 
-    \index{some word|textbf}
-
-to have a page number in bold face.
-
-However, existing indexing scheme conflicts with makeindex's page
-number formatting and naively defined macros of \IXB{} and its
-variants don't produce proper-format .idx files.
-
-As a workaround, use a helper script "adjustindexformat.pl" to
-overcome the conflict.
-Adjusted .idx file is kept as $basename-adjust.idx.
-
-See header comments of adjustindexformat.pl for adjustment samples.
-
-Note: $basename.idx is overwritten by the final run of pdflatex.
+Note: Use of \IXB{} can conflict with a nearby normal \IX{}.
+Such a \IB{Deadlock} tag in locking/locking.tex is removed.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- glsdict.tex                    |  5 ++++-
- perfbook-lt.tex                | 15 +++++++++++++++
- utilities/adjustindexformat.pl | 33 +++++++++++++++++++++++++++++++++
- utilities/runlatex.sh          |  2 ++
- 4 files changed, 54 insertions(+), 1 deletion(-)
- create mode 100755 utilities/adjustindexformat.pl
+ defer/rcu.tex       | 2 +-
+ glsdict.tex         | 1 +
+ locking/locking.tex | 4 ++--
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
+diff --git a/defer/rcu.tex b/defer/rcu.tex
+index e11d1f8b..7909fce7 100644
+--- a/defer/rcu.tex
++++ b/defer/rcu.tex
+@@ -35,7 +35,7 @@ primitives.
+ These schemes' shortcomings raise the question of
+ whether it is possible to do better.
+ 
+-This section introduces \emph{read-copy update} (RCU), which provides
++This section introduces \IXBacrfst{rcu}, which provides
+ an API that allows readers to be associated with regions in the source code,
+ rather than with expensive updates to frequently updated shared data.
+ The remainder of this
 diff --git a/glsdict.tex b/glsdict.tex
-index 7f7ae336..c2b2d050 100644
+index c2b2d050..3dafda06 100644
 --- a/glsdict.tex
 +++ b/glsdict.tex
-@@ -13,7 +13,9 @@
-     plural={\protect\glsabbrvfont{\the\glsshortpltok}},%
-     description={\protect\glslongfont{\the\glslongtok}},
-     user1={\protect\index{\the\glslongtok\space(\the\glsshorttok)%
--      @\makefirstuc{\the\glslongtok}\space(\the\glsshorttok)}}%
-+      @\makefirstuc{\the\glslongtok}\space(\the\glsshorttok)}},%
-+    user2={\protect\index{\the\glslongtok\space(\the\glsshorttok)%
-+      @\makefirstuc{\the\glslongtok}\space[\the\glsshorttok]}}%
-   }%
-   \renewcommand*{\GlsXtrPostNewAbbreviation}{%
-     \glshasattribute{\the\glslabeltok}{regular}%
-@@ -178,6 +180,7 @@
- }
+@@ -193,6 +193,7 @@
+ \newcommand{\IXAcrf}[1]{\glsuseri{#1}\Acrf{#1}} % put index via acronym dictionary (full form, upper case)
+ \newcommand{\IXAcrfpl}[1]{\glsuseri{#1}\Acrfpl{#1}} % put index via acronym dictionary (full form, upper case, plural)
+ \newcommand{\IXacrfst}[1]{\glsuseri{#1}\acrfst{#1}} % put index via acronym dictionary (first form)
++\newcommand{\IXBacrfst}[1]{\glsuserii{#1}\acrfst{#1}} % put index via acronym dictionary (first form)
+ \newcommand{\IXacrfstpl}[1]{\glsuseri{#1}\acrfstpl{#1}} % put index via acronym dictionary (first form, plural)
+ \newcommand{\IXAcrfst}[1]{\glsuseri{#1}\Acrfst{#1}} % put index via acronym dictionary (first form, upper case)
+ \newcommand{\IXAcrfstpl}[1]{\glsuseri{#1}\Acrfstpl{#1}} % put index via acronym dictionary (first form, upper case, plural)
+diff --git a/locking/locking.tex b/locking/locking.tex
+index 851a1f00..c223d40c 100644
+--- a/locking/locking.tex
++++ b/locking/locking.tex
+@@ -11,7 +11,7 @@
+ 	  quoting}}
  
- \newcommand{\IXacr}[1]{\glsuseri{#1}\acr{#1}} % put index via acronym dictionary
-+\newcommand{\IXBacr}[1]{\glsuserii{#1}\acr{#1}} % put index via acronym dictionary
- \newcommand{\IXacrpl}[1]{\glsuseri{#1}\acrpl{#1}} % put index via acronym dictionary (plural)
- \newcommand{\IXAcr}[1]{\glsuseri{#1}\Acr{#1}} % put index via acronym dictionary (upper case)
- \newcommand{\IXAcrpl}[1]{\glsuseri{#1}\Acrpl{#1}} % put index via acronym dictionary (upper case, plural)
-diff --git a/perfbook-lt.tex b/perfbook-lt.tex
-index 98899d80..79de56c1 100644
---- a/perfbook-lt.tex
-+++ b/perfbook-lt.tex
-@@ -205,6 +205,21 @@
- \newcommand{\IXhr}[2]{\indexhr{#1 #2}{#2}{#1}\hlindex{#1 #2}}
- \newcommand{\IXalth}[3]{\indexh{#1}{#3}{#2}\hlindex{#1}}
- \newcommand{\IXalthr}[3]{\indexhr{#1}{#3}{#2}\hlindex{#1}}
-+% page number in bold face
-+\newcommand{\BF}[1]{\textbf{#1}}
-+\newcommand{\IXB}[1]{\ucindex{#1|BF}\hlindex{#1}} % put with first letter capitalized into general index
-+\newcommand{\IXBr}[1]{\index{#1|BF}\hlindex{#1}} % put as is into general index
-+\newcommand{\IXBpl}[1]{\ucindex{#1|BF}\hlindex{#1s}} % put with first letter capitalized into general index for plural
-+\newcommand{\IXBplr}[1]{\index{#1|BF}\hlindex{#1s}} % put as is into general index for plural
-+\newcommand{\IXBplx}[2]{\ucindex{#1|BF}\hlindex{#1#2}} % put as is into general index for plural of exeptional form
-+\newcommand{\IXBalt}[2]{\ucindex{#2|BF}\hlindex{#1}} % put alternative with first letter capitalized into general index
-+\newcommand{\IXBaltr}[2]{\index{#2|BF}\hlindex{#1}} % put alternative as is into general index
-+\newcommand{\IXBh}[2]{\indexh{#1 #2|BF}{#2|BF}{#1}\hlindex{#1 #2}}
-+\newcommand{\IXBhpl}[2]{\indexh{#1 #2|BF}{#2|BF}{#1}\hlindex{#1 #2s}}
-+\newcommand{\IXBhr}[2]{\indexhr{#1 #2|BF}{#2|BF}{#1}\hlindex{#1 #2}}
-+\newcommand{\IXBalth}[3]{\indexh{#1|BF}{#3|BF}{#2}\hlindex{#1}}
-+\newcommand{\IXBalthr}[3]{\indexhr{#1|BF}{#3|BF}{#2}\hlindex{#1}}
-+%
- \newcommand{\apic}[1]{\hlindex{\co{#1}}\sindex[api]{#1@\co{#1}\categapi{c}}}
- \newcommand{\apig}[1]{\hlindex{\co{#1}}\sindex[api]{#1@\co{#1}\categapi{g}}}
- \newcommand{\apipx}[1]{\hlindex{\co{#1}}\sindex[api]{#1@\co{#1}\categapi{px}}}
-diff --git a/utilities/adjustindexformat.pl b/utilities/adjustindexformat.pl
-new file mode 100755
-index 00000000..6cdc8c8f
---- /dev/null
-+++ b/utilities/adjustindexformat.pl
-@@ -0,0 +1,33 @@
-+#!/usr/bin/env perl
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Adjust index entry format in .idx file generated by \IXB{} and
-+# its variants.
-+#
-+# Adjustment samples (diff):
-+#
-+# -\indexentry{deadlock|hyperindexformat{\bf@\makefirstuc {deadlock|bf}}}{228}
-+# +\indexentry{deadlock@\makefirstuc {deadlock}|hyperindexformat{\BF}}{228}
-+# -\indexentry{read-copy update (RCU)@\makefirstuc {read-copy update} [RCU]|hyperpage}{306}
-+# +\indexentry{read-copy update (RCU)@\makefirstuc {read-copy update} (RCU)|hyperindexformat{\BF}}{306}
-+# -\indexentry{critical section|hyperindexformat{\bf@\makefirstuc {critical section|bf}!RCU read-side}}{325}
-+# +\indexentry{critical section@\makefirstuc {critical section}!RCU read-side|hyperindexformat{\BF}}{325}
-+#
-+# Copyright (C) Akira Yokosawa, 2022
-+#
-+# Authors: Akira Yokosawa <akiyks@gmail.com>
-+
-+use strict;
-+use warnings;
-+
-+my $line;
-+
-+open(my $fh, '<:encoding(UTF-8)', $ARGV[0])
-+    or die "Could not open file '$ARGV[0]' $!";
-+
-+while($line = <$fh>) {
-+    $line =~ s/\{([^\|]+)(\|hyperindexformat)\{\\bf(@\\makefirstuc )\{.+\}\}\}/\{$1$3\{$1\}$2\{\\BF\}\}/ ;
-+    $line =~ s/\{([^\|]+)(\|hyperindexformat)\{\\bf(@\\makefirstuc )\{.+\}!([^\}]+)\}\}/\{$1$3\{$1}!$4$2\{\\BF\}\}/ ;
-+    $line =~ s/(\\makefirstuc )\{([^\)]+)\} \[([^\]]+)\]\|hyperpage\}/$1\{$2\} \($3\)|hyperindexformat\{\\BF\}\}/ ;
-+    print $line ;
-+}
-diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
-index 37636f07..48761fd0 100644
---- a/utilities/runlatex.sh
-+++ b/utilities/runlatex.sh
-@@ -64,6 +64,8 @@ exerpt_warnings () {
- }
+ In recent concurrency research, locking often plays the role of villain.
+-\IX{Locking} stands accused of inciting \IXpl{deadlock}, convoying, \IX{starvation},
++\IX{Locking} stands accused of inciting deadlocks, convoying, \IX{starvation},
+ \IX{unfairness}, \IXpl{data race}, and all manner of other concurrency sins.
+ Interestingly enough, the role of workhorse in production-quality
+ shared-memory parallel software is also played by locking.
+@@ -107,7 +107,7 @@ unfairness, and inefficiency.
+ \subsection{Deadlock}
+ \label{sec:locking:Deadlock}
  
- iterate_latex () {
-+	perl utilities/adjustindexformat.pl $basename.idx > $basename-adjust.idx
-+	cp -f $basename-adjust.idx $basename.idx
- 	makeindex $basename.idx > /dev/null 2>&1
- 	makeindex $basename-api.idx > /dev/null 2>&1
- 	if grep -q '## Warning' $basename.ilg $basename-api.ilg
+-\IX{Deadlock} occurs when each member of a group of threads is holding at
++\IXB{Deadlock} occurs when each member of a group of threads is holding at
+ least one lock while at the same time waiting on a lock held by a member
+ of that same group.
+ This happens even in groups containing a single thread when that thread
 -- 
 2.17.1
 
