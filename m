@@ -3,19 +3,19 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=M8PVMFdEBq/FY096VY1IpXMFWk/3YzfwX2fddPEnXG8=;
-        b=jzogh7h0JzfFg45xlPt6mxuFNdOycoY2RMIMhaOe2fMX7fEH4DmP2wItoNP0HSZifb
-         6AlHnltxlYKw2xWtjlXqTcjO9ZwfD3MwJX++JKYLw5DHhV2f8/huTSCQfrEam+v+YFej
-         sIJr2Ysy0Pi3ZK7aBNpoVgiFzNk0yb7b1/nVjGADlO/NE8NYhfzTF5mxHm9RxUP3AYRN
-         ck4uG6nH03dD74ZryWC2VismNPFYGGrdTuRup7Jv3Lzz9HdZpZ80m0+bcxHBDa8GdIkh
-         Yenhrq0BzhSC+Yf0E5ChazjwALjWxh9/YYU2HOsMAF+N700A3+Axq9H36AY3sDxwHYmH
-         A96A==
-Subject: [PATCH -perfbook 2/6] locking, defer: POC of bold face page number in
- index
+        bh=uI0abCxCdD8njPFTQ8K8xzgAf0vGUfAAdKXq1jPVioE=;
+        b=Jn54FXWRFcDtWLvQz73TrgUCi+c5BmM1/+XPBg8knvnxw/CW5pIRQqDejg2+uWY0ih
+         o8ypcOhm5i7kTZZ3yu3cpRmU7BLWbbcb5rg0QsCASnWn2q6Kcv8cWtkKfDEAm9s5mE9X
+         q0oZJGO5pmRNx18nPGfjO5ul8w+mA6Xx/87RM1ZC+QGNjWQqy3SxonPqRdU/WuWgy4wY
+         g6dV4i45afR2OqYfABHzHQQZbDA9/Iv0AP4BVGQlB29tIvA9Lkf1unw4ZDrAuSGRXfQB
+         k2dEkwln60/0U9XMvukyQsaW9/ckywVcOnaNOAmNtji5TIEXBoSulD1TdrMvoCtlCrXF
+         q0HA==
+Subject: [PATCH -perfbook 3/6] defer: POC of hierarchical index with modifier
+ part's case preserved
 References: <014dcadf-e5ff-3a73-3b5a-a7951375d642@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <b901ec66-9d48-3ddf-7ac0-360b97c68fc2@gmail.com>
-Date: Tue, 18 Jan 2022 19:53:46 +0900
+Message-ID: <b01f0001-01a1-357a-5377-ff72150ba708@gmail.com>
+Date: Tue, 18 Jan 2022 19:55:18 +0900
 MIME-Version: 1.0
 In-Reply-To: <014dcadf-e5ff-3a73-3b5a-a7951375d642@gmail.com>
 Content-Type: text/plain; charset=utf-8
@@ -25,65 +25,98 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Example uses of \IXB (for deadlock) and \IXBacrfst (for acronym RCU).
+\IXhmr{}{} and \IXhmrpl{}{} are for index of
 
-Note: Use of \IXB{} can conflict with a nearby normal \IX{}.
-Such a \IB{Deadlock} tag in locking/locking.tex is removed.
+   Critical section, RCU read-side
+
+, where the modifier part needs to preserve case (in this example
+"RCU").
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- defer/rcu.tex       | 2 +-
- glsdict.tex         | 1 +
- locking/locking.tex | 4 ++--
- 3 files changed, 4 insertions(+), 3 deletions(-)
+ defer/rcufundamental.tex |  2 +-
+ defer/rcuintro.tex       |  2 +-
+ perfbook-lt.tex          | 14 ++++++++++++++
+ 3 files changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/defer/rcu.tex b/defer/rcu.tex
-index e11d1f8b..7909fce7 100644
---- a/defer/rcu.tex
-+++ b/defer/rcu.tex
-@@ -35,7 +35,7 @@ primitives.
- These schemes' shortcomings raise the question of
- whether it is possible to do better.
+diff --git a/defer/rcufundamental.tex b/defer/rcufundamental.tex
+index ed2ce21c..d7695a1c 100644
+--- a/defer/rcufundamental.tex
++++ b/defer/rcufundamental.tex
+@@ -198,7 +198,7 @@ scenarios, and memory-leak hazards that are inherent in schemes
+ using explicit tracking.
  
--This section introduces \emph{read-copy update} (RCU), which provides
-+This section introduces \IXBacrfst{rcu}, which provides
- an API that allows readers to be associated with regions in the source code,
- rather than with expensive updates to frequently updated shared data.
- The remainder of this
-diff --git a/glsdict.tex b/glsdict.tex
-index c2b2d050..3dafda06 100644
---- a/glsdict.tex
-+++ b/glsdict.tex
-@@ -193,6 +193,7 @@
- \newcommand{\IXAcrf}[1]{\glsuseri{#1}\Acrf{#1}} % put index via acronym dictionary (full form, upper case)
- \newcommand{\IXAcrfpl}[1]{\glsuseri{#1}\Acrfpl{#1}} % put index via acronym dictionary (full form, upper case, plural)
- \newcommand{\IXacrfst}[1]{\glsuseri{#1}\acrfst{#1}} % put index via acronym dictionary (first form)
-+\newcommand{\IXBacrfst}[1]{\glsuserii{#1}\acrfst{#1}} % put index via acronym dictionary (first form)
- \newcommand{\IXacrfstpl}[1]{\glsuseri{#1}\acrfstpl{#1}} % put index via acronym dictionary (first form, plural)
- \newcommand{\IXAcrfst}[1]{\glsuseri{#1}\Acrfst{#1}} % put index via acronym dictionary (first form, upper case)
- \newcommand{\IXAcrfstpl}[1]{\glsuseri{#1}\Acrfstpl{#1}} % put index via acronym dictionary (first form, upper case, plural)
-diff --git a/locking/locking.tex b/locking/locking.tex
-index 851a1f00..c223d40c 100644
---- a/locking/locking.tex
-+++ b/locking/locking.tex
-@@ -11,7 +11,7 @@
- 	  quoting}}
+ In RCU's case, each of the things waited on is called an
+-\emph{RCU read-side critical section}.
++\emph{\IXBhmr{RCU read-side}{critical section}}.
+ As noted in
+ \cref{tab:defer:Core RCU API}, an RCU read-side critical
+ section starts with an \co{rcu_read_lock()} primitive, and ends with a
+diff --git a/defer/rcuintro.tex b/defer/rcuintro.tex
+index 069ccfd7..bc968ae3 100644
+--- a/defer/rcuintro.tex
++++ b/defer/rcuintro.tex
+@@ -196,7 +196,7 @@ The full API is covered in \cref{sec:defer:RCU Linux-Kernel API}.
  
- In recent concurrency research, locking often plays the role of villain.
--\IX{Locking} stands accused of inciting \IXpl{deadlock}, convoying, \IX{starvation},
-+\IX{Locking} stands accused of inciting deadlocks, convoying, \IX{starvation},
- \IX{unfairness}, \IXpl{data race}, and all manner of other concurrency sins.
- Interestingly enough, the role of workhorse in production-quality
- shared-memory parallel software is also played by locking.
-@@ -107,7 +107,7 @@ unfairness, and inefficiency.
- \subsection{Deadlock}
- \label{sec:locking:Deadlock}
+ Three members of the core APIs are used by readers.
+ The \apik{rcu_read_lock()} and \apik{rcu_read_unlock()} functions delimit
+-RCU read-side critical sections.
++\IXhmrpl{RCU read-side}{critical section}.
+ These may be nested, so that one \co{rcu_read_lock()}--\co{rcu_read_unlock()}
+ pair can be enclosed within another.
+ In this case, the nested set of RCU read-side critical sections act as
+diff --git a/perfbook-lt.tex b/perfbook-lt.tex
+index 79de56c1..ff257bcc 100644
+--- a/perfbook-lt.tex
++++ b/perfbook-lt.tex
+@@ -182,15 +182,21 @@
+   \lowercase{\def\tempb{#2}}%
+   \expandafter\index\expandafter{\temp@\makefirstuc{\temp}!\tempb}%
+ }
++\newcommand{\ucindexhm}[2]{%
++  \lowercase{\def\temp{#1}}%
++  \expandafter\index\expandafter{\temp@\makefirstuc{\temp}!#2}%
++}
+ \newcommand{\indexhraw}[2]{%
+   \expandafter\index\expandafter{#1!#2}%
+ }
+ \IfIndexHier{
+ \newcommand{\indexh}[3]{\ucindexh{#2}{#3}}
+ \newcommand{\indexhr}[3]{\indexhraw{#2}{#3}}
++\newcommand{\indexhmr}[3]{\ucindexhm{#2}{#3}}
+ }{
+ \newcommand{\indexh}[3]{\ucindex{#1}}
+ \newcommand{\indexhr}[3]{\index{#1}}
++\newcommand{\indexhmr}[3]{\index{#1}}
+ }
  
--\IX{Deadlock} occurs when each member of a group of threads is holding at
-+\IXB{Deadlock} occurs when each member of a group of threads is holding at
- least one lock while at the same time waiting on a lock held by a member
- of that same group.
- This happens even in groups containing a single thread when that thread
+ \newcommand{\IX}[1]{\ucindex{#1}\hlindex{#1}} % put with first letter capitalized into general index
+@@ -203,8 +209,12 @@
+ \newcommand{\IXh}[2]{\indexh{#1 #2}{#2}{#1}\hlindex{#1 #2}}
+ \newcommand{\IXhpl}[2]{\indexh{#1 #2}{#2}{#1}\hlindex{#1 #2s}}
+ \newcommand{\IXhr}[2]{\indexhr{#1 #2}{#2}{#1}\hlindex{#1 #2}}
++\newcommand{\IXhrpl}[2]{\indexhr{#1 #2}{#2}{#1}\hlindex{#1 #2s}}
++\newcommand{\IXhmr}[2]{\indexhmr{#1 #2}{#2}{#1}\hlindex{#1 #2}}
++\newcommand{\IXhmrpl}[2]{\indexhmr{#1 #2}{#2}{#1}\hlindex{#1 #2s}}
+ \newcommand{\IXalth}[3]{\indexh{#1}{#3}{#2}\hlindex{#1}}
+ \newcommand{\IXalthr}[3]{\indexhr{#1}{#3}{#2}\hlindex{#1}}
++\newcommand{\IXalthmr}[3]{\indexhmr{#1}{#3}{#2}\hlindex{#1}}
+ % page number in bold face
+ \newcommand{\BF}[1]{\textbf{#1}}
+ \newcommand{\IXB}[1]{\ucindex{#1|BF}\hlindex{#1}} % put with first letter capitalized into general index
+@@ -217,8 +227,12 @@
+ \newcommand{\IXBh}[2]{\indexh{#1 #2|BF}{#2|BF}{#1}\hlindex{#1 #2}}
+ \newcommand{\IXBhpl}[2]{\indexh{#1 #2|BF}{#2|BF}{#1}\hlindex{#1 #2s}}
+ \newcommand{\IXBhr}[2]{\indexhr{#1 #2|BF}{#2|BF}{#1}\hlindex{#1 #2}}
++\newcommand{\IXBhrpl}[2]{\indexhr{#1 #2|BF}{#2|BF}{#1}\hlindex{#1 #2s}}
++\newcommand{\IXBhmr}[2]{\indexhmr{#1 #2|BF}{#2|BF}{#1}\hlindex{#1 #2}}
++\newcommand{\IXBhmrpl}[2]{\indexhmr{#1 #2|BF}{#2|BF}{#1}\hlindex{#1 #2s}}
+ \newcommand{\IXBalth}[3]{\indexh{#1|BF}{#3|BF}{#2}\hlindex{#1}}
+ \newcommand{\IXBalthr}[3]{\indexhr{#1|BF}{#3|BF}{#2}\hlindex{#1}}
++\newcommand{\IXBalthmr}[3]{\indexhmr{#1|BF}{#3|BF}{#2}\hlindex{#1}}
+ %
+ \newcommand{\apic}[1]{\hlindex{\co{#1}}\sindex[api]{#1@\co{#1}\categapi{c}}}
+ \newcommand{\apig}[1]{\hlindex{\co{#1}}\sindex[api]{#1@\co{#1}\categapi{g}}}
 -- 
 2.17.1
 
