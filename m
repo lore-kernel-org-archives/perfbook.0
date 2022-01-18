@@ -1,88 +1,80 @@
-Return-Path: <SRS0=CZ29=SF=gmail.com=zhouzhouyi@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PJn1TcVWvTpgrUl9vSJU7suOSkPIv8vPaZZCAmu4io0=;
-        b=Ao/Nr4RJDKYT9x6n25IOw/n+2TxL1QbfCDDBkYRa/5hF4dqYBJJ6wf1DN1AdGbFTOQ
-         U5FTobmX6bu8pjfrul8aBessYHklwZDNI5gTxPOPgBr2AfoPL4tVMq+5sPhDPb25xE5D
-         JqRejc94lXn0SC/w7FFvocjeFgbmz9oMMC9D3gMKRM14hhLkpJtkkQLzZiAG6TebjjvV
-         wqU/n1rGvirteBclnx3IMeVWKSH7tNrXBHzBda3wb5ke//KP8qDoHwSorZucPYQblorh
-         OP6VtNNV8Gznf8rZMj3QWCZj5R/5quVbbG7Z8oXF1zXTlW4xmoNfcBlfifNH9Ykbu7uB
-         o4Ng==
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from dfw.source.kernel.org ([139.178.84.217]:48906 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237637AbiARTD7 (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 18 Jan 2022 14:03:59 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B96DC61543
+        for <perfbook@vger.kernel.org>; Tue, 18 Jan 2022 19:03:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642532638;
+        bh=Wj33TgLO6L2F/RYIAQXgJZd7wKQ/Tfa2zJ/DrjChnuo=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=AZziNcpZbm7GPDwWPjnYWuS86AL2l4mIqBOdVBmttZlK/lI4p07wydX4FlkUI3hYI
+         Yd/PN+mbvZj68Kcj+rJ7T/JQN6kfx819erBFbOHYeOk9SLNhpYfKnLveayYt2TjgYI
+         MLyN4gwuKoR8tgv5KvWeTqC9NIqW+1UM51lpDdtYHe1S4PwYw9Hn1Expv/edCtIQqI
+         K2hkKasSfUgu8tPJGGIjhIlQe4PEadbIznEAmb+ZIAjpL6LLRI2iL/DqQmte+TreAa
+         JRc+FvOUuQ+AasN0Cjn+SaPqSabP7oR7yhlpUlq8qmbpG8uhN1lxVeximRHIdXJUpx
+         I/fY9easT2s3Q==
+Date: Tue, 18 Jan 2022 11:03:57 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH -perfbook 0/6] index: Support emphasized page numbers
+Message-ID: <20220118190357.GH947480@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <014dcadf-e5ff-3a73-3b5a-a7951375d642@gmail.com>
 MIME-Version: 1.0
-References: <9d07bd21-9988-9b1f-d7f1-c7dae07d7a51@gmail.com>
-In-Reply-To: <9d07bd21-9988-9b1f-d7f1-c7dae07d7a51@gmail.com>
-From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Date: Fri, 21 Jan 2022 22:16:11 +0800
-Message-ID: <CAABZP2zAkfLCAFKcVrzv6xUetZo2piiby3xLpZnFXLANonK4hA@mail.gmail.com>
-Subject: Re: [PATCH -perfbook] bib/perfmeas: Fix doi of McKenney99b
-Content-Type: text/plain; charset="UTF-8"
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, perfbook@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <014dcadf-e5ff-3a73-3b5a-a7951375d642@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Thank Akira for your elaborate master work!
+On Tue, Jan 18, 2022 at 07:51:06PM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> So this patch set is an update of the WIP series you looked at the
+> other day.
+> 
+> Changes since WIP (other than change logs):
+> 
+>   1/6, 5/6: Preserve adjusted .idx files as $basename-adjust.idx.
+>       Add adjustment samples in header of adjustindexformat.pl.
+>   6/6: Concise prenote of general index.
 
-1. I edited the alphapf.bst, setting  "#0" to inlinelink
-2. apply the patch to perfmeas.bib
-3. invoke "make clean" (this step is necessary if I have invoked  "make" before)
-4. invoke "make", and it works!
+Looks good, queued and pushed, thank you!
 
-I will prepare a revised version of my patch later today.
+And yes, I will be adding more to the glossary.  ;-)
 
-Many thanks
-Sincerely
-Zhouyi
-On Fri, Jan 21, 2022 at 9:32 PM Akira Yokosawa <akiyks@gmail.com> wrote:
->
-> Escape sequences of "%3C" and "%3E" in doi cause a build error when
-> "inlinelinks" option in alphapf.bst is set #0 (URLs explicit).
->
-> Fix the error by using non-escaped symbols of "<" and ">" instead.
->
-> Fixes: 62c6a33781d9 ("bib: url/doi updates")
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
-> Hi Zhouyi,
->
-> Prompted by your patch "RFC: make some bibliography items better",
-> I tested an option in alphapf.bst (bibliography style file of
-> perfbook), namely "inlinelinks".
-> By setting "#0" to inlinelink (URLs explicit), URL and DOI info
-> in .bib files should be printed in Bibliography.
->
-> However, the build failed with McKenney99b.
->
-> This patch should fix the build error.
->
-> You still need to manually edit alphapf.bst, but please try
-> setting "#0" to inlinelink.
->
-> As you will see, if a bibliography has DOI info, URL info in
-> the note field is redundant when the URL is the one reachable
-> via the DOI.
->
+							Thanx, Paul
+
 >         Thanks, Akira
 > --
->  bib/perfmeas.bib | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/bib/perfmeas.bib b/bib/perfmeas.bib
-> index 9ba80cfc..51f63bb7 100644
-> --- a/bib/perfmeas.bib
-> +++ b/bib/perfmeas.bib
-> @@ -83,7 +83,7 @@ Machine Language Rewriting",
->   year = {1999},
->   pages = {219-234},
->   bibsource = {DBLP, http://dblp.uni-trier.de},
-> - doi = {10.1002/(SICI)1097-024X(199903)29:3%3C219::AID-SPE230%3E3.0.CO;2-0}
-> + doi = {10.1002/(SICI)1097-024X(199903)29:3<219::AID-SPE230>3.0.CO;2-0}
->  }
->
->  @Book{Menasce94,
->
-> base-commit: cd891db680ae978f5efa362cbdc074483f07042a
-> --
+> Akira Yokosawa (6):
+>   index: Initial page number format support
+>   locking, defer: POC of bold face page number in index
+>   defer: POC of hierarchical index with modifier part's case preserved
+>   index: Add prenotes of legends
+>   index, glossary: Underline page numbers in Glossary
+>   index: Retouch prenotes
+> 
+>  defer/rcu.tex                  |   2 +-
+>  defer/rcufundamental.tex       |   2 +-
+>  defer/rcuintro.tex             |   2 +-
+>  glossary.tex                   | 176 ++++++++++++++++-----------------
+>  glsdict.tex                    |  10 +-
+>  locking/locking.tex            |   4 +-
+>  perfbook-lt.tex                |  67 ++++++++++++-
+>  utilities/adjustindexformat.pl |  42 ++++++++
+>  utilities/runlatex.sh          |   2 +
+>  9 files changed, 211 insertions(+), 96 deletions(-)
+>  create mode 100755 utilities/adjustindexformat.pl
+> 
+> 
+> base-commit: bf4794df366d2cf87c2e9cf177f5169081138a23
+> -- 
 > 2.17.1
->
+> 
+> 
