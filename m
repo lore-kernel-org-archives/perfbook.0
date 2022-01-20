@@ -1,63 +1,69 @@
-Return-Path: <SRS0=fdso=R7=gmail.com=zhouzhouyi@kernel.org>
+Return-Path: <SRS0=RJRM=SE=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KNQ0leWCRiKs/lm4z/FQpKuDDueQytQsoDBpLig/6AI=;
-        b=ZIxA4Pl9e+oinDMrN7x5FJkJ49i7AKvs9nheAggmu3lEwYpUzFFmSjTCVlWjKrfyKV
-         bP45oJDOGRTlaQor0yq0WMmGeztYEuCvQshuEBjPPMO29jcsHfrrZhMuJxHA8UGXHyAg
-         epAAlfEnfxV07s/3Mq4MD0wcqe1R9K97VR7lX1CAhfknNPqnMRpawlhJysxBBd485bBa
-         okBVwgxH2iVf5C2j6Auh+0xlDDQaXDZvAFzLWfwzPJl84ffDFcd+1kcZqwTTm8I3Whmq
-         EsxsHOrAbecEVsmQcXMqCpMjsCRq2bry3bnhjcJxA76eXbBbKWUeZ9CZxX1MhkJZ+vvm
-         s6nA==
-From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Subject: [PATCH-perfbook] make a ref item (Liang2018) better
-Date: Sat, 15 Jan 2022 12:06:06 +0800
-Message-Id: <20220115040606.22618-1-zhouzhouyi@gmail.com>
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=MXPwzfU9t9u3Zu3bhCuHO+k75CFhnJm07Gh8KdhH1Fo=;
+        b=avDrhY5m4IOFTqeqZwrEqPmkhGQYKrCuomkh7wFCK1gw/zO2AHJuKEjYI24H8inYHN
+         C0B+NdrSmQK0/MvHFi4BLySzcPHTI2e/rooJtxC80REeoRi96yyeH++ymIicOVxjdsYM
+         GH+fW3xGHKhqcX5KA3D3edBn/sGlKySvgIYn0AkwYaqOKcwr9OEr5OyinkiuLbdmz6zu
+         DEbssR7F7nQKj3LuDnWRT2vqmvONd63vHe70uyUY4ZQyjLz4h1O33m/eH04qWGlgYHET
+         W8tA+HFejjAW8PNVZfW6uERdXjUwQG8lBPmB5dbmv/2ZB3mWJs8SMkKe4KXTjXVACZ9J
+         PzBg==
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] glossary: Tweak indexing macro
+Message-ID: <93da8b35-d595-6638-93b5-b081f2dfc871@gmail.com>
+Date: Thu, 20 Jan 2022 09:28:59 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To: paulmck@kernel.org, akiyks@gmail.com, luyang.co@gmail.com, perfbook@vger.kernel.org
-Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-make the reference item: Liang2018 better by following the style of
-https://ieeexplore.ieee.org/document/8341980
+Fix some of indexing tags so that they can co-exist with existing
+index items.
 
-Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Fixes: 4e91046e35c9 ("glossary: Additions from index, A-E")
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
-Hi Paul and Akira
+ glossary.tex | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I think we could make the reference item better by following
-the style of https://ieeexplore.ieee.org/document/8341980
-
-and I invoked 'make' before submitting ;-)
-
-Thank you for your constant encouragement ;-)
-
-
-Thanks
-Zhouyi
---
- bib/swtools.bib | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/bib/swtools.bib b/bib/swtools.bib
-index 31ce0025..cab1909d 100644
---- a/bib/swtools.bib
-+++ b/bib/swtools.bib
-@@ -737,8 +737,11 @@ Michalis Kokologiannakis",
- @inproceedings{Liang:2018:VTB,
-  title = "Verification of Tree-Based Hierarchical {Read-Copy Update} in the {Linux Kernel}",
-  author = "Lihao Liang and Paul E. McKenney and Daniel Kroening and Tom Melham",
-+ day = "19--23",
-+ month = "March",
-  year = "2018",
-- booktitle = "2018 Design, Automation {\&amp;} Test in Europe Conference {\&amp;} Exhibition, {DATE} 2018, Dresden, Germany, March 19--23, 2018",
-+ booktitle = "2018 Design, Automation {\&} Test in Europe Conference {\&} Exhibition (DATE)",
-+ address = "Dresden, Germany",
-  url = "http://www.cs.ox.ac.uk/tom.melham/pub/Liang-2018-VTB.pdf",
- }
+diff --git a/glossary.tex b/glossary.tex
+index 6c1c71e1..84472a9b 100644
+--- a/glossary.tex
++++ b/glossary.tex
+@@ -9,7 +9,7 @@
+ 	        David~Levary~et~al.}}
  
+ \begin{description}
+-\item[\IXG{Amdahl's Law}:]
++\item[\IXGr{Amdahl's Law}:]
+ 	If sufficient numbers of CPUs are used to run a job that has both
+ 	a sequential portion and a concurrent portion, performance and
+ 	scalability will be limited by the overhead of the sequential
+@@ -228,7 +228,7 @@
+ 	increase the overall cost of the computation, resulting in
+ 	linear speedups as threads are added (assuming sufficient
+ 	CPUs are available).
+-\item[\IXG{Energy Efficiency}:]
++\item[\IXGalth{Energy Efficiency}{energy}{efficiency}:]
+ 	Shorthand for ``energy-efficienct use'' in which the goal is to
+ 	carry out a given computation with reduced energy consumption.
+ 	Sublinear scalabilty can be an obstacle to energy-efficient use
+@@ -510,7 +510,7 @@
+ 	to store to that pointer.
+ 	More information is provided in
+ 	\cref{sec:memorder:Address- and Data-Dependency Difficulties}.
+-\item[\IXGh{RCU Read-Side}{Critical Section}:] % @@@ Need all-caps RCU in index!
++\item[\IXGalthmr{RCU Read-Side Critical Section}{RCU read-side}{critical section}:]
+ 	A section of code protected by RCU, for example, beginning with
+ 	\co{rcu_read_lock()} and ending with \co{rcu_read_unlock()}.
+ 	(See ``Read-side critical section''.)
+
+base-commit: 6abfa973f401e7b1fb696ba078376bce77126a4b
 -- 
-2.25.1
+2.17.1
 
