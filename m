@@ -1,128 +1,125 @@
-Return-Path: <SRS0=2IHd=SG=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:cc:from:in-reply-to:content-transfer-encoding;
-        bh=GiPJ0FMdy2626YUD8Of3CgDzvrjbf/Hwu6fLgJhEllw=;
-        b=eZl1l8jtdPgeMlMDQdgCVtLsyBbUM+xDsUhbk++j0jR6rRMWjRPFhKvb+SQW3Ezp2A
-         m8+D4fRKwXzMsWrVTe9ytXTZdOunWKgX8WdDW5e9CMpd94gVnTbm0loWfGP/Db8NQoX5
-         n1UGSGY1M0eNPYsBiym7zy4QsArmgLdDhGW5cTYsofIbYA31fwSsUhu/YxBYd20+Zh0o
-         3tGargsxwJf+inSSa3R8E4yKNw9d9QbAkz0i1iQLDwc4McYRM0ZJJnQ2ySjUdSsyqDLn
-         tUCNor4IoJWhh48WFbglFjxnFh3O8mt7kN1gULTXuAgqw1ixRqFzZae9HJnVoc54E4KP
-         /i7Q==
-Message-ID: <48db8ed7-9739-9ab2-7021-ff94a3dcafaf@gmail.com>
-Date: Sat, 22 Jan 2022 18:06:19 +0900
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from ams.source.kernel.org ([145.40.68.75]:46176 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229951AbiAVANB (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Fri, 21 Jan 2022 19:13:01 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 25017B82139
+        for <perfbook@vger.kernel.org>; Sat, 22 Jan 2022 00:13:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642810378;
+        bh=MxqkpPTcjwyWeOBcvV0EMrM8y6uDz2p53vNjqH3Pce0=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=kRrtxqKTzclpQLQliYPPL3QV0aXKSf+3gPswmwsXMh4yhOAB6dFNKJXR4kS46D0Om
+         i5ZAlv5DCUgKt6TuXHePMQJc+TgXwj+Gnv4U5AZRcuxdEUZUyiAyEO/+TUg1AboAFg
+         itC4mo9xMuonDhBqK1Xlt+uXDWgVn8NzBgwFkppDaz32B+QvDohfMJo4iNKsxJFoCX
+         qsAaDwpUhFXa+qR1xn47cvXpvnH3e00+Mo6entMy94kaOeA825rrmqokERqDry9yOx
+         xncwAQO84pomkQDZSoNmM2HWyb01H7W/putDfP70j0EUqzFxEUdOmdPZ+KZDF1k8DP
+         hKMQfywrPUM0w==
+Date: Fri, 21 Jan 2022 16:12:58 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [NOT A PATCH -perfbook] index of 'Non-Blocking' in Glossary
+Message-ID: <20220122001258.GB947480@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <c4add712-74a7-cb57-77c8-6ee8d9b529a4@gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH-perfbook v3] RFC: make some bibliography items better
-Content-Language: en-US
-References: <20220122033515.3260210-1-zhouzhouyi@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220122033515.3260210-1-zhouzhouyi@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Cc: paulmck@kernel.org, perfbook@vger.kernel.org, luyang.co@gmail.com, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c4add712-74a7-cb57-77c8-6ee8d9b529a4@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-On Sat, 22 Jan 2022 11:35:15 +0800,
-Zhouyi Zhou wrote:
-> make following bibliography items better
-> 1. "Relativistic Red-Black Trees"
-> 2. "Speculative Lock Elision: Enabling Highly Concurrent Multithreaded Execution"
-> 3. "Architectural Support for Software Transactional Memory"
-> 4. "Transactional Memory Architecture and Implementation for IBM System z"
-> 
-> Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com> 
+On Fri, Jan 21, 2022 at 09:29:24AM +0900, Akira Yokosawa wrote:
+> Not-signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 > ---
-> Thank Akira for your valuable advice!
+> Hi Paul,
 > 
-> I learned a lot during the process, thank you!
+> This is a reminder in sent as a patch.
 > 
-> Following is my new version, further suggestions is very welcome ;-)
+> I find the indexing tag you put to "Non-Blocking" looks strange.
+> This entry talks about some classes of forward-progress guarantees,
+> not much about synchronization.
+> Also, the existing tags of NBS are \IXacr{}.  You therefore
+> need to use \glsuseriii{nbs} as shown below in a separate entry
+> of "Non-Blocking Synchronization (NBS)".
 > 
-> Many thanks
+> I think NBS deserves its own entry in the Glossary.
 > 
-> Sincerely
-> Zhouyi
+>         Thanks, Akira
+> 
 > --
->  bib/RCU.bib |  8 +++++---
->  bib/TM.bib  | 14 +++++++++-----
->  2 files changed, 14 insertions(+), 8 deletions(-)
+>  glossary.tex | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/bib/RCU.bib b/bib/RCU.bib
-> index 3e2bf423..12c37619 100644
-> --- a/bib/RCU.bib
-> +++ b/bib/RCU.bib
-> @@ -2190,11 +2190,13 @@ lot of {Linux} into your technology!!!",
->   author = {Philip W. Howard and Jonathan Walpole},
->   title = {Relativistic Red-Black Trees},
->   journal = {Concurrency and Computation: Practice and Experience},
-> - year = {2013},
-> + year = {2014},
-> + month = "November",
->   issn = {1532-0634},
-> - pages = {n/a--n/a},
-> + pages = {2684--2712},
-> + volume = {26},
-> + number = {16},
->   numpages = {29},
-> - url = {http://dx.doi.org/10.1002/cpe.3157},
->   doi = {10.1002/cpe.3157},
->  }
->  
-> diff --git a/bib/TM.bib b/bib/TM.bib
-> index e4412afd..d468c691 100644
-> --- a/bib/TM.bib
-> +++ b/bib/TM.bib
-> @@ -117,6 +117,7 @@ on Computer Architecture",
->   Title = "Speculative Lock Elision: Enabling Highly Concurrent Multithreaded
->  Execution",
->   Booktitle = "Proceedings of the 34\textsuperscript{th} Annual ACM/IEEE International Symposium on Microarchitecture",
-> + series = {MICRO 34},
->   publisher="The Institute of Electrical and Electronics Engineers, Inc.",
->   month="December",
->   year="2001",
-> @@ -372,7 +373,8 @@ Languages, Compilers, and Hardware Support for Transactional Computing},
->  @inproceedings{BratinSaha2006MICRO,
->   author = {Saha, Bratin and Adl-Tabatabai, Ali-Reza and Jacobson, Quinn},
->   title = {Architectural Support for Software Transactional Memory},
-> - booktitle = {MICRO 39: Proceedings of the 39th Annual IEEE/ACM International Symposium on Microarchitecture},
-> + booktitle = {Proceedings of the 39\textsuperscript{th} Annual IEEE/ACM International Symposium on Microarchitecture},
-> + series = {MICRO 39},
->   year = {2006},
->   isbn = {0-7695-2732-9},
->   pages = {185--196},
-> @@ -963,15 +965,17 @@ for Programming Languages and Operating Systems (ASPLOS '09)",
->   note="\url{https://paulmck.livejournal.com/tag/transactional%20memory%20everywhere}",
->  }
->  
-> -@unpublished{ChristianJacobi2012MainframeTM,
-> +@conference{ChristianJacobi2012MainframeTM,
->   author={Christian Jacobi and Timothy Slegel and Dan Greiner},
->   title="Transactional Memory Architecture and Implementation for {IBM} {System} z",
-> + booktitle="Proceedings of the 45\textsuperscript{th} Annual IEEE/ACM International Symposium on Microarchitecture",
-> + series = {MICRO 45},
-> + pages = {25--36},
->   month="December",
->   year="2012",
-> + address={Vancouver B.C. CANADA},
+> diff --git a/glossary.tex b/glossary.tex
+> index 86d9a025..4ea87f60 100644
+> --- a/glossary.tex
+> +++ b/glossary.tex
+> @@ -425,7 +425,7 @@
+>  	These are used for hardware-specific purposes such as profiling.
+>  	The advantage of using NMIs for profiling is that it allows you
+>  	to profile code that runs with interrupts disabled.
+> -\item[\IXGaltr{Non-Blocking}{Non-blocking synchronization (NBS)}:]
+> +\item[\IXG{Non-Blocking}:]
+>  	A group of academic forward-progress guarantees that includes
+>  	bounded population-oblivious wait free,
+>  	bounded wait free,
+> @@ -437,6 +437,8 @@
+>  	deadlock free.
+>  	See \cref{sec:advsync:Non-Blocking Synchronization}
+>  	for more information.
+> +\item[Non-Blocking Synchronization (NBS):]\glsuseriii{nbs}
+> +	%@@@ Need expansion @@@
+>  \item[NUCA:]\glsuseriii{nuca}
+>  	Non-uniform cache architecture, where groups of CPUs share
+>  	caches and/or store buffers.
 
-                            Canada ?
+Good points!
 
->   doi="10.1109/MICRO.2012.12",
-> - note="The 45\textsuperscript{th} Annual IEEE/ACM International Symposium
-> -on MicroArchitecture, URL: \url{https://www.microarch.org/micro45/talks-posters/3-jacobi-presentation.pdf}",
-> - lastchecked="November 13, 2016",
-> + note="\url{https://www.microarch.org/micro45/talks-posters/3-jacobi-presentation.pdf}",
+How about like this?
 
-As the "note" field is free format, what about
+							Thanx, Paul
 
-+ note="Presentation slides:
-+\url{https://www.microarch.org/micro45/talks-posters/3-jacobi-presentation.pdf}",
+------------------------------------------------------------------------
 
-?
+commit a8152ff934df7cfaccb8bdc1fa376c5d11737995
+Author: Paul E. McKenney <paulmck@kernel.org>
+Date:   Fri Jan 21 16:11:09 2022 -0800
 
-        Thanks, Akira
->  }
->  
->  @conference{JustinGottschlich2013TMdebug,
+    glossary: Update non-blocking and add NBS
+    
+    Took index-addition commands from Akira's email dated January 20.
+    
+    Suggested-by: Akira Yokosawa <akiyks@gmail.com>
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+
+diff --git a/glossary.tex b/glossary.tex
+index 86d9a025..1d4a2404 100644
+--- a/glossary.tex
++++ b/glossary.tex
+@@ -425,7 +425,7 @@
+ 	These are used for hardware-specific purposes such as profiling.
+ 	The advantage of using NMIs for profiling is that it allows you
+ 	to profile code that runs with interrupts disabled.
+-\item[\IXGaltr{Non-Blocking}{Non-blocking synchronization (NBS)}:]
++\item[\IXG{Non-Blocking}:]
+ 	A group of academic forward-progress guarantees that includes
+ 	bounded population-oblivious wait free,
+ 	bounded wait free,
+@@ -437,6 +437,13 @@
+ 	deadlock free.
+ 	See \cref{sec:advsync:Non-Blocking Synchronization}
+ 	for more information.
++\item[Non-Blocking Synchronization (NBS):]\glsuseriii{nbs}
++	The use of algorithms, mechanisms, or techniques that provide
++	non-blocking forward-progress guarantees.
++	NBS is often used in a more restrictive sense of providing one
++	of the stronger forward-progress guarantee, usually wait free or
++	lock free, but sometimes also obstruction free.
++	(See ``Non-blocking''.)
+ \item[NUCA:]\glsuseriii{nuca}
+ 	Non-uniform cache architecture, where groups of CPUs share
+ 	caches and/or store buffers.
