@@ -1,125 +1,82 @@
-Return-Path: <SRS0=2IHd=SG=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=FUB1=SH=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:cc:from:in-reply-to:content-transfer-encoding;
-        bh=rn+X+uX495CYccPRo5UG7cz09kJV1XFl7xIe6LPNcco=;
-        b=g1bLP1q7kfgFMHK1hsFb12Fc3QV55pzQOU9Gxbj99Lyd24J+R84bSAyPwLKdDWOJv1
-         m1TFRQi0jC4e7gowCYqE4LODwUwrBt12rYbAewn8PNaErfqx9O/I5OYuu4i8Qub6Ejr3
-         Ai70PH4cFN16pI4qc+MfP8YvrKKugaopupdDhZMRY/H1eVosvgauPANldOvUDNLtefWW
-         e9FaIGkggnF9IanchXuApuZUvsAvl7aGy9gV2dH4ULGI+fio7UR+MTrdxeyyENpzwR73
-         CVaHBn/Ni4+el7SnA1SakIHraqH5cv7agpUkihBRBSWW3rlnJbNbV254AzPRGGBhnGxa
-         Jz6A==
-Message-ID: <8af9b735-8d96-f4d1-a26e-a566930e428f@gmail.com>
-Date: Sat, 22 Jan 2022 19:10:58 +0900
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=5BpQdJ5+kzvuZASNw7hbYBvMDl8s6gt4vosI4exUbhI=;
+        b=IjU2LGyxeW/haT0dKEKNqYqp49I0L7AQoWpyo5f+9fpeb9BXImoSv/8fQZIEISP0XV
+         DM95ibjF3fJXTSWqHRPOfy0alU/2DX+y32HciJPdGshNmfyYzdj86qEfJNsXjoNnD0pM
+         LSOyyNOcTDVUm3++/xr40hKa5fb8UmmTe1kJlhjOTQuIOXzALBFojsrhmsjPVYF1S8/i
+         w6BbaHiKRd7JzUoZveWRFCrCeyYZAYMaGlfVuCDC0H93iHKcvUcRfqukcij/KRhxQqu7
+         8tAGMTmCIcxUy1gB+C6zji6DZK1/671JjYo2DbIbt8LJzdMk557NDv/rTL6QhLGEOuF7
+         HxIg==
+Message-ID: <bbb86a86-1656-95c6-36a3-e7dbfa030d22@gmail.com>
+Date: Mon, 24 Jan 2022 08:44:17 +0900
 MIME-Version: 1.0
-Subject: Re: [PATCH-perfbook v4] RFC: make some bibliography items better
+Subject: Re: [PATCH -perfbook] bib/perfmeas: Fix doi of McKenney99b
 Content-Language: en-US
-References: <20220122094611.11332-1-zhouzhouyi@gmail.com>
+References: <9d07bd21-9988-9b1f-d7f1-c7dae07d7a51@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220122094611.11332-1-zhouzhouyi@gmail.com>
+In-Reply-To: <9d07bd21-9988-9b1f-d7f1-c7dae07d7a51@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-To: Zhouyi Zhou <zhouzhouyi@gmail.com>, paulmck@kernel.org
-Cc: perfbook@vger.kernel.org, luyang.co@gmail.com, Akira Yokosawa <akiyks@gmail.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Zhouyi Zhou <zhouzhouyi@gmail.com>, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Sat, 22 Jan 2022 17:46:11 +0800,
-Zhouyi Zhou wrote:
-> make following bibliography items better
-> 1. "Relativistic Red-Black Trees"
-> 2. "Speculative Lock Elision: Enabling Highly Concurrent Multithreaded Execution"
-> 3. "Architectural Support for Software Transactional Memory"
-> 4. "Transactional Memory Architecture and Implementation for IBM System z"
+On Fri, 21 Jan 2022 22:32:13 +0900, Akira Yokosawa wrote:
+> Escape sequences of "%3C" and "%3E" in doi cause a build error when
+> "inlinelinks" option in alphapf.bst is set #0 (URLs explicit).
 > 
-> Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com> 
-> ---
-> Thank Akira for your valuable advice!
+> Fix the error by using non-escaped symbols of "<" and ">" instead.
 > 
-> I feel that each new version is much better than previous one.
-> 
-> Following is my new version, and I invoked "make" after the change,
-> further suggestions is very welcome.
+> Fixes: 62c6a33781d9 ("bib: url/doi updates")
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-Looks good to me!
+Paul,
 
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+You might be confused but I expected you would apply this fix as
+well.
 
         Thanks, Akira
 
+> ---
+> Hi Zhouyi,
 > 
-> Thanks again
+> Prompted by your patch "RFC: make some bibliography items better",
+> I tested an option in alphapf.bst (bibliography style file of
+> perfbook), namely "inlinelinks".
+> By setting "#0" to inlinelink (URLs explicit), URL and DOI info
+> in .bib files should be printed in Bibliography.
 > 
-> Sincerely
-> Zhouyi
+> However, the build failed with McKenney99b.
+> 
+> This patch should fix the build error.
+> 
+> You still need to manually edit alphapf.bst, but please try
+> setting "#0" to inlinelink.
+> 
+> As you will see, if a bibliography has DOI info, URL info in
+> the note field is redundant when the URL is the one reachable
+> via the DOI.
+> 
+>         Thanks, Akira
 > --
->  bib/RCU.bib |  8 +++++---
->  bib/TM.bib  | 15 ++++++++++-----
->  2 files changed, 15 insertions(+), 8 deletions(-)
+>  bib/perfmeas.bib | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/bib/RCU.bib b/bib/RCU.bib
-> index 3e2bf423..12c37619 100644
-> --- a/bib/RCU.bib
-> +++ b/bib/RCU.bib
-> @@ -2190,11 +2190,13 @@ lot of {Linux} into your technology!!!",
->   author = {Philip W. Howard and Jonathan Walpole},
->   title = {Relativistic Red-Black Trees},
->   journal = {Concurrency and Computation: Practice and Experience},
-> - year = {2013},
-> + year = {2014},
-> + month = "November",
->   issn = {1532-0634},
-> - pages = {n/a--n/a},
-> + pages = {2684--2712},
-> + volume = {26},
-> + number = {16},
->   numpages = {29},
-> - url = {http://dx.doi.org/10.1002/cpe.3157},
->   doi = {10.1002/cpe.3157},
+> diff --git a/bib/perfmeas.bib b/bib/perfmeas.bib
+> index 9ba80cfc..51f63bb7 100644
+> --- a/bib/perfmeas.bib
+> +++ b/bib/perfmeas.bib
+> @@ -83,7 +83,7 @@ Machine Language Rewriting",
+>   year = {1999},
+>   pages = {219-234},
+>   bibsource = {DBLP, http://dblp.uni-trier.de},
+> - doi = {10.1002/(SICI)1097-024X(199903)29:3%3C219::AID-SPE230%3E3.0.CO;2-0}
+> + doi = {10.1002/(SICI)1097-024X(199903)29:3<219::AID-SPE230>3.0.CO;2-0}
 >  }
 >  
-> diff --git a/bib/TM.bib b/bib/TM.bib
-> index e4412afd..0f222647 100644
-> --- a/bib/TM.bib
-> +++ b/bib/TM.bib
-> @@ -117,6 +117,7 @@ on Computer Architecture",
->   Title = "Speculative Lock Elision: Enabling Highly Concurrent Multithreaded
->  Execution",
->   Booktitle = "Proceedings of the 34\textsuperscript{th} Annual ACM/IEEE International Symposium on Microarchitecture",
-> + series = {MICRO 34},
->   publisher="The Institute of Electrical and Electronics Engineers, Inc.",
->   month="December",
->   year="2001",
-> @@ -372,7 +373,8 @@ Languages, Compilers, and Hardware Support for Transactional Computing},
->  @inproceedings{BratinSaha2006MICRO,
->   author = {Saha, Bratin and Adl-Tabatabai, Ali-Reza and Jacobson, Quinn},
->   title = {Architectural Support for Software Transactional Memory},
-> - booktitle = {MICRO 39: Proceedings of the 39th Annual IEEE/ACM International Symposium on Microarchitecture},
-> + booktitle = {Proceedings of the 39\textsuperscript{th} Annual IEEE/ACM International Symposium on Microarchitecture},
-> + series = {MICRO 39},
->   year = {2006},
->   isbn = {0-7695-2732-9},
->   pages = {185--196},
-> @@ -963,15 +965,18 @@ for Programming Languages and Operating Systems (ASPLOS '09)",
->   note="\url{https://paulmck.livejournal.com/tag/transactional%20memory%20everywhere}",
->  }
->  
-> -@unpublished{ChristianJacobi2012MainframeTM,
-> +@conference{ChristianJacobi2012MainframeTM,
->   author={Christian Jacobi and Timothy Slegel and Dan Greiner},
->   title="Transactional Memory Architecture and Implementation for {IBM} {System} z",
-> + booktitle="Proceedings of the 45\textsuperscript{th} Annual IEEE/ACM International Symposium on Microarchitecture",
-> + series = {MICRO 45},
-> + pages = {25--36},
->   month="December",
->   year="2012",
-> + address={Vancouver B.C. Canada},
->   doi="10.1109/MICRO.2012.12",
-> - note="The 45\textsuperscript{th} Annual IEEE/ACM International Symposium
-> -on MicroArchitecture, URL: \url{https://www.microarch.org/micro45/talks-posters/3-jacobi-presentation.pdf}",
-> - lastchecked="November 13, 2016",
-> + note="Presentation slides:
-> +  \url{https://www.microarch.org/micro45/talks-posters/3-jacobi-presentation.pdf}",
->  }
->  
->  @conference{JustinGottschlich2013TMdebug,
+>  @Book{Menasce94,
+> 
+> base-commit: cd891db680ae978f5efa362cbdc074483f07042a
