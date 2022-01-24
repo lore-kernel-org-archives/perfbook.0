@@ -1,139 +1,101 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from ams.source.kernel.org ([145.40.68.75]:48164 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbiAWTQe (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 23 Jan 2022 14:16:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42764 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240530AbiAXASf (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sun, 23 Jan 2022 19:18:35 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 087B0C06173B
+        for <perfbook@vger.kernel.org>; Sun, 23 Jan 2022 16:18:35 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2EA96B80E15
-        for <perfbook@vger.kernel.org>; Sun, 23 Jan 2022 19:16:33 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 70A0F611EC
+        for <perfbook@vger.kernel.org>; Mon, 24 Jan 2022 00:18:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642965391;
-        bh=5T/sWeWdVInuDTEDDn+uBLjh0qHr9HSUqEodjkKc6Rg=;
+        s=k20201202; t=1642983513;
+        bh=U9YYbNAGqjpVyOqIvvfNnt2RY8ZwXRL7nLziIX037EM=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=PAqs4Z+EofY3lKpw1ZwOz/L9PkzzGuTmjVFS56X4pAojDJRAOb5ut6kpX/lhFeJUO
-         OywzrPfki0e9oPOcBAbDbwNA5jqZ6StuoNeEWULh1IGQiJH+ncjw5kR/9Iyv8g2NxK
-         a3lGtOqnaD3O8v82V2mLV//zUY8OTM2qYnyV+NplgIEQx11YQTKfIR58ZEUhAwXWdq
-         DipNADND5psW43HUvqe0WnYeGrC8oFkcHa1PvWpdBZTtLkNt8r3n5YpyuIJdQoqeOh
-         xWba1i3RjWIti85JUBo+xiMQrd5TmlC+0a+Thm7jZioXL8UsBW9y+vCe5H3Ucm4LTX
-         H7OLpq7gWlhMg==
-Date: Sun, 23 Jan 2022 11:16:31 -0800
+        b=sshJxvwkYybTRDZVFFmm8mP/b626Je1l17lwI9lbZzbjDSzWLeK9QfhQczC2fvedS
+         haoWBT5CXyIthjtFdwlrk9fl6ZkZ/6KRN3Po5df7wHEdzPRUUtQNv9+B9lzOgA1b1L
+         mVuG2jdV39E8GD7X2wMffMbEgsvAweB41Vh4zHDQuvWrtx9OWcfZpYrg2pwaoztoi9
+         u+Vghary+Hle0iok+DM8pdQm1jNDi/unlalq+Jx/atzunXgIb2J5hsSelF5FmDFe0h
+         zTlQvbyNImea4Mtc879rIsMbMZBQ4QrqExbLlrrIlL5l5SHDTc8HJfA0hHByYf43Aq
+         smvy7AZTe2pMQ==
+Date: Sun, 23 Jan 2022 16:18:33 -0800
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH-perfbook v4] RFC: make some bibliography items better
-Message-ID: <20220123191631.GA4285@paulmck-ThinkPad-P17-Gen-1>
+Subject: Re: [PATCH -perfbook] bib/perfmeas: Fix doi of McKenney99b
+Message-ID: <20220124001833.GD4285@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <20220122094611.11332-1-zhouzhouyi@gmail.com>
- <8af9b735-8d96-f4d1-a26e-a566930e428f@gmail.com>
+References: <9d07bd21-9988-9b1f-d7f1-c7dae07d7a51@gmail.com>
+ <bbb86a86-1656-95c6-36a3-e7dbfa030d22@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8af9b735-8d96-f4d1-a26e-a566930e428f@gmail.com>
+In-Reply-To: <bbb86a86-1656-95c6-36a3-e7dbfa030d22@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>, perfbook@vger.kernel.org, luyang.co@gmail.com
+Cc: perfbook@vger.kernel.org, Zhouyi Zhou <zhouzhouyi@gmail.com>
 
-On Sat, Jan 22, 2022 at 07:10:58PM +0900, Akira Yokosawa wrote:
-> On Sat, 22 Jan 2022 17:46:11 +0800,
-> Zhouyi Zhou wrote:
-> > make following bibliography items better
-> > 1. "Relativistic Red-Black Trees"
-> > 2. "Speculative Lock Elision: Enabling Highly Concurrent Multithreaded Execution"
-> > 3. "Architectural Support for Software Transactional Memory"
-> > 4. "Transactional Memory Architecture and Implementation for IBM System z"
+On Mon, Jan 24, 2022 at 08:44:17AM +0900, Akira Yokosawa wrote:
+> On Fri, 21 Jan 2022 22:32:13 +0900, Akira Yokosawa wrote:
+> > Escape sequences of "%3C" and "%3E" in doi cause a build error when
+> > "inlinelinks" option in alphapf.bst is set #0 (URLs explicit).
 > > 
-> > Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com> 
-> > ---
-> > Thank Akira for your valuable advice!
+> > Fix the error by using non-escaped symbols of "<" and ">" instead.
 > > 
-> > I feel that each new version is much better than previous one.
-> > 
-> > Following is my new version, and I invoked "make" after the change,
-> > further suggestions is very welcome.
+> > Fixes: 62c6a33781d9 ("bib: url/doi updates")
+> > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 > 
-> Looks good to me!
+> Paul,
 > 
-> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+> You might be confused but I expected you would apply this fix as
+> well.
 
-Queued and pushed with the usual wordsmithing, thank you both!
+You are quite right, I was confused!  I am not sure why I was confused,
+but whatever the reason, I have now queued and pushed this patch.
+Thank you both for the patch and for the reminder!
 
 							Thanx, Paul
 
 >         Thanks, Akira
 > 
+> > ---
+> > Hi Zhouyi,
 > > 
-> > Thanks again
+> > Prompted by your patch "RFC: make some bibliography items better",
+> > I tested an option in alphapf.bst (bibliography style file of
+> > perfbook), namely "inlinelinks".
+> > By setting "#0" to inlinelink (URLs explicit), URL and DOI info
+> > in .bib files should be printed in Bibliography.
 > > 
-> > Sincerely
-> > Zhouyi
+> > However, the build failed with McKenney99b.
+> > 
+> > This patch should fix the build error.
+> > 
+> > You still need to manually edit alphapf.bst, but please try
+> > setting "#0" to inlinelink.
+> > 
+> > As you will see, if a bibliography has DOI info, URL info in
+> > the note field is redundant when the URL is the one reachable
+> > via the DOI.
+> > 
+> >         Thanks, Akira
 > > --
-> >  bib/RCU.bib |  8 +++++---
-> >  bib/TM.bib  | 15 ++++++++++-----
-> >  2 files changed, 15 insertions(+), 8 deletions(-)
+> >  bib/perfmeas.bib | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > > 
-> > diff --git a/bib/RCU.bib b/bib/RCU.bib
-> > index 3e2bf423..12c37619 100644
-> > --- a/bib/RCU.bib
-> > +++ b/bib/RCU.bib
-> > @@ -2190,11 +2190,13 @@ lot of {Linux} into your technology!!!",
-> >   author = {Philip W. Howard and Jonathan Walpole},
-> >   title = {Relativistic Red-Black Trees},
-> >   journal = {Concurrency and Computation: Practice and Experience},
-> > - year = {2013},
-> > + year = {2014},
-> > + month = "November",
-> >   issn = {1532-0634},
-> > - pages = {n/a--n/a},
-> > + pages = {2684--2712},
-> > + volume = {26},
-> > + number = {16},
-> >   numpages = {29},
-> > - url = {http://dx.doi.org/10.1002/cpe.3157},
-> >   doi = {10.1002/cpe.3157},
+> > diff --git a/bib/perfmeas.bib b/bib/perfmeas.bib
+> > index 9ba80cfc..51f63bb7 100644
+> > --- a/bib/perfmeas.bib
+> > +++ b/bib/perfmeas.bib
+> > @@ -83,7 +83,7 @@ Machine Language Rewriting",
+> >   year = {1999},
+> >   pages = {219-234},
+> >   bibsource = {DBLP, http://dblp.uni-trier.de},
+> > - doi = {10.1002/(SICI)1097-024X(199903)29:3%3C219::AID-SPE230%3E3.0.CO;2-0}
+> > + doi = {10.1002/(SICI)1097-024X(199903)29:3<219::AID-SPE230>3.0.CO;2-0}
 > >  }
 > >  
-> > diff --git a/bib/TM.bib b/bib/TM.bib
-> > index e4412afd..0f222647 100644
-> > --- a/bib/TM.bib
-> > +++ b/bib/TM.bib
-> > @@ -117,6 +117,7 @@ on Computer Architecture",
-> >   Title = "Speculative Lock Elision: Enabling Highly Concurrent Multithreaded
-> >  Execution",
-> >   Booktitle = "Proceedings of the 34\textsuperscript{th} Annual ACM/IEEE International Symposium on Microarchitecture",
-> > + series = {MICRO 34},
-> >   publisher="The Institute of Electrical and Electronics Engineers, Inc.",
-> >   month="December",
-> >   year="2001",
-> > @@ -372,7 +373,8 @@ Languages, Compilers, and Hardware Support for Transactional Computing},
-> >  @inproceedings{BratinSaha2006MICRO,
-> >   author = {Saha, Bratin and Adl-Tabatabai, Ali-Reza and Jacobson, Quinn},
-> >   title = {Architectural Support for Software Transactional Memory},
-> > - booktitle = {MICRO 39: Proceedings of the 39th Annual IEEE/ACM International Symposium on Microarchitecture},
-> > + booktitle = {Proceedings of the 39\textsuperscript{th} Annual IEEE/ACM International Symposium on Microarchitecture},
-> > + series = {MICRO 39},
-> >   year = {2006},
-> >   isbn = {0-7695-2732-9},
-> >   pages = {185--196},
-> > @@ -963,15 +965,18 @@ for Programming Languages and Operating Systems (ASPLOS '09)",
-> >   note="\url{https://paulmck.livejournal.com/tag/transactional%20memory%20everywhere}",
-> >  }
-> >  
-> > -@unpublished{ChristianJacobi2012MainframeTM,
-> > +@conference{ChristianJacobi2012MainframeTM,
-> >   author={Christian Jacobi and Timothy Slegel and Dan Greiner},
-> >   title="Transactional Memory Architecture and Implementation for {IBM} {System} z",
-> > + booktitle="Proceedings of the 45\textsuperscript{th} Annual IEEE/ACM International Symposium on Microarchitecture",
-> > + series = {MICRO 45},
-> > + pages = {25--36},
-> >   month="December",
-> >   year="2012",
-> > + address={Vancouver B.C. Canada},
-> >   doi="10.1109/MICRO.2012.12",
-> > - note="The 45\textsuperscript{th} Annual IEEE/ACM International Symposium
-> > -on MicroArchitecture, URL: \url{https://www.microarch.org/micro45/talks-posters/3-jacobi-presentation.pdf}",
-> > - lastchecked="November 13, 2016",
-> > + note="Presentation slides:
-> > +  \url{https://www.microarch.org/micro45/talks-posters/3-jacobi-presentation.pdf}",
-> >  }
-> >  
-> >  @conference{JustinGottschlich2013TMdebug,
+> >  @Book{Menasce94,
+> > 
+> > base-commit: cd891db680ae978f5efa362cbdc074483f07042a
