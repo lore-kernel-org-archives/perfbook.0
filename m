@@ -1,68 +1,66 @@
 Return-Path: <SRS0=opCU=SJ=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=zzSGB6aU5cDMFxzPoTYcA1oMsbldQxUZjsiKx2OHD1s=;
-        b=JTqezX9rKczwRdDseF1OMscfBPUaI37W9xfLIzk/rhGf526Jl4ijhhsMaof4CAge3x
-         YkbcgZEzPvPYCObKTr2b7iSA/q5LtlaJl8U6vO3RRryEXIDZbCoQdehMXMhGOgQYBz9T
-         HeqSwnEGel//LlFXdpyoqNUQrffhIi/lUTwh0qgb0cEJ9zPjYT6FxIK4q1qeMnQiAI2w
-         fYbQsPVVJG95GnEcDTxsukM5AawxvnYsF33qFVS2SFTI81+dErSDxlhjy7bA6cck4bYJ
-         XPa7ARis8pkOgK1bHwTeSxB7YAGo+vg9c1yhp0Q+jam31iaC2NVAdqXYWncLhxDaHMtI
-         QaYw==
-Message-ID: <5baa07e6-7936-4d3a-d2be-75508899f8ac@gmail.com>
-Date: Tue, 25 Jan 2022 18:56:27 +0900
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Q8n5SPHVUDU95a4GLt+5d/fCf7Q2xWeRSo/Y9B8YbtA=;
+        b=GqNQRUOEu6iWECn6FMyNqnzw9JJHV0GuonNDJTz1YuzFMR/t+iWQKTWtg29Rtjlw+h
+         z41uCpIZmBNzFW06U4twxoHzqLjXYk+iw17giQMpF27LlAg3/sTqSPfC5xOM+I7pdDWO
+         bGFAvI+X13Td0622wt6z+qWxAg/wXd9Tsx01Vv3nsgYH6PghnVgtS+Z2n2tDW4qkqtqU
+         43m2NrqNoO4PYIcEpSTv3D3P1M1DJIsCt2IwxeA0Lu1GRSCOqu0fl793lZnpdIV1RTiD
+         60/if0zfnq576isCQoks3GlljEKzCkYSoUXxOs0lV/qD0boGcP1GOSL+ASw/ngVVRkvD
+         c1Ug==
+Message-ID: <628a3c58-3745-7ac3-417c-78ac912d742d@gmail.com>
+Date: Tue, 25 Jan 2022 18:58:35 +0900
 MIME-Version: 1.0
+Subject: [PATCH -perfbook 1/6] advsync: Add major indexing tags to 'NBS' and
+ 'forward-progress guarantee'
 Content-Language: en-US
+References: <5baa07e6-7936-4d3a-d2be-75508899f8ac@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 0/6] index: Add several major tags
+In-Reply-To: <5baa07e6-7936-4d3a-d2be-75508899f8ac@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+Also increment number of classes.
+Enum item of "Bounded population-oblivious wait-free" was added
+in commit 6abfa973f401 ("glossary: Additions from index, F-K").
 
-Here are another set of patches WRT indexing.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ advsync/advsync.tex | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Patches 1/6 and 2/6 add indexing tags for major references to
-"NBS", "forward-progress guarantee", "livelock", "starvation",
-and "unfairness".
-
-Patch 3/6 adds API indexing tags to historic lockless_dereference().
-Patch 4/6 fixes a typo found while preparing Patch 5/6.
-Patch 5/6 adds major and minor tags to "(anti-)heisenbug".
-Patch 6/6 reforms hierarchical indexes under "Memory consistency"
-to those under "Consistency".
-
-Patch 5/6 needs the \IXalth{}{}{} macro as \IXh{anti-}{heisenbug}
-would put a space between the two arguments in the text.
-
-        Thanks, Akira
---
-Akira Yokosawa (6):
-  advsync: Add major indexing tags to 'NBS' and 'forward-progress
-    guarantee'
-  locking: Mark major references to 'livelock', 'starvation", and
-    'unfairness'
-  memorder: Add indexing tags for historic lockless_dereference()
-  debugging: Fix typo (heisenberg -> heisenbug)
-  debugging: Add indexing tags to '(anti-)heisenbug'
-  index: Reform indexing tags related to 'memory consistency'
-
- advsync/advsync.tex      | 8 ++++----
- debugging/debugging.tex  | 7 ++++---
- future/formalregress.tex | 2 +-
- glossary.tex             | 6 +++---
- indexsee.tex             | 7 +++++++
- locking/locking.tex      | 8 ++++----
- memorder/memorder.tex    | 8 ++++----
- together/seqlock.tex     | 3 +--
- 8 files changed, 28 insertions(+), 21 deletions(-)
-
-
-base-commit: 641067ba70383ad751512bd02cfc7cec17647523
+diff --git a/advsync/advsync.tex b/advsync/advsync.tex
+index 2d1f316c..d39e0f01 100644
+--- a/advsync/advsync.tex
++++ b/advsync/advsync.tex
+@@ -30,7 +30,7 @@ Memory ordering is also quite important, but it warrants its own
+ \cref{chp:Advanced Synchronization: Memory Ordering}.
+ 
+ The second form of advanced synchronization provides the stronger
+-\IXpl{forward-progress guarantee} needed for parallel real-time computing,
++forward-progress guarantees needed for parallel real-time computing,
+ which is the topic of
+ \cref{sec:advsync:Parallel Real-Time Computing}.
+ 
+@@ -80,9 +80,9 @@ them, please re-read
+ 	  it's supposed to do.}
+ 	 {\emph{Robert A. Heinlein}}
+ 
+-The term \IXacrfst{nbs}~\cite{MauriceHerlihy90a}
+-describes seven classes of \IX{linearizable} algorithms with differing
+-\emph{\IXpl{forward-progress guarantee}}~\cite{DanAlitarh2013PracticalProgress},
++The term \IXBacrfst{nbs}~\cite{MauriceHerlihy90a}
++describes eight classes of \IX{linearizable} algorithms with differing
++\emph{\IXBpl{forward-progress guarantee}}~\cite{DanAlitarh2013PracticalProgress},
+ which are as follows:
+ 
+ \begin{enumerate}
 -- 
 2.17.1
+
 
