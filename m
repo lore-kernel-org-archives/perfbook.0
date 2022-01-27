@@ -1,194 +1,200 @@
-Return-Path: <SRS0=zzwF=SM=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=rWVQ=SL=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=UZQ5MQF2qdtYKOpdhTVW8gyQYst1Fr8GJHbBpwMvSX0=;
-        b=QuvJmcvWUVxqA0AuYTqpCwTXvVzp/U+kactT9KyTa71VxmIQxzMPIyW4Ftr6Yeti3u
-         3tgX+G+qgoEvoZ4kgWHkk7CzgOUVHmgqvpE8lNHnVy1o9cNAoau/903zA14+xNzO6Z1R
-         +0OAFio1Ukn2ZD236AhpJvt/KjL6O3YQAO7glDSwORUDWR+XGLVfwPmwUYgyUUsDquiD
-         5CqSfu2Bg6MiEuQxQeMwulWnXI2AoLS3zitdUSmbw4KuD0bEKu9DoX3BfNyjjU/++TKV
-         ut6bC7XJFZaU4kJaz8ilfmsp93Z/FcW334zHQ5TS+O4J2ubFEUW4OQjd6vWCrEqZuoxx
-         1uzw==
-Message-ID: <0605b688-6c25-f42d-9907-7f28a78ac575@gmail.com>
-Date: Fri, 28 Jan 2022 23:46:32 +0900
+        bh=25xSoMcYtW/sa+B0EtpoGRktxksG8+9Xfh6EMmrs3sY=;
+        b=OSIVHREAY9wU2uNcn28YbbN2jmNjnVXGW7o8Qn3N6MEf1mCDBV9Oz1F/aZcddm41Pe
+         9ZqpwZ9hvzWKk/5cbHU3LajkKuUDghs78GzPO0+pZBEHPzVpaZZJz1v7qJTPW9UDawVy
+         fR9PWXc/JxJ3p8RAp/wBGHy5JZmuPnT8Kr6kl83hN647Lw+iQx11g9/4QwVDHoFCFlGx
+         +u77DZdbNW/QvCHOxiLMQKKU5U06MWlhNRFhbAPLAgiJwdAJO+7wMi3rCfVIXCwGIVN2
+         mjPmmOVU1+3xAVbn05hoRe9IUvUn2nVpYjho/w9KEiQweuXhoiPGlTJvKhWLl4MPORg4
+         gRjQ==
+Message-ID: <4ba47042-bcfa-7635-956a-0168ad6fa827@gmail.com>
+Date: Thu, 27 Jan 2022 15:07:17 +0900
 MIME-Version: 1.0
-Subject: Re: [RFT PATCH -perfbook v2] Enable parallel runs of pdflatex
+Subject: Re: [RFT PATCH -perfbook] Enable parallel runs of pdflatex
 Content-Language: en-US
-References: <900c36af-58e5-c8db-5900-3068143cfaa5@gmail.com>
+References: <b27908db-9717-5d37-12ea-05dda137dd55@gmail.com>
+ <20220127044530.GD4285@paulmck-ThinkPad-P17-Gen-1>
 From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <900c36af-58e5-c8db-5900-3068143cfaa5@gmail.com>
+In-Reply-To: <20220127044530.GD4285@paulmck-ThinkPad-P17-Gen-1>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Fri, 28 Jan 2022 22:30:36 +0900, Akira Yokosawa wrote:
-> Parallel build of PDF figures and .fcv snippets by "make -jN" worked
-> when a single PDF target was given to "make", such as
-> "make neatfreak; make -j4 eb".
-> On the other hand, "make -j3 2c 1c eb" ended up in various errors
-> during parallel runs of pdflatex.
+On Wed, 26 Jan 2022 20:45:30 -0800,
+Paul E. McKenney wrote:
+> On Thu, Jan 27, 2022 at 10:51:25AM +0900, Akira Yokosawa wrote:
+>> Parallel build of PDF figures and .fcv snippets by "make -jN" worked
+>> when a single PDF target was given to "make", such as
+>> "make neatfreak; make -j4 eb".
+>> On the other hand, "make -j3 2c 1c eb" ended up in various errors
+>> during parallel runs of pdflatex.
+>>
+>> It turns out that the cause of the error is the \include{} commands
+>> in appendix/appendix.tex and perfbook-lt.tex.
+>> \include{} switches to its own .aux file, in this case,
+>> appendix/questions.aux, appendix/toyrcu.aux, and so on.
+>> As their names are common to different PDF targets, those .aux files
+>> can be overwritten/corrupted by parallel runs of pdflatex.
+>>
+>> \include{} implies \cleardoublepage both in front of and next to it.
+>> In perfbook, included LaTeX sources have \chapter{} commands and
+>> the implied page breaks are redundant.
+>>
+>> By replacing \include{} with \input{}, parallel runs of pdflatex can
+>> be enabled.
+>>
+>> There were a couple of minor issues in Makefile WRT parallel runs of
+>> runfirstlatex.sh.
+>>
+>> When some of perfbook-xxx.tex files already existed, runfirstlatex.sh
+>> for other main perfbook-yyy.tex could be invoked prematurely before
+>> that .tex file was ready.
+>>
+>> Fix it by adding stricter dependencies of perfbook-xxx.aux on
+>> perfbook-xxx.tex.
+>> Also remove some redundant dependencies around here.
+>>
+>> Note: LATEXSOURCES contains perfbook-lt.tex
+>>
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+>> ---
+>> Hi Paul,
+>>
+>> For quite a while, I was wondering why "make -j3 2c 1c eb"
+>> didn't work as expected.
+>>
+>> I think I have managed to get it work.
+>>
+>> But changes in Makefile need extra testing.  Especially,
+>> those involving parallelizing.
+>>
+>> So I'd like you to give this a fair amount of testing before
+>> pushing it.
 > 
-> It turns out that the cause of the error is the \include{} commands
-> in appendix/appendix.tex and perfbook-lt.tex.
-> \include{} switches to its own .aux file, in this case,
-> appendix/questions.aux, appendix/toyrcu.aux, and so on.
-> As their names are common to different PDF targets, those .aux files
-> can be overwritten/corrupted by parallel runs of pdflatex.
+> OK, I am applying it to an experimental repo.  Let's give it a go:
 > 
-> \include{} implies \cleardoublepage both in front of and next to it.
-> In perfbook, included LaTeX sources have \chapter{} commands and
-> the implied page breaks are redundant.
+> 	$ time make -j32 2c 1c eb a4 nq sf sfnq
+> 	[ . . . ]
+> 	'perfbook-sf.pdf' is ready.
+> 	'perfbook-1c.pdf' is ready.
+> 	'perfbook.pdf' is ready.
+> 	'perfbook-sfnq.pdf' is ready.
+> 	'perfbook-a4.pdf' is ready.
+> 	'perfbook-eb.pdf' is ready.
+> 	'perfbook-nq.pdf' is ready.
 > 
-> By replacing \include{} with \input{}, parallel runs of pdflatex can
-> be enabled.
+> 	real    2m31.412s
+> 	user    16m45.778s
+> 	sys     1m48.385s
 > 
-> There is a couple of minor issues in Makefile WRT parallel runs of
-> runfirstlatex.sh.
-> 
-> When some of perfbook-xxx.tex files already existed, runfirstlatex.sh
-> for other main perfbook-yyy.tex could be invoked prematurely before
-> that .tex file got ready.
-> 
-> Fix it by adding stricter dependencies of perfbook-xxx.aux on
-> perfbook-xxx.tex.
-> 
-> Also sort out dependencies around here.
-> autodate.tex now depends only on files in Git repo.
-> Instead, perfbook_flat.tex acts as a barrier between the file
-> conversion phase and the pdflatex phase.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
-> Hi Paul,
-> 
-> This is v2 of the RFT patch.
-> 
-> Dependencies of perfbook*.aux, autodate.tex, and perfbook_flat.tex
-> are straightened up since v1.
-> 
-> As for your concern of regression in PDFs generated, I think we
-> can compare SyncTeX databases of single and parallel builds.
-> 
-> I did the following steps.
-> 
-> 1. Sequential build:
-> 
->   $ make neatfreak; make LATEX_OPT=-synctex=1 2c 1c eb
->   $ cp perfbook.synctex.gz /tmp/perfbook.sequ.synctex.gz
->   $ cp perfbook-1c.synctex.gz /tmp/perfbook-1c.sequ.synctex.gz
->   $ cp perfbook-eb.synctex.gz /tmp/perfbook-eb.sequ.synctex.gz
-> 
->  *WARNING*: "make neatfreak" below will remove *.synctex.gz,
->  so copy them somewhere out of your working directory!
-> 
-> 2. Parallel build:
-> 
->   $ make neatfreak; make -j6 LATEX_OPT=-synctex=1 2c 1c eb
->   $ cp perfbook.synctex.gz /tmp/perfbook.para.synctex.gz
->   $ cp perfbook-1c.synctex.gz /tmp/perfbook-1c.para.synctex.gz
->   $ cp perfbook-eb.synctex.gz /tmp/perfbook-eb.para.synctex.gz
-> 
-> 3 Compare SyncTeX databases
-> 
->   $ cd /tmp
->   $ cmp perfbook.sequ.synctex.gz perfbook.para.synctex.gz
->   $ cmp perfbook-1c.sequ.synctex.gz perfbook-1c.para.synctex.gz
->   $ cmp perfbook-eb.sequ.synctex.gz perfbook-eb.para.synctex.gz
-> 
-> In my test, there was no difference.
-> 
-> I think this is getting ready to be applied and pushed.
+> Not bad, actually!  Might be worth redoing my release scripts to take
+> advantage of this.  ;-)
 
-Please hold on!
+Nice!
 
-This patch changes both LaTeX code and Makefile.
-SyncTeX database is affected by LaTeX code change because
-it is a collection of "LaTeX code (file:line:char) <->
-coordinates in PDF".
-So we can't see if changes in Makefile affect PDF or not.
+> 
+> I (very) quickly glanced at the PDFs, and they look OK.
+> 
+> I then did a "make clean" and:
+> 
+> 	$ time make
+> 	[ . . . ]
+> 	'perfbook.pdf' is ready.
+> 	utilities/punctcheck.sh
+> 	utilities/cleverefcheck.sh
+> 
+> 	real    1m47.823s
+> 	user    1m45.715s
+> 	sys     0m1.226s
+> 
+> Another "make clean" and:
+> 
+> 	$ time make -j32
+> 	[ . . . ]
+> 	'perfbook.pdf' is ready.
+> 	utilities/punctcheck.sh
+> 	utilities/cleverefcheck.sh
+> 
+> 	real    1m49.484s
+> 	user    1m47.206s
+> 	sys     0m1.437s
+> 
+> So, as one would expect, the sweet spot for -j is when rebuilding
+> all the images from scratch or when building multiple PDFs.
+> 
+> Nice!
+> 
+> Huh.  It would be good to have a way of diff-ing PDF files.  Then
+> a single-threaded-generated PDF could be automatically compared to
+> its counterpart from a concurrent build.  But the search engines
+> were not kind to me.
+> 
+> Thoughts?
 
-I'll split this patch into a set of "preparatory LaTeX change"
-and "Makefile update" patches.
+How about comparing .log files of two builds?
+
+In my trial, "diff -u perfbook-single.log perfbook-multi.log"
+yields only a hunk of build time difference as shown below:
+
+    --- perfbook-single.log	2022-01-27 14:30:01.659959433 +0900
+
+    +++ perfbook-multi.log	2022-01-27 14:33:57.556196036 +0900
+
+    @@ -1,4 +1,4 @@
+
+    -This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2022.1.24)  27 JAN 2022 14:28
+
+    +This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2022.1.24)  27 JAN 2022 14:32
+
+     entering extended mode
+
+      restricted \write18 enabled.
+
+      %&-line parsing enabled.
+
+
+Not a direct comparison, but the log has a summary near the
+end:
+
+    Here is how much of TeX's memory you used:
+     74049 strings out of 479599
+     1597759 string characters out of 5876039
+     1950680 words of memory out of 5000000
+     80683 multiletter control sequences out of 15000+600000
+     692091 words of font info for 721 fonts, out of 8000000 for 9000
+     1816 hyphenation exceptions out of 8191
+     105i,19n,133p,1187b,1660s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+     [long list of referenced font files]
+
+    Output written on perfbook.pdf (638 pages, 8031215 bytes).
+    PDF statistics:
+     25510 PDF objects out of 26593 (max. 8388607)
+     24061 compressed objects within 241 object streams
+     7119 named destinations out of 7423 (max. 500000)
+     166134 words of extra memory for PDF output out of 184870 (max. 10000000)
+
+I think any visible difference in two PDFs is likely to be
+reflected in this summary.
+
+Indirect hints they may be, at least they provide partial
+assurance.
 
         Thanks, Akira
 
 > 
->         Thanks, Akira
-> --
->  Makefile              | 12 +++++++-----
->  appendix/appendix.tex |  8 ++++----
->  perfbook-lt.tex       |  4 ++--
->  3 files changed, 13 insertions(+), 11 deletions(-)
+> 							Thanx, Paul
 > 
-> diff --git a/Makefile b/Makefile
-> index 6ee849fd..ee1880ff 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -222,18 +222,20 @@ $(PDFTARGETS): %.pdf: %.tex %.bbl
->  $(PDFTARGETS:.pdf=.bbl): %.bbl: %.aux $(BIBSOURCES)
->  	bibtex $(basename $@)
->  
-> -$(PDFTARGETS:.pdf=.aux): $(LATEXGENERATED) $(LATEXSOURCES) $(LST_SOURCES)
-> +$(PDFTARGETS:.pdf=.aux): %.aux: %.tex $(LATEXGENERATED)
->  ifeq ($(NEWTXTEXT),)
->  	$(error Font package 'newtx' not found. See #9 in FAQ-BUILD.txt)
->  endif
->  	sh utilities/runfirstlatex.sh $(basename $@)
->  
-> -autodate.tex: perfbook-lt.tex $(LATEXSOURCES) $(BIBSOURCES) \
-> -    $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG) $(FCVSNIPPETS) $(FCVSNIPPETS_VIA_LTMS) \
-> -    $(GITREFSTAGS) utilities/autodate.sh
-> +autodate.tex: $(LATEXSOURCES) $(BIBSOURCES) $(SOURCES_OF_SNIPPET) \
-> +    $(LST_SOURCES) $(FIGSOURCES) $(DOTSOURCES) $(EPSORIGIN) \
-> +    $(SVGSOURCES) $(GITREFSTAGS) \
-> +    utilities/autodate.sh
->  	sh utilities/autodate.sh
->  
-> -perfbook_flat.tex: autodate.tex
-> +perfbook_flat.tex: autodate.tex $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG) \
-> +    $(FCVSNIPPETS) $(FCVSNIPPETS_VIA_LTMS)
->  ifndef LATEXPAND
->  	$(error --> $@: latexpand not found. Please install it)
->  endif
-> diff --git a/appendix/appendix.tex b/appendix/appendix.tex
-> index f2640157..edcfe7ef 100644
-> --- a/appendix/appendix.tex
-> +++ b/appendix/appendix.tex
-> @@ -2,9 +2,9 @@
->  % mainfile: ../perfbook.tex
->  % SPDX-License-Identifier: CC-BY-SA-3.0
->  
-> -\include{appendix/questions/questions}
-> -\include{appendix/toyrcu/toyrcu}
-> -\include{appendix/whymb/whymemorybarriers}
-> -\include{appendix/styleguide/styleguide}
-> +\input{appendix/questions/questions}
-> +\input{appendix/toyrcu/toyrcu}
-> +\input{appendix/whymb/whymemorybarriers}
-> +\input{appendix/styleguide/styleguide}
->  \renewcommand{\bottomtitlespace}{.08\textheight}
->  \QuickQuizAnswers
-> diff --git a/perfbook-lt.tex b/perfbook-lt.tex
-> index 085ce55d..d70dde66 100644
-> --- a/perfbook-lt.tex
-> +++ b/perfbook-lt.tex
-> @@ -667,12 +667,12 @@
->  
->  % Credits
->  \setcounter{secnumdepth}{-1} % surpress section numbering in backmatter
-> -\include{ack}
-> +\input{ack}
->  
->  % Index if enabled
->  \IfIndexOn{
->  \IfIndexHier{
-> -\include{indexsee}
-> +\input{indexsee}
->  }{}
->  \phantomsection
->  \IfEbookSize{
-> 
-> base-commit: f24ccfbd345eab8a70d6c08e71c84f18df46a3a1
+>>         Thanks, Akira
+>> --
+>>  Makefile              | 6 +++---
+>>  appendix/appendix.tex | 8 ++++----
+>>  perfbook-lt.tex       | 4 ++--
+>>  3 files changed, 9 insertions(+), 9 deletions(-)
+>>
+[...]
