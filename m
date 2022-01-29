@@ -1,86 +1,73 @@
-Return-Path: <SRS0=wfcr=SO=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=G1zK0fnCY3e6nqBhcGj+gO6amStJ7TNhyaEsLMFJ6hU=;
-        b=dQCO7XEj0mF0fyLU+sbpJyA6cJhv9FWcsyjwfOqFkhPeauOZObyMy3ey/i0c1LYuOI
-         hqBlvJqVcz1lLss3fGnrusGWbtHPD3GZSJktxbpLUAc7uL6yk3OYBLenh0kSU0KJNKC5
-         UKF+fat/dslfIU+SD8YMuHE6bbujcBr7zURuN98/AzBbFT+5QRu0j2/N4S3vbMaqkvV1
-         2zNR4raJdjSZ29BKofExXEymxDa2A3O0CbM5htsPcekwU69PtiB52FPqN6ToRHFGaoVa
-         MNX2zfDF1sk8V2b4sXac9JOch7yTUg/RJFPqkNWioUVxWcviU1HyBygTYq0AnLfzvIWP
-         1V3Q==
-Message-ID: <a786b98d-037a-649e-863a-f72aa8c224e5@gmail.com>
-Date: Sun, 30 Jan 2022 18:38:37 +0900
+Return-Path: <SRS0=GI3y=SN=jklaehn.de=johann@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jklaehn.de; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm2; bh=Ot9VuqUQbIx7at+nkr/dw9c16lsp2jtyoGfnPU
+	rDVvc=; b=ljVt6WDltZ6MDspJpfvcNjQOu1l6AYGNrHIGE3FI/LAWloot2s2GeO
+	FvdH5ntC0a3a6tGdh+JtbRz2fUNh/AR7nHnWT4SZZoJ510e9Hw2SbxIwvGfPD8cd
+	ouHLhkICKhRReSyobrkhx5pRWP1p8PhEZSPKG66FuneQhT+sdWNlCAS3odZo+T08
+	WLwMMXlO8FKRnZw1i3o4ni1zU0gsi07xmSRjD28NPWr61y2cjl5oUQbzeelf9LHi
+	ktxUU6PxcPHDCUOxuRnib6u6S6M67KtsgPaJm/U7UoC6fY8k61UIZOkDv1ZvKrWC
+	3x2pK2Pw+zFL7qzsDDGrMJQQpEXPaveA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Ot9Vuq
+	UQbIx7at+nkr/dw9c16lsp2jtyoGfnPUrDVvc=; b=D3PQNDXVM53NYjmUgenTM2
+	9Y4/sLhga1RvXeqqVMulW5SEsISbiv6X0T1WHIN2FeftkAKYm0uSWdlwhsoxaoUN
+	pbsa5tGWQYahzAylmg25LJk9dAgdyCO+PWBoMaQCVPsQLfToH2gpbntx7ygWkMIm
+	kep6n3av+RHAZqsk0Hm/LzCHc5jASGe+3xxsZvevoKuZgarEdadrLeeR8a5VzGa7
+	lpVxmY9E3yvyDxuEVQyHdMXPplxdWiJPHqDkj70ZhEo3Yk34rl1Ac/8jHIRBT4nC
+	v+Gaaje9hwu6ZBA8vTimOX13T9YXRnFRpHrN9MEPwEcCkXZkH982fKzk+j/M4fDg
+	==
+From: =?UTF-8?q?Johann=20Kl=C3=A4hn?= <johann@jklaehn.de>
+Subject: [PATCH-perfbook] count: Fix typos
+Date: Sat, 29 Jan 2022 23:18:15 +0100
+Message-Id: <20220129221815.89451-1-johann@jklaehn.de>
 MIME-Version: 1.0
-Subject: [RFT PATCH -perfbook v3 5/4] Makefile: Fix regression of parallel run
- of autodate.sh
-Content-Language: en-US
-References: <e4f48e3d-7efe-f822-1002-6836d63b542f@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <e4f48e3d-7efe-f822-1002-6836d63b542f@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-Commit xxxxxxxxxxxx ("Makefile: Fix issues WRT parallel runs of
-pdflatex") changed dependency around autodate.tex so that it
-depends only on files in the Git repository.
-
-However, this change causes autodate.sh to see untracked temporary
-intermediate files from concurrent conversion of figures.
-It ends up adding the "(m)" maker in autodate.tex even when there is
-no untracked file in the beginning.
-
-Fix the regression by partially reverting xxxxxxxxxxxx and restoring
-dependencies of autodate.tex on converted PDF and .fcv files.
-
-Note: This regression was caught by parallel-latex-regress.sh
-when Paul ran it under clean Git repository.
-
-Fixes: xxxxxxxxxxxx ("Makefile: Fix issues WRT parallel runs of pdflatex")
-Reported-by: Paul E. McKenney <paulmck@kernel.org>
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Johann Klähn <johann@jklaehn.de>
 ---
-Paul,
+Hi Paul,
 
-I can merge this with 2/4, but I'd rather keep this partial revert
-as an example of regression found by the script.
+I'm really enjoying the book and hope that I can contribute back a little bit in
+the form of small fixes.  As this is my first patch to this list, please point
+out anything I could improve in the future (e.g., granularity of patches).
 
-If you push this series to master, please amend the commit ids
-in the change log.
+Thanks
+Johann
+---
+ count/count.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-       Thanks, Akira
---
- Makefile | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index ee1880ff..e09ba32d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -228,14 +228,12 @@ ifeq ($(NEWTXTEXT),)
- endif
- 	sh utilities/runfirstlatex.sh $(basename $@)
+diff --git a/count/count.tex b/count/count.tex
+index d2b39904..f4e74c13 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -3237,7 +3237,7 @@ Summarizing the summary:
+ 	\Cref{fig:count:Atomic Increment Scalability on x86}
+ 	illustrates this point:
+ 	Atomic increment might be completely acceptable for a two-CPU
+-	system, but be completely inadequate for an eight-CPU system.
++	system, but can be completely inadequate for an eight-CPU system.
+ \end{enumerate}
  
--autodate.tex: $(LATEXSOURCES) $(BIBSOURCES) $(SOURCES_OF_SNIPPET) \
--    $(LST_SOURCES) $(FIGSOURCES) $(DOTSOURCES) $(EPSORIGIN) \
--    $(SVGSOURCES) $(GITREFSTAGS) \
--    utilities/autodate.sh
-+autodate.tex: $(LATEXSOURCES) $(BIBSOURCES) $(LST_SOURCES) \
-+    $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG) $(FCVSNIPPETS) $(FCVSNIPPETS_VIA_LTMS) \
-+     $(GITREFSTAGS) utilities/autodate.sh
- 	sh utilities/autodate.sh
- 
--perfbook_flat.tex: autodate.tex $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG) \
--    $(FCVSNIPPETS) $(FCVSNIPPETS_VIA_LTMS)
-+perfbook_flat.tex: autodate.tex
- ifndef LATEXPAND
- 	$(error --> $@: latexpand not found. Please install it)
- endif
+ \begin{figure}
+@@ -3251,7 +3251,7 @@ Summarizing still further, we have the ``big three'' methods of
+ increasing performance and scalability, namely
+ (1)~\emph{partitioning} over CPUs or threads,
+ (2)~\emph{batching} so that more work can be done by each expensive
+-synchronization operations, and
++synchronization operation, and
+ (3)~\emph{weakening} synchronization operations where feasible.
+ As a rough rule of thumb, you should apply these methods in this order,
+ as was noted earlier in the discussion of
 -- 
-2.17.1
-
+2.34.1
 
