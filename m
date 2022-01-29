@@ -1,82 +1,93 @@
 Return-Path: <SRS0=PE5W=SN=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=G00CJzBWe/qc/C/4lT0CzLLIA64ccMwtk54vEolrC3I=;
-        b=ZUklyMViyay7OOrPRnideXkAFYAtf7l/lHTTU1KN8RukEbEAsISLjq7wzxZoOH24My
-         MGAxAqZxLgVreyc0KMh6su+0ZgSh8yTHhJQEcx+ikSblmeUCdlCBmdr5sgwiTYZv5KKH
-         rsjI7aqgxbg5sD2PuAGMmxwDwOr5vJA2Xeq8gpZ1ty2jHvOVPg5YKBcBKHTZcjoHPg/H
-         0Qjg2nXK7HUK3K1Lsu1Eov2Q1+1ufnP6ysfm2o+sAnii4pfOZCUesA22gnlVNEn5vZ0E
-         HcKSROG8c3ZscDbY6BVCji1X1neu7AJkQk37bDEyUTuUnlHnjZhHPLVL9FonENl5oF9O
-         GY0A==
-Message-ID: <e4f48e3d-7efe-f822-1002-6836d63b542f@gmail.com>
-Date: Sat, 29 Jan 2022 20:19:33 +0900
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=szexCB425YPFNzbx+kIuwC5o70Pn0BW4RIf+X5Y2TYc=;
+        b=ApiJe4rv9DBGd4dJ+BLPcykY+PgRspvHHpXvPZzUzKGLapBo00GF7daUXS57QOL9vk
+         H7AiAvYA+oIRa7FmIwAGZduBRFune8CGvWrChif5qM/rkJGKpgljbO5nXKuJhUdEAGlk
+         0M+kDGLg3Ki8iF6mftFD0qIAM/NiOKNcqFXQKcB3XFTr0ng5KNao8KiUIqXWv0yUvjjb
+         Uq1jgQMPnthvrESyCMlNWTn9U52CVNzDUNc8JDfz+3eLeR9Aar53j8pmprAsiOUXtVf9
+         04519XqAJ3OhTIFmTeI1BXL0Hnm6YzI0McKz/7t+QyXpSxmIP/IB3EiFyG4TuIvgt4SR
+         GxZA==
+Message-ID: <37063e70-f93f-4e77-6d7b-de09876bcc65@gmail.com>
+Date: Sat, 29 Jan 2022 20:23:39 +0900
 MIME-Version: 1.0
+Subject: [RFT PATCH -perfbook v3 v3 1/4] Replace \include{} with \input{} for
+ parallel pdflatex runs
 Content-Language: en-US
+References: <e4f48e3d-7efe-f822-1002-6836d63b542f@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [RFT PATCH -perfbook v3 v3 0/4] Enable parallel runs of pdflatex
+In-Reply-To: <e4f48e3d-7efe-f822-1002-6836d63b542f@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+Parallel build of .pdf and .fcv files by "make -jN" worked when
+a single PDF target was specified.
+On the other hand, "make -j3 2c 1c eb" ended up in various errors
+during parallel runs of pdflatex.
 
-I said earlier in v2's thread:
+It turns out that the cause of the error is the \include{} commands
+in appendix/appendix.tex and perfbook-lt.tex.
+\include{} switches to its own .aux file, in this case,
+appendix/questions.aux, appendix/toyrcu.aux, and so on.
+As their names are common to different PDF targets, those .aux files
+can be overwritten/corrupted by parallel runs of pdflatex.
 
-> This patch changes both LaTeX code and Makefile.
-> SyncTeX database is affected by LaTeX code change because
-> it is a collection of "LaTeX code (file:line:char) <->
-> coordinates in PDF".
-> So we can't see if changes in Makefile affect PDF or not.
-> 
-> I'll split this patch into a set of "preparatory LaTeX change"
-> and "Makefile update" patches.
+\include{} implies \cleardoublepage both in front of and next to it.
+In perfbook, included LaTeX sources have \chapter{} commands and
+the implied page breaks are redundant.
 
-I did break up the patch (1/4 and 2/4), but it did not work as I
-had expected.
-Because of the Git-commit info in the footer area, SyncTeX database
-can't be identical when you move to another commit.
+By replacing \include{} commands with \input{} commands, parallel
+runs of pdflatex can be enabled.
 
-So, I restored the Makefile as of 2022.01.25 for reference (3/4)
-and added a script to collect and compare SyncTeX databases from
-reference, sequential, and parallel runs of pdflatex (4/4).
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ appendix/appendix.tex | 8 ++++----
+ perfbook-lt.tex       | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-Please give it a try.
-
-You can override defaults of TARGETS (2c 1c eb) and JOBS (4) by
-saying, e.g.:
-
-  TARGETS="2c 1c eb nq 1cnq ebnq" JOBS=8 ./utilities/parallel-latex-regress.sh
-
-It will take quite a while for sequential runs of pdflatex with
-the synctex option enabled.  So I'd suggest starting from a short
-list.
-
-In my tests so far, no mismatch was detected.
-
-        Thanks, Akira
-
---
-Akira Yokosawa (4):
-  Replace \include{} with \input{} for parallel pdflatex runs
-  Makefile: Fix issues WRT parallel runs of pdflatex
-  Restore Makefile as of 2022.01.25
-  Add script for parallel-pdflatex-run regression test
-
- Makefile                            |  12 +-
- Makefile.2022.01.25                 | 608 ++++++++++++++++++++++++++++
- appendix/appendix.tex               |   8 +-
- perfbook-lt.tex                     |   4 +-
- utilities/parallel-latex-regress.sh |  75 ++++
- 5 files changed, 696 insertions(+), 11 deletions(-)
- create mode 100644 Makefile.2022.01.25
- create mode 100755 utilities/parallel-latex-regress.sh
-
-
-base-commit: f24ccfbd345eab8a70d6c08e71c84f18df46a3a1
+diff --git a/appendix/appendix.tex b/appendix/appendix.tex
+index f2640157..edcfe7ef 100644
+--- a/appendix/appendix.tex
++++ b/appendix/appendix.tex
+@@ -2,9 +2,9 @@
+ % mainfile: ../perfbook.tex
+ % SPDX-License-Identifier: CC-BY-SA-3.0
+ 
+-\include{appendix/questions/questions}
+-\include{appendix/toyrcu/toyrcu}
+-\include{appendix/whymb/whymemorybarriers}
+-\include{appendix/styleguide/styleguide}
++\input{appendix/questions/questions}
++\input{appendix/toyrcu/toyrcu}
++\input{appendix/whymb/whymemorybarriers}
++\input{appendix/styleguide/styleguide}
+ \renewcommand{\bottomtitlespace}{.08\textheight}
+ \QuickQuizAnswers
+diff --git a/perfbook-lt.tex b/perfbook-lt.tex
+index 085ce55d..d70dde66 100644
+--- a/perfbook-lt.tex
++++ b/perfbook-lt.tex
+@@ -667,12 +667,12 @@
+ 
+ % Credits
+ \setcounter{secnumdepth}{-1} % surpress section numbering in backmatter
+-\include{ack}
++\input{ack}
+ 
+ % Index if enabled
+ \IfIndexOn{
+ \IfIndexHier{
+-\include{indexsee}
++\input{indexsee}
+ }{}
+ \phantomsection
+ \IfEbookSize{
 -- 
 2.17.1
+
 
