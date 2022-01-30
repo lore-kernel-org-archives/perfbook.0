@@ -3,104 +3,84 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=SMrGYWZivEXRS4VgEB7hx9HbR5cCv12T37pB/7K9NZs=;
-        b=ayQLZnnXlzXNIdaDr8DOhYkgV/QMlYu+NhLN+zH2NJBIrY/7GqeaBmvOc/SRud34dZ
-         My3UATvJ85oLLtJdfnE3TBtDBzT58psW1FZoL5CfkpFEoW8hI2jQ2BJvKYAzV7a7dkK0
-         tURomWDPq6HG+E/jmAk5VdZeo0k3ZKnS5IdwMv+JKyT8J2NoTvVauv2MEA9oTp0OnSI1
-         J7HE5Q6NkPqzl90eldnjMh8HgGUtkSeCp+YYZ0bILzSfe/LiyahaGfY7nkrBU4K62YEs
-         2WnCOUOTLydhDaC3u0UExQ4nhNA31iNGK/cFvj9bgc86G5BrU7kweHyvDL819nFq2IMg
-         crjw==
-Message-ID: <92c18a74-e182-6e23-ff57-e3de19780fb4@gmail.com>
-Date: Sun, 30 Jan 2022 18:30:56 +0900
+        bh=G1zK0fnCY3e6nqBhcGj+gO6amStJ7TNhyaEsLMFJ6hU=;
+        b=dQCO7XEj0mF0fyLU+sbpJyA6cJhv9FWcsyjwfOqFkhPeauOZObyMy3ey/i0c1LYuOI
+         hqBlvJqVcz1lLss3fGnrusGWbtHPD3GZSJktxbpLUAc7uL6yk3OYBLenh0kSU0KJNKC5
+         UKF+fat/dslfIU+SD8YMuHE6bbujcBr7zURuN98/AzBbFT+5QRu0j2/N4S3vbMaqkvV1
+         2zNR4raJdjSZ29BKofExXEymxDa2A3O0CbM5htsPcekwU69PtiB52FPqN6ToRHFGaoVa
+         MNX2zfDF1sk8V2b4sXac9JOch7yTUg/RJFPqkNWioUVxWcviU1HyBygTYq0AnLfzvIWP
+         1V3Q==
+Message-ID: <a786b98d-037a-649e-863a-f72aa8c224e5@gmail.com>
+Date: Sun, 30 Jan 2022 18:38:37 +0900
 MIME-Version: 1.0
-Subject: Re: [RFT PATCH -perfbook v3 v3 0/4] Enable parallel runs of pdflatex
+Subject: [RFT PATCH -perfbook v3 5/4] Makefile: Fix regression of parallel run
+ of autodate.sh
 Content-Language: en-US
 References: <e4f48e3d-7efe-f822-1002-6836d63b542f@gmail.com>
- <20220130043603.GR4285@paulmck-ThinkPad-P17-Gen-1>
 From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220130043603.GR4285@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <e4f48e3d-7efe-f822-1002-6836d63b542f@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Sat, 29 Jan 2022 20:36:03 -0800, Paul E. McKenney wrote:
-> On Sat, Jan 29, 2022 at 08:19:33PM +0900, Akira Yokosawa wrote:
->> Hi Paul,
->>
->> I said earlier in v2's thread:
->>
->>> This patch changes both LaTeX code and Makefile.
->>> SyncTeX database is affected by LaTeX code change because
->>> it is a collection of "LaTeX code (file:line:char) <->
->>> coordinates in PDF".
->>> So we can't see if changes in Makefile affect PDF or not.
->>>
->>> I'll split this patch into a set of "preparatory LaTeX change"
->>> and "Makefile update" patches.
->>
->> I did break up the patch (1/4 and 2/4), but it did not work as I
->> had expected.
->> Because of the Git-commit info in the footer area, SyncTeX database
->> can't be identical when you move to another commit.
->>
->> So, I restored the Makefile as of 2022.01.25 for reference (3/4)
->> and added a script to collect and compare SyncTeX databases from
->> reference, sequential, and parallel runs of pdflatex (4/4).
->>
->> Please give it a try.
->>
->> You can override defaults of TARGETS (2c 1c eb) and JOBS (4) by
->> saying, e.g.:
->>
->>   TARGETS="2c 1c eb nq 1cnq ebnq" JOBS=8 ./utilities/parallel-latex-regress.sh
->>
->> It will take quite a while for sequential runs of pdflatex with
->> the synctex option enabled.  So I'd suggest starting from a short
->> list.
->>
->> In my tests so far, no mismatch was detected.
-> 
-> Thank you, especially for the script!  I applied these patches, but I
-> get an exit code of 1.  Ah, but that is because "2cnq" is not a thing.
-> Trying again with:
-> 
-> TARGETS="2c 1c eb 1cnq nq ebnq" time ./utilities/parallel-latex-regress.sh
-> 
-> And I still got mismatches and an exit code of 1, with output shown
-> below.  Any hints?
+Commit xxxxxxxxxxxx ("Makefile: Fix issues WRT parallel runs of
+pdflatex") changed dependency around autodate.tex so that it
+depends only on files in the Git repository.
 
-Paul, you did find a regression in the changes of 2/4.
-I did not expect the script would actually catch such a bug.
+However, this change causes autodate.sh to see untracked temporary
+intermediate files from concurrent conversion of figures.
+It ends up adding the "(m)" maker in autodate.tex even when there is
+no untracked file in the beginning.
 
-The "sorting out" in 2/4 caused autodate.sh to see temporary
-untracked files from concurrent conversions of figures.
+Fix the regression by partially reverting xxxxxxxxxxxx and restoring
+dependencies of autodate.tex on converted PDF and .fcv files.
 
-I'm sending a followup patch (5/4) partially reverting 2/4.
-I should have run the test under a newly cloned Git repository...
+Note: This regression was caught by parallel-latex-regress.sh
+when Paul ran it under clean Git repository.
 
-        Thanks, Akira
+Fixes: xxxxxxxxxxxx ("Makefile: Fix issues WRT parallel runs of pdflatex")
+Reported-by: Paul E. McKenney <paulmck@kernel.org>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Paul,
 
-> 
-> 							Thanx, Paul
-> 
-> ------------------------------------------------------------------------
-> 
-[...]
-> /tmp/perfbook.ref.synctex.gz /tmp/perfbook.sequ.synctex.gz differ: byte 3690, line 6
-> /tmp/perfbook.ref.synctex.gz /tmp/perfbook.para.synctex.gz differ: byte 3690, line 6
-> /tmp/perfbook-1c.ref.synctex.gz /tmp/perfbook-1c.sequ.synctex.gz differ: byte 3720, line 5
-> /tmp/perfbook-1c.ref.synctex.gz /tmp/perfbook-1c.para.synctex.gz differ: byte 3720, line 5
-> /tmp/perfbook-eb.ref.synctex.gz /tmp/perfbook-eb.sequ.synctex.gz differ: byte 3705, line 8
-> /tmp/perfbook-eb.ref.synctex.gz /tmp/perfbook-eb.para.synctex.gz differ: byte 3705, line 8
-> /tmp/perfbook-1cnq.ref.synctex.gz /tmp/perfbook-1cnq.sequ.synctex.gz differ: byte 3722, line 4
-> /tmp/perfbook-1cnq.ref.synctex.gz /tmp/perfbook-1cnq.para.synctex.gz differ: byte 3722, line 4
-> /tmp/perfbook-nq.ref.synctex.gz /tmp/perfbook-nq.sequ.synctex.gz differ: byte 24, line 1
-> /tmp/perfbook-nq.ref.synctex.gz /tmp/perfbook-nq.para.synctex.gz differ: byte 24, line 1
-> /tmp/perfbook-ebnq.ref.synctex.gz /tmp/perfbook-ebnq.sequ.synctex.gz differ: byte 3701, line 7
-> /tmp/perfbook-ebnq.ref.synctex.gz /tmp/perfbook-ebnq.para.synctex.gz differ: byte 3701, line 7
-> Mismatch detected in SyncTeX databases!
-> Command exited with non-zero status 1
-> 2230.23user 110.37system 27:21.46elapsed 142%CPU (0avgtext+0avgdata 127116maxresident)k
-> 0inputs+4072584outputs (263249major+15113217minor)pagefaults 0swaps
+I can merge this with 2/4, but I'd rather keep this partial revert
+as an example of regression found by the script.
+
+If you push this series to master, please amend the commit ids
+in the change log.
+
+       Thanks, Akira
+--
+ Makefile | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index ee1880ff..e09ba32d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -228,14 +228,12 @@ ifeq ($(NEWTXTEXT),)
+ endif
+ 	sh utilities/runfirstlatex.sh $(basename $@)
+ 
+-autodate.tex: $(LATEXSOURCES) $(BIBSOURCES) $(SOURCES_OF_SNIPPET) \
+-    $(LST_SOURCES) $(FIGSOURCES) $(DOTSOURCES) $(EPSORIGIN) \
+-    $(SVGSOURCES) $(GITREFSTAGS) \
+-    utilities/autodate.sh
++autodate.tex: $(LATEXSOURCES) $(BIBSOURCES) $(LST_SOURCES) \
++    $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG) $(FCVSNIPPETS) $(FCVSNIPPETS_VIA_LTMS) \
++     $(GITREFSTAGS) utilities/autodate.sh
+ 	sh utilities/autodate.sh
+ 
+-perfbook_flat.tex: autodate.tex $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG) \
+-    $(FCVSNIPPETS) $(FCVSNIPPETS_VIA_LTMS)
++perfbook_flat.tex: autodate.tex
+ ifndef LATEXPAND
+ 	$(error --> $@: latexpand not found. Please install it)
+ endif
+-- 
+2.17.1
+
+
