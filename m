@@ -2,29 +2,29 @@ Return-Path: <SRS0=q5UQ=SQ=jklaehn.de=johann@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jklaehn.de; h=cc
 	:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; bh=nkGCERftEMRkS1
-	88U99xbLW6fmnICaYZpQpy3236kHA=; b=BDHfwo/BNfMcyGi3+6ZcTGZ3jTJnQ5
-	Gmp0/pFMbFApf91U2Ml8XEA6p7MzKgVe04sZrle3ENan7qlxyw+wmWs8z/KIiLac
-	bfGl3JjSgmjiqRDew6TVg0YOiqTSoer5V4QOpNMgLeE7Wflm0rktmIugbZBk/FJ3
-	P45kCE1JCxH3ClIj8+fv3KMsTVZUJXhzjIl3z4cL0g8aaPE3U6N7H+o/33z8DFnT
-	LEN9O6qromZxVJITyPKJaHP+zK3Tt76u4D/3Pu/y4/Vv1kTDrJhKWf0KOWbI3eEA
-	GGngHQsCIPoZEnpyb5U/dH4ePKCQqBjal4c8RrVlbtHOww/GJyMvF7jg==
+	:reply-to:sender:subject:subject:to:to; s=fm2; bh=bwE6Zd93l/GTJP
+	jzwQOPzzLpbyYxhUd1oGPha1yusgk=; b=ehktJetsQvgFPU/aettwwLH6jD6R83
+	vRyqGRgbAF22EIIarmDyS42ofsid8u270pyfO2WKCxmZ7IMxhLdLgTs5YLAupXZR
+	7aNtWQVFCWeFRJVascpPPXkQMUrE1PJpq3oEMh1/ILBBjg0AaMREB8gDsSIgV3sd
+	W4YRcWUmxH3UZcJTuRjPja37dSKTMcEInh/5riAeqiO2CcujSQ8/cDiS8Da+BG1Z
+	unyrjNH2aJF9SV4kiV4hceRUmKrOwipJHcrEayxLCxROXy3E90r+joe7tehCagrZ
+	BRx+S1WvNVnSISOZZCPN/s3A59+7lTqdQerqTd/aFl/Dk3WLlZgYb7gA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=nkGCERftEMRkS188U99xbLW6fmnICaYZpQpy3236k
-	HA=; b=RRLQ6XZqpnUFliXqgJTYV0Q1iupq541O/J4FwrxTXsSdm2/65W9udRwIu
-	C/dsa/hVkIQi1qtNb4xJIh2ovKwI+aLM6QUFjGFsEeacZICR2u+XQst63uV2s/BW
-	bq873xNowoUt+KK0MAspJnoug6Ei6C7f3BVwdvitT2q1AzADWDw6qGA4bINcJXSU
-	oWRNKsFRRtxjv6QiYNad6IHjaEh5sBws8BV8VxOamQv0hudzD8GOaR5qluBXLIuE
-	5cJjVy5VZf2/t4VAGCL0GFflbGPJMC9EBxTPj+SgcAqzWsQGyKpFIZz8WFnj5gZf
-	MN1o6wzyj5JD4G9C5Guw9kla4oXjA==
+	:x-sasl-enc; s=fm2; bh=bwE6Zd93l/GTJPjzwQOPzzLpbyYxhUd1oGPha1yus
+	gk=; b=dkWTFpgNZiD/3Lnv56YAmhzrRM5P+0cJtoD0DbqTf9RVolaZwlV+Z8Blc
+	62Vtu4PMlpnlIC3ej4IP2VDIaOVBHtEAv2h6RECFYI/nOJVhpLoEyzqBV3DY0wGi
+	5R4iHjSjgQPi1LI3dnGWSgXu6b6AShtHbxjthSyphY+zV5jAd5wIguagwIpJRaRB
+	ZnWrcrbSNU+QR++80b4A6Kw4F9lMe7jjdOUCpXD5rsm48WdBIMqYwJZTrwfeER0W
+	9QT9Yk5pronOfe7YMAvSHakqxdxnJWtRaWgpWXyUeQrD4lCblxpAQ3QQoM2+966L
+	i+npRT4AJQuYwPOapS+41kvriSF2w==
 From: =?UTF-8?q?Johann=20Kl=C3=A4hn?= <johann@jklaehn.de>
-Subject: [PATCH-perfbook 2/4] defer: Remove leftover manipulation of bottom bit in hazptr.c
-Date: Tue,  1 Feb 2022 21:07:49 +0100
-Message-Id: <20220201200751.23589-2-johann@jklaehn.de>
+Subject: [PATCH-perfbook 3/4] glossary: Fix typo
+Date: Tue,  1 Feb 2022 21:07:50 +0100
+Message-Id: <20220201200751.23589-3-johann@jklaehn.de>
 In-Reply-To: <20220201200751.23589-1-johann@jklaehn.de>
 References: <20220201200751.23589-1-johann@jklaehn.de>
 MIME-Version: 1.0
@@ -34,27 +34,24 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-The bottom bit in this implementation is not (no longer?) used to mark deleted
-elements, as is also pointed out in one of the quick questions.
-
 Signed-off-by: Johann Klähn <johann@jklaehn.de>
 ---
- CodeSamples/defer/hazptr.c | 2 +-
+ glossary.tex | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/CodeSamples/defer/hazptr.c b/CodeSamples/defer/hazptr.c
-index 2621d407..b84391f4 100644
---- a/CodeSamples/defer/hazptr.c
-+++ b/CodeSamples/defer/hazptr.c
-@@ -119,7 +119,7 @@ void hazptr_scan()				//\lnlbl{scan:b}
- 							//\fcvblank
- 		if (!hp)
- 			continue;
--		plist[psize++] = (hazptr_head_t *)(hp & ~0x1UL);
-+		plist[psize++] = (hazptr_head_t *)hp;
- 	}					//\lnlbl{scan:loop:e}
- 	smp_mb(); /* ensure freeing happens after scan. */ //\lnlbl{scan:mb2}
- 	
+diff --git a/glossary.tex b/glossary.tex
+index f0cb33e3..46c68bbe 100644
+--- a/glossary.tex
++++ b/glossary.tex
+@@ -441,7 +441,7 @@
+ 	The use of algorithms, mechanisms, or techniques that provide
+ 	non-blocking forward-progress guarantees.
+ 	NBS is often used in a more restrictive sense of providing one
+-	of the stronger forward-progress guarantee, usually wait free or
++	of the stronger forward-progress guarantees, usually wait free or
+ 	lock free, but sometimes also obstruction free.
+ 	(See ``Non-blocking''.)
+ \item[NUCA:]\glsuseriii{nuca}
 -- 
 2.34.1
 
