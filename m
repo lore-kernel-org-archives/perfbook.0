@@ -1,86 +1,47 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35692 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230269AbiAaBzG (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 30 Jan 2022 20:55:06 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49906C061714
-        for <perfbook@vger.kernel.org>; Sun, 30 Jan 2022 17:55:06 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 362F16117F
-        for <perfbook@vger.kernel.org>; Mon, 31 Jan 2022 01:55:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643594104;
-        bh=QFuUW2z6DoVloMHZhJ0iAklHkpJ/3Fq/EPlchjyZlJY=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=PoCOd5lW61OxdRcf7TIthIW4Z/LJ0zyIrRmwbOmRQ0KCBocFJT0WaQckcCBUmY4fE
-         RZR5DGifel+lTg4+dE3lRffSvq8Z9vhCU+mJPwBcVcm5q3GubUWIW735NHFRp1AlHw
-         1/4qhJfDy3kAD2JIvriRDIqbZWpmcTT6v3ni4TJPaXfw9V5hQM5xeBq9V7dyauuE5I
-         Bb6/BJrMF2Hj+AL4SAAePxkD0+Y0eOl0IoTQ/r9Rt4Dq/Xc88rS7cHRTGESmq2StfC
-         TG/aWrRozja3qaN38hZCu7VG6We/6hboBOkGOlM943EGzq6UZHzb3aEONGHcLhl/Oy
-         8uFHHSUkf3Qaw==
-Date: Sun, 30 Jan 2022 17:55:04 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH-perfbook] count: Fix typos
-Message-ID: <20220131015504.GU4285@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20220129221815.89451-1-johann@jklaehn.de>
+Return-Path: <SRS0=q5UQ=SQ=jklaehn.de=johann@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jklaehn.de; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; bh=VGzKl51FTbdQEkjz9hKd5tHmHeCSo+qFhVNx/l
+	D5cyQ=; b=Qd5i1CAu8keNn9bcKZPl6AWkpC0Dn4lLaDl6DxKAjxOAGvVbOPwzdB
+	jb6TgPaGVeXQ5SXgP0MavNa45HEEDc/5/biTPpXHjPhHeEweMguw2c1tjxyYweA3
+	9L1OUGrqhPyxPDYjfj4GtKvL38jQOg1Z4GVOYNk6FTqOvvyBkoN4OsiEbBsjLLUY
+	xLNiqdzln/yOPvsQkBqSN0v1V3DBNy34WoX+ax4g/3disuoLyWd405fuOQ2xbqqc
+	+5yJTbX8vzTJh5LWBo7L4k7hf/DRrAM2HW4J9X8Al+6Drhg1Hp8W4a4LQ0shL8SS
+	6Taxmwd/cGHUWE2nONLy9xqVNh9uG7jA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=VGzKl51FTbdQEkjz9
+	hKd5tHmHeCSo+qFhVNx/lD5cyQ=; b=atduREe8TwBo85F4msuCK80vWia9Ne0Ce
+	M31Q1VTAT2djoxWOTNTfyi7RwytdEhJR0fxNfHcho9oCsLAjyWxEtwxu446+b8C8
+	mOSyWFaeA8S5KNFgr1dFbkwND3rrdXmycvDqkzd1xgF5zJ+MyKI0PqzMc3ljj8ZV
+	jtkrIfrVrjLTkiBvfWtoSA4CwGfjuBM01z4IGqvwzRu8c3deiZecVYy+V4mjtC7j
+	aLMg860eZFzDPuiTASCUdURRQSPFBhZjzm+qGffhGIk39F5U4LR3DgM4XDvJIpva
+	qok+AMA9rrzRNT8B+Ri+d2mSJqMTXF8v6vPmFiHWMSbIp8S2fRU1w==
+From: =?utf-8?Q?Johann_Kl=C3=A4hn?= <johann@jklaehn.de>
+Subject: Re: [PATCH-perfbook 3/3] toolsoftrade: Fix reference to concept
+ introduced earlier
+References: <20220131192826.140138-1-johann@jklaehn.de>
+	<20220131192826.140138-3-johann@jklaehn.de>
+	<20220131212520.GV4285@paulmck-ThinkPad-P17-Gen-1>
+Date: Tue, 01 Feb 2022 21:07:00 +0100
+In-Reply-To: <20220131212520.GV4285@paulmck-ThinkPad-P17-Gen-1> (Paul
+	E. McKenney's message of "Mon, 31 Jan 2022 13:25:20 -0800")
+Message-ID: <87wnieic63.fsf@jklaehn.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220129221815.89451-1-johann@jklaehn.de>
-List-ID: <perfbook.vger.kernel.org>
-To: Johann =?iso-8859-1?Q?Kl=E4hn?= <johann@jklaehn.de>
+Content-Type: text/plain
+To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Sat, Jan 29, 2022 at 11:18:15PM +0100, Johann Kl=E4hn wrote:
-> Signed-off-by: Johann Kl=E4hn <johann@jklaehn.de>
-> ---
-> Hi Paul,
->=20
-> I'm really enjoying the book and hope that I can contribute back a little=
- bit in
-> the form of small fixes.  As this is my first patch to this list, please =
-point
-> out anything I could improve in the future (e.g., granularity of patches).
 
-Queued and pushed, thank you!  I did take the liberty of changing your
-added "can" to a "nevertheless".  Does that work for you?
+On Mon, Jan 31, 2022 at 13:25 -0800, Paul E. McKenney wrote:
+> I queued and pushed all three, with a slight adjustment to this one.
+>
+> Thoughts?
+I like it.
 
-							Thanx, Paul
-
-> Thanks
-> Johann
-> ---
->  count/count.tex | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/count/count.tex b/count/count.tex
-> index d2b39904..f4e74c13 100644
-> --- a/count/count.tex
-> +++ b/count/count.tex
-> @@ -3237,7 +3237,7 @@ Summarizing the summary:
->  	\Cref{fig:count:Atomic Increment Scalability on x86}
->  	illustrates this point:
->  	Atomic increment might be completely acceptable for a two-CPU
-> -	system, but be completely inadequate for an eight-CPU system.
-> +	system, but can be completely inadequate for an eight-CPU system.
->  \end{enumerate}
-> =20
->  \begin{figure}
-> @@ -3251,7 +3251,7 @@ Summarizing still further, we have the ``big three'=
-' methods of
->  increasing performance and scalability, namely
->  (1)~\emph{partitioning} over CPUs or threads,
->  (2)~\emph{batching} so that more work can be done by each expensive
-> -synchronization operations, and
-> +synchronization operation, and
->  (3)~\emph{weakening} synchronization operations where feasible.
->  As a rough rule of thumb, you should apply these methods in this order,
->  as was noted earlier in the discussion of
-> --=20
-> 2.34.1
->=20
+Thanks
+Johann
