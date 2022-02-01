@@ -1,34 +1,52 @@
-Return-Path: <SRS0=oPGg=SR=gmail.com=zhouzhouyi@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=feg+w1uV0nbntYAZX0nHOFs+0NOgrq2P175T2BqICWs=;
-        b=DWHsz1zrbwV9y8YuzHkS0Re9qI3gorbHcr0CmCCcjOCp8SnY7Nb2iLahL8npC3rBD0
-         Yay7YLZ2wTlit+vmI71/fbVmKvtM0TcEa/tKrSc6Qs3NmksIz6vL/MIkV8/5+OYWYeDA
-         o4xx0MOXTOL4DTiIPpu3Kf1ejw9N+kuvXi+kVeVJF8Gbk1UxsPiP+ZPaT3tfIEPlo+9b
-         NsIwqo64RlPmSYfhbOugwDM8IItIaiomG6MkW5iXzTgWaKnEboDpf5QdGjycPwiC2Jr2
-         lvpuHEhMf9mDDSxm3TKgCdW85V9fC0jbjESAQz//WA3zmXGv4guPAfzY3vSgKjClcubw
-         fc8g==
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from dfw.source.kernel.org ([139.178.84.217]:45422 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234041AbiBAR5H (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 1 Feb 2022 12:57:07 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BA846134C
+        for <perfbook@vger.kernel.org>; Tue,  1 Feb 2022 17:57:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643738224;
+        bh=hLHKCM4vz6y83GYap6PWhe34Qt8Nkl4vFyB5IsvJG7o=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=blv7hNcTM4DW8AEYspXJvnQSxmQ6XALaOa87I+3a7GbQX8d6tQg73moU3ZqBzAzrY
+         ok50E9WBoTU2mkXhZFr6JNFx9z59s8pQUlBRQ2V+V9yvob8KmrO1BW/A3YAV4ddu+l
+         xhu9jKj6nhT5tXRDZlJOZ9+MN1oIlaWpd5GOfsuyueKZXJj3nhyQ3jCLBw1FHrqaTE
+         LUlAlLUhQ/vl/Fbt2PuRqC3OAsfViNwLG3xZDJy2RNiwwVlWFb2dJMulezQvwdRXpP
+         AOBoAparGORss2gzRKZ9A2uk7jeo6N5pteSuARMspAC+LawFiTweRZm73GmPLKMffl
+         y2uZ9l93afmrQ==
+Date: Tue, 1 Feb 2022 09:57:03 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH-perfbook] count: Fix typos
+Message-ID: <20220201175703.GY4285@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20220129221815.89451-1-johann@jklaehn.de>
+ <20220131015504.GU4285@paulmck-ThinkPad-P17-Gen-1>
+ <87o83r3ej5.fsf@jklaehn.de>
 MIME-Version: 1.0
-From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Date: Wed, 2 Feb 2022 12:11:14 +0800
-Message-ID: <CAABZP2zB4H-00wrLJPPS5CrVW-D1W_bgiECWnJRw7FvnYVrsVQ@mail.gmail.com>
-Subject: perfbook: a possible typo report
-Content-Type: text/plain; charset="UTF-8"
-To: "Paul E. McKenney" <paulmck@kernel.org>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Yang Lu <luyang.co@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87o83r3ej5.fsf@jklaehn.de>
 List-ID: <perfbook.vger.kernel.org>
+To: Johann =?iso-8859-1?Q?Kl=E4hn?= <johann@jklaehn.de>
+Cc: perfbook@vger.kernel.org
 
-Hi Paul and Akira
+On Mon, Jan 31, 2022 at 08:12:46PM +0100, Johann Klähn wrote:
+> On Sun, Jan 30, 2022 at 17:55 -0800, Paul E. McKenney wrote:
+> > Queued and pushed, thank you!  I did take the liberty of changing your
+> > added "can" to a "nevertheless".  Does that work for you?
+> 
+> Sure, in that case maybe also remove the second “be”?
+> | Atomic increment might be completely acceptable for a two-CPU
+> | system, but nevertheless completely inadequate for an eight-CPU system.
 
-I found a possible typo in section 17.2.1,
-"This section therefore critiques transactional memory's ability to so
-interact,"
+Good point in that the sentence is still a bit awkward.  So what I have
+done is to add a LaTeX comment that will remind me to think harder
+about it.  If I don't get a good replacement by (say) March, please
+remind me about it.
 
-I tried to improve my English everyday, but I still can't tell whether
-"so interact" is good or not good.
-
-Thanks for your time
-Reported-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
-
-Thanks
-Zhouyi
+							Thanx, Paul
