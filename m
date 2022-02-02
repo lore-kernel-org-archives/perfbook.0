@@ -1,77 +1,55 @@
-Return-Path: <SRS0=oPGg=SR=gmail.com=zhouzhouyi@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=auBhwpQEI+aXSvUIg+UxTsQM2vgjsB/qltJaxkV3X3M=;
-        b=S/qosiSBIQeM2xAjkFKg3W0QkLczat07xcFe29ARcTLfo+RKJPEaemmDs9IRnnWnyL
-         KXdFl2Um3W43J/UMc6nUWvQ4wzYJ2x0deXgmLAuy6iaqQVppLyBhrqSulNFvgygaNnUM
-         beQX3I6UfKP8LTHkHSpIt2UkT3oEX7KScHTuTiRH++u+B0byPcG3V0oJltKCiyWlfdo4
-         2DEvy0rTxI+sbqSmWG1dxvOdyP2Xfp1G8qzuVhig/CSbVgmUJfeC+fAYns1tJCFidGyG
-         QcyC9gbn7EkIMxC59yysLOgEdP5nZbJ8jKZdGvby28gUQQbl085dM/B4IT4KB89eYnqE
-         b7zg==
+Return-Path: <SRS0=0nXO=SR=jklaehn.de=johann@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jklaehn.de; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm2; bh=DzU/WtkWKbyA72n0dbBV/vw0Lx4r+nS7BCzfF5
+	FGsOk=; b=MNuHKyPnQ75wuXVwKH0DQPwiCaeWe73i5XAeWfW7sGyddC3ZBdl+gy
+	0KDzqtuj3EzeDCzkYx8asrsxuyuuFCcpVcLuZDTguLh96iz2cX3ggdVaf1Eygt22
+	cruA3k38XJo/i5cVYwvBqt0TKydf8OxZc/qhoXE3j9VQcFNp14vVE1vgjMezPv/9
+	zvwHxwn2JttMDfo4g6dszLqioCxDcMsWm404Q4zcXaskFn75szFnkQ8OFaAYhI49
+	a1HvM+/SFvez56eb/u5D9kBsjvVBBTMQX36harwukmtkJ4f8r+WMuEsGyg9SUpWe
+	NflHlPzPVqLTC4bvHKQYsr6lSJSsrFMg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=DzU/Wt
+	kWKbyA72n0dbBV/vw0Lx4r+nS7BCzfF5FGsOk=; b=EgepXnJM0SFubj2YJ6uvx8
+	EXAZSMjzNllFiPaHc0miITet0yks7/Tat1o9XAa5F3qZOkDKvdpgwZu5ol0iCvGN
+	RTkyt9j8A+OZvpOpmEWhgvzx+RjsOYeRIANHJP/XymgtiKJp0O72dNEQxnwSSca0
+	tDjbRADNizBjTXeCnBCVIqpVI/YgARYwUAGAD94KUxYahenR7+V0EuJsYkzeENkO
+	Fxhv+DNoJwjYAOwIxSenWYDdGfULCGOZ2d41/zu14tcRy9ITPdtiYnTEY06Z9YN3
+	uRMDuBpRT4GoCGPGmNduVCY4AqRnkFAuWrOrhCsJbm1jPCnsL8BY9quif2GoBUnQ
+	==
+From: =?UTF-8?q?Johann=20Kl=C3=A4hn?= <johann@jklaehn.de>
+Subject: [PATCH-perfbook 1/2] advsync: Fix typo
+Date: Wed,  2 Feb 2022 18:33:44 +0100
+Message-Id: <20220202173345.49738-1-johann@jklaehn.de>
 MIME-Version: 1.0
-References: <CAABZP2zB4H-00wrLJPPS5CrVW-D1W_bgiECWnJRw7FvnYVrsVQ@mail.gmail.com>
- <20220202044857.GJ4285@paulmck-ThinkPad-P17-Gen-1>
-In-Reply-To: <20220202044857.GJ4285@paulmck-ThinkPad-P17-Gen-1>
-From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Date: Wed, 2 Feb 2022 14:12:08 +0800
-Message-ID: <CAABZP2xPf=Mr5wwUmWs69TN+vJqiVwmpjgda1a1eC3tMMgXgww@mail.gmail.com>
-Subject: Re: perfbook: a possible typo report
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Yang Lu <luyang.co@gmail.com>
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-Thank Paul for revising the paragraph for me!
+Signed-off-by: Johann Klähn <johann@jklaehn.de>
+---
+ advsync/rt.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Wed, Feb 2, 2022 at 12:48 PM Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Wed, Feb 02, 2022 at 12:11:14PM +0800, Zhouyi Zhou wrote:
-> > Hi Paul and Akira
-> >
-> > I found a possible typo in section 17.2.1,
-> > "This section therefore critiques transactional memory's ability to so
-> > interact,"
-> >
-> > I tried to improve my English everyday, but I still can't tell whether
-> > "so interact" is good or not good.
-> >
-> > Thanks for your time
-> > Reported-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
->
-> Here is that paragraph:
->
->         Whether we believe that input and output are "real programming"
->         or not, the fact is that for most computer systems, interaction
->         with the outside world is a first-class requirement. This
->         section therefore critiques transactional memory's ability
->         to so interact, whether via I/O operations, time delays, or
->         persistent storage.
->
-> The "so interact" refers back to the "interaction with the outside world".
-> But I agree that this can be unclear.
->
-> The last sentence is thus shorthand for:
->
->         This section therefore critiques transactional memory's ability
->         to interact in this way with the outside world, whether via I/O
->         operations, time delays, or persistent storage.
->
-> But this feels a bit repetitive.
->
-> Maybe something like this?
->
->         Whether or not we believe that input and output are "real
->         programming", the fact is that software absolutely must deal with
->         the outside world.  This section therefore critiques transactional
->         memory's outside-world capabilities, focusing on I/O operations,
->         time delays, and persistent storage.
-I read it twice, and the revised paragraph looks fantastic to me!
+diff --git a/advsync/rt.tex b/advsync/rt.tex
+index 69b80ec6..ee0e7474 100644
+--- a/advsync/rt.tex
++++ b/advsync/rt.tex
+@@ -1450,7 +1450,7 @@ One way of resolving this conflict between OS jitter and maintaining
+ contact with the outside world is to reserve a small number of
+ housekeeping CPUs, and to force all interrupts to these CPUs.
+ The \path{Documentation/IRQ-affinity.txt} file in the Linux source tree
+-describes how to direct device interrupts to specified CPU,
++describes how to direct device interrupts to specified CPUs,
+ which as of early 2021 involves something like the following:
+ 
+ \begin{VerbatimU}
+-- 
+2.34.1
 
-Thanks again
-Zhouyi
->
-> Thoughts?
->
->                                                         Thanx, Paul
