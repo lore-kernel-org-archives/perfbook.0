@@ -1,77 +1,81 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from dfw.source.kernel.org ([139.178.84.217]:47330 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242176AbiBAUid (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 1 Feb 2022 15:38:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52348 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244584AbiBBEtA (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 1 Feb 2022 23:49:00 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA820C06173D
+        for <perfbook@vger.kernel.org>; Tue,  1 Feb 2022 20:48:59 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 81DAA61663
-        for <perfbook@vger.kernel.org>; Tue,  1 Feb 2022 20:38:33 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 94F54B82F79
+        for <perfbook@vger.kernel.org>; Wed,  2 Feb 2022 04:48:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643747913;
-        bh=1OfuWMFi0/NWBwP+ffY1HN9Q2tf4PBVs7Hjw6hXyhpg=;
+        s=k20201202; t=1643777337;
+        bh=uiOje63bEO98/neYRFEoUQAWitM+DDpksKDcRboJG8A=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=a3lTSyi7uS4ydIG2Ii1942QjTkPOqmVurbuHydZnlFB2bcLJ/kd6k7Tv5Qlj5dvnK
-         Hxb8Zyy3Fej0r1YwY4Ov8fddRobTODuXQG3RlbaKnIMtXBbgbFrhLIaVA5bakSw3OQ
-         6ZTUdV+ywZqWHZQw6gt8Yow06Hlj/V/xOOrL6JRXh7uP1DpLe6MUOcgkuG2A8FyBQq
-         eXpEU45rSn5JfQAbtX40vbJshIQwrGokd/HSqxMQ+DuFcB/3BCR6IjX94hUwj9pJJD
-         +ASoke15g68yXyWTCsrVFCesiZi+5rCfwFBkYVpgT8KgLbdVVT6C/45DSSgTPlrh2p
-         XhFYUO65Svytg==
-Date: Tue, 1 Feb 2022 12:38:32 -0800
+        b=cEx52afIBjU9EtV5hfdiyBUSBGgnTPSHcNX/zo4EMrUYHp0WCYWQM7mMvY4u3DSQo
+         rgM87p7AxtygTuA2e2LZYlOUNF9dr7XOhasX5K43EedOI2Ay9wf0vOJPbGTG8X3adf
+         4GXrlx0upWBeCqws0YxYg3Y2lvX4P4TPjgSn9GgnML18ZLJABfVQXKoByNemT8YhS9
+         cfob16rCcUI//mQjlwbEIOwrn+zQQnWRmlo/HwcU5z9Oc8kvZ57UvnHz/rNtQnq8p4
+         Lw+ZEShLLXgvi+CZ/3QnLVDPBE8xX945VubulhbGdEiClXNQaKyL/iMo9er/Tccqwt
+         +hrDl+nHnEx9Q==
+Date: Tue, 1 Feb 2022 20:48:57 -0800
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH-perfbook 4/4] glossary: Use more common definition of RAII
-Message-ID: <20220201203832.GG4285@paulmck-ThinkPad-P17-Gen-1>
+Subject: Re: perfbook: a possible typo report
+Message-ID: <20220202044857.GJ4285@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <20220201200751.23589-1-johann@jklaehn.de>
- <20220201200751.23589-4-johann@jklaehn.de>
+References: <CAABZP2zB4H-00wrLJPPS5CrVW-D1W_bgiECWnJRw7FvnYVrsVQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220201200751.23589-4-johann@jklaehn.de>
+In-Reply-To: <CAABZP2zB4H-00wrLJPPS5CrVW-D1W_bgiECWnJRw7FvnYVrsVQ@mail.gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Johann =?iso-8859-1?Q?Kl=E4hn?= <johann@jklaehn.de>
-Cc: perfbook@vger.kernel.org
+To: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Yang Lu <luyang.co@gmail.com>
 
-On Tue, Feb 01, 2022 at 09:07:51PM +0100, Johann Kl=E4hn wrote:
-> Cf. https://en.cppreference.com/w/cpp/language/raii or
-> https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization.
->=20
-> Signed-off-by: Johann Kl=E4hn <johann@jklaehn.de>
+On Wed, Feb 02, 2022 at 12:11:14PM +0800, Zhouyi Zhou wrote:
+> Hi Paul and Akira
+> 
+> I found a possible typo in section 17.2.1,
+> "This section therefore critiques transactional memory's ability to so
+> interact,"
+> 
+> I tried to improve my English everyday, but I still can't tell whether
+> "so interact" is good or not good.
+> 
+> Thanks for your time
+> Reported-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
 
-Huh.  I definitely remember it being "resource allocation is
-initialization".  And I do see older uses of "allocation" rather than
-"acquisition".  Perhaps it changed once RAII locking entered the picture.
+Here is that paragraph:
 
-Might as well keep up with the times.  ;-)
+	Whether we believe that input and output are "real programming"
+	or not, the fact is that for most computer systems, interaction
+	with the outside world is a first-class requirement. This
+	section therefore critiques transactional memory's ability
+	to so interact, whether via I/O operations, time delays, or
+	persistent storage.
 
-I took all but the hazptr change.  I am not necessarily opposed to that
-one, but I did want to check whether you had built and tested it.
+The "so interact" refers back to the "interaction with the outside world".
+But I agree that this can be unclear.
 
-Thank you!!!
+The last sentence is thus shorthand for:
+
+	This section therefore critiques transactional memory's ability
+	to interact in this way with the outside world, whether via I/O
+	operations, time delays, or persistent storage.
+
+But this feels a bit repetitive.
+
+Maybe something like this?
+
+	Whether or not we believe that input and output are "real
+	programming", the fact is that software absolutely must deal with
+	the outside world.  This section therefore critiques transactional
+	memory's outside-world capabilities, focusing on I/O operations,
+	time delays, and persistent storage.
+
+Thoughts?
 
 							Thanx, Paul
-
-> ---
->  glsdict.tex | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/glsdict.tex b/glsdict.tex
-> index 194f364d..d1468859 100644
-> --- a/glsdict.tex
-> +++ b/glsdict.tex
-> @@ -237,8 +237,8 @@
->  \newacronym{numa}{NUMA}{non-uniform memory architecture}
->  \newacronym{qsbr}{QSBR}{quiescent-state-based reclamation}
->  \newabbreviation{qsbr:m}{QSBR}{quiescent-state-based-reclamation}
-> -\newacronym{raii}{RAII}{resource allocation is initialization}
-> -\newabbreviation{raii:m}{RAII}{resource-allocation-is-initialization}
-> +\newacronym{raii}{RAII}{resource acquisition is initialization}
-> +\newabbreviation{raii:m}{RAII}{resource-acquisition-is-initialization}
->  \newacronym{rcu}{RCU}{read-copy update}
->  \newacronym{smp}{SMP}{symmetric multiprocessing}
->  \newabbreviation{smp:m}{SMP}{symmetric-multiprocessing}
-> --=20
-> 2.34.1
->=20
