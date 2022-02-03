@@ -1,86 +1,128 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43378 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238196AbiBCXeB (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Thu, 3 Feb 2022 18:34:01 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DF61C061714
-        for <perfbook@vger.kernel.org>; Thu,  3 Feb 2022 15:34:01 -0800 (PST)
+Received: from ams.source.kernel.org ([145.40.68.75]:47446 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230230AbiBCWBc (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Thu, 3 Feb 2022 17:01:32 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BB90A618B0
-        for <perfbook@vger.kernel.org>; Thu,  3 Feb 2022 23:34:00 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id F25D4B835DC
+        for <perfbook@vger.kernel.org>; Thu,  3 Feb 2022 22:01:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643931240;
-        bh=VK87boxqr3YNEfi+jOi3VVZ32mYwrTaePJ7e4YU+Bk0=;
+        s=k20201202; t=1643925690;
+        bh=cWWMIYOcS+SmSwpZhT+Kk1D9gF2v1TkCpD8iN+jGD1E=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=LOb9qi+nHGTW1Uh6cCIs5aRDG8luQAcVcqdFGTcW6kkQx+EVcNbJeFFTbgOPIXkAp
-         hseOy66qwHdxmBGVTiUqiV/ghID540gjs+DlRaqugXQeQwZ+0e9MLOz4GUGjs4IXk9
-         tSQmymgM+bxRry59UQ2b80tXzXIQgMZ8OJ+smIHrVveX7FtJW/XIbwFStSkehWuY0k
-         YKyLYhV1OWtQy9lXFI+g3jGiaXbbedrcMH1YMznrTO9J34L5exviuzEMuKt1HaiNBe
-         plvR4O0QC+aH/gW4BXl/8SJML29yTJfw0NS+iO8EnlxbP+1qHazrF8JL+XrLYp3Xia
-         kH91rJdGao4Dw==
-Date: Thu, 3 Feb 2022 15:34:00 -0800
+        b=l1ykaOImAQFYWaTPMg0K6+GewiViPeJrzAT9cga/ipsOuOsG0IHEa1f7+gv3MLtbX
+         hu2TqKhA5rVZLTImiRumC95R21O/2uy02YKicawKffyzPBUrI9lGx0H4OgB66a0OJi
+         DhDx5SgMOTPW6IELQJtTK0cv4weam7jVcjhnfIZ7Q2wxhohptWZljdMZM3swj96ba/
+         n3IiRNB91V9eo+2rp8AxPWByvZ4P84r5/Yh38IlR4EHDiDFBdqiyIK+u0f93ExeRqG
+         qKVQhrQdA1nb+2nl4YxSticd2xFvZx3gKdKnPAc80OMTWNTvDxXKuwFuU0xOzNrccb
+         5fKrPOQv8r1Lw==
+Date: Thu, 3 Feb 2022 14:01:30 -0800
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH-perfbook 4/4] glossary: Use more common definition of RAII
-Message-ID: <20220203233400.GU4285@paulmck-ThinkPad-P17-Gen-1>
+Subject: Re: [PATCH-perfbook] memorder: Fix typos
+Message-ID: <20220203220130.GR4285@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <20220201200751.23589-1-johann@jklaehn.de>
- <20220201200751.23589-4-johann@jklaehn.de>
- <20220201203832.GG4285@paulmck-ThinkPad-P17-Gen-1>
- <87o83qi66p.fsf@jklaehn.de>
+References: <20220203211001.83673-1-johann@jklaehn.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87o83qi66p.fsf@jklaehn.de>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220203211001.83673-1-johann@jklaehn.de>
 List-ID: <perfbook.vger.kernel.org>
 To: Johann =?iso-8859-1?Q?Kl=E4hn?= <johann@jklaehn.de>
 Cc: perfbook@vger.kernel.org
 
-On Tue, Feb 01, 2022 at 11:16:14PM +0100, Johann Klähn wrote:
-> 
-> On Tue, Feb 01, 2022 at 12:38 -0800, Paul E. McKenney wrote:
-> > I do see older uses of "allocation" rather than "acquisition".
-> > Perhaps it changed once RAII locking entered the picture.
-> 
-> Yes, perhaps because it's as good an explanation for the “A” if one is
-> only concerned with memory management?  Apparently the phrase “resource
-> acquisition is initialization” (though not the acronym) was proposed as
-> early as ~1990: https://www.stroustrup.com/except89.pdf.  Either way,
-> “acquisition” seems to have taken over in popularity by now. :-)
+On Thu, Feb 03, 2022 at 10:10:01PM +0100, Johann Kl=E4hn wrote:
+> Signed-off-by: Johann Kl=E4hn <johann@jklaehn.de>
 
-I really could not tell you where I first came across RAII.  I did my
-one and only professional C++ work in 1990, so about that time.  But I
-was not yet much involved in concurrency at that point.  ;-)
-
-> > I took all but the hazptr change.  I am not necessarily opposed to that
-> > one, but I did want to check whether you had built and tested it.
-> 
-> Oh, I forgot to --annotate the patch.  Let me paste my notes here:
-> 
-> To test the change I added the following assert:
-> | assert((hp & 0x1UL) == 0);
-> | plist[psize++] = (hazptr_head_t *)hp;
-> 
-> And then I ran the different modes of hazptr and route_hazptr (although
-> only on my ‘spare time reading’ machine, which has a Intel Pentium 4415Y
-> with 2 cores/4 threads):
-> |./hazptr {2,3} {stress,perf,uperf,rperf}
-> |./route_hazptr {--stresstest,--smoketest,--perftest}
-> 
-> The assertion did not fail.
-> 
-> However, /also before applying the patch/,
-> • to build route_hazptr I had to work around several “multiple
->   definition” linker errors (e.g., for HP in hazptr.h), and
-> • the “stress” mode of hazptr printed several fields of the form
->   “2:15”, even though hazptrtorture.h points out that this should
->   only happen for buggy implementations.
-> 
-> (I can have a closer look at some point.)
-
-I have not gotten to it in the past few days, so please do feel free!
+Good catches, queued and pushed, thank you!
 
 							Thanx, Paul
+
+> ---
+>  memorder/memorder.tex | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+> index 865eff95..9792099f 100644
+> --- a/memorder/memorder.tex
+> +++ b/memorder/memorder.tex
+> @@ -2169,7 +2169,7 @@ from a particular store, then, courtesy of the fini=
+te speed of light and
+>  the non-zero size of modern computing systems, the store absolutely has
+>  to have executed at an earlier time than did the load.
+>  This means that carefully constructed programs can rely on the
+> -passage of time itself as an memory-ordering operation.
+> +passage of time itself as a memory-ordering operation.
+> =20
+>  \begin{figure}
+>  \centering
+> @@ -2588,7 +2588,7 @@ if (p =3D=3D &reserve_int) {
+>  \item	Although it is permissible to compute offsets from a
+>  	pointer, these offsets must not result in total cancellation.
+>  	For example, given a \co{char} pointer \co{cp},
+> -	\co{cp-(uintptr_t)cp)} will cancel and can allow the compiler
+> +	\co{cp-(uintptr_t)cp} will cancel and can allow the compiler
+>  	to break your dependency chain.
+>  	On the other hand, canceling offset values with each other
+>  	is perfectly safe and legal.
+> @@ -2753,7 +2753,7 @@ void updater(void)		\lnlbl[upd:b]
+>  {
+>  	struct foo *p;
+> =20
+> -	p =3D malloc(sizeo(*p));		\lnlbl[upd:alloc]
+> +	p =3D malloc(sizeof(*p));		\lnlbl[upd:alloc]
+>  	BUG_ON(!p);			\lnlbl[upd:bug]
+>  	p->a =3D 42;			\lnlbl[upd:init:a]
+>  	p->b =3D 43;
+> @@ -2803,7 +2803,7 @@ bitterly on \clnref{bug} if none is available.
+>  \Clnrefrange{init:a}{init:c} initialize the newly allocated structure,
+>  and then \clnref{assign1} assigns the pointer to \co{gp1}.
+>  \Clnref{upd:b,upd:c} then update two of the structure's fields, and does
+> -so \co{after} \clnref{assign1} has made those fields visible to readers.
+> +so \emph{after} \clnref{assign1} has made those fields visible to reader=
+s.
+>  Please note that unsynchronized update of reader-visible fields
+>  often constitutes a bug.
+>  Although there are legitimate use cases doing just this, such use cases
+> @@ -3032,7 +3032,7 @@ if (q || 1 > 0)
+> =20
+>  Because the first condition cannot fault and the second condition is
+>  always true, the compiler can transform this example as following,
+> -defeating control dependency:
+> +defeating the control dependency:
+> =20
+>  \begin{VerbatimN}
+>  q =3D READ_ONCE(x);
+> @@ -3238,7 +3238,7 @@ These facts are what enables the lockless fastpaths=
+ in
+>  \cref{lst:SMPdesign:Allocator-Cache Allocator Function,%
+>  lst:SMPdesign:Allocator-Cache Free Function},
+>  respectively.
+> -However, this also why the developer is responsible for providing
+> +However, this is also why the developer is responsible for providing
+>  appropriate ordering (for example, by using \co{smp_store_release()})
+>  when publishing a pointer to a newly allocated block of memory.
+>  After all, in the CPU-local case, the allocator has not necessarily
+> @@ -3307,7 +3307,7 @@ As it turns out, quite a bit:
+>  	Is some other CPU or thread not holding that lock guaranteed to
+>  	see A and B in order?
+>  \item	As above, but with the lock reacquisition carried out by some
+> -	other CPU or threads?
+> +	other CPU or thread?
+>  \item	As above, but with the lock reacquisition being some other lock?
+>  \item	What ordering guarantees are provided by \co{spin_is_locked()}?
+>  \end{enumerate}
+> @@ -3571,7 +3571,7 @@ One reason is modeling performance, as shown in
+>  on
+>  \cpageref{tab:formal:Locking: Modeling vs. Emulation Time (s)}.
+>  Directly modeling locking in general is orders of magnitude faster
+> -than modeling even a trivial implementation.
+> +than emulating even a trivial implementation.
+>  This should be no surprise, given the combinatorial explosion experienced
+>  by present-day formal-verification tools with increases in the number of
+>  memory accesses executed by the code being modeled.
+> --=20
+> 2.34.1
+>=20
