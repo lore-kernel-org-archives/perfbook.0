@@ -1,101 +1,131 @@
 Return-Path: <SRS0=Uwbt=SY=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=lgULMwvoiXftWJORiignzRgHY+G/1EM+EBqL0Uc4WLg=;
-        b=kybfee/8Zq6XPjVTUN+A4Zb3fHgnsW5nPzzpcwIVkTmH5OxPNUHw0KvOa1NIr5PMzw
-         6Xt6HVg7kbjqVjx8Ee3sUSI7khJGTgjAiiBf8YLOvNXK+WOkU1IYehvjwvmiwU4po8zF
-         wuP+wA7udgk4xlgIFf78v0qEEUNCFMtppH/Fl3/QOn8ZMK2+V/jXtkhZwu1lSb7MrOOT
-         H2DrxtM7yZ1ol7FMT9agLnfbA+i1qCpRz548qguMb5RZXTseR7iq4dCTVl/gZA0oDunc
-         GzHBeHuicA8v9v55zbNybWFNXCIQkG4Qnkxo5sYdnd+5W2DMD7pOkOO9s0fORrgZn2Sp
-         cvNQ==
-Message-ID: <b9607a1e-7ab2-62fb-578e-d9dec3547905@gmail.com>
-Date: Thu, 10 Feb 2022 00:06:58 +0900
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Jt1oeHsi6tvr3jjio02sNpGeK3TOrX5tQR/NQeK2Nqk=;
+        b=VRgxxjoy8HMbKw7+USGLlyOv3NbKpXVu24fo1h0/03mvc2wCT6APq/f0nbYA84blDL
+         7SL8Xj8xpGu0n5WhlfMWconlwjI28Yxia/lTedmiWAZO9MtccDw6UhpZ//FqC2PFryx4
+         ydkjqwByGf/3792nLgeyMe0CewXF+24NwjRJ4ND7uaUaaVlPjT/OHq5wyabbbMwOdEOJ
+         5wun59s1QIXJSphZQPYEKICjcDBfxPi53txDAdxyQgTV0sYCUcD2UzkrGVon+881Ji1u
+         9yK6G2uk4VhKpNXqh5syvAj38Oz+7R/PtWMstFJBmvAMcAv/cRbP+vnJ5b7XhUf5eMCL
+         wWUw==
+Message-ID: <bae71121-9ade-7836-ef5d-a13608921c76@gmail.com>
+Date: Thu, 10 Feb 2022 00:08:30 +0900
 MIME-Version: 1.0
+Subject: [PATCH -perfbook 2/3] defer, together: Group consecutive QQzs
 Content-Language: en-US
+References: <b9607a1e-7ab2-62fb-578e-d9dec3547905@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 1/3] intro, together: Promote section-opening QQzs
- to 'essential'
+In-Reply-To: <b9607a1e-7ab2-62fb-578e-d9dec3547905@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-In "nq" builds, section-opening QQzs can result in headings which
-look like "widow" ones accompanied by small boxes of "QQ x.x".
-
-When you start a section by a QQz, it is likely an essential one
-and would better be presented even in "nq" builds.
-
-Promote such two QQzs to "essential" ones.
+These consecutive pairs of plain QQzs should be grouped by the
+\QuickQuizSeries{ ... } construct.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- intro/intro.tex       | 6 +++---
- together/applyrcu.tex | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ defer/rcuusage.tex   | 14 ++++++++------
+ together/seqlock.tex | 14 ++++++++------
+ 2 files changed, 16 insertions(+), 12 deletions(-)
 
-diff --git a/intro/intro.tex b/intro/intro.tex
-index 635173e1..e39ea652 100644
---- a/intro/intro.tex
-+++ b/intro/intro.tex
-@@ -416,12 +416,12 @@ sequential case when analyzing the performance of parallel algorithms.
- \subsection{Productivity}
- \label{sec:intro:Productivity}
+diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
+index 2fb517c2..7a624e4c 100644
+--- a/defer/rcuusage.tex
++++ b/defer/rcuusage.tex
+@@ -506,13 +506,14 @@ run concurrently with \co{do_maint()} to complete, and finally
+ \clnref{toquick} sets the \co{be_careful} flag back to \co{false}.
+ \end{fcvref}
  
 -\QuickQuiz{
-+\EQuickQuiz{
- 	Why all this prattling on about non-technical issues???
- 	And not just \emph{any} non-technical issue, but \emph{productivity}
- 	of all things?
- 	Who cares?
++\QuickQuizSeries{%
++\QuickQuizB{
+ 	What is the point of the second call to \co{synchronize_rcu()}
+ 	in function
+ 	\co{maint()} in \cref{lst:defer:Phased State Change for Maintenance Operations}?
+ 	Isn't it OK for any \co{cco()} invocations in the clean-up
+ 	phase to invoke either \co{cco_carefully()} or \co{cco_quickly()}?
 -}\QuickQuizAnswer{
-+}\EQuickQuizAnswer{
- 	If you are a pure hobbyist, perhaps you don't need to care.
- 	But even pure hobbyists will often care about how much they
- 	can get done, and how quickly.
-@@ -435,7 +435,7 @@ sequential case when analyzing the performance of parallel algorithms.
- 
- 	Besides, if you \emph{really} didn't care about productivity,
- 	you would be doing it by hand rather than using a computer!
++}\QuickQuizAnswerB{
+ 	The problem is that there is no ordering between the \co{cco()}
+ 	function's load from \co{be_careful} and any memory loads
+ 	executed by the \co{cco_quickly()} function.
+@@ -525,13 +526,13 @@ run concurrently with \co{do_maint()} to complete, and finally
+ 	\co{READ_ONCE()} to \co{smp_load_acquire()} and the
+ 	\co{WRITE_ONCE()} to \co{smp_store_release()}, thus restoring
+ 	the needed ordering.
 -}\QuickQuizEnd
-+}\EQuickQuizEnd
- 
- \IX{Productivity} has been becoming increasingly important in recent decades.
- To see this, consider that the price of early computers was tens
-diff --git a/together/applyrcu.tex b/together/applyrcu.tex
-index e3a0d2fe..9aef3879 100644
---- a/together/applyrcu.tex
-+++ b/together/applyrcu.tex
-@@ -196,13 +196,13 @@ references.
- 
- \subsubsection{Discussion}
++}\QuickQuizEndB
  
 -\QuickQuiz{
-+\EQuickQuiz{
- 	Wow!
- 	\Cref{lst:together:RCU and Per-Thread Statistical Counters}
- 	contains 70 lines of code, compared to only 42 in
- 	\cref{lst:count:Per-Thread Statistical Counters}.
- 	Is this extra complexity really worth it?
++\QuickQuizE{
+ 	How can you be sure that the code shown in
+ 	\co{maint()} in \cref{lst:defer:Phased State Change for Maintenance Operations}
+ 	really works?\@
 -}\QuickQuizAnswer{
-+}\EQuickQuizAnswer{
- 	This of course needs to be decided on a case-by-case basis.
- 	If you need an implementation of \co{read_count()} that
- 	scales linearly, then the lock-based implementation shown in
-@@ -224,7 +224,7 @@ references.
- 	with all the scalability and performance benefits of the
- 	implementation shown in
- 	\cref{lst:together:RCU and Per-Thread Statistical Counters}!
--}\QuickQuizEnd
-+}\EQuickQuizEnd
++}\QuickQuizAnswerE{
+ 	By one popular school of thought, you cannot.
  
- Use of RCU enables exiting threads to wait until other threads are
- guaranteed to be done using the exiting threads' \co{__thread} variables.
-
-base-commit: e4815ca92805056635d98935562ced9e41fd0fb4
+ 	But in this case, those willing to jump ahead to
+@@ -543,7 +544,8 @@ run concurrently with \co{do_maint()} to complete, and finally
+ 	\path{C-RCU-phased-state-change-2.litmus}).
+ 	These tests could be argued to demonstrate that this code
+ 	and a variant of it really do work.
+-}\QuickQuizEnd
++}\QuickQuizEndE
++}% End of \QuickQuizSeries
+ 
+ Phased state change allows frequent operations to use light-weight
+ checks, without the need for expensive lock acquisitions or atomic
+diff --git a/together/seqlock.tex b/together/seqlock.tex
+index b8acbe3d..42eb8faa 100644
+--- a/together/seqlock.tex
++++ b/together/seqlock.tex
+@@ -221,11 +221,12 @@ Any reader succeeding in looking up the new name is guaranteed that
+ any subsequent lookup of the old name will fail, perhaps after a series
+ of retries.
+ 
+-\QuickQuiz{
++\QuickQuizSeries{%
++\QuickQuizB{
+ 	Is it possible to write-acquire the sequence lock on
+ 	the new element before it is inserted instead of acquiring
+ 	that of the old element before it is removed?
+-}\QuickQuizAnswer{
++}\QuickQuizAnswerB{
+ 	Yes, and the details are left as an exercise to the reader.
+ 
+ 	The term \emph{tombstone} is sometimes used to refer to the
+@@ -233,11 +234,11 @@ of retries.
+ 	Similarly, the term \emph{birthstone} is sometimes used to refer
+ 	to the element with the new name while its sequence lock is
+ 	still held.
+-}\QuickQuizEnd
++}\QuickQuizEndB
+ 
+-\QuickQuiz{
++\QuickQuizE{
+ 	Is it possible to avoid the global lock?
+-}\QuickQuizAnswer{
++}\QuickQuizAnswerE{
+ 	Yes, and one way to do this would be to use per-hash-chain locks.
+ 	The updater could acquire lock(s) corresponding to both the old
+ 	and the new element, acquiring them in address order.
+@@ -247,7 +248,8 @@ of retries.
+ 	This complexity can be worthwhile if rename operations are
+ 	frequent, and of course can allow rename operations to execute
+ 	concurrently.
+-}\QuickQuizEnd
++}\QuickQuizEndE
++}% End of \QuickQuizSeries
+ 
+ It is of course possible to instead implement this procedure somewhat
+ more efficiently using simple flags.
 -- 
 2.17.1
+
 
