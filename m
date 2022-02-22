@@ -1,73 +1,60 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34790 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236144AbiBTRlQ (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 20 Feb 2022 12:41:16 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D70AC4A930
-        for <perfbook@vger.kernel.org>; Sun, 20 Feb 2022 09:40:54 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 741D260E14
-        for <perfbook@vger.kernel.org>; Sun, 20 Feb 2022 17:40:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645378853;
-        bh=VOsLzgQocQXSKgg4B5vKZ1fLAQbaVk8t3K6kS7XYtIc=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=XGI4WKRVAaJqjd9b2qx3CeYDImWhg6L2l+I7dHOog3ZqDVSsbh9b2T3C8au68PHs+
-         WGsGixO4ahqBRHiVH1bYFsuWMKsC5B8/5Hl3b7ob23fQyjPsxbS0P1ALAOZhQ4/6lP
-         NeOQN6MdJCYo0zqo8oXOiA2BUeIYBCKhPH5A/6R4hzTZiif26dOxHpi4DpuJKLwo/E
-         WFovjbRiwFn0D7EOBSOUVYttsGybCw5dR3DWwAeU4LbD/Ku2zsFGoEPGVS66NJVI8z
-         oTtlNlp3UbN84z6l0l09+3ZTJeXVdEKJacxnSs7yOtyKnsBdoi49S3A4BHe8hIekho
-         tPdmOdlFdjPoA==
-Date: Sun, 20 Feb 2022 09:40:53 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [Q -perfbook] Extra \midrule in Table 9.2
-Message-ID: <20220220174053.GA4285@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <f00893a2-bf04-8473-2268-530bf24f715c@gmail.com>
+Return-Path: <SRS0=IApJ=TF=gmail.com=zhouzhouyi@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GtbqUzOMTbt2mSm3cj2Lm30SptJSm/EuaPYw2n1hNm0=;
+        b=F3igLYMncE1EkZVWGaHD6IcskumHUkNydR2+e8ektkJ81LjKGzqF2Uis3lUSfCF1y0
+         tFJJFjWCrt1Qc7Qvm4OqOH2VRLAM0xrUvnbk0xZNk0iBNvltB7ulEIck/PSkQDnTna8I
+         WxNSv9rzvooNncTJ+j8pZd/5kcWiF4DileTG4CchurLScIBo1jy4bHlZkZgYyqQ+nRHj
+         q4aslXJVtpeFVo+FFXLR3xWMKBIxepTE4J6dPXkd/fghL5H67QEo8tRLBT8/9niQXGzO
+         MJ9GDLgJE+Mo/nykYAXRFaqNYGXSzoRvc3p7Xm/Fx0ZFhfWGmOhKa3Ac+XJDhalHVQBV
+         5k4w==
+From: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Subject: [PATCH-perfbook] future: formal: Fix an indefinite article
+Date: Tue, 22 Feb 2022 10:18:57 +0800
+Message-Id: <20220222021857.4002-1-zhouzhouyi@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f00893a2-bf04-8473-2268-530bf24f715c@gmail.com>
+Content-Transfer-Encoding: 8bit
+To: paulmck@kernel.org, perfbook@vger.kernel.org, luyang.co@gmail.com
+Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Feb 20, 2022 at 08:51:21PM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> In commit 9c0c058db09d ("defer/rcuapi: Describe SRCU initialization and
-> cleanup"), you added a row in Table 9.2.
-> 
-> > --- a/defer/rcuapi.tex
-> 
-> > +++ b/defer/rcuapi.tex
-> > @@ -148,6 +148,14 @@ API~\cite{PaulEMcKenney2019RCUAPI}.\footnote{
-> >  		{\bf Tasks RCU Rude}: Free idle-task tracing trampolines &
-> >  		    {\bf Tasks RCU Trace}: Protect sleepable BPF programs \\
-> >  \midrule
-> > +{\bf Initialization and Cleanup} &
-> > +    &
-> > +	\tco{DEFINE_SRCU()} \tco{DEFINE_STATIC_SRCU()}
-> > +	\tco{init_srcu_struct()} \tco{cleanup_srcu_struct()} &
-> > +	    &
-> > +		&
-> > +		    \\
-> > +\midrule
-> 
-> Did you add this \midrule intentionally?
-> The added row looks similar to the rows below it.
+In section formal regression test, "an question" should be "a question" instead.
 
-Now that you mention it, that does look rather silly.  Thank you for
-checking, and I have pushed out a fix with your Reported-by.
+Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+---
+Hi Paul,
 
-							Thanx, Paul
+I think in the first paragraph of section formal regression test,
+"an question" should be "a question" instead.
 
->         Thanks, Akira
-> 
-> >  {\bf Read-side critical-section markers} &
-> >      \tco{rcu_read_lock()}~! \tco{rcu_read_unlock()}~!
-> >      \tco{rcu_read_lock_bh()} \tco{rcu_read_unlock_bh()}
-> 
+I am very interested in this section. I have published a paper
+related to formal methods 17 years ago, you may like it ;-)
+
+"A formal description of SECIMOS operating system"
+https://dl.acm.org/doi/10.1007/11560326_22
+
+Many thanks
+Cheers
+Zhouyi
+--
+ future/formalregress.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/future/formalregress.tex b/future/formalregress.tex
+index e33c5161..279f4596 100644
+--- a/future/formalregress.tex
++++ b/future/formalregress.tex
+@@ -11,7 +11,7 @@
+ 
+ Formal verification has long proven useful in a number of production
+ environments~\cite{JamesRLarus2004RightingSoftware,AlBessey2010BillionLoCLater,ByronCook2018FormalAmazon,CaitlinSadowski2018staticAnalysisGoogle,DinoDistefano2019FBstaticAnalysis}.
+-However, it is an question as to whether hard-core formal verification
++However, it is a question as to whether hard-core formal verification
+ will ever be included in the automated regression-test suites used for
+ continuous integration within complex concurrent codebases, such as the
+ Linux kernel.
+-- 
+2.25.1
+
