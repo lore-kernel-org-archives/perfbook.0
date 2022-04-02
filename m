@@ -1,47 +1,106 @@
-Return-Path: <SRS0=E9hY=UN=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=eVMd0qq62gBSn2FDyAhQDNgwpWQsrq/8S1YDEnqxFTs=;
-        b=TuC1GR2im8/Y6rMnoXLDbzElSulnee8nz54M/uyhZ3qHDj1PSENAIkxpQgAFOdOim+
-         PD9DlnJNTlub/Cpdu5Ld/rvBpNwlVQRvW0WSmm6ehodx2eMMVW8SL8lCFxBmD6pV34QK
-         3hM7/iWsaG7YLIb1JKb5iXws99rXuME9JOUV/bWBNQtOqlHkk9QiOM7FbuR9DgssBBis
-         j6S5L7yLHvziy5m0Y9wCDdBIEQxY4vKKoDj71wnPfNhJK6TvKwuUcPqhjcneEZ1i8Thf
-         MzPGmf/A9eItpVLPes4xJIBYdirnE02NPeCELWSQNsSxvv/P+Ix1oD+ptLmmFY4sSamd
-         NYqw==
-Message-ID: <4edd1109-2614-26a1-c622-5905690e0b47@gmail.com>
-Date: Sun, 3 Apr 2022 09:11:10 +0900
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54406 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1357314AbiDBPiE (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sat, 2 Apr 2022 11:38:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A46613CEC9
+        for <perfbook@vger.kernel.org>; Sat,  2 Apr 2022 08:36:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5841661045
+        for <perfbook@vger.kernel.org>; Sat,  2 Apr 2022 15:36:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648913771;
+        bh=hFRb+rf/heTCUbA8Ef3S3G1ejYQvKddaMuMIVIsvN58=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=d7qCl0a+9n0q73P4sb6ofaqhybBe0Xo//P4KGmE+tm5A/2Vru3HYfrdxKg2TIrfgf
+         zidF8vPZO19A2KTcGHTpPE+empeo3nyQMYWsyvHstRwd4DNEMmL7pRt8hbR9bUdx4A
+         sHBcy9zTsApGVNWF7Rrv4YeRcA7lqGX8vi1DL5hBezZoAEAM1h3pmLlCtfnP2lEFIr
+         LBDenZZf8/C/jOoSAZP/assSUkE/PZaXMv7eb5u2gYBuKfYdO66utMMz/cN9SbJOHa
+         98rIg6keOhGGbmW2qTjQKf5BcenDfqvoXyz98i62LDnWjMFZ416iXS5063QZFCKBj0
+         1wbx57x1NJ+KQ==
+Date: Sat, 2 Apr 2022 08:36:11 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: Question about formula (4.1)
+Message-ID: <20220402153611.GJ4285@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <CA+PpKPnDa8T_VDgbc-C_TEEYjocrvRems+6aorUcbucRXV73rg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook] advsync: Fix typo
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+PpKPnDa8T_VDgbc-C_TEEYjocrvRems+6aorUcbucRXV73rg@mail.gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Hao Lee <haolee.swjtu@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- advsync/advsync.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, Apr 02, 2022 at 03:57:01PM +0800, Hao Lee wrote:
+> Hello,
+> 
+> I'm confused about Figure 4.2 and the formula (4.1).
+> 
+> Anyone can clarify the confusion? Thanks.
+> 
+> On page 56, the book says:
+> 
+> 1. LN is the number of lock acquisitions by N threads.
+> 
+> Question: Does this mean LN = sum of all the readcounts[i] ?
 
-diff --git a/advsync/advsync.tex b/advsync/advsync.tex
-index df372b4e..d35a64fd 100644
---- a/advsync/advsync.tex
-+++ b/advsync/advsync.tex
-@@ -432,7 +432,7 @@ largely orthogonal to those that form the basis of real-time programming:
- 	it knows about, and, in the absence of such constraints,
- 	its level best to honor process priorities and to provide
- 	fair scheduling to processes of the same priority.
--	Non-demonic schedulers allows real-time programs to use simpler
-+	Non-demonic schedulers allow real-time programs to use simpler
- 	algorithms than those required for
- 	NBS~\cite{DanAlitarh2013PracticalProgress,BjoernBrandenburgPhD}.
- \item	NBS forward-progress guarantee classes assume that a number
+Yes.
 
-base-commit: 432a94b0b7e1436a00587a0988fb678def465882
--- 
-2.25.1
+> 2. L1 is the number of lock acquisitions by a single thread
+> 
+> Question: which thread is L1 corresponding to? Is "a single thread"
+> selected randomly?
 
+No, L_1 corresponds to the number of acquisitions of a single thread
+in a run where only that one thread was running.
+
+And now that you mention it, the text does not make that at all clear,
+so please accept my apologies for the unclarity.
+
+Does the change below help?
+
+The resulting text is:
+
+	where N is the number of threads in the current run, L_N is
+	the total number of lock acquisitions by all N threads in the
+	current run, and L_1 is the number of lock acquisitions in a
+	single-threaded run.
+
+Where the LaTeX "_" subscript operator is used in place of real
+subscripts.
+
+						Thanx, Paul
+
+------------------------------------------------------------------------
+
+commit 432a94b0b7e1436a00587a0988fb678def465882
+Author: Paul E. McKenney <paulmck@kernel.org>
+Date:   Sat Apr 2 08:30:43 2022 -0700
+
+    toolsoftrade: Clarify rwlock efficiency formula description
+    
+    Reported-by: Hao Lee <haolee.swjtu@gmail.com>
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 833ec697..d6662f8c 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -890,9 +890,10 @@ The actual value plotted is:
+ \begin{equation}
+ 	\frac{L_N}{N L_1}
+ \end{equation}
+-where $N$ is the number of threads,
+-$L_N$ is the number of lock acquisitions by $N$ threads, and
+-$L_1$ is the number of lock acquisitions by a single thread.
++where $N$ is the number of threads in the current run,
++$L_N$ is the total number of lock acquisitions by all $N$ threads in the
++current run, and
++$L_1$ is the number of lock acquisitions in a single-threaded run.
+ Given ideal hardware and software scalability, this value will always
+ be 1.0.
+ 
