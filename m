@@ -1,105 +1,47 @@
-Return-Path: <SRS0=UzkD=UM=gmail.com=haolee.swjtu@kernel.org>
+Return-Path: <SRS0=E9hY=UN=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hooVUpZlAdoiJlkD4zPIg2CA4JJsIAI+GgeqqzAUYYM=;
-        b=JCNdbuEXV5wp0Qb4JcVWsRpgOBb/3txzscRDinSBmqKy2f6RkCP8Y46J8HxGBCZcOw
-         Mm2T2TFfA7GeREzjhGJuuqDf9BI8qYiQGfJa3IQHC7tIxR/B+Zfb5iyYyKvAnMjjiYzO
-         zC878u1eU1PdJ2bGl2AnPNjazNL63zcD4mGIYQR5Sq9VU40dumK2VGTZLBOJPDF1swLf
-         +DYEYVfq5YsdbuYdkdIYTAfpT4Pz0MUA1/Jim27ZEMCguFrPvTicGvb3cm8srE6WLSV8
-         T+Omp33sMcfkte6kquBcBMl8zWSpBSVORQl1LROyDrMr9hjPQ1EkL8wUSAkssHgG2F30
-         9bfw==
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=eVMd0qq62gBSn2FDyAhQDNgwpWQsrq/8S1YDEnqxFTs=;
+        b=TuC1GR2im8/Y6rMnoXLDbzElSulnee8nz54M/uyhZ3qHDj1PSENAIkxpQgAFOdOim+
+         PD9DlnJNTlub/Cpdu5Ld/rvBpNwlVQRvW0WSmm6ehodx2eMMVW8SL8lCFxBmD6pV34QK
+         3hM7/iWsaG7YLIb1JKb5iXws99rXuME9JOUV/bWBNQtOqlHkk9QiOM7FbuR9DgssBBis
+         j6S5L7yLHvziy5m0Y9wCDdBIEQxY4vKKoDj71wnPfNhJK6TvKwuUcPqhjcneEZ1i8Thf
+         MzPGmf/A9eItpVLPes4xJIBYdirnE02NPeCELWSQNsSxvv/P+Ix1oD+ptLmmFY4sSamd
+         NYqw==
+Message-ID: <4edd1109-2614-26a1-c622-5905690e0b47@gmail.com>
+Date: Sun, 3 Apr 2022 09:11:10 +0900
 MIME-Version: 1.0
-References: <CA+PpKPnDa8T_VDgbc-C_TEEYjocrvRems+6aorUcbucRXV73rg@mail.gmail.com>
- <20220402153611.GJ4285@paulmck-ThinkPad-P17-Gen-1>
-In-Reply-To: <20220402153611.GJ4285@paulmck-ThinkPad-P17-Gen-1>
-From: Hao Lee <haolee.swjtu@gmail.com>
-Date: Sun, 3 Apr 2022 00:06:54 +0800
-Message-ID: <CA+PpKPnp0e+UTc5mS3RRXVpsr2x0u6jBEy=cP2rUCp4SQfy79A@mail.gmail.com>
-Subject: Re: Question about formula (4.1)
-Content-Type: text/plain; charset="UTF-8"
-To: paulmck@kernel.org
-Cc: perfbook@vger.kernel.org
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] advsync: Fix typo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Sat, Apr 2, 2022 at 11:36 PM Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Sat, Apr 02, 2022 at 03:57:01PM +0800, Hao Lee wrote:
-> > Hello,
-> >
-> > I'm confused about Figure 4.2 and the formula (4.1).
-> >
-> > Anyone can clarify the confusion? Thanks.
-> >
-> > On page 56, the book says:
-> >
-> > 1. LN is the number of lock acquisitions by N threads.
-> >
-> > Question: Does this mean LN = sum of all the readcounts[i] ?
->
-> Yes.
->
-> > 2. L1 is the number of lock acquisitions by a single thread
-> >
-> > Question: which thread is L1 corresponding to? Is "a single thread"
-> > selected randomly?
->
-> No, L_1 corresponds to the number of acquisitions of a single thread
-> in a run where only that one thread was running.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ advsync/advsync.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Very clear explanation! Thanks!
+diff --git a/advsync/advsync.tex b/advsync/advsync.tex
+index df372b4e..d35a64fd 100644
+--- a/advsync/advsync.tex
++++ b/advsync/advsync.tex
+@@ -432,7 +432,7 @@ largely orthogonal to those that form the basis of real-time programming:
+ 	it knows about, and, in the absence of such constraints,
+ 	its level best to honor process priorities and to provide
+ 	fair scheduling to processes of the same priority.
+-	Non-demonic schedulers allows real-time programs to use simpler
++	Non-demonic schedulers allow real-time programs to use simpler
+ 	algorithms than those required for
+ 	NBS~\cite{DanAlitarh2013PracticalProgress,BjoernBrandenburgPhD}.
+ \item	NBS forward-progress guarantee classes assume that a number
 
->
-> And now that you mention it, the text does not make that at all clear,
-> so please accept my apologies for the unclarity.
->
-> Does the change below help?
->
-> The resulting text is:
->
->         where N is the number of threads in the current run, L_N is
->         the total number of lock acquisitions by all N threads in the
->         current run, and L_1 is the number of lock acquisitions in a
->         single-threaded run.
+base-commit: 432a94b0b7e1436a00587a0988fb678def465882
+-- 
+2.25.1
 
-Yes. This paragraph is more accurate than before.
-
-Thanks,
-Hao Lee
-
->
-> Where the LaTeX "_" subscript operator is used in place of real
-> subscripts.
->
->                                                 Thanx, Paul
->
-> ------------------------------------------------------------------------
->
-> commit 432a94b0b7e1436a00587a0988fb678def465882
-> Author: Paul E. McKenney <paulmck@kernel.org>
-> Date:   Sat Apr 2 08:30:43 2022 -0700
->
->     toolsoftrade: Clarify rwlock efficiency formula description
->
->     Reported-by: Hao Lee <haolee.swjtu@gmail.com>
->     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
->
-> diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-> index 833ec697..d6662f8c 100644
-> --- a/toolsoftrade/toolsoftrade.tex
-> +++ b/toolsoftrade/toolsoftrade.tex
-> @@ -890,9 +890,10 @@ The actual value plotted is:
->  \begin{equation}
->         \frac{L_N}{N L_1}
->  \end{equation}
-> -where $N$ is the number of threads,
-> -$L_N$ is the number of lock acquisitions by $N$ threads, and
-> -$L_1$ is the number of lock acquisitions by a single thread.
-> +where $N$ is the number of threads in the current run,
-> +$L_N$ is the total number of lock acquisitions by all $N$ threads in the
-> +current run, and
-> +$L_1$ is the number of lock acquisitions in a single-threaded run.
->  Given ideal hardware and software scalability, this value will always
->  be 1.0.
->
