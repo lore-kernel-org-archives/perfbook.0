@@ -1,66 +1,66 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60694 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbiDCEBE (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 3 Apr 2022 00:01:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8BCE630E
-        for <perfbook@vger.kernel.org>; Sat,  2 Apr 2022 20:59:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 32C3760F69
-        for <perfbook@vger.kernel.org>; Sun,  3 Apr 2022 03:59:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648958350;
-        bh=Ik5IGxJIAQ1ull9z693LVjbctscMRUVUv8OqjEyB884=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=ewkQojf5fgUztAMxaGDq+Amyb5CA+Bzp2nuR/BhJynH6ATwlVj9SARMrIFrAvY+ap
-         tZ+PzNL1sOycUrEZ6kMpxwNiEK5d812EpPCTtLk9Q850TTDJfQS4Th/5uYA7P8rEmj
-         Rhb2st0uuQLsTyA8FakMkEakt5EUfpjGhppF69kBrunX5tQwd2ldJp6EQeY7EFlGWA
-         Nhl0usBPv4XmCvSZUal0XCZ9sP4hp7a8c4qAYbyDeNXSf30kf1r2+aAtGoQHrwc49V
-         GBxfN3He5IUZPyEyDj4b7eUeJUcMKSEVC/F8xo08NMrEiAjZHk2Ty2rS3TKP2CFT2g
-         8f0yR5Q9s+ykw==
-Date: Sat, 2 Apr 2022 20:59:10 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] advsync: Fix typo
-Message-ID: <20220403035910.GM4285@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <4edd1109-2614-26a1-c622-5905690e0b47@gmail.com>
+Return-Path: <SRS0=E9hY=UN=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=tlhv5NE0rDVAbVLFXMNzgIW9pyNGX2HlVuPPEWgk8kg=;
+        b=gC5jiL11IDAC9mabzXTxtR6Uq+HhtWc6ZtcaHBtpOkg1KvCDgrd6hz8lKFJjNO5gus
+         Yi+Hdjehd3pfYWRCsG++HUnwVRLLQhVy4nospHXrAXyEC01NzjumK4D6eEaEDfi71ipX
+         gt2EGOJJOJ02uF43eD4Zfa6aKVZHraYHIhe1/lM+KBQqeetlGwpU5TlygNwuGN7x3o/Y
+         a89xLxLM/6IDFvYkUX47b8uRF12tC1hyYKT92nYsqOykyrDGSMuRhSoX/4nnMoxLjJRH
+         xcKvKXoEde9FUY5dKnJQH/8XXUxprbn/JoWKUF8oJg2tC8hOF4mQruVaiMyEd2QWJ/Ge
+         Edjw==
+Message-ID: <4ab3d51f-8eac-c931-1bcb-97e153fd474c@gmail.com>
+Date: Sun, 3 Apr 2022 13:16:03 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4edd1109-2614-26a1-c622-5905690e0b47@gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] advsync: Fix markers of end-of-sentence periods
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Apr 03, 2022 at 09:11:10AM +0900, Akira Yokosawa wrote:
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Fixes: b97c0b4f0770 ("advsync: Fix punctuation-check complaints")
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Paul,
 
-Good eyes, applied and pushed, thank you!
+Current punctcheck.pl ignores markers of mid-sentence periods
+at line ends.
+It might be possible to catch this type of errors.
+Let me see if it is actually doable without false positives.
 
-							Thanx, Paul
+        Thanks, Akira
+--
+ advsync/advsync.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> ---
->  advsync/advsync.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/advsync/advsync.tex b/advsync/advsync.tex
-> index df372b4e..d35a64fd 100644
-> --- a/advsync/advsync.tex
-> +++ b/advsync/advsync.tex
-> @@ -432,7 +432,7 @@ largely orthogonal to those that form the basis of real-time programming:
->  	it knows about, and, in the absence of such constraints,
->  	its level best to honor process priorities and to provide
->  	fair scheduling to processes of the same priority.
-> -	Non-demonic schedulers allows real-time programs to use simpler
-> +	Non-demonic schedulers allow real-time programs to use simpler
->  	algorithms than those required for
->  	NBS~\cite{DanAlitarh2013PracticalProgress,BjoernBrandenburgPhD}.
->  \item	NBS forward-progress guarantee classes assume that a number
-> 
-> base-commit: 432a94b0b7e1436a00587a0988fb678def465882
-> -- 
-> 2.25.1
-> 
+diff --git a/advsync/advsync.tex b/advsync/advsync.tex
+index 1a5034b1..13cf6cd4 100644
+--- a/advsync/advsync.tex
++++ b/advsync/advsync.tex
+@@ -507,7 +507,7 @@ For example, when running on typical computer systems, both loads and
+ stores can result in page faults.
+ Which cause in-kernel page-fault handlers to be invoked.
+ Which might acquire locks, or even do I/O, potentially even using
+-something like network file system (NFS).\@
++something like network file system (NFS)\@.
+ All of which are most emphatically blocking operations.
+ 
+ Nor are page faults the only kernel-induced hazard.
+@@ -553,7 +553,7 @@ synchronization is far more important in theory than it is in practice.
+ \label{sec:advsync:NBS Subdivided Operations}
+ 
+ One common trick that provides a given algorithm a loftier place on
+-the NBS ranking is to replace blocking operations with a polling API.\@
++the NBS ranking is to replace blocking operations with a polling API\@.
+ For example, instead of having a reliable dequeue operation that might be
+ merely lock-free or even blocking, instead provide a dequeue operation
+ that will spuriously fail in a wait-free manner rather than exhibiting
+
+base-commit: 5f28b7cb0d4c447c9d6397770906c7cb4c96832c
+-- 
+2.25.1
+
