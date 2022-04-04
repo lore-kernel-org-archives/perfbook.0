@@ -3,18 +3,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=ixNjvhzwTls20VxfPKX67ukdwprKCYP7mjc3E0JxfyA=;
-        b=Y69MJUuXqNx8zTSIzMLH1LBrgf+ACXv8ciP2Lx/DjR5loBXRhkoHfPolxcWG7Mq0MJ
-         u+ub/CIzHm8i715vb+0/flyYZYNAmew3xYsABuxB/VNo2o2RLHdMpxEYri0l8WO2MEwo
-         8FwVOK5eGEl9A2A8rzcNlDpsYHkF0DgScnddYXa+CrLH2v1IKr8WGGwp/V4LLXotjtao
-         +7r/USSjWBxxzNc1PhLgqP7ASLIy/Gq35x86xpyKg7XNm9XgfmLnZjVYuwvrKobKB6+y
-         rDHdBDa02j084ie5khTWdb46rZQEKfG+QHLd9cEAnU3YGWhjVdTIOdWOkimvo6nB1dbg
-         3eLQ==
-Message-ID: <d76d4b1a-9686-d03c-507c-057fd3433837@gmail.com>
-Date: Mon, 4 Apr 2022 09:02:00 +0900
+        bh=1iCdpJERbATKPIscON2vP26I4AQ5kntfBLGK7XR3uok=;
+        b=EInwNG89gzGO2cVJrrmP4S9wN2TjQEAXFe1cujJUk8zzpVZEWjjFN2xQ99LV74UJdI
+         16cZ7Zxz2b+iMVCJOGapS7CfWvnTiSR8lFGFDjHrrKLpyU/HUJp0KjLznLGGC7YvraL2
+         SyLgWd5nH1xOhCQFFsexWFQuPJ40KLaZ2L8a9AnkquiYrCeuw45p452m0xFTKXFrylTi
+         ZyCy+qf4qhu79HSR/bgozG+DQOTZVYNIbz8c6BpZwBPBtaBHqfsLitGEAFTq3CGH6ObL
+         1Q0L8lhdmDQb3dXeLuNsq/Aow2356BG9xIVDhUkeVn+tcnqK6rTB8peOcjmUj060oxEt
+         n6pA==
+Message-ID: <5fbf67a9-5b73-dc3e-3965-284c767df427@gmail.com>
+Date: Mon, 4 Apr 2022 09:06:11 +0900
 MIME-Version: 1.0
-Subject: [PATCH -perfbook 1/3] punctcheck.pl: Add pattern to catch reverse use
- of period marker
+Subject: Re: [PATCH -perfbook 0/3] punctcheck.pl updates
 Content-Language: en-US
 References: <c1a39b48-6a99-9317-a074-e72bb45b374a@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
@@ -22,39 +21,38 @@ In-Reply-To: <c1a39b48-6a99-9317-a074-e72bb45b374a@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-End-of-sentence markers ("\@.", "\@?", etc.) make sense when they
-follow uppercase letters.
-Mid-sentence markers (".\@", "?\@", etc. ) make sense when they
-follow lowercase letters.
+On 2022/04/04 9:00, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> So, this series adds patterns in punctcheck.pl to detect misuses
+> of punctuation markers "\@.", ".\@", and its friends.
+> 
+> Patch 1/3 adds the new pattern.
+> Patch 2/3 adds hint messages to help you and other contributors
+> see what is wrong.  Hopefully the added messages are clear enough.
 
-Add patterns to cache misuses of them.
+I noticed some typos in the added messages just before sending this.
+I'll send a v2 soon.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- utilities/punctcheck.pl | 6 ++++++
- 1 file changed, 6 insertions(+)
+        Thanks, Akira
 
-diff --git a/utilities/punctcheck.pl b/utilities/punctcheck.pl
-index 7d23cc57..8820bf9c 100755
---- a/utilities/punctcheck.pl
-+++ b/utilities/punctcheck.pl
-@@ -91,6 +91,12 @@ sub check_line {
- 	if ($line =~ /^(?=[\s]*+[^%])[^%]*\\\@[\.\?\!\:][\)\}\']*\s+[^%]/){
- 	    $ng += 1;
- 	}
-+	if ($line =~ /[a-z][\)\}\']*\\\@[\.\?\!\:][\)\}\']*\s/) {
-+	    $ng += 1;
-+	}
-+	if ($line =~ /[A-Z][\)\}\']*[\.\?\!\:]\\\@[\)\}\']*\s/) {
-+	    $ng += 1;
-+	}
- 	if ($ng) {
- 	    print $ARGV[0], ':', $line_num, ':', $line_raw;
- 	}
--- 
-2.25.1
-
-
+> Patch 3/3 fixes existing misuses detected by the added pattern.
+> 
+>         Thanks, Akira
+> --
+> Akira Yokosawa (3):
+>   punctcheck.pl: Add pattern to catch reverse use of period markers
+>   punctcheck.pl: Add hints in complaint messages
+>   Fix period markers
+> 
+>  glossary.tex            |  2 +-
+>  memorder/memorder.tex   |  2 +-
+>  together/applyrcu.tex   |  2 +-
+>  utilities/punctcheck.pl | 15 +++++++++++++++
+>  4 files changed, 18 insertions(+), 3 deletions(-)
+> 
+> 
+> base-commit: 5f28b7cb0d4c447c9d6397770906c7cb4c96832c
