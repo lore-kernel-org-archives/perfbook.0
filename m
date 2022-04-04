@@ -1,64 +1,50 @@
-Return-Path: <SRS0=E9hY=UN=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=JJuA=UO=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:content-language:to:cc:from
          :subject:content-transfer-encoding;
-        bh=tlhv5NE0rDVAbVLFXMNzgIW9pyNGX2HlVuPPEWgk8kg=;
-        b=gC5jiL11IDAC9mabzXTxtR6Uq+HhtWc6ZtcaHBtpOkg1KvCDgrd6hz8lKFJjNO5gus
-         Yi+Hdjehd3pfYWRCsG++HUnwVRLLQhVy4nospHXrAXyEC01NzjumK4D6eEaEDfi71ipX
-         gt2EGOJJOJ02uF43eD4Zfa6aKVZHraYHIhe1/lM+KBQqeetlGwpU5TlygNwuGN7x3o/Y
-         a89xLxLM/6IDFvYkUX47b8uRF12tC1hyYKT92nYsqOykyrDGSMuRhSoX/4nnMoxLjJRH
-         xcKvKXoEde9FUY5dKnJQH/8XXUxprbn/JoWKUF8oJg2tC8hOF4mQruVaiMyEd2QWJ/Ge
-         Edjw==
-Message-ID: <4ab3d51f-8eac-c931-1bcb-97e153fd474c@gmail.com>
-Date: Sun, 3 Apr 2022 13:16:03 +0900
+        bh=HdNy/wIfkTTdjnDKDEGWnmislLU1g2RzhR/S1Af0FOk=;
+        b=BChlO2DEb3/66EOqtGx2tb+dV7VJD0k9h8IbxvumCYDavkTWulmARed7/WDadv1OK0
+         INcJsAcrT2sOPB3Jfdx4Nh7EyHLvMjPDGvpJUCL5r76b5107RtjwMe2JJcLfN3cMBh3k
+         Gpde1SNzK4g2PYIn4U2S7vgkgNPwtzO1i2EQo1pN6+d1I4/z8DS+p0jkosw6ROMBN6e7
+         Xi+2g0XVjUS4/nCrPywo9xmpgUtI698SJD5o/6H+e5+lE/QV6KZAawAlt8fAjKxTQAvg
+         nOTJT5ktiKHv4EBya8/KPEYksCrkOQ/LUE8X2YiGiP+jKob+MiHvLY38TO15KAB7xu1+
+         4HQg==
+Message-ID: <c1a39b48-6a99-9317-a074-e72bb45b374a@gmail.com>
+Date: Mon, 4 Apr 2022 09:00:18 +0900
 MIME-Version: 1.0
 Content-Language: en-US
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook] advsync: Fix markers of end-of-sentence periods
+Subject: [PATCH -perfbook 0/3] punctcheck.pl updates
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Fixes: b97c0b4f0770 ("advsync: Fix punctuation-check complaints")
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-Paul,
+Hi Paul,
 
-Current punctcheck.pl ignores markers of mid-sentence periods
-at line ends.
-It might be possible to catch this type of errors.
-Let me see if it is actually doable without false positives.
+So, this series adds patterns in punctcheck.pl to detect misuses
+of punctuation markers "\@.", ".\@", and its friends.
+
+Patch 1/3 adds the new pattern.
+Patch 2/3 adds hint messages to help you and other contributors
+see what is wrong.  Hopefully the added messages are clear enough.
+Patch 3/3 fixes existing misuses detected by the added pattern.
 
         Thanks, Akira
 --
- advsync/advsync.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Akira Yokosawa (3):
+  punctcheck.pl: Add pattern to catch reverse use of period markers
+  punctcheck.pl: Add hints in complaint messages
+  Fix period markers
 
-diff --git a/advsync/advsync.tex b/advsync/advsync.tex
-index 1a5034b1..13cf6cd4 100644
---- a/advsync/advsync.tex
-+++ b/advsync/advsync.tex
-@@ -507,7 +507,7 @@ For example, when running on typical computer systems, both loads and
- stores can result in page faults.
- Which cause in-kernel page-fault handlers to be invoked.
- Which might acquire locks, or even do I/O, potentially even using
--something like network file system (NFS).\@
-+something like network file system (NFS)\@.
- All of which are most emphatically blocking operations.
- 
- Nor are page faults the only kernel-induced hazard.
-@@ -553,7 +553,7 @@ synchronization is far more important in theory than it is in practice.
- \label{sec:advsync:NBS Subdivided Operations}
- 
- One common trick that provides a given algorithm a loftier place on
--the NBS ranking is to replace blocking operations with a polling API.\@
-+the NBS ranking is to replace blocking operations with a polling API\@.
- For example, instead of having a reliable dequeue operation that might be
- merely lock-free or even blocking, instead provide a dequeue operation
- that will spuriously fail in a wait-free manner rather than exhibiting
+ glossary.tex            |  2 +-
+ memorder/memorder.tex   |  2 +-
+ together/applyrcu.tex   |  2 +-
+ utilities/punctcheck.pl | 15 +++++++++++++++
+ 4 files changed, 18 insertions(+), 3 deletions(-)
+
 
 base-commit: 5f28b7cb0d4c447c9d6397770906c7cb4c96832c
 -- 
