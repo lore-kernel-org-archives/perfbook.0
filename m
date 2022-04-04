@@ -1,53 +1,72 @@
-Return-Path: <SRS0=JJuA=UO=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/LVtAUSFNcp/zUOUmivnBZHhkcTuIkvp87V/nSRkQUg=;
-        b=EzP+p9BD1S33pFnuKRVzD/k+PlmGGeq/QDB/3iVwQTlLvsTPDlOKMeZuIKT15kQ1d+
-         ZcaIrD1Zvtp62K/cEwfDCFKOWmx2583JLlFi9zHBbkn9EKntc2/7N65OpWbHHW0Mno5M
-         uf8M+vNiAx7dt1P6Xc4vY3nAq4ux2QuC8odPAuFSM0ybgkOMiGTKH0dZAJbei+M5YJts
-         v/LG+e5ESNhxQq1eVslNzg8n2b95GzSkGsgMATEnXNbRGLLvfm39QDTr4u5+XKIlXvAG
-         /ZjGIA+lfRmOioSBh/wNONmtkwltd1bJfVOJRzsgvn/OlkVDx37EOMW31oFLybGlYbJk
-         NHfQ==
-Message-ID: <d81ce9d7-3b7f-22a9-ad5b-ced5e1664a90@gmail.com>
-Date: Mon, 4 Apr 2022 09:29:24 +0900
-MIME-Version: 1.0
-Subject: [PATCH -perfbook v2 4/3] together/applyrcu: Fix typo
-Content-Language: en-US
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52246 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346615AbiDDDpF (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sun, 3 Apr 2022 23:45:05 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63B0539805
+        for <perfbook@vger.kernel.org>; Sun,  3 Apr 2022 20:43:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 18D04B80DA0
+        for <perfbook@vger.kernel.org>; Mon,  4 Apr 2022 03:43:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649043787;
+        bh=PLzItGSLPoVKo87hwknS+2pEafvlwIaaBdVYEbcHnMM=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=QMQ3omc1SqlGF2TXTlTDYcufgzRRtHvrAjzBJb5de6rT3shXQ4iLns+dxDFDjAtvX
+         hpEdEKDKZXGX34C/UQkUaeMaPTfrymf9KMts46BnWNrSYh12YQhV6y8yJSP0YEVE6n
+         pdo6eMFGUw0WClkA5LMzAj4QYRgO/ErtjulpeeLB9Y9Qq/sHwVWnTSptZ1z5sZCsyy
+         AQxjbJGf101MLv2fxg5IRdgnze1Cx8uXN0MaMgqDfBHAyQCoXO8fMURAWuzAljQrPT
+         sX0E5EwINhjTRTwWgInS+UQ+HX7XKUTroQ4SQmdivTGU4tKbletEvl3+bLkCDOYQeG
+         Do+joD54TNqtw==
+Date: Sun, 3 Apr 2022 20:43:07 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH -perfbook v2 0/3] punctcheck.pl updates
+Message-ID: <20220404034307.GT4285@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
 References: <d68c77bc-b10e-3e4c-5d03-0f18c65e04f5@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <d68c77bc-b10e-3e4c-5d03-0f18c65e04f5@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-And I noticed this in one of the hunks in Patch 3/3.
-Sending as a follow up.
+On Mon, Apr 04, 2022 at 09:17:34AM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> Trying again.
+> 
+> So, this series adds patterns in punctcheck.pl to detect misuses
+> of punctuation markers "\@.", ".\@", and its friends.
+> 
+> Patch 1/3 adds the new pattern.
+> Patch 2/3 adds hint messages to help you and other contributors
+> see what is wrong.  Hopefully the added messages are clear enough.
+> Patch 3/3 fixes existing misuses detected by the added pattern.
 
-        Thanks, Akira
---
- together/applyrcu.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Much nicer!  I queued and pushed all four, thank you!!!
 
-diff --git a/together/applyrcu.tex b/together/applyrcu.tex
-index a3ee559e..2a5a3c12 100644
---- a/together/applyrcu.tex
-+++ b/together/applyrcu.tex
-@@ -815,7 +815,7 @@ way of stopping in the middle and resuming later.
- For example, in Linux kernel v5.16, the \co{khugepaged_scan_file()}
- function checks to see if some other task needs the current CPU
- using \co{need_resched()}, and if so invokes \co{xas_pause()} to
--adjust the traveral's iterator appropriately, and then invokes
-+adjust the travesal's iterator appropriately, and then invokes
- \co{cond_resched_rcu()} to yield the CPU\@.
- In turn, the \co{cond_resched_rcu()} function invokes \co{rcu_read_unlock()},
- \co{cond_resched()}, and finally \co{rcu_read_lock()} to drop out of
--- 
-2.25.1
+							Thanx, Paul
 
-
+>         Thanks, Akira
+> --
+> Akira Yokosawa (3):
+>   punctcheck.pl: Add pattern to catch reverse use of period markers
+>   punctcheck.pl: Add hints in complaint messages
+>   Fix period markers
+> 
+>  glossary.tex            |  2 +-
+>  memorder/memorder.tex   |  2 +-
+>  together/applyrcu.tex   |  2 +-
+>  utilities/punctcheck.pl | 15 +++++++++++++++
+>  4 files changed, 18 insertions(+), 3 deletions(-)
+> 
+> 
+> base-commit: 5f28b7cb0d4c447c9d6397770906c7cb4c96832c
+> -- 
+> 2.25.1
+> 
