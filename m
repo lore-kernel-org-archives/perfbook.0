@@ -1,93 +1,111 @@
-Return-Path: <SRS0=g3Xn=UV=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=hsGvfdbcTbGkiMR8BuEM9xa9jY46DiHZVbnwDPdVfSY=;
-        b=bSlTaiomNMlCAmdcnzS7+Dc+0mDTyU3oR7ZLr7gT9pBQnUYxQnyQjcN6hDzoVj1WyW
-         5m/zEUOfYlj2MXLcT55H+/t1HbInKMP9PHUjQbuw7HWnOzyu4jDVe9yUXW000jl3T6mf
-         V+7XuFSPIfv8TEbZdPCxl6oTaTu9pwAVX2hlO/S88ffg5FRsSKfySrgtSHNSkQUrN/o8
-         ZKahnlOWJzQTCWhgdKIbiYn+QNvsNWPHOxFWB92V+YvluYIRthUl0qjHpxhA3HInJEUd
-         O2QVfvKFKenHs1AXAB0uvFjMWRT0KxhnK4yivDCI4cKrhxO8RthNgkKGSDZQ1+IICfip
-         Yylw==
-Message-ID: <7199ab73-3c5b-9baf-1c1c-070bfdba28d5@gmail.com>
-Date: Mon, 11 Apr 2022 17:05:11 +0900
-MIME-Version: 1.0
-Subject: [PATCH -perfbook 7/7] runlatex.sh: Align status report messages
-Content-Language: en-US
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42102 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245728AbiDKUK1 (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Mon, 11 Apr 2022 16:10:27 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C5A629CAA
+        for <perfbook@vger.kernel.org>; Mon, 11 Apr 2022 13:08:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BDDD261505
+        for <perfbook@vger.kernel.org>; Mon, 11 Apr 2022 20:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649707691;
+        bh=KMGNn+RPE14FzDBTsFxnJ8AmGMa0doCYEjw5+BZZK5Q=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=OF1tHYSbJ0dD8eTH5yTAAbF3r0EPQHU4/3SYIlFQyBJ0p6mE2hrzW/iyRg3JfrJbW
+         l9QLFNGBMzyIZimFDt8Rq7pW0ubLa3qR+RRLRU9QHcK+ph1FJ/kMHI98t5cxrPP/91
+         gxJWem0IdnY4LyqUSqlXuyLeVFwL1puiVulIj0h71MntF2YddK9dWyw6kb5d2na6rq
+         BTkOx6ti6ahSvdLBfGwC/IxciOlS3mojQpXz5evhlK73Wq/e3KtCkXHDQfsEq9+tmR
+         arV2ytWf0cefGKb23V7+DYC6FRogwxPcKBQNO8Iav1d+pSZKVN0yo4WJZf2Lis2dey
+         jf8TOUv5sFNzQ==
+Date: Mon, 11 Apr 2022 13:08:10 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH -perfbook 0/7] Build script updates
+Message-ID: <20220411200810.GB4285@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
 References: <b756ba87-3fd3-1865-d8c0-3fb0ba45966b@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <b756ba87-3fd3-1865-d8c0-3fb0ba45966b@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-In parallel builds, status-report messages from different length
-PDF file names look jagged.
+On Mon, Apr 11, 2022 at 04:49:01PM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> Here is a set of updates to build scripts.
+> 
+> Patch 1/7 is to avoid possible build errors when previous build
+> is interrupted in the middle of converting figures with some
+> intermediate temporary eps and/or pdf file(s) left. 
+> 
+> Example of such an error (long message not folded):
+> 
+> CodeSamples/datastruct/hash/data/hps.perf.2020.11.26a/zoocatall.eps --> .pdf
+> make: *** No rule to make target 'CodeSamples/datastruct/hash/data/hps.perf.2020.11.26a/zoocatall__.eps', needed by 'CodeSamples/datastruct/hash/data/hps.perf.2020.11.26a/zoocatall__.pdf'.  Stop.
+> 
+> After this type of an error (or errors after a parallel build),
+> one needs to run "make clean" (or "make neatfreak"), and run
+> "make" again.
+> 
+> By adding commands in Makefile to ignore file names of "*__.eps",
+> this mode of error can be avoided.
+> 
+> The added pattern in .gitignore resolves false "Untracked files"
+> from "git status".
+> 
+> Patch 2/7 fixes redundant use of filter-out function in Makefile.
+> 
+> Patch 3/7 updates help texts regarding EBook-size builds in
+> Makefile.  They don't need (WIP) anymore.
+> 
+> Patch 4/7 is to allow use of LaTeX commands other than "pdflatex".
+> In vanilla TeX Live, there is an alternative command of
+> "pdflatex-dev", which is used to test development-phase
+> latex implementation.  With this change, I am allowed to test
+> it by saying "make LATEX=pdflatex-dev".
+> 
+> Patch 5/7 is to catch typo in the LATEX variable.
+> 
+> Patch 6/7 catches an error exit of LATEX command and print log
+> messages to the terminal.
+> 
+> Patch 7/7 is a cosmetic tweak improving the later stages of
+> progress reports from parallel builds.
 
-Align those messages by using the "printf" command and left-adjusting
-the file names in a 19 character field.
+Queued and pushed, thank you!
 
-Improved messages from later iterations (make -j3 2c 1cnq ebsfnq):
+							Thanx, Paul
 
-    ...
-    pdflatex 3 for perfbook.pdf        # remaining undefined refs
-    pdflatex 3 for perfbook-1cnq.pdf   # remaining undefined refs
-    pdflatex 3 for perfbook-ebsfnq.pdf # remaining undefined refs
-    pdflatex 4 for perfbook.pdf        # label(s) may have changed
-    pdflatex 4 for perfbook-1cnq.pdf   # label(s) may have changed
-    pdflatex 4 for perfbook-ebsfnq.pdf # label(s) may have changed
-    'perfbook.pdf' is ready.
-    'perfbook-1cnq.pdf' is ready.
-    'perfbook-ebsfnq.pdf' is ready.
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- utilities/runlatex.sh | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
-index b7d553ab..d4c9baf8 100644
---- a/utilities/runlatex.sh
-+++ b/utilities/runlatex.sh
-@@ -110,6 +110,7 @@ then
- fi
- 
- basename=`echo $1 | sed -e 's/\.tex$//'`
-+pdfname=`env printf "%-19s" $basename.pdf`
- 
- if ! test -r $basename-first.log
- then
-@@ -118,7 +119,7 @@ then
- 	iter=1
- else
- 	rm -f $basename-first.log
--	echo "$LATEX 2 for $basename.pdf # for possible bib update"
-+	echo "$LATEX 2 for $pdfname # for possible bib update"
- 	iter=2
- fi
- iterate_latex
-@@ -135,7 +136,7 @@ do
- 		break
- 	fi
- 	iter=`expr $iter + 1`
--	echo "$LATEX $iter for $basename.pdf # remaining undefined refs"
-+	echo "$LATEX $iter for $pdfname # remaining undefined refs"
- 	undefined_refs=1
- 	iterate_latex
- done
-@@ -147,7 +148,7 @@ do
- 		break
- 	fi
- 	iter=`expr $iter + 1`
--	echo "$LATEX $iter for $basename.pdf # label(s) may have changed"
-+	echo "$LATEX $iter for $pdfname # label(s) may have changed"
- 	iterate_latex
- done
- exerpt_warnings
--- 
-2.25.1
-
-
+>         Thanks, Akira
+> --
+> Akira Yokosawa (7):
+>   Makefile: Ignore temporary .eps files
+>   Makefile: Remove redundant nest of filter-out function
+>   Makefile: Let ebook-size builds graduate from 'WIP'
+>   run{first}latex.sh: Use variable for 'pdflatex' command
+>   Makefile: Test $(LATEX) before invoking runfirstlatex.sh
+>   run(first)latex.sh: Catch error exit of LATEX
+>   runlatex.sh: Align status report messages
+> 
+>  .gitignore                            |   1 +
+>  Makefile                              |  27 ++++-
+>  Makefile.2022.01.25                   |   4 +-
+>  utilities/runfirstlatex.2022.01.25.sh |  98 +++++++++++++++
+>  utilities/runfirstlatex.sh            |  16 ++-
+>  utilities/runlatex.2022.01.25.sh      | 164 ++++++++++++++++++++++++++
+>  utilities/runlatex.sh                 |  23 ++--
+>  7 files changed, 314 insertions(+), 19 deletions(-)
+>  create mode 100644 utilities/runfirstlatex.2022.01.25.sh
+>  create mode 100644 utilities/runlatex.2022.01.25.sh
+> 
+> 
+> base-commit: 87d3513257e793b90f53ebd4b138ab2371aaf25c
+> -- 
+> 2.25.1
+> 
