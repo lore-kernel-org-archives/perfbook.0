@@ -3,18 +3,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=ERCDDrlUmV9+kOZUT1p3PFJjbQth6Euq9bdBRwrk3rM=;
-        b=Vv4QeRmOorYfHd02M1mD9snDpZ/Zyp3Mi9hGkTpgWMxUKDLkefe7Q0jql8tKts+PJc
-         seaHfzK5wx4i+9gysqVGkW0mqVV59+wMdstm7T95Ct1Bpze2GIH+mKndyYR3Dia/PdKZ
-         UmeaaaTFFOTNRe9rCpElOXgLHJ1TkZW6IZZRWV31Eu9xaTpzJT5E3MdfKcDXe2L/GkhC
-         nllC3H5X7LFAwcLqWou+d0luNW1J/kuXGT0OKCmLx9ApQWHqFwoh8pfMry7z/xSuDpwV
-         UbYRfXdlbHbOEFUWRWvtWAePTFJ3L2l5zEO3APJFAPdxpXHvtDf1vP6eUxUEQpkOo+hA
-         XNgg==
-Message-ID: <01defb62-e787-81ab-1875-616d7e23e688@gmail.com>
-Date: Mon, 11 Apr 2022 16:55:52 +0900
+        bh=q7687SdgtLj9hdaJNGkNOJRN3cSWZxjHhuINcX2iZKg=;
+        b=AyT5J9wjxzRDGfKwv1DTP7JKdEmwp75ab3xfKx/GIsE7xJY6iVEz2jsAao5U9qSPbS
+         V+5t+1rZ49acO9cpKCTNUh8as0LCjFnLJJvoQOqSkDLAnych4Qj/D5NaYlHnyr1Z3P4I
+         3GdbfMci/mKNyH6vUi31QhOkTlSLuPxUh/rg4+vgXbUVE2R0+If+6Ajf9wn6IUVAQMVQ
+         Iht3mkUCZ4oomavS8ZCEbX6nZlZqSSeLqiEN/llVkayfsIajeZIgqri7wfcjBxzXGcGb
+         WCyJcUZ5v6GRVT+TwYvLOeCcukFO2RQxoomlgss5dxxUfQo36n57c/Fb0bmT91xB+HU6
+         wI6Q==
+Message-ID: <4a4d9e12-1e8e-a146-494f-eca9616831b0@gmail.com>
+Date: Mon, 11 Apr 2022 16:56:50 +0900
 MIME-Version: 1.0
-Subject: [PATCH -perfbook 2/7] Makefile: Remove redundant nest of filter-out
- function
+Subject: [PATCH -perfbook 3/7] Makefile: Let ebook-size builds graduate from
+ 'WIP'
 Content-Language: en-US
 References: <b756ba87-3fd3-1865-d8c0-3fb0ba45966b@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
@@ -25,29 +25,36 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Simplify the use of filter-out function.
-This simpler list of variables in its first argument should have
-been used in commit afd0c61f9cd2 ("Makefile: Ignore .eps files
-under CodeSamples/.../OLD-*/").
+Now that ebook-size builds are mostly in good shape, let them
+graduate from "WIP" by removing such markers in help texts.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index a605487a..ff8a6a26 100644
+index ff8a6a26..fb899fa0 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -80,7 +80,7 @@ EPSSOURCES_OLD := \
- 	$(wildcard CodeSamples/*/*/*/OLD-*/*.eps) \
- 	$(wildcard CodeSamples/*/*/*/OLD-*/*/*.eps)
+@@ -516,7 +516,7 @@ help-paper:
+ 	@echo "  perfbook-lt.pdf,   lt:   2c layout on letterpaper"
+ 	@echo "  perfbook-hb.pdf,   hb:   2c layout for hard cover book"
+ 	@echo "  perfbook-a4.pdf,   a4:   2c layout on a4paper"
+-	@echo "  perfbook-eb.pdf,   eb:   1c layout for ebook reader (WIP)"
++	@echo "  perfbook-eb.pdf,   eb:   1c layout for ebook reader"
  
--EPSSOURCES := $(sort $(filter-out $(EPSSOURCES_OLD),$(filter-out $(OBSOLETE_FILES) $(EPSSOURCES_TMP),$(EPSSOURCES_DUP))))
-+EPSSOURCES := $(sort $(filter-out $(EPSSOURCES_OLD) $(OBSOLETE_FILES) $(EPSSOURCES_TMP),$(EPSSOURCES_DUP)))
+ help: help-official help-paper
+ 	@echo
+@@ -533,7 +533,7 @@ help-prefixed:
+ 	@echo "Prefixed targets:"
+ 	@echo "  \"1c*\" such as \"1cnq\", \"1csf\", and \"1cix\" are for 1c-layout."
+ 	@echo "  \"ebnq\", \"ebsf\", \"ebsfnq\", \"ebix\", and \"ebdf\" are for ebook-size 1c-layout,"
+-	@echo "     independent of PERFBOOK_PAPER. (WIP)"
++	@echo "     independent of PERFBOOK_PAPER."
  
- PDFTARGETS_OF_EPS := $(EPSSOURCES:%.eps=%.pdf)
- 
+ help-experimental:
+ 	@echo
 -- 
 2.25.1
 
