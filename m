@@ -3,18 +3,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=pza2t8pgWZMwrhO3Xw7ZozvZtSsWF9M1n1L/nJDyCrc=;
-        b=aSHshDaBfBPGTNKz7QsR1DXngHKL/T9lHsqrQmZ5vG/x7wAGQYVdIqG0GbQG1B2ugl
-         Y7tUUBf+irHMmtWF2WHqb7P2cl/z4HDQHzHyGX4zTr7lPdQ5lgIfaWGgSphnNaclPIGF
-         oJbzZsJqYAKX47179o4se+mC9HFdOcnrDhkGskGlr4nRIq23nQttOh3cQouXJwBNgCdX
-         rHhxB3PYm4RuBoH8kPIZbLV7PAAnmggS8WLfm7B+eb79tD+YURqxDnOGxaRMRk4dDx4n
-         9ckgrWChNa/Au0L0mNDnxMIW/uWukketY80lk18/BcvhHulZtj67CRVQikeEgbCPUcr2
-         F2vw==
-Message-ID: <44f3cbf1-1315-aaa0-0b1f-ba35417d33c4@gmail.com>
-Date: Mon, 11 Apr 2022 17:01:38 +0900
+        bh=fYH5xg9PQd9z22u+Nzi3AIiVxlwLJY2yqpJ5sGyeN68=;
+        b=aL2//WOuNQYuYiD6Krs2t0u06Ic25nD91kBfWCSHfdj/hBRF9JfmV/A1MoaeGLDwrG
+         wn5g4RFRNkisnn/hWaqiW3VkPTIjYiMehvfsgAon70GpB7Tr5TVWfbQJrwsCDuk+rX7h
+         suKxd7OaSs9SqXgpPmi4RgKBLl1uBFIjCDNf4htpEkaY+otELDBBIKe2e41l+onYDhOX
+         QdM93wqBVs88zJqjCjv3lYTjVsXkZZO5GhUzcc9J75xSHOF2+jCVurwBGyGgzzEIksCG
+         Y1Mq+UTpElhhdp7Yr2RPSk/2jzbOL1h/Svc+SrD7o6xo/zrO1hPX/AGsV5nvmD6kf7uD
+         QVkA==
+Message-ID: <ad9badd2-08a9-9c0f-36a1-4e4b4844434a@gmail.com>
+Date: Mon, 11 Apr 2022 17:03:48 +0900
 MIME-Version: 1.0
-Subject: [PATCH -perfbook 5/7] Makefile: Test $(LATEX) before invoking
- runfirstlatex.sh
+Subject: [PATCH -perfbook 6/7] run(first)latex.sh: Catch error exit of LATEX
 Content-Language: en-US
 References: <b756ba87-3fd3-1865-d8c0-3fb0ba45966b@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
@@ -25,46 +24,93 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-The LATEX variable can have a typo.  Check if it is available
-before invoking it.
+LATEX command can abort in its early stages of execution due to
+(1) mis-configuration of TeX Live, (2) regression in TeX Live updates,
+or (3) missing fonts.
+Catch exit code of LATEX command and print the tail of .log when
+LATEX command aborted.
+
+Also increment the exit code of these script when some error condition
+is detected in the .log file.
+
+  exit code 0: success
+  exit code 1: remaining warning(s) in .log
+  exit code 2: error detected in .log
+  other: exit code from LATEX
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile | 7 +++++++
- 1 file changed, 7 insertions(+)
+ utilities/runfirstlatex.sh | 12 +++++++++---
+ utilities/runlatex.sh      | 12 +++++++++---
+ 2 files changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 4ab54130..abcd7e2c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -101,6 +101,7 @@ PDFTARGETS_OF_EPSOTHER := $(filter-out $(PDFTARGETS_OF_EPSORIG) $(PDFTARGETS_OF_
- BIBSOURCES := bib/*.bib alphapf.bst
+diff --git a/utilities/runfirstlatex.sh b/utilities/runfirstlatex.sh
+index f5504f88..b92895f3 100644
+--- a/utilities/runfirstlatex.sh
++++ b/utilities/runfirstlatex.sh
+@@ -70,7 +70,13 @@ basename=`echo $1 | sed -e 's/\.tex$//'`
+ : ${LATEX:-pdflatex}
  
- # required commands
-+LATEX_CMD := $(shell which $(LATEX) 2>/dev/null)
- DOT := $(shell which dot 2>/dev/null)
- FIG2EPS := $(shell which fig2eps 2>/dev/null)
- INKSCAPE := $(shell which inkscape 2>/dev/null)
-@@ -225,6 +226,9 @@ qqmsg: perfbook.pdf
- 	@echo "built as perfbook.pdf."
- 
- $(PDFTARGETS): %.pdf: %.tex %.bbl
-+ifeq ($(LATEX_CMD),)
-+	$(error LaTeX engine "$(LATEX)" not found.)
-+endif
- 	LATEX=$(LATEX) sh utilities/runlatex.sh $(basename $@)
- 
- $(PDFTARGETS:.pdf=.bbl): %.bbl: %.aux $(BIBSOURCES)
-@@ -233,6 +237,9 @@ $(PDFTARGETS:.pdf=.bbl): %.bbl: %.aux $(BIBSOURCES)
- $(PDFTARGETS:.pdf=.aux): %.aux: %.tex $(LATEXGENERATED)
- ifeq ($(NEWTXTEXT),)
- 	$(error Font package 'newtx' not found. See #9 in FAQ-BUILD.txt)
-+endif
-+ifeq ($(LATEX_CMD),)
-+	$(error LaTeX engine "$(LATEX)" not found.)
- endif
- 	LATEX=$(LATEX) sh utilities/runfirstlatex.sh $(basename $@)
- 
+ echo "$LATEX 1 for $basename.pdf"
+-$LATEX $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null || :
++$LATEX $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null
++exitcode=$?
++if [ $exitcode -ne 0 ]; then
++	tail -n 20 $basename.log
++	echo "\n!!! $LATEX aborted !!!"
++	exit $exitcode
++fi
+ if grep -q 'LaTeX Warning: You have requested' $basename.log
+ then
+ 	grep -A 4 'LaTeX Warning: You have requested' $basename.log
+@@ -85,13 +91,13 @@ if grep -q '! Emergency stop.' $basename.log
+ then
+ 	grep -B 15 -A 5 '! Emergency stop.' $basename.log
+ 	echo "----- Fatal latex error, see $basename.log for details. -----"
+-	exit 1
++	exit 2
+ fi
+ if grep -q '!pdfTeX error:' $basename.log
+ then
+ 	grep -A 2 '!pdfTeX error:' $basename.log
+ 	echo "----- Fatal latex error, see $basename.log for details. -----"
+-	exit 1
++	exit 2
+ fi
+ grep 'LaTeX Warning:' $basename.log > $basename-warning.log
+ touch $basename-first.log
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index db196ad2..b7d553ab 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -76,18 +76,24 @@ iterate_latex () {
+ 		exit 1
+ 	fi
+ 	makeglossaries $basename > /dev/null 2>&1
+-	$LATEX $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null || :
++	$LATEX $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null
++	exitcode=$?
++	if [ $exitcode -ne 0 ]; then
++		tail -n 20 $basename.log
++		echo "\n!!! $LATEX aborted !!!"
++		exit $exitcode
++	fi
+ 	if grep -q '! Emergency stop.' $basename.log
+ 	then
+ 		grep -B 15 -A 5 '! Emergency stop.' $basename.log
+ 		echo "----- Fatal latex error, see $basename.log for details. -----"
+-		exit 1
++		exit 2
+ 	fi
+ 	if grep -q '!pdfTeX error:' $basename.log
+ 	then
+ 		grep -A 2 '!pdfTeX error:' $basename.log
+ 		echo "----- Fatal latex error, see $basename.log for details. -----"
+-		exit 1
++		exit 2
+ 	fi
+ 	if test -r $basename-warning.log
+ 	then
 -- 
 2.25.1
 
