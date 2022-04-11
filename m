@@ -1,93 +1,97 @@
 Return-Path: <SRS0=g3Xn=UV=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=qdv6mYKz+7PYCkxp5iTM13w/PoPg1FRmp2oNCfEV7YI=;
-        b=NVoxFLr9ctbE/JNfaHuD4tf4o0bqs7lT5i0XSHFh1u6lPuhRTttSHqORbUvP3A3cvg
-         pQfIRnUFueRIwlvyTsK1/okjZr85hWJBdXI2DP9GJDIEKLoeRqhX1TUp5Om7EmtkEkjd
-         sgff7uliK46iL9m8IlWZmu/SLlzdjg7A9Ak+ge+fZAqjKHARJfJRzUpchhDtSrhtI9iO
-         eK7nntG5wXqXUR2zG/t0maH6a7Q/4p7GjZXirGqk4GIDCQ0JFkReiMkNKbkQZo0kvaY7
-         TX6SVymg/DDus+VNDRd9wpnxz4KjMuMSiOKgymoDhFivThfcYTJje2nX39JuVUzU2mVF
-         7xgg==
-Message-ID: <b756ba87-3fd3-1865-d8c0-3fb0ba45966b@gmail.com>
-Date: Mon, 11 Apr 2022 16:49:01 +0900
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=/66kobnywhv4wGvZo9crvKJeEI/PRON5P9tUqhrTDN0=;
+        b=bCPwXq0bnJqOB3aT1PJ4Gz5gXgk11oG4FKVH70wCsM2FWByqXSSa7yTb9QksVjhDP+
+         sUW7TPP6Xj9WzUkzb70N4UzsYBCtuDZpqm3DnrOD8ERtyNDVZNF/07HpLyY+a4yShkwa
+         AXdKQeQ4uh5gixorCY/1DzHh7XrRZ81iO8kSwNIpUP4qtAIjVYwrf8qW6ifwpJfcXLUq
+         X/I6NMyh7Teg9QufhM3pJZ08VYx6dqphtGtlUh47DpXt02tcG1t7ZCFKXF/l6iVoTy1C
+         9JtdZrFPJMbqM6lUwRsdgKuJxJUy3ItuquaS3F86ReaQ7Cv+nzRXxpryAevRQrIl12ec
+         14GA==
+Message-ID: <7b03756f-f35f-d2e0-0b09-90917df98e3c@gmail.com>
+Date: Mon, 11 Apr 2022 16:53:10 +0900
 MIME-Version: 1.0
+Subject: [PATCH -perfbook 1/7] Makefile: Ignore temporary .eps files
 Content-Language: en-US
+References: <b756ba87-3fd3-1865-d8c0-3fb0ba45966b@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 0/7] Build script updates
+In-Reply-To: <b756ba87-3fd3-1865-d8c0-3fb0ba45966b@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+Recipes in epstopdf-rule.mk and a2ping-rule.mk use *__.eps and
+*__.pdf as temporary files for fixing fonts and cropping.
 
-Here is a set of updates to build scripts.
+Those files are removed afterwards in normal builds, but if you
+interrupt "make", they can escape from removals.
 
-Patch 1/7 is to avoid possible build errors when previous build
-is interrupted in the middle of converting figures with some
-intermediate temporary eps and/or pdf file(s) left. 
+They may cause a build error in subsequent "make", which might not
+be resolved by "make clean" but needs "make neatfreak".
 
-Example of such an error (long message not folded):
+Add variable EPSSOURCES_TMP in Makefile and filter them out from
+EPSSOURCES.
 
-CodeSamples/datastruct/hash/data/hps.perf.2020.11.26a/zoocatall.eps --> .pdf
-make: *** No rule to make target 'CodeSamples/datastruct/hash/data/hps.perf.2020.11.26a/zoocatall__.eps', needed by 'CodeSamples/datastruct/hash/data/hps.perf.2020.11.26a/zoocatall__.pdf'.  Stop.
+Add a pattern in .gitignore for them as well.
 
-After this type of an error (or errors after a parallel build),
-one needs to run "make clean" (or "make neatfreak"), and run
-"make" again.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ .gitignore |  1 +
+ Makefile   | 11 +++++++++--
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-By adding commands in Makefile to ignore file names of "*__.eps",
-this mode of error can be avoided.
-
-The added pattern in .gitignore resolves false "Untracked files"
-from "git status".
-
-Patch 2/7 fixes redundant use of filter-out function in Makefile.
-
-Patch 3/7 updates help texts regarding EBook-size builds in
-Makefile.  They don't need (WIP) anymore.
-
-Patch 4/7 is to allow use of LaTeX commands other than "pdflatex".
-In vanilla TeX Live, there is an alternative command of
-"pdflatex-dev", which is used to test development-phase
-latex implementation.  With this change, I am allowed to test
-it by saying "make LATEX=pdflatex-dev".
-
-Patch 5/7 is to catch typo in the LATEX variable.
-
-Patch 6/7 catches an error exit of LATEX command and print log
-messages to the terminal.
-
-Patch 7/7 is a cosmetic tweak improving the later stages of
-progress reports from parallel builds.
-
-        Thanks, Akira
---
-Akira Yokosawa (7):
-  Makefile: Ignore temporary .eps files
-  Makefile: Remove redundant nest of filter-out function
-  Makefile: Let ebook-size builds graduate from 'WIP'
-  run{first}latex.sh: Use variable for 'pdflatex' command
-  Makefile: Test $(LATEX) before invoking runfirstlatex.sh
-  run(first)latex.sh: Catch error exit of LATEX
-  runlatex.sh: Align status report messages
-
- .gitignore                            |   1 +
- Makefile                              |  27 ++++-
- Makefile.2022.01.25                   |   4 +-
- utilities/runfirstlatex.2022.01.25.sh |  98 +++++++++++++++
- utilities/runfirstlatex.sh            |  16 ++-
- utilities/runlatex.2022.01.25.sh      | 164 ++++++++++++++++++++++++++
- utilities/runlatex.sh                 |  23 ++--
- 7 files changed, 314 insertions(+), 19 deletions(-)
- create mode 100644 utilities/runfirstlatex.2022.01.25.sh
- create mode 100644 utilities/runlatex.2022.01.25.sh
-
-
-base-commit: 87d3513257e793b90f53ebd4b138ab2371aaf25c
+diff --git a/.gitignore b/.gitignore
+index 3711e0c6..1604a4d8 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -17,6 +17,7 @@
+ *.swo
+ *_backup.svg
+ *.epsi
++*__.eps
+ *.svgi
+ *.fcv
+ *.ltms
+diff --git a/Makefile b/Makefile
+index e09ba32d..a605487a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -67,13 +67,20 @@ EPSSOURCES_DUP := \
+ 	$(EPSSOURCES_FROM_DOT) \
+ 	$(EPSSOURCES_FROM_FIG)
+ 
++EPSSOURCES_TMP := \
++	$(wildcard */*__.eps) \
++	$(wildcard */*/*__.eps) \
++	$(wildcard */*/*/*__.eps) \
++	$(wildcard */*/*/*/*__.eps) \
++	$(wildcard */*/*/*/*/*__.eps) \
++
+ EPSSOURCES_OLD := \
+ 	$(wildcard CodeSamples/*/*/OLD-*/*.eps) \
+ 	$(wildcard CodeSamples/*/*/OLD-*/*/*.eps) \
+ 	$(wildcard CodeSamples/*/*/*/OLD-*/*.eps) \
+ 	$(wildcard CodeSamples/*/*/*/OLD-*/*/*.eps)
+ 
+-EPSSOURCES := $(sort $(filter-out $(EPSSOURCES_OLD),$(filter-out $(OBSOLETE_FILES),$(EPSSOURCES_DUP))))
++EPSSOURCES := $(sort $(filter-out $(EPSSOURCES_OLD),$(filter-out $(OBSOLETE_FILES) $(EPSSOURCES_TMP),$(EPSSOURCES_DUP))))
+ 
+ PDFTARGETS_OF_EPS := $(EPSSOURCES:%.eps=%.pdf)
+ 
+@@ -564,7 +571,7 @@ clean:
+ 	rm -f perfbook*.glg perfbook*.glo perfbook*.gls perfbook*.glsdefs
+ 	rm -f CodeSamples/snippets.d
+ 	rm -f *.synctex*
+-	@rm -f $(OBSOLETE_FILES)
++	@rm -f $(OBSOLETE_FILES) $(EPSSOURCES_TMP)
+ 
+ paper-clean:
+ 	rm -f $(BASE_DEPENDS)
 -- 
 2.25.1
+
 
