@@ -1,19 +1,19 @@
-Return-Path: <SRS0=kqNA=U3=gmail.com=haolee.swjtu@kernel.org>
+Return-Path: <SRS0=+I7C=UY=gmail.com=haolee.swjtu@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :content-transfer-encoding:user-agent;
-        bh=nBWixwkz3spGxsc4hozhc447gsLenCwJEa/Moz3fkmo=;
-        b=lWrq1h5600Xj/ClSRe7Qw3EYzY71CIIEz2XOeX9dU/AGncavTDjsfA7Hh1WRQT8tZL
-         1zliDLl4kh5xy7yvPaG7WeF3RE0oC4ZLi19RSMao3I0eapZYtb5vF7wOpy0XNNLgh6/Z
-         JHXGDzwZVnbeYDpo12IDcdlU+kDpyvLV0LqJlc+BhSUkxUCUKVY6rhAOC+HmM4/h6Mcv
-         STP3tCuSX6NY8V0DRLD2VB7dfrv/NZRiCh+yLypmwqHzhjUrSL/qCNLbt7j4Jf0BNYgi
-         o7WZPk+PJfBD+LryT93rX7nAJEZ31ut52CZILByqL7U93MVrvA8pvdxHAVshvwtTZLvl
-         ae7A==
-Date: Sun, 17 Apr 2022 11:17:26 +0000
+        bh=0tDwsIgD8rynyLluHMfqN3o98ksNpiZzqkeHIB9i6DQ=;
+        b=O2BsUNL3xc8H03gymaeWX2VDv11xjVkvsDZdN3fTi03+fc6Tfh8toZM958LSVM3c1i
+         cPmvsCKCA+Z8Zntmf9MBqoKNQlCbTtW4JwatMXZUxXuIkCnVHkpQmQ+HidKlh+AceFnt
+         UQrdsZYptK2XcOWUsM/EqoMvkPKxkHQ5927wnIZOwj/0ydKiYLt+3ZH9OIsfZ5lv+y8n
+         hi8920Si1EikQEZEUXRAGHNF9enN6/6MpsbB17h9FePuDSQJQxJSdQVWHTBurNAsi0CZ
+         TMj+zW/gg0SnWKTcViw2xezgIpJyPYdcy2HqjLSwbf3/Bmo3pQFLn1lFvBPhL7qBSVo+
+         6nxQ==
+Date: Thu, 14 Apr 2022 17:42:25 +0000
 From: Hao Lee <haolee.swjtu@gmail.com>
-Subject: Clarify what the read memory barrier really does
-Message-ID: <20220417111726.GA27498@haolee.io>
+Subject: The answer of Quiz C.8 is not quite reasonable
+Message-ID: <20220414174225.GA29861@haolee.io>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
@@ -22,35 +22,17 @@ To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-Hello,
+Hi,
 
-I think maybe we can make the following contents more clear:
+At the beginning of C.3.3 we have supposed the cache line containing "a"
+resides _only_ in _CPU1’s_ cache. I think this is why _CPU0_ has to send
+a "_read_ invalidate message" to _retrieve_ the cache line and invalid
+CPU1's cache line.
 
-Cite from Appendix C.4:
-
-	when a given CPU executes a memory barrier, it marks all the
-	entries currently in its invalidate queue, and forces any
-	subsequent load to wait until all marked entries have been
-	applied to the CPU’s cache.
-
-It's obvious that this paragraph means read barrier can flush invalidate
-queue.
-
-Cite from Appendix C.5:
-
-	The effect of this is that a read memory barrier orders only
-	loads on the CPU that executes it, so that all loads preceding
-	the read memory barrier will appear to have completed before any
-	load following the read memory barrier.
-
-This paragraph means read barrier can prevent Load-Load memory
-reordering which is caused by out-of-order execution.
-
-If I understand correctly, read memory barrier has _two functions_, one
-is flushing invalidate queue to make the loads following the barrier can
-load the latest value, and the other is stalling instruction pipeline to
-prevent Load-Load memory reordering. I think these are two completely
-different functions and we should make such a summary in the book.
+However, the answer says the reason is the cache line in question
+contains more than just the variable a. I can't understand the logical
+relationship between this answer and the question. Am I missing
+something here? Thanks.
 
 Regards,
 Hao Lee
