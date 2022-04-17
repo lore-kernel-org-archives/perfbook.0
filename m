@@ -2,46 +2,55 @@ Return-Path: <SRS0=kqNA=U3=gmail.com=haolee.swjtu@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=jVj7m6h+nRfiIql8dBp7+LD724ScKLOtmXXkcxMTV2w=;
-        b=PQpA6+lQEzoCx/lPm+9VlcxysNDxNjSxVpxKXqrVq1+HkJqYzQ0z+1epBs6PhypK49
-         HVsUsvY4T3hZ3G99iz1d5r0/bC8A6YOs6jLr1Pj2zzGsAUOrsD8j2Kfz9PsaGihK/N6l
-         acDPoCX1qz63CKVXtcedmhgdAKJ23ksqn13ZfhtzPcGE8T8krgFKL5uNXLBbcCsv2eZV
-         lzNG1tGDZonDfndhkZJGyrq3fWin330+cbpniTh17nEbPG91S9BCeluVvXuHW+UsHRVv
-         pIGlg5+/PyPyoPRGNJoRx8lLgfSjXTVx/mUQQUxnZ0t2p0DaU+u1C7i7eGVrpgHWvs93
-         jf3A==
-Date: Sun, 17 Apr 2022 11:09:47 +0000
+         :content-transfer-encoding:user-agent;
+        bh=nBWixwkz3spGxsc4hozhc447gsLenCwJEa/Moz3fkmo=;
+        b=lWrq1h5600Xj/ClSRe7Qw3EYzY71CIIEz2XOeX9dU/AGncavTDjsfA7Hh1WRQT8tZL
+         1zliDLl4kh5xy7yvPaG7WeF3RE0oC4ZLi19RSMao3I0eapZYtb5vF7wOpy0XNNLgh6/Z
+         JHXGDzwZVnbeYDpo12IDcdlU+kDpyvLV0LqJlc+BhSUkxUCUKVY6rhAOC+HmM4/h6Mcv
+         STP3tCuSX6NY8V0DRLD2VB7dfrv/NZRiCh+yLypmwqHzhjUrSL/qCNLbt7j4Jf0BNYgi
+         o7WZPk+PJfBD+LryT93rX7nAJEZ31ut52CZILByqL7U93MVrvA8pvdxHAVshvwtTZLvl
+         ae7A==
+Date: Sun, 17 Apr 2022 11:17:26 +0000
 From: Hao Lee <haolee.swjtu@gmail.com>
-Subject: [PATCH] whymb: fix description in DMA coherence
-Message-ID: <20220417110947.GA27447@haolee.io>
+Subject: Clarify what the read memory barrier really does
+Message-ID: <20220417111726.GA27498@haolee.io>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 To: paulmck@kernel.org
-Cc: perfbook@vger.kernel.org, haolee.swjtu@gmail.com
+Cc: perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-CPU caches need to be flushed before DMA operations to avoid data
-overwriting.
+Hello,
 
-Signed-off-by: Hao Lee <haolee.swjtu@gmail.com>
----
- appendix/whymb/whymemorybarriers.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think maybe we can make the following contents more clear:
 
-diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
-index b49d5fe8..4ec27962 100644
---- a/appendix/whymb/whymemorybarriers.tex
-+++ b/appendix/whymb/whymemorybarriers.tex
-@@ -1640,7 +1640,7 @@ future such problems:
- 	in any DMA buffer before presenting that buffer to the
- 	I/O device.
- 	Similarly, you need to flush the CPU caches of any location
--	in any DMA buffer after DMA to that buffer completes.
-+	in any DMA buffer before DMA to that buffer completes.
- 	And even then, you need to be \emph{very} careful to avoid
- 	pointer bugs, as even a misplaced read to an input buffer
- 	can result in corrupting the data input!
--- 
-2.21.0
+Cite from Appendix C.4:
 
+	when a given CPU executes a memory barrier, it marks all the
+	entries currently in its invalidate queue, and forces any
+	subsequent load to wait until all marked entries have been
+	applied to the CPU’s cache.
+
+It's obvious that this paragraph means read barrier can flush invalidate
+queue.
+
+Cite from Appendix C.5:
+
+	The effect of this is that a read memory barrier orders only
+	loads on the CPU that executes it, so that all loads preceding
+	the read memory barrier will appear to have completed before any
+	load following the read memory barrier.
+
+This paragraph means read barrier can prevent Load-Load memory
+reordering which is caused by out-of-order execution.
+
+If I understand correctly, read memory barrier has _two functions_, one
+is flushing invalidate queue to make the loads following the barrier can
+load the latest value, and the other is stalling instruction pipeline to
+prevent Load-Load memory reordering. I think these are two completely
+different functions and we should make such a summary in the book.
+
+Regards,
+Hao Lee
