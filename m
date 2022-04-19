@@ -1,184 +1,122 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56070 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240029AbiDSRtO (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 19 Apr 2022 13:49:14 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A704610FF0
-        for <perfbook@vger.kernel.org>; Tue, 19 Apr 2022 10:46:30 -0700 (PDT)
+        with ESMTP id S234560AbiDSRbg (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 19 Apr 2022 13:31:36 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94FA6D7A
+        for <perfbook@vger.kernel.org>; Tue, 19 Apr 2022 10:28:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id BCB5ECE18FE
-        for <perfbook@vger.kernel.org>; Tue, 19 Apr 2022 17:46:28 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 545BAB81992
+        for <perfbook@vger.kernel.org>; Tue, 19 Apr 2022 17:28:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650390387;
-        bh=b1FoMdtU+1SGXvOjVet+TpT4rmBFgLvGmTo5MLjh7+c=;
+        s=k20201202; t=1650389331;
+        bh=OK2aimNtRY4u86ldMmMyIY6/76Xs01tFvRQMhepMY0I=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=QK6c7ozphz6LAgKf3sRkBnz1pOkR7VYDwbrizPsX7tN36TQzfK7KDUeBhVVV1RLN/
-         N0SVL7tcKrSVya3DQUtqMgYY3dGFQxHfAOWNoOCHcU+GoEKEhAUyW9zuz4GYqYyzlA
-         i0EJOT+VbBSB0BpDwQaPwWnAIXB+CqDAv6dkNd/y9vFaN76KBU72eyasBeHh5PsrYX
-         epN4QKrDa8kPLn5DsTPRBJ80eijaLM4blHMkVYpeEs4VaWuepB/zHbTYn/Rihn1dtV
-         /Bwp6mQJEtPLgyPoYxs47eUWD3LyFfRTJVnYGtd+K5qh6y76e+uh/VyzjKOYz3XVNe
-         xEEroIL3WOFzg==
-Date: Tue, 19 Apr 2022 10:46:26 -0700
+        b=HYfrNZz37urE1SwMGE7NNC/bTkEzaOARPHjTo9JqGlMZw5eRh+S5T9TWKQRGh14LM
+         DxLxAa2mbBrNzFvyJGJEhUcO8hUniLLc3+U4MJ+VRNCyzC7sElO9rbab+Eu9GNGXYf
+         Udyr9WYP19/Y1/s1lCtPTiJXrYXTcO8iLNqvRhNcP/SYoDbWmyVG2nDl7XsGyzEr1S
+         2FIVtrVF8NNoOQyjKr5wNvi4mJzRS6Gu4Pktfr+A+9+XPLJKZQ2t755DHt4iAI8AzI
+         8DsPXJry03elHeapqbGHpiu9X6IR0i7YKvyj9WY8VMQOgc0D6bKGquaidp6PQCexRR
+         SeknPeR7x5X7g==
+Date: Tue, 19 Apr 2022 10:28:50 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: Does perfbook need some prior knowledge?
-Message-ID: <20220419174626.GR4285@paulmck-ThinkPad-P17-Gen-1>
+Subject: Re: The answer of Quiz C.8 is not quite reasonable
+Message-ID: <20220419172850.GO4285@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <CA+PpKPmTsMMP6n3hYEqNxav_qQcyFPmff0GwYCauyuHY7GDM3w@mail.gmail.com>
- <20220405153120.GH4285@paulmck-ThinkPad-P17-Gen-1>
- <6cf56caf-6355-0624-27d2-5420265d55e8@gmail.com>
- <20220407164127.GT4285@paulmck-ThinkPad-P17-Gen-1>
- <d29c329f-a9f6-cf6e-990a-2baea2b74237@gmail.com>
- <20220408014542.GX4285@paulmck-ThinkPad-P17-Gen-1>
- <CA+PpKPmz5eQn9b6JWSYq=gUdJmBPesC02JHonetN0=aO33o4Ug@mail.gmail.com>
+References: <20220414174225.GA29861@haolee.io>
+ <20220417174454.GR4285@paulmck-ThinkPad-P17-Gen-1>
+ <20220418080117.GC12176@haolee.io>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <CA+PpKPmz5eQn9b6JWSYq=gUdJmBPesC02JHonetN0=aO33o4Ug@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220418080117.GC12176@haolee.io>
 List-ID: <perfbook.vger.kernel.org>
 To: Hao Lee <haolee.swjtu@gmail.com>
-Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
+Cc: perfbook@vger.kernel.org
 
-On Fri, Apr 08, 2022 at 04:49:05PM +0800, Hao Lee wrote:
-> On Fri, Apr 8, 2022 at 9:45 AM Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > On Fri, Apr 08, 2022 at 08:18:33AM +0900, Akira Yokosawa wrote:
-> > > On Thu, 7 Apr 2022 09:41:27 -0700,
-> > > Paul E. McKenney wrote:
-> > > > On Fri, Apr 08, 2022 at 12:29:36AM +0900, Akira Yokosawa wrote:
-> > > >> Hi Paul,
-> > > >>
-> > > >> Let me make a suggestion regarding Hao's poor experience as a first-time
-> > > >> reader of Section 4.3.
-> > > >>
-> > > >> On Tue, 5 Apr 2022 08:31:20 -0700,
-> > > >> Paul E. McKenney wrote:
-> > > >>> On Tue, Apr 05, 2022 at 09:52:23PM +0800, Hao Lee wrote:
-> > > >>>> Hi, Paul
-> > > >>>>
-> > > >>>> I'm currently reading perfbook, but I often get stuck in some concepts
-> > > >>>> which are not explained. Does this book need some prior knowledge?
-> > > >>>> Or all these concepts are explained later and I just need to keep
-> > > >>>> reading patiently?
-> > > >>>>
-> > > >>>> For example, on page 67 in v2021.12.22a:
-> > > >>>>
-> > > >>>>     For example, a write memory barrier (Linux kernel smp_wmb()) would
-> > > >>>>     order the store, but not the load. This situation might suggest use
-> > > >>>>     of smp_store_release() over smp_wmb().
-> > > >>
-> > > >> So this is in Section 4.3.4.1 "Shared-Variable Shenanigans".
-> > > >>
-> > > >> I think one of the purpose of Chapter 4 is an introduction to various
-> > > >> constructs which are used/discussed in later chapters and CodeSamples.
-> > > >>
-> > > >> If I were a first-time reader, I'd find Section 4.3.4 out-of-place
-> > > >> because other sections in this chapter explain APIs and their usages
-> > > >> in a brief manner.
-> > > >>
-> > > >> My suggestion is to move hard parts of Section 4.3.4 to a later
-> > > >> chapter/appendix and to leave a brief introduction in Chapter 4 around
-> > > >> the discussion of READ_ONCE() and WRITE_ONCE().
-> > > >>
-> > > >> And I believe you have intentionally avoided discussing memory ordering
-> > > >> and memory barriers in Chapter 4, as they are pretty "advanced" topic.
-> > > >>
-> > > >> So a brief introduction to them in Chapter 4 would also be helpful.
-> > > >>
-> > > >> I think "data race" and "battle with compiler optimizations" in
-> > > >> accessing shared memory from C are also "advanced" topics in that
-> > > >> they are not intuitive for those who is willing to learn parallel
-> > > >> programming.
-> > > >>
-> > > >> Thoughts?
-> > > >
-> > > > One approach would be to make 4.3.4 "Accessing Shared Variables" be
-> > > > much smaller and more directive.  ("Don't access concurrently modified
-> > > > shared variables using plain C-language loads and stores.")  Also
-> > > > describe READ_ONCE() and WRITE_ONCE().
-> > > >
-> > > > Then move 4.3.4 to be a section in the "Advanced Synchronization"
-> > > > chapter, and probably the first chapter.
-> > >
-> > > What do you mean by "the first chapter"?
-> >
-> > Gah!  That should have been "the first section".  :-/
-> >
-> > > >                                           Forward-reference this
-> > > > section from the reworked 4.3.4 ("If you don't believe me, go read
-> > > > this new section!").
-> > > >
-> > > > Expand 4.3.5 "Atomic Operations" to give more detail on what these
-> > > > operations do.  Or maybe rely on additions to the Glossary?
-> > >
-> > > Ah, smp_load_acquire() and smp_store_release() are mentioned there
-> > > without explaining what they are!  Yes, some expansion or reference
-> > > should help.
-> >
-> > Sounds like a plan, both expanding that section and populating the
-> > glossary.  Will do!
-> >
-> > > > Add a 4.3.x section on memory barriers, saying that they provide ordering,
-> > > > and also saying that both thread's accesses must be ordered for anything
-> > > > useful to happen.  Forward-reference the memory-ordering chapter.
-> > >
-> > > Section 3.1.4 already mentions memory barriers very briefly.
-> > > Appendix C is also a good starting point.
-> >
-> > Good points, thank you!
+On Mon, Apr 18, 2022 at 08:01:17AM +0000, Hao Lee wrote:
+> On Sun, Apr 17, 2022 at 10:44:54AM -0700, Paul E. McKenney wrote:
+> > On Thu, Apr 14, 2022 at 05:42:25PM +0000, Hao Lee wrote:
+> > > Hi,
+> > > 
+> > > At the beginning of C.3.3 we have supposed the cache line containing "a"
+> > > resides _only_ in _CPU1’s_ cache. I think this is why _CPU0_ has to send
+> > > a "_read_ invalidate message" to _retrieve_ the cache line and invalid
+> > > CPU1's cache line.
+> > > 
+> > > However, the answer says the reason is the cache line in question
+> > > contains more than just the variable a. I can't understand the logical
+> > > relationship between this answer and the question. Am I missing
+> > > something here? Thanks.
+> > 
+> > I added the commit shown below.  Does that help?
+> > 
+> > 							Thanx, Paul
+> > 
+> > ------------------------------------------------------------------------
+> > 
+> > commit 36fe14d5ebe406e331a5d89533fe3187d2019898
+> > Author: Paul E. McKenney <paulmck@kernel.org>
+> > Date:   Sun Apr 17 10:41:33 2022 -0700
+> > 
+> >     appendix/whymb: Clarify QQ C.8
+> >     
+> >     More clearly note the presence of data other than the variable a.
+> >     
+> >     Reported-by: Hao Lee <haolee.swjtu@gmail.com>
+> >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> > 
+> > diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
+> > index 8f607e35..43f1307b 100644
+> > --- a/appendix/whymb/whymemorybarriers.tex
+> > +++ b/appendix/whymb/whymemorybarriers.tex
+> > @@ -821,9 +821,14 @@ Then the sequence of operations might be as follows:
+> >  	In \cref{seq:app:whymb:Store Buffers and Memory Barriers} above,
+> >  	why does CPU~0 need to issue a ``read invalidate''
+> >  	rather than a simple ``invalidate''?
+> > +	After all, \co{foo()} will overwrite \co{a} in any case, so why
+> > +	should it care about the old value of \co{a}?
 > 
-> I think Appendix C is very fundamental and it's hard to understand barriers
-> or other synchronization primitives without reading Appendix C. How about
-> make it a Chapter instead of an appendix.
+> Totally clear!
+> 
+> And we may also need to add some details to C.3.1:
+> 
+> 	With the addition of these store buffers, CPU 0 can simply
+> 	record its write in its store buffer and continue executing.
+> 	When the cache line does finally make its way from CPU 1 to CPU
+> 	0, the data will be moved from the store buffer to the cache
+> 	line.
+> 
+> This passage explains why we need a store buffer, but I think the data
+> in store buffer won't be moved directly to the cache line.
+> Instead, the store buffer must be merged with the cache line responded
+> by CPU1, and only after that can it be moved to CPU0's cache line.
 
-The intent is that Section 3.2.3 ("Hardware Optimizations") summarizes
-the portions of Appendix C needed by the casual reader.  What should be
-added to this section?  For example, maybe Figure C.1 and/or C.2 needs
-to be added, or maybe an updated version of Figure C.1 that includes
-the store buffer.
+You lost me here.
 
-I could add the invalidation queue, but my feeling is that this is too
-advanced for Section 3.2.3.
+Ah, maybe the missing point is that store buffers do not necessarily
+maintain full cache lines, but only the data that was actually stored.
+Or, if the store buffer does contain full cache lines, it also contains
+a mask to indicate what portions of the cache line need to be updated.
 
-If your feedback results in sufficient improvements to Appendix C, I
-could imagine it moving as an additional chapter following Chapter 15
-("Advanced Synchronization: Memory Ordering"), perhaps entitled "Advanced
-Synchronization: Hardware Memory Optimizations" or some such.
-
-> > > > Would this help, or is there a better way?
-> > >
-> > > This sounds like a reasonable plan.
-> > >
-> > > >
-> > > >>>> Unfortunately, although I have some knowledge about Linux kernel, I'm not
-> > > >>>> familiar with the concepts such as store_release, smp_wmb, etc. I don't
-> > > >>>> know if I should keep reading this book until all these concepts are
-> > > >>>> explained or stop reading the book and learn some prior knowledge.>
-> > > >>> Good point.  On the one hand, this book is rather advanced, but on the
-> > > >>> other hand, it needs to be as accessible as is reasonably possible.
-> > > >>
-> > > >> Expanding general Index and API Index might be helpful here.
-> > > >> At the moment, they are "work in progress".  Somehow, there is no entry
-> > > >> related to memory barriers in the general Index, and very limited memory
-> > > >> barrier primitives in API Index.  This may be due to the lack of
-> > > >> "memory barrier" and related terms in Glossary.
-> > > >
-> > > > I need to add at least the following to the glossary:
-> > > >
-> > > > o   Acquire load.
-> > > > o   Release store.
-> > > > o   Memory barrier.
-> > > > o   Read memory barrier.
-> > > > o   Write memory barrier.
-> > > >
-> > > > Any others?
-> > >
-> > > This list looks reasonable to me.
-> >
-> > Sounds good, and will do!
-
-This part at least is done.  ;-)
+Does that help, or am I missing your point?
 
 							Thanx, Paul
+
+> Thanks,
+> Hao Lee
+> 
+> >  }\QuickQuizAnswer{
+> > -	Because the cache line in question contains more than just the
+> > +	Because the cache line in question contains more data than just the
+> >  	variable \co{a}.
+> > +	Issuing ``invalidate'' instead of the needed ``read invalidate''
+> > +	would cause that other data to be lost, which would constitute
+> > +	a serious bug in the hardware.
+> >  }\QuickQuizEnd
+> >  
+> >  The hardware designers cannot help directly here, since the CPUs have
