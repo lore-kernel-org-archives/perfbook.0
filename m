@@ -3,127 +3,188 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=SuMyHSBA1esWNU1IEGGcTtXfBwXCHwQJLTDa4n/H+hw=;
-        b=ICLQt1m9sgTMApsO5wat0ZGdXn/88BizBZN5P0c6ssdakyO1gL0b2hs77CjhkQEBn6
-         6XQ2ql87+W8rxO1LKr2U+nrlLWw3T/lNGTNXiKnDPnWz5PSzgoIKKvFDSKlfqtDk7hOD
-         mpsKWjmj552KXnaAeraSQmV3/2CAG/usvdniSkV+Wt1BIEpHuJLAfpUhRbZ1pD+IL2FB
-         caVsNR8wKP/WDt8KpyaXGt32LXS2slU/2qpgnPZVGZQT9/2QAgcOKgA8cNndPJB5hl5G
-         0YVrGWCXsCRTA/5P2d//eH6Z5juqMVi/8F8fSrHLAD8oR21pxtT97wua8A9fOnFQAsu4
-         GG+g==
-Date: Wed, 20 Apr 2022 11:38:57 +0000
+        bh=SOPjFuROxJ/ATAooBwxFc5C4O09fGBY/3o4mV/KvTAg=;
+        b=n2gJvncXWRZYadvA0vmMk1gur9RGzWztlndj8WmRG+s+oehciDgEp+C4lkYPRRv6W2
+         ZMa4FBGYm1D9R7Xn9+RG1JvP+Dj/qEvRca/6dHXhDEJn4mEHK9KfBcfXIX16oJQ+F0I3
+         nhm/otwO2/8Dlog2myeDsepMrEt7l5SITE0im1IwtWTvbWU/EcNCqKXmts8R5mSqF8fw
+         dRVs31x9zl/JUCRj24pMBmu5aYdDcWGKfN1u/Vr83/Q2XhbHRLM/z/N49NDaBmUNk7//
+         27y1es/SuBHRQgeJFfktiQxqTxqTUv6BQJLQzlVhAzJ8NArHX4HihzblmzVLmdjTvTYb
+         0m/Q==
+Date: Wed, 20 Apr 2022 11:57:27 +0000
 From: Hao Lee <haolee.swjtu@gmail.com>
-Subject: Re: [PATCH] whymb: fix description in DMA coherence
-Message-ID: <20220420113857.GB25933@haolee.io>
-References: <20220417110947.GA27447@haolee.io>
- <20220417165239.GP4285@paulmck-ThinkPad-P17-Gen-1>
- <20220418062359.GA12176@haolee.io>
- <20220419173616.GQ4285@paulmck-ThinkPad-P17-Gen-1>
+Subject: Re: Does perfbook need some prior knowledge?
+Message-ID: <20220420115727.GC25933@haolee.io>
+References: <CA+PpKPmTsMMP6n3hYEqNxav_qQcyFPmff0GwYCauyuHY7GDM3w@mail.gmail.com>
+ <20220405153120.GH4285@paulmck-ThinkPad-P17-Gen-1>
+ <6cf56caf-6355-0624-27d2-5420265d55e8@gmail.com>
+ <20220407164127.GT4285@paulmck-ThinkPad-P17-Gen-1>
+ <d29c329f-a9f6-cf6e-990a-2baea2b74237@gmail.com>
+ <20220408014542.GX4285@paulmck-ThinkPad-P17-Gen-1>
+ <CA+PpKPmz5eQn9b6JWSYq=gUdJmBPesC02JHonetN0=aO33o4Ug@mail.gmail.com>
+ <20220419174626.GR4285@paulmck-ThinkPad-P17-Gen-1>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220419173616.GQ4285@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <20220419174626.GR4285@paulmck-ThinkPad-P17-Gen-1>
 To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-On Tue, Apr 19, 2022 at 10:36:16AM -0700, Paul E. McKenney wrote:
-> On Mon, Apr 18, 2022 at 06:23:59AM +0000, Hao Lee wrote:
-> > On Sun, Apr 17, 2022 at 09:52:39AM -0700, Paul E. McKenney wrote:
-> > > On Sun, Apr 17, 2022 at 11:09:47AM +0000, Hao Lee wrote:
-> > > > CPU caches need to be flushed before DMA operations to avoid data
-> > > > overwriting.
-> > > > 
-> > > > Signed-off-by: Hao Lee <haolee.swjtu@gmail.com>
-> > > > ---
-> > > >  appendix/whymb/whymemorybarriers.tex | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
-> > > > index b49d5fe8..4ec27962 100644
-> > > > --- a/appendix/whymb/whymemorybarriers.tex
-> > > > +++ b/appendix/whymb/whymemorybarriers.tex
-> > > > @@ -1640,7 +1640,7 @@ future such problems:
-> > > >  	in any DMA buffer before presenting that buffer to the
-> > > >  	I/O device.
-> > > 
-> > > The paragraph above is before the I/O starts.  Any changes to the buffer
-> > > need to be flushed to memory so that the I/O device's DMA actually
-> > > sees them.
-> > > 
-> > > The next paragraph is the other end of I/O request, after it completes.
-> > > So we cannot have "before".  But maybe we need "invalidate" instead of
-> > > "flush".
+On Tue, Apr 19, 2022 at 10:46:26AM -0700, Paul E. McKenney wrote:
+> On Fri, Apr 08, 2022 at 04:49:05PM +0800, Hao Lee wrote:
+> > On Fri, Apr 8, 2022 at 9:45 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+> > >
+> > > On Fri, Apr 08, 2022 at 08:18:33AM +0900, Akira Yokosawa wrote:
+> > > > On Thu, 7 Apr 2022 09:41:27 -0700,
+> > > > Paul E. McKenney wrote:
+> > > > > On Fri, Apr 08, 2022 at 12:29:36AM +0900, Akira Yokosawa wrote:
+> > > > >> Hi Paul,
+> > > > >>
+> > > > >> Let me make a suggestion regarding Hao's poor experience as a first-time
+> > > > >> reader of Section 4.3.
+> > > > >>
+> > > > >> On Tue, 5 Apr 2022 08:31:20 -0700,
+> > > > >> Paul E. McKenney wrote:
+> > > > >>> On Tue, Apr 05, 2022 at 09:52:23PM +0800, Hao Lee wrote:
+> > > > >>>> Hi, Paul
+> > > > >>>>
+> > > > >>>> I'm currently reading perfbook, but I often get stuck in some concepts
+> > > > >>>> which are not explained. Does this book need some prior knowledge?
+> > > > >>>> Or all these concepts are explained later and I just need to keep
+> > > > >>>> reading patiently?
+> > > > >>>>
+> > > > >>>> For example, on page 67 in v2021.12.22a:
+> > > > >>>>
+> > > > >>>>     For example, a write memory barrier (Linux kernel smp_wmb()) would
+> > > > >>>>     order the store, but not the load. This situation might suggest use
+> > > > >>>>     of smp_store_release() over smp_wmb().
+> > > > >>
+> > > > >> So this is in Section 4.3.4.1 "Shared-Variable Shenanigans".
+> > > > >>
+> > > > >> I think one of the purpose of Chapter 4 is an introduction to various
+> > > > >> constructs which are used/discussed in later chapters and CodeSamples.
+> > > > >>
+> > > > >> If I were a first-time reader, I'd find Section 4.3.4 out-of-place
+> > > > >> because other sections in this chapter explain APIs and their usages
+> > > > >> in a brief manner.
+> > > > >>
+> > > > >> My suggestion is to move hard parts of Section 4.3.4 to a later
+> > > > >> chapter/appendix and to leave a brief introduction in Chapter 4 around
+> > > > >> the discussion of READ_ONCE() and WRITE_ONCE().
+> > > > >>
+> > > > >> And I believe you have intentionally avoided discussing memory ordering
+> > > > >> and memory barriers in Chapter 4, as they are pretty "advanced" topic.
+> > > > >>
+> > > > >> So a brief introduction to them in Chapter 4 would also be helpful.
+> > > > >>
+> > > > >> I think "data race" and "battle with compiler optimizations" in
+> > > > >> accessing shared memory from C are also "advanced" topics in that
+> > > > >> they are not intuitive for those who is willing to learn parallel
+> > > > >> programming.
+> > > > >>
+> > > > >> Thoughts?
+> > > > >
+> > > > > One approach would be to make 4.3.4 "Accessing Shared Variables" be
+> > > > > much smaller and more directive.  ("Don't access concurrently modified
+> > > > > shared variables using plain C-language loads and stores.")  Also
+> > > > > describe READ_ONCE() and WRITE_ONCE().
+> > > > >
+> > > > > Then move 4.3.4 to be a section in the "Advanced Synchronization"
+> > > > > chapter, and probably the first chapter.
+> > > >
+> > > > What do you mean by "the first chapter"?
+> > >
+> > > Gah!  That should have been "the first section".  :-/
+> > >
+> > > > >                                           Forward-reference this
+> > > > > section from the reworked 4.3.4 ("If you don't believe me, go read
+> > > > > this new section!").
+> > > > >
+> > > > > Expand 4.3.5 "Atomic Operations" to give more detail on what these
+> > > > > operations do.  Or maybe rely on additions to the Glossary?
+> > > >
+> > > > Ah, smp_load_acquire() and smp_store_release() are mentioned there
+> > > > without explaining what they are!  Yes, some expansion or reference
+> > > > should help.
+> > >
+> > > Sounds like a plan, both expanding that section and populating the
+> > > glossary.  Will do!
+> > >
+> > > > > Add a 4.3.x section on memory barriers, saying that they provide ordering,
+> > > > > and also saying that both thread's accesses must be ordered for anything
+> > > > > useful to happen.  Forward-reference the memory-ordering chapter.
+> > > >
+> > > > Section 3.1.4 already mentions memory barriers very briefly.
+> > > > Appendix C is also a good starting point.
+> > >
+> > > Good points, thank you!
 > > 
-> > Got it!
-> > 
-> > > With a note that itcan be more efficient to both flush and
-> > > invalidate prior to presenting the DMA buffer to the device.
-> > > 
-> > > The point is that any pre-DMA data in the CPU caches must be gotten
-> > > rid of in order for the CPUs to see the data that was actually DMA'ed
-> > > into memory.
-> > 
-> > Great explanation! Now I know we need something like WBINVD instruction
-> > for the former case and INVD instruction for the latter.
+> > I think Appendix C is very fundamental and it's hard to understand barriers
+> > or other synchronization primitives without reading Appendix C. How about
+> > make it a Chapter instead of an appendix.
 > 
-> Glad that it helped!
+> The intent is that Section 3.2.3 ("Hardware Optimizations") summarizes
+> the portions of Appendix C needed by the casual reader.  What should be
+> added to this section?  For example, maybe Figure C.1 and/or C.2 needs
+> to be added, or maybe an updated version of Figure C.1 that includes
+> the store buffer.
 > 
-> > > >  	Similarly, you need to flush the CPU caches of any location
-> > 
-> > Should we change the word "flush" to "invalidate" to differentiate these
-> > two opposite DMA operations?
+> I could add the invalidation queue, but my feeling is that this is too
+> advanced for Section 3.2.3.
+
+Agree. I think 3.2.3 is good enough and there is no need to add more
+contents.
+
 > 
-> If after the DMA, we need to care about the difference, hasn't the CPU
-> incorrectly written to part of the DMA buffer during the DMA operation?
-
-Sorry, I can't understand this passage...  Maybe I didn't make myself
-clear.  I find a great example in arch/powerpc/include/asm/cacheflush.h
-
-Before DMA provides output buffer to devices, we should call
-flush_dcache_range or clean_dcache_range to let the devices see the
-latest data generated by the CPU. After DMA writes data into the input
-buffer, we should use invalidate_dcache_range to invalidate the CPU
-cache so the CPU can read the latest data written by devices.
-
-Should we change the word "flush" in the following sentence to "invalidate"?
-
-	Similarly, you need to flush the CPU caches of any location in
-	any DMA buffer after DMA to that buffer completes.
-
-
-> If you are thinking of some other scenario, could you please list the
-> events leading up to that scenrio?
+> If your feedback results in sufficient improvements to Appendix C, I
+> could imagine it moving as an additional chapter following Chapter 15
+> ("Advanced Synchronization: Memory Ordering"), perhaps entitled "Advanced
+> Synchronization: Hardware Memory Optimizations" or some such.
 > 
-> > > > -	in any DMA buffer after DMA to that buffer completes.
-> > > > +	in any DMA buffer before DMA to that buffer completes.
-> > > >  	And even then, you need to be \emph{very} careful to avoid
-> > > >  	pointer bugs, as even a misplaced read to an input buffer
-> > > >  	can result in corrupting the data input!
-> > > 
-> > > And this last clause could just wordsmithed a bit.
-> > 
-> > Maybe it's not quite rigorous?
-> > 
-> > If I understand correctly, a misplaced read will load the data from
-> > input buffer area to cache line. If the cpu doesn't write to this cache
-> > line, I think this case can only result in that the cpu reads stale data
-> > in subsequent reads but won't corrupt the input buffer given that this
-> > cache line is clean and won't writeback to memory.
+> > > > > Would this help, or is there a better way?
+
+I find Appendix C pretty helpful, and this is the second time I have
+read it. From my point of view, Appendix C is the prerequisite to
+understand Chapter 15. It's hard to have a deep understanding of Chapter
+15 without the knowledge in Appendix C. Moving Chapter 15 as an
+additional chapter before Chapter 15 could make readers pay more
+attention to it.
+
+> > > >
+> > > > This sounds like a reasonable plan.
+> > > >
+> > > > >
+> > > > >>>> Unfortunately, although I have some knowledge about Linux kernel, I'm not
+> > > > >>>> familiar with the concepts such as store_release, smp_wmb, etc. I don't
+> > > > >>>> know if I should keep reading this book until all these concepts are
+> > > > >>>> explained or stop reading the book and learn some prior knowledge.>
+> > > > >>> Good point.  On the one hand, this book is rather advanced, but on the
+> > > > >>> other hand, it needs to be as accessible as is reasonably possible.
+> > > > >>
+> > > > >> Expanding general Index and API Index might be helpful here.
+> > > > >> At the moment, they are "work in progress".  Somehow, there is no entry
+> > > > >> related to memory barriers in the general Index, and very limited memory
+> > > > >> barrier primitives in API Index.  This may be due to the lack of
+> > > > >> "memory barrier" and related terms in Glossary.
+> > > > >
+> > > > > I need to add at least the following to the glossary:
+> > > > >
+> > > > > o   Acquire load.
+> > > > > o   Release store.
+> > > > > o   Memory barrier.
+> > > > > o   Read memory barrier.
+> > > > > o   Write memory barrier.
+> > > > >
+> > > > > Any others?
+> > > >
+> > > > This list looks reasonable to me.
+> > >
+> > > Sounds good, and will do!
 > 
-> If the user code that accesses the buffer runs on this same CPU, it will
-> look to that CPU as if the DMA buffer was corrupted, correct?
+> This part at least is done.  ;-)
 
-Ah, this indeed makes sense!
+Thank you for your hard work!
 
-> After
-> all, that user code will see the value loaded by the CPU, not the value
-> actually DMAed into memory.
-> 
-> Hmmm...  It might be necessary to spell out these DMA-corruption
-> scenarios.  Thoughts?
-
-Yes. I think spelling out these scenarios should make this passage easier to
-understand.
 
 Thanks,
 Hao Lee
