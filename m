@@ -1,172 +1,209 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50042 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1444437AbiEFVb6 (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Fri, 6 May 2022 17:31:58 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8F9D6F48A
-        for <perfbook@vger.kernel.org>; Fri,  6 May 2022 14:28:13 -0700 (PDT)
+        with ESMTP id S1444440AbiEFVb7 (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Fri, 6 May 2022 17:31:59 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF6D6EC71
+        for <perfbook@vger.kernel.org>; Fri,  6 May 2022 14:28:14 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 852A5B839A2
+        by sin.source.kernel.org (Postfix) with ESMTPS id ED22ACE3691
         for <perfbook@vger.kernel.org>; Fri,  6 May 2022 21:28:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1651872491;
-        bh=GnzAIrpKU8JyWr7iYcnRxhhR/OBFrNpBTBVUiw76c80=;
+        bh=U2QkxQOQ38uEwInsvFYJUEiyGwlJYdXwxX0oGrCBQjg=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=dR8cRjUtfDZkiE7z/xrIaEjqIeMeDIf++/BWQEP2YDFcRhZfG1vUnouCy3SXi7ui3
-         DVp9MLBLuMTswjdiXjahucLi9fqA6N74G5Ydt1EN5imirN9mzemkYarvTiN7SQdfm0
-         6ZM9hqf6wLK5ryPHMcxb/YtlmeN8Uy/GmBx69X5okM99u28E6hAHGSZ9yH3bSbBsgK
-         DywTXyabnzWY51DNbQwTrEMl8mEJeEL2e0HdTlOw+N9mJf1DyvjUWJapaCLnnT8K1g
-         jxqvgTZS2/qzz2hC7Btvb2FbPd462wa1HJgLOpp3RurmyPQlh8MzrEc3xrUyMgRzBE
-         EDkyugYJd+VyA==
-Date: Fri, 6 May 2022 12:15:59 -0700
+        b=W4FWgKUhBt7twBSNQHU3UhcA0vnNpBYdu94z/7TMKRLQBJMaRRdL2m7YX8NKvjNY2
+         gr/MNGknpQyHM2gts+4D5Y9MZTQsgM7uhfuNho20hDqf5/z6J8PtxhF2mIi1ukNoft
+         TbBlu4wDA0vIKqYuXUAy9ddzo00wUTnwl1/IQ6iSX4VZak68k6IP55NrmvWIr1n/Az
+         ZPC3hBYegvVzfs+9m/t0QwfD32gwiYm0NYwabY+Wgww26tL3XS8Jnz/2dmPHYMUDl8
+         HWW+lL24YSiN9j9bgBCAERjuLoUZK5oeYyk9H9uCvlht0xS2Am7zcWUbrRCScQKO+j
+         eExs9ncbCTnzg==
+Date: Fri, 6 May 2022 12:51:22 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] whymb: convert event sequence without store forwarding
- to table
-Message-ID: <20220506191559.GH1790663@paulmck-ThinkPad-P17-Gen-1>
+Subject: Re: [PATCH] whymb: fix description in DMA coherence
+Message-ID: <20220506195122.GI1790663@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <20220505043732.GA24693@haolee.io>
+References: <20220417110947.GA27447@haolee.io>
+ <20220417165239.GP4285@paulmck-ThinkPad-P17-Gen-1>
+ <20220418062359.GA12176@haolee.io>
+ <20220419173616.GQ4285@paulmck-ThinkPad-P17-Gen-1>
+ <20220420113857.GB25933@haolee.io>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220505043732.GA24693@haolee.io>
+In-Reply-To: <20220420113857.GB25933@haolee.io>
 List-ID: <perfbook.vger.kernel.org>
 To: Hao Lee <haolee.swjtu@gmail.com>
 Cc: perfbook@vger.kernel.org
 
-On Thu, May 05, 2022 at 04:37:32AM +0000, Hao Lee wrote:
-> To make the process more clear, introduce a "CPU operations" column
-> which represents micro-operations.
+On Wed, Apr 20, 2022 at 11:38:57AM +0000, Hao Lee wrote:
+> On Tue, Apr 19, 2022 at 10:36:16AM -0700, Paul E. McKenney wrote:
+> > On Mon, Apr 18, 2022 at 06:23:59AM +0000, Hao Lee wrote:
+> > > On Sun, Apr 17, 2022 at 09:52:39AM -0700, Paul E. McKenney wrote:
+> > > > On Sun, Apr 17, 2022 at 11:09:47AM +0000, Hao Lee wrote:
+> > > > > CPU caches need to be flushed before DMA operations to avoid data
+> > > > > overwriting.
+> > > > > 
+> > > > > Signed-off-by: Hao Lee <haolee.swjtu@gmail.com>
+> > > > > ---
+> > > > >  appendix/whymb/whymemorybarriers.tex | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
+> > > > > index b49d5fe8..4ec27962 100644
+> > > > > --- a/appendix/whymb/whymemorybarriers.tex
+> > > > > +++ b/appendix/whymb/whymemorybarriers.tex
+> > > > > @@ -1640,7 +1640,7 @@ future such problems:
+> > > > >  	in any DMA buffer before presenting that buffer to the
+> > > > >  	I/O device.
+> > > > 
+> > > > The paragraph above is before the I/O starts.  Any changes to the buffer
+> > > > need to be flushed to memory so that the I/O device's DMA actually
+> > > > sees them.
+> > > > 
+> > > > The next paragraph is the other end of I/O request, after it completes.
+> > > > So we cannot have "before".  But maybe we need "invalidate" instead of
+> > > > "flush".
+> > > 
+> > > Got it!
+> > > 
+> > > > With a note that itcan be more efficient to both flush and
+> > > > invalidate prior to presenting the DMA buffer to the device.
+> > > > 
+> > > > The point is that any pre-DMA data in the CPU caches must be gotten
+> > > > rid of in order for the CPUs to see the data that was actually DMA'ed
+> > > > into memory.
+> > > 
+> > > Great explanation! Now I know we need something like WBINVD instruction
+> > > for the former case and INVD instruction for the latter.
+> > 
+> > Glad that it helped!
+> > 
+> > > > >  	Similarly, you need to flush the CPU caches of any location
+> > > 
+> > > Should we change the word "flush" to "invalidate" to differentiate these
+> > > two opposite DMA operations?
+
+I did use "invalidate" after an input DMA, but added a footnote about
+the incorrect store operation.
+
+> > If after the DMA, we need to care about the difference, hasn't the CPU
+> > incorrectly written to part of the DMA buffer during the DMA operation?
 > 
-> Signed-off-by: Hao Lee <haolee.swjtu@gmail.com>
+> Sorry, I can't understand this passage...  Maybe I didn't make myself
+> clear.  I find a great example in arch/powerpc/include/asm/cacheflush.h
+> 
+> Before DMA provides output buffer to devices, we should call
+> flush_dcache_range or clean_dcache_range to let the devices see the
+> latest data generated by the CPU. After DMA writes data into the input
+> buffer, we should use invalidate_dcache_range to invalidate the CPU
+> cache so the CPU can read the latest data written by devices.
+> 
+> Should we change the word "flush" in the following sentence to "invalidate"?
+> 
+> 	Similarly, you need to flush the CPU caches of any location in
+> 	any DMA buffer after DMA to that buffer completes.
 
-The table does look much better, thank you!
+The trick is that "invalidate" and "flush" normally do the same thing
+for cachelines in the MESI exclusive and shared states.  In both cases,
+memory is considered to be up to date, so the data can simply be dropped
+from the cache.  There is a difference in the MESI modified state, but
+the flush prior to the DMA will have ensured that none of the cache
+lines corresponding to the DMA buffer are in exclusive state.
 
-However, there are a couple of adjustments required:
+So the only way that a post-DMA flush can be different than a post-DMA
+invalidation is if the CPU (incorrectly!) stored to the DMA buffer while
+the DMA was happening.
 
-1.	
-	Combine the "Instruction" and "CPU operation" columns in the same
-	way as Table 15.1 and with the same column header.  One reason
-	is compatibility in order to avoid confusing readers and another
-	reason is to accomodate three-CPU examples.
+And you should never store to a DMA buffer while the DMA is happening,
+at least not if you value the data baing DMA'ed.  ;-)
 
-2.	Add a "Store Buffer" column to CPU 1.  Yes, it is not used in
-	this example, but it helps those readers who might have missed
-	the fact that every CPU has a store buffer.
+> > If you are thinking of some other scenario, could you please list the
+> > events leading up to that scenrio?
+> > 
+> > > > > -	in any DMA buffer after DMA to that buffer completes.
+> > > > > +	in any DMA buffer before DMA to that buffer completes.
+> > > > >  	And even then, you need to be \emph{very} careful to avoid
+> > > > >  	pointer bugs, as even a misplaced read to an input buffer
+> > > > >  	can result in corrupting the data input!
+> > > > 
+> > > > And this last clause could just wordsmithed a bit.
+> > > 
+> > > Maybe it's not quite rigorous?
+> > > 
+> > > If I understand correctly, a misplaced read will load the data from
+> > > input buffer area to cache line. If the cpu doesn't write to this cache
+> > > line, I think this case can only result in that the cpu reads stale data
+> > > in subsequent reads but won't corrupt the input buffer given that this
+> > > cache line is clean and won't writeback to memory.
+> > 
+> > If the user code that accesses the buffer runs on this same CPU, it will
+> > look to that CPU as if the DMA buffer was corrupted, correct?
+> 
+> Ah, this indeed makes sense!
+> 
+> > After
+> > all, that user code will see the value loaded by the CPU, not the value
+> > actually DMAed into memory.
+> > 
+> > Hmmm...  It might be necessary to spell out these DMA-corruption
+> > scenarios.  Thoughts?
+> 
+> Yes. I think spelling out these scenarios should make this passage easier to
+> understand.
 
-3.	Please leave the list in place.  Feel free to modify it
-	to indicate which row goes with which step in the sequence.
-	Either way, I will wordsmith it to be similar to the discussion
-	of the tables in Chapter 15.
-
-	Yes, at this point -you- might be able to work out what is
-	going on from the table itself and the summary you produced,
-	but that won't be the common case.
-
-And yes, Table C.1 is an odd special case at this point.  Maybe we
-should leave it as it is, or maybe it should be converted to the common
-form.  Thoughts?
+How does the diff shown below look?
 
 							Thanx, Paul
 
-> ---
->  appendix/whymb/whymemorybarriers.tex | 74 ++++++++++++++++++----------
->  1 file changed, 47 insertions(+), 27 deletions(-)
-> 
-> diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
-> index 2140eb8a..e9c4665b 100644
-> --- a/appendix/whymb/whymemorybarriers.tex
-> +++ b/appendix/whymb/whymemorybarriers.tex
-> @@ -752,29 +752,50 @@ However, if one were foolish enough to use the very simple architecture
->  shown in
->  \cref{fig:app:whymb:Caches With Store Buffers},
->  one would be surprised.
-> -Such a system could potentially see the following sequence of events:
-> -\begin{sequence}
-> -\item	CPU~0 starts executing the \co{a = 1}.
-> -\item	CPU~0 looks ``a'' up in the cache, and finds that it is missing.
-> -\item	CPU~0 therefore sends a ``read invalidate'' message in order to
-> -	get exclusive ownership of the cache line containing ``a''.
-> -\item	CPU~0 records the store to ``a'' in its store buffer.
-> -\item	CPU~1 receives the ``read invalidate'' message, and responds
-> -	by transmitting the cache line and removing that cacheline from
-> -	its cache.
-> -\item	CPU~0 starts executing the \co{b = a + 1}.
-> -\item	CPU~0 receives the cache line from CPU~1, which still has
-> -	a value of zero for ``a''.
-> -\item	CPU~0 loads ``a'' from its cache, finding the value zero.
-> -	\label{item:app:whymb:Need Store Buffer}
-> -\item	CPU~0 applies the entry from its store buffer to the newly
-> -	arrived cache line, setting the value of ``a'' in its cache
-> -	to one.
-> -\item	CPU~0 adds one to the value zero loaded for ``a'' above,
-> -	and stores it into the cache line containing ``b''
-> -	(which we will assume is already owned by CPU~0).
-> -\item	CPU~0 executes \co{assert(b == 2)}, which fails.
-> -\end{sequence}
-> +Such a system could potentially see the sequence of events in
-> +\Cref{tab:app:whymb:Load without store forwarding}.
-> +
-> +Row~1 shows the initial state, where CPU~0 has \co{b} in its cache and CPU~1
-> +has \co{a} in its cache, both variables having a value of zero.
-> +Row~2-5 store 1 to variable \co{a} and Row~6-9 calculate \co{b}. Row~10
-> +does an assertion which is failed.
-> +
-> +\begin{table*}
-> +\rowcolors{6}{}{lightgray}
-> +\renewcommand*{\arraystretch}{1.1}
-> +\small
-> +\centering\OneColumnHSpace{-0.1in}
-> +\ebresizewidth{
-> +\begin{tabular}{llllllll}
-> +	\toprule
-> +	& \multicolumn{4}{c}{CPU 0} &  & \multicolumn{2}{c}{CPU 1} \\
-> +	\cmidrule(l){2-5} \cmidrule(l){7-8}
-> +	& Instruction & CPU operations & Store Buffer & Cache &  &
-> +		CPU operations & Cache \\
-> +	\cmidrule{1-1} \cmidrule(l){2-5} \cmidrule(l){7-8}
-> +	1 & (Initial state) &  &  & \tco{b==0} &  & (Initial state)
-> +		& \tco{a==0} \\
-> +	2 & \tco{a = 1;} & read and invalidate \tco{a} &  & \tco{b==0}
-> +		&  &  & \tco{a==0} \\
-> +	3 &  & record \tco{a} to StoreBuffer & \tco{a==1} & \tco{b==0}
-> +		&  &  & \tco{a==0} \\
-> +	4 &  & wait & \tco{a==1} & \tco{b==0} &  &
-> +		remove \tco{a} and response &  \\
-> +	5 &  & install response to cacheline & \tco{a==1} & \tco{a==0;b==0}
-> +		&  &  &  \\
-> +	6 & \tco{b = a + 1;} & load \tco{a==0} from cacheline & \tco{a==1}
-> +		& \tco{a==0;b==0}
-> +		&  &  &  \\
-> +	7 &  & apply StoreBuffer &  & \tco{a==1;b==0} &  &  &  \\
-> +	8 &  & calculate \tco{a+1} &  & \tco{a==1;b==0} &  &  &  \\
-> +	9 &  & store \tco{b} &  & \tco{a==1;b==1} &  &  &  \\
-> +	10 & \tco{assert(b == 2);} & (failed) &  &  &  &  & \\
-> +	\bottomrule
-> +\end{tabular}
-> +}
-> +\caption{Load without store forwarding}
-> +\label{tab:app:whymb:Load without store forwarding}
-> +\end{table*}
->  
->  The problem is that we have two copies of ``a'', one in the cache and
->  the other in the store buffer.
-> @@ -797,10 +818,9 @@ subsequent loads, without having to pass through the cache.
->  \label{fig:app:whymb:Caches With Store Forwarding}
->  \end{figure}
->  
-> -With store forwarding in place, item~\ref{item:app:whymb:Need Store Buffer}
-> -in the above sequence would have found the correct value of 1 for ``a'' in
-> -the store buffer, so that the final value of ``b'' would have been 2,
-> -as one would hope.
-> +With store forwarding in place, Row~7 in the above sequence would have found
-> +the correct value of 1 for ``a'' in the store buffer, so that the final value
-> +of ``b'' would have been 2, as one would hope.
->  
->  \subsection{Store Buffers and Memory Barriers}
->  \label{sec:app:whymb:Store Buffers and Memory Barriers}
-> -- 
-> 2.21.0
-> 
+------------------------------------------------------------------------
+
+commit 5b1df1e1d99d59ee73286fded86276495d4cb138
+Author: Paul E. McKenney <paulmck@kernel.org>
+Date:   Fri May 6 12:49:36 2022 -0700
+
+    appendix/whymb: Clarify DMA data-corruption scenarios
+    
+    Reported-by: Hao Lee <haolee.swjtu@gmail.com>
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+
+diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
+index 2140eb8a..f2cca5d6 100644
+--- a/appendix/whymb/whymemorybarriers.tex
++++ b/appendix/whymb/whymemorybarriers.tex
+@@ -1739,11 +1739,30 @@ future such problems:
+ 	you must carefully flush the CPU caches of any location
+ 	in any DMA buffer before presenting that buffer to the
+ 	I/O device.
+-	Similarly, you need to flush the CPU caches of any location
+-	in any DMA buffer after DMA to that buffer completes.
++	Otherwise, a store from one of the CPUs might not be
++	accounted for in the data DMAed out through the device.
++	This is a form of data corruption, which is an extremely
++	serious bug.
++
++	Similarly, you need to invalidate\footnote{
++		Why not flush?
++		If there is a difference, then a CPU must have incorrectly
++		stored to the DMA buffer in the midst of the DMA operation.}
++	the CPU caches corresponding to any location in any DMA buffer
++	after DMA to that buffer completes.
++	Otherwise, a given CPU might see the old data still residing in
++	its cache instead of the newly DMAed data that it was supposed
++	to see.
++	This is another form of data corruption.
++
+ 	And even then, you need to be \emph{very} careful to avoid
+ 	pointer bugs, as even a misplaced read to an input buffer
+ 	can result in corrupting the data input!
++	One way to avoid this is to invalidate all of the caches of
++	all of the CPUs once the DMA completes, but it is much easier
++	and more efficient if the device DMA participates in the
++	cache-coherence protocol, making all of this flushing and
++	invalidating unnecessory.
+ 
+ \item	External busses that fail to transmit cache-coherence data.
+ 
