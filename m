@@ -1,209 +1,49 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50062 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1444440AbiEFVb7 (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Fri, 6 May 2022 17:31:59 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF6D6EC71
-        for <perfbook@vger.kernel.org>; Fri,  6 May 2022 14:28:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id ED22ACE3691
-        for <perfbook@vger.kernel.org>; Fri,  6 May 2022 21:28:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651872491;
-        bh=U2QkxQOQ38uEwInsvFYJUEiyGwlJYdXwxX0oGrCBQjg=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=W4FWgKUhBt7twBSNQHU3UhcA0vnNpBYdu94z/7TMKRLQBJMaRRdL2m7YX8NKvjNY2
-         gr/MNGknpQyHM2gts+4D5Y9MZTQsgM7uhfuNho20hDqf5/z6J8PtxhF2mIi1ukNoft
-         TbBlu4wDA0vIKqYuXUAy9ddzo00wUTnwl1/IQ6iSX4VZak68k6IP55NrmvWIr1n/Az
-         ZPC3hBYegvVzfs+9m/t0QwfD32gwiYm0NYwabY+Wgww26tL3XS8Jnz/2dmPHYMUDl8
-         HWW+lL24YSiN9j9bgBCAERjuLoUZK5oeYyk9H9uCvlht0xS2Am7zcWUbrRCScQKO+j
-         eExs9ncbCTnzg==
-Date: Fri, 6 May 2022 12:51:22 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] whymb: fix description in DMA coherence
-Message-ID: <20220506195122.GI1790663@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20220417110947.GA27447@haolee.io>
- <20220417165239.GP4285@paulmck-ThinkPad-P17-Gen-1>
- <20220418062359.GA12176@haolee.io>
- <20220419173616.GQ4285@paulmck-ThinkPad-P17-Gen-1>
- <20220420113857.GB25933@haolee.io>
+Return-Path: <SRS0=VK2w=V7=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=aZKEjt4FwC8/dJekequ5UdtVs9Y8T3tcvinGnujNvfo=;
+        b=MnPg9oRgdU1CNUSMA5GrDLhK0pBOfRWn+p6n52xowY6cA+Bp1t24aKDeUaki0YNfkj
+         3AKTUT+ayUodkV//lMyMXNuHLm77JN7WLZnAOs8K3/WG9+DLf1TjHNAfT3ltexCTdXPa
+         DGSLX8xI3liiPPJm22oyrFvqdD54SQkzZ/6Xg7plsxAahYj2jqKA5H50F3v5qRr/pvuG
+         BhiJxC0gbaeXHnO/uCv2dPtkEBodYiXMsFyjZVb9rByuvc8PrKxZu+SQ5S6LRc76yMOf
+         QE2ieZvloxfOSGvl957J95n7YyLmV8WNxomBKxsO3dm4Of5czxAIfdT55rRk8Zo+oTBK
+         X5Og==
+Message-ID: <1865d37a-ee66-97ef-87c9-8224d7dc0394@gmail.com>
+Date: Mon, 23 May 2022 10:18:46 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220420113857.GB25933@haolee.io>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 1/2] glossary: Capitalize 'Release store'
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Hao Lee <haolee.swjtu@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Apr 20, 2022 at 11:38:57AM +0000, Hao Lee wrote:
-> On Tue, Apr 19, 2022 at 10:36:16AM -0700, Paul E. McKenney wrote:
-> > On Mon, Apr 18, 2022 at 06:23:59AM +0000, Hao Lee wrote:
-> > > On Sun, Apr 17, 2022 at 09:52:39AM -0700, Paul E. McKenney wrote:
-> > > > On Sun, Apr 17, 2022 at 11:09:47AM +0000, Hao Lee wrote:
-> > > > > CPU caches need to be flushed before DMA operations to avoid data
-> > > > > overwriting.
-> > > > > 
-> > > > > Signed-off-by: Hao Lee <haolee.swjtu@gmail.com>
-> > > > > ---
-> > > > >  appendix/whymb/whymemorybarriers.tex | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
-> > > > > index b49d5fe8..4ec27962 100644
-> > > > > --- a/appendix/whymb/whymemorybarriers.tex
-> > > > > +++ b/appendix/whymb/whymemorybarriers.tex
-> > > > > @@ -1640,7 +1640,7 @@ future such problems:
-> > > > >  	in any DMA buffer before presenting that buffer to the
-> > > > >  	I/O device.
-> > > > 
-> > > > The paragraph above is before the I/O starts.  Any changes to the buffer
-> > > > need to be flushed to memory so that the I/O device's DMA actually
-> > > > sees them.
-> > > > 
-> > > > The next paragraph is the other end of I/O request, after it completes.
-> > > > So we cannot have "before".  But maybe we need "invalidate" instead of
-> > > > "flush".
-> > > 
-> > > Got it!
-> > > 
-> > > > With a note that itcan be more efficient to both flush and
-> > > > invalidate prior to presenting the DMA buffer to the device.
-> > > > 
-> > > > The point is that any pre-DMA data in the CPU caches must be gotten
-> > > > rid of in order for the CPUs to see the data that was actually DMA'ed
-> > > > into memory.
-> > > 
-> > > Great explanation! Now I know we need something like WBINVD instruction
-> > > for the former case and INVD instruction for the latter.
-> > 
-> > Glad that it helped!
-> > 
-> > > > >  	Similarly, you need to flush the CPU caches of any location
-> > > 
-> > > Should we change the word "flush" to "invalidate" to differentiate these
-> > > two opposite DMA operations?
+Make it consistent with other terms.
 
-I did use "invalidate" after an input DMA, but added a footnote about
-the incorrect store operation.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ glossary.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > If after the DMA, we need to care about the difference, hasn't the CPU
-> > incorrectly written to part of the DMA buffer during the DMA operation?
-> 
-> Sorry, I can't understand this passage...  Maybe I didn't make myself
-> clear.  I find a great example in arch/powerpc/include/asm/cacheflush.h
-> 
-> Before DMA provides output buffer to devices, we should call
-> flush_dcache_range or clean_dcache_range to let the devices see the
-> latest data generated by the CPU. After DMA writes data into the input
-> buffer, we should use invalidate_dcache_range to invalidate the CPU
-> cache so the CPU can read the latest data written by devices.
-> 
-> Should we change the word "flush" in the following sentence to "invalidate"?
-> 
-> 	Similarly, you need to flush the CPU caches of any location in
-> 	any DMA buffer after DMA to that buffer completes.
+diff --git a/glossary.tex b/glossary.tex
+index d488670d8b25..87db763b7be4 100644
+--- a/glossary.tex
++++ b/glossary.tex
+@@ -620,7 +620,7 @@
+ 	entity.
+ 	Reference counters provide existence guarantees and are sometimes
+ 	used to implement garbage collectors.
+-\item[\IXG{Release store}:]
++\item[\IXG{Release Store}:]
+ 	A write to memory that has release semantics.
+ 	Normal use cases pair an acquire load with a release store,
+ 	in which case if the load returns the value stored, then all
 
-The trick is that "invalidate" and "flush" normally do the same thing
-for cachelines in the MESI exclusive and shared states.  In both cases,
-memory is considered to be up to date, so the data can simply be dropped
-from the cache.  There is a difference in the MESI modified state, but
-the flush prior to the DMA will have ensured that none of the cache
-lines corresponding to the DMA buffer are in exclusive state.
+base-commit: 3783abdc439f1652ec710ca2dabd99fc0fd65fca
+-- 
+2.25.1
 
-So the only way that a post-DMA flush can be different than a post-DMA
-invalidation is if the CPU (incorrectly!) stored to the DMA buffer while
-the DMA was happening.
-
-And you should never store to a DMA buffer while the DMA is happening,
-at least not if you value the data baing DMA'ed.  ;-)
-
-> > If you are thinking of some other scenario, could you please list the
-> > events leading up to that scenrio?
-> > 
-> > > > > -	in any DMA buffer after DMA to that buffer completes.
-> > > > > +	in any DMA buffer before DMA to that buffer completes.
-> > > > >  	And even then, you need to be \emph{very} careful to avoid
-> > > > >  	pointer bugs, as even a misplaced read to an input buffer
-> > > > >  	can result in corrupting the data input!
-> > > > 
-> > > > And this last clause could just wordsmithed a bit.
-> > > 
-> > > Maybe it's not quite rigorous?
-> > > 
-> > > If I understand correctly, a misplaced read will load the data from
-> > > input buffer area to cache line. If the cpu doesn't write to this cache
-> > > line, I think this case can only result in that the cpu reads stale data
-> > > in subsequent reads but won't corrupt the input buffer given that this
-> > > cache line is clean and won't writeback to memory.
-> > 
-> > If the user code that accesses the buffer runs on this same CPU, it will
-> > look to that CPU as if the DMA buffer was corrupted, correct?
-> 
-> Ah, this indeed makes sense!
-> 
-> > After
-> > all, that user code will see the value loaded by the CPU, not the value
-> > actually DMAed into memory.
-> > 
-> > Hmmm...  It might be necessary to spell out these DMA-corruption
-> > scenarios.  Thoughts?
-> 
-> Yes. I think spelling out these scenarios should make this passage easier to
-> understand.
-
-How does the diff shown below look?
-
-							Thanx, Paul
-
-------------------------------------------------------------------------
-
-commit 5b1df1e1d99d59ee73286fded86276495d4cb138
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Fri May 6 12:49:36 2022 -0700
-
-    appendix/whymb: Clarify DMA data-corruption scenarios
-    
-    Reported-by: Hao Lee <haolee.swjtu@gmail.com>
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-
-diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
-index 2140eb8a..f2cca5d6 100644
---- a/appendix/whymb/whymemorybarriers.tex
-+++ b/appendix/whymb/whymemorybarriers.tex
-@@ -1739,11 +1739,30 @@ future such problems:
- 	you must carefully flush the CPU caches of any location
- 	in any DMA buffer before presenting that buffer to the
- 	I/O device.
--	Similarly, you need to flush the CPU caches of any location
--	in any DMA buffer after DMA to that buffer completes.
-+	Otherwise, a store from one of the CPUs might not be
-+	accounted for in the data DMAed out through the device.
-+	This is a form of data corruption, which is an extremely
-+	serious bug.
-+
-+	Similarly, you need to invalidate\footnote{
-+		Why not flush?
-+		If there is a difference, then a CPU must have incorrectly
-+		stored to the DMA buffer in the midst of the DMA operation.}
-+	the CPU caches corresponding to any location in any DMA buffer
-+	after DMA to that buffer completes.
-+	Otherwise, a given CPU might see the old data still residing in
-+	its cache instead of the newly DMAed data that it was supposed
-+	to see.
-+	This is another form of data corruption.
-+
- 	And even then, you need to be \emph{very} careful to avoid
- 	pointer bugs, as even a misplaced read to an input buffer
- 	can result in corrupting the data input!
-+	One way to avoid this is to invalidate all of the caches of
-+	all of the CPUs once the DMA completes, but it is much easier
-+	and more efficient if the device DMA participates in the
-+	cache-coherence protocol, making all of this flushing and
-+	invalidating unnecessory.
- 
- \item	External busses that fail to transmit cache-coherence data.
- 
