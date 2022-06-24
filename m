@@ -1,74 +1,110 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49406 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234905AbiFAEsC (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Wed, 1 Jun 2022 00:48:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0A2F3969C
-        for <perfbook@vger.kernel.org>; Tue, 31 May 2022 21:48:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6BE05611CE
-        for <perfbook@vger.kernel.org>; Wed,  1 Jun 2022 04:48:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654058880;
-        bh=jh9dje0BAbQ2zgIokVHHpGUDGUkjLLUoiQCHj1AW3Qg=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=LURZoohe/FXTg0gdjMeK5RSjCb3ikykuzWai+UG/Oq+1N4LzECtd2RXcLM6n7zb8F
-         bY6dwR1GQh96hARa3xT1RJVsicbLFVRN+LVHUMpciRbSl9AopVuAUsa0v6uL3sEsFh
-         ZY50ct/a7abvSCsfK3VttEi52Wya1y/vSeRh36sXcz/gXGDnT+U4l7erb3/MUS1YsC
-         rbiiDMwibFYw0vzp+/rjch1VZ1O1d2nz5yvvvEosPVZHUZd0VFlzBA7MzmDDm/geLU
-         piArAkZXFh8Xx6wf2ksc5J92iWXi4958sdcX0ILQsR/asGULVUa3jsg2sVsyDzWu9K
-         0xuMQgjv5GNwg==
-Date: Tue, 31 May 2022 21:48:00 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] epstopdf-rule.mk: Add -dNOSAFER to eps2eps for
- .eps -> .pdf (from .tex)
-Message-ID: <20220601044800.GM1790663@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <6b69a285-0996-db50-d053-a402713e879c@gmail.com>
+Return-Path: <SRS0=78J4=W7=qa2.so-net.ne.jp=akys@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qa2.so-net.ne.jp;
+	s=sn2021; t=1656080815;
+	bh=kzYR9uwQmkwiMi8cfSg3Jt3RFSHufJ3bpjL2rOPaaG4=;
+	h=Date:To:Cc:From:Subject;
+	b=iwk7XtF75RMkfmOpiJdo7chv4Afw+uyrch8RfXbeadRBGXaLqKNr3iY9xvBcWq19V
+	 D6pbilxjPxswKQy+dxrnczOkZ6WDw/+V3lx46pHREDRhqhwrxMxzPQxb2nBSObXhAA
+	 lnTGxlwosI/LNRldE7W4qh9o7suOikP+JK7R7ZEzLIvczaBmHxX2Ccz5mQK0OABL07
+	 Kw6Enf5ZsnrjQxNPx34uR1nq72WjlKuYVCNrXdB3Mj0e9ZBMSwxlQnGt9bUphhSkF1
+	 2uXHzwVBbYM9dSFn6WAxGV2D5jyK/clNKy3lqXcqTNE2/qkb6SsCXnPLjFOkp0lwnr
+	 GAkz/9Of8bhCw==
+Message-ID: <6957b314-8f59-9671-4adb-37206fc3c693@qa2.so-net.ne.jp>
+Date: Fri, 24 Jun 2022 23:26:54 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6b69a285-0996-db50-d053-a402713e879c@gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akys@qa2.so-net.ne.jp>
+Subject: [PATCH -perfbook 1/2] defer/whichtochoose: Use parnotes for footnote
+ in tabularx
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Wed, Jun 01, 2022 at 08:25:31AM +0900, Akira Yokosawa wrote:
-> Somehow, eps2eps doesn't have -dNOSAFER while epstopdf has
-> --nosafer in the same recipe.
-> On CentOS stream 8, ghostscript 9.27 complains about the lack of
-> -dNOSAFER.
-> 
-> Add the missing option.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Due to conflict between LaTeX Packages hyperref and tabularx,
+both of them attempt to tweak the internal code of \footnote{}
+command, normal footnotes don't work in tabularx.
 
-Queued and pushed, thank you!
+This made Paul use a primitive approach for the footnote added in
+commit 1760abb74224 ("defer/whichtochoose: Note possibility of
+membarrier() for hazptr").
 
-							Thanx, Paul
+Alternative way for footnotes inside tabularx is to use the
+"parnotes" package, whose implementation is orthogonal to hyperref
+and tabularx.
 
-> ---
->  epstopdf-rule.mk | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/epstopdf-rule.mk b/epstopdf-rule.mk
-> index 4efad17a78a6..d248ce750d68 100644
-> --- a/epstopdf-rule.mk
-> +++ b/epstopdf-rule.mk
-> @@ -28,7 +28,7 @@ ifeq ($(GS_953_OR_LATER),1)
->  	@eps2eps -dALLOWPSTRANSPARENCY $< $(basename $<)__.eps
->  	@epstopdf --gsopt=-dALLOWPSTRANSPARENCY $(GS_OPT) $(basename $<)__.eps $@
->  else
-> -	@eps2eps $< $(basename $<)__.eps
-> +	@eps2eps -dNOSAFER $< $(basename $<)__.eps
->  	@epstopdf --nosafer $(GS_OPT) $(basename $<)__.eps $@
->  endif
->  	@rm -f $(basename $<)__.eps
-> 
-> base-commit: f19269d216ef6ebcfb417e87d040bd8374754c33
-> -- 
-> 2.25.1
-> 
+This commit employs this approach and uses the command \parnote in
+tabularx, and encloses the footnote-printing \parnotes command in
+a minipage to prevent the footnote text from centered.
+
+As hyperref is not aware of parnotes, there is no crossref to the
+footnote text.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi Paul,
+
+I'm not sure if you are happy with the addition of yet another
+LaTeX package dependency, but I just wanted to show you this is
+possible.  There might be other places where "parnotes" fits.
+
+The trick of minipage for preventing centering should work in
+your primitive approach.
+
+It's up to you to take this one or not.
+
+        Thanks, Akira
+--
+ defer/whichtochoose.tex | 13 +++++++------
+ perfbook-lt.tex         |  1 +
+ 2 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/defer/whichtochoose.tex b/defer/whichtochoose.tex
+index 3c8cc2dccaef..95b355a1c471 100644
+--- a/defer/whichtochoose.tex
++++ b/defer/whichtochoose.tex
+@@ -217,7 +217,9 @@ But those wishing more detail should continue on to the next section.
+ 	Reader Per-Object Traversal Overhead
+ 		& Read-modify-write atomic operations, memory\-/barrier
+ 		  instructions, and cache misses
+-			& \tco{smp_mb()} *
++			& \tco{smp_mb()}\parnote[*]{This \co{smp_mb()} can be
++				downgraded to a compiler \co{barrier()} by using
++				the Linux-kernel \co{membarrier()} system call.}
+ 				& None, but unsafe
+ 					& None (volatile accesses) \\
+ 	Reader Forward Progress Guarantee
+@@ -253,11 +255,10 @@ But those wishing more detail should continue on to the next section.
+ 	\bottomrule
+ \end{tabularx}
+ }
+-
+-~
+-
+-* This \co{smp_mb()} can be downgraded to a compiler \co{barrier()} by
+-using the Linux-kernel \co{membarrier()} system call.
++\begin{minipage}{\onecolumntextwidth}
++	\vspace*{1ex}
++	\parnotes
++\end{minipage}
+ \caption{Which Deferred Technique to Choose?
+ 					     (Details)}
+ \label{tab:defer:Which Deferred Technique to Choose?  (Details)}
+diff --git a/perfbook-lt.tex b/perfbook-lt.tex
+index d70dde66f725..9cde2e4d42e5 100644
+--- a/perfbook-lt.tex
++++ b/perfbook-lt.tex
+@@ -75,6 +75,7 @@
+ \usepackage[split,makeindex]{splitidx}
+ \usepackage[nottoc]{tocbibind}
+ \usepackage[columns=3,totoc,indentunit=12pt,justific=raggedright,font=small,columnsep=.15in]{idxlayout}
++\usepackage{parnotes} % for footnotes in tabularx
+ \usepackage[bookmarks=true,bookmarksnumbered=true,pdfborder={0 0 0},linktoc=all]{hyperref}
+ \usepackage{footnotebackref} % to enable cross-ref of footnote
+ \usepackage[all]{hypcap} % for going to the top of figure and table
+
+base-commit: 1760abb742247869ac06cee18289f0a36d4d973b
+-- 
+2.25.1
+
