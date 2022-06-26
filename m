@@ -3,131 +3,89 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=fHOMsuyGZzWHO/xrGjOSbmOMBIhoUgvJSQ2/aQsCBds=;
-        b=R6mPHbD7wVoTY3EkXxKkqq3u2fhGUaV7aOI0BR7T7nO2qftZGF3ka5eM54JNK4ZZ9/
-         V4+D2uEuf3sWE0x3+eyjQSV+Ea+OTiLUBoYkHOQ2xDp6BaHpLg6HmAxFkNlCNP3j/cUw
-         /qhgxxsHWktPeUCi1bOBMiS63NJgA6hsuwBUJveF0I+ar8MfT6p1zs56Zccl3Y2jvr9j
-         avOzHVTqVB9YDtp/T+9AhnYN5rLb8TRz32xGFl4xAZSKTqqtS/OLb908ZySvYYoaaTks
-         DeZqwYZCxcppefGS16diYLldZxBbwZIStNOLZkGZNNLW1gNymzuf1E5GhmPX8iiI3AuU
-         1fLQ==
-Message-ID: <efc0a14f-2265-39b7-8d57-b2a6a35e0b46@gmail.com>
-Date: Sun, 26 Jun 2022 13:12:21 +0900
+        bh=/H0jYzKMHaO9LiyCUNPt1azwWQRu93mWL1863/knVj0=;
+        b=a0PU99rANJqEiWXx8jDFJ1i2qZBVc07kFr9xDTAaTOjnP1uB7i6zj8xNZj0GUJVNjm
+         Ebi8vDqa8dELM3FQG7Kxx108nop6oJpt9Xcg4lQxIwz2a5UCwbFXoOo4Dwz0aeIJdtqm
+         PaGG03IWLMHzPH5ntTOVhYUlgUrlsR/3FaW1gUlFPcS9Im8cQ9F3a9JCVnhYiSsAGdsa
+         bDpUcnwGlVUs+GIgs7WVoR19CjShpgd79EZzEBiwxCmeFHo/JxC6emhxA86hxWsF+MpH
+         JWOWu4JqTxMaBaZ5DzSxF4Xz6hBVyIjXAGczVkALAE4n67wfueOnzgsSbqfgBuEo6z+T
+         r1Tw==
+Message-ID: <69a6b7d8-2ef9-7fad-2d46-42eebe49f953@gmail.com>
+Date: Sun, 26 Jun 2022 13:34:53 +0900
 MIME-Version: 1.0
-Subject: Re: Is parallel programing hard...
+Subject: =?UTF-8?Q?Re=3a_=5bperfbook=5d_Analogy_of_Figure_7=2e11_Locking_?=
+ =?UTF-8?B?4oCcU2F3IEtlcmbigJ0=?=
 Content-Language: en-US
-References: <32CE6D0C-1D26-423E-8A7F-AAC47B085DFF@illinois.edu>
- <20220626030351.GI1790663@paulmck-ThinkPad-P17-Gen-1>
+References: <202dbad7-37db-4d6a-f4d4-6d99180028fc@gmail.com>
+ <20220624233316.GF1790663@paulmck-ThinkPad-P17-Gen-1>
+ <cb266856-a20e-231c-00fb-8e4435306d55@gmail.com>
+ <20220625003053.GG1790663@paulmck-ThinkPad-P17-Gen-1>
 From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220626030351.GI1790663@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <20220625003053.GG1790663@paulmck-ThinkPad-P17-Gen-1>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-To: "Snir, Marc" <snir@illinois.edu>
-Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Sat, 25 Jun 2022 20:03:51 -0700, Paul E. McKenney wrote:
-> [ Adding the perfbook email list on CC. ]
-> 
-
-> On Sun, Jun 26, 2022 at 02:00:40AM +0000, Snir, Marc wrote:
->> Hi:
->> I got a fatal latex error trying to create the pdf on my own. I append
->> below the last lines of the log and the full log. Latex seems to fail
->> soon after \maketitle
-> 
-> This is a new one on me!
-> 
-> One workaround is to us int Dockerfile template under the docker/
-> subdirectory.  This is described in question 13 in FAQ-BUILD.txt
-> in the top-level directory.
-> 
-> What environment are you running in?  There are quirks for a few
-> of them.
-> 
->> I send this FYI, in case it might help you; I loaded the pdf file,
->> and this works for me.
-> 
-> Glad the PDF file worked!
-> 
-> Which reminds me, it is past time for me to do another release.
-> 
->> Thanks for putting all this material on the web.
-> 
-> Glad you like it, and I hope that it proves helpful!
-> 
-> 							Thanx, Paul
-> 
->> Marc
-
-Hi Marc,
-
-I see in your log, you are using vanilla TeX Live 2022.
-
-I'm regularly building with vanilla TeX Live, and have not seen
-such an error.
-
+On Fri, 24 Jun 2022 17:30:53 -0700, Paul E. McKenney wrote:
+> On Sat, Jun 25, 2022 at 08:57:35AM +0900, Akira Yokosawa wrote:
+>> On Fri, 24 Jun 2022 16:33:16 -0700, Paul E. McKenney wrote:
+>>> On Sat, Jun 25, 2022 at 08:12:09AM +0900, Akira Yokosawa wrote:
+>>>> Hi Paul,
+>>>>
+>>>> I find the analogy of Figure 7.11 hard to grasp.
+>>>>
+>>>> Whether a lock is global or per-instance, the cost of locking
+>>>> (saw kerf) is observed only when a CPU/thread does the locking
+>>>> operation.
+>>>>
+>>>> In this figure, does each board represent data elements, not a
+>>>> CPU/thread?  If this is the case, what does the waste of "saw kerf"
+>>>> mean?
+>>>>
+>>>> What am I missing?
+>>>>
+>>>> (I hope I am clear enough on what I don't get...)
+>>>
+>>> It might well be that I am getting too excited about this one.  ;-)
+>>>
+>>> Maybe I need to drop it.  At the very least, I need to much more clearly
+>>> explain it.
+>>>
+>>> But...
+>>>
+>>> Each board represents one lock.  The "saw kerf" is the time lost when
+>>> releasing that lock and someone else immediately acquiring it.
+>>>
+>>> Does that help?
 >>
->>
->>
->>
->>
->> (/usr/local/texlive/2022/texmf-dist/tex/latex/newtx/ts1ntxtlf.fd
->> File: ts1ntxtlf.fd 2015/01/18 v1.0 fd file for TS1/ntxtlf
->> )
->> LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
->> (Font)              scaled to size 12.0pt on input line 605.
->> LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
->> (Font)              scaled to size 8.8pt on input line 605.
->> LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
->> (Font)              scaled to size 6.6pt on input line 605.
->>
->>
->> ! LaTeX Error: There's no line here to end.
+>> Well then, why does the left side figure have ten boards?
+> 
+> Ten locks.  For example, the single board might correspond to a hash
+> table guarded by a single global lock.  The ten boards might correspond
+> to a hash table with ten buckets, with per-bucket locking.
 
-In my build, messages in the log around here proceeds as follows:
+Ah, I think I understand what you mean.
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/newtx/ts1ntxtlf.fd
-File: ts1ntxtlf.fd 2015/01/18 v1.0 fd file for TS1/ntxtlf
-)
-LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
-(Font)              scaled to size 12.0pt on input line 607.
-LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
-(Font)              scaled to size 8.8pt on input line 607.
-LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
-(Font)              scaled to size 6.6pt on input line 607.
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 6
-07.
+On the "Global" side, there is a per-resource locking mechanism
+implemented under the protection of a global lock, whereas locks
+on the "Per-Instance" side are implemented independently with
+each other.
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
+Different boards can be acquired in parallel on both sides of the
+figure.
 
-I think "Latin Modern" font is one of essential font packages on TeX Live
-these days, but do you have the "lm" font package installed on your system?
+Am I on the same page with you now?
+
+> 
+> But it is sounding like this analogy might be more confusing than
+> enlightening.
+
+An analogy which needs a lot of explanation might not be a good
+analogy...
 
         Thanks, Akira
 
->>
->>
->> See the LaTeX manual or LaTeX Companion for explanation.
->> Type  H <return>  for immediate help.
->>  ...
->>
->> l.605 \IfTwoColumn
->>                   {
->> ?
->> ! Emergency stop.
->>  ...
->>
->> l.605 \IfTwoColumn
->>                   {
->> Your command was ignored.
->> Type  I <command> <return>  to replace it with another command,
->> or  <return>  to continue without it.
->>
->>
->>
->>
->>
 > 
-> 
+> 							Thanx, Paul
