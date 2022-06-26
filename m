@@ -1,91 +1,112 @@
-Return-Path: <SRS0=y3V1=XB=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/H0jYzKMHaO9LiyCUNPt1azwWQRu93mWL1863/knVj0=;
-        b=a0PU99rANJqEiWXx8jDFJ1i2qZBVc07kFr9xDTAaTOjnP1uB7i6zj8xNZj0GUJVNjm
-         Ebi8vDqa8dELM3FQG7Kxx108nop6oJpt9Xcg4lQxIwz2a5UCwbFXoOo4Dwz0aeIJdtqm
-         PaGG03IWLMHzPH5ntTOVhYUlgUrlsR/3FaW1gUlFPcS9Im8cQ9F3a9JCVnhYiSsAGdsa
-         bDpUcnwGlVUs+GIgs7WVoR19CjShpgd79EZzEBiwxCmeFHo/JxC6emhxA86hxWsF+MpH
-         JWOWu4JqTxMaBaZ5DzSxF4Xz6hBVyIjXAGczVkALAE4n67wfueOnzgsSbqfgBuEo6z+T
-         r1Tw==
-Message-ID: <69a6b7d8-2ef9-7fad-2d46-42eebe49f953@gmail.com>
-Date: Sun, 26 Jun 2022 13:34:53 +0900
-MIME-Version: 1.0
-Subject: =?UTF-8?Q?Re=3a_=5bperfbook=5d_Analogy_of_Figure_7=2e11_Locking_?=
- =?UTF-8?B?4oCcU2F3IEtlcmbigJ0=?=
-Content-Language: en-US
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234412AbiFZODS (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sun, 26 Jun 2022 10:03:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2CCD631D
+        for <perfbook@vger.kernel.org>; Sun, 26 Jun 2022 07:03:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 440EF6124E
+        for <perfbook@vger.kernel.org>; Sun, 26 Jun 2022 14:03:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656252192;
+        bh=hOpFMqsPQbnDieNBlor+qCnUGI2xbOo9MxBQJJBMLJ0=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=X6IiwPw/4WguOdPHA4n63nSiqEKNIHBcBpj9FnDvp6Da5TLLsspmTf9TgzYlUXRVV
+         /4WzdHc/OFE2bLcU7xLr97AntcmUL+CWcCCaq//ycdnrzTFUVzfsV7SwSR/iQGFrNS
+         l3TlbloWWZp4MYtBpA5dEmeEh3L75lJtaniPwSwDQ6JZ957JY4y0L/kjMMpGSJl4YV
+         xzgnfluv02Y8+7y7XX+3Sp9TgpJQNE0nhhGwv0Z7EobRWj+W+uLKur9jNRadJmCvhf
+         jpKoeIH3tBrMqB7YhLgSWk3E1S/sYeif6iu/LdZkm+vAjOnHbjlTtaUsxVvdRHobpg
+         xQbCbjlsPrR1g==
+Date: Sun, 26 Jun 2022 07:03:12 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [perfbook] Analogy of =?utf-8?Q?Figure?=
+ =?utf-8?B?IDcuMTEgTG9ja2luZyDigJxTYXcgS2VyZuKAnQ==?=
+Message-ID: <20220626140312.GR1790663@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
 References: <202dbad7-37db-4d6a-f4d4-6d99180028fc@gmail.com>
  <20220624233316.GF1790663@paulmck-ThinkPad-P17-Gen-1>
  <cb266856-a20e-231c-00fb-8e4435306d55@gmail.com>
  <20220625003053.GG1790663@paulmck-ThinkPad-P17-Gen-1>
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220625003053.GG1790663@paulmck-ThinkPad-P17-Gen-1>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+ <69a6b7d8-2ef9-7fad-2d46-42eebe49f953@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <69a6b7d8-2ef9-7fad-2d46-42eebe49f953@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-On Fri, 24 Jun 2022 17:30:53 -0700, Paul E. McKenney wrote:
-> On Sat, Jun 25, 2022 at 08:57:35AM +0900, Akira Yokosawa wrote:
->> On Fri, 24 Jun 2022 16:33:16 -0700, Paul E. McKenney wrote:
->>> On Sat, Jun 25, 2022 at 08:12:09AM +0900, Akira Yokosawa wrote:
->>>> Hi Paul,
->>>>
->>>> I find the analogy of Figure 7.11 hard to grasp.
->>>>
->>>> Whether a lock is global or per-instance, the cost of locking
->>>> (saw kerf) is observed only when a CPU/thread does the locking
->>>> operation.
->>>>
->>>> In this figure, does each board represent data elements, not a
->>>> CPU/thread?  If this is the case, what does the waste of "saw kerf"
->>>> mean?
->>>>
->>>> What am I missing?
->>>>
->>>> (I hope I am clear enough on what I don't get...)
->>>
->>> It might well be that I am getting too excited about this one.  ;-)
->>>
->>> Maybe I need to drop it.  At the very least, I need to much more clearly
->>> explain it.
->>>
->>> But...
->>>
->>> Each board represents one lock.  The "saw kerf" is the time lost when
->>> releasing that lock and someone else immediately acquiring it.
->>>
->>> Does that help?
->>
->> Well then, why does the left side figure have ten boards?
+On Sun, Jun 26, 2022 at 01:34:53PM +0900, Akira Yokosawa wrote:
+> On Fri, 24 Jun 2022 17:30:53 -0700, Paul E. McKenney wrote:
+> > On Sat, Jun 25, 2022 at 08:57:35AM +0900, Akira Yokosawa wrote:
+> >> On Fri, 24 Jun 2022 16:33:16 -0700, Paul E. McKenney wrote:
+> >>> On Sat, Jun 25, 2022 at 08:12:09AM +0900, Akira Yokosawa wrote:
+> >>>> Hi Paul,
+> >>>>
+> >>>> I find the analogy of Figure 7.11 hard to grasp.
+> >>>>
+> >>>> Whether a lock is global or per-instance, the cost of locking
+> >>>> (saw kerf) is observed only when a CPU/thread does the locking
+> >>>> operation.
+> >>>>
+> >>>> In this figure, does each board represent data elements, not a
+> >>>> CPU/thread?  If this is the case, what does the waste of "saw kerf"
+> >>>> mean?
+> >>>>
+> >>>> What am I missing?
+> >>>>
+> >>>> (I hope I am clear enough on what I don't get...)
+> >>>
+> >>> It might well be that I am getting too excited about this one.  ;-)
+> >>>
+> >>> Maybe I need to drop it.  At the very least, I need to much more clearly
+> >>> explain it.
+> >>>
+> >>> But...
+> >>>
+> >>> Each board represents one lock.  The "saw kerf" is the time lost when
+> >>> releasing that lock and someone else immediately acquiring it.
+> >>>
+> >>> Does that help?
+> >>
+> >> Well then, why does the left side figure have ten boards?
+> > 
+> > Ten locks.  For example, the single board might correspond to a hash
+> > table guarded by a single global lock.  The ten boards might correspond
+> > to a hash table with ten buckets, with per-bucket locking.
 > 
-> Ten locks.  For example, the single board might correspond to a hash
-> table guarded by a single global lock.  The ten boards might correspond
-> to a hash table with ten buckets, with per-bucket locking.
-
-Ah, I think I understand what you mean.
-
-On the "Global" side, there is a per-resource locking mechanism
-implemented under the protection of a global lock, whereas locks
-on the "Per-Instance" side are implemented independently with
-each other.
-
-Different boards can be acquired in parallel on both sides of the
-figure.
-
-Am I on the same page with you now?
-
+> Ah, I think I understand what you mean.
 > 
-> But it is sounding like this analogy might be more confusing than
-> enlightening.
-
-An analogy which needs a lot of explanation might not be a good
-analogy...
-
-        Thanks, Akira
-
+> On the "Global" side, there is a per-resource locking mechanism
+> implemented under the protection of a global lock, whereas locks
+> on the "Per-Instance" side are implemented independently with
+> each other.
 > 
-> 							Thanx, Paul
+> Different boards can be acquired in parallel on both sides of the
+> figure.
+> 
+> Am I on the same page with you now?
+
+Exactly!
+
+> > But it is sounding like this analogy might be more confusing than
+> > enlightening.
+> 
+> An analogy which needs a lot of explanation might not be a good
+> analogy...
+
+Agreed.  So either I figure out a way to ramp an explanation into
+it, or I drop it.
+
+One way to ramp an explanation into it is to discuss locking overheads
+using hash tables, then go from there.  Though at that point, I am
+not sure how attractive the analogy would be, useful thought it has
+been to me for these many years.
+
+Thank you for reporting this problem, and I will give it some thought.
+
+							Thanx, Paul
