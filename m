@@ -1,88 +1,95 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57630 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbiGAATR (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Thu, 30 Jun 2022 20:19:17 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 039F442A03
-        for <perfbook@vger.kernel.org>; Thu, 30 Jun 2022 17:19:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 45E11CE2D94
-        for <perfbook@vger.kernel.org>; Fri,  1 Jul 2022 00:19:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656634749;
-        bh=PDCtvQV+V3vmidU24VOVvLCLN0/HioTcQhV0YW9/Jzc=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Akxh36bQRP3Ih61XZO5lZ3DOaqPJuooc9qfek+e5PnjzgNSS1My63IxFpzZ4u795a
-         nBtJi20w8hX8g/5KuSKbvjSRM7Z04DvbhVM9/u56dMzYcp4I9jdqR1suWpYTV8xXgO
-         3Kx4ZFSf4dmE4cx+/Hcnbo0tqpG9CZolpG6eFoKwcAcK9oYMupD41nP1HmzBflRknL
-         IGp4ZFo6xqnOrMEBVFeMo1poklCeFWrb8fQ5nFtF2gYkJvuI9fMzTbcXmd5ZgjVWIs
-         3zCH9bVWwz9Z0c2/qBK5164gVYQzpQ1wJf2gs7PFFRsvTLPL4A1E+9c5I+DpBamoXx
-         xaAp8emCkbN1g==
-Date: Thu, 30 Jun 2022 17:19:09 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: Is parallel programing hard...
-Message-ID: <20220701001909.GA2898500@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <4004322A-4FF7-435F-8427-A01621C106B1@illinois.edu>
- <0b12a2ee-5edd-d169-2b8c-1a403df7e34c@gmail.com>
- <20220627141106.GD1790663@paulmck-ThinkPad-P17-Gen-1>
- <fb3a89ba-48ec-1943-4f6f-84123b751b37@gmail.com>
- <20220627145628.GE1790663@paulmck-ThinkPad-P17-Gen-1>
- <c341ba87-ba38-11ba-c770-e341c5164b42@gmail.com>
- <40DCB8FE-A5C4-47F9-8215-EC0432803FF1@illinois.edu>
- <20220630002720.GR1790663@paulmck-ThinkPad-P17-Gen-1>
- <aebf5e16-e85e-c2a6-77a0-c48a6f33cf3b@gmail.com>
- <20220630142616.GV1790663@paulmck-ThinkPad-P17-Gen-1>
+Return-Path: <SRS0=njsb=XW=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=PBy2wJ3ql+ay8zkHZ90HHMbXh1KlXf3iZhxF35Wnhv0=;
+        b=GY7H7sjFz9PPoJIZXHN91ENsJmRPxk5EQZNrXDFcS4kx9GeY/Su8VFRSgmiZ30DI3k
+         I8fMOdwMkB+gLQuSgrMW2b6RdpupgHAhaOTAsr9cjKJPeSXCfXYNduaNkIK604ughlbF
+         DtnlUDtnLnoxpBuCBYKUdJhKIKudzAWEED/9ObPFQiKIC4F2r/9pr8Gfw0jkC8CkhmZZ
+         uZ9jGI0JHyp6LF4XcBRF1okKxLdNPUjfGkfJb8WaP+HRMO4NzE31mxevdz4Or83iUozo
+         jEAJu8GHgp+WmYGOhDQ0JwL57LEuqt1So2bMFenF143Wz/HilA+MTlbyi3IqHk/GzGOP
+         d5uA==
+Message-ID: <c784e9e1-7cf5-bb7e-18e1-4aa7ae7665ef@gmail.com>
+Date: Sun, 17 Jul 2022 13:09:23 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220630142616.GV1790663@paulmck-ThinkPad-P17-Gen-1>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 1/2] SMPdesign: Apply \clnref{} scheme to Listing
+ 6.5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: "Snir, Marc" <snir@illinois.edu>, perfbook@vger.kernel.org
 
-On Thu, Jun 30, 2022 at 07:26:16AM -0700, Paul E. McKenney wrote:
-> On Thu, Jun 30, 2022 at 11:18:46PM +0900, Akira Yokosawa wrote:
-> > On Wed, 29 Jun 2022 17:27:20 -0700, Paul E. McKenney wrote:
-> > > OK, MacTex worked much better for me, meaning that this time it did
-> > > not hang when I attempted to install it.  However, once installed,
-> > > it complains that it is missing xcrun, whatever that might be.
-> > 
-> > In search of "macOS 12 xcrun error", I got the following:
-> > 
-> > https://osxdaily.com/2021/07/19/fix-xcrun-error-invalid-active-developer-path-error-terminal-mac/
-> > 
-> > Is your issue similar to this one?
-> > 
-> > (I have no experience with macOS, so take this as just a hint.)
-> 
-> I have no idea, but I will give it a try later today, Pacific Time.
-> Either way, thank you for the hint!
+Commit a7a722ddae4c ("SMPdesign: Work in the spacetime partitioning
+viewpoint") used raw line counts for referencing lines in Listing 6.5.
 
-OK, it does take some time to install.  But I at least started the
-process today.  ;-)
+Embedding line labels in the code snippet and using \clnref{} can
+reduce the risk of line-count mismatches in the future.
 
-							Thanx, Paul
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ SMPdesign/SMPdesign.tex | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-> > > My thought is to get a release out, then see what can be done about
-> > > making this build on MacOS.  Seem reasonable?
-> > 
-> > Sounds reasonable to me!
-> 
-> Very good, I believe I am a bit overdue for a release anyway.  After all,
-> we have 156 commits since the last release.  ;-)
-> 
-> 							Thanx, Paul
-> 
-> >         Thanks, Akira
-> > 
-> > > 
-> > > Hey, I said I had access to MacOS, not that I was at all competent at
-> > > installing software on it.  ;-)
-> > > 
-> > > 							Thanx, Paul
-> > > 
-> > [...]
+diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
+index d0a9446b78a1..4d93c6e72f0b 100644
+--- a/SMPdesign/SMPdesign.tex
++++ b/SMPdesign/SMPdesign.tex
+@@ -208,6 +208,7 @@ has now become three statements due to the need to release the
+ lock before returning.
+ 
+ \begin{listing}
++\begin{fcvlabel}[ln:SMPdesign:Code-Locking Hash Table Search]
+ \begin{VerbatimL}[commandchars=\\\[\]]
+ spinlock_t hash_lock;
+ 
+@@ -227,32 +228,35 @@ int hash_search(struct hash_table *h, long key)
+ 	struct node *cur;
+ 	int retval;
+ 
+-	spin_lock(&hash_lock);
++	spin_lock(&hash_lock);				\lnlbl[acq]
+ 	cur = h->buckets[key % h->nbuckets];
+ 	while (cur != NULL) {
+ 		if (cur->key >= key) {
+ 			retval = (cur->key == key);
+-			spin_unlock(&hash_lock);
++			spin_unlock(&hash_lock);	\lnlbl[rel1]
+ 			return retval;
+ 		}
+ 		cur = cur->next;
+ 	}
+-	spin_unlock(&hash_lock);
++	spin_unlock(&hash_lock);			\lnlbl[rel2]
+ 	return 0;
+ }
+ \end{VerbatimL}
++\end{fcvlabel}
+ \caption{Code-Locking Hash Table Search}
+ \label{lst:SMPdesign:Code-Locking Hash Table Search}
+ \end{listing}
+ 
+-Note that the \co{hash_lock} acquisition and release statements on lines~19, 
+-24, and~29 are mediating ownership of the hash table among the CPUs
+-wishing to concurrently access that hash table.
++\begin{fcvref}[ln:SMPdesign:Code-Locking Hash Table Search]
++Note that the \co{hash_lock} acquisition and release statements on
++\clnref{acq,rel1,rel2} are mediating ownership of the hash table among
++the CPUs wishing to concurrently access that hash table.
+ Another way of looking at this is that \co{hash_lock} is partitioning
+ time, thus giving each requesting CPU its own partition of time during
+ which it owns this hash table.
+ In addition, in a well-designed algorithm, there should be ample partitions
+ of time during which no CPU owns this hash table.
++\end{fcvref}
+ 
+ \QuickQuiz{
+ 	``Partitioning time''?
+
+base-commit: bccd13b1e32770a985dfceb971ddf814785dcd41
+-- 
+2.25.1
+
