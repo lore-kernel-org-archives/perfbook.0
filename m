@@ -1,106 +1,53 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44614 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229719AbiHMLqG (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sat, 13 Aug 2022 07:46:06 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0C761C931
-        for <perfbook@vger.kernel.org>; Sat, 13 Aug 2022 04:46:04 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id c20so2532804qtw.8
-        for <perfbook@vger.kernel.org>; Sat, 13 Aug 2022 04:46:04 -0700 (PDT)
+        with ESMTP id S229719AbiHMLtc (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sat, 13 Aug 2022 07:49:32 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4F791F2C5
+        for <perfbook@vger.kernel.org>; Sat, 13 Aug 2022 04:49:30 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id b7so2380621qvq.2
+        for <perfbook@vger.kernel.org>; Sat, 13 Aug 2022 04:49:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=TKswuW9RleoXwVbx4nR7s9SEBsmUZJ4ttZd+Y704prM=;
-        b=Pflim35hmfgUaaE6BjGXJvtdMyb6bjr4SX++Tkn4PM2OebuqbrXudJ0ESBWYdKVdtq
-         HrfjS4EvqUCapL54WMBvEjyxK4LrCQH37xvxBQE5gIeuB0psOS/0tFf2Rtrrn4ldMWEP
-         /anJvXdjWHdHAiEb2elngXZcQlIVxOsBlvdPVqRvAAAzTj3CHLTUUh6U2A5z7Y2rliuQ
-         vF6vN6HR6jibJjB9glzAME0Fpza8JELjZ8zLaQ2z5O7cFyaOh+LPuA52/7vWowBAYohM
-         /VhABeBZK0GmdtLIIuwPdYfgu/TeFclwnuwl4uPp78qGh/7moLHsZC7SKP0WP1E5taRN
-         JsYA==
-From: Elad Lahav <e2lahav@gmail.com>
-Subject: [PATCH] count: Switch from GCC to C11 thread-local storage
-Date: Sat, 13 Aug 2022 07:45:59 -0400
-Message-Id: <20220813114559.2082323-1-e2lahav@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=j5jCelX5EfbnVP6B6jGmD0/t2kuHEhjIAl9AfBeNSIg=;
+        b=FyRqkPMHzCvYADdLUJOodTwczlWE+fldqSid0y3dmkl+3kvHMEfYSTo4re4UI2ZAQT
+         bq1wH5G7eV1+03AICRNdc0dwBNHhRRXiYrsZpvRWnx+Rxnd2XHhsm+dZR2Z0vISKR8nn
+         ENZlZA1/+kZeuSf0tLyOqIJkL2CBievsKd3ceeTmza0RCnJjZziEPIsf4R4cAqp9LEGV
+         9+JrTGnRRWsS6EPo5vW5EfKNWjWuPuL74pTICv7tGR4vsyploL/M0W6jDQKP1EY+Z80Q
+         taGXpjMH3hvDKtYqOzQe4uzNtUGPI9z4IQOo2TlCbHhtXn4IYHLgn4840d3aPMB/LpiP
+         nU0g==
+Received: from [192.168.2.112] (cpef85971ea0e70-cmac202ebe2430.cpe.net.cable.rogers.com. [174.112.192.43])
+        by smtp.gmail.com with ESMTPSA id dt2-20020a05620a478200b006b93b61bc74sm4172313qkb.9.2022.08.13.04.49.28
+        for <perfbook@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 13 Aug 2022 04:49:28 -0700 (PDT)
+Message-ID: <4a072f55-a780-d69b-9a74-a5d5aba63b7a@gmail.com>
+Date: Sat, 13 Aug 2022 07:49:27 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] count: Switch from GCC to C11 thread-local storage
+Content-Language: en-CA
+References: <20220813114559.2082323-1-e2lahav@gmail.com>
+From: Elad Lahav <e2lahav@gmail.com>
+In-Reply-To: <20220813114559.2082323-1-e2lahav@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-ID: <perfbook.vger.kernel.org>
 To: perfbook@vger.kernel.org
-Cc: Elad Lahav <e2lahav@gmail.com>
 
-Signed-off-by: Elad Lahav <e2lahav@gmail.com>
----
- CodeSamples/count/count_end.c | 12 ++++++------
- count/count.tex               |  4 ++--
- 2 files changed, 8 insertions(+), 8 deletions(-)
+On 2022-08-13 07:45, Elad Lahav wrote:
+> Signed-off-by: Elad Lahav <e2lahav@gmail.com>
+> ---
 
-diff --git a/CodeSamples/count/count_end.c b/CodeSamples/count/count_end.c
-index 722ad2f7..5e7b9ee1 100644
---- a/CodeSamples/count/count_end.c
-+++ b/CodeSamples/count/count_end.c
-@@ -1,6 +1,6 @@
- /*
-  * count_end.c: Per-thread statistical counters that provide sum at end.
-- *	Uses __thread for each thread's counter.
-+ *	Uses _Thread_local for each thread's counter.
-  *
-  * This program is free software; you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-@@ -23,17 +23,17 @@
- #include "../api.h"
- 
- //\begin{snippet}[labelbase=ln:count:count_end:whole,commandchars=\\\@\$]
--unsigned long __thread counter = 0;		//\lnlbl{var:b}
-+unsigned long _Thread_local counter = 0;		//\lnlbl{var:b}
- unsigned long *counterp[NR_THREADS] = { NULL };
- unsigned long finalcount = 0;
- DEFINE_SPINLOCK(final_mutex);			//\lnlbl{var:e}
- 
--static __inline__ void inc_count(void)		//\lnlbl{inc:b}
-+static inline void inc_count(void)		//\lnlbl{inc:b}
- {
- 	WRITE_ONCE(counter, counter + 1);
- }						//\lnlbl{inc:e}
- 
--static __inline__ unsigned long read_count(void)
-+static inline unsigned long read_count(void)
- {
- 	int t;
- 	unsigned long sum;
-@@ -48,7 +48,7 @@ static __inline__ unsigned long read_count(void)
- }
- 
- #ifndef FCV_SNIPPET
--__inline__ void count_init(void)
-+inline void count_init(void)
- {
- }
- #endif /* FCV_SNIPPET */
-@@ -73,7 +73,7 @@ void count_unregister_thread(int nthreadsexpected)	//\lnlbl{unreg:b}
- }							//\lnlbl{unreg:e}
- //\end{snippet}
- 
--__inline__ void count_cleanup(void)
-+inline void count_cleanup(void)
- {
- }
- 
-diff --git a/count/count.tex b/count/count.tex
-index 523789e2..173b964c 100644
---- a/count/count.tex
-+++ b/count/count.tex
-@@ -721,8 +721,8 @@ This is the topic of the next section.
- \subsection{Per-Thread-Variable-Based Implementation}
- \label{sec:count:Per-Thread-Variable-Based Implementation}
- 
--\GCC\ provides an \apig{__thread} storage class that provides
--per-thread storage.
-+The C language, since C11, features a \apig{_Thread_local} storage class that
-+provides per-thread storage.
- This can be used as shown in
- \cref{lst:count:Per-Thread Statistical Counters} (\path{count_end.c})
- to implement
--- 
-2.25.1
+This one will probably require some back-and-forth. If we change it 
+here, do other places need to be updated? Have I now removed the 
+explanation of GCC's __thread storage class, which will impact the 
+readability of other sections? Or are you ready to take the plunge and 
+convert all code snippets?
 
+For the record, I did build and test count_end.c.
+
+--Elad
