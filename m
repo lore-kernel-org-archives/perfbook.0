@@ -1,116 +1,135 @@
-Return-Path: <SRS0=FMiI=YS=gmail.com=e2lahav@kernel.org>
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51218 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230437AbiHNKVq (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sun, 14 Aug 2022 06:21:46 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C4022BFA
+        for <perfbook@vger.kernel.org>; Sun, 14 Aug 2022 03:21:41 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id ct13so3643059qvb.9
+        for <perfbook@vger.kernel.org>; Sun, 14 Aug 2022 03:21:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=wxnQfT7okpvt9RqRSLKwpESiK7RZiONSFulDV0V8274=;
-        b=cU46Ejfpq6hguEsXqyPCXVbh2NmZmp3L9j6LkPD6KDRU+tVwNCBA3AYWS3aTwgzF6k
-         876UP/JNa8S2c7WTveeBTIZtI6wizIzYO+fmtMHFK/AHg5ha1LJRMJSrPPZ/NWXsZblW
-         i82ehzls4n51Ob93dhtoCQ+Dec4WOxzbUtH3RlFRWZJhUO/tmnTlkdSNcp1mQtmpgNDO
-         sLdrFerQoTRTOvPUB0hrTfDiz6a3XDvpsa5Z+5XKXt+c457U/LHEpBf6Isgp8afhcFhN
-         Wqftmk+/rB7bNZEHTh9du+qP7exxHXRa44Gwkmj0gsXV+0wxC9KQw/5PpO/d/HZYRyZ6
-         LM9g==
-Message-ID: <b6e578f6-7399-1d0f-a76c-9f3e19ed32c4@gmail.com>
-Date: Sun, 14 Aug 2022 06:11:44 -0400
-MIME-Version: 1.0
-Subject: Re: [PATCH] count: Switch from GCC to C11 thread-local storage
-Content-Language: en-CA
-References: <20220813114559.2082323-1-e2lahav@gmail.com>
- <4a072f55-a780-d69b-9a74-a5d5aba63b7a@gmail.com>
- <20220813231240.GM2125313@paulmck-ThinkPad-P17-Gen-1>
- <CAJbg=FXKFnVwoyvRw=xhjTpkzp7ScGngb8yc9VwwTY7FeYJobw@mail.gmail.com>
- <20220813232901.GP2125313@paulmck-ThinkPad-P17-Gen-1>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=11pfytUz9MTCgw0kTfuZXrlLwH3eUYZxo6XLA40PMWk=;
+        b=UlXuRbR0n8m1GkDG9d6BHRyT191DK5oezDgQqykh9Ep5WRjo1DO4hJb6zIGgedop1y
+         DHgr3ZUUAgpEj+ZlmgltAyJ6Ad1np28DG5llL8LS6xJeIegcTZhGvjltfZYyrTf2I37i
+         SRWaoRZ2dfy9A6G53VKW+Ng3hYAz0FaEbnntWaaIsVVIQ3emhvIKPKPEOUJ4wbjGCPgG
+         ZDXkHtoWKVpvncemQq80zxwI70INhd2mWDJicRShDqkUD8tLVbaBl6Ko5+9w0pHbIAWK
+         ISLSUMME3peeUfe+CgM6sJePDQkGsAZ2QlMPynKtNTlAz2YPOgxoP6pY+VxkrIfgl9lj
+         X74g==
 From: Elad Lahav <e2lahav@gmail.com>
-In-Reply-To: <20220813232901.GP2125313@paulmck-ThinkPad-P17-Gen-1>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-To: paulmck@kernel.org
-Cc: perfbook@vger.kernel.org
+Subject: [PATCH] CodeSamples: Enable building on QNX
+Date: Sun, 14 Aug 2022 06:21:35 -0400
+Message-Id: <20220814102135.2141663-1-e2lahav@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-ID: <perfbook.vger.kernel.org>
+To: perfbook@vger.kernel.org
+Cc: Elad Lahav <e2lahav@gmail.com>
 
-On 2022-08-13 19:29, Paul E. McKenney wrote:
-> On Sat, Aug 13, 2022 at 07:23:40PM -0400, Elad Lahav wrote:
->> I believe that performance is statistically the same, but I will
->> double check. I assume both GCC and C11 end up using the same
->> underlying mechanism for thread-local storage:
->>
->> https://uclibc.org/docs/tls.pdf
->>
->> If not implemented, TLS falls back on pthread_[gs]et_specific(), but
->> again it would be the same for __thread and _Thread_local.
-> 
-> Sounds likely to me, but I have been surprised before.
+Signed-off-by: Elad Lahav <e2lahav@gmail.com>
+---
+ CodeSamples/Makefile                    |  3 ++-
+ CodeSamples/api-pthreads/api-pthreads.h | 19 +++++++++++++++++++
+ CodeSamples/arch-arm64/arch-arm64.h     |  4 ++++
+ CodeSamples/depends.mk                  |  4 +++-
+ 4 files changed, 28 insertions(+), 2 deletions(-)
 
-Results:
+diff --git a/CodeSamples/Makefile b/CodeSamples/Makefile
+index 3a96f5cf..b0231b1c 100644
+--- a/CodeSamples/Makefile
++++ b/CodeSamples/Makefile
+@@ -41,7 +41,8 @@ endif
+ 	echo "" >> api.h
+ 	if test -f /usr/include/urcu-call-rcu.h -o \
+ 		-f /usr/local/include/urcu-call-rcu.h -o \
+-		-f /usr/include/$(subdir_ub)/urcu-call-rcu.h ; \
++		-f /usr/include/$(subdir_ub)/urcu-call-rcu.h -o \
++		-f $(QNX_TARGET)/usr/include/urcu-call-rcu.h ; \
+ 	then \
+ 		echo "#define _LGPL_SOURCE" >> api.h; \
+ 		echo "#include <urcu/rculist.h>" >> api.h; \
+diff --git a/CodeSamples/api-pthreads/api-pthreads.h b/CodeSamples/api-pthreads/api-pthreads.h
+index 44e55c0d..5af73947 100644
+--- a/CodeSamples/api-pthreads/api-pthreads.h
++++ b/CodeSamples/api-pthreads/api-pthreads.h
+@@ -43,6 +43,11 @@
+ #include <sys/param.h>
+ /* #include "atomic.h" */
+ 
++#if defined (__QNX__)
++#include <stdint.h>
++#include <sys/neutrino.h>
++#endif
++
+ /*
+  * Compiler magic.
+  */
+@@ -310,6 +315,7 @@ static __inline__ void waitall(void)
+ 
+ static __inline__ void run_on(int cpu)
+ {
++#if defined (__linux__)
+ 	cpu_set_t mask;
+ 	int ret;
+ 
+@@ -320,6 +326,19 @@ static __inline__ void run_on(int cpu)
+ 		perror("sched_setaffinity");
+ 		abort();
+ 	}
++#elif defined (__QNX__)
++    uintptr_t runmask;
++    int ret;
++
++    runmask = (1UL << cpu);
++    ret = ThreadCtl(_NTO_TCTL_RUNMASK, (void *)runmask);
++	if (ret) {
++		perror("sched_setaffinity");
++		abort();
++	}
++#else
++#error Implement for OS
++#endif
+ }
+ 
+ /*
+diff --git a/CodeSamples/arch-arm64/arch-arm64.h b/CodeSamples/arch-arm64/arch-arm64.h
+index 0e724740..c1b2d474 100644
+--- a/CodeSamples/arch-arm64/arch-arm64.h
++++ b/CodeSamples/arch-arm64/arch-arm64.h
+@@ -54,6 +54,10 @@ static __inline__ unsigned long long get_timestamp(void)
+ 	unsigned long long thetime;
+ 	struct timespec tv;
+ 
++#ifndef CLOCK_MONOTONIC_RAW
++#define CLOCK_MONOTONIC_RAW CLOCK_MONOTONIC
++#endif
++
+ 	if (clock_gettime(CLOCK_MONOTONIC_RAW, &tv) != 0)
+ 		return 0;
+ 	thetime = ((unsigned long long)tv.tv_sec) * 1000000000ULL +
+diff --git a/CodeSamples/depends.mk b/CodeSamples/depends.mk
+index a6db993f..e192c2c2 100644
+--- a/CodeSamples/depends.mk
++++ b/CodeSamples/depends.mk
+@@ -1,5 +1,5 @@
+ ifeq ($(strip $(arch)),)
+-arch := $(shell uname -m)
++arch := $(shell uname -p)
+ endif
+ 
+ ifeq ($(arch),i686)
+@@ -17,6 +17,8 @@ subdir_ub := powerpc64le-linux-gnu
+ else ifeq ($(arch),aarch64)
+ target := arm64
+ subdir_ub := aarch64-linux-gnu
++else ifeq ($(arch),aarch64le)
++target := arm64
+ else ifneq (,$(findstring arm,$(arch)))
+ target := arm
+ subdir_ub := arm-linux-gnueabihf
+-- 
+2.25.1
 
-Linux/x86-64, i7-8550U, GCC TLS
-
-elahav@lamia:~/src/other/perfbook/CodeSamples/count$ ./count_end
-n_reads: 408000  n_updates: 689366000  nreaders: 1  nupdaters: 1 
-duration: 240
-ns/read: 588.235  ns/update: 0.348146
-elahav@lamia:~/src/other/perfbook/CodeSamples/count$ ./count_end
-n_reads: 443000  n_updates: 762876000  nreaders: 1  nupdaters: 1 
-duration: 240
-ns/read: 541.761  ns/update: 0.314599
-elahav@lamia:~/src/other/perfbook/CodeSamples/count$ ./count_end
-n_reads: 395000  n_updates: 666718000  nreaders: 1  nupdaters: 1 
-duration: 240
-ns/read: 607.595  ns/update: 0.359972
-
-Linux/x86-64, i7-8550U, C11 TLS
-
-elahav@lamia:~/src/other/perfbook/CodeSamples/count$ ./count_end
-n_reads: 410000  n_updates: 684880000  nreaders: 1  nupdaters: 1 
-duration: 240
-ns/read: 585.366  ns/update: 0.350426
-elahav@lamia:~/src/other/perfbook/CodeSamples/count$ ./count_end
-n_reads: 411000  n_updates: 698148000  nreaders: 1  nupdaters: 1 
-duration: 240
-ns/read: 583.942  ns/update: 0.343767
-elahav@lamia:~/src/other/perfbook/CodeSamples/count$ ./count_end
-n_reads: 409000  n_updates: 704072000  nreaders: 1  nupdaters: 1 
-duration: 240
-ns/read: 586.797  ns/update: 0.340874
-
-QNX/aarch64, NXP LX2160A, GCC TLS (emulated)
-
-elahav@honeycomb:~/src/CodeSamples/count$ ./count_end
-n_reads: 221000  n_updates: 67876000  nreaders: 1  nupdaters: 1 
-duration: 240
-ns/read: 1085.97  ns/update: 3.53586
-elahav@honeycomb:~/src/CodeSamples/count$ ./count_end
-n_reads: 227000  n_updates: 67901000  nreaders: 1  nupdaters: 1 
-duration: 240
-ns/read: 1057.27  ns/update: 3.53456
-elahav@honeycomb:~/src/CodeSamples/count$ ./count_end
-n_reads: 211000  n_updates: 65043000  nreaders: 1  nupdaters: 1 
-duration: 240
-ns/read: 1137.44  ns/update: 3.68987
-
-QNX/aarch64, NXP LX2160A, C11 TLS (emulated)
-
-elahav@honeycomb:~/src/CodeSamples/count$ ./count_end
-n_reads: 217000  n_updates: 67814000  nreaders: 1  nupdaters: 1 
-duration: 240
-ns/read: 1105.99  ns/update: 3.53909
-elahav@honeycomb:~/src/CodeSamples/count$ ./count_end
-n_reads: 223000  n_updates: 67860000  nreaders: 1  nupdaters: 1 
-duration: 240
-ns/read: 1076.23  ns/update: 3.53669
-elahav@honeycomb:~/src/CodeSamples/count$ ./count_end
-n_reads: 218000  n_updates: 68116000  nreaders: 1  nupdaters: 1 
-duration: 240
-ns/read: 1100.92  ns/update: 3.5234
-
-Looking at the disassembly for the QNX binary I realized that it is 
-still using the emulated TLS option (i.e., the compiler generates a shim 
-layer that uses pthread_[gs]et_specific()). I will need to rebuild the 
-compiler with native TLS support and retest, though I doubt it will have 
-a significant impact.
-
-In any case, both the native and the emulated TLS options show the same 
-results with the GCC and C11 versions.
-
---Elad
