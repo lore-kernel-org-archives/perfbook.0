@@ -1,28 +1,28 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49298 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229638AbiHPGWs (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 16 Aug 2022 02:22:48 -0400
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F9B317BEB4
-        for <perfbook@vger.kernel.org>; Mon, 15 Aug 2022 17:22:50 -0700 (PDT)
-Received: by mail-qv1-xf32.google.com with SMTP id l8so6834749qvr.5
-        for <perfbook@vger.kernel.org>; Mon, 15 Aug 2022 17:22:50 -0700 (PDT)
+        with ESMTP id S232527AbiHPMs0 (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 16 Aug 2022 08:48:26 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 842836CF5C
+        for <perfbook@vger.kernel.org>; Tue, 16 Aug 2022 05:46:53 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id mz1so2814240qvb.4
+        for <perfbook@vger.kernel.org>; Tue, 16 Aug 2022 05:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc;
-        bh=pn5D1XvJrZKu3i1t0mXnUp71hqy0kRtqLF2KPEdNEIE=;
-        b=mJOwXO2L52ifkdlRsYGT+EVEPg6qcVvq8cHefO5VC1uyMhBm0qHd5s39TkoRCzppkz
-         y2eL+QbyeHBgj6G4tupINly5D9cxbBpOVdnvSoUXVLvG5ZqMwzVJxvSrGtqlVjP3sgS/
-         wGRfuuMgZGu8N96rwuoHg2aYrbqwQBaMoPH6nXYagJAYoC/GReFyAlg2xogaAn/BNNdD
-         RR1DWs1vslaBcZaYtgk+ZD5/CM5NKv9wZ35Kn5BRUzTfUvA82lHHitddt/vI9+3UBSpT
-         I8KA1mVJLhzYeSi9KYJhglJi90xoVDKafmxtSVfG/Cj1+cBDKc/EMA+WMx5qGVou9W/1
-         UYSw==
+        bh=+aSyCHjPZYPA/m7E78L0wHB8aTQX7QEZ0puVjwoDHf4=;
+        b=EB3aIoZpfih3phEYhvGPP25lUz17zOSIQc8BrFHsQcyukf0j1PulDb25buk3xjt0ey
+         20Ksjlqg0u/v6J9f8LxfCoKc05f/qQNb4MEWAD/skz+p8nwzc6YdgCymS0b7BME2QJih
+         LFyKIUwn2UXOdZa02DdODbAEY6sEA+ulnyDvLGvnCzvqgJOBP30Rv/5DWw89MY9Xrthy
+         kCyvq0ZA5EDT90lqSVDYbsRe5CAeYwI+sSGF0T+GOx28hGoGR3WEXQS+FTbIqrFUpoDJ
+         esf3EtGs/wGvMqB+XPKHIXzPMZtC9WWMgWzimr5hHZk1c9trr1gOCjgsP8bl1+zDxoi0
+         iBxQ==
 From: Elad Lahav <e2lahav@gmail.com>
-Subject: [PATCH v3] CodeSamples: Support for building on different operating systems
-Date: Mon, 15 Aug 2022 20:22:25 -0400
-Message-Id: <20220816002224.33347-1-e2lahav@gmail.com>
+Subject: [PATCH 2/2] CodeSamples: Switch ARM64 get_timestamp() to use the hardware counter
+Date: Tue, 16 Aug 2022 08:46:47 -0400
+Message-Id: <20220816124647.75220-1-e2lahav@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-ID: <perfbook.vger.kernel.org>
@@ -31,205 +31,40 @@ Cc: Elad Lahav <e2lahav@gmail.com>
 
 Signed-off-by: Elad Lahav <e2lahav@gmail.com>
 ---
- CodeSamples/Makefile                    |  4 ++-
- CodeSamples/api-pthreads/api-linux.h    | 36 ++++++++++++++++++++++++
- CodeSamples/api-pthreads/api-pthreads.h | 13 ---------
- CodeSamples/api-pthreads/api-qnx.h      | 37 +++++++++++++++++++++++++
- CodeSamples/arch-arm64/arch-arm64.h     |  4 +++
- CodeSamples/depends.mk                  | 29 ++++++++++++++++++-
- 6 files changed, 108 insertions(+), 15 deletions(-)
- create mode 100644 CodeSamples/api-pthreads/api-linux.h
- create mode 100644 CodeSamples/api-pthreads/api-qnx.h
+ CodeSamples/arch-arm64/arch-arm64.h | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
 
-diff --git a/CodeSamples/Makefile b/CodeSamples/Makefile
-index 3a96f5cf..38143638 100644
---- a/CodeSamples/Makefile
-+++ b/CodeSamples/Makefile
-@@ -38,10 +38,12 @@ endif
- 		sed '/end{snippet}/d' >> api.h
- 	echo "" >> api.h
- 	cat api-pthreads/api-gcc.h >> api.h
-+	cat api-pthreads/api-$(os_compat).h >> api.h
- 	echo "" >> api.h
- 	if test -f /usr/include/urcu-call-rcu.h -o \
- 		-f /usr/local/include/urcu-call-rcu.h -o \
--		-f /usr/include/$(subdir_ub)/urcu-call-rcu.h ; \
-+		-f /usr/include/$(subdir_ub)/urcu-call-rcu.h -o \
-+		-f $(QNX_TARGET)/usr/include/urcu-call-rcu.h ; \
- 	then \
- 		echo "#define _LGPL_SOURCE" >> api.h; \
- 		echo "#include <urcu/rculist.h>" >> api.h; \
-diff --git a/CodeSamples/api-pthreads/api-linux.h b/CodeSamples/api-pthreads/api-linux.h
-new file mode 100644
-index 00000000..03522a54
---- /dev/null
-+++ b/CodeSamples/api-pthreads/api-linux.h
-@@ -0,0 +1,36 @@
-+/*
-+ * api-linux.h: Linux-specific functions
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.  However, please note that much
-+ * of the code in this file derives from the Linux kernel, and that such
-+ * code may not be available except under GPLv2.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, you can access it online at
-+ * http://www.gnu.org/licenses/gpl-2.0.html.
-+ *
-+ * Copyright (c) 2006-2019 Paul E. McKenney, IBM.
-+ * Copyright (c) 2019 Paul E. McKenney, Facebook.
-+ */
-+
-+static __inline__ void run_on(int cpu)
-+{
-+	cpu_set_t mask;
-+	int ret;
-+
-+	CPU_ZERO(&mask);
-+	CPU_SET(cpu, &mask);
-+	ret = sched_setaffinity(0, sizeof(mask), &mask);
-+	if (ret) {
-+		perror("sched_setaffinity");
-+		abort();
-+	}
-+}
-diff --git a/CodeSamples/api-pthreads/api-pthreads.h b/CodeSamples/api-pthreads/api-pthreads.h
-index 44e55c0d..3e21fdb9 100644
---- a/CodeSamples/api-pthreads/api-pthreads.h
-+++ b/CodeSamples/api-pthreads/api-pthreads.h
-@@ -308,19 +308,6 @@ static __inline__ void waitall(void)
- }
- // \end{snippet}
- 
--static __inline__ void run_on(int cpu)
--{
--	cpu_set_t mask;
--	int ret;
--
--	CPU_ZERO(&mask);
--	CPU_SET(cpu, &mask);
--	ret = sched_setaffinity(0, sizeof(mask), &mask);
--	if (ret) {
--		perror("sched_setaffinity");
--		abort();
--	}
--}
- 
- /*
-  * Timekeeping, using monotonic globally coherent clock.
-diff --git a/CodeSamples/api-pthreads/api-qnx.h b/CodeSamples/api-pthreads/api-qnx.h
-new file mode 100644
-index 00000000..ed2fb543
---- /dev/null
-+++ b/CodeSamples/api-pthreads/api-qnx.h
-@@ -0,0 +1,37 @@
-+/*
-+ * api-qnx.h: QNX-specific functions
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.  However, please note that much
-+ * of the code in this file derives from the Linux kernel, and that such
-+ * code may not be available except under GPLv2.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, you can access it online at
-+ * http://www.gnu.org/licenses/gpl-2.0.html.
-+ *
-+ * Copyright (c) 2022 Elad Lahav
-+ */
-+
-+#include <stdint.h>
-+#include <sys/neutrino.h>
-+
-+static inline void run_on(int cpu)
-+{
-+	uintptr_t runmask;
-+	int ret;
-+
-+	runmask = (1UL << cpu);
-+	ret = ThreadCtl(_NTO_TCTL_RUNMASK, (void *)runmask);
-+	if (ret) {
-+		perror("sched_setaffinity");
-+		abort();
-+	}
-+}
 diff --git a/CodeSamples/arch-arm64/arch-arm64.h b/CodeSamples/arch-arm64/arch-arm64.h
-index 0e724740..f45d8bdc 100644
+index f45d8bdc..220b8b16 100644
 --- a/CodeSamples/arch-arm64/arch-arm64.h
 +++ b/CodeSamples/arch-arm64/arch-arm64.h
-@@ -46,6 +46,10 @@
- #include <stdlib.h>
- #include <time.h>
+@@ -43,24 +43,13 @@
+ #define smp_mb()  __asm__ __volatile__("dmb ish" : : : "memory")
  
-+#ifndef CLOCK_MONOTONIC_RAW
-+#define CLOCK_MONOTONIC_RAW CLOCK_MONOTONIC
-+#endif
-+
+ 
+-#include <stdlib.h>
+-#include <time.h>
+-
+-#ifndef CLOCK_MONOTONIC_RAW
+-#define CLOCK_MONOTONIC_RAW CLOCK_MONOTONIC
+-#endif
+-
  /*
   * Generate 64-bit timestamp.
   */
-diff --git a/CodeSamples/depends.mk b/CodeSamples/depends.mk
-index a6db993f..30810339 100644
---- a/CodeSamples/depends.mk
-+++ b/CodeSamples/depends.mk
-@@ -1,7 +1,13 @@
- ifeq ($(strip $(arch)),)
--arch := $(shell uname -m)
-+arch := $(shell uname -p)
- endif
+-static __inline__ unsigned long long get_timestamp(void)
++static inline unsigned long long get_timestamp(void)
+ {
+ 	unsigned long long thetime;
+-	struct timespec tv;
  
-+ifeq ($(strip $(os)),)
-+os := $(shell uname)
-+endif
-+
-+ifeq ($(os),Linux)
-+# Linux
- ifeq ($(arch),i686)
- target := x86
- subdir_ub := i386-linux-gnu
-@@ -23,6 +29,27 @@ subdir_ub := arm-linux-gnueabihf
- else
- target :=
- subdir_ub :=
-+endif
-+os_compat := linux
-+
-+else ifeq ($(os),QNX)
-+# QNX
-+ifeq ($(arch),x86_64)
-+target := x86
-+else ifeq ($(arch),aarch64le)
-+target := arm64
-+else
-+target :=
-+endif
-+subdir_ub :=
-+os_compat := qnx
-+
-+else
-+# Other OS
-+target :=
-+subdir_ub :=
-+os_compat :=
-+
- endif
- 
- api_depend_common := $(top)/linux/common.h \
+-	if (clock_gettime(CLOCK_MONOTONIC_RAW, &tv) != 0)
+-		return 0;
+-	thetime = ((unsigned long long)tv.tv_sec) * 1000000000ULL +
+-		  ((unsigned long long)tv.tv_nsec);
++	__asm__ __volatile__ ("isb; mrs %0, cntvct_el0" : "=r"(thetime));
+ 	return thetime;
+ }
 -- 
 2.25.1
 
