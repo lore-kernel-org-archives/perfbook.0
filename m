@@ -1,70 +1,75 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34708 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232527AbiHPMs0 (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 16 Aug 2022 08:48:26 -0400
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 842836CF5C
-        for <perfbook@vger.kernel.org>; Tue, 16 Aug 2022 05:46:53 -0700 (PDT)
-Received: by mail-qv1-xf2b.google.com with SMTP id mz1so2814240qvb.4
-        for <perfbook@vger.kernel.org>; Tue, 16 Aug 2022 05:46:53 -0700 (PDT)
+        with ESMTP id S231594AbiHPMtg (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 16 Aug 2022 08:49:36 -0400
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D8658FD5E
+        for <perfbook@vger.kernel.org>; Tue, 16 Aug 2022 05:48:58 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id i24so7958628qkg.13
+        for <perfbook@vger.kernel.org>; Tue, 16 Aug 2022 05:48:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=+aSyCHjPZYPA/m7E78L0wHB8aTQX7QEZ0puVjwoDHf4=;
-        b=EB3aIoZpfih3phEYhvGPP25lUz17zOSIQc8BrFHsQcyukf0j1PulDb25buk3xjt0ey
-         20Ksjlqg0u/v6J9f8LxfCoKc05f/qQNb4MEWAD/skz+p8nwzc6YdgCymS0b7BME2QJih
-         LFyKIUwn2UXOdZa02DdODbAEY6sEA+ulnyDvLGvnCzvqgJOBP30Rv/5DWw89MY9Xrthy
-         kCyvq0ZA5EDT90lqSVDYbsRe5CAeYwI+sSGF0T+GOx28hGoGR3WEXQS+FTbIqrFUpoDJ
-         esf3EtGs/wGvMqB+XPKHIXzPMZtC9WWMgWzimr5hHZk1c9trr1gOCjgsP8bl1+zDxoi0
-         iBxQ==
-From: Elad Lahav <e2lahav@gmail.com>
-Subject: [PATCH 2/2] CodeSamples: Switch ARM64 get_timestamp() to use the hardware counter
-Date: Tue, 16 Aug 2022 08:46:47 -0400
-Message-Id: <20220816124647.75220-1-e2lahav@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=pF+lerQgcyIAdYm0zYyvMP+W5052PD3j7g+IsHKcSEc=;
+        b=Pyn7K3UZ4HUeDfKcNrxHCxu6ETBHT0CyPtfQayj3lpuITAsNAmDdWxQ5oDyFETVrIb
+         iKXCE8cmEq1h+TbEuGEmrS9zD0OQAQ+pNO+anNkCuJ8xTynakSbnPxe2/d5osqDAd4kf
+         NaQNo/D6OoA6tXDjq20MM7axBBCGPxAJnwkibYEbaoCqPy/o3/2+3lG3tqF/oPcczCsd
+         GvpQ4/OcLCsIFJMlFx3UebR/Pz3Jx0S5JTXsHGVW2KgyxxqPouRApuenKmh2sL1e90E2
+         ct0aJwnDNYJJ5YSzZlwA/O1a9getH+mbHQ+OlYfTy+FF03fwBmRix6kU65FmQznN1TWR
+         6ydg==
+Received: from [192.168.2.112] (cpef85971ea0e70-cmac202ebe2430.cpe.net.cable.rogers.com. [174.112.192.43])
+        by smtp.gmail.com with ESMTPSA id o4-20020a05620a2a0400b006ba9b2167a2sm10805243qkp.16.2022.08.16.05.48.55
+        for <perfbook@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Aug 2022 05:48:56 -0700 (PDT)
+Message-ID: <66962abc-94ce-b9ab-e75f-92d8bd03e8c9@gmail.com>
+Date: Tue, 16 Aug 2022 08:48:54 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 2/2] CodeSamples: Switch ARM64 get_timestamp() to use the
+ hardware counter
+Content-Language: en-CA
+References: <20220816124647.75220-1-e2lahav@gmail.com>
+From: Elad Lahav <e2lahav@gmail.com>
+In-Reply-To: <20220816124647.75220-1-e2lahav@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-ID: <perfbook.vger.kernel.org>
 To: perfbook@vger.kernel.org
-Cc: Elad Lahav <e2lahav@gmail.com>
 
-Signed-off-by: Elad Lahav <e2lahav@gmail.com>
----
- CodeSamples/arch-arm64/arch-arm64.h | 15 ++-------------
- 1 file changed, 2 insertions(+), 13 deletions(-)
+On 2022-08-16 08:46, Elad Lahav wrote:
+> Signed-off-by: Elad Lahav <e2lahav@gmail.com>
 
-diff --git a/CodeSamples/arch-arm64/arch-arm64.h b/CodeSamples/arch-arm64/arch-arm64.h
-index f45d8bdc..220b8b16 100644
---- a/CodeSamples/arch-arm64/arch-arm64.h
-+++ b/CodeSamples/arch-arm64/arch-arm64.h
-@@ -43,24 +43,13 @@
- #define smp_mb()  __asm__ __volatile__("dmb ish" : : : "memory")
- 
- 
--#include <stdlib.h>
--#include <time.h>
--
--#ifndef CLOCK_MONOTONIC_RAW
--#define CLOCK_MONOTONIC_RAW CLOCK_MONOTONIC
--#endif
--
- /*
-  * Generate 64-bit timestamp.
-  */
--static __inline__ unsigned long long get_timestamp(void)
-+static inline unsigned long long get_timestamp(void)
- {
- 	unsigned long long thetime;
--	struct timespec tv;
- 
--	if (clock_gettime(CLOCK_MONOTONIC_RAW, &tv) != 0)
--		return 0;
--	thetime = ((unsigned long long)tv.tv_sec) * 1000000000ULL +
--		  ((unsigned long long)tv.tv_nsec);
-+	__asm__ __volatile__ ("isb; mrs %0, cntvct_el0" : "=r"(thetime));
- 	return thetime;
- }
--- 
-2.25.1
+I tested the change on an aarch64 board on both QNX and Linux. The Linux 
+results show quite the change in performance from the clock_gettime() 
+version, which is probably expected.
 
+Before:
+root@localhost:~/src/CodeSamples/defer# ./gettimestamp
+d3f5e50a7d
+d3f5e50af5 120
+d3f5e50b6d 120
+d3f5e50be5 120
+d3f5e50c5d 120
+d3f5e50cd5 120
+d3f5e50d25 80
+d3f5e50d9d 120
+d3f5e50e15 120
+d3f5e50e8d 120
+
+After:
+root@localhost:~/src/CodeSamples/defer# ./gettimestamp
+73706dac1
+73706dac2 1
+73706dac4 2
+73706dac5 1
+73706dac6 1
+73706dac8 2
+73706dac9 1
+73706dacb 2
+73706dacc 1
+73706dacd 1
+
+--Elad
