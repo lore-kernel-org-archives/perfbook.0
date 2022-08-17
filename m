@@ -1,131 +1,155 @@
-Return-Path: <SRS0=7klt=YU=gmail.com=e2lahav@kernel.org>
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38030 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235694AbiHQLBP (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Wed, 17 Aug 2022 07:01:15 -0400
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF21E3A48B
+        for <perfbook@vger.kernel.org>; Wed, 17 Aug 2022 04:01:14 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id w28so10063186qtc.7
+        for <perfbook@vger.kernel.org>; Wed, 17 Aug 2022 04:01:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=GdbdbhoqW60/M9Xw9pA2vKlH7HspjegSuxSuPKvXlN8=;
-        b=UTl1R6VAy1OcjuaWKl1qkVQktQjpgb4XFg8SNLca6LihTLOx7rHKmQ+EMEJqyL3m/w
-         NGQibzHXTynxGslhvRiLu7hL758sND5YDE5kFhyZwTLp7un/O1bATC620qGPvDLKitte
-         ucgNQY+jHfOlpuOAEBFRZv+8p4rOxr+ZSGcsQ1jkqycSLZY/47Xtr1LByyLJHgknQya+
-         vniGduuM2BzC7T05JYL922JP6K834zDiTD1tFrCnt6UahnL+UKS9hL/+Vx284a5KVY4/
-         il8NP8CsX2majyHIYpsfTQzgfajPG6xhMY/IUj40sGCMPnP+MITccJ3zS4FoBf4rg1jm
-         REHg==
-MIME-Version: 1.0
-References: <20220813114559.2082323-1-e2lahav@gmail.com> <4a072f55-a780-d69b-9a74-a5d5aba63b7a@gmail.com>
- <20220813231240.GM2125313@paulmck-ThinkPad-P17-Gen-1> <CAJbg=FXKFnVwoyvRw=xhjTpkzp7ScGngb8yc9VwwTY7FeYJobw@mail.gmail.com>
- <20220813232901.GP2125313@paulmck-ThinkPad-P17-Gen-1> <b6e578f6-7399-1d0f-a76c-9f3e19ed32c4@gmail.com>
- <20220815035913.GT2125313@paulmck-ThinkPad-P17-Gen-1>
-In-Reply-To: <20220815035913.GT2125313@paulmck-ThinkPad-P17-Gen-1>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=czG37+aRoyeq/e5Zlx1ILcCY0XpOjXLGcIBKXfsOKVg=;
+        b=cGuxiUO7bTYtwbXsbC2j7IZPuBKXL7g55Ajsuakv9mxBUpuPqQaGTJ8ju6jdQUe1kd
+         nb4nDfgTpLxAZMvdLDtBwmmffrbm8HuOnrBWrOaa1lkCTslZpct2LB6BI9mb3Vci1ZmF
+         LcaxrqMhVlC1TFyZ1t/xFB5sw9oGRD6rivuljcZES/fRyg0FZEc3mRNrp0KJjs5AweLY
+         lwhyMLXznzmCQzWVrpaVHFtgfjdJ3UTRz7z6yZ/MJxXmhznUBcHXdCPkMxlCgPuxm/LM
+         puEN9OKZv6PZMbuqTc4Gif/LLNRw1wboJGL7Jx/lu5ECshIDaci2EOw0fuPV17xnkXOd
+         iORg==
 From: Elad Lahav <e2lahav@gmail.com>
-Date: Tue, 16 Aug 2022 19:43:57 -0400
-Message-ID: <CAJbg=FVA9g45uA21XL1O1hir0CfuDucaeCvF_uV2iFL8=kOoCA@mail.gmail.com>
-Subject: Re: [PATCH] count: Switch from GCC to C11 thread-local storage
-Content-Type: text/plain; charset="UTF-8"
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org
+Subject: [PATCH v2] count: Switch from GCC to C11 thread-local storage
+Date: Wed, 17 Aug 2022 07:00:50 -0400
+Message-Id: <20220817110049.182128-1-e2lahav@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-ID: <perfbook.vger.kernel.org>
+To: perfbook@vger.kernel.org
+Cc: Elad Lahav <e2lahav@gmail.com>
 
-I also ran the count_end test on Linux/aarch64 on the same board, and
-got the same results as on QNX. No surprise there, but the discrepancy
-with the x86_64 results on Linux made me want to double-check that the
-QNX build is not doing something stupid. I guess that what it shows is
-that, Apple's M1 chip notwithstanding, ARM still hasn't closed the gap
-when it comes to raw performance. You can always claim that we are
-comparing apples and oranges here, but I noticed the same trend on
-many different boards.
+Signed-off-by: Elad Lahav <e2lahav@gmail.com>
+---
+ CodeSamples/count/count_end.c | 12 ++++++------
+ count/count.tex               | 20 ++++++++++++--------
+ 2 files changed, 18 insertions(+), 14 deletions(-)
 
---Elad
+diff --git a/CodeSamples/count/count_end.c b/CodeSamples/count/count_end.c
+index 722ad2f7..5e7b9ee1 100644
+--- a/CodeSamples/count/count_end.c
++++ b/CodeSamples/count/count_end.c
+@@ -1,6 +1,6 @@
+ /*
+  * count_end.c: Per-thread statistical counters that provide sum at end.
+- *	Uses __thread for each thread's counter.
++ *	Uses _Thread_local for each thread's counter.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+@@ -23,17 +23,17 @@
+ #include "../api.h"
+ 
+ //\begin{snippet}[labelbase=ln:count:count_end:whole,commandchars=\\\@\$]
+-unsigned long __thread counter = 0;		//\lnlbl{var:b}
++unsigned long _Thread_local counter = 0;		//\lnlbl{var:b}
+ unsigned long *counterp[NR_THREADS] = { NULL };
+ unsigned long finalcount = 0;
+ DEFINE_SPINLOCK(final_mutex);			//\lnlbl{var:e}
+ 
+-static __inline__ void inc_count(void)		//\lnlbl{inc:b}
++static inline void inc_count(void)		//\lnlbl{inc:b}
+ {
+ 	WRITE_ONCE(counter, counter + 1);
+ }						//\lnlbl{inc:e}
+ 
+-static __inline__ unsigned long read_count(void)
++static inline unsigned long read_count(void)
+ {
+ 	int t;
+ 	unsigned long sum;
+@@ -48,7 +48,7 @@ static __inline__ unsigned long read_count(void)
+ }
+ 
+ #ifndef FCV_SNIPPET
+-__inline__ void count_init(void)
++inline void count_init(void)
+ {
+ }
+ #endif /* FCV_SNIPPET */
+@@ -73,7 +73,7 @@ void count_unregister_thread(int nthreadsexpected)	//\lnlbl{unreg:b}
+ }							//\lnlbl{unreg:e}
+ //\end{snippet}
+ 
+-__inline__ void count_cleanup(void)
++inline void count_cleanup(void)
+ {
+ }
+ 
+diff --git a/count/count.tex b/count/count.tex
+index 523789e2..775cf77e 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -490,7 +490,7 @@ thread (presumably cache aligned and padded to avoid false sharing).
+ 	It can, and in this toy implementation, it does.
+ 	But it is not that hard to come up with an alternative
+ 	implementation that permits an arbitrary number of threads,
+-	for example, using \GCC's \co{__thread} facility,
++	for example, using C11's \co{_Thread_local} facility,
+ 	as shown in
+ 	\cref{sec:count:Per-Thread-Variable-Based Implementation}.
+ }\QuickQuizEnd
+@@ -721,8 +721,12 @@ This is the topic of the next section.
+ \subsection{Per-Thread-Variable-Based Implementation}
+ \label{sec:count:Per-Thread-Variable-Based Implementation}
+ 
+-\GCC\ provides an \apig{__thread} storage class that provides
+-per-thread storage.
++The C language, since C11, features a \apig{_Thread_local} storage class that
++provides per-thread storage.
++\footnote{\GCC\ provides its own \apig{__thread} storage class, which was used
++in previous versions of this book.
++The two methods for specifying a thread-local variable are interchangeable
++when using \GCC\@.}
+ This can be used as shown in
+ \cref{lst:count:Per-Thread Statistical Counters} (\path{count_end.c})
+ to implement
+@@ -749,14 +753,14 @@ value of the counter and exiting threads.
+ 	Doesn't that explicit \co{counterp} array in
+ 	\cref{lst:count:Per-Thread Statistical Counters}
+ 	reimpose an arbitrary limit on the number of threads?
+-	Why doesn't \GCC\ provide a \co{per_thread()} interface, similar
++	Why doesn't the C language provide a \co{per_thread()} interface, similar
+ 	to the Linux kernel's \co{per_cpu()} primitive, to allow
+ 	threads to more easily access each others' per-thread variables?
+ }\QuickQuizAnswer{
+ 	Why indeed?
+ 
+-	To be fair, \GCC\ faces some challenges that the Linux kernel
+-	gets to ignore.
++	To be fair, user-mode thread-local storage faces some challenges
++	that the Linux kernel gets to ignore.
+ 	When a user-level thread exits, its per-thread variables all
+ 	disappear, which complicates the problem of per-thread-variable
+ 	access, particularly before the advent of user-level RCU
+@@ -940,7 +944,7 @@ variables vanish when that thread exits.
+ 	more graceful manner.
+ }\QuickQuizEnd
+ 
+-Both the array-based and \co{__thread}-based approaches offer excellent
++Both the array-based and \co{_Thread_local}-based approaches offer excellent
+ update-side performance and scalability.
+ However, these benefits result in large read-side expense for large
+ numbers of threads.
+@@ -2961,7 +2965,7 @@ courtesy of eventual consistency.
+ 	work when there are more threads.
+ 	In addition, the last two algorithms interpose an additional
+ 	level of indirection because they map from integer thread ID
+-	to the corresponding \co{__thread} variable.
++	to the corresponding \co{_Thread_local} variable.
+ }\QuickQuizEndB
+ %
+ \QuickQuizE{
+-- 
+2.25.1
 
-On Sun, 14 Aug 2022 at 23:59, Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Sun, Aug 14, 2022 at 06:11:44AM -0400, Elad Lahav wrote:
-> > On 2022-08-13 19:29, Paul E. McKenney wrote:
-> > > On Sat, Aug 13, 2022 at 07:23:40PM -0400, Elad Lahav wrote:
-> > > > I believe that performance is statistically the same, but I will
-> > > > double check. I assume both GCC and C11 end up using the same
-> > > > underlying mechanism for thread-local storage:
-> > > >
-> > > > https://uclibc.org/docs/tls.pdf
-> > > >
-> > > > If not implemented, TLS falls back on pthread_[gs]et_specific(), but
-> > > > again it would be the same for __thread and _Thread_local.
-> > >
-> > > Sounds likely to me, but I have been surprised before.
-> >
-> > Results:
-> >
-> > Linux/x86-64, i7-8550U, GCC TLS
-> >
-> > elahav@lamia:~/src/other/perfbook/CodeSamples/count$ ./count_end
-> > n_reads: 408000  n_updates: 689366000  nreaders: 1  nupdaters: 1 duration:
-> > 240
-> > ns/read: 588.235  ns/update: 0.348146
-> > elahav@lamia:~/src/other/perfbook/CodeSamples/count$ ./count_end
-> > n_reads: 443000  n_updates: 762876000  nreaders: 1  nupdaters: 1 duration:
-> > 240
-> > ns/read: 541.761  ns/update: 0.314599
-> > elahav@lamia:~/src/other/perfbook/CodeSamples/count$ ./count_end
-> > n_reads: 395000  n_updates: 666718000  nreaders: 1  nupdaters: 1 duration:
-> > 240
-> > ns/read: 607.595  ns/update: 0.359972
-> >
-> > Linux/x86-64, i7-8550U, C11 TLS
-> >
-> > elahav@lamia:~/src/other/perfbook/CodeSamples/count$ ./count_end
-> > n_reads: 410000  n_updates: 684880000  nreaders: 1  nupdaters: 1 duration:
-> > 240
-> > ns/read: 585.366  ns/update: 0.350426
-> > elahav@lamia:~/src/other/perfbook/CodeSamples/count$ ./count_end
-> > n_reads: 411000  n_updates: 698148000  nreaders: 1  nupdaters: 1 duration:
-> > 240
-> > ns/read: 583.942  ns/update: 0.343767
-> > elahav@lamia:~/src/other/perfbook/CodeSamples/count$ ./count_end
-> > n_reads: 409000  n_updates: 704072000  nreaders: 1  nupdaters: 1 duration:
-> > 240
-> > ns/read: 586.797  ns/update: 0.340874
-> >
-> > QNX/aarch64, NXP LX2160A, GCC TLS (emulated)
-> >
-> > elahav@honeycomb:~/src/CodeSamples/count$ ./count_end
-> > n_reads: 221000  n_updates: 67876000  nreaders: 1  nupdaters: 1 duration:
-> > 240
-> > ns/read: 1085.97  ns/update: 3.53586
-> > elahav@honeycomb:~/src/CodeSamples/count$ ./count_end
-> > n_reads: 227000  n_updates: 67901000  nreaders: 1  nupdaters: 1 duration:
-> > 240
-> > ns/read: 1057.27  ns/update: 3.53456
-> > elahav@honeycomb:~/src/CodeSamples/count$ ./count_end
-> > n_reads: 211000  n_updates: 65043000  nreaders: 1  nupdaters: 1 duration:
-> > 240
-> > ns/read: 1137.44  ns/update: 3.68987
-> >
-> > QNX/aarch64, NXP LX2160A, C11 TLS (emulated)
-> >
-> > elahav@honeycomb:~/src/CodeSamples/count$ ./count_end
-> > n_reads: 217000  n_updates: 67814000  nreaders: 1  nupdaters: 1 duration:
-> > 240
-> > ns/read: 1105.99  ns/update: 3.53909
-> > elahav@honeycomb:~/src/CodeSamples/count$ ./count_end
-> > n_reads: 223000  n_updates: 67860000  nreaders: 1  nupdaters: 1 duration:
-> > 240
-> > ns/read: 1076.23  ns/update: 3.53669
-> > elahav@honeycomb:~/src/CodeSamples/count$ ./count_end
-> > n_reads: 218000  n_updates: 68116000  nreaders: 1  nupdaters: 1 duration:
-> > 240
-> > ns/read: 1100.92  ns/update: 3.5234
-> >
-> > Looking at the disassembly for the QNX binary I realized that it is still
-> > using the emulated TLS option (i.e., the compiler generates a shim layer
-> > that uses pthread_[gs]et_specific()). I will need to rebuild the compiler
-> > with native TLS support and retest, though I doubt it will have a
-> > significant impact.
->
-> That would explain the lack of statistical significance.  If there is
-> a change, I would hope that the new style is faster.
->
-> > In any case, both the native and the emulated TLS options show the same
-> > results with the GCC and C11 versions.
->
-> Sounds good, and thank you for checking!
->
->                                                         Thanx, Paul
