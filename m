@@ -1,45 +1,79 @@
-Return-Path: <SRS0=WSP0=YV=gmail.com=e2lahav@kernel.org>
+Return-Path: <SRS0=Ahii=Y4=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=B7nwYLMy3dZCl70YPAJhf8TC4SFKZORYPi3xMOHBT0k=;
-        b=Qmr+IaqrJZEzRj9R7HzAZfl9ysaRvRUWP5XmX5CSlpk/FqpUft+aF+j3/sO2F2Nc1P
-         b3n4ibRK/sjDrmsOkitxwAUG50tQKULApN7xXOywQpzZ8Y1HwzQf0J79IQQ6dVqGeBlY
-         QIE0bkNUBVndbiWaFsDeu0NigdZOUA3MgYE9AuwSV7WzcmVWkM3CikDAsqjQctSbrN4E
-         3rQ9aOnQ874JV/XXIzdGEDi6u0x2K4+bjrD0ElhmXCOclcwQ2X0kHeODpdLsxwQJ9ghy
-         cfzClGZc0U78kRdQsvb+U0KvSi0dbYNEn0Ux4lLNvxECPMn2H8s7f1RLD0vgWQ3SiaUw
-         d3wg==
-Message-ID: <c5a270d7-d19d-1f54-41f4-e44fb7a0ea43@gmail.com>
-Date: Wed, 17 Aug 2022 07:02:45 -0400
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc;
+        bh=0MIQbl01wE5kIm4Ct9gmMjVMw0KyPT72mRYhUC/cq7Q=;
+        b=obP7mazkCUhrCUAQd5hXoC+aztdjL1TUj+vg5yZidCiDxwH6zZoJz+IAvN0ptfgfK2
+         yN9ChVztlXui5lSP1Au+S8giW96chBow/EqieFPYYT+SCBhfNopk6c0xKQf8x9lwFgB3
+         jNLwXCzy7hwBcD+8KZNPooaXIh5nSmUfR4qOIUf2J2jwEItqi/WVl3mFPPmVEa70Sb9V
+         17VyZw77g51lR5aGrF6H4NuM0ZPdDvb9aKnZgZDt+7oiOTbN0J39O8h5nmErK/U+RrV4
+         BiHKWUfnAywZF2hU2DdXD7R1/JLv0Ru2/vMA2tzlGvSU5XxtO1P9Yf7BjY1/kzhqybrd
+         HVZA==
+Message-ID: <f96b6945-0727-b9f2-c34b-0c58a508cd92@gmail.com>
+Date: Wed, 24 Aug 2022 11:43:38 +0900
 MIME-Version: 1.0
-Subject: Re: [PATCH] count: Switch from GCC to C11 thread-local storage
-Content-Language: en-CA
-References: <20220813114559.2082323-1-e2lahav@gmail.com>
- <20220813230800.GL2125313@paulmck-ThinkPad-P17-Gen-1>
-From: Elad Lahav <e2lahav@gmail.com>
-In-Reply-To: <20220813230800.GL2125313@paulmck-ThinkPad-P17-Gen-1>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] count: Adjust index marker of _Thread_local
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-To: paulmck@kernel.org
-Cc: perfbook@vger.kernel.org
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Elad Lahav <e2lahav@gmail.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On 2022-08-13 19:08, Paul E. McKenney wrote:
-> On Sat, Aug 13, 2022 at 07:45:59AM -0400, Elad Lahav wrote:
->> Signed-off-by: Elad Lahav <e2lahav@gmail.com>
-> 
-> Nice, thank you!
-> 
-> But did you verify that none of the text describing count_end.c needed
-> changing?  (It seems unlikely that any would, but could you please check?)
+\apic{} is there for ISO C std APIs.  Use it.
 
-Indeed there were such references. Updated.
+While we are here, fix a couple of minor nits:
+   - align //\lnlbl{var:b} in count_end.c;
+   - not line-break in front of \footnote{}, indent footnote text.
 
-> Could you please mention __thread as the old way?  Either in the text
-> directly, in parentheses, as a footnote, or as a quick quiz, your choice.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Fixes: 24e8f711d2cf ("count: Switch from GCC to C11 thread-local storage")
+Cc: Elad Lahav <e2lahav@gmail.com>
+---
+ CodeSamples/count/count_end.c |  2 +-
+ count/count.tex               | 12 ++++++------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-Done. See v2.
+diff --git a/CodeSamples/count/count_end.c b/CodeSamples/count/count_end.c
+index 5e7b9ee1025c..b6ed851c35a9 100644
+--- a/CodeSamples/count/count_end.c
++++ b/CodeSamples/count/count_end.c
+@@ -23,7 +23,7 @@
+ #include "../api.h"
+ 
+ //\begin{snippet}[labelbase=ln:count:count_end:whole,commandchars=\\\@\$]
+-unsigned long _Thread_local counter = 0;		//\lnlbl{var:b}
++unsigned long _Thread_local counter = 0;	//\lnlbl{var:b}
+ unsigned long *counterp[NR_THREADS] = { NULL };
+ unsigned long finalcount = 0;
+ DEFINE_SPINLOCK(final_mutex);			//\lnlbl{var:e}
+diff --git a/count/count.tex b/count/count.tex
+index 775cf77e90a8..b2de4646b18f 100644
+--- a/count/count.tex
++++ b/count/count.tex
+@@ -721,12 +721,12 @@ This is the topic of the next section.
+ \subsection{Per-Thread-Variable-Based Implementation}
+ \label{sec:count:Per-Thread-Variable-Based Implementation}
+ 
+-The C language, since C11, features a \apig{_Thread_local} storage class that
+-provides per-thread storage.
+-\footnote{\GCC\ provides its own \apig{__thread} storage class, which was used
+-in previous versions of this book.
+-The two methods for specifying a thread-local variable are interchangeable
+-when using \GCC\@.}
++The C language, since C11, features a \apic{_Thread_local} storage class that
++provides per-thread storage.\footnote{
++	\GCC\ provides its own \apig{__thread} storage class, which was used
++	in previous versions of this book.
++	The two methods for specifying a thread-local variable are
++	interchangeable when using \GCC\@.}
+ This can be used as shown in
+ \cref{lst:count:Per-Thread Statistical Counters} (\path{count_end.c})
+ to implement
 
---Elad
+base-commit: ba01403b34de88d3060e119f899f5eb053c5f162
+-- 
+2.25.1
+
