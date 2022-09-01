@@ -1,136 +1,185 @@
 Return-Path: <SRS0=EhcA=ZE=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=v+gqmfXAMilJsaiRBUKVqn6MppeYAo/ncgAKxFzOY50=;
-        b=MN3V/QXPnO5cA5WtKM3o3tFMvj0FV27+yzrGxAS3JsuV5cIkSt0rUMFicsEDhdX2py
-         RvdKq330dLLM4micJMEJQmHX90ZdWpfucocgZA/wmwk0KxikwIKbOd7uhVPsjgAF+cQs
-         CZ3Bi4rwZpD8WCETJtl7gWJakJfrMotMJucXjzHC2LTlgTwuxk+ptkkGI03DaxQKS7EW
-         jhYUmGcXebSSwJd/W6ySmdmoV4T5SZqhHwLhYqFP2hRs7GRYfCXeHyDDDBG3TcOJs33W
-         acDVB5TDOvlhZUIaV/3bmGnnjLnPQdnZdL4ayFuhhvmmxTVjVYDsIPZmZHSprTw1VQtJ
-         LTjg==
-Message-ID: <a012cbd4-450e-4e58-e64f-ea7a19a94a06@gmail.com>
-Date: Thu, 1 Sep 2022 22:26:48 +0900
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc;
+        bh=yBs49aWYeCTUAKAo+lOrLw8M0CblBV4mlR2cEXXKiVo=;
+        b=RiYCcYqYA+HOM8EYcPMd73rIRkTrBIOcjSYcxyoTsHpN23ch59NlSEwUjV+C9dnQ7l
+         0RBAUqTb1eft4P9yDFaoOOLkrHSPP4XbGAQufxQMmCHSrxDrhcd9ok0JUDQlkyfZy5es
+         bs3BnYbPDRlbfLC19swPTOmg2aOw24YvrNV/G4HfatWZtnO0fm1YLGFJTxZ0K28wHf/D
+         JK5y6ZPFP4WQtPb+ZSG/jjgq5TraE8/Ur+1ncD6lVNrVav0bGVPqVwPJJwFhVPRpJWdA
+         khHo/Tctw+O15Ktb+GV+hxlebCBoj/7suzE3NrTY8Z0Wc/Y9rGv0Q1jbiny8mangNDR+
+         oAGA==
+Message-ID: <1d99f4ec-b5a5-52ad-df97-cddaee9f98a5@gmail.com>
+Date: Thu, 1 Sep 2022 22:44:04 +0900
 MIME-Version: 1.0
-Subject: Re: Comments in the form of patch
 Content-Language: en-US
-References: <20220829135533.GA1839874@paulmck-ThinkPad-P17-Gen-1>
- <3e1afa78-865b-6fb4-ca69-36529f1a8e69@gmail.com>
- <da2fde84-6253-73b4-4eeb-0186e52f74fc@gmail.com>
- <20220831184407.GN6159@paulmck-ThinkPad-P17-Gen-1>
 From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220831184407.GN6159@paulmck-ThinkPad-P17-Gen-1>
+Subject: [PATCH -perfbook 1/2] treewide: Fix trivial typos
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Wed, 31 Aug 2022 11:44:07 -0700, Paul E. McKenney wrote:
-> On Wed, Aug 31, 2022 at 11:41:35PM +0900, Akira Yokosawa wrote:
->> Hi Paul,
->>
->> This is a collection of comments in the form of a patch.
->> I think you can figure out what I want to say, but if unclear,
->> please ask.
->>
->>         Thanks, Akira
->> ---
->>  defer/rcuusage.tex  |  2 ++
->>  locking/locking.tex | 12 ++++++++++++
->>  2 files changed, 14 insertions(+)
->>
->> diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
->> index eba1033bbbc3..0cefe84d0e63 100644
->> --- a/defer/rcuusage.tex
->> +++ b/defer/rcuusage.tex
->> @@ -1732,11 +1732,13 @@ locking and by static data-structure layout, respectively.
->>  
->>  	Hazard pointers can be considerd to combine temporal and spatial
->>  	synchronization in a similar manner.
->> +% reference to \cref{lst:defer:Hazard-Pointer Recording and Clearing}?
->>  	The \co{hp_record()} function's acquisition of a reference
->>  	provides both spatial and temporal synchronization, subscribing
->>  	to a version and marking the start of a reference, respectively.
->>  	This function therefore combines the effects of RCU's
->>  	\co{rcu_read_lock()} and \co{rcu_dereference()}.
->> +% reference to \cref{lst:defer:Hazard-Pointer Scanning and Freeing}?
->>  	The \co{hp_clear()} function's release of a reference provides
->>  	temporal synchronization marking the end of a reference, and is
->>  	thus similar to RCU's \co{rcu_read_unlock()}.
-> 
-> Good point!  I took a stab at this here:
-> 
-> ec15ee942d5c ("defer/rcuusage: Add references to QQ9.65")
-Looks good!
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+This is a collection of trivial fixes of typos found by half-manual
+spell checking in diffs from v2021.12.22a.
 
-> 
->> diff --git a/locking/locking.tex b/locking/locking.tex
->> index f0b4513995a7..df6458063a89 100644
->> --- a/locking/locking.tex
->> +++ b/locking/locking.tex
->> @@ -1136,6 +1136,13 @@ Of course, locks partition time instead of sawing wood,\footnote{
->>  	are described in \cref{chp:Deferred Processing}.}
->>  but just like sawing wood, using locks to partitioning wastes some of
->>  that time due to lock overhead and (worse yet) lock contention.
->> +%%% ^^^ I could not parse this sentence for the first time.
->> +% ..., [using locks] to [partitioning wastes] [some of that time] ???
->> +%
->> +% [partitioning wastes] looked like a noun phrase.
->> +%
->> +% ..., partitioning time with locks wastes some of that time ... ???
->> +%%%
-> 
-> This was me changing my mind on how to write the sentence mid-way
-> through and failing to clean up afterwards.  The "to partitioning wastes"
-> should instead be "to partition time wastes".
-Ah, that explains.  ;-)
+I think these are only the tip of iceberg. ;-)
 
-> 
-> 69cd68c5aa33 ("locking: Fix time-partitioning typo")
-> 
->>  One important difference is that if someone saws a board into too-small
->>  pieces, the resuting conversion of most of that board into sawdust will
->>  be immediately obvious.
->> @@ -1178,6 +1185,11 @@ be accessed by the lock holder without interference from other threads.
->>  The Rust programming language takes lock/data association a step further
->>  by allowing the developer to make a compiler-visible association between
->>  a lock and the data that it protects.
->> +% A \cite{} or two for the Rust lang?
->> +%   - https://www.rust-lang.org/
->> +%   - https://doc.rust-lang.org/book/ch16-00-concurrency.html
->> +%
->> +% Brief introduction of the Rust lang somewhere in Chapter 2?
-> 
-> Good point!  But how about this one?
-> 
-> https://cacm.acm.org/magazines/2021/4/251364-safe-systems-programming-in-rust/fulltext
-Yes, this looks like a good read.
+There can be wrong fix(ex) though.
+Please examine each of them before committing.
 
-> 
-> It talks about safety, but also links it to verification.
-I do need to read through it.
+        Thanks, Akira
+--
+ advsync/advsync.tex                  | 4 ++--
+ appendix/whymb/whymemorybarriers.tex | 2 +-
+ defer/rcuapi.tex                     | 2 +-
+ defer/rcuusage.tex                   | 2 +-
+ glossary.tex                         | 6 +++---
+ indexsee.tex                         | 4 ++--
+ locking/locking.tex                  | 2 +-
+ together/applyrcu.tex                | 2 +-
+ 8 files changed, 12 insertions(+), 12 deletions(-)
 
-> 
-> 729ed701fa72 ("locking: Add Rust citation for lock/data association")
-> 
-> Thoughts?
-All look good to me.
+diff --git a/advsync/advsync.tex b/advsync/advsync.tex
+index 340c109562e4..3ff205e237b9 100644
+--- a/advsync/advsync.tex
++++ b/advsync/advsync.tex
+@@ -456,7 +456,7 @@ largely orthogonal to those that form the basis of real-time programming:
+ 	an NBS algorithm might substitute a non-blocking polling
+ 	operation.
+ 	This is fine in theory, but not helpful in practice to real-world
+-	programs that requie an element to propagate through the queue
++	programs that require an element to propagate through the queue
+ 	in a timely fashion.
+ \item	Real-time forward-progress guarantees usually apply only
+ 	in the absence of software bugs.
+@@ -585,7 +585,7 @@ can be at least partially redeemed using a number of approaches:
+ \item	Run on a non-blocking operating-system kernel~\cite{Cheriton96a}.
+ 	Such kernels are quite rare, in part because they have
+ 	traditionally completely failed to provide the hoped-for
+-	performance and scalabilty advantages over lock-based kernels.
++	performance and scalability advantages over lock-based kernels.
+ 	But perhaps you should write one.
+ \item	Use facilities such as \co{mlockall()} to avoid page faults,
+ 	while also ensuring that your program preallocates all the
+diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
+index f2cca5d6c112..99c68eac38df 100644
+--- a/appendix/whymb/whymemorybarriers.tex
++++ b/appendix/whymb/whymemorybarriers.tex
+@@ -1762,7 +1762,7 @@ future such problems:
+ 	all of the CPUs once the DMA completes, but it is much easier
+ 	and more efficient if the device DMA participates in the
+ 	cache-coherence protocol, making all of this flushing and
+-	invalidating unnecessory.
++	invalidating unnecessary.
+ 
+ \item	External busses that fail to transmit cache-coherence data.
+ 
+diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+index 6f6c04681def..8ee54866bbe6 100644
+--- a/defer/rcuapi.tex
++++ b/defer/rcuapi.tex
+@@ -1106,7 +1106,7 @@ but pointers holding values returned from \co{rcu_dereference()}
+ should not be.
+ Providing these markings on variables, structure fields, function
+ parameters, and return values allows the Linux kernel's \co{sparse}
+-tool to detect situtations where RCU-protected pointers are
++tool to detect situations where RCU-protected pointers are
+ incorrectly accessed using plain C-language loads and stores.
+ 
+ Debug-object support is automatic for any \apik{rcu_head} structures
+diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
+index 7dfa57c44844..9da0e04c97ef 100644
+--- a/defer/rcuusage.tex
++++ b/defer/rcuusage.tex
+@@ -1730,7 +1730,7 @@ locking and by static data-structure layout, respectively.
+ }\QuickQuizAnswer{
+ 	Not at all.
+ 
+-	Hazard pointers can be considerd to combine temporal and spatial
++	Hazard pointers can be considered to combine temporal and spatial
+ 	synchronization in a similar manner.
+ 	Referring to
+ 	\cref{lst:defer:Hazard-Pointer Recording and Clearing},
+diff --git a/glossary.tex b/glossary.tex
+index 87db763b7be4..accd5e9c9de8 100644
+--- a/glossary.tex
++++ b/glossary.tex
+@@ -239,9 +239,9 @@
+ 	linear speedups as threads are added (assuming sufficient
+ 	CPUs are available).
+ \item[\IXGalth{Energy Efficiency}{energy}{efficiency}:]
+-	Shorthand for ``energy-efficienct use'' in which the goal is to
++	Shorthand for ``energy-efficient use'' in which the goal is to
+ 	carry out a given computation with reduced energy consumption.
+-	Sublinear scalabilty can be an obstacle to energy-efficient use
++	Sublinear scalability can be an obstacle to energy-efficient use
+ 	of a multicore system.
+ \item[Epoch-Based Reclamation (EBR):]\glsuseriii{ebr}
+ 	An \acr{rcu} implementation style put forward by
+@@ -270,7 +270,7 @@
+ 	scalability.
+ \item[\IXG{Forward-Progress Guarantee}:]
+ 	Algorithms or programs that guarantee that execution will
+-	progress at some rate under specfied conditions.
++	progress at some rate under specified conditions.
+ 	Academic forward-progress guarantees are grouped into a
+ 	formal hierarchy shown in
+ 	\cref{sec:advsync:Non-Blocking Synchronization}.
+diff --git a/indexsee.tex b/indexsee.tex
+index c7fea66b2871..bd82fa1debfd 100644
+--- a/indexsee.tex
++++ b/indexsee.tex
+@@ -13,7 +13,7 @@
+ \index{Exclusive lock|see{Lock, exclusive}}
+ \index{Full memory barrier|see{Memory barrier, full}}
+ \index{Fully associative cache|see{Cache, fully associative}}
+-\index{Grace-priod latency|see{Latency, grace-period}}
++\index{Grace-period latency|see{Latency, grace-period}}
+ \index{Memory consistency|see{Consistency, memory}}
+ \index{Memory latency|see{Latency, memory}}
+ \index{Memory-barrier latency|see{Latency, memory-barrier}}
+@@ -26,7 +26,7 @@
+ \index{Reader-writer lock|see{Lock, reader-writer}}
+ \index{Scheduling latency|see{Latency, scheduling}}
+ \index{Sequence lock|see{Lock, sequence}}
+-\index{Sequencial consistency|see{Consistency, sequencial}}
++\index{Sequential consistency|see{Consistency, sequential}}
+ \index{Weak consistency|see{Consistency, weak}}
+ \index{Write memory barrier|see{Memory barrier, write}}
+ \index{Write miss|see{Cache miss, write}}
+diff --git a/locking/locking.tex b/locking/locking.tex
+index 4bc03f26a960..ccfbb9b394e9 100644
+--- a/locking/locking.tex
++++ b/locking/locking.tex
+@@ -1137,7 +1137,7 @@ Of course, locks partition time instead of sawing wood,\footnote{
+ but just like sawing wood, using locks to partition time wastes some of
+ that time due to lock overhead and (worse yet) lock contention.
+ One important difference is that if someone saws a board into too-small
+-pieces, the resuting conversion of most of that board into sawdust will
++pieces, the resulting conversion of most of that board into sawdust will
+ be immediately obvious.
+ In contrast, it is not always obvious that a given lock acquisition
+ is wasting excessive amounts of time.
+diff --git a/together/applyrcu.tex b/together/applyrcu.tex
+index 2a5a3c1248f6..1c9b1b7a23cd 100644
+--- a/together/applyrcu.tex
++++ b/together/applyrcu.tex
+@@ -815,7 +815,7 @@ way of stopping in the middle and resuming later.
+ For example, in Linux kernel v5.16, the \co{khugepaged_scan_file()}
+ function checks to see if some other task needs the current CPU
+ using \co{need_resched()}, and if so invokes \co{xas_pause()} to
+-adjust the travesal's iterator appropriately, and then invokes
++adjust the traversal's iterator appropriately, and then invokes
+ \co{cond_resched_rcu()} to yield the CPU\@.
+ In turn, the \co{cond_resched_rcu()} function invokes \co{rcu_read_unlock()},
+ \co{cond_resched()}, and finally \co{rcu_read_lock()} to drop out of
 
-I have a set of last-minute typo fixes.
-Will send them soon.
+base-commit: 729ed701fa72c1445fc8575b5e27fccb55378dbc
+-- 
+2.25.1
 
-       Thanks, Akira
-
-> 
-> 							Thanx, Paul
-> 
->>  When such an association has been made, attempts to access the data
->>  without the benefit of the corresponding lock will result in a
->>  compile-time diagnostic.
->> -- 
->> 2.25.1
->>
->>
