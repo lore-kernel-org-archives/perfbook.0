@@ -1,185 +1,102 @@
 Return-Path: <SRS0=EhcA=ZE=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc;
-        bh=yBs49aWYeCTUAKAo+lOrLw8M0CblBV4mlR2cEXXKiVo=;
-        b=RiYCcYqYA+HOM8EYcPMd73rIRkTrBIOcjSYcxyoTsHpN23ch59NlSEwUjV+C9dnQ7l
-         0RBAUqTb1eft4P9yDFaoOOLkrHSPP4XbGAQufxQMmCHSrxDrhcd9ok0JUDQlkyfZy5es
-         bs3BnYbPDRlbfLC19swPTOmg2aOw24YvrNV/G4HfatWZtnO0fm1YLGFJTxZ0K28wHf/D
-         JK5y6ZPFP4WQtPb+ZSG/jjgq5TraE8/Ur+1ncD6lVNrVav0bGVPqVwPJJwFhVPRpJWdA
-         khHo/Tctw+O15Ktb+GV+hxlebCBoj/7suzE3NrTY8Z0Wc/Y9rGv0Q1jbiny8mangNDR+
-         oAGA==
-Message-ID: <1d99f4ec-b5a5-52ad-df97-cddaee9f98a5@gmail.com>
-Date: Thu, 1 Sep 2022 22:44:04 +0900
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=ibi4wezoVyytM5KDKJvuOWA3PQsWUrj5BuRYvTTSlmA=;
+        b=lvSqUrimKFIy4sHXdOsZ5r06MThrVwAWuSVfI0PvdGGtJpR6rWcP5v96+jn257yhRz
+         5fdk9suRQII4gWyPC9DwGabDtpK5dACa6wKRHWwxgTJdZSGMTP7SmRLeBcFBBKJLMn4X
+         cbDHpgmbwBHmOcpexYKg64YxkL0fr2kBcYQkbC7Cfkc7JOgdZv+6N6qV0/B+qgrtSz0o
+         AkLAVLgQ0QSA2NPhAdOk18G8CWsz0vDprysdut91XXcg8uilYfZn4LsHAJpcUY6FZCdO
+         s9ultwXMoyemLIkOL+aWv1mhvT7+P1uqXoqoovxik7/1uzS46eqxyZno5ER/EHE/L48O
+         2s7w==
+Message-ID: <1d8f63ca-1c10-5b35-6634-3c2351af1943@gmail.com>
+Date: Thu, 1 Sep 2022 22:47:22 +0900
 MIME-Version: 1.0
+Subject: [PATCH -perfbook 2/2] Fix punctuation around footnotes
 Content-Language: en-US
+References: <1d99f4ec-b5a5-52ad-df97-cddaee9f98a5@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 1/2] treewide: Fix trivial typos
+In-Reply-To: <1d99f4ec-b5a5-52ad-df97-cddaee9f98a5@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
+Perfbook's convention is to put footnotes after punctuation marks.
+There are a couple of footnotes placed in front of commas.
+
+Fix them.
+
+While here, fill in a missing comma in front of a footnote in datastruct
+so that the phrase "even with today's large-memory systems" reads as such.
+
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
-This is a collection of trivial fixes of typos found by half-manual
-spell checking in diffs from v2021.12.22a.
-
-I think these are only the tip of iceberg. ;-)
-
-There can be wrong fix(ex) though.
-Please examine each of them before committing.
+I'm thinking of adding rules to catch this sort of inconsistencies in
+punctcheck.pl.
+The one in datastuct would be hard for such a dumb script, though.
 
         Thanks, Akira
 --
- advsync/advsync.tex                  | 4 ++--
- appendix/whymb/whymemorybarriers.tex | 2 +-
- defer/rcuapi.tex                     | 2 +-
- defer/rcuusage.tex                   | 2 +-
- glossary.tex                         | 6 +++---
- indexsee.tex                         | 4 ++--
- locking/locking.tex                  | 2 +-
- together/applyrcu.tex                | 2 +-
- 8 files changed, 12 insertions(+), 12 deletions(-)
+ datastruct/datastruct.tex     | 2 +-
+ intro/intro.tex               | 4 ++--
+ toolsoftrade/toolsoftrade.tex | 4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/advsync/advsync.tex b/advsync/advsync.tex
-index 340c109562e4..3ff205e237b9 100644
---- a/advsync/advsync.tex
-+++ b/advsync/advsync.tex
-@@ -456,7 +456,7 @@ largely orthogonal to those that form the basis of real-time programming:
- 	an NBS algorithm might substitute a non-blocking polling
- 	operation.
- 	This is fine in theory, but not helpful in practice to real-world
--	programs that requie an element to propagate through the queue
-+	programs that require an element to propagate through the queue
- 	in a timely fashion.
- \item	Real-time forward-progress guarantees usually apply only
- 	in the absence of software bugs.
-@@ -585,7 +585,7 @@ can be at least partially redeemed using a number of approaches:
- \item	Run on a non-blocking operating-system kernel~\cite{Cheriton96a}.
- 	Such kernels are quite rare, in part because they have
- 	traditionally completely failed to provide the hoped-for
--	performance and scalabilty advantages over lock-based kernels.
-+	performance and scalability advantages over lock-based kernels.
- 	But perhaps you should write one.
- \item	Use facilities such as \co{mlockall()} to avoid page faults,
- 	while also ensuring that your program preallocates all the
-diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
-index f2cca5d6c112..99c68eac38df 100644
---- a/appendix/whymb/whymemorybarriers.tex
-+++ b/appendix/whymb/whymemorybarriers.tex
-@@ -1762,7 +1762,7 @@ future such problems:
- 	all of the CPUs once the DMA completes, but it is much easier
- 	and more efficient if the device DMA participates in the
- 	cache-coherence protocol, making all of this flushing and
--	invalidating unnecessory.
-+	invalidating unnecessary.
+diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
+index 714795f7c5ed..2b802e0518a5 100644
+--- a/datastruct/datastruct.tex
++++ b/datastruct/datastruct.tex
+@@ -2132,7 +2132,7 @@ the one hand, and performance and simplicity on the other.
+ Fortunately, the relatively large memories available on modern
+ systems have allowed us to prioritize performance and simplicity
+ over memory overhead.
+-However, even with today's large-memory systems\footnote{
++However, even with today's large-memory systems,\footnote{
+ 	Smartphones with gigabytes of memory, anyone?}
+ it is sometimes necessary to take extreme measures to reduce
+ memory overhead.
+diff --git a/intro/intro.tex b/intro/intro.tex
+index e39ea652ba0a..2c7ad97b8111 100644
+--- a/intro/intro.tex
++++ b/intro/intro.tex
+@@ -353,7 +353,7 @@ This change in focus is due to the fact that, although \IXr{Moore's Law}
+ continues to deliver increases in transistor density, it has ceased to
+ provide the traditional single-threaded performance increases.
+ This can be seen in
+-\cref{fig:intro:Clock-Frequency Trend for Intel CPUs}\footnote{
++\cref{fig:intro:Clock-Frequency Trend for Intel CPUs},\footnote{
+ 	This plot shows clock frequencies for newer CPUs theoretically
+ 	capable of retiring one or more instructions per clock, and MIPS
+ 	(millions of instructions per second, usually from the old
+@@ -366,7 +366,7 @@ This can be seen in
+ 	Furthermore, the benchmarks commonly used on the older CPUs
+ 	are obsolete, and it is difficult to run the newer benchmarks
+ 	on systems containing the old CPUs, in part because it is hard
+-	to find working instances of the old CPUs.},
++	to find working instances of the old CPUs.}
+ which shows that writing single-threaded code and simply waiting
+ a year or two for the CPUs to catch up may no longer be an option.
+ Given the recent trends on the part of all major manufacturers towards
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index dc24571a1163..97f8f2d3ecf9 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -2488,8 +2488,8 @@ per-CPU operations.
+ shows this book's per-thread-variable API, which is patterned
+ after the Linux kernel's per-CPU-variable API\@.
+ This API provides the per-thread equivalent of global variables.
+-Although this API is, strictly speaking, not necessary\footnote{
+-	You could instead use \apig{__thread} or \apic{_Thread_local}.},
++Although this API is, strictly speaking, not necessary,\footnote{
++	You could instead use \apig{__thread} or \apic{_Thread_local}.}
+ it can provide a good userspace analogy to Linux kernel code.
  
- \item	External busses that fail to transmit cache-coherence data.
- 
-diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-index 6f6c04681def..8ee54866bbe6 100644
---- a/defer/rcuapi.tex
-+++ b/defer/rcuapi.tex
-@@ -1106,7 +1106,7 @@ but pointers holding values returned from \co{rcu_dereference()}
- should not be.
- Providing these markings on variables, structure fields, function
- parameters, and return values allows the Linux kernel's \co{sparse}
--tool to detect situtations where RCU-protected pointers are
-+tool to detect situations where RCU-protected pointers are
- incorrectly accessed using plain C-language loads and stores.
- 
- Debug-object support is automatic for any \apik{rcu_head} structures
-diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
-index 7dfa57c44844..9da0e04c97ef 100644
---- a/defer/rcuusage.tex
-+++ b/defer/rcuusage.tex
-@@ -1730,7 +1730,7 @@ locking and by static data-structure layout, respectively.
- }\QuickQuizAnswer{
- 	Not at all.
- 
--	Hazard pointers can be considerd to combine temporal and spatial
-+	Hazard pointers can be considered to combine temporal and spatial
- 	synchronization in a similar manner.
- 	Referring to
- 	\cref{lst:defer:Hazard-Pointer Recording and Clearing},
-diff --git a/glossary.tex b/glossary.tex
-index 87db763b7be4..accd5e9c9de8 100644
---- a/glossary.tex
-+++ b/glossary.tex
-@@ -239,9 +239,9 @@
- 	linear speedups as threads are added (assuming sufficient
- 	CPUs are available).
- \item[\IXGalth{Energy Efficiency}{energy}{efficiency}:]
--	Shorthand for ``energy-efficienct use'' in which the goal is to
-+	Shorthand for ``energy-efficient use'' in which the goal is to
- 	carry out a given computation with reduced energy consumption.
--	Sublinear scalabilty can be an obstacle to energy-efficient use
-+	Sublinear scalability can be an obstacle to energy-efficient use
- 	of a multicore system.
- \item[Epoch-Based Reclamation (EBR):]\glsuseriii{ebr}
- 	An \acr{rcu} implementation style put forward by
-@@ -270,7 +270,7 @@
- 	scalability.
- \item[\IXG{Forward-Progress Guarantee}:]
- 	Algorithms or programs that guarantee that execution will
--	progress at some rate under specfied conditions.
-+	progress at some rate under specified conditions.
- 	Academic forward-progress guarantees are grouped into a
- 	formal hierarchy shown in
- 	\cref{sec:advsync:Non-Blocking Synchronization}.
-diff --git a/indexsee.tex b/indexsee.tex
-index c7fea66b2871..bd82fa1debfd 100644
---- a/indexsee.tex
-+++ b/indexsee.tex
-@@ -13,7 +13,7 @@
- \index{Exclusive lock|see{Lock, exclusive}}
- \index{Full memory barrier|see{Memory barrier, full}}
- \index{Fully associative cache|see{Cache, fully associative}}
--\index{Grace-priod latency|see{Latency, grace-period}}
-+\index{Grace-period latency|see{Latency, grace-period}}
- \index{Memory consistency|see{Consistency, memory}}
- \index{Memory latency|see{Latency, memory}}
- \index{Memory-barrier latency|see{Latency, memory-barrier}}
-@@ -26,7 +26,7 @@
- \index{Reader-writer lock|see{Lock, reader-writer}}
- \index{Scheduling latency|see{Latency, scheduling}}
- \index{Sequence lock|see{Lock, sequence}}
--\index{Sequencial consistency|see{Consistency, sequencial}}
-+\index{Sequential consistency|see{Consistency, sequential}}
- \index{Weak consistency|see{Consistency, weak}}
- \index{Write memory barrier|see{Memory barrier, write}}
- \index{Write miss|see{Cache miss, write}}
-diff --git a/locking/locking.tex b/locking/locking.tex
-index 4bc03f26a960..ccfbb9b394e9 100644
---- a/locking/locking.tex
-+++ b/locking/locking.tex
-@@ -1137,7 +1137,7 @@ Of course, locks partition time instead of sawing wood,\footnote{
- but just like sawing wood, using locks to partition time wastes some of
- that time due to lock overhead and (worse yet) lock contention.
- One important difference is that if someone saws a board into too-small
--pieces, the resuting conversion of most of that board into sawdust will
-+pieces, the resulting conversion of most of that board into sawdust will
- be immediately obvious.
- In contrast, it is not always obvious that a given lock acquisition
- is wasting excessive amounts of time.
-diff --git a/together/applyrcu.tex b/together/applyrcu.tex
-index 2a5a3c1248f6..1c9b1b7a23cd 100644
---- a/together/applyrcu.tex
-+++ b/together/applyrcu.tex
-@@ -815,7 +815,7 @@ way of stopping in the middle and resuming later.
- For example, in Linux kernel v5.16, the \co{khugepaged_scan_file()}
- function checks to see if some other task needs the current CPU
- using \co{need_resched()}, and if so invokes \co{xas_pause()} to
--adjust the travesal's iterator appropriately, and then invokes
-+adjust the traversal's iterator appropriately, and then invokes
- \co{cond_resched_rcu()} to yield the CPU\@.
- In turn, the \co{cond_resched_rcu()} function invokes \co{rcu_read_unlock()},
- \co{cond_resched()}, and finally \co{rcu_read_lock()} to drop out of
-
-base-commit: 729ed701fa72c1445fc8575b5e27fccb55378dbc
+ \begin{listing}
 -- 
 2.25.1
+
 
