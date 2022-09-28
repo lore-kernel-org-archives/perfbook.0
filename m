@@ -1,70 +1,56 @@
 Return-Path: <SRS0=gucT=Z7=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:from:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date;
-        bh=BRcqp5Dxnr/kDUTNK6bWnumBDhpLwfeutIJmdNCeRzs=;
-        b=gOBFNn405h+Q7IWCSuhV4YMqbXqeMVSX49qDEivB7d7ebdoutoifF9JAXjf/+1016k
-         PKJfZstV63Wvm4gvySYSYf3E6z7++77nSHAB1+9+4+GuS979WNRdapgznJhXUXRIWD60
-         f0wIAugwWxBce42w84Pkxa5Aakxtz05i9KF2GAlsg+SNhLfoBSzDiFPnF/eKAcRW8dLE
-         YcZwQYz0bhiiB00qYaxAEgTHfyj7U+GRcV6tqXbLfqkvrenS2ThV2FBenSeRbm69Ihtq
-         8ocSXxSQT36HQLjcWoVFA/doTggq/mTVdawMPqCvFKyYkzgp3QicHT0uXJWj73+pLavh
-         c0Fg==
-Message-ID: <c8ec96f6-f592-36be-3d8a-55030d430caa@gmail.com>
-Date: Wed, 28 Sep 2022 23:28:53 +0900
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=f3ON6sPw7rVj5K0ocGHdXegtLSQiigIdNkS1/krxn4s=;
+        b=NrHNea2OpnHhlzTID3lK2ga33c66uy7axpQOYGnJl9kXeMvnO7j0CB86nITkYc3CdD
+         riaRPMqa4XJF8aZewDInY/9OHYPZthQtzmgq3Ib8Ms+nOiS68f6bjKGVHOmSZcGHhCc2
+         llCOqM0F5uTjsOZvs/XSU53S1AkjcCidpSmoe+yJ+8mNR1jFRRceZLpjJHpGIrLBmt5Y
+         qZ3EhSArcnaimVxjKMg+V5YSd9OaEe2aWUwLPilajITU/4qdWMxft9Holo/MrgEh+1aV
+         82RZDWwSlRwOJF2faspiMHKsPi2KEkFL5/mG0XbCoiuXCUVu1E9D9V0jRX3IFOWfU3WR
+         OqAA==
+Message-ID: <3ca9e48c-3049-1845-a849-d8484c47d645@gmail.com>
+Date: Wed, 28 Sep 2022 23:30:40 +0900
 MIME-Version: 1.0
+Subject: [PATCH -perfbook 2/2] memorder: Fix typo
 Content-Language: en-US
+References: <c8ec96f6-f592-36be-3d8a-55030d430caa@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 1/2] memorder: Put \FloatBarrier in front of Section
- 15.3
+In-Reply-To: <c8ec96f6-f592-36be-3d8a-55030d430caa@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Commit e39bbe1b0856 ("memorder: Add example showing store breaking
-release-acquire chain") added a couple of code snippets in the
-final subsection of Section 15.2.
-In 1c builds, this caused the beginning part of Section 15.3 to
-appear in the middle of floating code snippets of Section 15.2.
-
-This can be prevented by putting \FloatBarrier in front of Section
-15.3, with a (somewhat) wide vertical space left at the end of
-Section 15.2.
-
-Note: \FloatBarrier does nothing unless there are some overloaded
-float objects. Therefore, 2c and eb builds are not affected.
-
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
 Hi Paul,
 
-Another option would be to use the "section" option of "placeins"
-packages as is done for eb builds. I tried but I got quite a few
-sparse-looking pages in other part of 1c builds. So I think adding
-a \FloatBarrier here is a reasonable thing to do.
+I don't see any smp_store_release() in P1().
+It must be P0(). :-)
 
         Thanks, Akira
 --
- memorder/memorder.tex | 2 ++
- 1 file changed, 2 insertions(+)
+ memorder/memorder.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 66f75662f26c..f85cfe6ca702 100644
+index f85cfe6ca702..a0a87d0a8bca 100644
 --- a/memorder/memorder.tex
 +++ b/memorder/memorder.tex
-@@ -2404,6 +2404,8 @@ sea of more complex memory-ordering constraints.
- % @@@ Exercises?
- % @@@ Hardware details from Appendix?
+@@ -2372,7 +2372,7 @@ The only code difference is that
+ has an additional \co{P2()} that does an \co{smp_store_release()} to
+ the \co{x2} variable that \co{P0()} releases and \co{P1()} acquires.
+ The \co{exists} clause is also adjusted to exclude executions in which
+-\co{P2()}'s \co{smp_store_release()} precedes that of \co{P1()}.
++\co{P2()}'s \co{smp_store_release()} precedes that of \co{P0()}.
  
-+\FloatBarrier
-+
- \section{Compile-Time Consternation}
- \label{sec:memorder:Compile-Time Consternation}
- %
-
-base-commit: 43d8aa12c84c8b26ffdb8479b4d793cc0159030e
+ Running the litmus test in
+ \cref{lst:memorder:A Release-Acquire Chain With Added Store (Ordering?)}
 -- 
 2.25.1
+
 
