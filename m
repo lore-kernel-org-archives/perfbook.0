@@ -1,56 +1,102 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43630 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbiJKDVC (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 10 Oct 2022 23:21:02 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186EC79605
-        for <perfbook@vger.kernel.org>; Mon, 10 Oct 2022 20:21:01 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id e62so15031083yba.6
-        for <perfbook@vger.kernel.org>; Mon, 10 Oct 2022 20:21:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0n0IkFlKtKUQwcMtCpPGN1HngC5BLoUuGpvANAdLQOw=;
-        b=Jyy20l3QSqBIyZVUOAWTcgz16czGtrrv7G4O07o+70ZIGD+Lx6klFYl8RNMnDnuMyA
-         scyPgKA+jgusS9OjCa3pT5OPi/C3GuotRdBPy78biUXsxOR9whNhGicg8a3Ri/syPUHS
-         rdajAmiiVFhaJNdRpHWYRr8E3Yc6jMjxD7yVsLwecYR5OU4ulSRRo42/FawcCDxs8WJx
-         kFXcq1gxaEe2mx5FG+03X7hlRzWXlwRWqTmQHO66EsFnbnpBh9NoD4hov/ewz9zzkA5x
-         zjRor0paOlCaAfXYglstGXH7wIVs9IvnJ3AuJLDV4mRWNghZ93ZagsDZ4sPLcW9qQVLx
-         kXHw==
+        with ESMTP id S229461AbiJKI63 (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 11 Oct 2022 04:58:29 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC3D96D9DB
+        for <perfbook@vger.kernel.org>; Tue, 11 Oct 2022 01:58:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 400936113B
+        for <perfbook@vger.kernel.org>; Tue, 11 Oct 2022 08:58:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665478707;
+        bh=YumRUN9mC+PHm9kDq6ibEZVznckZ09Swmzjn2IYxmgw=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=LtewjbAJmGz9qlHNgryZIlU5YQ4uceLQ2L27E8fgcaam3g+UJuN+sJ3U4WK50tGou
+         0ebSyn4flx9blmeBHhrzNyQLXis7L3bCJhe9oxktbuqXSzlec3dGntWdqxnN3dxaIP
+         Z/yHRVDaNLGj7i77gyt7Z9RVGUzTHWDr1teWLfoumwv2KT9MEjtEsM2YhiugjIkR9K
+         B/JWWPmYJ5DUWW9C/+ck6l9GeZAMnDchr4mokIbGT4zFUpHfLsl6nPQYhELsBaBxea
+         MIpuC5NQ0TCeKbcwcdLkA9OAIxv2/9ub1vXTFO30wFSa1nHS3BENQAa7uoSVMHIq8p
+         +EVMijgzFcpMQ==
+Date: Tue, 11 Oct 2022 01:58:25 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH] memorder.tex: the exists clause in Listing 15.35 should
+ never be satisfied.
+Message-ID: <20221011085825.GE4221@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <CANJ3EgF5G-rK+VVTigRkDp97=UtAh3TcVWr0tcpZv2NF_0n-Hw@mail.gmail.com>
+ <4f53aff4-6bf5-f4e0-6511-00cc040496e5@gmail.com>
 MIME-Version: 1.0
-From: Patrick Yingxi Pan <pyxchina92929@gmail.com>
-Date: Tue, 11 Oct 2022 11:20:49 +0800
-Message-ID: <CANJ3EgF8SzbAy8Wd7JANT20DCMtC7U3Z6Pzix3z9zJ-A3hYn+Q@mail.gmail.com>
-Subject: [PATCH] memorder.tex: correct the transformed code by compiler.
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4f53aff4-6bf5-f4e0-6511-00cc040496e5@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Patrick Yingxi Pan <pyxchina92929@gmail.com>, perfbook@vger.kernel.org
 
-Hello!
+On Tue, Oct 11, 2022 at 05:37:55PM +0900, Akira Yokosawa wrote:
+> [+CC: Paul]
+> 
+> Hi,
+> 
+> On Tue, 11 Oct 2022 11:17:25 +0800, Patrick Yingxi Pan wrote:
+> > Hello!
+> > 
+> > According to the context and my understanding of locking primitives, I
+> > suppose the 'exists' clause in the litmus test shouldn't be satisfied.
+> 
+> I agree with you in that section 15.4.2.2 is described as if the
+> result were "Never".
+> 
+> However, if you run herd7 on the litmus test, you'll get:
+> 
+> ------------------------------------------------
+> Test Lock-outside-across Allowed
+> States 4
+> 0:r1=0; 1:r1=0;
+> 0:r1=0; 1:r1=1;
+> 0:r1=1; 1:r1=0;
+> 0:r1=1; 1:r1=1;
+> Ok
+> Witnesses
+> Positive: 2 Negative: 12
+> Condition exists (0:r1=0 /\ 1:r1=0)
+> Observation Lock-outside-across Sometimes 2 12   <--
+> Time Lock-outside-across 0.02
+> Hash=06337358bba3d1ed44db8ea81cf1d236
+> ------------------------------------------------
+> 
+> That said, I'm not in the position of deciding LKMM is right or not.
 
-I have added the missing READ_ONCE(). Please take a look. Thanks.
+Thank you for checking, Akira!
 
-Signed-off-by: Patrick Pan <pyxchina92929@gmail.com>
----
- memorder/memorder.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is the following litmus test?
 
-diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index a0a87d0a..50ff2882 100644
---- a/memorder/memorder.tex
-+++ b/memorder/memorder.tex
-@@ -2869,7 +2869,7 @@ An equals comparison on \clnref{equ} might lead
-the compiler to (incorrectly)
- conclude that both pointers are equivalent, when in fact they carry
- different dependencies.
- This means that the compiler might well transform \clnref{pc} to instead
--be \co{r2 = q->c}, which might well cause the value 44 to be loaded
-+be \co{r2 = READ_ONCE(q->c)}, which might well cause the value 44 to be loaded
- instead of the expected value 144.
- \end{fcvref}
+CodeSamples/formal/herd/C-Lock-outside-across.litmus
 
+							Thanx, Paul
 
-base-commit: 7f12a9358e220f3d0c3a0880d01bc283113d7a5b
---
+> > Signed-off-by: Patrick Pan <pyxchina92929@gmail.com>
+> > ---
+> >  memorder/memorder.tex | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+> > index a0a87d0a..9c1846d0 100644
+> > --- a/memorder/memorder.tex
+> > +++ b/memorder/memorder.tex
+> > @@ -3452,7 +3452,7 @@ following subsequent critical sections?
+> >  This question can be answered for the Linux kernel by referring to
+> >  \cref{lst:memorder:Accesses Outside of Critical Sections}
+> >  (\path{C-Lock-outside-across.litmus}).
+> > -Running this litmus test yields the \co{Sometimes} result,
+> > +Running this litmus test yields the \co{Never} result,
+> >  which means that accesses in code leading up to a prior critical section
+> >  is also visible to the current CPU or thread holding that same lock.
+> >  Similarly, code that is placed after a subsequent critical section
+> > 
+> > base-commit: 7f12a9358e220f3d0c3a0880d01bc283113d7a5b
+> > --
