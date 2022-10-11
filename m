@@ -1,275 +1,57 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53806 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229729AbiJFSHD (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Thu, 6 Oct 2022 14:07:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1FF6FF235
-        for <perfbook@vger.kernel.org>; Thu,  6 Oct 2022 11:07:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C149F61A25
-        for <perfbook@vger.kernel.org>; Thu,  6 Oct 2022 18:07:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665079620;
-        bh=m/Vsd/H35ARkVQnWzAQJUL4TAO7XxZF2Yk2BfnkO8M4=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=akVHLBHfmSCXNMQJobMj3XtOnHu1uyyjAOGOEj054c7mjh+obarCXQdtRWZUyqY9+
-         Lb98FM20Wg+VNMpwsweQWO2sNyCbnw5EPzbkNrxAmWxsF15AE6tcPOP3oKvzkyrjAL
-         y8qU5q0Fy0perVrRJgUwe8momkdnmrjVdirlXHXy93KCbs2SXfcz/EKzWFEgLB3OJH
-         akUXncFWR9uWtRBvviqC04+DmxVrC4zXjHn9bXfd/mdyWrGS2DaQbMuZhMm3O0VRWX
-         7yz+Prl+hweV6aLAzhJrLXi6nqcoN78ATmSl6xJkNAadLPYOUg03Ay0q+v+clA5LwX
-         MhajgNCt9zpTw==
-Date: Thu, 6 Oct 2022 11:06:59 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] locking: Warn about state preservation when releasing
- and re-acquiring locks
-Message-ID: <20221006180659.GZ4196@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20220929121112.373983-1-e2lahav@gmail.com>
- <20221006125822.GT4196@paulmck-ThinkPad-P17-Gen-1>
- <CAJbg=FXkbWPU4naA+DHQGbLk+n-7me+xR8fZ0Xc9d5phMkrPyw@mail.gmail.com>
+        with ESMTP id S229577AbiJKDRi (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Mon, 10 Oct 2022 23:17:38 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAFB772EDE
+        for <perfbook@vger.kernel.org>; Mon, 10 Oct 2022 20:17:37 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id b145so15094635yba.0
+        for <perfbook@vger.kernel.org>; Mon, 10 Oct 2022 20:17:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rwd5SBM6FOdIDDW8SfzY28uMBAYLoXxISWP8aJcyteM=;
+        b=Q69U6RxyrtV7Cuq8wqQIS5WnZpnQKoM4AYhoKvNkMVcsoS1j1CnwhJD49uda3L9T+T
+         Y387KOT3JEZ2oyCQ4L0DSKLJoYtfyFw8Xp8F7qdv+6IOjv+7SU1tdWriMxI0iglpYBFX
+         /AP/kvIveAOCEhq4HUTZ8m/NkUw9f3F2hNZT/p+6n2Ul8jpzRsIY9aZR6Zg13GNi2MWT
+         QCFZowcNrSkvKpyo3F98NO6K9VlRYUyyYIq0W4KYYKp4of2fF0NK3ufDnjYFLnV5qygi
+         ZQ+kOGTDku/ibNCcoNzNUIS/9RMc4f/cKUs4vMMf21/kuDWFxI7hXA8XhnuAO4R62r4r
+         tkMQ==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJbg=FXkbWPU4naA+DHQGbLk+n-7me+xR8fZ0Xc9d5phMkrPyw@mail.gmail.com>
+From: Patrick Yingxi Pan <pyxchina92929@gmail.com>
+Date: Tue, 11 Oct 2022 11:17:25 +0800
+Message-ID: <CANJ3EgF5G-rK+VVTigRkDp97=UtAh3TcVWr0tcpZv2NF_0n-Hw@mail.gmail.com>
+Subject: [PATCH] memorder.tex: the exists clause in Listing 15.35 should never
+ be satisfied.
+Content-Type: text/plain; charset="UTF-8"
 List-ID: <perfbook.vger.kernel.org>
-To: Elad Lahav <e2lahav@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: perfbook@vger.kernel.org
 
-On Thu, Oct 06, 2022 at 01:53:54PM -0400, Elad Lahav wrote:
-> New wording looks good to me.
-> I will come up with an example so dangerous you can stick a tail to it
-> and call it a wolf.
+Hello!
 
-Now -that- sounds like my kind of example!  Thank you!
+According to the context and my understanding of locking primitives, I
+suppose the 'exists' clause in the litmus test shouldn't be satisfied.
 
-							Thanx, Paul
+Signed-off-by: Patrick Pan <pyxchina92929@gmail.com>
+---
+ memorder/memorder.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> --Elad
-> 
-> On Thu, 6 Oct 2022 at 08:58, Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > On Thu, Sep 29, 2022 at 08:11:12AM -0400, Elad Lahav wrote:
-> > > Signed-off-by: Elad Lahav <e2lahav@gmail.com>
-> >
-> > Thank you, Elad, and please accept my apologies for being slow.
-> > This is queued and pushed.
-> >
-> > I could not resist the urge to wordsmith, so could you please check
-> > the updated patch below?
-> >
-> > Also, longer term, would you be willing to add code that makes a
-> > simple but dangerous change in order to better illustrate the problem?
-> >
-> >                                                 Thanx, Paul
-> >
-> > ------------------------------------------------------------------------
-> >
-> > commit a4e1d87b97f8446dd18db11fd7c5b70633bba69c
-> > Author: Elad Lahav <e2lahav@gmail.com>
-> > Date:   Thu Sep 29 08:11:12 2022 -0400
-> >
-> >     locking: Warn about state preservation when releasing and re-acquiring locks
-> >
-> >     [ paulmck: Wordsmith. ]
-> >
-> >     Signed-off-by: Elad Lahav <e2lahav@gmail.com>
-> >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> >
-> > diff --git a/CodeSamples/locking/Makefile b/CodeSamples/locking/Makefile
-> > index 3663a7d5..cf600636 100644
-> > --- a/CodeSamples/locking/Makefile
-> > +++ b/CodeSamples/locking/Makefile
-> > @@ -1,4 +1,4 @@
-> > -ARCH_INDEPENDENT = locked_list
-> > +ARCH_INDEPENDENT = locked_list rec_tree_itr
-> >  ARCH_DEPENDENT = xchglock
-> >  PROGS = $(ARCH_INDEPENDENT) $(ARCH_DEPENDENT)
-> >
-> > @@ -20,5 +20,8 @@ locked_list: locked_list.c ../api.h
-> >  xchglock: xchglock.c ../api.h
-> >         cc -g -Wall -o xchglock xchglock.c -lpthread
-> >
-> > +rec_tree_itr: rec_tree_itr.c ../api.h
-> > +       cc -g -Wall -o rec_tree_itr rec_tree_itr.c -lpthread
-> > +
-> >  clean:
-> >         rm -f $(PROGS)
-> > diff --git a/CodeSamples/locking/rec_tree_itr.c b/CodeSamples/locking/rec_tree_itr.c
-> > new file mode 100644
-> > index 00000000..1445668c
-> > --- /dev/null
-> > +++ b/CodeSamples/locking/rec_tree_itr.c
-> > @@ -0,0 +1,96 @@
-> > +/*
-> > + * locked_list.c: Recursive tree iterator
-> > + *
-> > + * This program is free software; you can redistribute it and/or modify
-> > + * it under the terms of the GNU General Public License as published by
-> > + * the Free Software Foundation; either version 2 of the License, or
-> > + * (at your option) any later version.
-> > + *
-> > + * This program is distributed in the hope that it will be useful,
-> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> > + * GNU General Public License for more details.
-> > + *
-> > + * You should have received a copy of the GNU General Public License
-> > + * along with this program; if not, you can access it online at
-> > + * http://www.gnu.org/licenses/gpl-2.0.html.
-> > + *
-> > + * Copyright (c) 2022 Elad Lahav
-> > + */
-> > +
-> > +#include "../api.h"
-> > +
-> > +#define MAX_CHILDREN 10
-> > +
-> > +struct node {
-> > +    int data;
-> > +       int nchildren;
-> > +       struct node *children[MAX_CHILDREN];
-> > +};
-> > +
-> > +struct tree {
-> > +       spinlock_t s;
-> > +       struct node *root;
-> > +};
-> > +
-> > +//\begin{snippet}[labelbase=ln:locking:rec_tree_iterator:tree_for_each,commandchars=\\\@\$]
-> > +void tree_for_each_rec(struct tree *tr, struct node *nd,
-> > +                                          void (*callback)(struct node *))
-> > +{
-> > +       spin_unlock(&tr->s);
-> > +       callback(nd);
-> > +       spin_lock(&tr->s);
-> > +
-> > +       for (int i = 0; i < nd->nchildren; i++) {
-> > +               tree_for_each_rec(tr, nd->children[i], callback);
-> > +       }
-> > +}
-> > +
-> > +void tree_for_each(struct tree *tr,
-> > +                                  void (*callback)(struct node *))
-> > +{
-> > +       spin_lock(&tr->s);
-> > +       tree_for_each_rec(tr, tr->root, callback);
-> > +       spin_unlock(&tr->s);
-> > +}
-> > +//\end{snippet}
-> > +
-> > +void print_node_data(struct node *nd)
-> > +{
-> > +    printf("%d\n", nd->data);
-> > +}
-> > +
-> > +int main(int argc, char *argv[])
-> > +{
-> > +    struct tree tr;
-> > +    struct node *nodes = calloc(sizeof(struct node), 10);
-> > +
-> > +    for (int i = 0; i < 10; i++) {
-> > +        nodes[i].data = 100 + i;
-> > +    }
-> > +
-> > +       spin_lock_init(&tr.s);
-> > +
-> > +    tr.root = &nodes[0];
-> > +
-> > +    nodes[0].nchildren = 3;
-> > +    nodes[0].children[0] = &nodes[1];
-> > +    nodes[0].children[1] = &nodes[2];
-> > +    nodes[0].children[2] = &nodes[3];
-> > +
-> > +    nodes[1].nchildren = 2;
-> > +    nodes[1].children[0] = &nodes[4];
-> > +    nodes[1].children[1] = &nodes[5];
-> > +
-> > +    nodes[2].nchildren = 1;
-> > +    nodes[2].children[0] = &nodes[6];
-> > +
-> > +    nodes[5].nchildren = 3;
-> > +    nodes[5].children[0] = &nodes[7];
-> > +    nodes[5].children[1] = &nodes[8];
-> > +    nodes[5].children[2] = &nodes[9];
-> > +
-> > +    tree_for_each(&tr, print_node_data);
-> > +
-> > +       return 0;
-> > +}
-> > diff --git a/locking/locking.tex b/locking/locking.tex
-> > index 45a12caa..32f9bad7 100644
-> > --- a/locking/locking.tex
-> > +++ b/locking/locking.tex
-> > @@ -375,6 +375,37 @@ deadlock is avoided if each module separately avoids deadlock.
-> >  This rule therefore greatly simplifies deadlock analysis and greatly
-> >  improves modularity.
-> >
-> > +Nevertheless, this golden rule comes with a warning.
-> > +When you release those locks, any state that they protect is subject
-> > +to arbitrary changes, changes that are all too easy for the function's
-> > +caller to forget, resulting in subtle and difficult-to-reproduce bugs.
-> > +Because the \co{qsort()} comparison function rarely acquires locks,
-> > +let's switch to a different example.
-> > +
-> > +Consider the recursive tree iterator in
-> > +\cref{lst:locking:Recursive Tree Iterator}.
-> > +The iterator visits every node in the tree, invoking a user's callback
-> > +function.
-> > +The tree lock is released before the invocation and re-acquired after return.
-> > +This code makes dangerous assumptions:
-> > +\begin{enumerate*}[(1)]
-> > +\item  The number of children of the current node has not changed,
-> > +\item  The ancestors stored on the stack by the recursion are still
-> > +       there, and
-> > +\item  The visited node itself has not been removed and freed.
-> > +\end{enumerate*}
-> > +One strategy is to ensure that state is preserved despite the lock being
-> > +released, for example, by acquiring a reference on a node to prevent it
-> > +from being freed.
-> > +Alternatively, the state can be re-initialized once the lock is
-> > +re-acquired after the callback function returns.
-> > +
-> > +\begin{listing}
-> > +\input{CodeSamples/locking/rec_tree_iterator@tree_for_each.fcv}
-> > +\caption{Recursive Tree Iterator}
-> > +\label{lst:locking:Recursive Tree Iterator}
-> > +\end{listing}
-> > +
-> >  \subsubsection{Layered Locking Hierarchies}
-> >  \label{sec:locking:Layered Locking Hierarchies}
-> >
-> > @@ -385,10 +416,9 @@ improves modularity.
-> >  \label{fig:locking:Layered Locking Hierarchy for qsort()}
-> >  \end{figure}
-> >
-> > -Unfortunately, it might not be possible for \co{qsort()} to release
-> > -all of its locks before invoking the comparison function.
-> > -In this case, we cannot construct a local locking hierarchy by
-> > -releasing all locks before invoking unknown code.
-> > +Unfortunately, it might be infeasible to preserve state on the one hand
-> > +or to re-initialize it on the other, thus ruling out a local locking
-> > +hierarchy where all locks are released before invoking unknown code.
-> >  However, we can instead construct a layered locking hierarchy, as shown in
-> >  \cref{fig:locking:Layered Locking Hierarchy for qsort()}.
-> >  Here, the \co{cmp()} function uses a new Lock~D that is acquired after
-> > @@ -1399,7 +1429,7 @@ for example:
-> >         that some FIFO ordering applies for threads of the same priority.
-> >  \item  Random, so that the new lock holder is chosen randomly from
-> >         all threads attempting acquisition, regardless of timing.
-> > -\item
-> > +\item
-> >         Unfair, so that a given acquisition might never acquire the lock
-> >         (see \cref{sec:locking:Unfairness}).
-> >  \end{enumerate}
-> > @@ -1486,7 +1516,7 @@ when switching from read-holder to write-holder mode.
-> >  Here are a few possible approaches:
-> >
-> >  \begin{enumerate}
-> > -\item
-> > +\item
-> >         Reader-preference implementations unconditionally favor readers
-> >         over writers, possibly allowing write acquisitions to be
-> >         indefinitely blocked.
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index a0a87d0a..9c1846d0 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -3452,7 +3452,7 @@ following subsequent critical sections?
+ This question can be answered for the Linux kernel by referring to
+ \cref{lst:memorder:Accesses Outside of Critical Sections}
+ (\path{C-Lock-outside-across.litmus}).
+-Running this litmus test yields the \co{Sometimes} result,
++Running this litmus test yields the \co{Never} result,
+ which means that accesses in code leading up to a prior critical section
+ is also visible to the current CPU or thread holding that same lock.
+ Similarly, code that is placed after a subsequent critical section
+
+base-commit: 7f12a9358e220f3d0c3a0880d01bc283113d7a5b
+--
