@@ -1,146 +1,71 @@
-Return-Path: <SRS0=gFZX=2N=gmail.com=pyxchina92929@kernel.org>
+Return-Path: <SRS0=TOwi=2N=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=m0mWtrjO8qMAKqy4XW4fUuUt3kvwJ1ccdMg7mK4JSnw=;
-        b=gzuL9GR2ymfG3WFQ1mgxmWC4YpbQvlv9RsgcQ9GLTRsNw0Jlnp4VsvvQvmhEXSI3Pc
-         7UuPTOrwIFW9MmpR7HK4ydMSyVzdvTYzf+3fGNga1kbHHYbWW2QtcF9EVB4AJSWZ7QvG
-         yALgamo/aR4tSBvwcHOcS7iZ1YoNUuBd+TSMA35uXumHa3UtjWtvVz05zNEgrCoLA/4Z
-         4uLLPEzNq8kzpVwnljqUPbcEPBH09TtQEC6+PtREC+vjJ2xItmcup82MwQi4K96x6n2j
-         V/U5OO3zbHVXM3Evs+9t7qqn7pOg4bxT0Jd5b0FyQjZ/Rstjh5kQzOkZ32QJ9hDiQIUc
-         S3rA==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9JLhEkFwtn/Pog+kUnnoQyy+XKiq7E7VyOUgQHn2o68=;
+        b=Ee/BrSib18+3i9ZQphsnDggaQZ9B5E3z/oRgYR9YkBUT/LZyznVrikkiQ4Yf4dXtxz
+         HtwqAhPuwF74BrjknLjsqucspBz6JpGtvYac1emgyfvoFALsn8mghUHGjAEEvS9HaYFv
+         /C8Sqte/e+P+q94kdX5y/LQk3O4oVuKfWMy57lvZFgDiXMi7u8m43XMl/XrkwiDFZ7eh
+         D0yIHudwPC9XyRq+JA6asrY8/HLBjOS4PAqROUX1A5Hd1xZ9b//KRyWkQ7rBVlufBjRR
+         wrgg8285MqrvlLBmFSwU3sIdto8OjU4fNoKwYzR8Acu/wcv1QFIpUM3BS9FC4UycKfAv
+         SGPg==
+Message-ID: <599125ce-4fd9-b8dc-8628-197f90513c77@gmail.com>
+Date: Wed, 12 Oct 2022 12:19:04 +0900
 MIME-Version: 1.0
-References: <CANJ3EgF5G-rK+VVTigRkDp97=UtAh3TcVWr0tcpZv2NF_0n-Hw@mail.gmail.com>
- <4f53aff4-6bf5-f4e0-6511-00cc040496e5@gmail.com> <20221011085825.GE4221@paulmck-ThinkPad-P17-Gen-1>
- <fb96c7ce-2374-aa32-263e-e67fafc1ab9a@gmail.com> <20221011094822.GJ4221@paulmck-ThinkPad-P17-Gen-1>
- <77e58db7-f04a-4642-2884-f2c8ff07b7da@gmail.com> <a60600a3-395b-fdf8-0a03-06a7f8b88bb5@gmail.com>
- <ed34a0fa-7333-2ab7-4493-0fa7221243cf@gmail.com>
-In-Reply-To: <ed34a0fa-7333-2ab7-4493-0fa7221243cf@gmail.com>
-From: Patrick Yingxi Pan <pyxchina92929@gmail.com>
-Date: Wed, 12 Oct 2022 10:26:15 +0800
-Message-ID: <CANJ3EgEE1x6=3-GcOFYyEUNF23qGftuKViHOBW26n=AaJ=U+FA@mail.gmail.com>
-Subject: Re: [PATCH] memorder.tex: the exists clause in Listing 15.35 should
- never be satisfied.
-Content-Type: text/plain; charset="UTF-8"
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, perfbook@vger.kernel.org
+Subject: Re: [PATCH] memorder.tex: correct the transformed code by compiler.
+References: <CANJ3EgF8SzbAy8Wd7JANT20DCMtC7U3Z6Pzix3z9zJ-A3hYn+Q@mail.gmail.com>
+ <20221011090208.GF4221@paulmck-ThinkPad-P17-Gen-1>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20221011090208.GF4221@paulmck-ThinkPad-P17-Gen-1>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Patrick Yingxi Pan <pyxchina92929@gmail.com>, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Nice to know! Never imagined my patch could be more helpful like this.
-Thanks guys for the scrutiny!
+On Tue, 11 Oct 2022 02:02:08 -0700, Paul E. McKenney wrote:
+> On Tue, Oct 11, 2022 at 11:20:49AM +0800, Patrick Yingxi Pan wrote:
+>> Hello!
+>>
+>> I have added the missing READ_ONCE(). Please take a look. Thanks.
+>>
+>> Signed-off-by: Patrick Pan <pyxchina92929@gmail.com>
+> 
+> Queued and pushed, thank you!
 
-            Thanx, Patrick
+Paul, somehow Patrick's S-o-b tag is lost in the amended changelog of
+commit 520ad603b0f3 ("memorder: Correct the transformed Listing 15.30
+code").
 
-On Tue, Oct 11, 2022 at 11:04 PM Akira Yokosawa <akiyks@gmail.com> wrote:
->
-> On Tue, 11 Oct 2022 21:13:58 +0900, Akira Yokosawa wrote:
-> > On Tue, 11 Oct 2022 19:41:56 +0900, Akira Yokosawa wrote:
-> >> On Tue, 11 Oct 2022 02:48:22 -0700, Paul E. McKenney wrote:
-> >>> On Tue, Oct 11, 2022 at 06:21:16PM +0900, Akira Yokosawa wrote:
-> >>>> On Tue, 11 Oct 2022 01:58:25 -0700, Paul E. McKenney wrote:
-> >>>>> On Tue, Oct 11, 2022 at 05:37:55PM +0900, Akira Yokosawa wrote:
-> >>>>>> [+CC: Paul]
-> >>>>>>
-> >>>>>> Hi,
-> >>>>>>
-> >>>>>> On Tue, 11 Oct 2022 11:17:25 +0800, Patrick Yingxi Pan wrote:
-> >>>>>>> Hello!
-> >>>>>>>
-> >>>>>>> According to the context and my understanding of locking primitives, I
-> >>>>>>> suppose the 'exists' clause in the litmus test shouldn't be satisfied.
-> >>>>>>
-> >>>>>> I agree with you in that section 15.4.2.2 is described as if the
-> >>>>>> result were "Never".
-> >>>>>>
-> >>>>>> However, if you run herd7 on the litmus test, you'll get:
-> >>>>>>
-> >>>>>> ------------------------------------------------
-> >>>>>> Test Lock-outside-across Allowed
-> >>>>>> States 4
-> >>>>>> 0:r1=0; 1:r1=0;
-> >>>>>> 0:r1=0; 1:r1=1;
-> >>>>>> 0:r1=1; 1:r1=0;
-> >>>>>> 0:r1=1; 1:r1=1;
-> >>>>>> Ok
-> >>>>>> Witnesses
-> >>>>>> Positive: 2 Negative: 12
-> >>>>>> Condition exists (0:r1=0 /\ 1:r1=0)
-> >>>>>> Observation Lock-outside-across Sometimes 2 12   <--
-> >>>>>> Time Lock-outside-across 0.02
-> >>>>>> Hash=06337358bba3d1ed44db8ea81cf1d236
-> >>>>>> ------------------------------------------------
-> >>>>>>
-> >>>>>> That said, I'm not in the position of deciding LKMM is right or not.
-> >>>>>
-> >>>>> Thank you for checking, Akira!
-> >>>>>
-> >>>>> This is the following litmus test?
-> >>>>>
-> >>>>> CodeSamples/formal/herd/C-Lock-outside-across.litmus
-> >>>>
-> >>>> Yes, it is.
-> >>>
-> >>> Strange.  This is what I get from it on the -rcu dev branch as well
-> >>> as on v6.0 and v5.19:
-> >>>
-> >>> $ herd7 -conf linux-kernel.cfg /home/git/perfbook/CodeSamples/formal/herd/C-Lock-outside-across.litmus
-> >>> Test Lock-outside-across Allowed
-> >>> States 3
-> >>> 0:r1=0; 1:r1=1;
-> >>> 0:r1=1; 1:r1=0;
-> >>> 0:r1=1; 1:r1=1;
-> >>> No
-> >>> Witnesses
-> >>> Positive: 0 Negative: 3
-> >>> Condition exists (0:r1=0 /\ 1:r1=0)
-> >>> Observation Lock-outside-across Never 0 3
-> >>> Time Lock-outside-across 0.01
-> >>> Hash=06337358bba3d1ed44db8ea81cf1d236
-> >>>
-> >>> Am I running a bad version of herd7 or something?
-> >> Ah, you are right!
-> >> I got the Sometimes result from herd7 of herdtools7's current master.
-> >>
-> >> I'll try bisecting herdtools7.
-> > And the bisection points to a very recent commit.
-> > I have opened an issue at https://github.com/herd/herdtools7/issues/433.
-> And Luc has just merged the fix.
->
-> Now the result reads:
->
-> ---------------------------------------------
-> Test Lock-outside-across Allowed
-> States 3
-> 0:r1=0; 1:r1=1;
-> 0:r1=1; 1:r1=0;
-> 0:r1=1; 1:r1=1;
-> No
-> Witnesses
-> Positive: 0 Negative: 3
-> Condition exists (0:r1=0 /\ 1:r1=0)
-> Observation Lock-outside-across Never 0 3
-> Time Lock-outside-across 0.01
-> Hash=06337358bba3d1ed44db8ea81cf1d236
-> ---------------------------------------------
->
-> $ herd7 -version
-> 7.56+02~dev, Rev: 5a20233c2d0b9ab59b7670a930d2a1bf98de6744
->
->         Thanks, Akira
->
-> >
-> > It looks like Patrick noticed the typo at the best timing. No? ;-)
-> >
-> >         Thanks, Akira
-> >
-> >>
-> >> Sorry for the noise.
-> >>
-> >>         Thanks, Akira
-> >>
-> >>>
-> >>> $ herd7 -version
-> >>> 7.56+02~dev, Rev: c375ecc537da22070913496ad2043ae501c7ab78
-> >>>
-> >>>                                                     Thanx, Paul
+I don't think it is mandatory in perfbook, but if you can, please fix
+up.
+
+        Thanks, Akira
+
+> 
+> 							Thanx, Paul
+> 
+>> ---
+>>  memorder/memorder.tex | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+>> index a0a87d0a..50ff2882 100644
+>> --- a/memorder/memorder.tex
+>> +++ b/memorder/memorder.tex
+>> @@ -2869,7 +2869,7 @@ An equals comparison on \clnref{equ} might lead
+>> the compiler to (incorrectly)
+>>  conclude that both pointers are equivalent, when in fact they carry
+>>  different dependencies.
+>>  This means that the compiler might well transform \clnref{pc} to instead
+>> -be \co{r2 = q->c}, which might well cause the value 44 to be loaded
+>> +be \co{r2 = READ_ONCE(q->c)}, which might well cause the value 44 to be loaded
+>>  instead of the expected value 144.
+>>  \end{fcvref}
+>>
+>>
+>> base-commit: 7f12a9358e220f3d0c3a0880d01bc283113d7a5b
+>> --
