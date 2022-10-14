@@ -1,73 +1,99 @@
-Return-Path: <SRS0=EmAl=2P=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=aLez=2P=gmail.com=zhouzhouyi@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:cc:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=M83VhBlSldeLCCnVDiPEfORcyeoIzrAGHK5dARjSuRY=;
-        b=Vb0L3uX+qPNeZgsBEXgzcK12K8FO0gfF2CJ6YrdKUXom0uLDgyZBxmf5LXorW/0czM
-         mmpZnxTrXuK9Iqwp4sdEwdzQqSK1XWohWAzcX2sez1MuyuOBPo704mEAIVSjHEGdmUak
-         HcfQqGQ9JkCnMWzb79ytpw5XIE0ENlHXHP2lfs+D13hEoL4c1aPoDRvm0Daw+pSqyuqo
-         J7EKp1oj+7YE0G5Fsg2MOVPyCFNar0AkV7r5blY2IdlTxbaS7PGctcDX/j7eFnlEYhBJ
-         zFekMlB4LIGpA2junHcDiap1w/acXMLeSo4ohEvaiWy0kljii290yZU3PVBNc/EMx0Qq
-         ZQUQ==
-Message-ID: <c2b67b62-1d16-b9a8-662b-0df81d2eadfe@gmail.com>
-Date: Fri, 14 Oct 2022 18:42:25 +0900
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hWFLAL79rOvZy0q6gR9QHar3oTLKaDXI2VRG82z+pdo=;
+        b=CxhPzO/JlIj0sZYks6rqTNndGcR5ynlGBQIaWQgKQwhW+uYsAI4AFlsO+ZiwEJ99R5
+         sgMjVyFgtMzpNqKf7+CMEa+2f6VTLiCA/2o2QO+tU4rqyHFz3U29w6rL6BECvM9BQXJV
+         qkFT8lnHajflophRjJXgh0medhZZsNGZfH3DL987omAl4d4sRWbRG85PAEtP5M2v6O9G
+         wgY/I6lrelbZ25RFBV7DpDH+ipQOEcDiP7jrOSzclPWJFiUSWWUfZ020rg9yurztn1M8
+         j0ievRi5Xiw49crocB5zs+Xzk4pOC0ed5FQ6x22222pLKbUOl8+XsMxGmK+6ZQRqAMsx
+         g7KA==
 MIME-Version: 1.0
-Subject: Re: [PATCH -perfbook] memorder: fix a line number reference error
-References: <20221014055543.8214-1-zhouzhouyi@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20221014055543.8214-1-zhouzhouyi@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: Zhouyi Zhou <zhouzhouyi@gmail.com>, paulmck@kernel.org
-Cc: perfbook@vger.kernel.org, luyang.co@gmail.com, Akira Yokosawa <akiyks@gmail.com>
+References: <20221014055543.8214-1-zhouzhouyi@gmail.com> <c033269a-5cd7-608c-6bd9-3ee47bb56023@gmail.com>
+In-Reply-To: <c033269a-5cd7-608c-6bd9-3ee47bb56023@gmail.com>
+From: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Date: Fri, 14 Oct 2022 11:19:04 +0800
+Message-ID: <CAABZP2zVHS056GbHxNWkSzdimS4R9XdoK4nWw_bvh=Oz0K=VOw@mail.gmail.com>
+Subject: Re: [PATCH -perfbook v2] memorder: fix a line number reference error
+Content-Type: text/plain; charset="UTF-8"
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, perfbook@vger.kernel.org, luyang.co@gmail.com
 List-ID: <perfbook.vger.kernel.org>
 
-Hi,
+Thank Akira for your fantastic work!
 
-On Fri, 14 Oct 2022 13:55:43 +0800, Zhouyi Zhou wrote:
-> In section 15.2.3, "Listing 15.10 shows how to make this work
-> reliably on pre-v4.15 Linux kernels running on DEC Alpha, by
-> replacing line 19' READ_ONCE() with lockless_dereference()"
-> 
-> line 19 should be line 18.
-Close!
 
-The reference should be to line 18 of Listing 15.9, where the to-be-
-replaced READ_ONCE() resides.
-
-I'll submit a patch soon with your Reported-by.
-
-        Thanks, Akira
-
-> 
-> Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+On Fri, Oct 14, 2022 at 6:44 PM Akira Yokosawa <akiyks@gmail.com> wrote:
+>
+> Section 15.2.3 says,
+>
+>   "Listing 15.10 shows how to make this work reliably on pre-v4.15
+>    Linux kernels running on DEC Alpha, by replacing line 19's
+>    READ_ONCE() with lockless_dereference()."
+>
+> However, the READ_ONCE() is actually on line 18 of Listing 15.9.
+>
+> Fix the reference and clarify the READ_ONCE() is in Listing 15.9.
+Yes lockless_dereference() is replacing READ_ONCE() in List 15.9
+>
+> Reported-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 > ---
-> Hi Paul
-> I like Chapter 15 very much as well as other chapters,
-> I used to read one paragraph a day when I am travelling ;-)
-> 
-> I think there is a small line number reference error in chapter
-> 15.2.3, ignore me if it is not a error.
-> 
-> Many Thanks
-> Zhouyi
+> v1 (from Zhouyi) -> v2
+>
+>  - Reference line 18 of Listing 15.9.
+>  - Adjust wording around the fixed reference.
+>  - Zhouyi's Reported-by.
+>
+> Zhouyi, how does this look to you?
+Thank Akira for your advice and guidance! I downloaded you patch and
+1) patch -p 1 < "[PATCH -perfbook v2] memorder_ fix a line number
+reference error.eml"
+2) make -j 16
+then read perfbook.pdf
+
+It is much more perfect than I can expect!
+
+and from your example, I know how to add reference to code next time I
+am creating a patch!
+
+Thank both of you for your enthusiasm and patience!
+
+Thanks
+Zhouyi
+>
+> Thanks, Akira
 > --
->  memorder/memorder.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+>  memorder/memorder.tex | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
 > diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-> index c350758d..1839e276 100644
+> index c350758d61cb..28319bfba16b 100644
 > --- a/memorder/memorder.tex
 > +++ b/memorder/memorder.tex
-> @@ -1279,7 +1279,7 @@ exists (1:r2=x0 /\ 1:r3=1)
+> @@ -1274,13 +1274,14 @@ exists (1:r2=x0 /\ 1:r3=1)
+>  \label{lst:memorder:Enforced Ordering of Message-Passing Address-Dependency Litmus Test (Before v4.15)}
+>  \end{listing}
+>
+> -\begin{fcvref}[ln:memorder:Enforced Ordering of Message-Passing Address-Dependency Litmus Test (Before v4.15)]
+> +\begin{fcvref}[ln:formal:C-MP+o-wmb-o+o-addr-o:whole]
+>  \Cref{lst:memorder:Enforced Ordering of Message-Passing Address-Dependency Litmus Test (Before v4.15)}
 >  % \path{C-MP+o-wmb-o+ld-addr-o.litmus} available at commit bc4b1c3f3b35
 >  % ("styleguide: Loosen restriction on comment in litmus test")
 >  shows how to make this work reliably on pre-v4.15 Linux kernels running on
 > -DEC Alpha, by replacing \clnref{read}'s \co{READ_ONCE()} with
-> +DEC Alpha, by replacing \clnref{deref}'s \co{READ_ONCE()} with
->  \apikh{lockless_dereference()},\footnote{
->  	Note that \co{lockless_dereference()} is not needed on v4.15 and
->  	later, and therefore is not available in these later Linux kernels.
+> -\apikh{lockless_dereference()},\footnote{
+> +DEC Alpha, by replacing \co{READ_ONCE()} on \clnref{P1:x1} of
+> +\cref{lst:memorder:Message-Passing Address-Dependency Litmus Test (No Ordering Before v4.15)}
+> +with \apikh{lockless_dereference()},\footnote{
+>         Note that \co{lockless_dereference()} is not needed on v4.15 and
+>         later, and therefore is not available in these later Linux kernels.
+>         Nor is it needed in versions of this book containing this sentence.}
+>
+> base-commit: c2b75b99a151008c6b59bddcabb9e44e744f3678
+> --
+> 2.25.1
+>
+>
