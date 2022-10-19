@@ -1,49 +1,71 @@
-Return-Path: <SRS0=97xf=2R=gmail.com=e2lahav@kernel.org>
+Return-Path: <SRS0=8Nfx=2U=gmail.com=zhouzhouyi@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NlbfGlTMCUE7ngznrBLQqrENsfplnZTdxo1H8WD6ebE=;
-        b=orjNH0f33W6ncHEJqlF05xWFcTtj4VWSQwjaFC32UFeXCRLeR1etguRMU9eFT6jhxh
-         kl3RG9LRbEoVBbBLxeeVZcAD9WqB5P/1DgbH/YabLuESx0irdvD+Sbx3+5CcS5kBzvtL
-         tfu48Y67nHm4j8RyXp8+UjU2+Xe8Vo29o/PS6oRU/zk/F9KzBrW2HGrdqiTB4EiYmoAh
-         K34kkoZHTM+1OS72V8f5hbGFhOaBfWQrc/lrPDCeS29dD0XACawO2QRSp4cQbY1UZ8oY
-         net3R/lm6sozgiOOpqojKZHuI4tVzCDbfVP7MCRw5xT3uPV2724wgP8h94V43E6YtYbv
-         BfgA==
-Message-ID: <c94f3757-5e8a-aeee-d836-eeccf6ae6d50@gmail.com>
-Date: Sun, 16 Oct 2022 08:41:32 -0400
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lftrcBsoknwGhyaD9yo1kIbMMLrMTCu+oS7P4tTF5eE=;
+        b=RC31indlLp93ejpM1bbg9QpwwgRs3GsgikLlxlkinSN0Mwc2c/sagfMb1UAvMoyZEy
+         +hxiR8In7c3OwiaVA1E/pIAGTzNeTOJh1CYJmisuTuytJhts7Z+keY9IykE9aGL79jfk
+         NAiUTT5VERPQaGmnihhycImU2Pebi9Q70FnaYCTGefPvktJtO+0Fgup5wRrxvPUKcKWl
+         JpznqXrT74dsK8k9nkcKhEJoG5b7UV8PVzH5hHZvDnwP/t9y5P3oEn5LT9KpDPGty1cf
+         HGd+DZ6hB/47OcqJ3uMaFN8KhDLJ01PX2vvT3XqhMUJWuDM3RkxRr0/4BBY7hVE7yUA0
+         YiuQ==
+From: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Subject: [PATCH -perfbook] memorder: fix a typo in Listing 15.25's caption 
+Date: Wed, 19 Oct 2022 16:44:42 +0800
+Message-Id: <20221019084442.8025-1-zhouzhouyi@gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] locking: Warn about state preservation when releasing and
- re-acquiring locks
-References: <20220929121112.373983-1-e2lahav@gmail.com>
- <20221006125822.GT4196@paulmck-ThinkPad-P17-Gen-1>
- <CAJbg=FXkbWPU4naA+DHQGbLk+n-7me+xR8fZ0Xc9d5phMkrPyw@mail.gmail.com>
- <20221006180659.GZ4196@paulmck-ThinkPad-P17-Gen-1>
-Content-Language: en-CA
-From: Elad Lahav <e2lahav@gmail.com>
-In-Reply-To: <20221006180659.GZ4196@paulmck-ThinkPad-P17-Gen-1>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-To: paulmck@kernel.org
-Cc: perfbook@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+To: perfbook@vger.kernel.org, luyang.co@gmail.com, paulmck@kernel.org, akiyks@gmail.com
+Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
->>> Also, longer term, would you be willing to add code that makes a
->>> simple but dangerous change in order to better illustrate the problem?
-I sent a patch, but I'm actually not too thrilled with it.
+Caption of Listing 15.25 should be "Z6.2 Release-Acquire Chain (Ordering?)"
+instead of "Z6.0 Release-Acquire Chain (Ordering?)"
 
-The original code was using nd->children[i], which I believe forces a 
-compliant compiler to re-read nd->children, avoiding the problem. I was 
-unable to get GCC 8.3 to cache nd->children, even when making the 
-iterator and the callback take a pointer to a const node. With the new 
-version, which uses an explicit iterator, the compiler does store 
-nd->children in a register that is not reloaded across the loop.
+Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+---
+Hi Paul and Akira:
 
-The example I propose can thus fall under the category of "don't do 
-that". On the other hand, this is just supposed to be a small, 
-self-contained illustration of the danger.
+I guess there is a typo in caption of listing 15.25
 
-What do you think?
+Many thanks
+Zhouyi
+--
+ memorder/memorder.tex | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
---Elad
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index 28319bfb..0c96d43b 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -2325,14 +2325,14 @@ prevents the \co{exists} clause on \clnref{exists} from triggering.
+ 
+ \begin{listing}
+ \input{CodeSamples/formal/litmus/C-Z6.2+o-r+a-o+o-mb-o@whole.fcv}
+-\caption{Z6.0 Release-Acquire Chain (Ordering?)}
+-\label{lst:memorder:Z6.0 Release-Acquire Chain (Ordering?)}
++\caption{Z6.2 Release-Acquire Chain (Ordering?)}
++\label{lst:memorder:Z6.2 Release-Acquire Chain (Ordering?)}
+ \end{listing}
+ 
+ \QuickQuiz{
+ 	Suppose we have a short release-acquire chain along with one
+ 	load-to-store link and one store-to-store link, like that shown in
+-	\cref{lst:memorder:Z6.0 Release-Acquire Chain (Ordering?)}.
++	\cref{lst:memorder:Z6.2 Release-Acquire Chain (Ordering?)}.
+ 	Given that there is only one of each type of non-store-to-load
+ 	link, the \co{exists} cannot trigger, right?
+ }\QuickQuizAnswer{
+@@ -2345,7 +2345,7 @@ prevents the \co{exists} clause on \clnref{exists} from triggering.
+ 	thereof, it is necessary to have at least one full barrier
+ 	(\co{smp_mb()} or better) between each non-store-to-load link.
+ 	In
+-	\cref{lst:memorder:Z6.0 Release-Acquire Chain (Ordering?)},
++	\cref{lst:memorder:Z6.2 Release-Acquire Chain (Ordering?)},
+ 	preventing the \co{exists} clause from triggering therefore requires
+ 	an additional full barrier between either \co{P0()}'s or
+ 	\co{P1()}'s accesses.
+-- 
+2.34.1
+
