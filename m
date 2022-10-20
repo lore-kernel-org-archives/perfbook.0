@@ -1,66 +1,96 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46368 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbiJTXkv (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Thu, 20 Oct 2022 19:40:51 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B8B510324B
-        for <perfbook@vger.kernel.org>; Thu, 20 Oct 2022 16:40:50 -0700 (PDT)
+        with ESMTP id S229657AbiJTXoe (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Thu, 20 Oct 2022 19:44:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 275961F2CD
+        for <perfbook@vger.kernel.org>; Thu, 20 Oct 2022 16:44:30 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4C09CB828B2
-        for <perfbook@vger.kernel.org>; Thu, 20 Oct 2022 23:40:49 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 55BEA61D5E
+        for <perfbook@vger.kernel.org>; Thu, 20 Oct 2022 23:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666309248;
-        bh=7x8T7stQLI90jCbos4uY5TM8AG4EEGkyrJUynJpXdjw=;
+        s=k20201202; t=1666309468;
+        bh=7iR8dsEE7sap2pi1Lzgd7KwrPsn9wIUTJmKVbO1JGa8=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=jPsyNdwS7t1VopWBjjtD/ziV7KngWYWsGqfOFSm2rWGpEueiNJXHZPO+6IXAmuggR
-         U92AfFa9NKg/1OY4/5CuHkWODNHANpkUk6BRLc83MiRtGZS6YsK6vOE2Mr0lBOALBX
-         BPzq6/CCS4I7D/pFgqpbr2xMbuOeR+JsBYH6zxkDzzFmUux+txzjpZvnm6M5Zp6Qn8
-         SYmgSFXvhdR9f2kPuEZ02zyNtO7UEXwb0HPphDih/p0Ff56K/gkjA/Hz94LyH8nuzk
-         y6V4siUT0nPCcpFPIVNPOlmML789chrJlbIUBNkSlJVpZ/pj+NqwaYbWn1Zk6NMWyl
-         qgt4+Q4qDZxqQ==
-Date: Thu, 20 Oct 2022 16:40:47 -0700
+        b=hQbtLpuswskOGiFsPxBUEwkYAsDTIjlpukNhzQsvuOco7lY1iQDuFdI6WwudcP9FB
+         k3/x46Orhb37gtW5vyuqQyWN3g0Q9GBsDq1B7fZXHQMCMx3aCWdL/cAWZTAAXDgdH9
+         nxywP71F7rLEJdHVSKoZHK7IsHc1JU+vFA5pAbPa0a3p7NBz6v9HPDOo7sblKrFImI
+         UygRb4RzXImHTVPNcGc3gC9F6W1ZLuv7ERMWzxeIa6s+FPrzOeiX7b3u53L72xyuC8
+         vx5VMCIsxYVtQus/nEocT+0hqx2WQnU3PJjm6BoGTC1MEkpc+D1D1HQ0sJ6apRWCjN
+         UixocyimudJRw==
+Date: Thu, 20 Oct 2022 16:44:28 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] locking: Warn about state preservation when releasing
- and re-acquiring locks
-Message-ID: <20221020234047.GD5600@paulmck-ThinkPad-P17-Gen-1>
+Subject: Re: [PATCH -perfbook] memorder: fix a typo in Listing 15.25's caption
+Message-ID: <20221020234428.GE5600@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <20220929121112.373983-1-e2lahav@gmail.com>
- <20221006125822.GT4196@paulmck-ThinkPad-P17-Gen-1>
- <CAJbg=FXkbWPU4naA+DHQGbLk+n-7me+xR8fZ0Xc9d5phMkrPyw@mail.gmail.com>
- <20221006180659.GZ4196@paulmck-ThinkPad-P17-Gen-1>
- <c94f3757-5e8a-aeee-d836-eeccf6ae6d50@gmail.com>
+References: <20221019084442.8025-1-zhouzhouyi@gmail.com>
+ <fdb0fd83-5cbc-eda2-c127-3d4a26ded8ad@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c94f3757-5e8a-aeee-d836-eeccf6ae6d50@gmail.com>
+In-Reply-To: <fdb0fd83-5cbc-eda2-c127-3d4a26ded8ad@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Elad Lahav <e2lahav@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>, perfbook@vger.kernel.org, luyang.co@gmail.com
 
-On Sun, Oct 16, 2022 at 08:41:32AM -0400, Elad Lahav wrote:
-> > > > Also, longer term, would you be willing to add code that makes a
-> > > > simple but dangerous change in order to better illustrate the problem?
-> I sent a patch, but I'm actually not too thrilled with it.
+On Wed, Oct 19, 2022 at 09:47:11PM +0900, Akira Yokosawa wrote:
+> Hi,
 > 
-> The original code was using nd->children[i], which I believe forces a
-> compliant compiler to re-read nd->children, avoiding the problem. I was
-> unable to get GCC 8.3 to cache nd->children, even when making the iterator
-> and the callback take a pointer to a const node. With the new version, which
-> uses an explicit iterator, the compiler does store nd->children in a
-> register that is not reloaded across the loop.
+> On Wed, 19 Oct 2022 16:44:42 +0800, Zhouyi Zhou wrote:
+> > Caption of Listing 15.25 should be "Z6.2 Release-Acquire Chain (Ordering?)"
+> > instead of "Z6.0 Release-Acquire Chain (Ordering?)"
+> > 
+> > Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+> > ---
+> > Hi Paul and Akira:
+> > 
+> > I guess there is a typo in caption of listing 15.25
 > 
-> The example I propose can thus fall under the category of "don't do that".
-> On the other hand, this is just supposed to be a small, self-contained
-> illustration of the danger.
+> Nice catch!
 > 
-> What do you think?
+> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
 
-I took it as is.  Many people would not believe that the pointer is
-all that different than the array access.
-
-Thank you!
+Queued, thank you both!
 
 							Thanx, Paul
+
+> > Many thanks
+> > Zhouyi
+> > --
+> >  memorder/memorder.tex | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+> > index 28319bfb..0c96d43b 100644
+> > --- a/memorder/memorder.tex
+> > +++ b/memorder/memorder.tex
+> > @@ -2325,14 +2325,14 @@ prevents the \co{exists} clause on \clnref{exists} from triggering.
+> >  
+> >  \begin{listing}
+> >  \input{CodeSamples/formal/litmus/C-Z6.2+o-r+a-o+o-mb-o@whole.fcv}
+> > -\caption{Z6.0 Release-Acquire Chain (Ordering?)}
+> > -\label{lst:memorder:Z6.0 Release-Acquire Chain (Ordering?)}
+> > +\caption{Z6.2 Release-Acquire Chain (Ordering?)}
+> > +\label{lst:memorder:Z6.2 Release-Acquire Chain (Ordering?)}
+> >  \end{listing}
+> >  
+> >  \QuickQuiz{
+> >  	Suppose we have a short release-acquire chain along with one
+> >  	load-to-store link and one store-to-store link, like that shown in
+> > -	\cref{lst:memorder:Z6.0 Release-Acquire Chain (Ordering?)}.
+> > +	\cref{lst:memorder:Z6.2 Release-Acquire Chain (Ordering?)}.
+> >  	Given that there is only one of each type of non-store-to-load
+> >  	link, the \co{exists} cannot trigger, right?
+> >  }\QuickQuizAnswer{
+> > @@ -2345,7 +2345,7 @@ prevents the \co{exists} clause on \clnref{exists} from triggering.
+> >  	thereof, it is necessary to have at least one full barrier
+> >  	(\co{smp_mb()} or better) between each non-store-to-load link.
+> >  	In
+> > -	\cref{lst:memorder:Z6.0 Release-Acquire Chain (Ordering?)},
+> > +	\cref{lst:memorder:Z6.2 Release-Acquire Chain (Ordering?)},
+> >  	preventing the \co{exists} clause from triggering therefore requires
+> >  	an additional full barrier between either \co{P0()}'s or
+> >  	\co{P1()}'s accesses.
