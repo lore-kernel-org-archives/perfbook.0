@@ -1,48 +1,89 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40606 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233401AbiKMPUd (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 13 Nov 2022 10:20:33 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE73F55B5
-        for <perfbook@vger.kernel.org>; Sun, 13 Nov 2022 07:20:32 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id n12so22738510eja.11
-        for <perfbook@vger.kernel.org>; Sun, 13 Nov 2022 07:20:32 -0800 (PST)
+        with ESMTP id S232676AbiKMP0P (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sun, 13 Nov 2022 10:26:15 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A9299FF0
+        for <perfbook@vger.kernel.org>; Sun, 13 Nov 2022 07:26:14 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id i21so13914631edj.10
+        for <perfbook@vger.kernel.org>; Sun, 13 Nov 2022 07:26:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gSUWhqzMz+JqUfXR+psd6Z1eeKhV/0eAoQ1FXx5KelQ=;
-        b=cd6FPRB6x/cQF1JeiZGIvQIQYW3l5hpKftxOVflSZIj/dOlVeWW03EFLPu7TzOhpep
-         zxe4/ASbQyqGgm9wP5GgYs9KNDBtC/1bGm48YNhnSffoJaDb30j43esNuVG3wsJ/q1fh
-         Gy4+i+t2cdOd35IgZ+aB8m6/pZj6sx+xUV45RV4zrT1gSiRimSX77Xb/q1smb+203pHa
-         wqbJBWFReI4G0aFFPe653Km39xiKqq4Q3kv+thnJ42sUI6SRMuJsaHHLUNCeWEQMF8tp
-         OOSU9IhXdSDybldVjPtwe5XLOPQrx5W3fcNdv3CbxHtq19vR7m8F8OPn6c08YSN0+kjQ
-         vA3Q==
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HtKz3hTCNDHZ78OWwvRVCg2Ta883U2CTpKbwpNjQHpk=;
+        b=eIqye8ork35h2DcoNnMgaHWHzKORdR6NrBrhEz0tYIY91uBj3tlsw95N0SnZEGETQb
+         ueKy1gHTv+5hVPN1ONqbN1sIbPnQGDiUyMDbkvJBBOUNL/Z5ERseaWOnY6XpePksUu6m
+         /nUUpdL3nHBhqnn11p9pYXvdX1DGjjnHJhpeL6Ify5qTLRB/OQZ0+KVvX3vsoG99ujrH
+         KsrbIo4TpnQsoa7TNmu+u62ZyKCcUY52dRjwIewymJVl99fIXBOs7pZpaY42f4ue0mDc
+         EjoWwBfbh+BOSCP1qxI5FMmOj0mU+bINc3SUYTsiSLzxn7G5jHVUcyAgMqHqnto1oCu7
+         adrg==
 MIME-Version: 1.0
 From: Elad Lahav <e2lahav@gmail.com>
-Date: Sun, 13 Nov 2022 10:20:18 -0500
-Message-ID: <CAJbg=FWTVdoZr2uzDeSMcUE-0EGQbFgtVR6NvoRQ9Y+P1LSoRQ@mail.gmail.com>
-Subject: Hazard pointers: suspicious dereference
+Date: Sun, 13 Nov 2022 10:26:00 -0500
+Message-ID: <CAJbg=FUGD01BGGiO_t5vSz8kQi0-Kp2GmqEZ7HN4nLmQFVSM1A@mail.gmail.com>
+Subject: route_hazard no longer builds
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-ID: <perfbook.vger.kernel.org>
 To: perfbook@vger.kernel.org
 
-hp_try_record() takes a pointer to a pointer, casts it to void **, and
-then passes it to _h_t_r_impl(). So far so good.
+Trying to build route_hazard on Ubuntu 22.04, GCC 11.3:
 
-hp_record() takes a pointer to a pointer, but dereferences it when
-calling hp_try_record(). That seems odd to me. Let's say we have a
-structure foo_t, and a pointer to it, foo_p. Then
+cc -g -O3 -Wall -o route_hazptr route_hazptr.c hazptr.c
+../lib/random.c -lpthread
+/usr/bin/ld: /tmp/ccK5WldD.o:/home/elahav/src/other/perfbook/CodeSamples/de=
+fer/hazptr.h:55:
+multiple definition of `HP';
+/tmp/ccWgXBZR.o:/home/elahav/src/other/perfbook/CodeSamples/defer/hazptr.h:=
+55:
+first defined here
+/usr/bin/ld: /tmp/ccK5WldD.o:/home/elahav/src/other/perfbook/CodeSamples/de=
+fer/../api.h:294:
+multiple definition of `thread_id_key';
+/tmp/ccWgXBZR.o:/home/elahav/src/other/perfbook/CodeSamples/defer/../api.h:=
+294:
+first defined here
+/usr/bin/ld: /tmp/ccK5WldD.o:/home/elahav/src/other/perfbook/CodeSamples/de=
+fer/../api.h:278:
+multiple definition of `__thread_id_map';
+/tmp/ccWgXBZR.o:/home/elahav/src/other/perfbook/CodeSamples/defer/../api.h:=
+278:
+first defined here
+/usr/bin/ld: /tmp/ccK5WldD.o:/home/elahav/src/other/perfbook/CodeSamples/de=
+fer/../api.h:279:
+multiple definition of `__thread_id_map_mutex';
+/tmp/ccWgXBZR.o:/home/elahav/src/other/perfbook/CodeSamples/defer/../api.h:=
+279:
+first defined here
+/usr/bin/ld: /tmp/ccK5WldD.o:/home/elahav/src/other/perfbook/CodeSamples/de=
+fer/../api.h:485:
+multiple definition of `__per_thread_smp_processor_id';
+/tmp/ccWgXBZR.o:/home/elahav/src/other/perfbook/CodeSamples/defer/../api.h:=
+485:
+first defined here
+collect2: error: ld returned 1 exit status
+make: *** [Makefile:129: route_hazptr] Error 1
 
-hp_record((void **)&foo_p, hp)  =>
-hp_try_record(*p, hp) // p is pointer to pointer to foo_s =>
-_h_t_r_impl((void **)p, hp) // p is a pointer to foo_s, cast as (void **) =>
-tmp = READ_ONCE(*p) // reading from the first bytes of foo_s as an address
+Both route_hazptr.c and hazptr.c include api.h, which defines (not
+just declares) a few global variables. I'm a bit surprised this worked
+in the past. Perhaps there should be an api static library against
+which all examples build?
 
-I also tried building the example route_hazard.c such that it uses
-hp_record() instead of hp_try_record(), and it crashes as I expected.
+Also, when trying to fix this I noticed that
+DECLARE_PER_THREAD/DEFINE_PER_THREAD cannot work in conjunction, as
+GCC seems to treat the following as unrelated:
 
-Am I missing something?
+extern struct { int a; } foo;
+struct { int a; } foo;
 
---Elad
+$ gcc -Wall -c test.c
+test.c:2:19: error: conflicting types for =E2=80=98foo=E2=80=99; have =E2=
+=80=98struct <anonymous>=E2=80=99
+    2 | struct { int a; } foo;
+      |                   ^~~
+test.c:1:26: note: previous declaration of =E2=80=98foo=E2=80=99 with type =
+=E2=80=98struct <anonymous>=E2=80=99
+    1 | extern struct { int a; } foo;
+      |
