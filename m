@@ -1,64 +1,70 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43698 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230293AbiKRViS (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Fri, 18 Nov 2022 16:38:18 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69872A465F
-        for <perfbook@vger.kernel.org>; Fri, 18 Nov 2022 13:38:16 -0800 (PST)
+        with ESMTP id S230035AbiKRVit (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Fri, 18 Nov 2022 16:38:49 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2ED5E9C6
+        for <perfbook@vger.kernel.org>; Fri, 18 Nov 2022 13:38:49 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D6BE26276C
-        for <perfbook@vger.kernel.org>; Fri, 18 Nov 2022 21:38:15 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B709AB82559
+        for <perfbook@vger.kernel.org>; Fri, 18 Nov 2022 21:38:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668807495;
-        bh=r2SzYN/R1KdnR7syciwPA32OVY20WflwvQPVq+udgac=;
+        s=k20201202; t=1668807526;
+        bh=gly6HRXbJpYwr3tvfjZHTIoxRJZIwQPEZLXnP3YsyCE=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=UIrO4pEQ+dCalozktEcfjZ1F2xhNMZQcwDuiFS/Z9XzGxqLnvdSWUlUF7Ibug7QX4
-         PiOObcYgT8WmXeItoQZAFsFU3AlUIKYrZDD8p4vNxEyxkuKBvP6eYnyHsVxIIz3/1n
-         Zes2+PpLfCgOL41b18p9TQHfzyGbKAMNLs0UTb2kcbe9Ylw20MRCse/SJxMwa3tdqq
-         v1fbVv1etEeonbW1PHWvtuyzLA/0ngyevKcGGkJH5Z65fpkMCdwaTBG3Q9aQU4xySO
-         KLW1a2qI5jzknQdXcXxB+VEoPxcWR//ZzEJn9xsfg6sSYIrE4UNDEjUYAC7wX4RFdt
-         FPKz3ahkybmLg==
-Date: Fri, 18 Nov 2022 13:38:14 -0800
+        b=illC0FD5Un3Xemr5D1qaHJxCus2X1S5ObK1yiTSqFkcnLaHXOv3No43VVWRbgaDB/
+         qxYtpasItplAYmVeE8yV2WtJAR7n+A7OO1NzD+sdAWhg4zv41ns+/P1lPMsEfr77Mx
+         3WRLYAOCE4laougGWZ9IjALx1vzTXSrjiNA0Ii3Q5YTTra8mJTxcGvGsaPeLseAHvv
+         pDmbSH2YJ28W4j5kcl9OpsOaWHodr5sOczMm4bRr+1GnjJLAl+8TfHrEWji64h2rmu
+         wG/6dn/Hvn4zGYfhnxtYbKMoyDwIuj7ruHHzEFahYldHu3JsWcs/VKX3ZcztJh8Avg
+         mpr/He9uFjrag==
+Date: Fri, 18 Nov 2022 13:38:46 -0800
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] RCU fundamentals: too many ares
-Message-ID: <20221118213814.GM4001@paulmck-ThinkPad-P17-Gen-1>
+Subject: Re: [PATCH] CodeSamples/locking: Add rec_tree_itr to .gitignore
+Message-ID: <20221118213846.GN4001@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <20221118082344.216904-1-e2lahav@gmail.com>
+References: <3b515cce-eef7-7ca5-2ffe-a1c92a8db44b@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221118082344.216904-1-e2lahav@gmail.com>
+In-Reply-To: <3b515cce-eef7-7ca5-2ffe-a1c92a8db44b@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Elad Lahav <e2lahav@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Elad Lahav <e2lahav@gmail.com>, perfbook@vger.kernel.org
 
-On Fri, Nov 18, 2022 at 03:23:45AM -0500, Elad Lahav wrote:
-> Signed-off-by: Elad Lahav <e2lahav@gmail.com>
+On Fri, Nov 18, 2022 at 11:52:13PM +0900, Akira Yokosawa wrote:
+> Commit a4e1d87b97f8 ("locking: Warn about state preservation when
+> releasing and re-acquiring locks") added a make target of
+> rec_tree_itr under CodeSamples/locking/, but failed to update
+> .gitignore.
+> 
+> Add rec_tree_itr in the list.
+> 
+> Fixes: a4e1d87b97f8 ("locking: Warn about state preservation when releasing and re-acquiring locks")
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-Good catch!  Queued and pushed, thank you!
+Thank you for spotting this one!  Queued and pushed.
 
 							Thanx, Paul
 
 > ---
->  defer/rcufundamental.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  CodeSamples/locking/.gitignore | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/defer/rcufundamental.tex b/defer/rcufundamental.tex
-> index 82d04bba..39b2f7ff 100644
-> --- a/defer/rcufundamental.tex
-> +++ b/defer/rcufundamental.tex
-> @@ -546,7 +546,7 @@ that single-item lookups are much more common in practice than are
->  full-data-structure traversals.
->  After all, full-data-structure traversals are much more expensive than
->  single-item lookups, so developers are motivated to avoid such traversals.
-> -Not only are concurrent updates are less likely to affect a single-item
-> +Not only are concurrent updates less likely to affect a single-item
->  lookup than they are a full traversal, but it is also the case that an
->  isolated single-item lookup has no way of detecting such inconsistencies.
->  As a result, in the common case, such inconsistencies are not just
+> diff --git a/CodeSamples/locking/.gitignore b/CodeSamples/locking/.gitignore
+> index 4cd08bfb256b..29a71f856d68 100644
+> --- a/CodeSamples/locking/.gitignore
+> +++ b/CodeSamples/locking/.gitignore
+> @@ -1,3 +1,4 @@
+>  locked_list
+>  lockwakelatency
+> +rec_tree_itr
+>  xchglock
+> 
+> base-commit: ea5a893d74e27536fd1189905f9496fd4bc368f4
 > -- 
-> 2.34.1
+> 2.25.1
 > 
