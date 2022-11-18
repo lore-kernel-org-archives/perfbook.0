@@ -1,52 +1,52 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241362AbiKRIYL (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Fri, 18 Nov 2022 03:24:11 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52B9E64A3C
-        for <perfbook@vger.kernel.org>; Fri, 18 Nov 2022 00:24:08 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id d9so8071040wrm.13
-        for <perfbook@vger.kernel.org>; Fri, 18 Nov 2022 00:24:08 -0800 (PST)
+Return-Path: <SRS0=xDx5=3S=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VOZaCZndB5AIYWG4ICFCimlllpNrfpRZ1WraXv8WNQA=;
-        b=HTDdLQkdVCm4BRMt9RS78ZbqwqUrocbh/ybPinZrjki99OwU94+CkFg9wsHyF7kLrL
-         scG62P6ACkdYmYSY2hXaIKvuFGg2lzuFwUBM36Q7Zktl9h0wDYWwsxMextBncpegIJGk
-         R9eaPXwju/TxL3G0D7Lx3EfW0MxvzaiYrDesoE+KoC0Tzy1yBUdPUicHgBjtAaQKfKpK
-         HrdjMzDeykmddCpQM+IMAozuDCoL6VrF0OanYw2AbDPT8u3dyhiG2+dx8HBbprStMNED
-         TqPY3gkubJVk3KUBN4ixCidaFr/0Hi12sJJVXusOyLNpdGZuYzkeDjcWKMT7WdEn85fT
-         /GJg==
-From: Elad Lahav <e2lahav@gmail.com>
-Subject: [PATCH] RCU fundamentals: too many ares
-Date: Fri, 18 Nov 2022 03:23:45 -0500
-Message-Id: <20221118082344.216904-1-e2lahav@gmail.com>
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KUgIjXiaydCmSO3HWayGHmAee590rhRtb99ZEaESgcA=;
+        b=BI1mczkDayMd6qhPsghVoBpjZJmBfcn5+BJOx824ToNlwVsRwfqTu/cCl+R87xzme/
+         T/0HiFy9n+iiOarPMbbieIYGrO088gUNgWIx5Y7+f2GeEsnU0bpTW/fI7DnOaYVLYCP2
+         YPO1EyZ4wQhpue9kETAiZk8QtQPmkeOie2czrAf+EjZgWokGI0TyrMcrBKNj95y9UKG2
+         +EaHWXKjXJB0qdAaJvGpKcYUHJhgSvUOskAxKKhRDDmhe5Zom4UkSTFvomW9eSHIaw8c
+         FcUue7S9P8bobQr0dD4L91JuNb5ezP8dkbG98ilMOOcc+avEX+EGzBTg8fLc6QzC5cVP
+         YLXw==
+Message-ID: <3b515cce-eef7-7ca5-2ffe-a1c92a8db44b@gmail.com>
+Date: Fri, 18 Nov 2022 23:52:13 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] CodeSamples/locking: Add rec_tree_itr to .gitignore
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Elad Lahav <e2lahav@gmail.com>, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
-Cc: Elad Lahav <e2lahav@gmail.com>
 
-Signed-off-by: Elad Lahav <e2lahav@gmail.com>
+Commit a4e1d87b97f8 ("locking: Warn about state preservation when
+releasing and re-acquiring locks") added a make target of
+rec_tree_itr under CodeSamples/locking/, but failed to update
+.gitignore.
+
+Add rec_tree_itr in the list.
+
+Fixes: a4e1d87b97f8 ("locking: Warn about state preservation when releasing and re-acquiring locks")
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- defer/rcufundamental.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ CodeSamples/locking/.gitignore | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/defer/rcufundamental.tex b/defer/rcufundamental.tex
-index 82d04bba..39b2f7ff 100644
---- a/defer/rcufundamental.tex
-+++ b/defer/rcufundamental.tex
-@@ -546,7 +546,7 @@ that single-item lookups are much more common in practice than are
- full-data-structure traversals.
- After all, full-data-structure traversals are much more expensive than
- single-item lookups, so developers are motivated to avoid such traversals.
--Not only are concurrent updates are less likely to affect a single-item
-+Not only are concurrent updates less likely to affect a single-item
- lookup than they are a full traversal, but it is also the case that an
- isolated single-item lookup has no way of detecting such inconsistencies.
- As a result, in the common case, such inconsistencies are not just
+diff --git a/CodeSamples/locking/.gitignore b/CodeSamples/locking/.gitignore
+index 4cd08bfb256b..29a71f856d68 100644
+--- a/CodeSamples/locking/.gitignore
++++ b/CodeSamples/locking/.gitignore
+@@ -1,3 +1,4 @@
+ locked_list
+ lockwakelatency
++rec_tree_itr
+ xchglock
+
+base-commit: ea5a893d74e27536fd1189905f9496fd4bc368f4
 -- 
-2.34.1
+2.25.1
 
