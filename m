@@ -1,89 +1,59 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41318 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232676AbiKMP0P (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 13 Nov 2022 10:26:15 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A9299FF0
-        for <perfbook@vger.kernel.org>; Sun, 13 Nov 2022 07:26:14 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id i21so13914631edj.10
-        for <perfbook@vger.kernel.org>; Sun, 13 Nov 2022 07:26:14 -0800 (PST)
+        with ESMTP id S229641AbiKTSXS (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sun, 20 Nov 2022 13:23:18 -0500
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66DD313CE9
+        for <perfbook@vger.kernel.org>; Sun, 20 Nov 2022 10:23:17 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id n12so23982253eja.11
+        for <perfbook@vger.kernel.org>; Sun, 20 Nov 2022 10:23:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HtKz3hTCNDHZ78OWwvRVCg2Ta883U2CTpKbwpNjQHpk=;
-        b=eIqye8ork35h2DcoNnMgaHWHzKORdR6NrBrhEz0tYIY91uBj3tlsw95N0SnZEGETQb
-         ueKy1gHTv+5hVPN1ONqbN1sIbPnQGDiUyMDbkvJBBOUNL/Z5ERseaWOnY6XpePksUu6m
-         /nUUpdL3nHBhqnn11p9pYXvdX1DGjjnHJhpeL6Ify5qTLRB/OQZ0+KVvX3vsoG99ujrH
-         KsrbIo4TpnQsoa7TNmu+u62ZyKCcUY52dRjwIewymJVl99fIXBOs7pZpaY42f4ue0mDc
-         EjoWwBfbh+BOSCP1qxI5FMmOj0mU+bINc3SUYTsiSLzxn7G5jHVUcyAgMqHqnto1oCu7
-         adrg==
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cJBAZX5rf5QPxrqUqUMmJKAJqzXZ70Pu7zwGfxKhoDc=;
+        b=QU118zbbO6BnQq9LjUiv7x8DMP1PynLhAFPPwHX4DYr/tW0ngrnBzcZz0Isbv6IOC6
+         mUUe8QGAV2kbqpJPBaDeVrHUbrzevr525aYOvHk+/KL0P77is12gjmhf5lkRBX1bJo13
+         kL/VU7XQ26w1di/X6zO83tn/c4rTp75FRGoumfcHQe2/o492VFgCaecRYIYpU45qHLMI
+         pDXEaQ9IA6cPBtF8+Z3jyP/jc6ATay/V4/LtdUdimmlGUIx4xdd1vzDfmqMur3bu7rMf
+         TD0F2eNKvfogmu12L94f+N4J/F8HhjyRfAeVF1NuJ+tNht+g7grWTNGyMOjfZ825kDCO
+         N5cA==
 MIME-Version: 1.0
+References: <CAJbg=FWTVdoZr2uzDeSMcUE-0EGQbFgtVR6NvoRQ9Y+P1LSoRQ@mail.gmail.com>
+In-Reply-To: <CAJbg=FWTVdoZr2uzDeSMcUE-0EGQbFgtVR6NvoRQ9Y+P1LSoRQ@mail.gmail.com>
 From: Elad Lahav <e2lahav@gmail.com>
-Date: Sun, 13 Nov 2022 10:26:00 -0500
-Message-ID: <CAJbg=FUGD01BGGiO_t5vSz8kQi0-Kp2GmqEZ7HN4nLmQFVSM1A@mail.gmail.com>
-Subject: route_hazard no longer builds
+Date: Sun, 20 Nov 2022 13:23:03 -0500
+Message-ID: <CAJbg=FVh9H+Qo-oiH1W-G4hrcpM=-QWTJFO8s7Z7PYNrVedCSQ@mail.gmail.com>
+Subject: Re: Hazard pointers: suspicious dereference
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-ID: <perfbook.vger.kernel.org>
 To: perfbook@vger.kernel.org
 
-Trying to build route_hazard on Ubuntu 22.04, GCC 11.3:
+Hi Paul,
 
-cc -g -O3 -Wall -o route_hazptr route_hazptr.c hazptr.c
-../lib/random.c -lpthread
-/usr/bin/ld: /tmp/ccK5WldD.o:/home/elahav/src/other/perfbook/CodeSamples/de=
-fer/hazptr.h:55:
-multiple definition of `HP';
-/tmp/ccWgXBZR.o:/home/elahav/src/other/perfbook/CodeSamples/defer/hazptr.h:=
-55:
-first defined here
-/usr/bin/ld: /tmp/ccK5WldD.o:/home/elahav/src/other/perfbook/CodeSamples/de=
-fer/../api.h:294:
-multiple definition of `thread_id_key';
-/tmp/ccWgXBZR.o:/home/elahav/src/other/perfbook/CodeSamples/defer/../api.h:=
-294:
-first defined here
-/usr/bin/ld: /tmp/ccK5WldD.o:/home/elahav/src/other/perfbook/CodeSamples/de=
-fer/../api.h:278:
-multiple definition of `__thread_id_map';
-/tmp/ccWgXBZR.o:/home/elahav/src/other/perfbook/CodeSamples/defer/../api.h:=
-278:
-first defined here
-/usr/bin/ld: /tmp/ccK5WldD.o:/home/elahav/src/other/perfbook/CodeSamples/de=
-fer/../api.h:279:
-multiple definition of `__thread_id_map_mutex';
-/tmp/ccWgXBZR.o:/home/elahav/src/other/perfbook/CodeSamples/defer/../api.h:=
-279:
-first defined here
-/usr/bin/ld: /tmp/ccK5WldD.o:/home/elahav/src/other/perfbook/CodeSamples/de=
-fer/../api.h:485:
-multiple definition of `__per_thread_smp_processor_id';
-/tmp/ccWgXBZR.o:/home/elahav/src/other/perfbook/CodeSamples/defer/../api.h:=
-485:
-first defined here
-collect2: error: ld returned 1 exit status
-make: *** [Makefile:129: route_hazptr] Error 1
+Any comments on this one? I can submit a patch, but it's possible I'm
+missing something here.
 
-Both route_hazptr.c and hazptr.c include api.h, which defines (not
-just declares) a few global variables. I'm a bit surprised this worked
-in the past. Perhaps there should be an api static library against
-which all examples build?
+--Elad
 
-Also, when trying to fix this I noticed that
-DECLARE_PER_THREAD/DEFINE_PER_THREAD cannot work in conjunction, as
-GCC seems to treat the following as unrelated:
-
-extern struct { int a; } foo;
-struct { int a; } foo;
-
-$ gcc -Wall -c test.c
-test.c:2:19: error: conflicting types for =E2=80=98foo=E2=80=99; have =E2=
-=80=98struct <anonymous>=E2=80=99
-    2 | struct { int a; } foo;
-      |                   ^~~
-test.c:1:26: note: previous declaration of =E2=80=98foo=E2=80=99 with type =
-=E2=80=98struct <anonymous>=E2=80=99
-    1 | extern struct { int a; } foo;
-      |
+On Sun, 13 Nov 2022 at 10:20, Elad Lahav <e2lahav@gmail.com> wrote:
+>
+> hp_try_record() takes a pointer to a pointer, casts it to void **, and
+> then passes it to _h_t_r_impl(). So far so good.
+>
+> hp_record() takes a pointer to a pointer, but dereferences it when
+> calling hp_try_record(). That seems odd to me. Let's say we have a
+> structure foo_t, and a pointer to it, foo_p. Then
+>
+> hp_record((void **)&foo_p, hp)  =>
+> hp_try_record(*p, hp) // p is pointer to pointer to foo_s =>
+> _h_t_r_impl((void **)p, hp) // p is a pointer to foo_s, cast as (void **) =>
+> tmp = READ_ONCE(*p) // reading from the first bytes of foo_s as an address
+>
+> I also tried building the example route_hazard.c such that it uses
+> hp_record() instead of hp_try_record(), and it crashes as I expected.
+>
+> Am I missing something?
+>
+> --Elad
