@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1669316318;
-	bh=X7RswHJ3PAv5e07PSq8VhI9+b2xUqFBGlkBSZ9GEag0=;
+	bh=RJ2Sl3gkB+0t9kTgbDLGvY13yRyqVQtSB4qAevHb+Zc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rRlsByfsv+CjQrKVr3UJR0yOyISdB8wqfELXjcSSETrybjs9Z/rSHaXEyzMWk1ZeC
-	 BF17ZTzojD2AZySZtuu1QhOIc1zrJTQqHZV0Mk9RMfoERbnDTxbpWs2twA+s/r42yd
-	 ZOL3zKZAcCz/neMYHs53cSDWbK+eYiM84VXbk01PTFIfAsksslBRkl31euORys23u9
-	 Za+sOjwa1wyPeLKRirsP0D0PVviqlXUXXJUJJpNd5ezxCjgIGDZ/uqF1rTrFMiPlQ/
-	 3WMIjFlsnTUKQqr8dcFYi+b9o29NfG8Egr1J6o1/tNABvjP/BL3Quz51Km0w7OoFce
-	 rkLloXyZ5zXyA==
+	b=bnipblbwKFQjb5M5e0RujzniCvV4JB4urSJ3EZocR2HVnWy5/YR6gq2Jybdo6jPEY
+	 A8gx2aIHJhRSYwj2Ivsj0hZ1SfAWTzDT5UYN/MUfie/3ELw6PdNFffHE8WcknoloqQ
+	 eVIZqAAGiGXDM8pQVzxAtSMApROTH3QFLt9T2HUE72kWzLNasTZaQK7KS4y+lyM2Mx
+	 4lzwgd/EZK93tRzP02IjpFT3KE0AOrKMCZcJd1CId9lBfapHZnPi2TIG4wSxfSnZz4
+	 zfxdpR/0NEnP+mcx2KlnCy2NP3lmkMPp26V3uCHhI+bSSg1iV7P4IvKLwnWc9u7p3k
+	 mRMZOtw2k/OMg==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 03/13] defer/rcuapi: Add missed unbreakable spaces
-Date: Thu, 24 Nov 2022 10:57:53 -0800
-Message-Id: <20221124185803.8150-5-sj@kernel.org>
+Subject: [PATCH 04/13] defer/rcuapi: Use \co{} for boolean return value
+Date: Thu, 24 Nov 2022 10:57:54 -0800
+Message-Id: <20221124185803.8150-6-sj@kernel.org>
 In-Reply-To: <20221124185803.8150-1-sj@kernel.org>
 References: <20221124185803.8150-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,37 +21,36 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-Add missed unbreakable spaces in defer/rcuapi.tex.
+\co{} is used for some boolean return value and not for some other case.
+To make it consistent, use \co{} for all.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- defer/rcuapi.tex | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ defer/rcuapi.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
-index 8ee54866..425c64ff 100644
+index 425c64ff..9ac2d26c 100644
 --- a/defer/rcuapi.tex
 +++ b/defer/rcuapi.tex
-@@ -948,8 +948,8 @@ element in the middle of the list having multiple fields is atomically
- updated, so that a given reader sees either the old set of values or
- the new set of values, but not a mixture of the two sets.
- For example, each node of a linked list might have integer fields
--\co{->a}, \co{->b}, and \co{->c}, and it might be necessary to update
--a given node's fields from 5, 6, and 7 to 5, 2, and 3, respectively.
-+\co{->a}, \co{->b}, and~\co{->c}, and it might be necessary to update
-+a given node's fields from 5, 6, and~7 to 5, 2, and~3, respectively.
+@@ -785,7 +785,7 @@ Should a reader encounter a \co{NULL} pointer not matching the index of
+ the bucket it started from, that reader knows that an element it was
+ traversing was moved to some other bucket during the traversal, taking
+ that reader with it.
+-The reader can use the \apik{is_a_nulls()} function (which returns true
++The reader can use the \apik{is_a_nulls()} function (which returns \co{true}
+ if passed an \co{hlist_nulls} \co{NULL} pointer) to determine when
+ it reaches the end of a list, and the \apik{get_nulls_value()} function
+ (which returns its argument's \co{NULL}-pointer identifier) to fetch
+@@ -1156,7 +1156,7 @@ type of RCU read-side critical section.
  
- The code implementing this atomic update is straightforward:
- 
-@@ -980,7 +980,7 @@ The following discussion walks through this code, using
- \cref{fig:defer:RCU Replacement in Linked List} to illustrate
- the state changes.
- The triples in each element represent the values of fields \co{->a},
--\co{->b}, and \co{->c}, respectively.
-+\co{->b}, and~\co{->c}, respectively.
- The red-shaded elements might be referenced by readers,
- and because readers do not synchronize directly with updaters,
- readers might run concurrently with this entire replacement process.
+ Because \co{rcu_read_lock()} cannot be used from the idle loop,
+ and because energy-efficiency concerns have caused the idle loop
+-to become quite ornate, \apik{rcu_is_watching()} returns true if
++to become quite ornate, \apik{rcu_is_watching()} returns \co{true} if
+ invoked in a context where use of \co{rcu_read_lock()} is legal.
+ Note again that \co{srcu_read_lock()} may be used from idle and
+ even offline CPUs, which means that \co{rcu_is_watching()} does not
 -- 
 2.17.1
 
