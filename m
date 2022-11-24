@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669316320;
-	bh=iORk5ZW/Ir7PYUaI53Y/4w57jPVNQOmEbb6V3wam9HY=;
+	s=k20201202; t=1669316321;
+	bh=olMHSjqNoZ/FXBWgrVUZHiXY+mscezTuvH3KudVxLog=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KBTeyJCZOxzVjumq35G4VTOO6ebB4oSTXUdz6SnIqNwGqa8AT5XiCD4D5LqLyZqD9
-	 noChdMufejFfalpf9UN85UcjPTqSVmAznafNnt2HEihxrRbnq+54JKw83esBqCAzBt
-	 Ya09jZeUPg3tSBxatqnxT0yVahD73MFCDoO7JBmHrenSYNJt3iWQgQr7cdNhXQ+2eK
-	 yvJC/fESBonMFKvKBzpIEs6rm03nh6YfzFAiPboG9ZMr+u9gl2ynRYD12ZUQ9nG3XN
-	 BW2gneuXPDE1/rFNKxpOjTpjHhnKuM+moGNtHe0WPiXstEyJ4hc5oEVZXypT004hlw
-	 boSdsiJozKlfA==
+	b=Lma3Fvqgag0CJJm4LS73HPEo5RzHAO4Xv1MKgPN1NeEh9yxVUaUfYwowqMVoXuxZT
+	 oeFuXMednILBwVEMTyN6XSGNjObuM+57X69T+mYDAtZdsqmbvSmp5/LVfohveOv9/6
+	 GnFW9ok69pqJS1dNu0zvOOwk87sdFMfYHaGoDDopMD3rRwZ2H0CbKNsIVEAtANett4
+	 1oOtuH5ZKfWKIq8Nz8nCtZ6Uueu3BJ6CpTBe5DZ+X1Uc49Fft7lv8hRDOWt9EHMzTa
+	 GIIvYRkZJp3QaqofJskfJhwSzqs575a/zhAgbYyZBT2PcPvZeLJ6m8EG3ZI4D04Awz
+	 shCn15m0wbDSQ==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 11/13] defer/rcurelated: Remove unopen closing parentheses
-Date: Thu, 24 Nov 2022 10:58:01 -0800
-Message-Id: <20221124185803.8150-13-sj@kernel.org>
+Subject: [PATCH 12/13] defer/whichtochoose: Fix a wrongly positioned unbreakable space
+Date: Thu, 24 Nov 2022 10:58:02 -0800
+Message-Id: <20221124185803.8150-14-sj@kernel.org>
 In-Reply-To: <20221124185803.8150-1-sj@kernel.org>
 References: <20221124185803.8150-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,27 +21,27 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-A sentence in rcurelated.tex has a closing parentheses whilt it has no
-counter opening parentheses.  Probably a typo, so remove it.
+There is a sentence mistakenly positioning an unbreakable space in the
+middle of sentence.  Fix it.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- defer/rcurelated.tex | 2 +-
+ defer/whichtochoose.tex | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/defer/rcurelated.tex b/defer/rcurelated.tex
-index 1ca25d9e..190c8456 100644
---- a/defer/rcurelated.tex
-+++ b/defer/rcurelated.tex
-@@ -111,7 +111,7 @@ Unfortunately, this implementation achieves linearizability by incurring
- the full latency of grace-period waits while holding locks, which degrades
- scalability of update-only workloads.
- One way around this problem is to abandon
--linearizability~\cite{AndreasHaas2012FIFOisnt,PaulEMcKennneyAtomicTreeN4037}),
-+linearizability~\cite{AndreasHaas2012FIFOisnt,PaulEMcKennneyAtomicTreeN4037},
- however, Arbel and Attiya instead created an RCU variant that reduces
- low-end grace-period latency.
- Of course, nothing comes for free, and this RCU variant appears to hit
+diff --git a/defer/whichtochoose.tex b/defer/whichtochoose.tex
+index 489299a7..846c1ea1 100644
+--- a/defer/whichtochoose.tex
++++ b/defer/whichtochoose.tex
+@@ -347,7 +347,7 @@ in that order, and the following series of events:
+ 
+ \begin{enumerate}
+ \item	A reader acquires a reference to object~B.
+-\item	An updater removes~object B, but refrains from freeing it because
++\item	An updater removes object~B, but refrains from freeing it because
+ 	the reader holds a reference.
+ 	The list now contains objects~A, C, and~D, and
+ 	object~B's \co{->next} pointer is set to \co{HAZPTR_POISON}.
 -- 
 2.17.1
 
