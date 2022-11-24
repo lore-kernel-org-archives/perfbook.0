@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1669316319;
-	bh=9HtzCnUEQkfhsTuQQSv1jSK9DxMZXeb+5tv0ybyLcnY=;
+	bh=ry7wZYyK5T4DonLAcM7KqfV8eNAYnVsDH4e4KfjPsaU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RDYQkfQ4Ablq4G0RW8O+82x1KboyOIUbEuH1sFgdtxD+TA02IsXAYDaNoD2sAGWaA
-	 xWJ6w6CGl2MOjSrm2TY+mOMPCJmpV1iZ7UzUmew68ZZYs6PDuH/nHIX1uRtd5yHN4t
-	 ADbTk1kVr3G0HHZSoQxjYXhZmRa/Wra1UybSPdUfNjHIVzHDOyif8XLgWUZat6b5Js
-	 WQWZvF+asF5bdfH1kCmRYBw3duofa9wRP9rA/lAu49Xv7uSd/2IA+ZL7PwYD9cPBlN
-	 exr15XYqsahSx9Epj4cuB5Xy5/bPJ18Bc6h1hrMP186ZIu6zECDBknDWswuhNq8kfw
-	 Rzd/UHZTeWa4A==
+	b=gaDvf+0bb+d0iN0Hvuyczu2q+HztYz7r60tZpiK77rgkWXFA9Oh/bjMoyRLvGhFA+
+	 5yHd0gZe1MdItkHWtbK1kbSeq08JGNOf54MZPBT7VnkGftDGzWZ0+zk2cQIgyizQ9M
+	 VNtAzrplTr8Nf1oGRsB6kGxEaHmr6HtN6egL8xQ+XzR4lxK3sEs2sckm7m2kNNzu16
+	 6yeZoiRIqjHWso/I53c1xFAuunNpc3xgMfD3Sr/GoYNvbuSt/Ts782F7rWWek1kZBe
+	 G67c21grdEg1POuhQO+/TU6ZHIW/7+TCabFtXfhHt+tG1Ftfu9uVGWqeqRRofGOTgh
+	 K5O4owLrNMQgA==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 05/13] defer/seqlock: Use \co{} for boolean return value
-Date: Thu, 24 Nov 2022 10:57:55 -0800
-Message-Id: <20221124185803.8150-7-sj@kernel.org>
+Subject: [PATCH 06/13] defer/rcuusage: Call paragraphs paragraphs, not sections
+Date: Thu, 24 Nov 2022 10:57:56 -0800
+Message-Id: <20221124185803.8150-8-sj@kernel.org>
 In-Reply-To: <20221124185803.8150-1-sj@kernel.org>
 References: <20221124185803.8150-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,35 +21,36 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-\co{} is used for some boolean return values and not for some other
-cases.  To make it consistent, this commit makes it uses \co{} for all.
+Some sentences in rcuusage calls following paragraphs as sections.  Fix
+it to minimize any confusion.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- defer/seqlock.tex | 4 ++--
+ defer/rcuusage.tex | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/defer/seqlock.tex b/defer/seqlock.tex
-index da1d19ec..f435a1af 100644
---- a/defer/seqlock.tex
-+++ b/defer/seqlock.tex
-@@ -144,14 +144,14 @@ will pass to a later call to \co{read_seqretry()}.
- }\QuickQuizEnd
+diff --git a/defer/rcuusage.tex b/defer/rcuusage.tex
+index 9da0e04c..8c45093f 100644
+--- a/defer/rcuusage.tex
++++ b/defer/rcuusage.tex
+@@ -946,7 +946,7 @@ There are, of course, limitations to RCU, including the fact that
+ readers and updaters run concurrently, that low-priority RCU readers
+ can block high-priority threads waiting for a grace period to elapse,
+ and that grace-period latencies can extend for many milliseconds.
+-These advantages and limitations are discussed in the following sections.
++These advantages and limitations are discussed in the following paragraphs.
  
- \begin{fcvref}[ln:defer:seqlock:impl:read_seqretry]
--\Clnrefrange{b}{e} show \co{read_seqretry()}, which returns true if there
-+\Clnrefrange{b}{e} show \co{read_seqretry()}, which returns \co{true} if there
- was at least one writer since the time of the corresponding
- call to \co{read_seqbegin()}.
- \Clnref{mb} orders the caller's prior critical section before \clnref{fetch}'s
- fetch of the new snapshot of the sequence counter.
- \Clnref{ret} checks whether the sequence counter has changed,
- in other words, whether there has been at least one writer, and returns
--true if so.
-+\co{true} if so.
- \end{fcvref}
+ \paragraph{Performance}
  
- \QuickQuizSeries{%
+@@ -1162,7 +1162,7 @@ systems are no longer uncommon and that a number of system calls (and
+ thus any RCU read-side critical sections that they contain) complete
+ within microseconds.
+ 
+-In addition, as is discussed in the next section,
++In addition, as is discussed in the next paragraph,
+ RCU read-side primitives are almost entirely deadlock-immune.
+ 
+ 
 -- 
 2.17.1
 
