@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1669316318;
-	bh=EofBVXBOCL1UhUG96b09oMtv/X2+7aeYgpSuunVfXUk=;
+	bh=X7RswHJ3PAv5e07PSq8VhI9+b2xUqFBGlkBSZ9GEag0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KQPVQyk2TcLruZWuDHcTZLVl8XQcX7RHRIOXUsj9jTE0E+uyDqOf3E/x/4Dn+GtXA
-	 f6e9Y5LCGB7Y+PAN/VmihSI0i/6A97XxZUTKbaZbPcEgCt3BI7zVNwRKNQnFVtT53r
-	 kthHV8Q7RjaTR3mRvK0YexzEHUkqW7szdKvUWnmHgvNUfusXkwQ+kFD5aL0rv5rVa4
-	 YolabuIneb4Fc2hROYpUzWpDGap3E65Ekq52HaxYf1tSpelMh+Gr+43Z2mWzeKBYN8
-	 dU/3IJN1B3h4ixflkKDyCHF/Ape7ozEoxSmZDPkKt1ixwkuqWdXJYaYkw017dWfpe7
-	 Mn1O3FjubYy/A==
+	b=rRlsByfsv+CjQrKVr3UJR0yOyISdB8wqfELXjcSSETrybjs9Z/rSHaXEyzMWk1ZeC
+	 BF17ZTzojD2AZySZtuu1QhOIc1zrJTQqHZV0Mk9RMfoERbnDTxbpWs2twA+s/r42yd
+	 ZOL3zKZAcCz/neMYHs53cSDWbK+eYiM84VXbk01PTFIfAsksslBRkl31euORys23u9
+	 Za+sOjwa1wyPeLKRirsP0D0PVviqlXUXXJUJJpNd5ezxCjgIGDZ/uqF1rTrFMiPlQ/
+	 3WMIjFlsnTUKQqr8dcFYi+b9o29NfG8Egr1J6o1/tNABvjP/BL3Quz51Km0w7OoFce
+	 rkLloXyZ5zXyA==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 02/13] defer/rcufundamental: Add non-breaking spaces
-Date: Thu, 24 Nov 2022 10:57:52 -0800
-Message-Id: <20221124185803.8150-4-sj@kernel.org>
+Subject: [PATCH 03/13] defer/rcuapi: Add missed unbreakable spaces
+Date: Thu, 24 Nov 2022 10:57:53 -0800
+Message-Id: <20221124185803.8150-5-sj@kernel.org>
 In-Reply-To: <20221124185803.8150-1-sj@kernel.org>
 References: <20221124185803.8150-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,39 +21,37 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-Linked list example in rcufundamental.tex misses non-breaking spaces
-between 'and' and a data item.  Add it for better compilation of the
-book.
+Add missed unbreakable spaces in defer/rcuapi.tex.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- defer/rcufundamental.tex | 6 +++---
+ defer/rcuapi.tex | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/defer/rcufundamental.tex b/defer/rcufundamental.tex
-index 39b2f7ff..5e7d6675 100644
---- a/defer/rcufundamental.tex
-+++ b/defer/rcufundamental.tex
-@@ -153,7 +153,7 @@ structures without disrupting concurrent readers.
- 	items from a linked list while a reader is iterating over that
- 	same list.
- 	Specifically, suppose that a list initially contains elements
--	A, B, and C, and that an updater removes element A and then
-+	A, B, and~C, and that an updater removes element A and then
- 	adds a new element D at the end of the list.
- 	The reader might well see \{A, B, C, D\}, when that sequence of
- 	elements never actually ever existed!
-@@ -163,8 +163,8 @@ structures without disrupting concurrent readers.
- 	In the universe where an iterating reader is only required to
- 	traverse elements that were present throughout the full duration
- 	of the iteration.
--	In the example, that would be elements B and C\@.
--	Because elements A and D were each present for only part of the
-+	In the example, that would be elements B and~C\@.
-+	Because elements A and~D were each present for only part of the
- 	iteration, the reader is permitted to iterate over them, but not
- 	obliged to.
- 	Note that this supports the common case where the reader is simply
+diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+index 8ee54866..425c64ff 100644
+--- a/defer/rcuapi.tex
++++ b/defer/rcuapi.tex
+@@ -948,8 +948,8 @@ element in the middle of the list having multiple fields is atomically
+ updated, so that a given reader sees either the old set of values or
+ the new set of values, but not a mixture of the two sets.
+ For example, each node of a linked list might have integer fields
+-\co{->a}, \co{->b}, and \co{->c}, and it might be necessary to update
+-a given node's fields from 5, 6, and 7 to 5, 2, and 3, respectively.
++\co{->a}, \co{->b}, and~\co{->c}, and it might be necessary to update
++a given node's fields from 5, 6, and~7 to 5, 2, and~3, respectively.
+ 
+ The code implementing this atomic update is straightforward:
+ 
+@@ -980,7 +980,7 @@ The following discussion walks through this code, using
+ \cref{fig:defer:RCU Replacement in Linked List} to illustrate
+ the state changes.
+ The triples in each element represent the values of fields \co{->a},
+-\co{->b}, and \co{->c}, respectively.
++\co{->b}, and~\co{->c}, respectively.
+ The red-shaded elements might be referenced by readers,
+ and because readers do not synchronize directly with updaters,
+ readers might run concurrently with this entire replacement process.
 -- 
 2.17.1
 
