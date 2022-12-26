@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672078619;
-	bh=53Cnl1mV3fS87anPslaVVs5krH0XNHrh5cxpjDTEiLg=;
+	s=k20201202; t=1672078620;
+	bh=wron/w79L9TpZ+E+WW6sjOgi+KuGZPKFYy/pwKt8AJo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MkMgYpGk5cnsv4INrpEk9dZbzkT+Ka+ezGGnYUFAO3W3UzL2biMacwtaAkQADpXPC
-	 pZsN+bpUEhBMXKHEfv6rlvDaddMwSFedugQYFxXoSqfUJTEOebIgVNuX0DtAyOn2lM
-	 MFvlZ9CrWvE5KFm2lsh5HD0pgKaEHX4tp/uxKHUGJDNU40GP4sl9baDgJ4tnuAgvCX
-	 OzHeWDItH37pYzJWe/oGNYN5FMR9848EzkJ1YpJgHpixk/rd6w8fvK68zBY+2Wy9i1
-	 MhuLGtsi6SiaUi9vCYDlU80sCbqlDiQT73NZ+zY9A8MWrk4kt84XZh5Hd1OwJITlK1
-	 oPfo19x/guvcw==
+	b=aFrPHAQnxdqKD5+cT7zAIA4r6a7FXWpgIQuzKN50ztWodCojaZxcrIybhlct9m4Gc
+	 Ot4qpj91hH02VQNbg6oV++vQEY16t697NPB9HV6Mri7t4YSdqFmJNwIGf+5/Ej6Gz1
+	 oGqrx6xKsVjrQ71VW4JlbqKKwjSEHKy8XcE+4isSkUpfu9ffdgPQglWtgHoLrKU8B4
+	 H3KuTpe3hEI+y861y7h7dXMd42IJUxbdehTi/xvxizvqXqdCYM5TkK9H/yx4t1eD8t
+	 T2yrin7AZmWlqdcVjrxFOafX21TwtJRsozXSUeyly5FnnICoI6RZ2eXbdZWTuX86tb
+	 7X7hVcsh1NMnw==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 1/4] datastruct: Remove unnecessary space
-Date: Mon, 26 Dec 2022 10:16:31 -0800
-Message-Id: <20221226181639.10795-2-sj@kernel.org>
+Subject: [PATCH 2/4] datastruct: Add missed unbreakable spaces
+Date: Mon, 26 Dec 2022 10:16:32 -0800
+Message-Id: <20221226181639.10795-3-sj@kernel.org>
 In-Reply-To: <20221226181639.10795-1-sj@kernel.org>
 References: <20221226181639.10795-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,27 +21,100 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-A sentence in datastruct has unnecessary extra space between words.
-Remove it.
+Add missing unbreakable spaces for 'CPUs' and 'elements'.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- datastruct/datastruct.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ datastruct/datastruct.tex | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
 diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
-index ed404e5a..99c92d9a 100644
+index 99c92d9a..40ea6995 100644
 --- a/datastruct/datastruct.tex
 +++ b/datastruct/datastruct.tex
-@@ -34,7 +34,7 @@ which improves both performance and scalability.
- Because this chapter cannot delve into the details of every concurrent
- data structure,
- \cref{sec:datastruct:Other Data Structures}
--surveys a few  of the important ones.
-+surveys a few of the important ones.
- Although the best performance and scalability results from design rather
- than after-the-fact micro-optimization, micro-optimization is nevertheless
- necessary for the absolute best possible performance and scalability,
+@@ -664,7 +664,7 @@ shows the same data on a linear scale.
+ This drops the global-locking trace into the x-axis, but allows the
+ non-ideal performance of RCU and hazard pointers to be more readily
+ discerned.
+-Both show a change in slope at 224 CPUs, and this is due to hardware
++Both show a change in slope at 224~CPUs, and this is due to hardware
+ multithreading.
+ At 32 and fewer CPUs, each thread has a core to itself.
+ In this regime, RCU does better than does hazard pointers because the
+@@ -672,11 +672,11 @@ latter's read-side \IXpl{memory barrier} result in dead time within the core.
+ In short, RCU is better able to utilize a core from a single hardware
+ thread than is hazard pointers.
+ 
+-This situation changes above 224 CPUs.
++This situation changes above 224~CPUs.
+ Because RCU is using more than half of each core's resources from a
+ single hardware thread, RCU gains relatively little benefit from the
+ second hardware thread in each core.
+-The slope of the hazard-pointers trace also decreases at 224 CPUs, but
++The slope of the hazard-pointers trace also decreases at 224~CPUs, but
+ less dramatically,
+ because the second hardware thread is able to fill in the time
+ that the first hardware thread is stalled due to \IXh{memory-barrier}{latency}.
+@@ -775,8 +775,8 @@ to about half again faster than that of either QSBR or RCU\@.
+ 
+ 	Still unconvinced?
+ 	Then look at the log-log plot in
+-	\cref{fig:datastruct:Read-Only RCU-Protected Hash-Table Performance For Schr\"odinger's Zoo at 448 CPUs; Varying Table Size},
+-	which shows performance for 448 CPUs as a function of the
++	\cref{fig:datastruct:Read-Only RCU-Protected Hash-Table Performance For Schr\"odinger's Zoo at 448~CPUs; Varying Table Size},
++	which shows performance for 448~CPUs as a function of the
+ 	hash-table size, that is, number of buckets and maximum number
+ 	of elements.
+ 	A hash-table of size 1,024 has 1,024~buckets and contains
+@@ -785,14 +785,13 @@ to about half again faster than that of either QSBR or RCU\@.
+ 	Because this is a read-only benchmark, the actual occupancy is
+ 	always equal to the average occupancy.
+ 
+-	This figure shows near-ideal performance below about 8,000
+-	elements, that is, when the hash table comprises less than
+-	1\,MB of data.
++	This figure shows near-ideal performance below about 8,000~elements,
++	that is, when the hash table comprises less than 1\,MB of data.
+ 	This near-ideal performance is consistent with that for the
+ 	pre-BSD routing table shown in
+ 	\cref{fig:defer:Pre-BSD Routing Table Protected by RCU}
+ 	on \cpageref{fig:defer:Pre-BSD Routing Table Protected by RCU},
+-	even at 448 CPUs.
++	even at 448~CPUs.
+ 	However, the performance drops significantly (this is a log-log
+ 	plot) at about 8,000~elements, which is where the 1,048,576-byte
+ 	L2 cache overflows.
+@@ -835,7 +834,7 @@ data structure represented by the pre-BSD routing table.
+ 
+ \QuickQuiz{
+ 	The memory system is a serious bottleneck on this big system.
+-	Why bother putting 448 CPUs on a system without giving them
++	Why bother putting 448~CPUs on a system without giving them
+ 	enough memory bandwidth to do something useful???
+ }\QuickQuizAnswer{
+ 	It would indeed be a bad idea to use this large and expensive
+@@ -905,10 +904,10 @@ concurrency control to begin with.
+ \Cref{fig:datastruct:Read-Side RCU-Protected Hash-Table Performance For Schroedinger's Zoo in the Presence of Updates}
+ therefore shows the effect of updates on readers.
+ At the extreme left-hand side of this graph, all but one of the CPUs
+-are doing lookups, while to the right all 448 CPUs are doing updates.
++are doing lookups, while to the right all 448~CPUs are doing updates.
+ For all four implementations, the number of lookups per millisecond
+ decreases as the number of updating CPUs increases, of course reaching
+-zero lookups per millisecond when all 448 CPUs are updating.
++zero lookups per millisecond when all 448~CPUs are updating.
+ Both hazard pointers and RCU do well compared to per-bucket locking
+ because their readers do not increase update-side lock contention.
+ RCU does well relative to hazard pointers as the number of updaters
+@@ -931,7 +930,7 @@ showed the effect of increasing update rates on lookups,
+ \cref{fig:datastruct:Update-Side RCU-Protected Hash-Table Performance For Schroedinger's Zoo}
+ shows the effect of increasing update rates on the updates themselves.
+ Again, at the left-hand side of the figure all but one of the CPUs are
+-doing lookups and at the right-hand side of the figure all 448 CPUs are
++doing lookups and at the right-hand side of the figure all 448~CPUs are
+ doing updates.
+ Hazard pointers and RCU start off with a significant advantage because,
+ unlike bucket locking, readers do not exclude updaters.
 -- 
 2.17.1
 
