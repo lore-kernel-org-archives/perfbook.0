@@ -1,47 +1,47 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672078617;
-	bh=sBLGupxK9UexeK/tQ/RXx7JTGAfb9p4Gu+BBMygZxak=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YfqayRg4XQmB08iQs9QiPCDdJrZmUDeGh1PWi+JS1HU57BOucnEWH6j6gfgqoqdDj
-	 GmvXp9a7nOw2zHHtAxvW7OFkeK+5T+Jtv09zOZ9cHyeDESVjIUV6yy7PCSfAUWbedv
-	 jZp9YlmkQd+MOEjvqVuJ+PxpIst8FPW9+Zk8Nws32WrY7cATAbuON+NoKtrepqy8vC
-	 Y0ANaBvhO+1VLF35lswB5s4VZbPIL/xRU4TAjnU5HgVo5i22dyoZVYPw+qWWev9Ipz
-	 gRYK1dgJfyEd0feXcX93VMq+QJmEJF6hHwkpFOG+xe1obBxoyQaDzgGDDn+KPbtF2C
-	 USGpZ+WQ1ILew==
+	s=k20201202; t=1672078619;
+	bh=53Cnl1mV3fS87anPslaVVs5krH0XNHrh5cxpjDTEiLg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=MkMgYpGk5cnsv4INrpEk9dZbzkT+Ka+ezGGnYUFAO3W3UzL2biMacwtaAkQADpXPC
+	 pZsN+bpUEhBMXKHEfv6rlvDaddMwSFedugQYFxXoSqfUJTEOebIgVNuX0DtAyOn2lM
+	 MFvlZ9CrWvE5KFm2lsh5HD0pgKaEHX4tp/uxKHUGJDNU40GP4sl9baDgJ4tnuAgvCX
+	 OzHeWDItH37pYzJWe/oGNYN5FMR9848EzkJ1YpJgHpixk/rd6w8fvK68zBY+2Wy9i1
+	 MhuLGtsi6SiaUi9vCYDlU80sCbqlDiQT73NZ+zY9A8MWrk4kt84XZh5Hd1OwJITlK1
+	 oPfo19x/guvcw==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 0/4] datastruct: Minor fixes
-Date: Mon, 26 Dec 2022 10:16:30 -0800
-Message-Id: <20221226181639.10795-1-sj@kernel.org>
+Subject: [PATCH 1/4] datastruct: Remove unnecessary space
+Date: Mon, 26 Dec 2022 10:16:31 -0800
+Message-Id: <20221226181639.10795-2-sj@kernel.org>
+In-Reply-To: <20221226181639.10795-1-sj@kernel.org>
+References: <20221226181639.10795-1-sj@kernel.org>
 To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-Hi Paul,
+A sentence in datastruct has unnecessary extra space between words.
+Remove it.
 
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ datastruct/datastruct.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hope you're having great holidays.
-
-This patchset contains minor fixes for datastruct/ that found during the
-Korean translation[1] of it.
-
-[1] https://github.com/sjp38/perfbook-ko_KR
-
-
-Thanks,
-SJ
-
-SeongJae Park (4):
-  datastruct: Remove unnecessary space
-  datastruct: Add missed unbreakable spaces
-  datastruct: Enclose NULL with \co{}
-  datastruct: Put \cref{} content in a single line
-
- datastruct/datastruct.tex | 35 ++++++++++++++++-------------------
- 1 file changed, 16 insertions(+), 19 deletions(-)
-
+diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
+index ed404e5a..99c92d9a 100644
+--- a/datastruct/datastruct.tex
++++ b/datastruct/datastruct.tex
+@@ -34,7 +34,7 @@ which improves both performance and scalability.
+ Because this chapter cannot delve into the details of every concurrent
+ data structure,
+ \cref{sec:datastruct:Other Data Structures}
+-surveys a few  of the important ones.
++surveys a few of the important ones.
+ Although the best performance and scalability results from design rather
+ than after-the-fact micro-optimization, micro-optimization is nevertheless
+ necessary for the absolute best possible performance and scalability,
 -- 
 2.17.1
 
