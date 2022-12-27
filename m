@@ -1,117 +1,121 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229791AbiL0ATo (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 26 Dec 2022 19:19:44 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD5C125F6
-        for <perfbook@vger.kernel.org>; Mon, 26 Dec 2022 16:19:42 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5261460F37
-        for <perfbook@vger.kernel.org>; Tue, 27 Dec 2022 00:19:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672100381;
-        bh=JGbm/YrP1jWOAak7lt0pJGnyqKGIQrpbd0pqZjJCHog=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=dONl7WXvDzOz0tj9/RS5BIo4LXd1hThqsrospydW9eCofkZa7I3bicACQLd/Of0Ez
-         wUpoLt4SUmpW7iohSnwVQjxm/IPUHuOvYbQfO6O1HLa/99FGHjCAJ5oYvV5Yx58k79
-         F0K2pB3qt5bkmDJbKpNmQMh9nCfeJpU+Y1YlxMdh8khj94z51jX0HV37gN4HTY5URJ
-         kBU7l4viAeZ6szBbG4+s2OsXtJn7iOR50AZvKoHKoD9il8WThJME3pfRlo+xGkC8fa
-         afUklKdrqg5WeTmWzWi5Sg5NEMl0FfOz8Y7aFRJlDfI3LL9iaxxjAjzKbIxCNrbixQ
-         IZqdftiMsvwPg==
-Date: Mon, 26 Dec 2022 16:19:41 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] docker: bionic: Rollback glossaries-extra
- manually
-Message-ID: <20221227001941.GE4001@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <2a6b2524-b76e-7de6-2c02-89f35bba9938@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2a6b2524-b76e-7de6-2c02-89f35bba9938@gmail.com>
+Return-Path: <SRS0=s+9n=4Z=gmail.com=sj38.park@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=woihxTfZQcOTrtLeKmqEa2C1X/A/KygxepnirIpr0Ik=;
+        b=IgFFGRHDsBcx98TCJ4nbYWjmFvKWtZD7borj9mB0NvNwb8w0z86dHTgbTO3p3MRf7t
+         FzBI5PLe6Dnb2zzosONT6kzPbr/dEQmL2Bk8ojBP/RMC31dIbLcoRM5I+VDHn+rCu/Vb
+         PvpoMD1Cqr9K+ct3QPdfgfDwIzsBW803Ia3MfxXYbB0o2GmwdSgQlV8ch+59MxARDde5
+         absCrzkWdfis9Pf31E6KjKnN9hg/KgdDuWhcYXkOq2XQsy6gI0aw8LH2C/fWzJN4VsWY
+         QjrY4od0W+sdrqDBbMOhlaLnEiGXuSJ8skEP6UG0qWDPnzEqNyWtSlsaJRWgkYgpMnSm
+         EvaQ==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH v2] datastruct: Add missed unbreakable spaces
+Date: Tue, 27 Dec 2022 08:06:19 -0800
+Message-Id: <20221227160619.16609-2-sj38.park@gmail.com>
+In-Reply-To: <20221227160619.16609-1-sj38.park@gmail.com>
+References: <20221227002650.GF4001@paulmck-ThinkPad-P17-Gen-1>
+ <20221227160619.16609-1-sj38.park@gmail.com>
+To: paulmck@kernel.org
+Cc: akiyks@gmail.com, perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Dec 25, 2022 at 09:46:39AM +0900, Akira Yokosawa wrote:
-> Since October 2022, glossaries-extra uses a modern LaTeX feature
-> for backward compatibility, which was added in TeX Live 2018.
-> Unfortunately, TeX Live of Bionic is based on TeX Live 2017, hence
-> the glossaries-extra package at CTAN does not work out of the box.
-> 
-> Add commands for manual rollback in Dockerfile.bionic.
-> 
-> Update FAQ-BUILD.txt as well.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Add missing unbreakable spaces for 'CPUs' and 'elements'.
 
-Queued and pushed, thank you!
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+Changes from v1
+- Fix build error by removing unbreakable space from \cref{}
 
-							Thanx, Paul
+ datastruct/datastruct.tex | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-> ---
-> Hi,
-> 
-> I think it is quite unlikely a new reader/contributor of
-> perfbook uses Ubuntu Bionic, but anyway.
-> When Bionic is EOL'ed next spring, we can forget about it. ;-)
-> 
->         Thanks, Akira
-> --
->  FAQ-BUILD.txt            |  8 ++++++++
->  docker/Dockerfile.bionic | 15 +++++++++++++++
->  2 files changed, 23 insertions(+)
-> 
-> diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-> index eea4fa37737b..107707533398 100644
-> --- a/FAQ-BUILD.txt
-> +++ b/FAQ-BUILD.txt
-> @@ -196,6 +196,14 @@
->  	    2.	Install it by following instructions at:
->  		https://help.ubuntu.com/community/LaTeX#Installing_packages_manually
->  
-> +	    3.  Since October 2022, glossaries-extra uses a modern LaTeX
-> +		feature for backward compatibility, which was added in
-> +		TeX Live 2018. Unfortunately, TeX Live of Bionic is based
-> +		on TeX Live 2017, hence the glossaries-extra package at
-> +		CTAN does not work out of the box.
-> +		Still, you can manually rollback it to an older version.
-> +		See docker/Dockerfile.bionic for how to do it.
-> +
->  	B.	Instead of above manual steps, you could install the package
->  		using a script in this repository,
->  		'./utilities/install_latex_package.sh'.  For example:
-> diff --git a/docker/Dockerfile.bionic b/docker/Dockerfile.bionic
-> index 207feca7d768..e1c4c3a9696b 100644
-> --- a/docker/Dockerfile.bionic
-> +++ b/docker/Dockerfile.bionic
-> @@ -28,6 +28,21 @@ RUN curl https://mirrors.ctan.org/macros/latex/contrib/cleveref.zip -L -O && unz
->      texhash /usr/local/share/texmf && \
->      curl https://mirrors.ctan.org/graphics/a2ping.zip -L -O && unzip a2ping.zip && \
->      cp a2ping/a2ping.pl /usr/local/bin/a2ping
-> +# Rollback glossaries-extra for pre-2018 TeX Live
-> +RUN cd /usr/local/share/texmf/tex/latex/glossaries-extra/ \
-> + && mv glossaries-extra.sty glossaries-extra-latest.sty \
-> + && mv glossaries-extra-bib2gls.sty glossaries-extra-bib2gls-latest.sty \
-> + && mv glossaries-extra-stylemods.sty glossaries-extra-stylemods-latest.sty \
-> + && mv glossary-bookindex.sty glossary-bookindex-latest.sty \
-> + && mv glossary-longextra.sty glossary-longextra-latest.sty \
-> + && mv glossary-topic.sty glossary-topic-latest.sty \
-> + && ln -s glossaries-extra-2021-11-22.sty glossaries-extra.sty \
-> + && ln -s glossaries-extra-bib2gls-2021-11-22.sty glossaries-extra-bib2gls.sty \
-> + && ln -s glossaries-extra-stylemods-2021-11-22.sty glossaries-extra-stylemods.sty \
-> + && ln -s glossary-bookindex-2021-11-22.sty glossary-bookindex.sty \
-> + && ln -s glossary-longextra-2021-11-22.sty glossary-longextra.sty \
-> + && ln -s glossary-topic-2021-11-22.sty glossary-topic.sty \
-> + && texhash /usr/local/share/texmf
->  ARG uid=1000
->  ARG gid=1000
->  ARG user=perfbook
-> 
-> base-commit: d5e69a022d636fb3e204c1ef90a3c668cbf0e8bc
-> -- 
-> 2.25.1
-> 
+diff --git a/datastruct/datastruct.tex b/datastruct/datastruct.tex
+index 99c92d9a..c095b846 100644
+--- a/datastruct/datastruct.tex
++++ b/datastruct/datastruct.tex
+@@ -664,7 +664,7 @@ shows the same data on a linear scale.
+ This drops the global-locking trace into the x-axis, but allows the
+ non-ideal performance of RCU and hazard pointers to be more readily
+ discerned.
+-Both show a change in slope at 224 CPUs, and this is due to hardware
++Both show a change in slope at 224~CPUs, and this is due to hardware
+ multithreading.
+ At 32 and fewer CPUs, each thread has a core to itself.
+ In this regime, RCU does better than does hazard pointers because the
+@@ -672,11 +672,11 @@ latter's read-side \IXpl{memory barrier} result in dead time within the core.
+ In short, RCU is better able to utilize a core from a single hardware
+ thread than is hazard pointers.
+ 
+-This situation changes above 224 CPUs.
++This situation changes above 224~CPUs.
+ Because RCU is using more than half of each core's resources from a
+ single hardware thread, RCU gains relatively little benefit from the
+ second hardware thread in each core.
+-The slope of the hazard-pointers trace also decreases at 224 CPUs, but
++The slope of the hazard-pointers trace also decreases at 224~CPUs, but
+ less dramatically,
+ because the second hardware thread is able to fill in the time
+ that the first hardware thread is stalled due to \IXh{memory-barrier}{latency}.
+@@ -776,7 +776,7 @@ to about half again faster than that of either QSBR or RCU\@.
+ 	Still unconvinced?
+ 	Then look at the log-log plot in
+ 	\cref{fig:datastruct:Read-Only RCU-Protected Hash-Table Performance For Schr\"odinger's Zoo at 448 CPUs; Varying Table Size},
+-	which shows performance for 448 CPUs as a function of the
++	which shows performance for 448~CPUs as a function of the
+ 	hash-table size, that is, number of buckets and maximum number
+ 	of elements.
+ 	A hash-table of size 1,024 has 1,024~buckets and contains
+@@ -785,14 +785,13 @@ to about half again faster than that of either QSBR or RCU\@.
+ 	Because this is a read-only benchmark, the actual occupancy is
+ 	always equal to the average occupancy.
+ 
+-	This figure shows near-ideal performance below about 8,000
+-	elements, that is, when the hash table comprises less than
+-	1\,MB of data.
++	This figure shows near-ideal performance below about 8,000~elements,
++	that is, when the hash table comprises less than 1\,MB of data.
+ 	This near-ideal performance is consistent with that for the
+ 	pre-BSD routing table shown in
+ 	\cref{fig:defer:Pre-BSD Routing Table Protected by RCU}
+ 	on \cpageref{fig:defer:Pre-BSD Routing Table Protected by RCU},
+-	even at 448 CPUs.
++	even at 448~CPUs.
+ 	However, the performance drops significantly (this is a log-log
+ 	plot) at about 8,000~elements, which is where the 1,048,576-byte
+ 	L2 cache overflows.
+@@ -835,7 +834,7 @@ data structure represented by the pre-BSD routing table.
+ 
+ \QuickQuiz{
+ 	The memory system is a serious bottleneck on this big system.
+-	Why bother putting 448 CPUs on a system without giving them
++	Why bother putting 448~CPUs on a system without giving them
+ 	enough memory bandwidth to do something useful???
+ }\QuickQuizAnswer{
+ 	It would indeed be a bad idea to use this large and expensive
+@@ -905,10 +904,10 @@ concurrency control to begin with.
+ \Cref{fig:datastruct:Read-Side RCU-Protected Hash-Table Performance For Schroedinger's Zoo in the Presence of Updates}
+ therefore shows the effect of updates on readers.
+ At the extreme left-hand side of this graph, all but one of the CPUs
+-are doing lookups, while to the right all 448 CPUs are doing updates.
++are doing lookups, while to the right all 448~CPUs are doing updates.
+ For all four implementations, the number of lookups per millisecond
+ decreases as the number of updating CPUs increases, of course reaching
+-zero lookups per millisecond when all 448 CPUs are updating.
++zero lookups per millisecond when all 448~CPUs are updating.
+ Both hazard pointers and RCU do well compared to per-bucket locking
+ because their readers do not increase update-side lock contention.
+ RCU does well relative to hazard pointers as the number of updaters
+@@ -931,7 +930,7 @@ showed the effect of increasing update rates on lookups,
+ \cref{fig:datastruct:Update-Side RCU-Protected Hash-Table Performance For Schroedinger's Zoo}
+ shows the effect of increasing update rates on the updates themselves.
+ Again, at the left-hand side of the figure all but one of the CPUs are
+-doing lookups and at the right-hand side of the figure all 448 CPUs are
++doing lookups and at the right-hand side of the figure all 448~CPUs are
+ doing updates.
+ Hazard pointers and RCU start off with a significant advantage because,
+ unlike bucket locking, readers do not exclude updaters.
+-- 
+2.17.1
+
