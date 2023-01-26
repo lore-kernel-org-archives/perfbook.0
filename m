@@ -1,67 +1,76 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58826 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbjAWDAe (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 22 Jan 2023 22:00:34 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89065FF37
-        for <perfbook@vger.kernel.org>; Sun, 22 Jan 2023 19:00:29 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E699360C93
-        for <perfbook@vger.kernel.org>; Mon, 23 Jan 2023 03:00:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674442828;
-        bh=3hN8d0TFDLlhHlso6kr7fxpBZSLG+zQa+pTisDTEn54=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=PGpmfgSM2jNRc61Q4usoMLIGxCncOUm4cUVDzCPn/qpnHlyGBlXBzR0pqbj0hnsVs
-         8MyiCg6Pj9Qn8HXBGZY8S1ws4dS4DgNTYl9rLBHI7A74QHs17RJNPmYk4h+jv2Fzml
-         evpVLw3wFTJj7mNj4g0hWzQbSFbpWOliiTsh1P3QQ0XqqJNAfbO/KHmwrDmrFN8+cs
-         xYPtqcIAeu6OIaqxQcX7Rx1KEbjS/2RaEgbAaArue5v7397r1C3PkyX9IsEfTuwbA4
-         cUtx2DTJ00Kol1p+GdSBoAX4K26FW+mhkdAoOW8xVOM2tBQhVaf1UwfY4NH0zD6yvL
-         REOddkzApJvVw==
-Date: Sun, 22 Jan 2023 19:00:27 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] toolsoftrade: Fix staccato of 'than'
-Message-ID: <20230123030027.GM2948950@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <5d614259-1abe-2174-a5e5-5b2089b5714b@gmail.com>
+Return-Path: <SRS0=dFhI=5X=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8Kms8CXjy1edfnKcG+ulDPNETrxxBeawZ3GpFUO3BTI=;
+        b=EzMFSogsNvgNanxFIAMyCzsLXmRhuE9t60jcXypyIyJTAg89l1ZubLC5tf/9woFb38
+         k8MhyQr/3oZxC2ybMJb0wX9Yg0aGiKtBPfTfmMN6fvXn+DEuFugsX9z1qQSe4KxFy4yd
+         Sx5B0bjcs62McEgJUmYJotT+PT3sTLeBG65VyieveHtQgJMAq4mJZlL9NWkoa0s2MDW9
+         lc4xcP50weMJl1nwc9OsYxQ09hrfcK50RxySZSmQEOMVN4lQuH/C9s+K9iTMuyeMk3rs
+         /YdRva27anq0W72Nyq2fMwzM5C/i0gw4DoymgVepZ9py4s7wmGjOZ0BXnbmHHADo1pEQ
+         Z74w==
+Message-ID: <48517b40-a485-d48d-eb95-6dce2c20010b@gmail.com>
+Date: Thu, 26 Jan 2023 09:23:26 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5d614259-1abe-2174-a5e5-5b2089b5714b@gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] run{first}latex.sh: Set default of LATEX variable
+ properly
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Jan 23, 2023 at 10:29:43AM +0900, Akira Yokosawa wrote:
-> Fixes: 542aac900b17 ("toolsoftrade: Add QQ about task-local storage in Linux kernel")
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+The default of "pdflatex" has never worked as expected.
+When these scripts run under Makefile's control, they are
+given "LATEX=pdflatex" by default, and work just fine.
 
-Good eyes, thank you!  Queued and pushed.
+When directly invoked from command line:
 
-							Thanx, Paul
+    $ sh utilities/runfirstlatex.sh perfbook
 
-> ---
->  toolsoftrade/toolsoftrade.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-> index ce8a9430b16e..fee34ae8a1df 100644
-> --- a/toolsoftrade/toolsoftrade.tex
-> +++ b/toolsoftrade/toolsoftrade.tex
-> @@ -2599,7 +2599,7 @@ as will be shown in more detail in
->  	What do you do if you need a per-thread (not per-CPU!) variable
->  	in the Linux kernel?
->  }\QuickQuizAnswer{
-> -	First, needing a per-thread variable is less likely than than
-> +	First, needing a per-thread variable is less likely than
->  	you might think.
->  	Per-CPU variables can often do a per-thread variable's job.
->  	For example, if you only need to do addition, bitwise AND,
-> 
-> base-commit: 60bc6a0123d51fd4730411215465841c4ce8213c
-> -- 
-> 2.25.1
-> 
+, it runs with LATEX="" and ends up in one of various errors.
+
+Fix this by using the right pattern of ":=".
+
+Fixes: 241d5350b162 ("run{first}latex.sh: Use variable for 'pdflatex' command")
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ utilities/runfirstlatex.sh | 2 +-
+ utilities/runlatex.sh      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/utilities/runfirstlatex.sh b/utilities/runfirstlatex.sh
+index b92895f332ca..f12f14886747 100644
+--- a/utilities/runfirstlatex.sh
++++ b/utilities/runfirstlatex.sh
+@@ -67,7 +67,7 @@ fi
+ 
+ basename=`echo $1 | sed -e 's/\.tex$//'`
+ 
+-: ${LATEX:-pdflatex}
++: ${LATEX:=pdflatex}
+ 
+ echo "$LATEX 1 for $basename.pdf"
+ $LATEX $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index d4c9baf8740a..e23bc87ba978 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -29,7 +29,7 @@
+ # Authors: Paul E. McKenney <paulmck@us.ibm.com>
+ #          Akira Yokosawa <akiyks@gmail.com>
+ 
+-: ${LATEX:-pdflatex}
++: ${LATEX:=pdflatex}
+ 
+ diff_warning () {
+ 	if diff -q $basename-warning.log $basename-warning-prev.log >/dev/null
+
+base-commit: 685184dff46ffdec02b7402a36b06359cb085f29
+-- 
+2.25.1
+
