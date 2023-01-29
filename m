@@ -1,94 +1,86 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52180 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230140AbjAZByd (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Wed, 25 Jan 2023 20:54:33 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1570D5D11B
-        for <perfbook@vger.kernel.org>; Wed, 25 Jan 2023 17:54:33 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A4A30615B8
-        for <perfbook@vger.kernel.org>; Thu, 26 Jan 2023 01:54:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674698072;
-        bh=GDKpB5buo3pZBbLiln73BpXSYEU59Vis7I48h1m7OnU=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=swTK3FP9flJwe46eaZJeCN6ghbUCjkguv48+sOHftAGOD62psY9ZkAFVS6/ihUJsW
-         lLiaPp7hCH2enWr5je8loYxXA6GkYCyjOJfWD0wTZZ0IGG0hCBvIpJ8JR1BGDUIYjJ
-         bESCnfTkwDXkDkWDyDq2onmLxaz2zCgaJy1gifdKRXgPsOG3h1wH7o5QcjR4PI7aL0
-         GOGkYSEjrvCu3ArHreUcWy9pj55nz7Op3FRcQQMMUBRn5LN9hugkpz88EPj8lqmdq4
-         Md7Hkvq3d3ebL157ajzzVO40UTXfp9Nz/US+hDPQ/2jnzm4QEWbrZZjdikUdr4zSef
-         2AbWEXnbXrB9A==
-Date: Wed, 25 Jan 2023 17:54:31 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] run{first}latex.sh: Set default of LATEX
- variable properly
-Message-ID: <20230126015431.GY2948950@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <48517b40-a485-d48d-eb95-6dce2c20010b@gmail.com>
+Return-Path: <SRS0=bKbQ=52=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xmEn+h580P+DVbrnFaCdGDgkpCiXa3/trFwPqsq//jA=;
+        b=WYxjzxUBBTpeubGnow8KqhzdyKLZ6pul26IOBgANLfHZm58Pk46yv0BkBe2f9rEMZa
+         CzgjnM6OAqUSQiZObcwbnuKjLXhHXag4cP9R9XxuLO1nUgwjbVw+wKnKr3lzNNxSsi8y
+         Il33uVs3Z1qIqaEvw73NHdJbRTkm4InT7aabM0rC+LW4jvSM5JICfrmUOuWdNfV8RPsv
+         RJiurSFT8lG74xucKVJTX573IgO/rAbRLrhMATJIfrvqAQL2434tmqBWgqwq9mFfVH4+
+         rPCRJ6Ox1JFnkUY1dYn2KNqMQ4ThQTnzAD5bilMyx05/50+Ni6luHJqrf5dGtvgucXE9
+         mwqA==
+Message-ID: <5b901cbc-f023-4fce-7ed1-7ac48178d169@gmail.com>
+Date: Sun, 29 Jan 2023 22:42:24 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <48517b40-a485-d48d-eb95-6dce2c20010b@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: WIP perfbook build scripts improvement
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Snir, Marc" <snir@illinois.edu>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Jan 26, 2023 at 09:23:26AM +0900, Akira Yokosawa wrote:
-> The default of "pdflatex" has never worked as expected.
-> When these scripts run under Makefile's control, they are
-> given "LATEX=pdflatex" by default, and work just fine.
-> 
-> When directly invoked from command line:
-> 
->     $ sh utilities/runfirstlatex.sh perfbook
-> 
-> , it runs with LATEX="" and ends up in one of various errors.
-> 
-> Fix this by using the right pattern of ":=".
-> 
-> Fixes: 241d5350b162 ("run{first}latex.sh: Use variable for 'pdflatex' command")
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Hi Marc,
 
-Queued and pushed, thank you!
+Are you still interested in building perfbook on macOS?
 
-							Thanx, Paul
+I'm now working on improving perfbook's build scripts so that
+they can work on BSD-like systems such as FreeBSD.
 
-> ---
->  utilities/runfirstlatex.sh | 2 +-
->  utilities/runlatex.sh      | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/utilities/runfirstlatex.sh b/utilities/runfirstlatex.sh
-> index b92895f332ca..f12f14886747 100644
-> --- a/utilities/runfirstlatex.sh
-> +++ b/utilities/runfirstlatex.sh
-> @@ -67,7 +67,7 @@ fi
->  
->  basename=`echo $1 | sed -e 's/\.tex$//'`
->  
-> -: ${LATEX:-pdflatex}
-> +: ${LATEX:=pdflatex}
->  
->  echo "$LATEX 1 for $basename.pdf"
->  $LATEX $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null
-> diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
-> index d4c9baf8740a..e23bc87ba978 100644
-> --- a/utilities/runlatex.sh
-> +++ b/utilities/runlatex.sh
-> @@ -29,7 +29,7 @@
->  # Authors: Paul E. McKenney <paulmck@us.ibm.com>
->  #          Akira Yokosawa <akiyks@gmail.com>
->  
-> -: ${LATEX:-pdflatex}
-> +: ${LATEX:=pdflatex}
->  
->  diff_warning () {
->  	if diff -q $basename-warning.log $basename-warning-prev.log >/dev/null
-> 
-> base-commit: 685184dff46ffdec02b7402a36b06359cb085f29
-> -- 
-> 2.25.1
-> 
+It turns out that there are a couple of commands whose non-GNU
+implementations may not suffice for building perfbook.
+
+  - sed: Need multi-line editing support (N/A in FreeBSD sed).
+    
+  - grep: Need -z option (N/A in Busybox grep on alpine, may
+    depend on version/config).
+
+  - date: Need GNU style options. (Incompatible with BSD ones)
+
+  (This is by no means complete.)
+
+Among them, the most probable cause of the error you encountered
+last June is the "date" command in utilities/autodate.sh.
+It assumes GNU date. The generated autodate.tex you provided at
+the time indicates you have "date" from BSD.
+
+I have updated autodate.sh so that both GNU and BSD variants of
+date can be used.
+
+Also, there are several "{"s in egrep patterns which are invalid
+in non-GNU grep.
+
+I have made them portable by saying "[}]" instead.
+
+A WIP branch is available at:
+
+    https://github.com/akiyks/perfbook/tree/WIP-portable-build
+
+I'd be delighted if you could give it a try on a macOS system.
+Running "make" (or "gmake" if that is the name of GNUmake) on the
+branch will complain about incapable command(s).
+Running "make precheck" will do the test without building perfbook.
+
+Sometimes, you need to keep BSD and GNU variants with different names.
+
+For example, on FreeBSD, GNU sed is provided as a package named "gsed"
+with the command name of "gsed".
+
+Such alternative names can be provided via make variables as well as
+environment variables, such as "make SED=gsed", "make DATE=gdate",
+"export SED=gsed; make", "export DATE=gdate; make", and so on.
+There is no such knob for the grep command at the moment. In case macOS
+needs it, I can easily add it.
+
+Documentation on this portability improvement is not yet available in
+the WIP branch.  I'm hoping I can add it shortly based on this email
+message.
+
+Looking forward to hearing from you.
+
+        Thanks, Akira
+
+
