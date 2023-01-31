@@ -1,86 +1,87 @@
-Return-Path: <SRS0=bKbQ=52=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xmEn+h580P+DVbrnFaCdGDgkpCiXa3/trFwPqsq//jA=;
-        b=WYxjzxUBBTpeubGnow8KqhzdyKLZ6pul26IOBgANLfHZm58Pk46yv0BkBe2f9rEMZa
-         CzgjnM6OAqUSQiZObcwbnuKjLXhHXag4cP9R9XxuLO1nUgwjbVw+wKnKr3lzNNxSsi8y
-         Il33uVs3Z1qIqaEvw73NHdJbRTkm4InT7aabM0rC+LW4jvSM5JICfrmUOuWdNfV8RPsv
-         RJiurSFT8lG74xucKVJTX573IgO/rAbRLrhMATJIfrvqAQL2434tmqBWgqwq9mFfVH4+
-         rPCRJ6Ox1JFnkUY1dYn2KNqMQ4ThQTnzAD5bilMyx05/50+Ni6luHJqrf5dGtvgucXE9
-         mwqA==
-Message-ID: <5b901cbc-f023-4fce-7ed1-7ac48178d169@gmail.com>
-Date: Sun, 29 Jan 2023 22:42:24 +0900
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58106 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229613AbjAaVpa (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 31 Jan 2023 16:45:30 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B929A58652
+        for <perfbook@vger.kernel.org>; Tue, 31 Jan 2023 13:45:29 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 494A161731
+        for <perfbook@vger.kernel.org>; Tue, 31 Jan 2023 21:45:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675201528;
+        bh=6OqCFefMvCqZdqruRiaoun3Ztdv0QpbStIx+r3VHnhk=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=rzjvbB8Gi+vZw37JYrIK23WBM9RZMukRlDhnKcKHgDRtTDIpLx/BvSxVV8YX+FRCQ
+         3NE7ARRXfyth23OhXo01IbxQ6PkDkD2sFWnSC12wLFwW7QQkBd861fJn8O6i9LwhrC
+         ifvHY9rCoSW1gqnkK7yqmQp/Rj7k0q7qPThn0UA6X+cUtGTulB9khsiEjznApT9AbD
+         hapjfrv2hCW5iEhABmFoYASSKMFP0iWy8uRUnkIckOvWEXsXOKpta8DymedZ3KF1Z/
+         ydej5ganX0dzIScFin4MbeQwx1dvhQJepX5qiU/N+afOPa4VAqzwDTrrNghu7XM7fQ
+         7oKCjnvyQEOOw==
+Date: Tue, 31 Jan 2023 13:45:28 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: Perfbook : Thanks!
+Message-ID: <20230131214528.GY2948950@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <d49bc621da6f74e33cd41d5fc3d1e9ed17cba3bd.camel@gmail.com>
 MIME-Version: 1.0
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: WIP perfbook build scripts improvement
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Snir, Marc" <snir@illinois.edu>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, perfbook@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <d49bc621da6f74e33cd41d5fc3d1e9ed17cba3bd.camel@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Leonardo =?iso-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Hi Marc,
+On Tue, Jan 31, 2023 at 06:09:50PM -0300, Leonardo Br=E1s wrote:
+> Hello Paul,
+>=20
+> I am a newbie Kernel Developer, and I was already a fan of your work on m=
+emory-
+> barriers.txt.=A0
+>=20
+> A couple weeks ago a friend of mine recommended reading perfbook,=A0and s=
+ent me an
+> older version (2011.01.02a). After reading a few pages I went on and foun=
+d that
+> the book had newer releases and is often updated and maintained with git,=
+ which
+> got me really impressed.
+>=20
+> (I had a lot of work gone to waste on other books I found errors on, and
+> perfbook's git workflow just make a lot of sense to me)
+>=20
+> Since it's a topic I am really interested in, and I noticed the book has =
+updates
+> from a couple days ago, I decided to install texinfo packages and compile=
+ a new
+> version for me to start reading.=A0
+>=20
+> I then noticed it would be nice to keep reading the latest version whenev=
+er an
+> update came by, so I created a gitlab-ci to re-generate the book after a =
+new
+> commit / push: https://gitlab.com/linux-kernel/perfbook
+>=20
+> Is that ok if I keep this gitlab repository re-generating the book?
+>=20
+> Is a gitlab-ci of any use for you?
+> If so, I can send it as a patch (a single .gitlab-ci.yaml file), and refi=
+ne it
+> according to your needs.
+>=20
+> Thanks for keeping the book updated!
 
-Are you still interested in building perfbook on macOS?
+Hello, Leonardo, and glad you like the book!
 
-I'm now working on improving perfbook's build scripts so that
-they can work on BSD-like systems such as FreeBSD.
+On the automated CI, I cant't think of a problems with it.  In fact, in
+my experience, automated testing is usually a good thing.  I am adding
+the perfbook email list in case others have advice or other guidance.
 
-It turns out that there are a couple of commands whose non-GNU
-implementations may not suffice for building perfbook.
+Just out of curiosty, are you thinking of automating tests of the
+sample code as well as of the LaTeX builds?
 
-  - sed: Need multi-line editing support (N/A in FreeBSD sed).
-    
-  - grep: Need -z option (N/A in Busybox grep on alpine, may
-    depend on version/config).
-
-  - date: Need GNU style options. (Incompatible with BSD ones)
-
-  (This is by no means complete.)
-
-Among them, the most probable cause of the error you encountered
-last June is the "date" command in utilities/autodate.sh.
-It assumes GNU date. The generated autodate.tex you provided at
-the time indicates you have "date" from BSD.
-
-I have updated autodate.sh so that both GNU and BSD variants of
-date can be used.
-
-Also, there are several "{"s in egrep patterns which are invalid
-in non-GNU grep.
-
-I have made them portable by saying "[}]" instead.
-
-A WIP branch is available at:
-
-    https://github.com/akiyks/perfbook/tree/WIP-portable-build
-
-I'd be delighted if you could give it a try on a macOS system.
-Running "make" (or "gmake" if that is the name of GNUmake) on the
-branch will complain about incapable command(s).
-Running "make precheck" will do the test without building perfbook.
-
-Sometimes, you need to keep BSD and GNU variants with different names.
-
-For example, on FreeBSD, GNU sed is provided as a package named "gsed"
-with the command name of "gsed".
-
-Such alternative names can be provided via make variables as well as
-environment variables, such as "make SED=gsed", "make DATE=gdate",
-"export SED=gsed; make", "export DATE=gdate; make", and so on.
-There is no such knob for the grep command at the moment. In case macOS
-needs it, I can easily add it.
-
-Documentation on this portability improvement is not yet available in
-the WIP branch.  I'm hoping I can add it shortly based on this email
-message.
-
-Looking forward to hearing from you.
-
-        Thanks, Akira
-
-
+							Thanx, Paul
