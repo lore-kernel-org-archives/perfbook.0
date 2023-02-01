@@ -1,74 +1,91 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40962 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231849AbjBAApV (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 31 Jan 2023 19:45:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF76051C79
-        for <perfbook@vger.kernel.org>; Tue, 31 Jan 2023 16:45:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5B3F961759
-        for <perfbook@vger.kernel.org>; Wed,  1 Feb 2023 00:45:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675212318;
-        bh=aVj3i/IvQhFdDD8KgD/+BLADLeq2Dj22W9xUbKLfUJg=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=ADwjVeHWAeqiuwcp2+8QKUEcbxvHbZGLNxONsF2TJ6qLkwqGzfWnGIL3+rW6jLTUo
-         sMoqEprm01+h3nXpMQToTLcK+zE2PG0NYEXkq8nnvYbwC3epJLNZ/ocf9mlAg4+cBC
-         THzVnuJQvpTo7zJwmh7sW3O3y8dlbkQzweSJYJb3swZauKul9LUN4J86o3Dyc2Larz
-         HWmqiX2XvwZZMRe72TRL2JpriwMhWOqYxT41RQWtnXgyGqyuDsNFq3hrXJ1ALRj11p
-         nj6zrNTXFs7Zer7QOpGGtcgI7rkaKcSfGrB+vEe5lvK9WWoYK2QwOaQDTG4oa9cpO1
-         2j9MHnpx+NAWQ==
-Date: Tue, 31 Jan 2023 16:45:18 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] FAQ-BUILD.txt: Add libertine in the list of
- fonts
-Message-ID: <20230201004518.GA2948950@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <efaac825-e1bd-92ec-525e-8fd84b8eeafc@gmail.com>
+Return-Path: <SRS0=2WLy=55=gmail.com=leobras.c@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FdGbxiuMgXd5e+vYrpkMYt3GUcdtdX+K7veAIhxyFnE=;
+        b=Nskss6fimv60Tx9K6s11QYXbQIMqa7HdZJ2daDw9OitIJqs4+wfOG73PUgZFnuWYx+
+         hWCB/ZF6uuPJjZuIJ6a9iTOQdVhtBeA89Q/AUjAPkZu/tv13uofm93eVjEoFToUJgb8B
+         HRlaAPJSK34qETy2suELONxaoZMrmk0cK+R4NXad1V8AWhuQvGohi+7HL4a2TiK81+o/
+         xDbssHUa5+cI243VrlRtLoJfPdEPpDLrH/815Ie1hhdOyOU7H2zgXOZGQ1Lu/21/fqsc
+         D/CKt9ZFNr+8g2eJw7dJqdqgnjd3LRxZ/eq2JgrBEAmqWnGV981H2LEbaWcspCG9VNd9
+         7m3A==
+Message-ID: <9718eb1362cd216f680694ff737360a2eb875cc5.camel@gmail.com>
+Subject: Re: Perfbook : Thanks!
+From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
+Date: Tue, 31 Jan 2023 23:19:02 -0300
+In-Reply-To: <20230131214528.GY2948950@paulmck-ThinkPad-P17-Gen-1>
+References: <d49bc621da6f74e33cd41d5fc3d1e9ed17cba3bd.camel@gmail.com>
+	 <20230131214528.GY2948950@paulmck-ThinkPad-P17-Gen-1>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <efaac825-e1bd-92ec-525e-8fd84b8eeafc@gmail.com>
-List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
+To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Wed, Feb 01, 2023 at 09:23:10AM +0900, Akira Yokosawa wrote:
-> Font package "libertine" is necessary since commit 6be27f7414d8
-> ("Use Biolinum font family for epigraph").
-> 
-> Add it to the list of font packages which are not included in
-> -fonts-recommended.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Hello Paul,
 
-Queued and pushed, thank you, Akira!
+On Tue, 2023-01-31 at 13:45 -0800, Paul E. McKenney wrote:
+> On Tue, Jan 31, 2023 at 06:09:50PM -0300, Leonardo Br=C3=A1s wrote:
+> > Hello Paul,
+> >=20
+> > I am a newbie Kernel Developer, and I was already a fan of your work on=
+ memory-
+> > barriers.txt.=C2=A0
+> >=20
+> > A couple weeks ago a friend of mine recommended reading perfbook,=C2=A0=
+and sent me an
+> > older version (2011.01.02a). After reading a few pages I went on and fo=
+und that
+> > the book had newer releases and is often updated and maintained with gi=
+t, which
+> > got me really impressed.
+> >=20
+> > (I had a lot of work gone to waste on other books I found errors on, an=
+d
+> > perfbook's git workflow just make a lot of sense to me)
+> >=20
+> > Since it's a topic I am really interested in, and I noticed the book ha=
+s updates
+> > from a couple days ago, I decided to install texinfo packages and compi=
+le a new
+> > version for me to start reading.=C2=A0
+> >=20
+> > I then noticed it would be nice to keep reading the latest version when=
+ever an
+> > update came by, so I created a gitlab-ci to re-generate the book after =
+a new
+> > commit / push: https://gitlab.com/linux-kernel/perfbook
+> >=20
+> > Is that ok if I keep this gitlab repository re-generating the book?
+> >=20
+> > Is a gitlab-ci of any use for you?
+> > If so, I can send it as a patch (a single .gitlab-ci.yaml file), and re=
+fine it
+> > according to your needs.
+> >=20
+> > Thanks for keeping the book updated!
+>=20
+> Hello, Leonardo, and glad you like the book!
+>=20
+> On the automated CI, I cant't think of a problems with it.  In fact, in
+> my experience, automated testing is usually a good thing.  I am adding
+> the perfbook email list in case others have advice or other guidance.
+>=20
+> Just out of curiosty, are you thinking of automating tests of the
+> sample code as well as of the LaTeX builds?
 
-I clearly need to get my local font act together.  ;-)
+For now it only automates the LaTeX build of perfbook.pdf, perfbook-1c.pdf =
+and
+perfbook-eb.pdf, but there should be no problem automating tests too. (I me=
+an,
+once I understand how to run tests.)
 
-						Thanx, Paul
 
-> ---
->  FAQ-BUILD.txt | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-> index 107707533398..1ea9d92c90b0 100644
-> --- a/FAQ-BUILD.txt
-> +++ b/FAQ-BUILD.txt
-> @@ -149,6 +149,7 @@
->  		in -fonts-recommended:
->  
->  			https://www.ctan.org/pkg/newtx
-> +			https://www.ctan.org/pkg/libertine
->  			https://www.ctan.org/pkg/newtxtt
->  			https://www.ctan.org/pkg/nimbus15
->  			https://www.ctan.org/pkg/courier-scaled
-> 
-> base-commit: 32e14ef456725329455f35eda27c76b46b1f2763
-> -- 
-> 2.25.1
-> 
+>=20
+> 							Thanx, Paul
+
+Thank you!
+Leo
