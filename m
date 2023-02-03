@@ -1,144 +1,105 @@
-Return-Path: <SRS0=drfo=57=gmail.com=leobras.c@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=OlcuR5tvbcKSBy7f75b2lKa6WcqXh9oay9vinKHbe0s=;
-        b=YSIdV5g/PTYNdU3J7T7chwApMvU6Yy2he/TYe/Cizhy4Z229CMAz3YXXj1g61ILm8r
-         Xj5NAVEX7FsW7/vGeHtgY0ftDskq+OsQcmM3sQmtZqr+UFS5wDQKcmayZmgJ0rDF2bXE
-         jdLq+JFSu00QKly3W0NjHPJYwfUu41VoGsykFQinFAbyXYs3DiAY9jnF3PB5OxA+L/74
-         e6MUzzuyCjYqyJRdz4/Rd7G8mS6whn0MXsjho9EMRuMkkNTuBfEe/3IceG4lOWPnRDUa
-         ugDTDDEYR9WzxFIJ5vvh/0FQPenK26Ey9l7hEnmhSLjomQmWzDEs8mjqVa/vvWkZfe3C
-         lnng==
-Message-ID: <39a31ffaa40176de5a2996c97e2b4d977d6c258f.camel@gmail.com>
-Subject: Re: [PATCH] Add .gitlab-ci.yml for pdf generation and testing on
- Gitlab.
-From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
-Date: Thu, 02 Feb 2023 23:19:52 -0300
-In-Reply-To: <20230203000517.GB2948950@paulmck-ThinkPad-P17-Gen-1>
-References: <20230201221302.GQ2948950@paulmck-ThinkPad-P17-Gen-1>
-	 <ac90780e-b399-ba82-253d-da66447fab07@gmail.com>
-	 <20230202015337.GR2948950@paulmck-ThinkPad-P17-Gen-1>
-	 <6d5631cba7e39887d8b1e1e786cc994f61f3d438.camel@gmail.com>
-	 <ee2eb78d9575b53080a265c46775d01f0da37214.camel@gmail.com>
-	 <11517498-7fc9-2cd5-7cf8-6cb8705abf31@gmail.com>
-	 <203c05624258d0eecaae9717c25e9232ff450ee4.camel@gmail.com>
-	 <2b276f96-304c-39b4-e237-987ef7f7df2b@gmail.com>
-	 <20230202233127.GA2948950@paulmck-ThinkPad-P17-Gen-1>
-	 <4ea57882-933b-431d-45bb-ca822679716a@gmail.com>
-	 <20230203000517.GB2948950@paulmck-ThinkPad-P17-Gen-1>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53998 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229645AbjBCEsi (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Thu, 2 Feb 2023 23:48:38 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76BDD709A3
+        for <perfbook@vger.kernel.org>; Thu,  2 Feb 2023 20:48:36 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 982B7B827B1
+        for <perfbook@vger.kernel.org>; Fri,  3 Feb 2023 04:48:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675399714;
+        bh=X3q2ocNkMoLIw0ayS3kWuxs4F6o58Y/O4zFRSi4krRY=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=pOqwLlOhQStdzMmD2z37ah/Rhs/CkxVbvrLnVDxtd1bK1KkTkWpWal54EZY62/Kyb
+         5iycxsH9Fw0lJ4RuadsP8uuQhpkpUaYHDPYJy5ZuH5eDxsjdqz4MWUA5xlLfCq1mdI
+         QzDD/WeAMghE9Jggv9ZbOpYoS7+ZYz+tHENXyD8zGFhFSshgQZT+tKk4BYN+xxdfHe
+         ToZyCs5nMXOAyiMkkBymXsHaN/OfmjTL/KnSyikZx9ENyck+tII89wgxEi/gtMQzSP
+         Y7YA2ZjBjDevQoliBl8rLqBkwrfZ6uttqVqRj+mD500XxIJx/0qlGxwtRnu9LsLGRB
+         bqjvczeD40Rdw==
+Date: Thu, 2 Feb 2023 20:48:33 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v2] Add utilities/gitlab-ci.yml for pdf generation and
+ testing on Gitlab.
+Message-ID: <20230203044833.GG2948950@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20230203021853.34207-1-leobras.c@gmail.com>
+ <265b0793-78bc-d8b4-5a4a-8198854b2f01@gmail.com>
 MIME-Version: 1.0
-To: paulmck@kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <265b0793-78bc-d8b4-5a4a-8198854b2f01@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Leonardo Bras <leobras.c@gmail.com>, perfbook@vger.kernel.org
 
-On Thu, 2023-02-02 at 16:05 -0800, Paul E. McKenney wrote:
-> On Fri, Feb 03, 2023 at 08:51:04AM +0900, Akira Yokosawa wrote:
-> > On Thu, 2 Feb 2023 15:31:27 -0800, Paul E. McKenney wrote:
-> > > On Fri, Feb 03, 2023 at 08:23:05AM +0900, Akira Yokosawa wrote:
-> > > > Hi,
-> > > >=20
-> > > > On Thu, 02 Feb 2023 13:52:08 -0300, Leonardo Br=C3=A1s wrote:
-> > > > > On Thu, 2023-02-02 at 23:42 +0900, Akira Yokosawa wrote:
-> > > > > > On Thu, 02 Feb 2023 01:37:02 -0300, Leonardo Br=C3=A1s wrote:
-> > > > > > [...]
-> > > > > > >=20
-> > > > > > > It looks like it can be done by "Running CI/CD for external r=
-epositories".
-> > > > >=20
-> > > > > Nah, it looks like this won't work either. After my patch on top =
-of master, it's
-> > > > > already warning about diverging repositories when I try to sync.
-> > > > >=20
-> > > > > Another solution I could find:
-> > > > > - Change the patch I sent before to keep the file on another dire=
-ctory, even
-> > > > > with a different name: this will not trigger the build for anyone=
-.
-> > > > > - Change my repository config to trigger the CI from that file.
-> > > > >=20
-> > > > > The file would only be a random YML file in the repo.
-> > > > > Would that be ok?
-> > > >=20
-> > > > Hmm, yes, I think I can live with it.
+On Fri, Feb 03, 2023 at 12:03:18PM +0900, Akira Yokosawa wrote:
+> On Thu,  2 Feb 2023 23:18:55 -0300, Leonardo Bras wrote:
+> > For Gitlab repositories mirroring the original repository, trigger the
+> > Gitlab-CI after every push to the original repo.
+> > 
+> > For the pipeline to run, the Gitlab repo needs to configure:
+> > - Settings -> CI/CD -> General Pipelines -> CI/CD configuration file to
+> >   utilities/gitlab-ci.yml
+> > 
+> > What the pipeline does:
+> > - Compile-test CodeSamples
+> > - IF pass, build PDFs: regular, 1c, eb
+> > 
+> > Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
+> > ---
+> >  utilities/gitlab-ci.yml | 33 +++++++++++++++++++++++++++++++++
+> >  1 file changed, 33 insertions(+)
+> >  create mode 100644 utilities/gitlab-ci.yml
+> 
+> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
 
-Great!=20
+Queued and pushed, thank you both!
 
-I created a patch for including the new yml file.
+							Thanx, Paul
 
-I created a new repo mirroring from the kernel.org repo, and created a new
-branch with the above patch. Nothing happened on push.
-
-Then I configured the correct yml file on Gitlab (details on the patch), an=
-d a
-new push trigered the pipelines, so the desired effect was achieved.
-
-> > > >=20
-> > > > >=20
-> > > > > > >=20
-> > > > > > > I removed my previous repository and then imported perfbook a=
-gain using the
-> > > > > > > above mentioned mode. According to the man page, it will run =
-CI for the project
-> > > > > > > whenever a new push to the referenced repository happens.
-> > > > > > >=20
-> > > > > > > So it's just a matter of waiting a new commit getting push'ed=
- to see if it will
-> > > > > > > be working.
-> > > > > >=20
-> > > > > > Hi Leonardo,
-> > > > > >=20
-> > > > > > I noticed a minor glitch in the generated PDFs.
-> > > > > > They don't have Git commit info in the title page and footer ar=
-ea of
-> > > > > > pages.
-> > > > > >=20
-> > > > > > I can't tell what went wrong, but expected autodate.tex should =
-look like:
-> > > > >=20
-> > > > > I found it out: gitlab was doing a shallow clone, and the previou=
-s tag was not
-> > > > > in the commits, so I modified the Gitlab config so it does a comp=
-lete clone of
-> > > > > the repository instead.
-> > > >=20
-> > > > Aha!  The script has never tested under a shallow clone...
-> > > > Let me see if I can improve its behavior.
-> > > >=20
-> > > > > The last output of the pipeline seems to have been correct, pleas=
-e check:
-> > > > > https://gitlab.com/linux-kernel/perfbook/-/jobs/3705185694/artifa=
-cts/browse
-> > > >=20
-> > > > Apparently, the commit id does not make sense in Paul's repo.
-
-Yes, it was a commit in my personal tree.
-
-> > > > But the random YML file approach should resolve it.
-
-Agree.
-
-> > >=20
-> > > Apologies, I left it untracked.  There is now a Leonardo.2023.02.01a
-> > > branch that references it.
-> >=20
-> > I mean the commit id 81974e57 presented in the artifacts is of the comm=
-it
-> > Leonardo made on his own:
-> >=20
-> >     https://gitlab.com/linux-kernel/perfbook/-/commit/81974e57bed4
->=20
-> You are right, that is not the Leonardo.2023.02.01a commit.  Apologies
-> for my confusion!
->=20
-> 							Thanx, Paul
-
-Please take a look in the new patch, it should sort everything out.
-
-Best regards,
-Leo
-
-
+> > diff --git a/utilities/gitlab-ci.yml b/utilities/gitlab-ci.yml
+> > new file mode 100644
+> > index 00000000..acc12fb2
+> > --- /dev/null
+> > +++ b/utilities/gitlab-ci.yml
+> > @@ -0,0 +1,33 @@
+> > +image: archlinux:latest
+> > +
+> > +stages:
+> > +  - test
+> > +  - build
+> > +
+> > +test_codesamples:
+> > +    stage: test
+> > +
+> > +    before_script:
+> > +        - pacman --noconfirm -Sy make gcc liburcu
+> > +
+> > +    script:
+> > +        - make -C CodeSamples/
+> > +
+> > +generate_pdfs:
+> > +    stage: build
+> > +
+> > +    before_script:
+> > +        - pacman --noconfirm -Sy texlive-most fig2dev ghostscript graphviz inkscape wget make which fontconfig git ttf-dejavu gnu-free-fonts
+> > +        - mkdir -p ~/.local/share/fonts && cp fonts/steel-city-comic.regular.ttf ~/.local/share/fonts/ && fc-cache
+> > +        - wget https://sourceforge.net/projects/fig2ps/files/latest/download -O /dev/shm/fig2ps.tbz
+> > +        - mkdir /dev/shm/build && tar -xjf /dev/shm/fig2ps.tbz -C /dev/shm/build --strip-components=1
+> > +        - make install -C /dev/shm/build
+> > +
+> > +    script:
+> > +        - make perfbook.pdf perfbook-1c.pdf perfbook-eb.pdf
+> > +
+> > +    artifacts:
+> > +      paths:
+> > +          - perfbook.pdf
+> > +          - perfbook-1c.pdf
+> > +          - perfbook-eb.pdf
+> 
+> 
