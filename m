@@ -4,68 +4,59 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=6xv3tQ/YBhoxZrNJrRo+IxcLj+xY8PgwlbXhZO9Bobc=;
-        b=iSkRtX5vYJ4LA3ZSHyBS4aFUrjEaDcN7ODd+F4HFno2y9JDfyResyo9AJKrXhxAOUE
-         KIsvDvTewyH0LzY7/hQ99sFgntGyqjALfgbOPcO6Kx+TcF6FrcYuzjY1v6fzEo1GdAbz
-         Krn6AgNlD3/k309v+4L2vzQxEd6hx6mKVw6pkqfjbYTMImw8MZRCMAdBWxoOzqAuan4L
-         3vyXA4/DyzIuxY9sJo2BbCGLe8Lh88Tm6uRWzQuY4hEIWVuUIjV4bBcHSC3VFWluFuaU
-         3ALnqzzQcdxlw70a6Q7ZqymOtLgQzyYKpdZ1b5gpgix48xfPzcJgwitENSvJXlylQVkt
-         F1UA==
-Message-ID: <f051e079-4b6b-ff27-986d-ccd279ddd952@gmail.com>
-Date: Sat, 4 Feb 2023 16:00:40 +0900
+        bh=qGvkKxOC03vS+Vm7Xg9tdpfdOLgBGdEFG8Yss6jgMcw=;
+        b=J/n3ziitmgLHKAzhjN1T7ypQQZ+TqUimsofsD/fxpbl+Ih2GcwH6EVdkqyEcbmKWQV
+         5IecW7oQr/GFBJY5WN7FEe5pacy2FOC+2l1ltfDqWcRJ208Evi1wvd0X2AEX8t/ZB5X4
+         AkK4fLvyaxNh3CB8J6LS+1UMj3fB6unLANWW0Ej/eOJhiv8+mANa2t5JmyiX+xJZ9Zk1
+         k+qxOZii1sPUH+4HHyvBuOpSWyXoUqZEjY1ny873AsQ3SuuX3DA0jsq2w2ad+d54VPX5
+         7QTExqM8F6CZAus1I8ZIKwJ4b1TTob520BIIjszv+23H/AvS6R1UqDC17aEuMcAbSLv5
+         g1cA==
+Message-ID: <ea98db11-6549-793b-5b23-37a9cf441fe1@gmail.com>
+Date: Sat, 4 Feb 2023 15:35:11 +0900
 MIME-Version: 1.0
-Subject: Re: [PATCH v1 2/2] utilities/gitlab-ci.yml: Add 'make check' on
- test_codesamples
+Subject: Re: [PATCH -perfbook] autodate.sh: Add graceful fallback of
+ commitid-only mode for shallow clone
 Content-Language: en-US
-References: <20230204033627.67980-1-leobras.c@gmail.com>
- <20230204033627.67980-2-leobras.c@gmail.com>
- <20230204045113.GV2948950@paulmck-ThinkPad-P17-Gen-1>
- <ee7a963b07364d01c33c77e7cebdc1c9f4955904.camel@gmail.com>
+References: <5011ac44-402f-5185-bb62-0d2ac908da5e@gmail.com>
+ <20230203164716.GJ2948950@paulmck-ThinkPad-P17-Gen-1>
+ <402f2ac0179552e214206fb6adb36240113ddc51.camel@gmail.com>
+ <20230203181950.GL2948950@paulmck-ThinkPad-P17-Gen-1>
+ <72fe4499f87fb861c5fca94b6a8670e4c1100d4c.camel@gmail.com>
+ <20230203185539.GM2948950@paulmck-ThinkPad-P17-Gen-1>
+ <f04b56846957201b4212b5cdc183eaff926b6f85.camel@gmail.com>
+ <20230204043614.GU2948950@paulmck-ThinkPad-P17-Gen-1>
 From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <ee7a963b07364d01c33c77e7cebdc1c9f4955904.camel@gmail.com>
+In-Reply-To: <20230204043614.GU2948950@paulmck-ThinkPad-P17-Gen-1>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-To: =?UTF-8?Q?Leonardo_Br=c3=a1s?= <leobras.c@gmail.com>, paulmck@kernel.org
+To: paulmck@kernel.org, =?UTF-8?Q?Leonardo_Br=c3=a1s?= <leobras.c@gmail.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Sat, 04 Feb 2023 03:09:08 -0300, Leonardo Br=C3=A1s wrote:
+On Fri, 3 Feb 2023 20:36:14 -0800, Paul E. McKenney wrote:
+> On Fri, Feb 03, 2023 at 11:55:20PM -0300, Leonardo Br=C3=A1s wrote:
 =2E..
+>>
+>> I will send a patch fixing the uname soon :)
 >=20
-> Thank you Paul!
+> Thank you for digging into this!
 >=20
-> It looks like my pipeline failed with:
->=20
-> sched_setaffinity: Invalid argument
->=20
-> Which got me to look for some info:
-> - The Gitlab-CI instances are all single-cpu.
->=20
-> Which got me thinking:
-> - How would we be able to test code for Parallel Programming in a singl=
-e cpu?
+> And yes, portability is easier than it was 40 years ago, but still not
+> easy.  :-/
 
-I assume you are using a runner gitlab provides.
-If this is the case, according to the page at gitlab:
+Hi,
 
-    https://docs.gitlab.com/ee/ci/runners/saas/linux_saas_runner.html
+You might be interested in this email thread in 2012 at GNU bugreport:
 
-, there are three machine types you can choose.
+    https://debbugs.gnu.org/cgi/bugreport.cgi?bug=3D13001
 
-    - Small:  1 vCPU   (default)
-    - Medium: 2 vCPUs
-    - Large:  4 vCPUs  (not available for free subscription)
+Looks like the behavior of "uname -p" CodeSamples had assumed is common
+to Ubuntu and Fedora (as well as RHEL and SUSE).
 
-Hope this helps.
+So, this issue is exposed by Leo's choice of archlinux:latest as the
+base image.
+
+Leo, just out of curiosity, what made you pick Arch Linux?
 
         Thanks, Akira
-
->=20
-> Well, I still haven't debugged all this, after I am sure this is the is=
-sue, I
-> will reach people from Gitlab and check if is there any solution for th=
-is.
->=20
-> Best regards,
-> Leo
 
