@@ -1,22 +1,23 @@
-Return-Path: <SRS0=fWmf=6A=redhat.com=leobras@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1675479402;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=fjbOuA0YIcefv58LntKe2wmGHnhnztVHqL+w2rUrjTM=;
-	b=JdYV3hj1VDUViHH9ZlxupodQrUF8c5pFuI8+OlIcq9ofWIiZSA42aYvK5u+hFi5uYJMTKy
-	B0M+3buAkbZSOTU5yMzFCKyl3xED8LH8a1GG2zj70dhUxJL3o/lb4DFXgB8XvJurACjxR4
-	aFhHFg36fbnLT+OtzEt/YhCqj4qTP+c=
-From: Leonardo Bras <leobras@redhat.com>
+Return-Path: <SRS0=PvuL=6A=gmail.com=leobras.c@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hm1sy16GUmlzcSD+J+1m5ZU4Ct3HYlPIm5629WcvZdM=;
+        b=pJddQ6OtGQbljCT9XJL4Db0UOONZiRy6cUpK7x3U0N4HVbGOE3kHr/TpbZG4+BVDDj
+         9DL76nu2ow8fUx8q1TpCecI/EUJO2iAIWCEIUAF0k0uceiyHfklPghJMky4ZqC8ujh7Q
+         El02XVjjFpOkxdYiaObKDhJGLl60ei0XOcRegO8hkDzJglnPQK42SJgjWcQ5hc9tmRt6
+         hVcOLWHQ9dLAR5HcWnsCJ+h0IT84cY6Pla5romNV9Ow5Wb1j+P2mmDOP9aXK4zc5fgAE
+         W5vIJYep1AKjEkjLSJS5Xqkl6jAaZZ88b5AYCycaUesGOpghbcWKWoIP7O7GOGl/fjiE
+         76fQ==
+From: Leonardo Bras <leobras.c@gmail.com>
 Subject: [PATCH v1] Codesamples/depends.mk : Replace non-portable uname '-p' with '-m'
-Date: Fri,  3 Feb 2023 23:55:37 -0300
-Message-Id: <20230204025536.64981-1-leobras@redhat.com>
+Date: Sat,  4 Feb 2023 00:01:01 -0300
+Message-Id: <20230204030100.65344-1-leobras.c@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 To: paulmck@kernel.org
-Cc: Leonardo Bras <leobras@redhat.com>, perfbook@vger.kernel.org
+Cc: Leonardo Bras <leobras.c@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
 `uname -p` returns 'unknown' for current coreutils.
@@ -41,7 +42,7 @@ for compatibility purposes.
 
 Anyway, change '-p' to '-m' on depends.mk to avoid getting arch=unknown.
 
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
+Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
 ---
  CodeSamples/depends.mk | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
