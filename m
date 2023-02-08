@@ -1,70 +1,71 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47650 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229618AbjBHDlM (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 7 Feb 2023 22:41:12 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 960DA31E1C
-        for <perfbook@vger.kernel.org>; Tue,  7 Feb 2023 19:41:05 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 232D061497
-        for <perfbook@vger.kernel.org>; Wed,  8 Feb 2023 03:41:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675827664;
-        bh=hBFp4fm+DnMdxr1/PqbZvXT7CnLKyz+cDI7MGYcvXEs=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=AltFAzQPACfzWySjAgbL5f5lnirU9U3ECmF1MsGBtLJh4Obha0NSBBwM7DgP+cnfc
-         uTCDxNEANXiNVvXDoUpiUz3MtA6e9QInT+ejWLAs64JowfeGj/PMi8CNoReljubcrq
-         QYZFPnAGYZTrkXdt1I6+v/JXNxnYhfCI4jxRCAJB+YWxZ29EjfPOXnkB9KrtWGzAuk
-         ehiWES8xtsGo4gjuRSNhM4j8QAogvfhq8IPKV+kuC14UBnxzOuDbXXpDd8nruuphq1
-         fEmGULN2xLIem2HTCXGGXHVE5xNxEYkx59Q2e3LMYcxlqn2pczPEp6XhH0WHiNMbdj
-         2a9letXmbCM1Q==
-Date: Tue, 7 Feb 2023 19:41:02 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
+Return-Path: <SRS0=B+67=6E=gmail.com=leobras.c@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Q9pIUW9167v1ucWWQw/8I7d/Lm9v6qj26ZVgpRpeWqE=;
+        b=Svh5PMOjqujDcOtsGEDZuqK5iaVzk5TyXZdHfjzFUTLekZGH84T13NbMA8xSjrPc28
+         vtC7ZH1xxHPzMpOHGr2phUe5VqrKUYcCKbyj+Zy6ef84D/2zkbFmiSYeIcuAevZBWLhA
+         ycQyStRJRehVJNkwZzC2Q7KKXJSutPIHOrGpY5uea4IFz0SBnZK2U1Wxpp2AarxsjojF
+         fhEgXfHVgjI+Sd00nQHnYpQ2OL7jDuk4jfoJT07V9ygjFZpI/dVBVBBqhFPeZYCvQ5E+
+         jdTLA82IQX9ZhHXl45lGTqaR/gHqBbCcQd8E243ppj1o4bKRYc42JrGUBKNJv7Dhu+Bl
+         Yb+w==
+Message-ID: <aa9a88f35a329b2ddc43def8ff790b6928c0e40a.camel@gmail.com>
 Subject: Re: Question about Table E.1
-Message-ID: <20230208034102.GG2948950@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
+From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
+Date: Wed, 08 Feb 2023 02:33:33 -0300
+In-Reply-To: <20230208034102.GG2948950@paulmck-ThinkPad-P17-Gen-1>
 References: <fba1fe891b65449475c1e4e9abee2d3337c1567c.camel@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
+	 <20230208034102.GG2948950@paulmck-ThinkPad-P17-Gen-1>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <fba1fe891b65449475c1e4e9abee2d3337c1567c.camel@gmail.com>
-List-ID: <perfbook.vger.kernel.org>
-To: Leonardo =?iso-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
+MIME-Version: 1.0
+To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Wed, Feb 08, 2023 at 12:07:20AM -0300, Leonardo Br=E1s wrote:
-> Hello Paul,
+On Tue, 2023-02-07 at 19:41 -0800, Paul E. McKenney wrote:
+> On Wed, Feb 08, 2023 at 12:07:20AM -0300, Leonardo Br=C3=A1s wrote:
+> > Hello Paul,
+> >=20
+> > I have been reading the book, until I stumbled on Quick Quiz 3.7,
+> > Table E.1: Performance of Synchronization Mechanisms
+> > on 16-CPU 2.8 GHz Intel X5550 (Nehalem) System
+> >=20
+> > <Copying from source, since the PDF is a little tricky>
+> >=20
+> > The first part looks like:
+> >=20
+> >         Clock period            &           0.4 &           1.0 \\
+> >         Same-CPU CAS            &          12.2 &          33.8 \\
+> >         Same-CPU lock           &          25.6 &          71.2 \\
+> >         Blind CAS               &          12.9 &          35.8 \\
+> >         CAS                     &           7.0 &          19.4 \\
+> > =20
+> > In this case, what would be the last lines "Blind CAS" and "CAS" referr=
+ing to ?=20
+> >=20
+> > (For a second I thought it could be "In-Core Blind CAS" and "In-Core CA=
+S" like
+> > in Table 3.1, but that would not make sense: This "CAS" is faster than =
+the
+> > previous "Same-CPU CAS". )
 >=20
-> I have been reading the book, until I stumbled on Quick Quiz 3.7,
-> Table E.1: Performance of Synchronization Mechanisms
-> on 16-CPU 2.8 GHz Intel X5550 (Nehalem) System
+> I was surprised myself, but those measurements are quite real.  My best
+> guess is that the two threads in the core are able to overlap their
+> accesses, while the single CPU must do everything sequentially.
 >=20
-> <Copying from source, since the PDF is a little tricky>
->=20
-> The first part looks like:
->=20
->         Clock period            &           0.4 &           1.0 \\
->         Same-CPU CAS            &          12.2 &          33.8 \\
->         Same-CPU lock           &          25.6 &          71.2 \\
->         Blind CAS               &          12.9 &          35.8 \\
->         CAS                     &           7.0 &          19.4 \\
-> =20
-> In this case, what would be the last lines "Blind CAS" and "CAS" referrin=
-g to ?=20
->=20
-> (For a second I thought it could be "In-Core Blind CAS" and "In-Core CAS"=
- like
-> in Table 3.1, but that would not make sense: This "CAS" is faster than the
-> previous "Same-CPU CAS". )
+> Strange, but whatever the reason, true!  ;-)
 
-I was surprised myself, but those measurements are quite real.  My best
-guess is that the two threads in the core are able to overlap their
-accesses, while the single CPU must do everything sequentially.
+Yeah, even more strange is that in this case Blind CAS was actually slower =
+than
+CAS. Anyway, your suggestion on overlapping accesses make sense.
 
-Strange, but whatever the reason, true!  ;-)
+I want to suggest a change, but it's easier to discuss this over a patch.
 
-							Thanx, Paul
+>=20
+> 							Thanx, Paul
+
+Thank you!
+Leo
