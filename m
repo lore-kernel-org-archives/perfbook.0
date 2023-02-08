@@ -4,17 +4,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=Q9pIUW9167v1ucWWQw/8I7d/Lm9v6qj26ZVgpRpeWqE=;
-        b=Svh5PMOjqujDcOtsGEDZuqK5iaVzk5TyXZdHfjzFUTLekZGH84T13NbMA8xSjrPc28
-         vtC7ZH1xxHPzMpOHGr2phUe5VqrKUYcCKbyj+Zy6ef84D/2zkbFmiSYeIcuAevZBWLhA
-         ycQyStRJRehVJNkwZzC2Q7KKXJSutPIHOrGpY5uea4IFz0SBnZK2U1Wxpp2AarxsjojF
-         fhEgXfHVgjI+Sd00nQHnYpQ2OL7jDuk4jfoJT07V9ygjFZpI/dVBVBBqhFPeZYCvQ5E+
-         jdTLA82IQX9ZhHXl45lGTqaR/gHqBbCcQd8E243ppj1o4bKRYc42JrGUBKNJv7Dhu+Bl
-         Yb+w==
-Message-ID: <aa9a88f35a329b2ddc43def8ff790b6928c0e40a.camel@gmail.com>
+        bh=s4xpsolYILhK/8f0cB+ASJ3QVWi6kA/2c9zlg0Mgkwc=;
+        b=mWmPM94RJ1jW3DTy7IG8jbM0Ngx+aAYEtYaGdDfngxzBnJ++ijG4lrh8opwXURyjIX
+         lkEtINeyXYioQru7EupABOaNydtSf63kNpGGtIuI39uybexGj1zzkTzSM2FyG8IDfvdF
+         gKbkYQQgPubXRCRdgpartPNwuGJtBCakJG7fmjTlvoMDGfHyFiNqt9wdTTvJnnriymyI
+         mBWYscrxPSMZtTt/0OQt9rus4jEoeiR0p/e4u9StWnqdcySTVhsLDIblejqIzQmwe2xI
+         F4oRr66fwWJBkPsL8C0f1fIAw45d2u8Wm8Lnm14QqtQi2b0xbcePmI+Le/RlHxKHtVBn
+         aPkw==
+Message-ID: <40000f10bef0d6e76e0ebaea9637858ac6757316.camel@gmail.com>
 Subject: Re: Question about Table E.1
 From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
-Date: Wed, 08 Feb 2023 02:33:33 -0300
+Date: Wed, 08 Feb 2023 02:50:03 -0300
 In-Reply-To: <20230208034102.GG2948950@paulmck-ThinkPad-P17-Gen-1>
 References: <fba1fe891b65449475c1e4e9abee2d3337c1567c.camel@gmail.com>
 	 <20230208034102.GG2948950@paulmck-ThinkPad-P17-Gen-1>
@@ -55,17 +55,12 @@ the
 > I was surprised myself, but those measurements are quite real.  My best
 > guess is that the two threads in the core are able to overlap their
 > accesses, while the single CPU must do everything sequentially.
+
+IMHO This phrase would look great as a footnote for this page, clearing any
+question like mine. What do you think about it?
+
 >=20
 > Strange, but whatever the reason, true!  ;-)
-
-Yeah, even more strange is that in this case Blind CAS was actually slower =
-than
-CAS. Anyway, your suggestion on overlapping accesses make sense.
-
-I want to suggest a change, but it's easier to discuss this over a patch.
-
 >=20
 > 							Thanx, Paul
 
-Thank you!
-Leo
