@@ -1,114 +1,115 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42260 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232284AbjBHWP0 (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Wed, 8 Feb 2023 17:15:26 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 823231166E
-        for <perfbook@vger.kernel.org>; Wed,  8 Feb 2023 14:15:25 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 28D0DB81F37
-        for <perfbook@vger.kernel.org>; Wed,  8 Feb 2023 22:15:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675894522;
-        bh=YryRFamj7xsp/s6zgZusSCq1VQs7M4jxmiB4vdP7omk=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=F6MrH5/aSUdRnphorsiT7WKidY9QJMB60/JhCN2mdQYTeLtlecQoH7r7YfY36M4kx
-         unywTh9ov75FRbavcO+2fOsNKoaFo/uteGezm3TS14nQ3r0bYd8Dt0tbZ7QRvGZjzC
-         NGk+54FkFAA55GxyaXGSGn6WbFK3X/Om4t/NkHzoZg75vwYA/R2YzSeMXaraCtomrw
-         qrUKrT9h5cMRBekW9j9Sb/mGLxj8w7MicmxQX0xXo33MF45y24rIWX1ID6cp8tmy1H
-         KdHlYIZDRVCUdLqTdmz29dZd5fzBYIQxcPHvn9ip6AvmXPvv/zk7omUwHv1j4Kyw5k
-         A72o/2yHFkhvA==
-Date: Wed, 8 Feb 2023 14:15:22 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: Question about Table E.1
-Message-ID: <20230208221522.GK2948950@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <fba1fe891b65449475c1e4e9abee2d3337c1567c.camel@gmail.com>
- <20230208034102.GG2948950@paulmck-ThinkPad-P17-Gen-1>
- <52d25e8e-9a57-3744-fc0d-17f4a5f36d9f@gmail.com>
- <7c88779c-208f-ff17-7f23-f7042ea122e5@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <7c88779c-208f-ff17-7f23-f7042ea122e5@gmail.com>
-List-ID: <perfbook.vger.kernel.org>
+Return-Path: <SRS0=d1CH=6H=gmail.com=sj38.park@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ONB2tFruyzlKCe7NLQfyyKibuweVUrZJOyJXsjkkrV4=;
+        b=K+k5WdY5HZcl9EvK7iAaqhGkRh0a/94/a2nv5ZUw4fjMz2Tx1Gxd2JwBb6E2lU8wSt
+         cT92a4W3VBpH9MSHmrlchsdYkzr+zwb/Z6GnUfE0FObEjmijGDMLNrtkaMIJoaidYdtj
+         HgU8B0QjCag5XmfY1L05wtXlOF5TObi3vepFnvOaBVKlf7GhR9ZUr8z8TJaLZV6S1uh6
+         4VS7SVPFKxzf2jigos1PokVLCFtYpU5Oc5iZOFQT/fC+/hPmXhK2QRL/XIHIkP2p+S5h
+         g5Z1NN3j7R7GxSHFUppZYgdFx8rYWfpyC96ZsQ2fBOc2BGtM7eIoP0l2kzQQb/WwUeWY
+         Briw==
+From: SeongJae Park <sj38.park@gmail.com>
+Subject: Re: [PATCH 1/5] debugging: Use \co{} for 'time' output examples
+Date: Sat, 11 Feb 2023 09:03:15 -0800
+Message-Id: <20230211170315.8850-1-sj@kernel.org>
+In-Reply-To: <6745658a-5dde-fe09-29dd-4428c34d75f3@gmail.com>
 To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Leonardo =?iso-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>, perfbook@vger.kernel.org
+Cc: SeongJae Park <sj@kernel.org>, paulmck@kernel.org, perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+List-ID: <perfbook.vger.kernel.org>
 
-On Wed, Feb 08, 2023 at 07:26:58PM +0900, Akira Yokosawa wrote:
-> On Wed, 8 Feb 2023 17:47:31 +0900, Akira Yokosawa wrote:
-> > Hi,
-> >=20
-> > On Tue, 7 Feb 2023 19:41:02 -0800, Paul E. McKenney wrote:
-> >> On Wed, Feb 08, 2023 at 12:07:20AM -0300, Leonardo Br=E1s wrote:
-> >>> Hello Paul,
-> >>>
-> >>> I have been reading the book, until I stumbled on Quick Quiz 3.7,
-> >>> Table E.1: Performance of Synchronization Mechanisms
-> >>> on 16-CPU 2.8 GHz Intel X5550 (Nehalem) System
-> >>>
-> >>> <Copying from source, since the PDF is a little tricky>
-> >>>
-> >>> The first part looks like:
-> >>>
-> >>>         Clock period            &           0.4 &           1.0 \\
-> >>>         Same-CPU CAS            &          12.2 &          33.8 \\
-> >>>         Same-CPU lock           &          25.6 &          71.2 \\
-> >>>         Blind CAS               &          12.9 &          35.8 \\
-> >>>         CAS                     &           7.0 &          19.4 \\
-> >>> =20
-> >>> In this case, what would be the last lines "Blind CAS" and "CAS" refe=
-rring to ?=20
-> >>>
-> >>> (For a second I thought it could be "In-Core Blind CAS" and "In-Core =
-CAS" like
-> >>> in Table 3.1, but that would not make sense: This "CAS" is faster tha=
-n the
-> >>> previous "Same-CPU CAS". )
-> >>
-> >> I was surprised myself, but those measurements are quite real.  My best
-> >> guess is that the two threads in the core are able to overlap their
-> >> accesses, while the single CPU must do everything sequentially.
-> >=20
-> > Paul, do you remember how you obtained the data set?
-> > There are several data sets under CodeSamples/cpu/data/, but I don't
-> > see the one corresponds to the table.
-> >=20
-> > The code for collecting these data was added in CodeSamples/cpu/
-> > by commit 81989d7483e2 ("cpu: Reproduce the old cache-to-cache
-> > latency measurement code") in 2020. And the next commit 2fc05ca07edc
-> > ("api-pthreads.h: Use clock_gettime() and check sched_setaffinity()")
-> > improved the stability of reproduced code.
-> >=20
-> > This table was first added in commit 38fd945ff401 ("Fill out CPU
-> > chapter, including adding Nehalem data.") in 2009.
-> > The data have never been updated since.
-> >=20
-> > I'm kind of suspecting the "7.0 us" which surprised you at the time
-> I mean,                      "7.0 ns"
->=20
+Hi Akira,
+
+
+Sorry for late response.
+
+On Mon, 6 Feb 2023 11:31:55 +0900 Akira Yokosawa <akiyks@gmail.com> wrote:
+
+> Hi SeongJae,
+> 
+> On Sun,  5 Feb 2023 10:21:24 -0800, SeongJae Park wrote:
+> > From: SeongJae Park <sj38.park@gmail.com>
+> > 
+> > A quick quiz answer in debugging.tex is wrapping 'time' example outputs
+> > with `` and ''.  Use \co{} instead.
+> > 
+> > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+> > ---
+> >  debugging/debugging.tex | 16 ++++++++--------
+> >  1 file changed, 8 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/debugging/debugging.tex b/debugging/debugging.tex
+> > index 4568f90a..3104bb95 100644
+> > --- a/debugging/debugging.tex
+> > +++ b/debugging/debugging.tex
+> > @@ -257,8 +257,8 @@ validation is just job for you.
+> >  		consumed in system mode by a CPU-bound program?
+> >  	\item	Do you have a test case in which all three times
+> >  		are zero?
+> > -	\item	Do you have a test case in which the ``user'' and ``sys''
+> > -		times sum to more than the ``real'' time?
+> > +	\item	Do you have a test case in which the \co{user} and \co{sys}
+> > +		times sum to more than the \co{real} time?
+> >  		(This would of course be completely legitimate in
+> >  		a multithreaded program.)
+> >  	\item	Do you have a set of tests cases in which one of the
+> > @@ -267,7 +267,7 @@ validation is just job for you.
+> >  		times uses more than ten seconds?
+> >  	\item	Do you have a set of test cases in which one of the
+> >  		times has non-zero minutes?
+> > -		(For example, ``15m36.342s''.)
+> > +		(For example, \co{15m36.342s}.)
+> >  	\item	Do you have a set of test cases in which one of the
+> >  		times has a seconds value of greater than 60?
+> >  	\item	Do you have a set of test cases in which one of the
+> > @@ -279,21 +279,21 @@ validation is just job for you.
+> >  		times has a positive minutes value but a negative
+> >  		seconds value?
+> >  	\item	Do you have a set of test cases in which one of the
+> > -		times omits the ``m'' or the ``s''?
+> > +		times omits the \co{m} or the \co{s}?
+> >  	\item	Do you have a set of test cases in which one of the
+> >  		times is non-numeric?
+> > -		(For example, ``Go Fish''.)
+> > +		(For example, \co{Go Fish}.)
+> 
+> My preference is to enclose \co{Go Fish} by quotation marks.
+> That is easier for me to see it as a string.
+> There is a convenient macro \qco{} for this purpose. You can say:
+> 
+>   +             (For example, \qco{Go Fish}.)
+> 
+> >  	\item	Do you have a set of test cases in which one of the
+> >  		lines is omitted?
+> > -		(For example, where there is a ``real'' value and
+> > -		a ``sys'' value, but no ``user'' value.)
+> > +		(For example, where there is a \co{real} value and
+> > +		a \co{sys} value, but no \co{user} value.)
+> >  	\item	Do you have a set of test cases where one of the
+> >  		lines is duplicated?
+> >  		Or duplicated, but with a different time value for
+> >  		the duplicate?
+> >  	\item	Do you have a set of test cases where a given line
+> >  		has more than one time value?
+> > -		(For example, ``real 0m0.132s 0m0.008s''.)
+> > +		(For example, \co{real 0m0.132s 0m0.008s}.)
+> 
+> Ditto.
+> 
+> With them taken care of,
+> 
+> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+
+Thank you for nice suggestions.  I will revise as you suggested.
+
+
+Thanks,
+SJ
+
+> 
 >         Thanks, Akira
->=20
-> > might have been an outlier due to some disturbance discussed in
-> > Appendix A.3 "What Time Is It?".
-> >=20
-> > I'm not sure, just guessing...
-
-My surprise caused me to beat on it, and it was persistent.
-
-But I cannot find the raw data, either, so maybe I should delete that
-table.  Though I really do like the fact that it is surprising, based
-on a hope that it convinces readers to expect the unexpected.
-
-							Thanx, Paul
-
-> >         Thanks, Akira
-> >=20
-> >>
-> >> Strange, but whatever the reason, true!  ;-)
-> >>
-> >> 							Thanx, Paul
+> 
+> >  	\item	Do you have a set of test cases containing random
+> >  		characters?
+> >  	\item	In all test cases involving invalid input, did you
