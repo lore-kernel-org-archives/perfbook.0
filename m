@@ -3,113 +3,63 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=ONB2tFruyzlKCe7NLQfyyKibuweVUrZJOyJXsjkkrV4=;
-        b=K+k5WdY5HZcl9EvK7iAaqhGkRh0a/94/a2nv5ZUw4fjMz2Tx1Gxd2JwBb6E2lU8wSt
-         cT92a4W3VBpH9MSHmrlchsdYkzr+zwb/Z6GnUfE0FObEjmijGDMLNrtkaMIJoaidYdtj
-         HgU8B0QjCag5XmfY1L05wtXlOF5TObi3vepFnvOaBVKlf7GhR9ZUr8z8TJaLZV6S1uh6
-         4VS7SVPFKxzf2jigos1PokVLCFtYpU5Oc5iZOFQT/fC+/hPmXhK2QRL/XIHIkP2p+S5h
-         g5Z1NN3j7R7GxSHFUppZYgdFx8rYWfpyC96ZsQ2fBOc2BGtM7eIoP0l2kzQQb/WwUeWY
-         Briw==
+        bh=w5qFt2q1dhrO2C5lziYAsciyhWOhYNEpgNpi2sFzFDo=;
+        b=TveuTAMjL7tj3/tuB3Y2JlX8gtCP/CcDUCVuqvzsi3R7FdF2tDYaQw7ByN06MxlxDX
+         GKufwSaZnf+qz82Dh3eg8aY7kVduXbcaMsYZRQ4Ss3DhC1yOHZ4DjQHN7CwRQllHDTj0
+         qABFZY4xQ6DA50366QwDFF+VWFQ0FoG+g9zFk01ZXolTw2DbsJb16BPHtrNH+BA+W7RM
+         JABbpNoeA8HChK0/Kt/GW83BnXt+pOQxgFxI2FfAVEwohSuTUavMS/hHqeZuGeDRZesx
+         5uH8e+BdN3Q3vQeeQCae2rgs/X2WsAkrKit+BE1I4hJjXu37Hfl6wQu/WjMt+ThbfeD6
+         AvXA==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: Re: [PATCH 1/5] debugging: Use \co{} for 'time' output examples
-Date: Sat, 11 Feb 2023 09:03:15 -0800
-Message-Id: <20230211170315.8850-1-sj@kernel.org>
-In-Reply-To: <6745658a-5dde-fe09-29dd-4428c34d75f3@gmail.com>
+Subject: Re: [PATCH 2/5] debugging: Use \co{} for 'git' and 'Fixes:'
+Date: Sat, 11 Feb 2023 09:04:01 -0800
+Message-Id: <20230211170401.8948-1-sj@kernel.org>
+In-Reply-To: <e75a1d50-704f-d2fc-2e2f-3644ddcd27fd@gmail.com>
 To: Akira Yokosawa <akiyks@gmail.com>
 Cc: SeongJae Park <sj@kernel.org>, paulmck@kernel.org, perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
 Hi Akira,
 
+On Mon, 6 Feb 2023 11:38:58 +0900 Akira Yokosawa <akiyks@gmail.com> wrote:
 
-Sorry for late response.
-
-On Mon, 6 Feb 2023 11:31:55 +0900 Akira Yokosawa <akiyks@gmail.com> wrote:
-
-> Hi SeongJae,
-> 
-> On Sun,  5 Feb 2023 10:21:24 -0800, SeongJae Park wrote:
+> On Sun,  5 Feb 2023 10:21:25 -0800, SeongJae Park wrote:
 > > From: SeongJae Park <sj38.park@gmail.com>
 > > 
-> > A quick quiz answer in debugging.tex is wrapping 'time' example outputs
-> > with `` and ''.  Use \co{} instead.
+> > In 'debugging/', 'git' is a command and 'Fixes:' is a string in command
+> > output, which usually enclosed via '\co{}', but those are enclosed with
+> > '\emph{}'.  Use '\co{}' instead for being more consistent.
 > > 
 > > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 > > ---
-> >  debugging/debugging.tex | 16 ++++++++--------
-> >  1 file changed, 8 insertions(+), 8 deletions(-)
+> >  debugging/debugging.tex | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
 > > 
 > > diff --git a/debugging/debugging.tex b/debugging/debugging.tex
-> > index 4568f90a..3104bb95 100644
+> > index 3104bb95..3ce74469 100644
 > > --- a/debugging/debugging.tex
 > > +++ b/debugging/debugging.tex
-> > @@ -257,8 +257,8 @@ validation is just job for you.
-> >  		consumed in system mode by a CPU-bound program?
-> >  	\item	Do you have a test case in which all three times
-> >  		are zero?
-> > -	\item	Do you have a test case in which the ``user'' and ``sys''
-> > -		times sum to more than the ``real'' time?
-> > +	\item	Do you have a test case in which the \co{user} and \co{sys}
-> > +		times sum to more than the \co{real} time?
-> >  		(This would of course be completely legitimate in
-> >  		a multithreaded program.)
-> >  	\item	Do you have a set of tests cases in which one of the
-> > @@ -267,7 +267,7 @@ validation is just job for you.
-> >  		times uses more than ten seconds?
-> >  	\item	Do you have a set of test cases in which one of the
-> >  		times has non-zero minutes?
-> > -		(For example, ``15m36.342s''.)
-> > +		(For example, \co{15m36.342s}.)
-> >  	\item	Do you have a set of test cases in which one of the
-> >  		times has a seconds value of greater than 60?
-> >  	\item	Do you have a set of test cases in which one of the
-> > @@ -279,21 +279,21 @@ validation is just job for you.
-> >  		times has a positive minutes value but a negative
-> >  		seconds value?
-> >  	\item	Do you have a set of test cases in which one of the
-> > -		times omits the ``m'' or the ``s''?
-> > +		times omits the \co{m} or the \co{s}?
-> >  	\item	Do you have a set of test cases in which one of the
-> >  		times is non-numeric?
-> > -		(For example, ``Go Fish''.)
-> > +		(For example, \co{Go Fish}.)
+> > @@ -862,8 +862,8 @@ by the author's invalid assumptions, and who might also test the code.
+> >  	hackers of harboring???
+> >  }\QuickQuizAnswer{
+> >  	Those wishing a complete answer to this question are encouraged
+> > -	to search the Linux kernel \emph{git} repository for commits
 > 
-> My preference is to enclose \co{Go Fish} by quotation marks.
-> That is easier for me to see it as a string.
-> There is a convenient macro \qco{} for this purpose. You can say:
+> I often see "Linux kernel git repository" everywhere, and in this case,
+> I suppose emphasizing "git" was the author's intention. Paul might have
+> a different opinion, though.
 > 
->   +             (For example, \qco{Go Fish}.)
+> > -	containing the string ``Fixes:''.
+> > +	to search the Linux kernel \co{git} repository for commits
+> > +	containing the string \co{Fixes:}.
 > 
-> >  	\item	Do you have a set of test cases in which one of the
-> >  		lines is omitted?
-> > -		(For example, where there is a ``real'' value and
-> > -		a ``sys'' value, but no ``user'' value.)
-> > +		(For example, where there is a \co{real} value and
-> > +		a \co{sys} value, but no \co{user} value.)
-> >  	\item	Do you have a set of test cases where one of the
-> >  		lines is duplicated?
-> >  		Or duplicated, but with a different time value for
-> >  		the duplicate?
-> >  	\item	Do you have a set of test cases where a given line
-> >  		has more than one time value?
-> > -		(For example, ``real 0m0.132s 0m0.008s''.)
-> > +		(For example, \co{real 0m0.132s 0m0.008s}.)
-> 
-> Ditto.
-> 
-> With them taken care of,
-> 
-> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+> As this is mentioned as a "string", \qco{} might be a better choice.
 
-Thank you for nice suggestions.  I will revise as you suggested.
-
-
-Thanks,
-SJ
+Thanks, I will revise so in the next spin.
 
 > 
->         Thanks, Akira
+>         Thanks, Akra
 > 
-> >  	\item	Do you have a set of test cases containing random
-> >  		characters?
-> >  	\item	In all test cases involving invalid input, did you
+> >  	There were many thousands of them just in the year 2020, including
+> >  	fixes for the following invalid assumptions:
+> >  
