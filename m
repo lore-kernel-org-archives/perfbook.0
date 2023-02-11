@@ -3,64 +3,77 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=3wwD8ZjX31Jeet7pX8BLnhFHkYmIbNATpns5m6CE5sY=;
-        b=IlmDd24ovv+rowlIlKzDjbd8oCbxkDgOrfebNneGI9Uwvg/0eVWVA0tHibbf3Gkaf0
-         xVoeFtphZ5KVhPYiNgbPVBORlMF7zjV3dI/EOTtkpMCkYA56UjUPoUBMmfYUA9jLgAZl
-         eXJg1s8CqGrMRxpdBndwO9nZ8Ix/Gy/DD4nfiVYu1WY3SrOyBnRbamb7VPtB1Zib66II
-         VWh74j4/Okq5Re4Wb1XF9IqCryNrcRRG2spj7BGyAJAEVxF6BYzfbNaWWa9rCxOS7aik
-         bGksOUKbV5/HJL45Zl0xTkjLVg874fF34Ce954HoIgKwJmOIcTa6zdmdvi651mR7ed0K
-         IezQ==
+        bh=IZ/4B6nOC6mrGUJBwCAYlH6SUUIDK7UQjk4o0dAPyJI=;
+        b=M+itZjDGjVPqvCoI/kwSN7DlQpgFUf+h9ZBA+CqVLBYjMI23E0TBvMTjuvlQtd6LHZ
+         /i148ftEgOKi3YWgVcet718TKo+RnCuMa3ieCG7OSGnsY8BXYqwJ0mVzUtCFeSklYYVt
+         TmEv5hbaL3t7rd6PCISYefchUDNJka6uqT9U08hK2c/sDiJGDJFKckZ1NofFqkAUGZyN
+         OmgqqualJOQ1F6qbSRGI3JW2BNu0JbvVAUG8dIdKn1kIGFXGNRmf4vLCzL8B3jnrbhRx
+         jtK7elgUcncC4m9oab7O1x5hC2uYE7ypDvFVXD5xnPylqjVU3EPHH9qXfbxyybnsgjwy
+         oyjA==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: Re: [PATCH 4/5] debugging: Remove unnecessary space in a sentence
-Date: Sat, 11 Feb 2023 09:05:22 -0800
-Message-Id: <20230211170522.9059-1-sj@kernel.org>
-In-Reply-To: <8e71d5af-7da0-29ce-977a-531800616d68@gmail.com>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>, paulmck@kernel.org, perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+Subject: Re: [PATCH 5/5] debugging/debugging: s/remainder of a section/following sections/
+Date: Sat, 11 Feb 2023 09:06:03 -0800
+Message-Id: <20230211170603.9155-1-sj@kernel.org>
+In-Reply-To: <20230206173344.GQ2948950@paulmck-ThinkPad-P17-Gen-1>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Akira Yokosawa <akiyks@gmail.com>, SeongJae Park <sj@kernel.org>, perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Akira,
+Hi Paul,
 
-On Mon, 6 Feb 2023 11:53:54 +0900 Akira Yokosawa <akiyks@gmail.com> wrote:
+On Mon, 6 Feb 2023 09:33:44 -0800 "Paul E. McKenney" <paulmck@kernel.org> wrote:
 
-> On Date:   Sun,  5 Feb 2023 10:21:27 -0800, SeongJae Park wrote:
-> > From: SeongJae Park <sj38.park@gmail.com>
+> On Mon, Feb 06, 2023 at 12:01:57PM +0900, Akira Yokosawa wrote:
+> > On Sun,  5 Feb 2023 10:21:28 -0800, SeongJae Park wrote:
+> > > From: SeongJae Park <sj38.park@gmail.com>
+> > > 
+> > > A sectence in 'Microbenchmarking' section is mentioning the remainder of
+> > > the section will look at ways for dealing with conflicts in measurement
+> > > error advices, but those are not dealt in the remainder of the section
+> > > but its following sections.  Fix the sentence.
+> > > 
+> > > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+> > > ---
+> > >  debugging/debugging.tex | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/debugging/debugging.tex b/debugging/debugging.tex
+> > > index 53c7fb94..225a4184 100644
+> > > --- a/debugging/debugging.tex
+> > > +++ b/debugging/debugging.tex
+> > > @@ -2302,7 +2302,7 @@ to creep in, including:
+> > >  
+> > >  The first and fourth sources of interference provide conflicting advice,
+> > >  which is one sign that we are living in the real world.
+> > > -The remainder of this section looks at ways of resolving this conflict.
+> > > +The following sections look at ways of resolving this conflict.
 > > 
-> > Two spaces are usually used between sentences, but a sentence in
-> > debugging is using two spaces inside a sentence.  Make it uses only one
-> > space for consistency.
+> > If you interpret "The remainder of this section" as "The remainder of
+> > Section 11.6.4 'Hunting Heisenbugs'", there is nothing to fix.
+> > 
+> > We call all of section, subsection, and subsubsection as "Section",
+> > which might be confusing sometimes, but I don't have any idea what
+> > should be done here.
 > 
-> FWIW, in perfbook's .tex source files, sentence ending periods must
-> be at the end of lines. Violation to this rule is flagged by
-> "make punctcheck" now a days.
+> One approach would be to say something like this:
+> 
+> 	The remainder of this section (Section 11.6.4) looks at ways of
+> 	resolving this conflict.
+> 
+> I am not sure whether or not this is a good idea, but perhaps either
+> way it will inspire better ideas.
 
-Thank you for letting me know that.  So, this is just a note rather than a
-change request to this patch, right?  I will make no change for this patch on
-the next spin if so.
+Thank you for nice suggestion.  Will follow your idea in the next spin.
 
 
 Thanks,
 SJ
 
 > 
->         Thanks, Akira
+> 							Thanx, Paul
 > 
+> >         Thanks, Akira
 > > 
-> > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> > ---
-> >  debugging/debugging.tex | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/debugging/debugging.tex b/debugging/debugging.tex
-> > index 1903c5db..53c7fb94 100644
-> > --- a/debugging/debugging.tex
-> > +++ b/debugging/debugging.tex
-> > @@ -2153,7 +2153,7 @@ serve four major purposes:
-> >  	against your competitors' offerings.
-> >  \end{enumerate}
-> >  
-> > -Of course,  the only completely fair framework is the intended
-> > +Of course, the only completely fair framework is the intended
-> >  application itself.
-> >  So why would anyone who cared about fairness in benchmarking
-> >  bother creating imperfect benchmarks rather than simply
+> > >  
+> > >  \QuickQuiz{
+> > >  	But what about other sources of error, for example, due to
