@@ -3,63 +3,64 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=w5qFt2q1dhrO2C5lziYAsciyhWOhYNEpgNpi2sFzFDo=;
-        b=TveuTAMjL7tj3/tuB3Y2JlX8gtCP/CcDUCVuqvzsi3R7FdF2tDYaQw7ByN06MxlxDX
-         GKufwSaZnf+qz82Dh3eg8aY7kVduXbcaMsYZRQ4Ss3DhC1yOHZ4DjQHN7CwRQllHDTj0
-         qABFZY4xQ6DA50366QwDFF+VWFQ0FoG+g9zFk01ZXolTw2DbsJb16BPHtrNH+BA+W7RM
-         JABbpNoeA8HChK0/Kt/GW83BnXt+pOQxgFxI2FfAVEwohSuTUavMS/hHqeZuGeDRZesx
-         5uH8e+BdN3Q3vQeeQCae2rgs/X2WsAkrKit+BE1I4hJjXu37Hfl6wQu/WjMt+ThbfeD6
-         AvXA==
+        bh=3wwD8ZjX31Jeet7pX8BLnhFHkYmIbNATpns5m6CE5sY=;
+        b=IlmDd24ovv+rowlIlKzDjbd8oCbxkDgOrfebNneGI9Uwvg/0eVWVA0tHibbf3Gkaf0
+         xVoeFtphZ5KVhPYiNgbPVBORlMF7zjV3dI/EOTtkpMCkYA56UjUPoUBMmfYUA9jLgAZl
+         eXJg1s8CqGrMRxpdBndwO9nZ8Ix/Gy/DD4nfiVYu1WY3SrOyBnRbamb7VPtB1Zib66II
+         VWh74j4/Okq5Re4Wb1XF9IqCryNrcRRG2spj7BGyAJAEVxF6BYzfbNaWWa9rCxOS7aik
+         bGksOUKbV5/HJL45Zl0xTkjLVg874fF34Ce954HoIgKwJmOIcTa6zdmdvi651mR7ed0K
+         IezQ==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: Re: [PATCH 2/5] debugging: Use \co{} for 'git' and 'Fixes:'
-Date: Sat, 11 Feb 2023 09:04:01 -0800
-Message-Id: <20230211170401.8948-1-sj@kernel.org>
-In-Reply-To: <e75a1d50-704f-d2fc-2e2f-3644ddcd27fd@gmail.com>
+Subject: Re: [PATCH 4/5] debugging: Remove unnecessary space in a sentence
+Date: Sat, 11 Feb 2023 09:05:22 -0800
+Message-Id: <20230211170522.9059-1-sj@kernel.org>
+In-Reply-To: <8e71d5af-7da0-29ce-977a-531800616d68@gmail.com>
 To: Akira Yokosawa <akiyks@gmail.com>
 Cc: SeongJae Park <sj@kernel.org>, paulmck@kernel.org, perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
 Hi Akira,
 
-On Mon, 6 Feb 2023 11:38:58 +0900 Akira Yokosawa <akiyks@gmail.com> wrote:
+On Mon, 6 Feb 2023 11:53:54 +0900 Akira Yokosawa <akiyks@gmail.com> wrote:
 
-> On Sun,  5 Feb 2023 10:21:25 -0800, SeongJae Park wrote:
+> On Date:   Sun,  5 Feb 2023 10:21:27 -0800, SeongJae Park wrote:
 > > From: SeongJae Park <sj38.park@gmail.com>
 > > 
-> > In 'debugging/', 'git' is a command and 'Fixes:' is a string in command
-> > output, which usually enclosed via '\co{}', but those are enclosed with
-> > '\emph{}'.  Use '\co{}' instead for being more consistent.
+> > Two spaces are usually used between sentences, but a sentence in
+> > debugging is using two spaces inside a sentence.  Make it uses only one
+> > space for consistency.
+> 
+> FWIW, in perfbook's .tex source files, sentence ending periods must
+> be at the end of lines. Violation to this rule is flagged by
+> "make punctcheck" now a days.
+
+Thank you for letting me know that.  So, this is just a note rather than a
+change request to this patch, right?  I will make no change for this patch on
+the next spin if so.
+
+
+Thanks,
+SJ
+
+> 
+>         Thanks, Akira
+> 
 > > 
 > > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 > > ---
-> >  debugging/debugging.tex | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >  debugging/debugging.tex | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > > 
 > > diff --git a/debugging/debugging.tex b/debugging/debugging.tex
-> > index 3104bb95..3ce74469 100644
+> > index 1903c5db..53c7fb94 100644
 > > --- a/debugging/debugging.tex
 > > +++ b/debugging/debugging.tex
-> > @@ -862,8 +862,8 @@ by the author's invalid assumptions, and who might also test the code.
-> >  	hackers of harboring???
-> >  }\QuickQuizAnswer{
-> >  	Those wishing a complete answer to this question are encouraged
-> > -	to search the Linux kernel \emph{git} repository for commits
-> 
-> I often see "Linux kernel git repository" everywhere, and in this case,
-> I suppose emphasizing "git" was the author's intention. Paul might have
-> a different opinion, though.
-> 
-> > -	containing the string ``Fixes:''.
-> > +	to search the Linux kernel \co{git} repository for commits
-> > +	containing the string \co{Fixes:}.
-> 
-> As this is mentioned as a "string", \qco{} might be a better choice.
-
-Thanks, I will revise so in the next spin.
-
-> 
->         Thanks, Akra
-> 
-> >  	There were many thousands of them just in the year 2020, including
-> >  	fixes for the following invalid assumptions:
+> > @@ -2153,7 +2153,7 @@ serve four major purposes:
+> >  	against your competitors' offerings.
+> >  \end{enumerate}
 > >  
+> > -Of course,  the only completely fair framework is the intended
+> > +Of course, the only completely fair framework is the intended
+> >  application itself.
+> >  So why would anyone who cared about fairness in benchmarking
+> >  bother creating imperfect benchmarks rather than simply
