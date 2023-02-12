@@ -1,80 +1,61 @@
-Return-Path: <SRS0=U30B=6I=gmail.com=sj38.park@kernel.org>
+Return-Path: <SRS0=sCbS=6I=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lJufbpcPWYt7OMYWEzKIsN71wPORn2pdut9ShHMKzpM=;
-        b=dTJ8O+hUsfvQE4FwyQzjOL7fa9XzbWblgWNWCYXttIGOy5y8PTe1fATZjBk6UwfkSh
-         Vhbsb01p9+7LnNljhmcLaqSsgPsOxjsGa3LTvOgxz7uIWmJctkM2v0zuR6jU1B0vTRKO
-         xPKPW76MBtimxJMYV5v5PIYAUcq8eP+2xs4HGJ7g2dxN0Yb3KhZlQcgKjgTMHttt73+o
-         ZQVIYUPhn+stvKCgyv3XN5ROhncP6PXkTXrIy8UdqDpdcV25AQej0TKdFlg5sBD/30jW
-         fE9BvdWU5wo6O0kpB9gar7ztFLx1FtpISjgydVqljQLyV4/AeiZUTxBa9fcq0JAUMnEl
-         ZJrw==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: Re: [PATCH v2 4/4] debugging/debugging: s/remainder of a section/following sections/
-Date: Sun, 12 Feb 2023 08:49:17 -0800
-Message-Id: <20230212164917.25327-1-sj@kernel.org>
-In-Reply-To: <655024e6-72fd-12bd-33f3-dc9700c42f44@gmail.com>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: SeongJae Park <sj38.park@gmail.com>, paulmck@kernel.org, perfbook@vger.kernel.org, sj@kernel.org
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jnAd6Q+YB46lpjNgb3VnzFNQ4cGX72N5aZyklzS0/CE=;
+        b=bOFnPw4tBEEndzyPqBjZGjCTKBB6xDddmgdWuLD1RJKMB2DlCdAhCoz1RLpKpdB52W
+         lc8xirTQrWKgm0gx3jTRIukN+lw/fulzZ328dwuJaCGh3pNG43gbvD7Nbj1dWkjPkzmq
+         cauSsdJhBXXrmoDMb4KRR/gtPJIPzCMzb2lUnVoVe8I21Me9978pGi2m8Jgfd4d3Po2p
+         f2vAULF0vr2VTbE8VivmvAMp0Sv++NBopAA6kn/R8xFPFBLEGjuK5cmgsuKJZfpfFm+h
+         LOgMUp5X0p65B0Eueur/G3cFrIrzoAmI1II+tVzMDfvQQEu2HVbG3GhOQ/BWAZw814zb
+         4tyw==
+Message-ID: <1acbe0e5-92ae-fa92-0b1e-0e8ed7d4f8a6@gmail.com>
+Date: Mon, 13 Feb 2023 08:57:58 +0900
+MIME-Version: 1.0
+Subject: Re: [PATCH v3 0/4] debugging: Trivial fixups
+References: <20230212165630.26268-1-sj38.park@gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20230212165630.26268-1-sj38.park@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: SeongJae Park <sj38.park@gmail.com>, paulmck@kernel.org
+Cc: perfbook@vger.kernel.org, sj@kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-On Sun, 12 Feb 2023 21:29:40 +0900 Akira Yokosawa <akiyks@gmail.com> wrote:
-
-> On Sat, 11 Feb 2023 09:10:08 -0800, SeongJae Park wrote:
-> > A sectence in 'Microbenchmarking' section is mentioning the remainder of
-> > the section will look at ways for dealing with conflicts in measurement
-> > error advices.  Because we don't distinguish section and subsection on
-> > text, this makes it a little confused, whether it means remainder of the
-> > subsection, or the following subsections of the section.  Make it a bit
-> > more clear.
-> > 
-> > Suggedsted-by: Paul E. McKenney <paulmck@kernel.org>
-> > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> > ---
-> >  debugging/debugging.tex | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/debugging/debugging.tex b/debugging/debugging.tex
-> > index b7538620..170bf273 100644
-> > --- a/debugging/debugging.tex
-> > +++ b/debugging/debugging.tex
-> > @@ -641,8 +641,8 @@ sure to take full advantage of any existing test suites available to
-> >  you.
-> >  Important as test development is, we must leave further discussion of it
-> >  to books dedicated to that topic.
-> > -The following sections therefore discuss locating bugs in your code given that
-> > -you already have a good test suite.
-> > +The remainder of this section (\cref{sec:debugging:Performance Estimation})
-> > +looks at ways of resolving this conflict.
+On Sun, 12 Feb 2023 08:56:26 -0800, SeongJae Park wrote:
+> Changes from v2
+> - Fix subject of patch 1 (Akira Yokosawa)
+> - Remove redundant following sections intro instead of making it
+>   explicit (Akira Yokosawa)
 > 
-> I think this hunk is misplaced. Existing text around here doesn't
-> have any ambiguity. In other words, "The following sections" means
-> Sections 11.2 through 11.7 (11.8 is a summary). 
+> Changes from v1
+> - Use 'qco{}' for quoted strings (patch 1, 2) (Akira Yokosawa)
+> - Explicitly distinguish section and subsection (patch 4) (Paul E.
+>   McKeneeny)
+> 
+> -----
+> 
+> This patchset contains trivial fixups for debugging/, which found while
+> doing Korean translation[1].
+> 
+> [1] https://github.com/sjp38/perfbook-ko_KR
+> 
+> SeongJae Park (4):
+>   debugging: Use \qco{} for 'time' output examples
+>   debugging: Use \co{} and \qco{} for 'git' and 'Fixes:', respectively
+>   debugging: Remove unnecessary space in a sentence
+>   debugging: Remove redundant following sections introduction
 
-Oh, you're right.  I may need more coffee, sorry.
+For the series,
+
+Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+
+        Thanks, Akira
 
 > 
-> >  
-> >  \section{Tracing}
-> >  \label{sec:debugging:Tracing}
-> > @@ -2302,7 +2302,7 @@ to creep in, including:
-> >  
-> >  The first and fourth sources of interference provide conflicting advice,
-> >  which is one sign that we are living in the real world.
-> > -The remainder of this section looks at ways of resolving this conflict.
-> > +The following sections look at ways of resolving this conflict.
+>  debugging/debugging.tex | 23 +++++++++++------------
+>  1 file changed, 11 insertions(+), 12 deletions(-)
 > 
-> To my eyes, this sentence now looks redundant as there already is an
-> introduction to the following subsections below QQz 11.23.
-
-I agree.  I will simply remove this sentence in the next spin.
-
-
-Thanks,
-SJ
-
-> 
-> >  
-> >  \QuickQuiz{
-> >  	But what about other sources of error, for example, due to
