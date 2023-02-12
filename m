@@ -1,79 +1,49 @@
-Return-Path: <SRS0=d1CH=6H=gmail.com=sj38.park@kernel.org>
+Return-Path: <SRS0=U30B=6I=gmail.com=sj38.park@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=IZ/4B6nOC6mrGUJBwCAYlH6SUUIDK7UQjk4o0dAPyJI=;
-        b=M+itZjDGjVPqvCoI/kwSN7DlQpgFUf+h9ZBA+CqVLBYjMI23E0TBvMTjuvlQtd6LHZ
-         /i148ftEgOKi3YWgVcet718TKo+RnCuMa3ieCG7OSGnsY8BXYqwJ0mVzUtCFeSklYYVt
-         TmEv5hbaL3t7rd6PCISYefchUDNJka6uqT9U08hK2c/sDiJGDJFKckZ1NofFqkAUGZyN
-         OmgqqualJOQ1F6qbSRGI3JW2BNu0JbvVAUG8dIdKn1kIGFXGNRmf4vLCzL8B3jnrbhRx
-         jtK7elgUcncC4m9oab7O1x5hC2uYE7ypDvFVXD5xnPylqjVU3EPHH9qXfbxyybnsgjwy
-         oyjA==
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qJZ2a9l7iWI0p6riKMtVxkQEUeSjJOG7LhaoYHkJFNs=;
+        b=RW61Ka5mmbxgc6LA21vw9bekQaPKUKilo3ilAG5Od3gGUjeWjX9GuQ+6T5JHxZ4mbG
+         Wrd5tUfI0xuDWyy/6XPvmkcV8lJy17Voj9QkLQsqRXeM1dLyVy7G/YKFUlaa7hXcWjzw
+         IN6V2OrjbWP8DFYyr2DNzD+HE7TeejDFtqDOMkikcWvrH03CMJ2wvrWgpX+nGoIFrj19
+         VLBaXTELDDtZxXw7Xbm9Lzynghoi097+cWekRG+uv1ieUldmBgtn9wg5cl67pdr3q03A
+         ZnnfcSNt/bNYBO/ptujF3Twq2DGNEHrYFkGuP+T1tSUf6DcWYnPM6bEP2dUSpySG3rGD
+         m5eg==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: Re: [PATCH 5/5] debugging/debugging: s/remainder of a section/following sections/
-Date: Sat, 11 Feb 2023 09:06:03 -0800
-Message-Id: <20230211170603.9155-1-sj@kernel.org>
-In-Reply-To: <20230206173344.GQ2948950@paulmck-ThinkPad-P17-Gen-1>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Akira Yokosawa <akiyks@gmail.com>, SeongJae Park <sj@kernel.org>, perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH v3 0/4] debugging: Trivial fixups
+Date: Sun, 12 Feb 2023 08:56:26 -0800
+Message-Id: <20230212165630.26268-1-sj38.park@gmail.com>
+To: paulmck@kernel.org
+Cc: akiyks@gmail.com, perfbook@vger.kernel.org, sj@kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+Changes from v2
+- Fix subject of patch 1 (Akira Yokosawa)
+- Remove redundant following sections intro instead of making it
+  explicit (Akira Yokosawa)
 
-On Mon, 6 Feb 2023 09:33:44 -0800 "Paul E. McKenney" <paulmck@kernel.org> wrote:
+Changes from v1
+- Use 'qco{}' for quoted strings (patch 1, 2) (Akira Yokosawa)
+- Explicitly distinguish section and subsection (patch 4) (Paul E.
+  McKeneeny)
 
-> On Mon, Feb 06, 2023 at 12:01:57PM +0900, Akira Yokosawa wrote:
-> > On Sun,  5 Feb 2023 10:21:28 -0800, SeongJae Park wrote:
-> > > From: SeongJae Park <sj38.park@gmail.com>
-> > > 
-> > > A sectence in 'Microbenchmarking' section is mentioning the remainder of
-> > > the section will look at ways for dealing with conflicts in measurement
-> > > error advices, but those are not dealt in the remainder of the section
-> > > but its following sections.  Fix the sentence.
-> > > 
-> > > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> > > ---
-> > >  debugging/debugging.tex | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/debugging/debugging.tex b/debugging/debugging.tex
-> > > index 53c7fb94..225a4184 100644
-> > > --- a/debugging/debugging.tex
-> > > +++ b/debugging/debugging.tex
-> > > @@ -2302,7 +2302,7 @@ to creep in, including:
-> > >  
-> > >  The first and fourth sources of interference provide conflicting advice,
-> > >  which is one sign that we are living in the real world.
-> > > -The remainder of this section looks at ways of resolving this conflict.
-> > > +The following sections look at ways of resolving this conflict.
-> > 
-> > If you interpret "The remainder of this section" as "The remainder of
-> > Section 11.6.4 'Hunting Heisenbugs'", there is nothing to fix.
-> > 
-> > We call all of section, subsection, and subsubsection as "Section",
-> > which might be confusing sometimes, but I don't have any idea what
-> > should be done here.
-> 
-> One approach would be to say something like this:
-> 
-> 	The remainder of this section (Section 11.6.4) looks at ways of
-> 	resolving this conflict.
-> 
-> I am not sure whether or not this is a good idea, but perhaps either
-> way it will inspire better ideas.
+-----
 
-Thank you for nice suggestion.  Will follow your idea in the next spin.
+This patchset contains trivial fixups for debugging/, which found while
+doing Korean translation[1].
 
+[1] https://github.com/sjp38/perfbook-ko_KR
 
-Thanks,
-SJ
+SeongJae Park (4):
+  debugging: Use \qco{} for 'time' output examples
+  debugging: Use \co{} and \qco{} for 'git' and 'Fixes:', respectively
+  debugging: Remove unnecessary space in a sentence
+  debugging: Remove redundant following sections introduction
 
-> 
-> 							Thanx, Paul
-> 
-> >         Thanks, Akira
-> > 
-> > >  
-> > >  \QuickQuiz{
-> > >  	But what about other sources of error, for example, due to
+ debugging/debugging.tex | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
+
+-- 
+2.17.1
+
