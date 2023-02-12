@@ -1,49 +1,85 @@
 Return-Path: <SRS0=U30B=6I=gmail.com=sj38.park@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qJZ2a9l7iWI0p6riKMtVxkQEUeSjJOG7LhaoYHkJFNs=;
-        b=RW61Ka5mmbxgc6LA21vw9bekQaPKUKilo3ilAG5Od3gGUjeWjX9GuQ+6T5JHxZ4mbG
-         Wrd5tUfI0xuDWyy/6XPvmkcV8lJy17Voj9QkLQsqRXeM1dLyVy7G/YKFUlaa7hXcWjzw
-         IN6V2OrjbWP8DFYyr2DNzD+HE7TeejDFtqDOMkikcWvrH03CMJ2wvrWgpX+nGoIFrj19
-         VLBaXTELDDtZxXw7Xbm9Lzynghoi097+cWekRG+uv1ieUldmBgtn9wg5cl67pdr3q03A
-         ZnnfcSNt/bNYBO/ptujF3Twq2DGNEHrYFkGuP+T1tSUf6DcWYnPM6bEP2dUSpySG3rGD
-         m5eg==
+        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=9IaPSUZFy3mLEx2Mrr0xnSFwTaifAeNeyhD9zEnio1A=;
+        b=VgooYBQyZBNlPdrQ0Kuu1MZCJc5jHps52FgYmM/gse6UV9024P5RqspotoC8k4PEHo
+         G8xuXFt2KIJNPlmluS0t7yvhmwojVN2w+1Ck5+K9xeVcQUKRrOn4Aq0D2CfkZ49G1Jb7
+         r8qDAUyiGeolL4gsNyIi7JUu6ScGH/sufYaXcKv1zGYs2Ij5NoP2zy6y9CQxQWeGYMUR
+         WXN80RoyPDURpOdvGQKhAqMDgw/DjPHFrRf7W6LOLigjzsFDsTsM5+HP1yv5W8QGOjgF
+         rX38KOdTMUQTPXia/AuglYX/jit553+JU63PJhppeQI43XAq36GsCCZZ1nmGHiWnYGMa
+         HsYw==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH v3 0/4] debugging: Trivial fixups
-Date: Sun, 12 Feb 2023 08:56:26 -0800
-Message-Id: <20230212165630.26268-1-sj38.park@gmail.com>
+Subject: [PATCH v3 1/4] debugging: Use \qco{} for 'time' output examples
+Date: Sun, 12 Feb 2023 08:56:27 -0800
+Message-Id: <20230212165630.26268-2-sj38.park@gmail.com>
+In-Reply-To: <20230212165630.26268-1-sj38.park@gmail.com>
+References: <20230212165630.26268-1-sj38.park@gmail.com>
 To: paulmck@kernel.org
 Cc: akiyks@gmail.com, perfbook@vger.kernel.org, sj@kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Changes from v2
-- Fix subject of patch 1 (Akira Yokosawa)
-- Remove redundant following sections intro instead of making it
-  explicit (Akira Yokosawa)
+A quick quiz answer in debugging.tex is wrapping 'time' example outputs
+with only `` and ''.  Use \qco{} instead.
 
-Changes from v1
-- Use 'qco{}' for quoted strings (patch 1, 2) (Akira Yokosawa)
-- Explicitly distinguish section and subsection (patch 4) (Paul E.
-  McKeneeny)
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ debugging/debugging.tex | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
------
-
-This patchset contains trivial fixups for debugging/, which found while
-doing Korean translation[1].
-
-[1] https://github.com/sjp38/perfbook-ko_KR
-
-SeongJae Park (4):
-  debugging: Use \qco{} for 'time' output examples
-  debugging: Use \co{} and \qco{} for 'git' and 'Fixes:', respectively
-  debugging: Remove unnecessary space in a sentence
-  debugging: Remove redundant following sections introduction
-
- debugging/debugging.tex | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
-
+diff --git a/debugging/debugging.tex b/debugging/debugging.tex
+index a5324a14..fde2d446 100644
+--- a/debugging/debugging.tex
++++ b/debugging/debugging.tex
+@@ -257,8 +257,8 @@ validation is just job for you.
+ 		consumed in system mode by a CPU-bound program?
+ 	\item	Do you have a test case in which all three times
+ 		are zero?
+-	\item	Do you have a test case in which the ``user'' and ``sys''
+-		times sum to more than the ``real'' time?
++	\item	Do you have a test case in which the \qco{user} and \qco{sys}
++		times sum to more than the \qco{real} time?
+ 		(This would of course be completely legitimate in
+ 		a multithreaded program.)
+ 	\item	Do you have a set of tests cases in which one of the
+@@ -267,7 +267,7 @@ validation is just job for you.
+ 		times uses more than ten seconds?
+ 	\item	Do you have a set of test cases in which one of the
+ 		times has non-zero minutes?
+-		(For example, ``15m36.342s''.)
++		(For example, \qco{15m36.342s}.)
+ 	\item	Do you have a set of test cases in which one of the
+ 		times has a seconds value of greater than 60?
+ 	\item	Do you have a set of test cases in which one of the
+@@ -279,21 +279,21 @@ validation is just job for you.
+ 		times has a positive minutes value but a negative
+ 		seconds value?
+ 	\item	Do you have a set of test cases in which one of the
+-		times omits the ``m'' or the ``s''?
++		times omits the \qco{m} or the \qco{s}?
+ 	\item	Do you have a set of test cases in which one of the
+ 		times is non-numeric?
+-		(For example, ``Go Fish''.)
++		(For example, \qco{Go Fish}.)
+ 	\item	Do you have a set of test cases in which one of the
+ 		lines is omitted?
+-		(For example, where there is a ``real'' value and
+-		a ``sys'' value, but no ``user'' value.)
++		(For example, where there is a \qco{real} value and
++		a \qco{sys} value, but no \qco{user} value.)
+ 	\item	Do you have a set of test cases where one of the
+ 		lines is duplicated?
+ 		Or duplicated, but with a different time value for
+ 		the duplicate?
+ 	\item	Do you have a set of test cases where a given line
+ 		has more than one time value?
+-		(For example, ``real 0m0.132s 0m0.008s''.)
++		(For example, \qco{real 0m0.132s 0m0.008s}.)
+ 	\item	Do you have a set of test cases containing random
+ 		characters?
+ 	\item	In all test cases involving invalid input, did you
 -- 
 2.17.1
 
