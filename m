@@ -3,45 +3,43 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=XcLt3/IiuZUusK+gmKBed6RUCJy5btidtjnMCYMS8MY=;
-        b=TCS0wl8z8pxF9vzzRC/swJonmCzWRxUT9PJFsFYebhiugOjdycKxZ2RG0OT8e4g4Yx
-         9P/5GHNn2UHCrp6pTmE3b7LYHXDu96NkbxrFvGdw+K6DKf8tPbNUM446dVxUNcFxG6iL
-         nJLxHKvyw5BmCpnLUPwprYf4RMi30xfIDN2+Gr2tVnrNFKNrQ05Rl+nc3tqAdYxisC2H
-         Rxk/GW8A83BQ1agkeooI57gxRxxJJO9XN2vJgzMUrUnCzlusC0MUI4SqRTEuJ8wuH14/
-         KRzaPjti2khM/JYHp4gRfuK96P83rMC45Mt/bN4Bc3KLN3NHf0nvkQbs+7+Hm9iRfTYC
-         G8Xg==
+        bh=zLDE8nnf4Lc7hzsFMPMIuAmq406d5UfZnuGcWlXZqOo=;
+        b=Q6R2QpT0thW2pl0Tu+oQ4NCKHfGMP79CEIJUiu80rDnHW7gyiz7Hh3GhPETNlkZBKI
+         8dmdHzQERejvdH8u5ozgwDVKfZ+6PpsUjt/sujAWXZ45wF/8Ex08lCdwFGnvQybjeWya
+         R18nxpPfOJOXQnW44rrnVUKh+4E6eqeH1Ei1nw0B99N150dSruH3yBh/c/biLyfu/2do
+         agQ7XlSZlGmIVAPHjoL/WQ0n1Ag9GvzLbS/vxruokZIoglqPFBHwuRqLg4ahqTqRUReT
+         sV9Rtd4lVorFxzyy2KYPwdfidE3fMiNfbl5Ptsm1XGOADBfb8oeK/AwqDNRjQC8ENBXd
+         Cqnw==
 From: SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH v3 3/4] debugging: Remove unnecessary space in a sentence
-Date: Sun, 12 Feb 2023 08:56:29 -0800
-Message-Id: <20230212165630.26268-4-sj38.park@gmail.com>
+Subject: [PATCH v3 4/4] debugging: Remove redundant following sections introduction
+Date: Sun, 12 Feb 2023 08:56:30 -0800
+Message-Id: <20230212165630.26268-5-sj38.park@gmail.com>
 In-Reply-To: <20230212165630.26268-1-sj38.park@gmail.com>
 References: <20230212165630.26268-1-sj38.park@gmail.com>
 To: paulmck@kernel.org
 Cc: akiyks@gmail.com, perfbook@vger.kernel.org, sj@kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Two spaces are usually used between sentences, but a sentence in
-debugging is using two spaces inside a sentence.  Make it uses only one
-space for consistency.
+A section in debugging.tex is introducing following sections twice.
+Remove the redundant one.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- debugging/debugging.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ debugging/debugging.tex | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/debugging/debugging.tex b/debugging/debugging.tex
-index 4dfb1229..b7538620 100644
+index b7538620..191967ba 100644
 --- a/debugging/debugging.tex
 +++ b/debugging/debugging.tex
-@@ -2153,7 +2153,7 @@ serve four major purposes:
- 	against your competitors' offerings.
- \end{enumerate}
+@@ -2302,7 +2302,6 @@ to creep in, including:
  
--Of course,  the only completely fair framework is the intended
-+Of course, the only completely fair framework is the intended
- application itself.
- So why would anyone who cared about fairness in benchmarking
- bother creating imperfect benchmarks rather than simply
+ The first and fourth sources of interference provide conflicting advice,
+ which is one sign that we are living in the real world.
+-The remainder of this section looks at ways of resolving this conflict.
+ 
+ \QuickQuiz{
+ 	But what about other sources of error, for example, due to
 -- 
 2.17.1
 
