@@ -1,88 +1,97 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45748 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231276AbjBNXNU (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 14 Feb 2023 18:13:20 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54E8BF752
-        for <perfbook@vger.kernel.org>; Tue, 14 Feb 2023 15:13:19 -0800 (PST)
+        with ESMTP id S229448AbjBXRcB (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Fri, 24 Feb 2023 12:32:01 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6036E4FCBE
+        for <perfbook@vger.kernel.org>; Fri, 24 Feb 2023 09:31:59 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E0D3761938
-        for <perfbook@vger.kernel.org>; Tue, 14 Feb 2023 23:13:18 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 06C7FB81CA3
+        for <perfbook@vger.kernel.org>; Fri, 24 Feb 2023 17:31:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676416398;
-        bh=tAbGOgCs4xEFeY4BZXVza6mMqIjA2haZObV2hrO0X5A=;
+        s=k20201202; t=1677259916;
+        bh=El2PpHQvqtvgBtq11AJ3HSLgTD0uDTqdFag0L80Uf8k=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=H26x4SBLxz1eM9UU7FIUrjYJwmAdH/7+STX3q0xgIv2fc6NNodPzkw+bvSKSIf9jZ
-         35gbLY/F6343asOiHDUcYJh8+FdwP1COWpKmtAjdQJqmmLJkyIzSBlUwpFJyznsdoX
-         jetVdtMkVXvY5+9v3ed2AlIbGihfdwmuLN6l2YpLS+UAkPCZ6ABPPUHd4+DTvyOEFy
-         61BvJ4k3SG9iAoyVJE+s/1QEFWK6iG6Hf5TY0Xvjqls9NKItu+8UiWMbppdDXsusPX
-         JP4DrLkV0UxjKyedWjTjrInmzGL6QAF7ZbB+HEAfBlabStmBddWhsE6eQTdgzC5NBN
-         1mKqY4eq7ihKQ==
-Date: Tue, 14 Feb 2023 15:13:15 -0800
+        b=IEiiJRoRKq36alqH0QvKaegtAjAoIgd4kSmeI764Of8jqc9BDt7utVOudmf30CIZr
+         VosafpTi9tYsNc84myiK0bl31DnGIAa4eGXA7DPGZbYdVbe8kL9KKpw9Zl0AtCN4DV
+         iWptPPPq5pIbbM5n0UYm4yuzbL7x1nLw6ybbB7Zql/oeDxAG/AstQjaW5XPSw2CMT2
+         VyjlFk93h0hDO/sHTNtsFLYovZmTyUAXL3hnl9/gPRrlqRSs1byEoiLrsSpC7/s/wx
+         9cLYkHHs0kC0/YvqP/UozAt0dkDabEZn/700BrEKnVXJOGB0YHzne7lXrV+ba/bbzo
+         gru0UjNR9KBEg==
+Date: Fri, 24 Feb 2023 09:31:56 -0800
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook 0/4] cpu/overheads: Make tables more consistent
-Message-ID: <20230214231315.GH2948950@paulmck-ThinkPad-P17-Gen-1>
+Subject: Re: Is parallel programing hard...
+Message-ID: <20230224173156.GA631574@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <8f565979-bba0-bab1-7c8e-ebc76c2b4e65@gmail.com>
+References: <0b12a2ee-5edd-d169-2b8c-1a403df7e34c@gmail.com>
+ <20220627141106.GD1790663@paulmck-ThinkPad-P17-Gen-1>
+ <fb3a89ba-48ec-1943-4f6f-84123b751b37@gmail.com>
+ <20220627145628.GE1790663@paulmck-ThinkPad-P17-Gen-1>
+ <c341ba87-ba38-11ba-c770-e341c5164b42@gmail.com>
+ <40DCB8FE-A5C4-47F9-8215-EC0432803FF1@illinois.edu>
+ <20220630002720.GR1790663@paulmck-ThinkPad-P17-Gen-1>
+ <aebf5e16-e85e-c2a6-77a0-c48a6f33cf3b@gmail.com>
+ <20220630142616.GV1790663@paulmck-ThinkPad-P17-Gen-1>
+ <20220701001909.GA2898500@paulmck-ThinkPad-P17-Gen-1>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8f565979-bba0-bab1-7c8e-ebc76c2b4e65@gmail.com>
+In-Reply-To: <20220701001909.GA2898500@paulmck-ThinkPad-P17-Gen-1>
 List-ID: <perfbook.vger.kernel.org>
 To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Leonardo Bras <leobras.c@gmail.com>, perfbook@vger.kernel.org
+Cc: "Snir, Marc" <snir@illinois.edu>, perfbook@vger.kernel.org
 
-On Tue, Feb 14, 2023 at 07:03:12PM +0900, Akira Yokosawa wrote:
-> Hi,
+On Thu, Jun 30, 2022 at 05:19:09PM -0700, Paul E. McKenney wrote:
+> On Thu, Jun 30, 2022 at 07:26:16AM -0700, Paul E. McKenney wrote:
+> > On Thu, Jun 30, 2022 at 11:18:46PM +0900, Akira Yokosawa wrote:
+> > > On Wed, 29 Jun 2022 17:27:20 -0700, Paul E. McKenney wrote:
+> > > > OK, MacTex worked much better for me, meaning that this time it did
+> > > > not hang when I attempted to install it.  However, once installed,
+> > > > it complains that it is missing xcrun, whatever that might be.
+> > > 
+> > > In search of "macOS 12 xcrun error", I got the following:
+> > > 
+> > > https://osxdaily.com/2021/07/19/fix-xcrun-error-invalid-active-developer-path-error-terminal-mac/
+> > > 
+> > > Is your issue similar to this one?
+> > > 
+> > > (I have no experience with macOS, so take this as just a hint.)
+> > 
+> > I have no idea, but I will give it a try later today, Pacific Time.
+> > Either way, thank you for the hint!
 > 
-> This patch set is a follow-up to commit 34cc066b1d95 ("cpu: Add a QQz
-> on table E.1").
-> 
-> Leo posted a patch to improve Table E.1 at [1].
-> 
-> I have gone further to improve consistency among tables on overheads
-> of atomic operations.
-> 
-> Patch 1/4 changes the layout of those tables and adjusts upper-/
-> lower-casing (with Reported-by: from Leo).
-> 
-> I found the use of "In-Core" and "Off-Core" in the tables somewhat
-> strange. Usually, I find pairs of "On/Off" and "In/Out" more natural.
-> In overheads.tex, "On-Core" vs "Off-Core" looks better to me.
-> 
-> So Patch 2/4 replaces "in-core" with "on-core", and does similar
-> replacements.
-> 
-> Patch 3/4 adds a page reference in QQz 3.8.
-> 
-> Patch 4/4 is an independent change fixing an issue in -nq builds.
-> I noticed an extra "," in the anchor box containing QQz 4.20, 4.21,
-> and 4.22 while skimming through QQz's in those builds.
-> 
-> [1]: https://www.spinics.net/lists/perfbook/msg03827.html
+> OK, it does take some time to install.  But I at least started the
+> process today.  ;-)
 
-Queued and pushed, thank you!
+And some colleagues who use MacBooks swear by something called Overleaf:
+
+https://www.overleaf.com/
+
+They use free accounts, which limit you to six projects.  No idea myself,
+just passing this on.
 
 							Thanx, Paul
 
->         Thanks, Akira
-> --
-> Akira Yokosawa (4):
->   cpu: Improve layout and consistency of Tables 3.1, E.1, and E.2
->   cpu: Use 'on-core' rather than 'in-core'
->   cpu: Add page reference to Table E.1 in QQz 3.8
->   toolsoftrade: Fix QQz macro in QQz series
-> 
->  cpu/overheads.tex             | 161 +++++++++++++++++++++-------------
->  perfbook-lt.tex               |   6 ++
->  toolsoftrade/toolsoftrade.tex |   2 +-
->  3 files changed, 108 insertions(+), 61 deletions(-)
-> 
-> 
-> base-commit: 50bb4adf51f683ba2c7d90f269632b6f4b4d4704
-> -- 
-> 2.25.1
-> 
+
+> > > > My thought is to get a release out, then see what can be done about
+> > > > making this build on MacOS.  Seem reasonable?
+> > > 
+> > > Sounds reasonable to me!
+> > 
+> > Very good, I believe I am a bit overdue for a release anyway.  After all,
+> > we have 156 commits since the last release.  ;-)
+> > 
+> > 							Thanx, Paul
+> > 
+> > >         Thanks, Akira
+> > > 
+> > > > 
+> > > > Hey, I said I had access to MacOS, not that I was at all competent at
+> > > > installing software on it.  ;-)
+> > > > 
+> > > > 							Thanx, Paul
+> > > > 
+> > > [...]
