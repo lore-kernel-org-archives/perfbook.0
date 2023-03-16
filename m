@@ -1,73 +1,89 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55000 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230052AbjCKB2c (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Fri, 10 Mar 2023 20:28:32 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC6BF4C2E
-        for <perfbook@vger.kernel.org>; Fri, 10 Mar 2023 17:27:55 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7ACD761D9D
-        for <perfbook@vger.kernel.org>; Sat, 11 Mar 2023 01:27:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678498074;
-        bh=TKfkHEZN2VS+rLOP9LIkoMV1k5kPcyOuB753Vd4iEms=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=iFH2mbz3GeouyDZeIosC/HF8iDD7KIF+o4R8nRPHh0C21CBL47IllcJ1R7QK70qPB
-         RfZ46b6yd988xVufTbABVIMTpnkikYQlnlbpYnm91+XD5b5Tm0f1FarZ6RLQWIymSH
-         Zp7WwCZ9JUKuzJHiSMFOpyJvQ0c5iRHtsmBa8qyJzGoX6cmlp9HmASGybrmQE32xbz
-         3mV/df9fJbCiQSvl/KOkwFaxDJbGb5pAKVSEjN6iYbFOztRY2np2tLdRVR9zTM1Eya
-         VJ8fjJFWZgBL3aFapF4GrDFV0lHQ9uCNIU8QyC7bBCWA2zIzO9KN0kAHIapD3TgEQd
-         KYoSOp3mp64HQ==
-Date: Fri, 10 Mar 2023 17:27:54 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [GIT PULL -perfbook] Improve portability of build scripts
-Message-ID: <ce03141d-fc5c-4123-9052-1d3dc1e4b396@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <21e1a397-c9aa-2100-527c-e29191a918c2@gmail.com>
- <20fd9bd4-2081-4ee7-87da-5a827997dfbf@paulmck-laptop>
- <05efa3a2-488b-f5ab-1862-56c7c14950e9@gmail.com>
+Return-Path: <SRS0=Lubz=7I=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678926382;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WkGuayMXiyCQBbk37/WsH7u/z/1U5n7OpBQcgC0fAvI=;
+        b=XtjvMX/88gdaeZeHspARrH1iC5ZPq13CtToisQidRBRkxyvB+BHexPERKRCMgrVLUI
+         wlu/cD5YEtVzN2ODwEeXTCD0cmjeXiJMJ/nbRni0mjZH0/ZTpofNw5+GfUoJGYfhks5K
+         whh98H+g/52Taavv4VqcOzWVqwnRGL5tKKXyb4OeEm9YyA0evpclsYt18r5LN146G2hJ
+         lAGM6MjT/5LDReZVHVhD+W/eYXLhTmWkGYRqPA6K7uGWgufKCO2lT4OX793D3/DE+lpE
+         w+lOygWnyQwA+lm7jZq676VstNEN4C00dYgk4Bth3oBvcORsC+ueB86PHYa8tIESTtZ2
+         SF2w==
+Message-ID: <116f11cf-4763-0b74-10b4-b5c2074ae696@gmail.com>
+Date: Thu, 16 Mar 2023 09:26:18 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <05efa3a2-488b-f5ab-1862-56c7c14950e9@gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 1/2] autodate.sh: Allow alternative name for sed
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Mar 11, 2023 at 08:10:07AM +0900, Akira Yokosawa wrote:
-> On Fri, 10 Mar 2023 07:39:39 -0800, Paul E. McKenney wrote:
-> > On Fri, Mar 10, 2023 at 11:06:56PM +0900, Akira Yokosawa wrote:
-> >> Hi Paul,
-> >>
-> >> As I mentioned a month ago or so, I've been working on improving
-> >> portability of building perfbook.
-> >>
-> >> By portability, I did actual tests mostly under FreeBSD and light weight
-> >> alpine container images, not under macOS.
-> >> So I don't know if this enables native build for macOS, but here we are.
-> >>
-> >> I don't expect any regression for existing build environments.
-> >> (Famous last words!)
-> >>
-> >>         Thanks, Akira
-> >> --
-> > 
-> > Seems to work, so I queued and pushed it.
-> > 
-> > On a separate topic, Ubuntu 22.04 seems to require "apt install fuse"
-> > in addition to the list currently shown, but that might be an artifact
-> > of my installation.  Without this, inkscape refuses to create PDFs.
-> > (I am somewhat surprised that inkscape would require this.)
-> 
-> I think you are using an Appimage release of Inkscape.
-> 
-> This issue is covered here:
-> 
->     https://docs.appimage.org/user-guide/troubleshooting/fuse.html#setting-up-fuse-2-x-alongside-of-fuse-3-x-on-recent-ubuntu-22-04-debian-and-their-derivatives
+It turns out that native sed on FreeBSD doesn't work well in
+autodate.sh. GNU compatible sed can be specified by make/shell
+variable SED.
 
-So it is not just me, then, thank you!!!
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ utilities/autodate.sh | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-							Thanx, Paul
+diff --git a/utilities/autodate.sh b/utilities/autodate.sh
+index b1db0ec166d8..1efdbdee5290 100644
+--- a/utilities/autodate.sh
++++ b/utilities/autodate.sh
+@@ -28,6 +28,7 @@ qqzbg="false"
+ fn="autodate.tex"
+ 
+ : ${DATE:=date}
++: ${SED:=sed}
+ 
+ # check if we have tcolorbox
+ tcolorbox_sty=`kpsewhich tcolorbox.sty`
+@@ -77,24 +78,24 @@ else
+ 			esac
+ 			case "$description" in
+ 		Edition[.-][0-9]*)
+-			ednum="`echo $description | sed -e 's/^Edition[.-]\([0-9]*\).*$/\1/'`"
++			ednum="`echo $description | $SED -e 's/^Edition[.-]\([0-9]*\).*$/\1/'`"
+ 			release=`env printf '\\Ordinalstringnum{%s} %s' $ednum "$release"`
+ 			;;
+ 		esac
+ 		case "$description" in
+ 		*-rc[0-9]*)
+-			rc="`echo $description | sed -e 's/^.*-rc\(.*\)$/\1/'`"
++			rc="`echo $description | $SED -e 's/^.*-rc\(.*\)$/\1/'`"
+ 			release="$release, Release Candidate $rc"
+ 			;;
+ 		esac
+ 		;;
+ 		*)
+ 			release=`env printf 'Tag: \\\texttt{%s}' "$description"`
+-			commitid=`echo $description | sed -e 's/.*-\(g.*\)/\1/'`
++			commitid=`echo $description | $SED -e 's/.*-\(g.*\)/\1/'`
+ 			;;
+ 		esac
+ 	else
+-		description=`git log --max-count=1 | head -n 1 | sed -e 's/^commit \([0-9a-f]\{12\}\).*$/g\1/'`
++		description=`git log --max-count=1 | head -n 1 | $SED -e 's/^commit \([0-9a-f]\{12\}\).*$/g\1/'`
+ 		release=`env printf 'Commit: \\\texttt{%s} (shallow clone)' "$description"`
+ 		commitid="$description"
+ 	fi
+@@ -125,7 +126,7 @@ env printf '\\newcommand{\\commitid}{%s}\n' $commitid$modified >> $fn
+ env printf '\\IfQqzBg{}{\\setboolean{qqzbg}{%s}}\n' $qqzbg >> $fn
+ 
+ # command for newer tcolorbox (4.40 or later) to have backward-compatible skips
+-tcbversion=`grep ProvidesPackage $tcolorbox_sty | sed -e 's/.*version \([0-9]\+\.[0-9]\+\).*/\1/g'`
++tcbversion=`grep ProvidesPackage $tcolorbox_sty | $SED -e 's/.*version \([0-9]\+\.[0-9]\+\).*/\1/g'`
+ tcbold=4.39
+ env printf '%% tcolorbox version: %s\n' $tcbversion >> $fn
+ if [ $(echo $tcbversion $tcbold | awk '{if ($1 > $2) print 1;}') ] ;
+
+base-commit: 71129aa0193b4cd29bc59ac6f5ee22982f20901b
+-- 
+2.25.1
+
