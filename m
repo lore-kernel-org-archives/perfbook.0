@@ -1,107 +1,85 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60802 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229678AbjCPSbF (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Thu, 16 Mar 2023 14:31:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D8101B54D
-        for <perfbook@vger.kernel.org>; Thu, 16 Mar 2023 11:31:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1854D620B8
-        for <perfbook@vger.kernel.org>; Thu, 16 Mar 2023 18:31:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678991463;
-        bh=tHyvx5Zb9MxRgyEWS5FcGZYucPb6b7Ye24jrAVJBqaI=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=s8QdoOUeoIUyVXfqwlfqyfDWyw46aqw+sCtyNOq6h8aSHtnQBqs57E174NEVj2Aod
-         06+nA1h/GJz41YrvCsfpdf4IkoHRIPrqCtJ37rDZdpyY+YgzLdIzRNvo7rgsf1LtuL
-         UOoQfde0f/t75xdzPJ14NIuhuAwGgxLgWvx6J1/0JTR8+EQEpAyQdNDXu4KWj6yJZj
-         HVaWBjmlJdZhHUmFl4QQCpEZcuKa/qqZ3A7zT6yIllWjOxP8UPuoF38VSUj12Hj4WW
-         e2Wzrsu360llIHDsC22WO4YW2S/KI7M5dXZxNicFePapoiU9vGbGNHvajKNqFIWmbp
-         MthvZTkubHVnQ==
-Date: Thu, 16 Mar 2023 11:31:03 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook 1/2] autodate.sh: Allow alternative name for sed
-Message-ID: <5e819aae-2210-4b1f-8ab2-89fcd2af0a77@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <116f11cf-4763-0b74-10b4-b5c2074ae696@gmail.com>
+Return-Path: <SRS0=gYOr=7K=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679182875;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PyHj06q0Pwg3o3p4cF99gS5nmDSGNX0zVPhZKV5FudA=;
+        b=GRKjXlTsyukhikjcbGGVRGaJ4ZPhBPB5LYyt5nLHUeoCyrmVNrfwpPxuBo0NgNiI8G
+         drkT2GXWSTugf+FEYTn/fUkkhC5n5D56zBTC2hF8y4uVT/LNq2UGp96P+f8eUKT6yXxH
+         7n+1HF+lfdlAiLf+m7WTq6rlMFoQTmIpep3cEhhNP+AUAZOMcB9hj59QSGk359L/vVd/
+         CW6rKhbDaOM/bA8Med0Pt5yzfh2PoNQFosiw+csgRqiHxb30IMXnRT/BRTlLZQ9Ugabr
+         WVcmElfhl6xZxB3ru3IiuRF3uPrc96ZnhSK92xwVUx9lmxYTWqWwuvs1sWN0STQWswk3
+         WFbw==
+Message-ID: <475eb10b-a10c-a3ec-0651-b122f00bdff0@gmail.com>
+Date: Sun, 19 Mar 2023 08:41:11 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <116f11cf-4763-0b74-10b4-b5c2074ae696@gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 1/3] Fix warning of missing font shape
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Thu, Mar 16, 2023 at 09:26:18AM +0900, Akira Yokosawa wrote:
-> It turns out that native sed on FreeBSD doesn't work well in
-> autodate.sh. GNU compatible sed can be specified by make/shell
-> variable SED.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Since commit 6be27f7414d8 ("Use Biolinum font family for epigraph"),
+new warning messages appear in the .log file which read:
 
-Queued and pushed both, thank you!
+    LaTeX Font Warning: Font shape `OT1/minntx/sb/n' undefined
+    (Font)              using `OT1/minntx/m/n' instead on input line 622.
 
-							Thanx, Paul
+    LaTeX Font Warning: Some font shapes were not available, defaults
+    substituted.
 
-> ---
->  utilities/autodate.sh | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/utilities/autodate.sh b/utilities/autodate.sh
-> index b1db0ec166d8..1efdbdee5290 100644
-> --- a/utilities/autodate.sh
-> +++ b/utilities/autodate.sh
-> @@ -28,6 +28,7 @@ qqzbg="false"
->  fn="autodate.tex"
->  
->  : ${DATE:=date}
-> +: ${SED:=sed}
->  
->  # check if we have tcolorbox
->  tcolorbox_sty=`kpsewhich tcolorbox.sty`
-> @@ -77,24 +78,24 @@ else
->  			esac
->  			case "$description" in
->  		Edition[.-][0-9]*)
-> -			ednum="`echo $description | sed -e 's/^Edition[.-]\([0-9]*\).*$/\1/'`"
-> +			ednum="`echo $description | $SED -e 's/^Edition[.-]\([0-9]*\).*$/\1/'`"
->  			release=`env printf '\\Ordinalstringnum{%s} %s' $ednum "$release"`
->  			;;
->  		esac
->  		case "$description" in
->  		*-rc[0-9]*)
-> -			rc="`echo $description | sed -e 's/^.*-rc\(.*\)$/\1/'`"
-> +			rc="`echo $description | $SED -e 's/^.*-rc\(.*\)$/\1/'`"
->  			release="$release, Release Candidate $rc"
->  			;;
->  		esac
->  		;;
->  		*)
->  			release=`env printf 'Tag: \\\texttt{%s}' "$description"`
-> -			commitid=`echo $description | sed -e 's/.*-\(g.*\)/\1/'`
-> +			commitid=`echo $description | $SED -e 's/.*-\(g.*\)/\1/'`
->  			;;
->  		esac
->  	else
-> -		description=`git log --max-count=1 | head -n 1 | sed -e 's/^commit \([0-9a-f]\{12\}\).*$/g\1/'`
-> +		description=`git log --max-count=1 | head -n 1 | $SED -e 's/^commit \([0-9a-f]\{12\}\).*$/g\1/'`
->  		release=`env printf 'Commit: \\\texttt{%s} (shallow clone)' "$description"`
->  		commitid="$description"
->  	fi
-> @@ -125,7 +126,7 @@ env printf '\\newcommand{\\commitid}{%s}\n' $commitid$modified >> $fn
->  env printf '\\IfQqzBg{}{\\setboolean{qqzbg}{%s}}\n' $qqzbg >> $fn
->  
->  # command for newer tcolorbox (4.40 or later) to have backward-compatible skips
-> -tcbversion=`grep ProvidesPackage $tcolorbox_sty | sed -e 's/.*version \([0-9]\+\.[0-9]\+\).*/\1/g'`
-> +tcbversion=`grep ProvidesPackage $tcolorbox_sty | $SED -e 's/.*version \([0-9]\+\.[0-9]\+\).*/\1/g'`
->  tcbold=4.39
->  env printf '%% tcolorbox version: %s\n' $tcbversion >> $fn
->  if [ $(echo $tcbversion $tcbold | awk '{if ($1 > $2) print 1;}') ] ;
-> 
-> base-commit: 71129aa0193b4cd29bc59ac6f5ee22982f20901b
-> -- 
-> 2.25.1
-> 
+This is because the netwxmath package detects boilinum/libertine fonts
+which have semi-bold shape and sets the option of semi-bold shape
+for bold math on top of newtxtext's default font (Times Roman clone),
+which doesn't provide semi-bold shape.
+
+Using 'OT1/minntx/m/n' for bold math means it will be rendered in
+normal (non-bold) shape.
+
+This might be a bug in newtxmath, but can be avoided by moving the
+load of biolinum after the load of newtxmath.
+
+Currently, perfbook doesn't use \mathbf{} and there is no visible
+defect in rendered math equations.  But it is better to fix this
+potential regression sooner rather than later.
+
+After loading biolinum, restore newtxtext's \sfdefault (Helvetica
+clone).
+
+Fixes: 6be27f7414d8 ("Use Biolinum font family for epigraph")
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ perfbook-lt.tex | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/perfbook-lt.tex b/perfbook-lt.tex
+index f970212cb194..efb49bd0abe7 100644
+--- a/perfbook-lt.tex
++++ b/perfbook-lt.tex
+@@ -13,7 +13,6 @@
+ 
+ % A more pleasant font
+ \usepackage[full]{textcomp} % use symbols in TS1 encoding
+-\usepackage{biolinum}
+ \usepackage{lmodern}
+ \usepackage[T1]{fontenc} % use postscript type 1 fonts
+ \usepackage[defaultsups,helvratio=0.9]{newtxtext} % use nice, standard fonts for roman
+@@ -324,6 +323,9 @@
+   \DeclareFontShape{\encodingdefault}{\rmdefault}{bx}{sl}{<->ssub * ptm/b/sl}{}%
+ }
+ }
++\usepackage{biolinum}
++% restore \sfdefault of newtxtext
++\renewcommand{\sfdefault}{qhv}
+ 
+ \newcommand{\LstLineNo}{\makebox[5ex][r]{\arabic{VerbboxLineNo}\hspace{2ex}}}
+ 
+
+base-commit: 2d2853f4b29d0369dd3b64435d5a53203380cf96
+-- 
+2.25.1
+
