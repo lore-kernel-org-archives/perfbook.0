@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1680975210;
-	bh=aig51T+Pv+IpoGc0ZWEr6cLBFBn6OSlsRbelbIJlCtI=;
+	bh=nECmU2vK5FB3zYwYH7SE2WxFpYpkOzMuGfL1QxwhdmM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H0vweaxfKRTWgoRWa1Fzplm2uHVKn9u4kv/dfWBkD4VLrkgT0++YNr/GmqPGDPzpo
-	 NCigUDiAf+IJw5ZeP6SdI0uUz4bBgPSga50QQ+LEu0+E9kP8nAsJJQ2jeUTPmCFwzn
-	 DmZM13a6b2jQ4H4IcZPaMMYFnrdnQOlpdhWlUDozzsVUYi9PkdDJUiIbTEaXZ8Xpya
-	 ZaH1BhBBfUKXEYkjrynn5B0Y07CiTqPrgqyE+XWScpPgX/GKxuLYMxFaXtFkIz/U6c
-	 rYQS2uvYUSq/2HBmcNGrk5x98tcV0iMrU/LJrv+T/dxcBiGPbc3CQXvH/RRl/sDHWS
-	 kseNnAbCQ2QWg==
+	b=IpwPlsaungNa6ZsCBZBzPArSaruUz+MMsLVJ8v/490QuOOr7cUg/2vP5H//XbsUxP
+	 2ggL3RyumoAoXN1yOr6yJrrsg7Dc98bn3NR07D6aqS86dhxLzyAZOb6O7z7uqI3Q6N
+	 1uiZTsS2qmMJVRkdD1t0+9rGHnCnvoyd1EmKBCltG51VBroQXqz+oRBmMvaiUVAxcP
+	 9Fo4+JIno8DpKROENhDXaPAbNzaJf5dvHXVteTG/NQ8o5r5x6iF/RMg2fJM1mRPn9v
+	 pkv3MnX5aP6vo8/0UlB8XVX5wZtKxmv/jrxgrAJPTtXSTfdGcbWWK2+i3YdaujYarK
+	 l+IUC+z/XfiYg==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 06/12] formal/dyntickrcu: Use \qco{} instead of ``\co{}''
-Date: Sat,  8 Apr 2023 10:33:03 -0700
-Message-Id: <20230408173309.5543-7-sj@kernel.org>
+Subject: [PATCH 07/12] formal/ppcmem: Use uppercase 'S' for Spin
+Date: Sat,  8 Apr 2023 10:33:04 -0700
+Message-Id: <20230408173309.5543-8-sj@kernel.org>
 In-Reply-To: <20230408173309.5543-1-sj@kernel.org>
 References: <20230408173309.5543-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,51 +21,37 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-A few sentences in dyntickrcu.tex are using ``\co{}'', which can be
-shortenized with \qco{}.  Use the shorter one.
+A few sentences in ppcmem.tex are using lowercase 's' for Spin, while
+other sentences in other tex files are using the uppercase 'S'.
+Consistently use uppercase 'S'.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- formal/dyntickrcu.tex | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ formal/ppcmem.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
-index 25012738..42c0c55c 100644
---- a/formal/dyntickrcu.tex
-+++ b/formal/dyntickrcu.tex
-@@ -890,12 +890,12 @@ statements in that group execute atomically.
+diff --git a/formal/ppcmem.tex b/formal/ppcmem.tex
+index 9f584b15..62a45383 100644
+--- a/formal/ppcmem.tex
++++ b/formal/ppcmem.tex
+@@ -7,7 +7,7 @@
  %
- \QuickQuizE{
- 	But what if the \co{dynticks_nohz()} process had
--	``if'' or ``do'' statements with conditions,
-+	\qco{if} or \qco{do} statements with conditions,
- 	where the statement bodies of these constructs
- 	needed to execute non-atomically?
- }\QuickQuizAnswerE{
- 	One approach, as we will see in a later section,
--	is to use explicit labels and ``goto'' statements.
-+	is to use explicit labels and \qco{goto} statements.
- 	For example, the construct:
+ \epigraph{Jack of all trades, master of none.}{Unknown}
  
- \begin{VerbatimU}
-@@ -921,7 +921,7 @@ statements in that group execute atomically.
- \end{VerbatimU}
- 
- 	However, it is not clear that the macro is helping much in the case
--	of the ``if'' statement, so these sorts of situations will
-+	of the \qco{if} statement, so these sorts of situations will
- 	be open-coded in the following sections.
- }\QuickQuizEndE
- }
-@@ -1067,7 +1067,7 @@ to \co{EXECUTE_IRQ()} as follows:
- \input{CodeSamples/formal/promela/dyntick/dyntickRCU-irq-nmi-ssl@dyntick_irq.fcv}
- 
- \begin{fcvref}[ln:formal:promela:dyntick:dyntickRCU-irq-nmi-ssl:dyntick_irq]
--Note that we have open-coded the ``if'' statements
-+Note that we have open-coded the \qco{if} statements
- (for example, \clnrefrange{stmt1:b}{stmt1:e}).
- In addition, statements that process strictly local state
- (such as \clnref{inc_i}) need not exclude \co{dyntick_nmi()}.
+-Although Promela and spin allow you to verify pretty much any (smallish)
++Although Promela and Spin allow you to verify pretty much any (smallish)
+ algorithm, their very generality can sometimes be a curse.
+ For example, Promela does not understand memory models or any sort
+ of reordering semantics.
+@@ -403,7 +403,7 @@ These tools do have some intrinsic limitations:
+ 	running on small numbers of threads.
+ 	Larger examples result
+ 	in state-space explosion, just as with similar tools such as
+-	Promela and spin.
++	Promela and Spin.
+ \item	The full state-space search does not give any indication of how
+ 	each offending state was reached.
+ 	That said, once you realize that the state is in fact reachable,
 -- 
 2.17.1
 
