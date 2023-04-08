@@ -1,51 +1,48 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1680975209;
-	bh=jQMHKWemnLY8kboSX+8ryv3RDtsEWk2UyRXbapBDWBI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fpuLRfS5qZJ5ao7lr4XCbZJKgQ4eCENcl7zt6YDLdSPEC0yiaRoreQeP+GQduI8Wl
-	 mqyJb5zRsfskfMMsR4EjsAazSyrDn0WraUPv2b7VpUmkKdnDU7X72lhsEZwc1JxZ4f
-	 gB7VUrNTLjlo5zTH2CrR83nmaTgCfp0lAWT0KJPvAdbvg/jQYN969VEaYe5tU7xBYG
-	 AG0WT5fguiaSPYdDFcpoJ2JAQj4wssHminKFVVfr9S/1vVnDKLAiCFxlQO24yk3NcF
-	 y4hzweKX90AxXBCop01yHG2hrXea5eHoI1KurgHnADFmmmLeeYBHFN8/okIOBx1Pwl
-	 ycO6qeD+iCOpg==
+	bh=48aDQkGOhrxS4Aw/4tq41BFeufDeB3UlF+VwGPYocUA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZixcSQ6jbQ2vh5b4lmUTHU0bI7+RQXzgRHSUZ5/VEZegPiE/ieS5iTTmQUHtrVvVh
+	 9WUlHB4vaD62iiEEMq/TyMsxQASANBFzdfFP85hlSOK8gEgPLumbYYfA2eZbkVhafl
+	 D06ts7CmAUkhRynjGl6v7hswTeVcsZNCxdXRyYBDW/c9eF3hknmCBmxBZe2evmOKeU
+	 l6SEcjF7T4rfuMaMnljuSOq9aSho8gue1O/lFzIgprvWUCIKftzluCx/hDI+c8ddFc
+	 N0Uk7Z6ZnGBbPoekuPk4BXdcomAKWzFGRwcQQxY0GU2Ov8vqiOX9jVKKMDisklWzhs
+	 /+x8hvlGFTRQA==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 00/12] formal: Trivial fixups
-Date: Sat,  8 Apr 2023 10:32:57 -0700
-Message-Id: <20230408173309.5543-1-sj@kernel.org>
+Subject: [PATCH 01/12] formal/formal: Drop cppmem from 'Special-Purpose State-Space Search' section explanation
+Date: Sat,  8 Apr 2023 10:32:58 -0700
+Message-Id: <20230408173309.5543-2-sj@kernel.org>
+In-Reply-To: <20230408173309.5543-1-sj@kernel.org>
+References: <20230408173309.5543-1-sj@kernel.org>
 To: paulmck@kernel.org
 Cc: SeongJae Park <sj38.park@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-This patchset contains trivial fixups for formal/, which found from
-its Korean translation[1].
+The advance explanation of 'Special-Purpose State-Space Search' section
+says it will introduce both ppcmem and cppmem, but the section
+introduces ppcmem only.  Fix the sentence.
 
-[1] https://github.com/sjp38/perfbook-ko_KR
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ formal/formal.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-SeongJae Park (12):
-  formal/formal: Drop cppmem from 'Special-Purpose State-Space Search'
-    section explanation
-  formal/spinhint: Use \qco{} instead of ``\co{}''
-  formal/spinhint: Enclose example code snippets with \co{}
-  formal/spinhint: Do not call 2013 paper as recent
-  formal/dyntickrcu: Quote 'trail' file consistently
-  formal/dyntickrcu: Use \qco{} instead of ``\co{}''
-  formal/ppcmem: Use uppercase 'S' for Spin
-  formal/ppcmem: Use \qco{} instead of ``\co{}''
-  formal/ppcmem: Add missed non-breakable spaces
-  formal/ppcmem: Enclose example code snippets with \co{}
-  formal/ppcmem: s/powerpc/PowerPC/ on sentences
-  formal/ppcmem: Fix label name for Fail1:
-
- formal/axiomatic.tex  | 30 +++++++++++++++---------------
- formal/dyntickrcu.tex | 10 +++++-----
- formal/formal.tex     |  2 +-
- formal/ppcmem.tex     | 26 +++++++++++++-------------
- formal/spinhint.tex   | 16 ++++++++--------
- 5 files changed, 42 insertions(+), 42 deletions(-)
-
+diff --git a/formal/formal.tex b/formal/formal.tex
+index 895d2ba7..13dcf071 100644
+--- a/formal/formal.tex
++++ b/formal/formal.tex
+@@ -28,7 +28,7 @@ A number of such tools exist, for example,
+ \cref{sec:formal:State-Space Search} provides an
+ introduction to the general-purpose state-space search tools Promela and Spin,
+ \cref{sec:formal:Special-Purpose State-Space Search}
+-similarly introduces the special-purpose ppcmem and cppmem tools,
++similarly introduces the special-purpose ppcmem tool,
+ \cref{sec:formal:Axiomatic Approaches}
+ looks at an example axiomatic approach,
+ \cref{sec:formal:SAT Solvers}
 -- 
 2.17.1
 
