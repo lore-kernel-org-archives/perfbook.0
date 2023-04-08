@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1680975210;
-	bh=nECmU2vK5FB3zYwYH7SE2WxFpYpkOzMuGfL1QxwhdmM=;
+	bh=WTYzaBgOYfVQNmDuxiEXsLFuX9Tm6m5BAWH8ZC2h9ko=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IpwPlsaungNa6ZsCBZBzPArSaruUz+MMsLVJ8v/490QuOOr7cUg/2vP5H//XbsUxP
-	 2ggL3RyumoAoXN1yOr6yJrrsg7Dc98bn3NR07D6aqS86dhxLzyAZOb6O7z7uqI3Q6N
-	 1uiZTsS2qmMJVRkdD1t0+9rGHnCnvoyd1EmKBCltG51VBroQXqz+oRBmMvaiUVAxcP
-	 9Fo4+JIno8DpKROENhDXaPAbNzaJf5dvHXVteTG/NQ8o5r5x6iF/RMg2fJM1mRPn9v
-	 pkv3MnX5aP6vo8/0UlB8XVX5wZtKxmv/jrxgrAJPTtXSTfdGcbWWK2+i3YdaujYarK
-	 l+IUC+z/XfiYg==
+	b=tHDBcYFZJ90Mok6JdddmYcVFYSz54a00b8Ja4INEi28mduWXwsNLLOwXq7FICVbb2
+	 co/3nsVUr1QUM67XPx6dp/pj3TX/ZUBdSWtnbe3NyP9hT55U+5k0rc1kB07bUG0SNq
+	 ggaRbFuCNMLGx+btVHjy99Rf0G6UIgIHVmgO8IpX4IxTUQ3ox3h1tWnSZofosyFW5o
+	 jj0tVsODrK2NxKIuAHho1zsrifijjrp5/VXlaEBkQgH3KDZskeJp2AXXMW7AszKH7V
+	 UDAcp/oWboBn8uYqgQk80aSTka+zw7TVPcff49lB9mPaD7SyjMKGrU6FtzI583BRnI
+	 x+hVPxecWjYrg==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 07/12] formal/ppcmem: Use uppercase 'S' for Spin
-Date: Sat,  8 Apr 2023 10:33:04 -0700
-Message-Id: <20230408173309.5543-8-sj@kernel.org>
+Subject: [PATCH 08/12] formal/ppcmem: Use \qco{} instead of ``\co{}''
+Date: Sat,  8 Apr 2023 10:33:05 -0700
+Message-Id: <20230408173309.5543-9-sj@kernel.org>
 In-Reply-To: <20230408173309.5543-1-sj@kernel.org>
 References: <20230408173309.5543-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,37 +21,49 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-A few sentences in ppcmem.tex are using lowercase 's' for Spin, while
-other sentences in other tex files are using the uppercase 'S'.
-Consistently use uppercase 'S'.
+A few sentences in ppcmem.tex are using ``\co{}'', which can be
+shortenized with \qco{}.  Use the shorter one.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- formal/ppcmem.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ formal/ppcmem.tex | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/formal/ppcmem.tex b/formal/ppcmem.tex
-index 9f584b15..62a45383 100644
+index 62a45383..9acd4dba 100644
 --- a/formal/ppcmem.tex
 +++ b/formal/ppcmem.tex
-@@ -7,7 +7,7 @@
- %
- \epigraph{Jack of all trades, master of none.}{Unknown}
+@@ -65,8 +65,8 @@ discusses the implications.
+ An example PowerPC litmus test for PPCMEM is shown in
+ \cref{lst:formal:PPCMEM Litmus Test}.
+ The ARM interface works the same way, but with \ARM\ instructions
+-substituted for the Power instructions and with the initial ``PPC''
+-replaced by ``ARM''.
++substituted for the Power instructions and with the initial \qco{PPC}
++replaced by \qco{ARM}.
  
--Although Promela and spin allow you to verify pretty much any (smallish)
-+Although Promela and Spin allow you to verify pretty much any (smallish)
- algorithm, their very generality can sometimes be a curse.
- For example, Promela does not understand memory models or any sort
- of reordering semantics.
-@@ -403,7 +403,7 @@ These tools do have some intrinsic limitations:
- 	running on small numbers of threads.
- 	Larger examples result
- 	in state-space explosion, just as with similar tools such as
--	Promela and spin.
-+	Promela and Spin.
- \item	The full state-space search does not give any indication of how
- 	each offending state was reached.
- 	That said, once you realize that the state is in fact reachable,
+ \begin{listing}
+ \begin{fcvlabel}[ln:formal:PPCMEM Litmus Test]
+@@ -98,8 +98,8 @@ exists						@lnlbl[assert:b]
+ \end{listing}
+ 
+ \begin{fcvref}[ln:formal:PPCMEM Litmus Test]
+-In the example, \clnref{type} identifies the type of system (``ARM'' or
+-``PPC'') and contains the title for the model.
++In the example, \clnref{type} identifies the type of system (\qco{ARM} or
++\co{PPC}) and contains the title for the model.
+ \Clnref{altname} provides a place for an
+ alternative name for the test, which you will usually want to leave
+ blank as shown in the above example.
+@@ -412,7 +412,7 @@ These tools do have some intrinsic limitations:
+ \item	These tools are not much good for complex data structures, although
+ 	it is possible to create and traverse extremely simple linked
+ 	lists using initialization statements of the form
+-	``\co{x=y; y=z; z=42;}''.
++	\qco{x=y; y=z; z=42;}.
+ \item	These tools do not handle memory mapped I/O or device registers.
+ 	Of course, handling such things would require that they be
+ 	formalized, which does not appear to be in the offing.
 -- 
 2.17.1
 
