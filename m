@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1680975210;
-	bh=WTYzaBgOYfVQNmDuxiEXsLFuX9Tm6m5BAWH8ZC2h9ko=;
+	bh=9VIo0fo3zpZeT2eXcemc83zvRT4+T3tHrzMekNbKItI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tHDBcYFZJ90Mok6JdddmYcVFYSz54a00b8Ja4INEi28mduWXwsNLLOwXq7FICVbb2
-	 co/3nsVUr1QUM67XPx6dp/pj3TX/ZUBdSWtnbe3NyP9hT55U+5k0rc1kB07bUG0SNq
-	 ggaRbFuCNMLGx+btVHjy99Rf0G6UIgIHVmgO8IpX4IxTUQ3ox3h1tWnSZofosyFW5o
-	 jj0tVsODrK2NxKIuAHho1zsrifijjrp5/VXlaEBkQgH3KDZskeJp2AXXMW7AszKH7V
-	 UDAcp/oWboBn8uYqgQk80aSTka+zw7TVPcff49lB9mPaD7SyjMKGrU6FtzI583BRnI
-	 x+hVPxecWjYrg==
+	b=fxDFb/cRgOWzvsfIFUMzinkezUkrJ3vaVPqEVlEvRAjlhtPQb1gDcwN1/4rluoPfu
+	 +Ry9HWLhrj0Gi7eObFMqHNyt1/+x7gJG/1qkB6XKGJEY3dV19zpT0XWEyPpljL1+JQ
+	 x8dfpmRqWQNj6ASfGLbR5Q12Iof8X8ihCiwY8o/ZxPIYBGqhJJE8FrSEoIG0SA4Ge7
+	 tQNA35ORkH69qDBWd62CKEUyFKKewFQ0aDdo2EsBf4ic05NSdMiqVZ2kQ6jyuTlvan
+	 8NRwv8v5Tj8dS54wYJ9B1FK0ivB1cR1p+of/bJ/fKtJqg4eda+d+IEClOU4Ri9OCGq
+	 ZPA0/2H5uMPFg==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 08/12] formal/ppcmem: Use \qco{} instead of ``\co{}''
-Date: Sat,  8 Apr 2023 10:33:05 -0700
-Message-Id: <20230408173309.5543-9-sj@kernel.org>
+Subject: [PATCH 09/12] formal/ppcmem: Add missed non-breakable spaces
+Date: Sat,  8 Apr 2023 10:33:06 -0700
+Message-Id: <20230408173309.5543-10-sj@kernel.org>
 In-Reply-To: <20230408173309.5543-1-sj@kernel.org>
 References: <20230408173309.5543-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,49 +21,34 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-A few sentences in ppcmem.tex are using ``\co{}'', which can be
-shortenized with \qco{}.  Use the shorter one.
+A few sentences in ppcmem.tex are missing non-breakable spaces.  Add
+those.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- formal/ppcmem.tex | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ formal/ppcmem.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/formal/ppcmem.tex b/formal/ppcmem.tex
-index 62a45383..9acd4dba 100644
+index 9acd4dba..c3f5f943 100644
 --- a/formal/ppcmem.tex
 +++ b/formal/ppcmem.tex
-@@ -65,8 +65,8 @@ discusses the implications.
- An example PowerPC litmus test for PPCMEM is shown in
- \cref{lst:formal:PPCMEM Litmus Test}.
- The ARM interface works the same way, but with \ARM\ instructions
--substituted for the Power instructions and with the initial ``PPC''
--replaced by ``ARM''.
-+substituted for the Power instructions and with the initial \qco{PPC}
-+replaced by \qco{ARM}.
+@@ -110,13 +110,13 @@ Comments can be inserted between
+ each is of the form
+ \co{P:R=V}, where \co{P} is the process identifier, \co{R} is the register
+ identifier, and \co{V} is the value.
+-For example, process 0's register r3 initially contains the value~2.
++For example, process~0's register r3 initially contains the value~2.
+ If the value is a variable (\co{x}, \co{y}, or \co{z} in the example)
+ then the register is initialized to the address of the variable.
+ It is also possible to initialize the contents of variables, for example,
+ \co{x=1} initializes the value of \co{x} to~1.
+ Uninitialized variables default to the value zero, so that in the
+-example, \co{x}, \co{y}, and \co{z} are all initially zero.
++example, \co{x}, \co{y}, and~\co{z} are all initially zero.
  
- \begin{listing}
- \begin{fcvlabel}[ln:formal:PPCMEM Litmus Test]
-@@ -98,8 +98,8 @@ exists						@lnlbl[assert:b]
- \end{listing}
- 
- \begin{fcvref}[ln:formal:PPCMEM Litmus Test]
--In the example, \clnref{type} identifies the type of system (``ARM'' or
--``PPC'') and contains the title for the model.
-+In the example, \clnref{type} identifies the type of system (\qco{ARM} or
-+\co{PPC}) and contains the title for the model.
- \Clnref{altname} provides a place for an
- alternative name for the test, which you will usually want to leave
- blank as shown in the above example.
-@@ -412,7 +412,7 @@ These tools do have some intrinsic limitations:
- \item	These tools are not much good for complex data structures, although
- 	it is possible to create and traverse extremely simple linked
- 	lists using initialization statements of the form
--	``\co{x=y; y=z; z=42;}''.
-+	\qco{x=y; y=z; z=42;}.
- \item	These tools do not handle memory mapped I/O or device registers.
- 	Of course, handling such things would require that they be
- 	formalized, which does not appear to be in the offing.
+ \Clnref{procid} provides identifiers for the two processes, so that
+ the \co{0:r3=2} on \clnref{init:0} could instead have been written
 -- 
 2.17.1
 
