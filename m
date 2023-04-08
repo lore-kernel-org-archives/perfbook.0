@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1680975209;
-	bh=LRqooCZ6ucyddBkVmDnpMhv00BEZNnBTJT2kJLp0fPg=;
+	bh=imuhkR5+eHbtP8k09MDD9QETyi8NuFTDXO6tmbAB9mA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YMQZeIO0h8nVOaGpwYhAzp4ibI+dmO7UM4HzqdDheZGL9nQk3AroI+zYj+1mE3cFV
-	 fbkeLZVxes2ZVIjksgf6r3nDpoI69ibzBvkih5lfrmm1pMVibzIUtruJh+gnRGjdNR
-	 07bYRLj/V6xMWxe4nETECtDJlun8BQPG16/GVmSUFqa9Ej1QyXEbgDTJWrNJPdFggu
-	 IVMYKtGCjzvd5d0jx/WA4DjSb9EiIudcIlI4utoNap/J69PO6G9VmuDh1kWJ7VZwZQ
-	 WqfKfA65QdYxJoJ4EmOxxp1tfNYwa8Wc8HPqoiI3oFpjMefrXjL3IWt+H2WciG6b/B
-	 FcmuRnS3jYhXw==
+	b=BkIZj0hdlhPUvi+9NTtTNILik2j0M/do4K0/rNR+CR72mjXPFnFHLx2vd/4953eoC
+	 nvbrCtvujvvEEGAldCR/NBoxFRhNvJ0d9QwASF1181ZDmtxr9/cMpj/8xU1gKgXVXA
+	 63AGK8O9EveNa36YPmVL9EjvvF3jg+8vRgtXSUZoOvDd2GfQVyFxL9e382TldGAQoB
+	 FNofdsUIDELWkMdWyx3Per11DW9iLvilD++CLYkOisgTjSmyQti186+4y8OJfOQowq
+	 9+XNl7vqKigelB8sOIo/iIkDr2kO3bR8m1h+0elJ6e7ssoVDWsJqHRbePIBRiP8zDH
+	 wx8yAzOXNA40A==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 02/12] formal/spinhint: Use \qco{} instead of ``\co{}''
-Date: Sat,  8 Apr 2023 10:32:59 -0700
-Message-Id: <20230408173309.5543-3-sj@kernel.org>
+Subject: [PATCH 03/12] formal/spinhint: Enclose example code snippets with \co{}
+Date: Sat,  8 Apr 2023 10:33:00 -0700
+Message-Id: <20230408173309.5543-4-sj@kernel.org>
 In-Reply-To: <20230408173309.5543-1-sj@kernel.org>
 References: <20230408173309.5543-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,45 +21,44 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-A few sentences in spinhint.tex are using ``\co{}'', which can be
-shortenized with \qco{}.  Use the shorter one.
+A few sentences in spinhint.tex are not enclosing example code snippets
+with \co{}.  Enclose those for better readability and consistency.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- formal/spinhint.tex | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ formal/spinhint.tex | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-index afdd275e..0371f570 100644
+index 0371f570..b740384d 100644
 --- a/formal/spinhint.tex
 +++ b/formal/spinhint.tex
-@@ -275,7 +275,7 @@ Given a source file \path{qrcu.spin}, one can use the following commands:
- 	10.5\,GB of memory even with the \co{-DCOLLAPSE} flag.
- 
- 	If you see a message from \co{./pan} saying:
--	``\co{error: max search depth too small}'', you need to increase
-+	\qco{error: max search depth too small}, you need to increase
- 	the maximum depth by a \co{-mN} option for a complete search.
- 	The default is \co{-m10000}.
- 
-@@ -325,7 +325,7 @@ Promela will provide some surprises to people used to coding in C,
- C++, or Java.
+@@ -397,8 +397,8 @@ The following tricks can help you to abuse Promela safely:
  
  \begin{enumerate}
--\item	In C, ``\co{;}'' terminates statements.
-+\item	In C, \qco{;} terminates statements.
- 	In Promela it separates them.
- 	Fortunately, more recent versions of Spin have become
- 	much more forgiving of ``extra'' semicolons.
-@@ -582,7 +582,7 @@ cc -DSAFETY -o pan pan.c
+ \item	Memory reordering.
+-	Suppose you have a pair of statements copying globals x and y
+-	to locals r1 and r2, where ordering matters (e.g., unprotected
++	Suppose you have a pair of statements copying globals \co{x} and \co{y}
++	to locals \co{r1} and \co{r2}, where ordering matters (e.g., unprotected
+ 	by locks), but where you have no \IXpl{memory barrier}.
+ 	This can be modeled in Promela as follows:
  
- The output will look something like that shown in
- \cref{lst:formal:Output for Spinlock Test}.
--As expected, this run has no assertion failures (``\co{errors: 0}'').
-+As expected, this run has no assertion failures (\qco{errors: 0}).
+@@ -552,12 +552,12 @@ unclaiming it on \clnref{unclaim}, and releasing it on \clnref{unlock}.
  
- \QuickQuizSeries{%
- \QuickQuizB{
+ \begin{fcvref}[ln:formal:promela:lock:spin:init]
+ The init block on \clnrefrange{b}{e} initializes the current locker's
+-havelock array entry on \clnref{array}, starts the current locker on
++\co{havelock} array entry on \clnref{array}, starts the current locker on
+ \clnref{start}, and advances to the next locker on \clnref{next}.
+ Once all locker processes are spawned, the \co{do-od} loop
+ moves to \clnref{chkassert}, which checks the assertion.
+ \Clnref{sum,j} initialize the control variables,
+-\clnrefrange{atm:b}{atm:e} atomically sum the havelock array entries,
++\clnrefrange{atm:b}{atm:e} atomically sum the \co{havelock} array entries,
+ \clnref{assert} is the assertion, and \clnref{break} exits the loop.
+ \end{fcvref}
+ 
 -- 
 2.17.1
 
