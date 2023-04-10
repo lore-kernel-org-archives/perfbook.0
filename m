@@ -1,64 +1,77 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48186 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229804AbjDJQkk (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 10 Apr 2023 12:40:40 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6207E56
-        for <perfbook@vger.kernel.org>; Mon, 10 Apr 2023 09:40:39 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1a4f88a0bd1so3683395ad.0
-        for <perfbook@vger.kernel.org>; Mon, 10 Apr 2023 09:40:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681144839;
-        h=to:date:message-id:subject:mime-version:content-transfer-encoding
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=faC5yYnd3OFAIor5VHNrgpqROoo7pPgfOqU+6qYFyqI=;
-        b=lAfl6AfJkZryWIa3IA+JNQAhH2PtBHdx1y7i97D7KohrfiGczZEPW7uQZyU7oWkPn5
-         lKEmBJi4EueiveJB3DHCa5RI/neSAXLW6NZLwocfC9A5//Rfdn5nwT9Iw56K38bFXq4Q
-         a26YqV6DrKwrKZWJxcJd71ysCg02hqT2wqQHItZSZ5mG7M3+JCSv6jHOCIsLGwEBlQC5
-         PYkWwS9J4BO4Bfd2oWrv5G3bBMOv8VtDzRyDYzvrSYbRcEp4G8g98MCnPAs7e+cDpM32
-         cHxct6Al8Hl5t+09Wiu9iMeux/iq9WI6MFht0M16ahstV7Dig2fMLFvemAsyoZEtwXn0
-         Ib2A==
-Received: from smtpclient.apple ([2402:d0c0:2:a2a::1])
-        by smtp.gmail.com with ESMTPSA id e20-20020aa78c54000000b0059085684b54sm8383948pfd.140.2023.04.10.09.40.37
-        for <perfbook@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Apr 2023 09:40:38 -0700 (PDT)
-From: Alan Huang <mmpgouride@gmail.com>
-Content-Type: text/plain;
-        charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Question: What does "one thread can enter but two threads can exit"
- mean?
-Message-Id: <FE0E33DE-C0A0-4065-99CC-5F0AB58E7A67@gmail.com>
-Date: Tue, 11 Apr 2023 00:40:19 +0800
+        with ESMTP id S229711AbjDJSOQ (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Mon, 10 Apr 2023 14:14:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 710821BD6
+        for <perfbook@vger.kernel.org>; Mon, 10 Apr 2023 11:14:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0C40E61776
+        for <perfbook@vger.kernel.org>; Mon, 10 Apr 2023 18:14:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681150454;
+        bh=uRqhf2dBfSKb64XYOWeXp61FlwoCHtbU5bxte3QwObQ=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=YBEto2YCS0wp/yl6cdP2U7qcV6F8dpNHokcffXo2RLnpTgppcemNkFaF1QvEyNlGu
+         /ssVujJAbrgHXnS9Kl2SvF+6st51tbG1E6TZYFZB1uTIJrk/WDUubIPjELc8/1GOlN
+         9rlEU0Xmd556F3cM8FDA+ogaieDdh4IdGUHK2Zxn6uY+Ckp9rfL3ddD7tg5Zbgb5R+
+         DkJdRrtOWoP9yMydcl07NDO39z/fvEvz7llKz4+ABAY92FD6u9dlotw6InWlC9xh4i
+         eOnjhuCsXDuxGaz/kNjSGfEEeii9f7ghSzbBs/qqwwD1OrYFNY5UnOeVVS79pD19Dd
+         CVY8mZzL6HrQQ==
+Date: Mon, 10 Apr 2023 11:14:13 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: Question: What does "one thread can enter but two threads can
+ exit" mean?
+Message-ID: <b84cdc35-2e73-49bb-91ee-25189791016e@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <FE0E33DE-C0A0-4065-99CC-5F0AB58E7A67@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <FE0E33DE-C0A0-4065-99CC-5F0AB58E7A67@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: perfbook@vger.kernel.org
+To: Alan Huang <mmpgouride@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Hi,
+On Tue, Apr 11, 2023 at 12:40:19AM +0800, Alan Huang wrote:
+> Hi,
+> 
+> I am reading section 6.5.4, there is one paragraph said:
+> 
+> > The fraction of cells visited by PWQ is similar to that of SEQ. In addition, PWQ’s solution time is greater than that of PART, even for equal visit fractions. The reason for this is shown in Figure 6.28, which has a red circle on
+> > Figure 6.29: Effect of Compiler Optimization (-O3)
+> > each cell with more than two neighbors. Each such cell can result in contention in PWQ, because one thread can enter but two threads can exit, which hurts performance,
+> 
+> I don't know why there is competition only when a cell has more than two neighbors?
 
-I am reading section 6.5.4, there is one paragraph said:
+If there are only two neighbors, PWQ won't create another thread, so
+there will not be contention.  In that case, PWQ will have the same
+thread exit the cell that entered it.  Only when there is more than two
+neighbors will PWQ create additional threads, which can then contend
+with the original thread and with each other.
 
-> The fraction of cells visited by PWQ is similar to that of SEQ. In =
-addition, PWQ=E2=80=99s solution time is greater than that of PART, even =
-for equal visit fractions. The reason for this is shown in Figure 6.28, =
-which has a red circle on
-> Figure 6.29: Effect of Compiler Optimization (-O3)
-> each cell with more than two neighbors. Each such cell can result in =
-contention in PWQ, because one thread can enter but two threads can =
-exit, which hurts performance,
+> And as the subject said, what does "one thread can enter but two threads can exit” mean?
 
-I don't know why there is competition only when a cell has more than two =
-neighbors?
+Let's start in the upper left-hand corner of Figure 6.28.  The first
+cell has only one neighbor, namely the one beneath it.  So PWQ just
+advances to that cell without contention.  But the next cell down has
+two exits, so PWQ will create an additional thread, one heading right
+and the other heading down.  Now contention is possible.
 
-And as the subject said, what does "one thread can enter but two threads =
-can exit=E2=80=9D mean?
+> After checking the code(maze_fg.c), Doesn’t every cell in the maze can result in contention?
 
-After checking the code(maze_fg.c), Doesn=E2=80=99t every cell in the =
-maze can result in contention?
+You mean (for example) from a thread on one side of a wall suffering
+memory contention with a thread on the other side of that same wall?
 
-Thanks,
-Alan
+If so, yes, but that can only happen if some earlier cell had more than
+two exits.  Suppose that we had a boring maze that had no cells with
+more than two exits, so that only one path was possible.  In that case,
+there would only be one thread throughout, so no contention.
 
+Or am I missing your point?
 
+							Thanx, Paul
