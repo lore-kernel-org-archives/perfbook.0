@@ -1,143 +1,93 @@
-Return-Path: <SRS0=k9bS=AD=gmail.com=mmpgouride@kernel.org>
+Return-Path: <SRS0=ctHB=AD=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681262120;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BFFRD9deRua5r507Un+BXVM/HC0U0vX7AuEpUlXK/Vc=;
-        b=NZzAD9gciNrmrHslLBOEAdKB7GYFiqwk+jsiSO8VYtWPBmMuAH4tgJR6Yig1W2l2mH
-         kkA+swYKTffgA7K9oNlXgwmMdz9T3ZYVaiaRlTJwCE+ey3XcdwYi/7tmbS+27Zj5vWrA
-         hN/7imrvVGUpBleKZnv81vrTdg5kfXQdXqznHALn/R7R+tumGZUy5vFpLA9qWbLdzMeq
-         F/M9C4ICWDvaDw0P1C1Mz0HmY2S9EpIpJ690+HaOGZBEBk4grjauFLNK9eEfOCIA5AEI
-         JlsQTSZbzieiRZiE3bcJhWtKPTJ0hCrknsglr5PdHnXoZWlnvAAjwnEOGnGphdwMI5bg
-         mxyQ==
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.60.0.2.21\))
+        d=gmail.com; s=20221208; t=1681267890; x=1683859890;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BaN2p4WqoDjK+Q0YNVo45vXwJktA9BtZMuDiXwFVGOY=;
+        b=DmwjqCMyMX8fDC5gL9fQMdp5RnD1el9WlXlHfqFZ+E9L1mi8fBAWZgUHmSwQ0QES/j
+         HVoGQqJ3zacjsLzBBpRyHWE5lrHc+zrm7Mx6XYUjd3u57CSj0rOsK5PO38jG8xfSWfb4
+         UbUWVVCgz1kdi99rBpf6ztkr1Sgqguph3OD8jW/hdJfA7LTiNaXpv9V3TzfWuRUCtksB
+         riiJFprWQy+Qgwqv4K5w4ZG4o32OQ36c9+fe5Hd5r6BWD5QpAEmgP0FKkidf5wTLl+qU
+         qKdNly3DOkb35V/J+KAVQbVnXGJr5BolRUgI54LE6VqFXPiyx6sTpRS6n5bd83+wTzSz
+         V/1Q==
+Message-ID: <65116a6a-50c1-583b-0790-31b405c2c4dd@gmail.com>
+Date: Wed, 12 Apr 2023 11:51:27 +0900
+MIME-Version: 1.0
 Subject: Re: [PATCH] SMPDesign: Remove duplicate item
-From: Alan Huang <mmpgouride@gmail.com>
-In-Reply-To: <ee5d3aff-58ef-85a4-ee0f-9ce8fbe7bfd8@gmail.com>
-Date: Wed, 12 Apr 2023 09:15:12 +0800
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <DAB6D77C-C34D-4F12-A589-63F42648E1C2@gmail.com>
 References: <20230411162805.1343469-1-mmpgouride@gmail.com>
  <ee5d3aff-58ef-85a4-ee0f-9ce8fbe7bfd8@gmail.com>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org, paulmck@kernel.org
+ <DAB6D77C-C34D-4F12-A589-63F42648E1C2@gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <DAB6D77C-C34D-4F12-A589-63F42648E1C2@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: Alan Huang <mmpgouride@gmail.com>
+Cc: perfbook@vger.kernel.org, paulmck@kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
->> -	Similarly, the greater the desired efficiency, the smaller
->> +	Similarly, the greater the desired efficiency, the bigger
->> 	the achievable speedup.
->=20
-> I might not be fully woken up, but this change doesn't make
-> sense to me.
+On Wed, 12 Apr 2023 09:15:12 +0800, Alan Huang wrote:
+>>> -	Similarly, the greater the desired efficiency, the smaller
+>>> +	Similarly, the greater the desired efficiency, the bigger
+>>> 	the achievable speedup.
+>>
+>> I might not be fully woken up, but this change doesn't make
+>> sense to me.
+> 
+> The original sentence means (to me) If we get greater efficiency use of CPUs,
+> we get smaller speedup.
+> 
+> If I misunderstood, please correct me.
 
-The original sentence means (to me) If we get greater efficiency use of =
-CPUs,
-we get smaller speedup.
+My version of interpretation of the sentence:
 
-If I misunderstood, please correct me.
+   Similarly, if our goal is greater efficiency, we might end up
+   in a smaller speedup in the end.
 
->    If the critical sections have high overhead compared to
->    the primitives guarding them, the best way to improve
->                                                  ^^^^^^^
->    speedup is to increase parallelism by moving to reader/writer
->    ^^^^^^^
->    locking, data locking, asymmetric, or data ownership.
->             ^^^^^^^^^^^^^                ^^^^^^^^^^^^^^
->=20
-> Item 5:
->=20
->    If the critical sections have high overhead compared to
->    the primitives guarding them and the data structure being
->                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->    guarded is read much more often than modified, the best way
->    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->    to increase parallelism is to move to reader/writer locking
->    or asymmetric primitives.
->=20
-> Are you sure they are duplicates ???
+One extreme approach for the greatest efficiency might be not to
+parallelize at all, to use a single CPU, and to get a negative
+speedup (i.e., speed down).
 
+> 
+>>    If the critical sections have high overhead compared to
+>>    the primitives guarding them, the best way to improve
+>>                                                  ^^^^^^^
+>>    speedup is to increase parallelism by moving to reader/writer
+>>    ^^^^^^^
+>>    locking, data locking, asymmetric, or data ownership.
+>>             ^^^^^^^^^^^^^                ^^^^^^^^^^^^^^
+>>
+>> Item 5:
+>>
+>>    If the critical sections have high overhead compared to
+>>    the primitives guarding them and the data structure being
+>>                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>>    guarded is read much more often than modified, the best way
+>>    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>>    to increase parallelism is to move to reader/writer locking
+>>    or asymmetric primitives.
+>>
+>> Are you sure they are duplicates ???
+> 
+> 
+> If the critical sections have high overhead compared to the primitives guarding them,
+> It means that the overhead of primitives is relative small, but the aim of data locking and data ownership 
+> is to reduce the overhead of primitives.
 
-If the critical sections have high overhead compared to the primitives =
-guarding them,
-It means that the overhead of primitives is relative small, but the aim =
-of data locking and data ownership=20
-is to reduce the overhead of primitives.=20
+Well, I think Paul's motivation of special casing read-mostly
+data comes from his expertise in RCU.
 
-Thanks,
-Alan
+I'd like to respect his motivation.
 
+Anyway, this list is more of a guideline of approaches to
+parallel-programming design considerations.
+Why do you want it to be so precise ???
 
+        Thanks, Akira
 
-> 2023=E5=B9=B44=E6=9C=8812=E6=97=A5 =E4=B8=8A=E5=8D=888:16=EF=BC=8CAkira =
-Yokosawa <akiyks@gmail.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> Hi Alan,
->=20
-> On Tue, 11 Apr 2023 12:28:05 -0400, Alan Huang wrote:
->> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
->> ---
->> SMPdesign/criteria.tex | 7 +------
->> 1 file changed, 1 insertion(+), 6 deletions(-)
->>=20
->> diff --git a/SMPdesign/criteria.tex b/SMPdesign/criteria.tex
->> index d3d84506..bc4d3a77 100644
->> --- a/SMPdesign/criteria.tex
->> +++ b/SMPdesign/criteria.tex
->> @@ -145,7 +145,7 @@ parallel program.
->> 	The larger the gap between the number of CPUs
->> 	and the actual speedup, the less efficiently the
->> 	CPUs will be used.
->> -	Similarly, the greater the desired efficiency, the smaller
->> +	Similarly, the greater the desired efficiency, the bigger
->> 	the achievable speedup.
->=20
-> I might not be fully woken up, but this change doesn't make
-> sense to me.
->=20
->> \item	If the available synchronization primitives have
->> 	high overhead compared to the critical sections
->> @@ -157,11 +157,6 @@ parallel program.
->> 	using asymmetric primitives
->> 	(see \cref{chp:Deferred Processing}),
->> 	or by using a coarse-grained design such as \IXh{code}{locking}.
->> -\item	If the critical sections have high overhead compared
->> -	to the primitives guarding them, the best way
->> -	to improve speedup is to increase parallelism
->> -	by moving to reader/writer locking, \IXh{data}{locking}, =
-asymmetric,
->> -	or data ownership.
->=20
-> You mean, this and the next item says the same thing?
-> I don't think so.
->=20
-> Item 4:
->=20
->    If the critical sections have high overhead compared to
->    the primitives guarding them, the best way to improve
->                                                  ^^^^^^^
->    speedup is to increase parallelism by moving to reader/writer
->    ^^^^^^^
->    locking, data locking, asymmetric, or data ownership.
->             ^^^^^^^^^^^^^                ^^^^^^^^^^^^^^
->=20
-> Item 5:
->=20
->    If the critical sections have high overhead compared to
->    the primitives guarding them and the data structure being
->                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->    guarded is read much more often than modified, the best way
->    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->    to increase parallelism is to move to reader/writer locking
->    or asymmetric primitives.
->=20
-> Are you sure they are duplicates ???
->=20
->        Thanks, Akira
->=20
->> \item	If the critical sections have high overhead compared
->> 	to the primitives guarding them and the data structure
->> 	being guarded is read much more often than modified,
-
+> 
+> Thanks,
+> Alan
+> 
+[...]
