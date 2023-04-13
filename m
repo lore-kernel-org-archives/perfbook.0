@@ -1,68 +1,45 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60526 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231301AbjDMPKo (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Thu, 13 Apr 2023 11:10:44 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8655B93CA
-        for <perfbook@vger.kernel.org>; Thu, 13 Apr 2023 08:10:29 -0700 (PDT)
+        with ESMTP id S229493AbjDMTjK (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Thu, 13 Apr 2023 15:39:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D065FFC
+        for <perfbook@vger.kernel.org>; Thu, 13 Apr 2023 12:39:09 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 222D063F7B
-        for <perfbook@vger.kernel.org>; Thu, 13 Apr 2023 15:10:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F92264147
+        for <perfbook@vger.kernel.org>; Thu, 13 Apr 2023 19:39:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20851C433D2
+        for <perfbook@vger.kernel.org>; Thu, 13 Apr 2023 19:39:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681398628;
-        bh=IsXy7bpMC3wNLPz90UUCkzGD2C2M5q2Xo6pEgRVlw8w=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=qxpfeAkznBeNBDhXkajn1rjVe8c13un1misgz/fnZqC3NFtKCgSehkAHRaCUw8Y3w
-         FHVwt2ZBPV2DdBtQcSH8uEtz0AE6vRrnnAPGCGQzjwij0fxYp96BsK6nTXRUMiiSaA
-         RrCMpHK+TnysJQxmCsFHv1mQze6gu7zQmk38w9uaDubGLA6JVu9Zu6QLCjTTnN0VYm
-         8JJxFmMHs/SoPOzK0hW0PIhvwfdYs9WA+QOjulewbjGNjA4KBL4reNkcafK9m3gPoQ
-         E97wnVvbtk3LtgDqrjNPpYqRreOhEYA2IgGbZ7Z3LAusou/ZN46tqZ2pdhqTflA8Ri
-         o1G90Ifc2vOLg==
-Date: Thu, 13 Apr 2023 08:10:28 -0700
+        s=k20201202; t=1681414748;
+        bh=KL9hOwG0eM5DtDt5VM5gUUJzo5jQNlbEGTrDhwD0rSk=;
+        h=Date:From:To:Subject:Reply-To:From;
+        b=axlTBcWogz/vz8zSK1LrOX9S4vnp6QxwJnFaQXQkRjHp/+aSpYmgobaaHJgUH+t+h
+         m5PnwyxxIpX1Cm1iTzoQp3eTfj+nHDYLzQptDSitaF9plZNOZcpOUk9c6l9S3JtEpq
+         SQ8JGG0MOn6qztHH4AFfBWkrQE1c7mIHBHxPYloSgKFpXPrb+lVExwm13p7/5aUjtP
+         LkHS6T+wcsmyXdLT0QPB9OOZxmVbin4WVaCiv1IH/Yu6eN14oi6dkstzrsYgFcRmdb
+         M/gHaLnYMK1PLUkedcigxa0qBCahwEtLWMq60+p5EXtqeVPn+oh1knWSkZ0PzoctdF
+         XieVpxAU04Tqw==
+Date: Thu, 13 Apr 2023 12:39:07 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook] count: Correct grammar in QQz 5.50
-Message-ID: <e56e96d7-0923-4d3c-8c42-c3e7d5ff6996@paulmck-laptop>
+Subject: On travel this coming week
+Message-ID: <a7df2e3c-fa3a-4f1a-ad5f-b8004300b31a@paulmck-laptop>
 Reply-To: paulmck@kernel.org
-References: <7b762b1f-7a03-0e42-abf9-718fa85546ad@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7b762b1f-7a03-0e42-abf9-718fa85546ad@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: "perfbook@vger.kernel.org" <perfbook@vger.kernel.org>
+To: perfbook@vger.kernel.org
 
-On Thu, Apr 13, 2023 at 07:19:47PM +0900, Akira Yokosawa wrote:
-> Make adverbial phrase look as such.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Hello!
 
-Good catch, thank you!  Queued and pushed.
+I will be on travel for a week starting tomorrow (Friday), Pacific Time.
+I may be off the grid for extended periods during this time, but will
+catch up upon my return.
+
+Have a great week!
 
 							Thanx, Paul
-
-> ---
->  count/count.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/count/count.tex b/count/count.tex
-> index ccc2e839e5ed..7b2fde109490 100644
-> --- a/count/count.tex
-> +++ b/count/count.tex
-> @@ -2440,7 +2440,7 @@ the fastpath happens before this change of \co{theft} to READY\@.
->  \end{listing}
->  
->  \QuickQuiz{
-> -	In \cref{lst:count:Signal-Theft Limit Counter Value-Migration Functions}'s
-> +	In \cref{lst:count:Signal-Theft Limit Counter Value-Migration Functions},
->  	doesn't \co{flush_local_count_sig()} need stronger memory barriers?
->  }\QuickQuizAnswer{
->  	No, that \co{smp_store_release()} suffices because this code
-> 
-> base-commit: b66ea50d370a6b028487d19e6857718d8e703f7c
-> -- 
-> 2.25.1
-> 
