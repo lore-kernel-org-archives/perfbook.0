@@ -1,117 +1,137 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48446 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231378AbjDXPob (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 24 Apr 2023 11:44:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A32EFF
-        for <perfbook@vger.kernel.org>; Mon, 24 Apr 2023 08:44:30 -0700 (PDT)
+        with ESMTP id S232020AbjDXP4j (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Mon, 24 Apr 2023 11:56:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF595FD7
+        for <perfbook@vger.kernel.org>; Mon, 24 Apr 2023 08:56:37 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A97226125D
-        for <perfbook@vger.kernel.org>; Mon, 24 Apr 2023 15:44:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7CF4E62689
+        for <perfbook@vger.kernel.org>; Mon, 24 Apr 2023 15:56:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682351069;
-        bh=WEkvk3yhsa4lIN2/Hq3wEXJliwH36npAyIp9gBOV2tc=;
+        s=k20201202; t=1682351796;
+        bh=RispzUvQXH3/qI0iW8KRr6SJr6ll1bSj+TxF3xMMY1M=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=FKY64D13oWE68EU1SZdoLlorDILClIcZGhwBJ9tGwIYH4VybFC8sg6gUPXs2jn72E
-         tNOdHCooAzEQ7vOj9Cenm1KMVYiAganXOv48VB8jbn3Rn1qwzwALzuqefmpyGtPyWJ
-         bsGaJ/ZLjwsgk0pwbvSQFXZ/Z1IqFr+p7gZPv6NG18Et5ZEapHlMWlEz8y6eXhuSis
-         VZ4Pxc/q/UmtQTgoVM/nW3+nLRWElktcFBBu5/UjGxedP33IQkVd15OEVv6kgD33b1
-         XIHWI8jwKkUZT/VZqFCigquZsSrwEt90ITggbac0xjgcUZuDm1g/caKdGZkq2h4xG1
-         TMkkAdLVR7Ttg==
-Date: Mon, 24 Apr 2023 08:44:28 -0700
+        b=UqKiNq6VtPfwO+LvFTBPT+PmwWqpeUdn3cL6pvI0nqmy7fxuw+i+bC7LLTkGpx7mN
+         QHhAAsVPP3QKawrbGXo9bYX4BpvVtCmwYIR8kCrkVl8bs7DZdACGDocPprnf9RMpRs
+         QiV34wr/7Qg3cdRcVgHQjvwgwcqzOO3o/5peH4X9JJcIITKengdDnSthWTkcH6uAoN
+         thCKiTdIgQISswq11WKYI+K7clLM/q2cXgxVs15XI30jlKeUnyXViyWU4DpQWO6n2L
+         QyNp1w0yerdEOGOWPxqKTw5g6mTpPMlWH32sDidE/D+zNj2QTTX3yYGRw42yeTQK/+
+         UQpFFu/3nrpZA==
+Date: Mon, 24 Apr 2023 08:56:36 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH v2] CodeSamples/defer: Fix hazard torture
-Message-ID: <382e0a57-28c9-4da1-9474-abcdbe84d46d@paulmck-laptop>
+Subject: Re: [PATCH -perfbook 2/2] memorder: Use desctiption list for PowerPC
+ terminology
+Message-ID: <20f67b11-09ed-404d-bf09-6d14f7b20f1d@paulmck-laptop>
 Reply-To: paulmck@kernel.org
-References: <20230422103421.1382-1-mmpgouride@gmail.com>
- <c5b09b36-1b3f-6d03-2dda-ad2514c71de9@gmail.com>
+References: <23dea7ea-6dda-bfdc-c0b5-50e0e841677b@gmail.com>
+ <07f95142-2631-e0aa-f5a3-dbf669d5fcec@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c5b09b36-1b3f-6d03-2dda-ad2514c71de9@gmail.com>
+In-Reply-To: <07f95142-2631-e0aa-f5a3-dbf669d5fcec@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Alan Huang <mmpgouride@gmail.com>, perfbook@vger.kernel.org
+Cc: perfbook@vger.kernel.org
 
-On Sat, Apr 22, 2023 at 08:56:17PM +0900, Akira Yokosawa wrote:
-> On Sat, 22 Apr 2023 10:34:21 +0000, Alan Huang wrote:
-> > Because hp_try_record() must check for concurrent modifications,
-> > we should not dereference the pointer. The arg of hazptr_read_stress_test
-> > is always NULL, which is designated at time when create the thread,
-> > therefore, all threads will store their hazard pointer in the same slot.
-> > Also, hazptr_thread_exit will clear their own hazard pointer from
-> > smp_thread_id() * K.
-> > 
-> > Signed-off-by: Alan Huang <mmpgouride@gmail.com>
+On Sat, Apr 22, 2023 at 02:56:26PM +0900, Akira Yokosawa wrote:
+> Using \paragraph under subsection level breaks normal document
+> structure.
 > 
-> Now I see all your points.  Thank you for your thorough review
-> of the code!
+> A description list should be a better fit for the purpose of
+> presenting PowerPC terminology.
 > 
-> As I mentioned earlier, the deref of p was introduced by commit
-> a082aba85ce0 ("defer/hazptr: Checkpoint for text/code update"),
-> while the uses of arg in hazptr_read_stress_test() and
-> hazptr_read_perf_test() were there since the addition of this code
-> by commit c672535d475a ("Convert Tom Hart's hazard-pointer
-> implementation to perfbook"), that is, if I'm reading the code
-> correctly.
+> As a bonus, this change makes the end of the list of terminology
+> becomes obvious to your eyes.
 > 
-> So,
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> ---
+> Hi Paul,
 > 
-> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-> Fixes: c672535d475a ("Convert Tom Hart's hazard-pointer implementation to perfbook")
-> Fixes: a082aba85ce0 ("defer/hazptr: Checkpoint for text/code update")
+> I think this is what you wanted do.
+> I changed the periods at the end of terms into colons.
+> Do they look good to you?
 
-Now -that- is what I call an embarrassing bug!
+Looks good, queued and pushed, thank you!
 
-Thank you both for tracking it down and for the fix!!!
+I did not know about "style=nextline", very nice!
 
-Queued and pushed.
+Good catch on \FloatBarrier!  The reason I moved it was that while I
+was writing the new section, it was leaving most of a page blank.
+But now that that section is complete, it doesn't seem to be having
+much effect.  So I removed it.
+
+Please let me know if this removal had bad effects somewhere that
+I missed.
 
 							Thanx, Paul
 
 >         Thanks, Akira
+> --
+>  memorder/memorder.tex | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
 > 
-> > ---
-> >  CodeSamples/defer/hazptr.h        | 2 +-
-> >  CodeSamples/defer/hazptrtorture.h | 5 ++---
-> >  2 files changed, 3 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/CodeSamples/defer/hazptr.h b/CodeSamples/defer/hazptr.h
-> > index 759ab53d..e061303d 100644
-> > --- a/CodeSamples/defer/hazptr.h
-> > +++ b/CodeSamples/defer/hazptr.h
-> > @@ -87,7 +87,7 @@ static inline void *hp_record(void **p,			//\lnlbl{hr:b}
-> >  	void *tmp;
-> >  
-> >  	do {
-> > -		tmp = hp_try_record(*p, hp);
-> > +		tmp = hp_try_record(p, hp);
-> >  	} while (tmp == (void *)HAZPTR_POISON);
-> >  	return tmp;
-> >  }							//\lnlbl{hr:e}
-> > diff --git a/CodeSamples/defer/hazptrtorture.h b/CodeSamples/defer/hazptrtorture.h
-> > index 53efa259..acdd532b 100644
-> > --- a/CodeSamples/defer/hazptrtorture.h
-> > +++ b/CodeSamples/defer/hazptrtorture.h
-> > @@ -99,7 +99,7 @@ void *hazptr_read_perf_test(void *arg)
-> >  {
-> >  	int i;
-> >  	int me = (long)arg;
-> > -	int base = me * K;
-> > +	int base = smp_thread_id() * K;
-> >  	long long n_reads_local = 0;
-> >  	hazptr_head_t hh;
-> >  	hazptr_head_t *hhp = &hh;
-> > @@ -241,8 +241,7 @@ DEFINE_PER_THREAD(long long [HAZPTR_STRESS_PIPE_LEN + 1], hazptr_stress_count);
-> >  
-> >  void *hazptr_read_stress_test(void *arg)
-> >  {
-> > -	int me = (int)(long)arg;
-> > -	int base = me * K;
-> > +	int base = smp_thread_id() * K;
-> >  	struct hazptr_stress *p;
-> >  	int pc;
-> >  
+> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+> index 7d6153a1a67e..cbd772e4fde4 100644
+> --- a/memorder/memorder.tex
+> +++ b/memorder/memorder.tex
+> @@ -2571,15 +2571,17 @@ later \co{lwz} from \co{x} must precede \co{P0()}'s \co{stw} to \co{x}.
+>  Seeing how this can happen requires a rough understanding of the
+>  following PowerPC terminology.
+>  
+> -\paragraph{Instruction commit.}
+> +\begin{description}[style=nextline]
+> +
+> +\item[Instruction commit:]
+>  This can be thought of as the execution of that instruction as opposed
+>  to the memory-system consequences of having executed that instruction.
+>  
+> -\paragraph{Write reaching coherence point.}
+> +\item[Write reaching coherence point:]
+>  This can be thought of as the value written being deposited into the
+>  corresponding cache line.
+>  
+> -\paragraph{Partial coherence commit.}
+> +\item[Partial coherence commit:]
+>  This can be thought of as the system having worked out the order in which
+>  a pair of values written will be deposited into the corresponding cache
+>  line, but potentially well before that cache line arrives.
+> @@ -2589,7 +2591,7 @@ suggests that real PowerPC hardware does in fact use partial coherence
+>  commits to handle concurrent stores by multiple hardware threads within
+>  a single core.
+>  
+> -\paragraph{Write propagate to thread.}
+> +\item[Write propagate to thread:]
+>  This occurs when a second hardware thread becomes aware of the first
+>  hardware thread's write.
+>  The time at which a write propagates to a given thread might not have
+> @@ -2601,11 +2603,11 @@ the first thread's write's value might have been deposited into the
+>  corresponding cache line long before the second thread learns of that
+>  write.
+>  
+> -\paragraph{Barrier propagate to thread.}
+> +\item[Barrier propagate to thread:]
+>  Hardware threads make each other aware of memory-barrier instructions
+>  as needed by propagating them to each other.
+>  
+> -\paragraph{Acknowledge \co{sync}.}
+> +\item[Acknowledge \tco{sync}:]
+>  The PowerPC \co{sync} instruction implements the Linux kernel's
+>  \co{smp_mb()} full barrier.
+>  And one reason that the \co{sync} instruction provides such strong
+> @@ -2614,6 +2616,8 @@ threads, but these other threads must also acknowledge each \co{sync}.
+>  This two-way communication allows the hardware threads to cooperate
+>  to produce the required strong global ordering.
+>  
+> +\end{description}
+> +
+>  \begin{figure*}[tbp]
+>  \centering
+>  \resizebox{\textwidth}{!}{\includegraphics{memorder/PPCMEM0.png}}
+> -- 
+> 2.25.1
+> 
+> 
