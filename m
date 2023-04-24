@@ -1,137 +1,70 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57214 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232020AbjDXP4j (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 24 Apr 2023 11:56:39 -0400
+        with ESMTP id S231713AbjDXQDD (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Mon, 24 Apr 2023 12:03:03 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF595FD7
-        for <perfbook@vger.kernel.org>; Mon, 24 Apr 2023 08:56:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D77176EA1
+        for <perfbook@vger.kernel.org>; Mon, 24 Apr 2023 09:02:58 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7CF4E62689
-        for <perfbook@vger.kernel.org>; Mon, 24 Apr 2023 15:56:37 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7303361B33
+        for <perfbook@vger.kernel.org>; Mon, 24 Apr 2023 16:02:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682351796;
-        bh=RispzUvQXH3/qI0iW8KRr6SJr6ll1bSj+TxF3xMMY1M=;
+        s=k20201202; t=1682352177;
+        bh=m/EieGUh9Ey3jIFuVpIY7Vu2t1kClewJ5Ap3D+cDjwQ=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=UqKiNq6VtPfwO+LvFTBPT+PmwWqpeUdn3cL6pvI0nqmy7fxuw+i+bC7LLTkGpx7mN
-         QHhAAsVPP3QKawrbGXo9bYX4BpvVtCmwYIR8kCrkVl8bs7DZdACGDocPprnf9RMpRs
-         QiV34wr/7Qg3cdRcVgHQjvwgwcqzOO3o/5peH4X9JJcIITKengdDnSthWTkcH6uAoN
-         thCKiTdIgQISswq11WKYI+K7clLM/q2cXgxVs15XI30jlKeUnyXViyWU4DpQWO6n2L
-         QyNp1w0yerdEOGOWPxqKTw5g6mTpPMlWH32sDidE/D+zNj2QTTX3yYGRw42yeTQK/+
-         UQpFFu/3nrpZA==
-Date: Mon, 24 Apr 2023 08:56:36 -0700
+        b=gN8oNQg2Qb5B8dFoi9uKMTrAZfuNF7tjqouTkaCMzAWEWH9DkZwRx7d+Z4UhSAogx
+         pTSt6pID/LxCRdIwxMK5M4y5d1RuyOXlw8MO1n81WqOOHMtETISmlUki8qBWI/PdIq
+         uk5KL2HJTVTqBUvgByWZa3eD5NRNoYTh+6o0ywXtkLs9Ef5MbR3TUX6HtuUbVshLvd
+         eu83qTHE0g2X46/dTsqNBMl9XWhYKk+9rOnm269E/ScPJpyewURtl1AAlvJwN3HXLl
+         BhlRLM0FA7KXo3TybP5ay6EL6u6GSkzhTq+au97vz3/8EvwIdvkG3r9CL0JvKU6weY
+         WXDFM78MsOxAQ==
+Date: Mon, 24 Apr 2023 09:02:57 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook 2/2] memorder: Use desctiption list for PowerPC
- terminology
-Message-ID: <20f67b11-09ed-404d-bf09-6d14f7b20f1d@paulmck-laptop>
+Subject: Re: [PATCH] CodeSamples/defer: Make hazard partition consistent with
+ hazptr_thread_exit
+Message-ID: <7ea775ac-579c-4b73-8d07-b717f962bd50@paulmck-laptop>
 Reply-To: paulmck@kernel.org
-References: <23dea7ea-6dda-bfdc-c0b5-50e0e841677b@gmail.com>
- <07f95142-2631-e0aa-f5a3-dbf669d5fcec@gmail.com>
+References: <20230420074030.35246-1-mmpgouride@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <07f95142-2631-e0aa-f5a3-dbf669d5fcec@gmail.com>
+In-Reply-To: <20230420074030.35246-1-mmpgouride@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
+To: Alan Huang <mmpgouride@gmail.com>
 Cc: perfbook@vger.kernel.org
 
-On Sat, Apr 22, 2023 at 02:56:26PM +0900, Akira Yokosawa wrote:
-> Using \paragraph under subsection level breaks normal document
-> structure.
-> 
-> A description list should be a better fit for the purpose of
-> presenting PowerPC terminology.
-> 
-> As a bonus, this change makes the end of the list of terminology
-> becomes obvious to your eyes.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+On Thu, Apr 20, 2023 at 07:40:30AM +0000, Alan Huang wrote:
+> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
 > ---
-> Hi Paul,
+>  CodeSamples/defer/hazptrtorture.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I think this is what you wanted do.
-> I changed the periods at the end of terms into colons.
-> Do they look good to you?
+> diff --git a/CodeSamples/defer/hazptrtorture.h b/CodeSamples/defer/hazptrtorture.h
+> index 29761e3d..acdd532b 100644
+> --- a/CodeSamples/defer/hazptrtorture.h
+> +++ b/CodeSamples/defer/hazptrtorture.h
+> @@ -99,7 +99,7 @@ void *hazptr_read_perf_test(void *arg)
+>  {
+>  	int i;
+>  	int me = (long)arg;
+> -	int base = me * K;
+> +	int base = smp_thread_id() * K;
 
-Looks good, queued and pushed, thank you!
+Suppose specify a number of threads greater than the number of CPUs.
+For example, on my 12-hardware-thread laptop:
 
-I did not know about "style=nextline", very nice!
+./route_hazptr --stresstest --nreaders 24
 
-Good catch on \FloatBarrier!  The reason I moved it was that while I
-was writing the new section, it was leaving most of a page blank.
-But now that that section is complete, it doesn't seem to be having
-much effect.  So I removed it.
-
-Please let me know if this removal had bad effects somewhere that
-I missed.
+In that case, don't we want "me" rather than "smp_thread_id()"?
 
 							Thanx, Paul
 
->         Thanks, Akira
-> --
->  memorder/memorder.tex | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
-> 
-> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-> index 7d6153a1a67e..cbd772e4fde4 100644
-> --- a/memorder/memorder.tex
-> +++ b/memorder/memorder.tex
-> @@ -2571,15 +2571,17 @@ later \co{lwz} from \co{x} must precede \co{P0()}'s \co{stw} to \co{x}.
->  Seeing how this can happen requires a rough understanding of the
->  following PowerPC terminology.
->  
-> -\paragraph{Instruction commit.}
-> +\begin{description}[style=nextline]
-> +
-> +\item[Instruction commit:]
->  This can be thought of as the execution of that instruction as opposed
->  to the memory-system consequences of having executed that instruction.
->  
-> -\paragraph{Write reaching coherence point.}
-> +\item[Write reaching coherence point:]
->  This can be thought of as the value written being deposited into the
->  corresponding cache line.
->  
-> -\paragraph{Partial coherence commit.}
-> +\item[Partial coherence commit:]
->  This can be thought of as the system having worked out the order in which
->  a pair of values written will be deposited into the corresponding cache
->  line, but potentially well before that cache line arrives.
-> @@ -2589,7 +2591,7 @@ suggests that real PowerPC hardware does in fact use partial coherence
->  commits to handle concurrent stores by multiple hardware threads within
->  a single core.
->  
-> -\paragraph{Write propagate to thread.}
-> +\item[Write propagate to thread:]
->  This occurs when a second hardware thread becomes aware of the first
->  hardware thread's write.
->  The time at which a write propagates to a given thread might not have
-> @@ -2601,11 +2603,11 @@ the first thread's write's value might have been deposited into the
->  corresponding cache line long before the second thread learns of that
->  write.
->  
-> -\paragraph{Barrier propagate to thread.}
-> +\item[Barrier propagate to thread:]
->  Hardware threads make each other aware of memory-barrier instructions
->  as needed by propagating them to each other.
->  
-> -\paragraph{Acknowledge \co{sync}.}
-> +\item[Acknowledge \tco{sync}:]
->  The PowerPC \co{sync} instruction implements the Linux kernel's
->  \co{smp_mb()} full barrier.
->  And one reason that the \co{sync} instruction provides such strong
-> @@ -2614,6 +2616,8 @@ threads, but these other threads must also acknowledge each \co{sync}.
->  This two-way communication allows the hardware threads to cooperate
->  to produce the required strong global ordering.
->  
-> +\end{description}
-> +
->  \begin{figure*}[tbp]
->  \centering
->  \resizebox{\textwidth}{!}{\includegraphics{memorder/PPCMEM0.png}}
+>  	long long n_reads_local = 0;
+>  	hazptr_head_t hh;
+>  	hazptr_head_t *hhp = &hh;
 > -- 
-> 2.25.1
-> 
+> 2.34.1
 > 
