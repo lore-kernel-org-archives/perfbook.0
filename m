@@ -1,98 +1,122 @@
-Return-Path: <SRS0=gvYa=AQ=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=ZHTt=AQ=gmail.com=mmpgouride@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682436842; x=1685028842;
-        h=content-transfer-encoding:in-reply-to:cc:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ll/H5x0ZSBYqcRKYJKRk7KthKKWkad6yQ6oZJPpKCyc=;
-        b=EAU4Nj+euZuES0xmulMsspGEy2nUFHDMLN17LR1YPe8z7lt+YyxyHKyZpSZhIEnkTo
-         titH29hYH9PHIcP4jZrOFSaV8wT4JUlPxbCP8a114o2sJCWxyl2Oin4E7iz6bML30foy
-         vRHDIwSIAssHot38n1xGdHCevs0DTS8NOFzAyF63Bl8ct+JVuulE16n8VfPdI+4cwRDx
-         Bk5h9R6ou566VA1lpZ8q3lopUbW55mOIB+jvOaugxYtvVTfgMm+xNaAmtOozhk6OUgJq
-         Qxux6pqEeHxPVPrOgPBuHipi3Z1R7oijP/hc8Y0i+Qcsf3clMNtpm0l+Haoz/xGFPkGF
-         J3nw==
-Message-ID: <25bd5e72-0d70-3268-afa4-7a6ba0febcfa@gmail.com>
-Date: Wed, 26 Apr 2023 00:33:58 +0900
-MIME-Version: 1.0
+        d=gmail.com; s=20221208; t=1682442436; x=1685034436;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RL3yVFoMVMBJdUvHJ8nuXXERgfnOvLwFPUfUkW3k6H8=;
+        b=CoQmI/4Pn5ihE+45XD93Aho4V0GM1/41dHL312UE8/jblbxe9WkZifVwklF4FVK5Ea
+         UkMA7fo3fzOkAV4CWvsN6OiyMIyczROqawe/jNKxgcuZef2nZPzyUX/5803K1GxJ1oxw
+         uVNIbVDmuAOud3i7aWE7q1JQhUdjZQKj83fJf9Kyt/3lgzHz5MZuy87K/ubKqwuDSlrh
+         S8H3UPVZ5IpWiBy1T5DCRSt6OekaTXj8Tk28liNMQLL2dn3pRNI7gmzRVOqDHbXN9cmg
+         6mJ0SrOuHsxX/Qfd1O7bZIHpqUhFWa19XTjRag2nu2iPjMgHg5JB7woLUmQAxmQvn4Rf
+         x3qA==
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
 Subject: Re: Question: Why does the modification of seq in write_seqlock not
  require WRITE_ONCE?
-References: <77ACB1FE-73A2-4C0D-A4EE-67D108DA539C@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <77ACB1FE-73A2-4C0D-A4EE-67D108DA539C@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Alan Huang <mmpgouride@gmail.com>
+In-Reply-To: <25bd5e72-0d70-3268-afa4-7a6ba0febcfa@gmail.com>
+Date: Wed, 26 Apr 2023 01:06:57 +0800
 Content-Transfer-Encoding: quoted-printable
-To: Alan Huang <mmpgouride@gmail.com>
+Message-Id: <6FDBABBC-7444-4189-A881-147F9D42B041@gmail.com>
+References: <77ACB1FE-73A2-4C0D-A4EE-67D108DA539C@gmail.com>
+ <25bd5e72-0d70-3268-afa4-7a6ba0febcfa@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>
 Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Alan,
+Hi Akira,
 
-On Tue, 25 Apr 2023 21:52:48 +0800, Alan Huang wrote:
-> Hi,
+> 2023=E5=B9=B44=E6=9C=8825=E6=97=A5 23:33=EF=BC=8CAkira Yokosawa =
+<akiyks@gmail.com> =E5=86=99=E9=81=93=EF=BC=9A
 >=20
-> I noticed that the modifications of seq in write_seqlock and write_sequ=
-nlock of Listing 9.10 use plain ++ operation.
-> But as Chapter 4 (especially 4.3.4.4) says, there will be store tearing=
- since there are concurrent readers.
+> Hi Alan,
 >=20
-> However, the kernel implementation of sequence lock also uses plain ++ =
-operation.
+> On Tue, 25 Apr 2023 21:52:48 +0800, Alan Huang wrote:
+>> Hi,
+>>=20
+>> I noticed that the modifications of seq in write_seqlock and =
+write_sequnlock of Listing 9.10 use plain ++ operation.
+>> But as Chapter 4 (especially 4.3.4.4) says, there will be store =
+tearing since there are concurrent readers.
+>>=20
+>> However, the kernel implementation of sequence lock also uses plain =
+++ operation.
+>>=20
+>> I=E2=80=99m somewhat confused.
+>>=20
+>> Why does the modification of seq in write_seqlock not require =
+WRITE_ONCE?
 >=20
-> I=E2=80=99m somewhat confused.
+> Good question...
 >=20
-> Why does the modification of seq in write_seqlock not require WRITE_ONC=
-E?
+> I don't have a straight answer, but the history of =
+include/linux/seqlock.h
+> says those plain increments predate the introduction of ACCESS_ONCE
+> (predecessor to READ_ONCE/WRITE_ONCE) to the Linux kernel.
+>=20
+> The code at the time (pre v2.6.0) looked like this:
+>=20
+> static inline void write_seqlock(seqlock_t *sl)
+> {
+> spin_lock(&sl->lock);
+> ++sl->sequence;
+> smp_wmb();=20
+> }=20
+>=20
+> static inline void write_sequnlock(seqlock_t *sl)=20
+> {
+> smp_wmb();
+> sl->sequence++;
+> spin_unlock(&sl->lock);
+> }
+>=20
+> static inline int write_tryseqlock(seqlock_t *sl)
+> {
+> int ret =3D spin_trylock(&sl->lock);
+>=20
+> if (ret) {
+> ++sl->sequence;
+> smp_wmb();=20
+> }
+> return ret;
+> }
+>=20
+> The purpose of WRITE_ONCE() would be to suppress compiler optimization
+> of write accesses.  In the code above, smp_wmb(), spin_lock(),
+> spin_unlock(), and spin_trylock() all imply compiler barriers.
+> So, there is not much room for compilers to optimize the store part
+> of increments.
 
-Good question...
+But unsigned long is at least 32 bits, here is the COMPILER BARRIER =
+section of Documentation/memory-barriers.txt:
 
-I don't have a straight answer, but the history of include/linux/seqlock.=
-h
-says those plain increments predate the introduction of ACCESS_ONCE
-(predecessor to READ_ONCE/WRITE_ONCE) to the Linux kernel.
+	For example, given an architecture having 16-bit store =
+instructions with 7-bit immediate fields, the compiler
+	might be tempted to use two 16-bit store-immediate instructions =
+to implement the following 32-bit store:
+		p =3D 0x00010002;
 
-The code at the time (pre v2.6.0) looked like this:
+The kernel defines sequence as unsigned, which is at least 16 bits, I =
+don=E2=80=99t know if there exists an architecture having 16-bit store =
+instructions with 32-bit unsigned=E2=80=A6
 
-static inline void write_seqlock(seqlock_t *sl)
-{
-	spin_lock(&sl->lock);
-	++sl->sequence;
-	smp_wmb();		=09
-}=09
-
-static inline void write_sequnlock(seqlock_t *sl)=20
-{
-	smp_wmb();
-	sl->sequence++;
-	spin_unlock(&sl->lock);
-}
-
-static inline int write_tryseqlock(seqlock_t *sl)
-{
-	int ret =3D spin_trylock(&sl->lock);
-
-	if (ret) {
-		++sl->sequence;
-		smp_wmb();		=09
-	}
-	return ret;
-}
-
-The purpose of WRITE_ONCE() would be to suppress compiler optimization
-of write accesses.  In the code above, smp_wmb(), spin_lock(),
-spin_unlock(), and spin_trylock() all imply compiler barriers.
-So, there is not much room for compilers to optimize the store part
-of increments.
-
-I think those plain-looking increments are safe as far as current
-compilers are concerned.
-
-Does this explanation help you?
-
-Paul, please chime in if I'm missing something.
-
-        Thanks, Akira
+Thanks,
+Alan
 
 >=20
-> Thanks,
-> Alan
+> I think those plain-looking increments are safe as far as current
+> compilers are concerned.
+>=20
+> Does this explanation help you?
+>=20
+> Paul, please chime in if I'm missing something.
+>=20
+>        Thanks, Akira
+>=20
+>>=20
+>> Thanks,
+>> Alan
+
