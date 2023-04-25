@@ -1,86 +1,93 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49200 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbjDYRz2 (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 25 Apr 2023 13:55:28 -0400
+        with ESMTP id S233992AbjDYSgd (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 25 Apr 2023 14:36:33 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE3A6CC0B
-        for <perfbook@vger.kernel.org>; Tue, 25 Apr 2023 10:55:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4296FC160
+        for <perfbook@vger.kernel.org>; Tue, 25 Apr 2023 11:36:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 79F9B615E9
-        for <perfbook@vger.kernel.org>; Tue, 25 Apr 2023 17:55:27 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B80F96299D
+        for <perfbook@vger.kernel.org>; Tue, 25 Apr 2023 18:36:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682445326;
-        bh=l8W80gtRNpc41e2wlcVTC0an9rRg5f1aW56tS9xbtuw=;
+        s=k20201202; t=1682447787;
+        bh=Gj1UKg4gQHoRU7fKZdTKshzLFB59bCcp8Nd3rtF6QJ8=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Qtddf7y2dTFNLgRR7xB8WYd99EwYPN2In0c4pRSCq/rw39ZCtoCHUvaOqTA18AfSW
-         tMibsuofpvIrGvf5eKfoRtB48tTFl5pwnZbqLMFZPtsVd5a8xbrpnQKT5dqlaHU71J
-         +87mRoMK/IhxjGjvsjQLSbknOr8JKb0FRqN09CCkJXAzuB4AFqOalPwgcFBQEeDN5r
-         0dJDCZEdiO6bfaByvSsS/7rBBlkHyxnyfKnZfbF/ltaVPPkcmMuarog+JGn3z+bv4B
-         xDkhcwMVKRWcClmIFbfbWFHt4Ip7EbqFENw9RoErmhx+/2grDbypAcfRlb2ONDxJ7U
-         rhYlJiNYyk2vA==
-Date: Tue, 25 Apr 2023 10:55:26 -0700
+        b=iWnBzksoHaPH2qNANfyEOwwPNIlMMpaub+eBNrw1Sx4q3VxaMKRKDQ9l4YXVd8ycj
+         2xuZ1cZg1OjqJmH0rE0FJDFfMgOpfadBM/ds+Lxrw6BXEAv1h1wb1K9mRGAZzz3tmy
+         rvAZrzjX3e2IuSrUBErDkv++sWr+RE6OtrDEnxL9jeny7xZpyuc8uBYP2ScKIX56+8
+         192LZkO9v6bz0mcPHRqUp8Ppu2cVW6qrFPT5xWMs/s1TOhcX+VZx5aP0ufvs4xrEli
+         iAd3j3FHlg4aLVFYUU2x2EfCMRwdD5zXYpaBwexq4xtLJxKZAYOKLd9x3hRygiglue
+         RPZGPXyPYjnnQ==
+Date: Tue, 25 Apr 2023 11:36:26 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook -v2] memorder: Remove \FloatBarrier in front of
- Section 15.2.8
-Message-ID: <fb5c4021-0056-4480-80b7-405cd2d1c11b@paulmck-laptop>
+Subject: Re: [PATCH] CodeSamples/defer: Make hazard partition consistent with
+ hazptr_thread_exit
+Message-ID: <c7d8bbb9-0cad-47b8-af71-3a6489bff0a6@paulmck-laptop>
 Reply-To: paulmck@kernel.org
-References: <843cb1f5-6d9d-1ca0-2ff6-af5b42932407@gmail.com>
+References: <20230420074030.35246-1-mmpgouride@gmail.com>
+ <7ea775ac-579c-4b73-8d07-b717f962bd50@paulmck-laptop>
+ <28115808-37F7-4003-BD8B-E15D12DC6B70@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <843cb1f5-6d9d-1ca0-2ff6-af5b42932407@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <28115808-37F7-4003-BD8B-E15D12DC6B70@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: Alan Huang <mmpgouride@gmail.com>
+Cc: akiyks@gmail.com, perfbook@vger.kernel.org
 
-On Tue, Apr 25, 2023 at 05:51:50PM +0900, Akira Yokosawa wrote:
-> This \FloatBarrier was supposed to prevent floats of Section 15.2
-> from drifting into Section 15.3.
-> 
-> Now it causes a mostly empty page in -1c builds.
-> 
-> As we have a following section (15.2.8) now, the float barrier has
-> become redundant.
-> 
-> Remove it.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+On Tue, Apr 25, 2023 at 09:32:46PM +0800, Alan Huang wrote:
+> > 2023年4月25日 00:02，Paul E. McKenney <paulmck@kernel.org> 写道：
+> > 
+> > On Thu, Apr 20, 2023 at 07:40:30AM +0000, Alan Huang wrote:
+> >> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
+> >> ---
+> >> CodeSamples/defer/hazptrtorture.h | 2 +-
+> >> 1 file changed, 1 insertion(+), 1 deletion(-)
+> >> 
+> >> diff --git a/CodeSamples/defer/hazptrtorture.h b/CodeSamples/defer/hazptrtorture.h
+> >> index 29761e3d..acdd532b 100644
+> >> --- a/CodeSamples/defer/hazptrtorture.h
+> >> +++ b/CodeSamples/defer/hazptrtorture.h
+> >> @@ -99,7 +99,7 @@ void *hazptr_read_perf_test(void *arg)
+> >> {
+> >> 	int i;
+> >> 	int me = (long)arg;
+> >> -	int base = me * K;
+> >> +	int base = smp_thread_id() * K;
+> > 
+> > Suppose specify a number of threads greater than the number of CPUs.
+> > For example, on my 12-hardware-thread laptop:
+> > 
+> > ./route_hazptr --stresstest --nreaders 24
+> > 
+> > In that case, don't we want "me" rather than "smp_thread_id()"?
 
-Queued and pushed, thank you!
+Never mind, I was confused.  Maybe I should have waited another
+day after return before looking at this.  :-/
+
+$ ./hazptr 24 perf
+sched_setaffinity: Invalid argument
+Aborted (core dumped)
+
+But that is a pre-existing problem.  If I keep the number within the
+number of hardware threads, it works fine:
+
+$ ./hazptr 12 perf
+n_reads: 576608000  n_updates: 314343  nreaders: 12  nupdaters: 1 duration: 1
+ns/read: 20.8114  ns/update: 3181.24
+
+I am not all that worried about this.  Running multiple threads per
+hardware thread in a performance test isn't all that useful, after all.
+And there is a robust diagnostic.  Perhaps not as helpful as one might
+like, but definitely robust.  ;-)
+
+> As Akira said, route_hazptr.c includes routetorture.h and route_hazptr.c doesn't call hp_record().
+> The fix won't have any effect on route_hazptr.
+
+Agreed, again, my post-vacation confusion, apologies!!!
 
 							Thanx, Paul
-
-> ---
-> v2:
->    Just remove the float barrier.  Moving it to the end of Section 15.2
->    has no effect.
-> 
-> v1: https://www.spinics.net/lists/perfbook/msg03947.html
-> 
->         Thanks, Akira
-> 
-> --
->  memorder/memorder.tex | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-> index c93a5b54135b..f116ab81aceb 100644
-> --- a/memorder/memorder.tex
-> +++ b/memorder/memorder.tex
-> @@ -2492,8 +2492,6 @@ In short, properly constructed release-acquire chains form a peaceful
->  island of intuitive bliss surrounded by a strongly counter-intuitive
->  sea of more complex memory-ordering constraints.
->  
-> -\FloatBarrier
-> -
->  \subsection{A Counter-Intuitive Case Study}
->  \label{sec:memorder:A Counter-Intuitive Case Study}
->  
-> 
-> base-commit: b7c2ed26da9ea6cbc586cde41fa5d477013cf84d
-> -- 
-> 2.25.1
-> 
