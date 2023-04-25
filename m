@@ -1,74 +1,144 @@
-Return-Path: <SRS0=ZHTt=AQ=gmail.com=mmpgouride@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682429587; x=1685021587;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+kTcHOZXCV1D6YAGYuuEZEMZVMHwxOCLm2r8B0q9yCM=;
-        b=fSA5qEO7n4YRUNDK1xtLDuPzP5jMYMWGIOd2JLNogehAK30XH8nPtgHDWVEW4WbUXU
-         zs6Hwl0Ny/3B+0o7hRNcHgLkIujT5U87lEL7QxSq9E+CXSeX8/R4okXpV6zOcTgFwbEO
-         M++StZadrPHG5FNMOwF0B6q26KrnrBdG5e58814wtlovAVuYcN79PNv5nY2YPCQ74bXr
-         TKkiVSGCw9N4JFzea4GzBK31itmUzUiJJvR2fTOxL7Gkn8o//fApLqtUvxH17zb2xcMz
-         uOy36If/+uMhkMplY+wNR7hUjgfFQ9xKGdLIZ2YgHoX2uKCbWsSDbtCUeIcfIQ2lBtMq
-         RIaQ==
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [PATCH] CodeSamples/defer: Make hazard partition consistent with
- hazptr_thread_exit
-From: Alan Huang <mmpgouride@gmail.com>
-In-Reply-To: <7ea775ac-579c-4b73-8d07-b717f962bd50@paulmck-laptop>
-Date: Tue, 25 Apr 2023 21:32:46 +0800
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <28115808-37F7-4003-BD8B-E15D12DC6B70@gmail.com>
-References: <20230420074030.35246-1-mmpgouride@gmail.com>
- <7ea775ac-579c-4b73-8d07-b717f962bd50@paulmck-laptop>
-To: paulmck@kernel.org, akiyks@gmail.com
-Cc: perfbook@vger.kernel.org
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48064 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234582AbjDYRud (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 25 Apr 2023 13:50:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43A0AD0F
+        for <perfbook@vger.kernel.org>; Tue, 25 Apr 2023 10:50:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3EF2262F03
+        for <perfbook@vger.kernel.org>; Tue, 25 Apr 2023 17:50:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682445030;
+        bh=432qFA8mrKBVT1TXrTP6eqbPRFzIUFaIPUyyfET99f4=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=iZ7Q49uKDb90XDqEDHlLdha6JSHGjKvpiz3qJG4vWLtHFTKK0McirmH8oQF0kv115
+         mhXbN1HnrUg7IvtfL54fPdH3ci9TYNEhp+rs5x+DHbDZbsYFGW1wabxfLG9ywedWw5
+         AkHv9YdSEx4vrEiyRmUAJuwjN5kFR/cBugvON/FQ5j5fiTwma+ZbvSospxwMKLdnE8
+         FaPSQs5T9djd8Uu+3W61+cxK8NgpF+c0akHZ4r4yh64iiFrR0QtSggB85whWrhGALi
+         IYpUGeZGUrT7dtlBdMpOl/HJwidCZCK0EF0E8SV6OR9+jPw4zifXkIyKxrN+o1uxtg
+         69nurcQEvshHw==
+Date: Tue, 25 Apr 2023 10:50:30 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: Question: Why does the modification of seq in write_seqlock not
+ require WRITE_ONCE?
+Message-ID: <2f93807e-5137-4ed2-9267-ab3dab24ac57@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <77ACB1FE-73A2-4C0D-A4EE-67D108DA539C@gmail.com>
+ <25bd5e72-0d70-3268-afa4-7a6ba0febcfa@gmail.com>
+ <6FDBABBC-7444-4189-A881-147F9D42B041@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6FDBABBC-7444-4189-A881-147F9D42B041@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Alan Huang <mmpgouride@gmail.com>
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 
-> 2023=E5=B9=B44=E6=9C=8825=E6=97=A5 00:02=EF=BC=8CPaul E. McKenney =
-<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Thu, Apr 20, 2023 at 07:40:30AM +0000, Alan Huang wrote:
->> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
->> ---
->> CodeSamples/defer/hazptrtorture.h | 2 +-
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/CodeSamples/defer/hazptrtorture.h =
-b/CodeSamples/defer/hazptrtorture.h
->> index 29761e3d..acdd532b 100644
->> --- a/CodeSamples/defer/hazptrtorture.h
->> +++ b/CodeSamples/defer/hazptrtorture.h
->> @@ -99,7 +99,7 @@ void *hazptr_read_perf_test(void *arg)
->> {
->> 	int i;
->> 	int me =3D (long)arg;
->> -	int base =3D me * K;
->> +	int base =3D smp_thread_id() * K;
->=20
-> Suppose specify a number of threads greater than the number of CPUs.
-> For example, on my 12-hardware-thread laptop:
->=20
-> ./route_hazptr --stresstest --nreaders 24
->=20
-> In that case, don't we want "me" rather than "smp_thread_id()"?
+On Wed, Apr 26, 2023 at 01:06:57AM +0800, Alan Huang wrote:
+> Hi Akira,
+> 
+> > 2023年4月25日 23:33，Akira Yokosawa <akiyks@gmail.com> 写道：
+> > 
+> > Hi Alan,
+> > 
+> > On Tue, 25 Apr 2023 21:52:48 +0800, Alan Huang wrote:
+> >> Hi,
+> >> 
+> >> I noticed that the modifications of seq in write_seqlock and write_sequnlock of Listing 9.10 use plain ++ operation.
+> >> But as Chapter 4 (especially 4.3.4.4) says, there will be store tearing since there are concurrent readers.
+> >> 
+> >> However, the kernel implementation of sequence lock also uses plain ++ operation.
+> >> 
+> >> I’m somewhat confused.
+> >> 
+> >> Why does the modification of seq in write_seqlock not require WRITE_ONCE?
+> > 
+> > Good question...
+> > 
+> > I don't have a straight answer, but the history of include/linux/seqlock.h
+> > says those plain increments predate the introduction of ACCESS_ONCE
+> > (predecessor to READ_ONCE/WRITE_ONCE) to the Linux kernel.
+> > 
+> > The code at the time (pre v2.6.0) looked like this:
+> > 
+> > static inline void write_seqlock(seqlock_t *sl)
+> > {
+> > spin_lock(&sl->lock);
+> > ++sl->sequence;
+> > smp_wmb(); 
+> > } 
+> > 
+> > static inline void write_sequnlock(seqlock_t *sl) 
+> > {
+> > smp_wmb();
+> > sl->sequence++;
+> > spin_unlock(&sl->lock);
+> > }
+> > 
+> > static inline int write_tryseqlock(seqlock_t *sl)
+> > {
+> > int ret = spin_trylock(&sl->lock);
+> > 
+> > if (ret) {
+> > ++sl->sequence;
+> > smp_wmb(); 
+> > }
+> > return ret;
+> > }
+> > 
+> > The purpose of WRITE_ONCE() would be to suppress compiler optimization
+> > of write accesses.  In the code above, smp_wmb(), spin_lock(),
+> > spin_unlock(), and spin_trylock() all imply compiler barriers.
+> > So, there is not much room for compilers to optimize the store part
+> > of increments.
+> 
+> But unsigned long is at least 32 bits, here is the COMPILER BARRIER section of Documentation/memory-barriers.txt:
+> 
+> 	For example, given an architecture having 16-bit store instructions with 7-bit immediate fields, the compiler
+> 	might be tempted to use two 16-bit store-immediate instructions to implement the following 32-bit store:
+> 		p = 0x00010002;
+> 
+> The kernel defines sequence as unsigned, which is at least 16 bits, I don’t know if there exists an architecture having 16-bit store instructions with 32-bit unsigned…
 
-As Akira said, route_hazptr.c includes routetorture.h and route_hazptr.c =
-doesn't call hp_record().
-The fix won't have any effect on route_hazptr.
+There have been CPUs and compilers that would use a pair of 16-bit
+store-immediate instructions to store a 32-bit constant.  I don't know
+of any situation where a compiler would use 16-bit loads or stores for
+a 32-bit increment, but there is no law forbidding the compiler from
+doing so.
 
-Thanks,
-Alan
+To answer the higher-level question, once we had the Linux-kernel memory
+model in place, I focused more on explaining it and clearly not enough
+on bringing the perfook code samples into line with it.
 
->=20
-> 							Thanx, Paul
->=20
->> 	long long n_reads_local =3D 0;
->> 	hazptr_head_t hh;
->> 	hazptr_head_t *hhp =3D &hh;
->> --=20
->> 2.34.1
->>=20
+So I would welcome a patch making sequence locking use READ_ONCE()
+and WRITE_ONCE() to do the increments.  The Linux kernel might not
+be so excited about the corresponding patch because it could result
+in slightly worse code being generated, for example, a++ might use
+an x86 add-to-memory instruction while the READ_ONCE()/WRITE_ONCE()
+counterpart would load, increment, and store.  Though I hear rumors that
+some compilers might start better optimizing this.
 
+							Thanx, Paul
+
+> Thanks,
+> Alan
+> 
+> > 
+> > I think those plain-looking increments are safe as far as current
+> > compilers are concerned.
+> > 
+> > Does this explanation help you?
+> > 
+> > Paul, please chime in if I'm missing something.
+> > 
+> >        Thanks, Akira
+> > 
+> >> 
+> >> Thanks,
+> >> Alan
+> 
