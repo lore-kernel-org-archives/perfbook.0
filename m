@@ -1,93 +1,162 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39592 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233992AbjDYSgd (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 25 Apr 2023 14:36:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4296FC160
-        for <perfbook@vger.kernel.org>; Tue, 25 Apr 2023 11:36:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B80F96299D
-        for <perfbook@vger.kernel.org>; Tue, 25 Apr 2023 18:36:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682447787;
-        bh=Gj1UKg4gQHoRU7fKZdTKshzLFB59bCcp8Nd3rtF6QJ8=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=iWnBzksoHaPH2qNANfyEOwwPNIlMMpaub+eBNrw1Sx4q3VxaMKRKDQ9l4YXVd8ycj
-         2xuZ1cZg1OjqJmH0rE0FJDFfMgOpfadBM/ds+Lxrw6BXEAv1h1wb1K9mRGAZzz3tmy
-         rvAZrzjX3e2IuSrUBErDkv++sWr+RE6OtrDEnxL9jeny7xZpyuc8uBYP2ScKIX56+8
-         192LZkO9v6bz0mcPHRqUp8Ppu2cVW6qrFPT5xWMs/s1TOhcX+VZx5aP0ufvs4xrEli
-         iAd3j3FHlg4aLVFYUU2x2EfCMRwdD5zXYpaBwexq4xtLJxKZAYOKLd9x3hRygiglue
-         RPZGPXyPYjnnQ==
-Date: Tue, 25 Apr 2023 11:36:26 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] CodeSamples/defer: Make hazard partition consistent with
- hazptr_thread_exit
-Message-ID: <c7d8bbb9-0cad-47b8-af71-3a6489bff0a6@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20230420074030.35246-1-mmpgouride@gmail.com>
- <7ea775ac-579c-4b73-8d07-b717f962bd50@paulmck-laptop>
- <28115808-37F7-4003-BD8B-E15D12DC6B70@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <28115808-37F7-4003-BD8B-E15D12DC6B70@gmail.com>
+Return-Path: <SRS0=8NM3=AR=gmail.com=mmpgouride@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682507963; x=1685099963;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DNdGUkOSntBNx3/8m0x3r6mTJ1ePsgljVYSrQc1k8V8=;
+        b=GTM+omgwHkYVuVSvhu6xlOl+McThI4YUI7w4TWvMbEz1FuRlI0KZiL2Uo2AvSwCBLv
+         1Q24rPuMNH8Elnh6TMkwPaQRCPQFz9SL6ZeM2u03drjyNc7CPO8iHHtzKaYZTJlIzvOK
+         PVWm4byJUgxdpQflo/XN3ils6mieEfc1l/Q38q4ATmGzoToQFKFOCN+pS4zPxcZSl+ud
+         3W55ShcQRht4ZLTfZCgVkhf/J6HHxW2qXl2kIyrEIMHicJBo6K18V22JASRwDFh8MTdn
+         J+zwQDtC5DKFBXr0AxdZqvrYjx0vY6DrtLyharldPneqPwmhQKfcHHf2hsxzdD128JUI
+         HY+w==
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
+Subject: Re: Question: Why does the modification of seq in write_seqlock not
+ require WRITE_ONCE?
+From: Alan Huang <mmpgouride@gmail.com>
+In-Reply-To: <2f93807e-5137-4ed2-9267-ab3dab24ac57@paulmck-laptop>
+Date: Wed, 26 Apr 2023 19:19:02 +0800
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <50A530B8-254C-4D88-81ED-096684A3D377@gmail.com>
+References: <77ACB1FE-73A2-4C0D-A4EE-67D108DA539C@gmail.com>
+ <25bd5e72-0d70-3268-afa4-7a6ba0febcfa@gmail.com>
+ <6FDBABBC-7444-4189-A881-147F9D42B041@gmail.com>
+ <2f93807e-5137-4ed2-9267-ab3dab24ac57@paulmck-laptop>
+To: paulmck@kernel.org
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Alan Huang <mmpgouride@gmail.com>
-Cc: akiyks@gmail.com, perfbook@vger.kernel.org
 
-On Tue, Apr 25, 2023 at 09:32:46PM +0800, Alan Huang wrote:
-> > 2023年4月25日 00:02，Paul E. McKenney <paulmck@kernel.org> 写道：
-> > 
-> > On Thu, Apr 20, 2023 at 07:40:30AM +0000, Alan Huang wrote:
-> >> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
-> >> ---
-> >> CodeSamples/defer/hazptrtorture.h | 2 +-
-> >> 1 file changed, 1 insertion(+), 1 deletion(-)
-> >> 
-> >> diff --git a/CodeSamples/defer/hazptrtorture.h b/CodeSamples/defer/hazptrtorture.h
-> >> index 29761e3d..acdd532b 100644
-> >> --- a/CodeSamples/defer/hazptrtorture.h
-> >> +++ b/CodeSamples/defer/hazptrtorture.h
-> >> @@ -99,7 +99,7 @@ void *hazptr_read_perf_test(void *arg)
-> >> {
-> >> 	int i;
-> >> 	int me = (long)arg;
-> >> -	int base = me * K;
-> >> +	int base = smp_thread_id() * K;
-> > 
-> > Suppose specify a number of threads greater than the number of CPUs.
-> > For example, on my 12-hardware-thread laptop:
-> > 
-> > ./route_hazptr --stresstest --nreaders 24
-> > 
-> > In that case, don't we want "me" rather than "smp_thread_id()"?
 
-Never mind, I was confused.  Maybe I should have waited another
-day after return before looking at this.  :-/
+> 2023=E5=B9=B44=E6=9C=8826=E6=97=A5 01:50=EF=BC=8CPaul E. McKenney =
+<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> On Wed, Apr 26, 2023 at 01:06:57AM +0800, Alan Huang wrote:
+>> Hi Akira,
+>>=20
+>>> 2023=E5=B9=B44=E6=9C=8825=E6=97=A5 23:33=EF=BC=8CAkira Yokosawa =
+<akiyks@gmail.com> =E5=86=99=E9=81=93=EF=BC=9A
+>>>=20
+>>> Hi Alan,
+>>>=20
+>>> On Tue, 25 Apr 2023 21:52:48 +0800, Alan Huang wrote:
+>>>> Hi,
+>>>>=20
+>>>> I noticed that the modifications of seq in write_seqlock and =
+write_sequnlock of Listing 9.10 use plain ++ operation.
+>>>> But as Chapter 4 (especially 4.3.4.4) says, there will be store =
+tearing since there are concurrent readers.
+>>>>=20
+>>>> However, the kernel implementation of sequence lock also uses plain =
+++ operation.
+>>>>=20
+>>>> I=E2=80=99m somewhat confused.
+>>>>=20
+>>>> Why does the modification of seq in write_seqlock not require =
+WRITE_ONCE?
+>>>=20
+>>> Good question...
+>>>=20
+>>> I don't have a straight answer, but the history of =
+include/linux/seqlock.h
+>>> says those plain increments predate the introduction of ACCESS_ONCE
+>>> (predecessor to READ_ONCE/WRITE_ONCE) to the Linux kernel.
+>>>=20
+>>> The code at the time (pre v2.6.0) looked like this:
+>>>=20
+>>> static inline void write_seqlock(seqlock_t *sl)
+>>> {
+>>> spin_lock(&sl->lock);
+>>> ++sl->sequence;
+>>> smp_wmb();=20
+>>> }=20
+>>>=20
+>>> static inline void write_sequnlock(seqlock_t *sl)=20
+>>> {
+>>> smp_wmb();
+>>> sl->sequence++;
+>>> spin_unlock(&sl->lock);
+>>> }
+>>>=20
+>>> static inline int write_tryseqlock(seqlock_t *sl)
+>>> {
+>>> int ret =3D spin_trylock(&sl->lock);
+>>>=20
+>>> if (ret) {
+>>> ++sl->sequence;
+>>> smp_wmb();=20
+>>> }
+>>> return ret;
+>>> }
+>>>=20
+>>> The purpose of WRITE_ONCE() would be to suppress compiler =
+optimization
+>>> of write accesses.  In the code above, smp_wmb(), spin_lock(),
+>>> spin_unlock(), and spin_trylock() all imply compiler barriers.
+>>> So, there is not much room for compilers to optimize the store part
+>>> of increments.
+>>=20
+>> But unsigned long is at least 32 bits, here is the COMPILER BARRIER =
+section of Documentation/memory-barriers.txt:
+>>=20
+>> For example, given an architecture having 16-bit store instructions =
+with 7-bit immediate fields, the compiler
+>> might be tempted to use two 16-bit store-immediate instructions to =
+implement the following 32-bit store:
+>> p =3D 0x00010002;
+>>=20
+>> The kernel defines sequence as unsigned, which is at least 16 bits, I =
+don=E2=80=99t know if there exists an architecture having 16-bit store =
+instructions with 32-bit unsigned=E2=80=A6
+>=20
+> There have been CPUs and compilers that would use a pair of 16-bit
+> store-immediate instructions to store a 32-bit constant.  I don't know
+> of any situation where a compiler would use 16-bit loads or stores for
+> a 32-bit increment, but there is no law forbidding the compiler from
+> doing so.
+>=20
+> To answer the higher-level question, once we had the Linux-kernel =
+memory
+> model in place, I focused more on explaining it and clearly not enough
+> on bringing the perfook code samples into line with it.
+>=20
+> So I would welcome a patch making sequence locking use READ_ONCE()
+> and WRITE_ONCE() to do the increments.  The Linux kernel might not
+> be so excited about the corresponding patch because it could result
+> in slightly worse code being generated, for example, a++ might use
+> an x86 add-to-memory instruction while the READ_ONCE()/WRITE_ONCE()
+> counterpart would load, increment, and store.  Though I hear rumors =
+that
+> some compilers might start better optimizing this.
 
-$ ./hazptr 24 perf
-sched_setaffinity: Invalid argument
-Aborted (core dumped)
+I see. Let=E2=80=99s keep the sample code consistent with kernel=E2=80=99s=
+.
 
-But that is a pre-existing problem.  If I keep the number within the
-number of hardware threads, it works fine:
+Thank you both for the explanation!
 
-$ ./hazptr 12 perf
-n_reads: 576608000  n_updates: 314343  nreaders: 12  nupdaters: 1 duration: 1
-ns/read: 20.8114  ns/update: 3181.24
+Thanks,
+Alan
 
-I am not all that worried about this.  Running multiple threads per
-hardware thread in a performance test isn't all that useful, after all.
-And there is a robust diagnostic.  Perhaps not as helpful as one might
-like, but definitely robust.  ;-)
+>=20
+> Thanx, Paul
+>=20
+>> Thanks,
+>> Alan
+>>=20
+>>>=20
+>>> I think those plain-looking increments are safe as far as current
+>>> compilers are concerned.
+>>>=20
+>>> Does this explanation help you?
+>>>=20
+>>> Paul, please chime in if I'm missing something.
+>>>=20
+>>>       Thanks, Akira
+>>>=20
+>>>>=20
+>>>> Thanks,
+>>>> Alan
 
-> As Akira said, route_hazptr.c includes routetorture.h and route_hazptr.c doesn't call hp_record().
-> The fix won't have any effect on route_hazptr.
 
-Agreed, again, my post-vacation confusion, apologies!!!
-
-							Thanx, Paul
