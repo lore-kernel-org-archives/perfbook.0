@@ -1,77 +1,48 @@
-Return-Path: <SRS0=89ej=AU=gmail.com=sj38.park@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682811495; x=1685403495;
-        h=in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=r0LwMpTgDM0mmbdLrX//rB6NgYF28nIWy4arGjhyn1E=;
-        b=SSmZIHJ8kz7sVwGQ/KYHrNmNV6SBCxGHz+k8LARiHpSRxrs+mOLFKyJjfc0433kvj2
-         FvYE7v4ca6Ulu9P4AMLMABxDL0aii3p+1+LSknvwV2ZNuyrueOT6o3tt183ss+oTI+ny
-         yalvJxIAggtOMzlvGuoG11tVXW5ZlQ0HwnaqQGR21Fw16UT6MB1xzpf7GI2Q3Jye2V8A
-         T2HHrLppQiCSW/1N/l+VFQ9+/RYnt9w6a4MHvg/tbo74sfURD9mZv5Z9MibDDVuHUxc4
-         ZWQzcavWlQ4NZ1ty0Hq44id328pAo4nhHlRE3ny7PE+o88LCBpmrJm74G5SavzOX7mdr
-         nngA==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: Re: [PATCH 1/2] together/refcnt: Use \tco{} for code quoting
-Date: Sat, 29 Apr 2023 16:38:12 -0700
-Message-Id: <20230429233812.18478-1-sj@kernel.org>
-In-Reply-To: <cf2f6f7e-b5cd-02eb-9c67-9ef9c1778e7b@gmail.com>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>, paulmck@kernel.org, SeongJae Park <sj38.park@gmail.com>, perfbook@vger.kernel.org
+Return-Path: <sj@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1682787750;
+	bh=xfYivhMjZs7ipj2fFuPUyKFfvjE5XQm+ep7NV7W5xis=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=hTNWdtH1cI9Cv5+jHKrYaxv6f5PJsFAyR/8MpOYxVLEh8jAaP8P3o6RzXvxi7vD8s
+	 pnb+hoAzKg3YhjDUI4ln9S1hidj8JYf7qtFkbHqRh+NF/YGF/nhKHZep8cH4cu8l3y
+	 ktiRe4Su91KHNH2BmKfEB4PusVB0um4QWAjQhfgVxcdFV5CkHgY1WiHG1WqUV+tO38
+	 GRDrevJ9AiHYy+xvRc2djCDAir8sxfL3PPkmIbLgx7EZGI0aoq+PdWP34icylHWE4y
+	 V43e9DnqERlcEBiJviro1M4HQN07XqNh/pJkbNSIfcPL0QudzvxsfjC74dEGToPJiS
+	 wT+b5qHIbTWJA==
+From: SeongJae Park <sj@kernel.org>
+Subject: [PATCH 2/2] together/seqlock: Use term 'sequence lock' consistently
+Date: Sat, 29 Apr 2023 10:02:26 -0700
+Message-Id: <20230429170226.3640-3-sj@kernel.org>
+In-Reply-To: <20230429170226.3640-1-sj@kernel.org>
+References: <20230429170226.3640-1-sj@kernel.org>
+To: paulmck@kernel.org
+Cc: SeongJae Park <sj38.park@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Akira,
+From: SeongJae Park <sj38.park@gmail.com>
 
-On Sun, 30 Apr 2023 07:20:48 +0900 Akira Yokosawa <akiyks@gmail.com> wrote:
+A sentence in seqlock.tex is calling sequence locks as sequence
+counters, while all other sentences in the file is calling those
+sequence locks.  Use the term consistently.
 
-> Hi,
-> 
-> On Sat, 29 Apr 2023 10:02:25 -0700, SeongJae Park wrote:
-> > From: SeongJae Park <sj38.park@gmail.com>
-> > 
-> > Some sentences in refcnt.tex is using only quote for some code words.
-> > Use \tco{} instead, as it is intended to be used for the case.
-> 
-> \tco{} doesn't put quotes around it.
-> Didn't you mean \qco{} ?
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ together/seqlock.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You're correct, I was out of my mind.  I also mistakenly used an email account
-that different from what I signed patches off.  I will send a new spin
-tomorrow.
+diff --git a/together/seqlock.tex b/together/seqlock.tex
+index 5fd31d83..b77b5184 100644
+--- a/together/seqlock.tex
++++ b/together/seqlock.tex
+@@ -8,7 +8,7 @@
+ \epigraph{The girl who can't dance says the band can't play.}
+ 	 {Yiddish proverb}
+ 
+-This section looks at some special uses of sequence counters.
++This section looks at some special uses of sequence locks.
+ 
+ \subsection{Dueling Sequence Locks}
+ \label{sec:together:Dueling Sequence Locks}
+-- 
+2.17.1
 
-
-Thanks,
-SJ
-
-> 
->         Thanks, Akira
-> 
-> > 
-> > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> > ---
-> >  together/refcnt.tex | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/together/refcnt.tex b/together/refcnt.tex
-> > index 56caed67..4abe1c60 100644
-> > --- a/together/refcnt.tex
-> > +++ b/together/refcnt.tex
-> > @@ -467,15 +467,15 @@ as shown below.
-> >  
-> >  \QuickQuiz{
-> >  	Why can't the check for a zero reference count be
-> > -	made in a simple ``if'' statement with an atomic
-> > -	increment in its ``then'' clause?
-> > +	made in a simple \tco{if} statement with an atomic
-> > +	increment in its \tco{then} clause?
-> >  }\QuickQuizAnswer{
-> > -	Suppose that the ``if'' condition completed, finding
-> > +	Suppose that the \tco{if} condition completed, finding
-> >  	the reference counter value equal to one.
-> >  	Suppose that a release operation executes, decrementing
-> >  	the reference counter to zero and therefore starting
-> >  	cleanup operations.
-> > -	But now the ``then'' clause can increment the counter
-> > +	But now the \tco{then} clause can increment the counter
-> >  	back to a value of one, allowing the object to be
-> >  	used after it has been cleaned up.
-> >  
