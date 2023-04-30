@@ -1,111 +1,91 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230428AbjD3Aas (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sat, 29 Apr 2023 20:30:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC1ED172B
-        for <perfbook@vger.kernel.org>; Sat, 29 Apr 2023 17:30:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 552E360AD1
-        for <perfbook@vger.kernel.org>; Sun, 30 Apr 2023 00:30:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682814646;
-        bh=V61xmKEpSkUibq8eo172+2ssepDkG9d394AzBmCvqLY=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=OdpbZ8On2L8uk+bcjFLCUIDLwehIyUguguTgE7K+CJ56XmyESyY0XY9SxDyyuvHfn
-         rMB1L4TK5QzVqMu5kgyzlomvFm0K5sIlJhg50vcvlKCLJ4SU0ibyJbCbJduFnfv3zM
-         y19gsRGm7hSHmLKoqspWx/CFy7W9qunBzZTtSSX0YMVgg56NCnwuGm9/PxwFtJP+/o
-         6daSfDKRH4cAX2OB3odv9r0ySc2q/FLvgEDks9pi7pbxWAC/4VzqLVaWJWFONUiu1G
-         wvP1Wtckh8acNLyoQGpIqckZLFsm93klAUaeq7NoRgL0/f78NoS7mcMzv5D75xKilP
-         pNAZU328QnWqQ==
-Date: Sat, 29 Apr 2023 17:30:46 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook 6/7] Tweak TOC width params
-Message-ID: <3196be30-8052-42da-acb4-b25e683e3728@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <2403fec1-1f05-c8ee-92cd-0350f9714f18@gmail.com>
- <94bb1aaa-3a0c-3dfc-a698-86d96be68dbc@gmail.com>
+Return-Path: <SRS0=xjF9=AV=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682824348; x=1685416348;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dlE1WjlyBzX2AaZwin5CLVd/Yw4UvWueTXfwjjUSZPg=;
+        b=X3g6IcZF3dMiXdihzSRS31SzliwFwMSh+dIZ3fLBIcUaYvpi8edR5WssBlKc312WYR
+         Vlrrxs+Mc6Fnnoo4c49rtKkELrIrJHzO5YOFT0HltllOebTYCLgtQspuribtSCFLl9ap
+         6C4bujhL2me6bnAnzWQMCSbwhrH671Gkdx0ahy0ZSmRtZGdWxBC2orqDB3BNlnh48RPA
+         ISnNj65MXtC2iN1aQDDklzuNeQuYT8QPHddv2MNjs4aGjbYoNmsB8BM1twGIydSKQri2
+         rfkUUsUY785Ba0gvfx5aQumAuPl8aV0qY86EHFSlX3pP/HAs9rNEw70dQTGEIvUCfCU2
+         sA+g==
+Message-ID: <29852e1a-fd80-1525-fbe2-b8578c0259f8@gmail.com>
+Date: Sun, 30 Apr 2023 12:12:24 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <94bb1aaa-3a0c-3dfc-a698-86d96be68dbc@gmail.com>
+Subject: Re: [PATCH 1/2] together/refcnt: Use \tco{} for code quoting
+References: <20230429233812.18478-1-sj@kernel.org>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20230429233812.18478-1-sj@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: SeongJae Park <sj38.park@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>, paulmck@kernel.org, "perfbook@vger.kernel.org" <perfbook@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sun, Apr 30, 2023 at 08:22:29AM +0900, Akira Yokosawa wrote:
-> We now have Section 15.5.10, (five digits + two periods).
-> Default of the book class can not afford that much digits in
-> subsection count.
-> Increase width parameters to accomodate it.
+On Sat, 29 Apr 2023 16:38:12 -0700, SeongJae Park wrote:
+> Hi Akira,
 > 
-> Also, as for -sf builds, the Helvetica clone font needs slightly
-> wider spaces in the "em" unit.  Add settings for -sf builds.
+> On Sun, 30 Apr 2023 07:20:48 +0900 Akira Yokosawa <akiyks@gmail.com> wrote:
 > 
-> Mention default widths in the comment block for future reference.
+>> Hi,
+>>
+>> On Sat, 29 Apr 2023 10:02:25 -0700, SeongJae Park wrote:
+>>> From: SeongJae Park <sj38.park@gmail.com>
+>>>
+>>> Some sentences in refcnt.tex is using only quote for some code words.
+>>> Use \tco{} instead, as it is intended to be used for the case.
+>>
+>> \tco{} doesn't put quotes around it.
+>> Didn't you mean \qco{} ?
 > 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> You're correct, I was out of my mind.  I also mistakenly used an email account
+> that different from what I signed patches off.  I will send a new spin
+> tomorrow.
 
-And I also pulled in the rest of these patches, thank you!
+Looks like Paul has already pulled and pushed this (commit 0e96cb8283ca).
 
-Huh.  Maybe this is a hint that I should drop one of the CPU families.
-Alpha and Itanium would be good candidates except for their historical
-significance.  ARM7 and PowerPC are significant in being non-multicopy
-atomic.  z Systems is significant in being fully multicopy atomic (as
-opposed to merely other-multicopy atomic).  Armv8 and x86 are heavily
-used.  MIPS appears to feed directly into LoongArch, which may prove to
-be a candidate for addition, as might RISC-V.  That leaves SPARC.
+Can you send a fix on top ?
 
-But that means I would be removing one and adding two, so this patch
-would still be required.
+        Thanks, Akira
 
-So it goes!  ;-)
-
-							Thanx, Paul
-
-> ---
->  perfbook-lt.tex | 21 +++++++++++++++++++--
->  1 file changed, 19 insertions(+), 2 deletions(-)
-> 
-> diff --git a/perfbook-lt.tex b/perfbook-lt.tex
-> index cdac9d495a3a..af5e0bf30032 100644
-> --- a/perfbook-lt.tex
-> +++ b/perfbook-lt.tex
-> @@ -158,11 +158,28 @@
->  \setboolean{indexhier}{true}
->  \newcommand{\IfIndexHier}[2]{\ifthenelse{\boolean{indexhier}}{#1}{#2}}
->  
-> -% Widen pnumwidth in TOC for ebook size build (more than 1000 pages)
-> +% Tweak width params of TOC
->  \makeatletter
-> -\IfEbookSize{
-> +\IfEbookSize{ % for ebook size build (more than 1000 pages)
->  \renewcommand*\@pnumwidth{2.2em}
->  }{}
-> +% default params defined in book.sty:
-> +%  width of chapter (two digits):			1.5em
-> +%  indent of section:					1.5em
-> +%  width of section (three digits + one periods):	2.3em
-> +%  indent of subsection:	  			3.8em
-> +%  width of subsection (four digits + two periods):	3.2em
-> +\IfSansSerif{	% sans serif (Helvetica clone)
-> +		%  to cover section "E.10" and subsection "15.5.10",
-> +		%  width of section:      2.4em
-> +		%  width of subsection:   3.7em
-> +\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.4em}}
-> +\renewcommand*\l@subsection{\@dottedtocline{2}{3.9em}{3.7em}}
-> +}{		% serif (Times Roman clone)
-> +		%  to cover subsection "15.5.10",
-> +		%  width of subsection:   3.4em
-> +\renewcommand*\l@subsection{\@dottedtocline{2}{3.8em}{3.4em}}
-> +}
->  \makeatother
->  
->  \IfEbookSize{
-> -- 
-> 2.25.1
 > 
 > 
+> Thanks,
+> SJ
+> 
+>>
+>>         Thanks, Akira
+>>
+>>>
+>>> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+>>> ---
+>>>  together/refcnt.tex | 8 ++++----
+>>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/together/refcnt.tex b/together/refcnt.tex
+>>> index 56caed67..4abe1c60 100644
+>>> --- a/together/refcnt.tex
+>>> +++ b/together/refcnt.tex
+>>> @@ -467,15 +467,15 @@ as shown below.
+>>>  
+>>>  \QuickQuiz{
+>>>  	Why can't the check for a zero reference count be
+>>> -	made in a simple ``if'' statement with an atomic
+>>> -	increment in its ``then'' clause?
+>>> +	made in a simple \tco{if} statement with an atomic
+>>> +	increment in its \tco{then} clause?
+>>>  }\QuickQuizAnswer{
+>>> -	Suppose that the ``if'' condition completed, finding
+>>> +	Suppose that the \tco{if} condition completed, finding
+>>>  	the reference counter value equal to one.
+>>>  	Suppose that a release operation executes, decrementing
+>>>  	the reference counter to zero and therefore starting
+>>>  	cleanup operations.
+>>> -	But now the ``then'' clause can increment the counter
+>>> +	But now the \tco{then} clause can increment the counter
+>>>  	back to a value of one, allowing the object to be
+>>>  	used after it has been cleaned up.
+>>>  
