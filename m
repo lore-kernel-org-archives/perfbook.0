@@ -1,206 +1,139 @@
 Return-Path: <SRS0=pRlB=AY=gmail.com=mmpgouride@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683089965; x=1685681965;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rlcsMvcbIktTAayQY4/w6V6qiKPZYh6r5OU7X+8F+LE=;
-        b=VvMz12RX0Rz6CxpPd+T7+W86vkQQGL6Q2M0aTr7QYTng62DG95aQdXgHzYOSGzYhEl
-         Yp2X7YVhj6W5Itb668UJhFoA7WqdXk5fTBox+6UBtpNheQBL5fFFAqDReJUhOPirBq5X
-         ZITcaR0gLaP7BVAbP0Eir/xx5XNTDVVOGlBafi7E8UpKDkdGR5m7rI/5JOuBMqkLtZ8i
-         5a6KaNvzmzpRCKpPm5A3vOkfTWPhZVzY7xT+UhW6Z2MNIkhMYDD/9yeM3lhJjqktU498
-         WWOoufIkm0EwoUsTxzYhnmb4//8c/5uqB4MC4eIdQINkgib7lDBfQDk3x2w5x0nvJ1RH
-         2uKg==
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: Question: Are there conflicts between the paragraph and the
- figure?
+        d=gmail.com; s=20221208; t=1683102486; x=1685694486;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mac88g9WBMh4UW5ruC/qRszBBHRrgMxqn3EMkE2KEuc=;
+        b=e1fWePOoH90dJUDWkcdzr4gURv/OzthyXnlR+YsAzhTwyCqkfYnpqVofDhFupDXmja
+         PBgsnQjmKoSf8gQW/WO6ffDHCG4l1G7OVLe4G3myTziG3MiX9+tatOdbcvgJy6QUQnMu
+         iXssmxTFvzjsJkIyFMVuzgJBCT/zQkdcDKs3sgmRO2DGaRmNsWL7nQqntoz8O5Z6WuEv
+         /gTcjAoF9EveCYX4XMqDUJpiwwXHsaZAeyMMi4FUS1l/fETfP33ytAE9axq3jiDA79/O
+         PReuHDRONh7sDZHJH0yeGD8ifyjRInqjDMJGJEVWsyKzw996x/rN7gosFnMTwdcO4K0T
+         3NOg==
 From: Alan Huang <mmpgouride@gmail.com>
-In-Reply-To: <0e0bea6c-c190-4a86-80ef-e11d6f0f0e3f@paulmck-laptop>
-Date: Wed, 3 May 2023 12:59:08 +0800
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <1F70BB41-6621-4C6E-BB6A-340815FB0FDA@gmail.com>
-References: <6FC864F5-A6CD-4C5F-BC63-9670AB95F8F7@gmail.com>
- <6146DDCA-450B-43A1-8158-2D8766E3B86F@gmail.com>
- <3083120a-7c17-4349-9389-7ebde03676de@paulmck-laptop>
- <AE67636E-D24E-4174-AF1C-98123161823F@gmail.com>
- <203d3e8b-f75b-460c-8a28-5a3b72121cff@paulmck-laptop>
- <2B23416A-3E98-46A3-85DE-77D397A06FE7@gmail.com>
- <0e0bea6c-c190-4a86-80ef-e11d6f0f0e3f@paulmck-laptop>
+Subject: [PATCH] defer/rcuusage: Make Figure 9.29 more accurate
+Date: Wed,  3 May 2023 04:27:56 -0400
+Message-Id: <20230503082756.1382348-1-mmpgouride@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 To: paulmck@kernel.org
-Cc: perfbook@vger.kernel.org
+Cc: perfbook@vger.kernel.org, Alan Huang <mmpgouride@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
+As suggested by Paul, run the first horizontal line
+right through the "mcp = xchg(&curconfig, mcp);", but
+without overlap.
 
+Signed-off-by: Alan Huang <mmpgouride@gmail.com>
+---
+ defer/RCUspacetime.svg | 42 +++++++++++++++++++++++++-----------------
+ 1 file changed, 25 insertions(+), 17 deletions(-)
 
-> 2023=E5=B9=B45=E6=9C=883=E6=97=A5 12:44=EF=BC=8CPaul E. McKenney =
-<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Wed, May 03, 2023 at 12:31:05PM +0800, Alan Huang wrote:
->>=20
->>=20
->>> 2023=E5=B9=B45=E6=9C=883=E6=97=A5 01:28=EF=BC=8CPaul E. McKenney =
-<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->>>=20
->>> On Tue, May 02, 2023 at 11:51:33PM +0800, Alan Huang wrote:
->>>>=20
->>>>=20
->>>>> 2023=E5=B9=B45=E6=9C=882=E6=97=A5 03:02=EF=BC=8CPaul E. McKenney =
-<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->>>>>=20
->>>>> On Mon, May 01, 2023 at 07:09:49PM +0800, Alan Huang wrote:
->>>>>>=20
->>>>>>> 2023=E5=B9=B45=E6=9C=881=E6=97=A5 =E4=B8=8B=E5=8D=887:05=EF=BC=8CA=
-lan Huang <mmpgouride@gmail.com> =E5=86=99=E9=81=93=EF=BC=9A
->>>>>>>=20
->>>>>>> Hi,
->>>>>>>=20
->>>>>>> I=E2=80=99m reading section 9.5.4.9, in the second to the last =
-paragraph, there is:
->>>>>>>=20
->>>>>>> Before the first horizontal line, all readers see the leftmost =
-myconfig structure,
->>>>>>> and after the second horizontal line, all readers will see the =
-rightmost structure.=20
->>>>>>> Between the two lines, that is, during the grace period, =
-different readers might see different objects
->>>>>>>=20
->>>>>>> I=E2=80=99m a little confused, in Figure 9.29, the xchg is =
-before the first horizontal line, in my understanding, if the=20
->>>>>>> reader=E2=80=99s reading is before the xchg, it will read the =
-leftmost myconfg structure.
->>>>>>=20
->>>>>> And if reader=E2=80=99s reading is after the xchg, it will see =
-the rightmost structure, and because xchg is before the first horizontal =
-line,
->>>>>> Readers before the first horizontal line may also see the =
-rightmost structure.
->>>>>>=20
->>>>>>>=20
->>>>>>> So, are there some conflicts between the paragraph and the =
-figure?
->>>>>>>=20
->>>>>>> Please correct me if I=E2=80=99m wrong.
->>>>>=20
->>>>> Consider the point in time just before the left-hand reader's
->>>>> rcu_read_unlock() and just after the right-hand reader's =
-rcu_read_lock().
->>>>> These two readers are both running at that time, and one of those =
-readers
->>>>> sees the old state and the other sees the new state.
->>>>=20
->>>> The sentence that may lead to conflict is this one from the =
-original text:
->>>>=20
->>>> Before the first horizontal line, all readers see the leftmost =
-myconfig structure.
->>>>=20
->>>> There may be a situation where:
->>>>=20
->>>>       mcp =3D xchg(&curconfig, mcp);
->>>> rcu_read_lock();=20
->>>> mcp =3D =E2=80=A6
->>>> *cur_a =3D mcp->a;=20
->>>> -------------------------------------------------first horizontal =
-line-------------------------------------------------
->>>>=20
->>>> So, the reader will see the rightmost myconfig structure although =
-it is before the first horizontal line.
->>>=20
->>> Ah, I understand now, good catch and thank you!  I updated that =
-paragraph
->>> to the following, with your Reported-by:
->>>=20
->>> The two horizontal grey dashed lines represent the period of time
->>> during which different readers get different results, however,
->>> each reader will see one and only one of the two objects. All
->>> readers that end before the first horizontal line will see the
->>=20
->>=20
->> How about this:
->>=20
->>         mcp =3D xchg(&curconfig, mcp);
->> rcu_read_lock();=20
->> mcp =3D =E2=80=A6
->> *cur_a =3D mcp->a;=20
->> rcu_read_unlock();
->> -------------------------------------------------first horizontal =
-line-------------------------------------------------
->>=20
->> The reader above end before the first horizontal line, but still get =
-the rightmost myconfig structure.
->>=20
->> The point is that there is a time period between xchg and the first =
-horizontal line during which a reader
->> will see the rightmost myconfig structure.=20
->>=20
->> One possible solution is to move xchg behind the first horizontal =
-line, assuming that I understand correctly.
->=20
-> Yes, it would in some sense be more accurate to run that horizontal =
-line
-> right through the "mcp =3D xchg(&curconfig, mcp);".
->=20
-> But can you do that so that the diagram looks OK and is legible?
-
-
-I will do my best to do it
-
-Thanks,
-Alan
-
-
->=20
-> Thanx, Paul
->=20
->>> leftmost myconfig structure, and all readers that start after the
->>> second horizontal line will see the rightmost structure. Between
->>> the two lines, that is, during the grace period, different readers
->>> might see different objects, but as long as each reader loads the
->>> curconfig pointer only once, each reader will see a consistent
->>> view of its myconfig structure.
->>>=20
->>> Does that help?
->>>=20
->>>> BTW, the original text says that black dotted arrows pointing from =
-an older event to a newer event,=20
->>>> but there exists two black dotted arrows in the wrong direction:
->>>>=20
->>>> 1.The arrow pointing from synchronize_rcu() to left-hand =
-rcu_read_lock()
->>>> 2.The arrow pointing right-hand rcu_read_lock() to =
-synchronize_rcu()=20
->>>>=20
->>>> The directions of the two arrows above may need to be adjusted. I =
-tried to modify this, but after a few hours, I still can=E2=80=99t =
-figure out the svg...
->>>=20
->>> The trick is to use an SVG editor.  For better or for worse, I use
->>> inkscape.  But easy for me to change, so I did, again, with your
->>> Reported-by.
->>>=20
->>> The trick is to flip each arrow horizontally and then vertically, =
-which
->>> reverses the direction without having to test one's manual =
-dexterity,
->>> which I lack in abundance.  ;-)
->>=20
->>=20
->> Thanks for the tricks, will try to use it!
->>=20
->> Thanks,
->> Alan
->>=20
->>>=20
->>> Thanx, Paul
->>>=20
->>>> Thanks,
->>>> Alan
->>>>=20
->>>>>=20
->>>>> Does that help, or am I missing the point of your question?
->>>>>=20
->>>>> Thanx, Paul
-
+diff --git a/defer/RCUspacetime.svg b/defer/RCUspacetime.svg
+index 10135f84..fdbd275b 100644
+--- a/defer/RCUspacetime.svg
++++ b/defer/RCUspacetime.svg
+@@ -7,7 +7,7 @@
+    viewBox="0 0 262.95599 138.7054"
+    version="1.1"
+    id="svg8"
+-   inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
++   inkscape:version="1.2.2 (b0a8486, 2022-12-01)"
+    sodipodi:docname="RCUspacetime.svg"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+@@ -328,7 +328,7 @@
+      inkscape:pageopacity="0.0"
+      inkscape:pageshadow="2"
+      inkscape:zoom="1.1515349"
+-     inkscape:cx="480.22861"
++     inkscape:cx="481.53122"
+      inkscape:cy="287.87664"
+      inkscape:document-units="mm"
+      inkscape:current-layer="layer1"
+@@ -338,11 +338,13 @@
+      fit-margin-right="5"
+      fit-margin-bottom="5"
+      inkscape:window-width="1551"
+-     inkscape:window-height="1082"
++     inkscape:window-height="919"
+      inkscape:window-x="117"
+-     inkscape:window-y="72"
++     inkscape:window-y="25"
+      inkscape:window-maximized="0"
+-     inkscape:pagecheckerboard="0">
++     inkscape:pagecheckerboard="0"
++     inkscape:showpageshadow="2"
++     inkscape:deskcolor="#d1d1d1">
+     <inkscape:grid
+        type="xygrid"
+        id="grid3713"
+@@ -406,8 +408,8 @@
+    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start"
+    id="tspan31698"> (5)</tspan></tspan></text>
+     <path
+-       style="fill:none;stroke:#5a5a5a;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:3, 3;stroke-dashoffset:0;stroke-opacity:1"
+-       d="M 66.145837,109.14583 H 312.20834"
++       style="fill:none;stroke:#5a5a5a;stroke-width:0.499998;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:3, 3;stroke-dashoffset:0;stroke-opacity:1"
++       d="M 66.145837,109.14583 H 181.70136"
+        id="path113"
+        inkscape:connector-curvature="0"
+        sodipodi:nodetypes="cc" />
+@@ -432,17 +434,17 @@
+     <text
+        xml:space="preserve"
+        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+-       x="186.25475"
+-       y="100.55408"
++       x="185.79521"
++       y="104.68986"
+        id="text3777-5-7-8-0"><tspan
+          sodipodi:role="line"
+-         x="186.25475"
+-         y="100.55408"
++         x="185.79521"
++         y="104.68986"
+          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:monospace;-inkscape-font-specification:'monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.264583"
+          id="tspan109-9">mcp = kmalloc(...)</tspan><tspan
+          sodipodi:role="line"
+-         x="186.25475"
+-         y="105.84574"
++         x="185.79521"
++         y="110.02502"
+          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:monospace;-inkscape-font-specification:'monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.264583"
+          id="tspan4704">mcp = xchg(&amp;curconfig, mcp);</tspan></text>
+     <text
+@@ -630,14 +632,14 @@
+        inkscape:connector-curvature="0"
+        sodipodi:nodetypes="ccac" />
+     <path
+-       style="fill:none;stroke:#5a5aff;stroke-width:0.60000002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2.40000012, 1.20000006, 0.60000003, 1.20000006;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Arrow2Mend-9-2)"
+-       d="m 175.94791,77.924998 c 0,0 -8.27905,6.142627 -9.19641,10.774525 -0.67487,3.407487 0.83374,7.395175 3.23349,9.906675 3.42151,3.580852 13.90042,5.247962 13.90042,5.247962"
++       style="fill:none;stroke:#5a5aff;stroke-width:0.6;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2.40001, 1.2, 0.6, 1.2;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Arrow2Mend-9-2)"
++       d="m 176.30901,77.838875 c 0,0 -8.60882,7.335858 -9.56272,12.867521 -0.70175,4.069405 0.86695,8.831718 3.36229,11.831084 3.55779,4.27644 14.4541,6.26741 14.4541,6.26741"
+        id="path4922-7-2"
+        inkscape:connector-curvature="0"
+        sodipodi:nodetypes="caac" />
+     <path
+-       style="fill:none;stroke:#007b00;stroke-width:0.60000002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:3.60000018, 1.20000006;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Arrow2Mend-99)"
+-       d="m 257.96875,106.49999 c 0,0 8.81151,4.45924 12.02239,1.97279 3.08625,-2.38994 2.95155,-8.25025 1.05605,-11.662547 -3.36055,-6.049701 -12.90643,-5.321755 -18.54385,-9.335692 -4.44232,-3.163004 -11.73251,-11.401626 -11.73251,-11.401626"
++       style="fill:none;stroke:#007b00;stroke-width:0.6;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:3.6, 1.2;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Arrow2Mend-99)"
++       d="m 256.70771,108.83394 c 0,0 8.17048,4.79887 11.14777,2.12304 2.86173,-2.57196 2.73683,-8.87861 0.97923,-12.550793 -3.11608,-6.510461 -11.9675,-5.727073 -17.19481,-10.046722 -4.11914,-3.403906 -10.87898,-12.270002 -10.87898,-12.270002"
+        id="path4922-0"
+        inkscape:connector-curvature="0"
+        sodipodi:nodetypes="caaac" />
+@@ -765,5 +767,11 @@
+        id="path4922-0-2-0-5"
+        inkscape:connector-curvature="0"
+        sodipodi:nodetypes="cc" />
++    <path
++       style="fill:none;stroke:#5a5a5a;stroke-width:0.499999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:3, 3;stroke-dashoffset:0;stroke-opacity:1"
++       d="m 258.38148,109.1463 h 50.99135"
++       id="path113-93"
++       inkscape:connector-curvature="0"
++       sodipodi:nodetypes="cc" />
+   </g>
+ </svg>
+-- 
+2.34.1
 
