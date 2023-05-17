@@ -1,104 +1,129 @@
-Return-Path: <SRS0=ZcyU=BK=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=D5ZN=BG=gmail.com=mmpgouride@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684665783; x=1687257783;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LbP0lsGZFbRDxA90y/o0kPTWkktj56qH1vps8dG/20U=;
-        b=GqR1BiJtj2eSM8Le2148ftnjdtevUcpyHabGpQxl5bAKY1HefPJcseyKi4FpZGYAwm
-         Xlx8KG9B88LxxBSmayBl6JAvBdUtP1bFeMfcmjkn5jU/ZL3qPNv0wHZxtF2bFgP8rA/j
-         w5gwt8yyOLXm3NCCimJofdeWkfQizvMLwowHMn4fFXrzAMw41bWWzvW5v5HwCF2sjad/
-         e0pa6zoGtWjYMqM1MmmsqkER3xdKnj8uV7QBCX9+gel7wwD5HBN5fJ6U/LeM+x71M4/8
-         TPpn3bdJ3m17J3vzpJqjbrLOl9Bix+HssBk9/Gat3m8bGu8o/c7YjCeDAoUFHKtQLPl2
-         Sxfg==
-Message-ID: <71ebc20c-7e07-a029-b576-40782bb77a9d@gmail.com>
-Date: Sun, 21 May 2023 19:42:58 +0900
-MIME-Version: 1.0
-Subject: Re: A question about QuickQuiz 5.46
-References: <20230517120110.GA23586@haolee.io>
- <5961e95e-70c5-7b1a-1e87-cbdf0931161a@gmail.com>
- <20230519062847.GA17791@haolee.io>
- <cab1b46a-a147-ce4c-18c8-0b7b76d675b0@gmail.com>
- <20230521075425.GA13425@haolee.io>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20230521075425.GA13425@haolee.io>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: Hao Lee <haolee.swjtu@gmail.com>
-Cc: perfbook@vger.kernel.org, paulmck@kernel.org, Akira Yokosawa <akiyks@gmail.com>
+        d=gmail.com; s=20221208; t=1684342947; x=1686934947;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2juaeBGYNKj3ElvUpqHRVxqdm84XWQvN5Ap93XbQgnE=;
+        b=qZo1y8r5Xe326SF2M3+QsC5zkql8DgZWeGUTcT0l9gtI9Pp5zwaxN4gWrpHVukNdHS
+         vuTtweoptMVAXqPj6JFCAmwwioqQK7dZ0H5MblZHuVh+1fm9vt1fKuyqv/8Oau60RqRg
+         SoUrfJQHzDqdErgx4FJoalrXj4RsC/L5jlHW1syhgA4VoXhkPATSAwe5L20io03urCVt
+         8rFikCxHZ5V0VpwAjCilVr6tO38vziJwNHWZVZAH5liFN2E9X/zpY6vZO4zN8MzM5UTy
+         pS9KoPL607Aqt/CXnvvmt7QRRpQQFH/yycFqIfWp16huUyORVrsxomtJkGVTadxLW84H
+         1K8Q==
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.60.0.2.21\))
+Subject: Re: [PATCH] formal/spinhint: Clarify the proof
+From: Alan Huang <mmpgouride@gmail.com>
+In-Reply-To: <27a4aeaf-5eb4-fb15-4951-0fb200d4edd9@gmail.com>
+Date: Thu, 18 May 2023 01:02:21 +0800
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <99837CAE-E2E2-4BF5-940A-98DFFFF6E9E6@gmail.com>
+References: <20230514145123.37079-1-mmpgouride@gmail.com>
+ <8c07d99a-cc0b-c277-4a09-d7072c70911d@gmail.com>
+ <B595FC9D-9EC6-401B-8181-D75C64E427CC@gmail.com>
+ <27a4aeaf-5eb4-fb15-4951-0fb200d4edd9@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: paulmck@kernel.org, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-On Sun, 21 May 2023 07:54:25 +0000, Hao Lee wrote:
-> On Fri, May 19, 2023 at 10:27:48PM +0900, Akira Yokosawa wrote:
->> On Fri, 19 May 2023 06:28:47 +0000, Hao Lee wrote:
->>> On Thu, May 18, 2023 at 10:50:51AM +0900, Akira Yokosawa wrote:
->>>> Hi,
->>>>
->>>> On Wed, 17 May 2023 12:01:10 +0000, Hao Lee wrote:
->>>>> Hi, Paul
->>>>>
->>>>> I noticed that QuickQuiz 5.46 is causing confusion due to the fact that
->>>>> balance_count() and flush_local_count() are both located within the
->>>>> slowpath and are called sequentially. As a result, it is impossible for
->>>>> them to compete for the counterandmax thread-local variable.
->>>>
->>>> Right.
->>>> And that's exactly what is mentioned in the answer to the quiz.
->>>>
->>>> I guess it confused you because you didn't expect such an easy one,
->>>> no ? :-)
->>>
->>> In fact I'm confused about the question description.
->>> I believe that this quiz should focus on the concurrency of global
->>> variables, rather than on the concurrency of the atomic variable
->>> `counterandmax`, which is currently the main focus of the description.
->>
->> Hmm, sorry but I'm afraid I don't get your point ...
->>
->> Could you share the question you'd expect to see in place of
->> Quick Quiz 5.46?
-> 
-> Hi, I don't think this question should exist according to my
-> understanding...
-> 
-> Let's approach this question from a different perspective. The answer
-> emphasizes that the gblcnt_mutex prevents concurrency problems. Let's
-> assume that neither balance_count() nor flush_local_count() is holding
-> the gblcnt_mutex. Would the counterandmax variable encounter concurrency
-> problems? I don't think so because counterandmax is an atomic variable
-> and is always safe, even without using any locks.
+Hi Akira,
 
-I'm not sure, but you might be missing subtle wording in the quiz part
-of Quick Quiz 5.46 (quoted below):
+> 2023=E5=B9=B45=E6=9C=8817=E6=97=A5 =E4=B8=8B=E5=8D=8810:55=EF=BC=8CAkira=
+ Yokosawa <akiyks@gmail.com> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> Hi Alan,
+>=20
+> On Tue, 16 May 2023 18:15:31 +0800, Alan Huang wrote:
+>> Hi Akira,
+>>=20
+>>> 2023=E5=B9=B45=E6=9C=8816=E6=97=A5 =E4=B8=8B=E5=8D=886:07=EF=BC=8CAkir=
+a Yokosawa <akiyks@gmail.com> =E5=86=99=E9=81=93=EF=BC=9A
+>>>=20
+>>> Hi Alan,
+>>>=20
+>>> On Sun, 14 May 2023 14:51:23 +0000, Alan Huang wrote:
+>>>> The third step and the fourth step seem to have no causal =
+relationship between them.
+>>>=20
+>>> Why do you expect causal relationship between the two?
+>>>=20
+>>>> Therefore, this patch explains under what circumstances both =
+counters will be at least 1.
+>>>>=20
+>>>> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
+>>>> ---
+>>>> formal/spinhint.tex | 5 +++--
+>>>> 1 file changed, 3 insertions(+), 2 deletions(-)
+>>>>=20
+>>>> diff --git a/formal/spinhint.tex b/formal/spinhint.tex
+>>>> index 16764aef..dd2e88cc 100644
+>>>> --- a/formal/spinhint.tex
+>>>> +++ b/formal/spinhint.tex
+>>>> @@ -1103,8 +1103,9 @@ follows:
+>>>> 	execution.
+>>>> \item	The counter corresponding to this reader will have been
+>>>> 	at least 1 during this time interval.
+>>>> -\item	The \co{synchronize_qrcu()} code forces at least one
+>>>> -	of the counters to be at least 1 at all times.
+>>>> +\item	If the counter corresponding to this reader is 1, then
+>>>> +	the other counter is at least 1 because of the completion of
+>>>> +	counter flip.
+>>>> \item	Therefore, at any given point in time, either one of the
+>>>> 	counters will be at least 2, or both of the counters will
+>>>> 	be at least one.
+>>>=20
+>>> "Therefore" on item 4 looks to me assumes all of items 1, 2, and 3.
+>>=20
+>> Yeah, that=E2=80=99s right. My commit message is misleading.
+>>=20
+>> This patch makes item 3 more specific.
+>=20
+> I might be too nit-picky, but you are changing the simple statement
+> of observation:
+>=20
+>    The synchronize_qrcu() code forces at least one of the counters
+>    to be at least 1 at all times.
+>=20
+> to a complex sentence of:
+>=20
+>    If the counter corresponding to this reader is 1, then
+>    the other counter is at least 1 because of the completion of
+>    counter flip.
+>=20
+> Your wording describes something different from the original one,
+> doesn't it?=20
+>=20
+> Can you elaborate what you find hard to follow in this _informal_
+> proof?
 
-    Given that the atomic_set() primitive does a simple store
-    to the specified atomic_t, ...
+Item 4 says:
 
-Here, "simple store" means a normal store which doesn't involve
-any atomic operations (at instruction level).
+	Therefore, at any given point in time, either one of the
+	counters will be at least 2, or both of the counters will
+	be at least one.
 
-atomic_read() and atomic_set() are for accessing atomic_t variables
-without any costly atomic operations.
+=E2=80=9Cat least 2=E2=80=9D is obvious, but it took me some time to =
+figure this out:
 
-Which is why Quick Quiz 5.46 has been there for more than a decade.
+	 "or both of the counters will be at least one=E2=80=9D
 
-Perhaps, you might be interested in Quick Quiz B.12 as well.
- 
-HTH,
-        Akira
+The original item 3 is not very helpful to me.
 
-> 
->>
->>         Thanks, Akira
->>
->>>
->>>>
->>>>         Thanks, Akira
->>>>
->>>>>                                                               Therefore,
->>>>> I believe that this quiz may be referring to the global variables
->>>>> globalcount and globalreserve.
->>>>>
->>>>> Thanks,
->>>>> Hao Lee
+But others may prefer the original one :)
+
+Thanks,
+Alan
+
+>=20
+>        Thanks, Akira
+>>=20
+>> Thanks,
+>> Alan
+>>=20
+>>>=20
+>>> What am I missing?
+>>>=20
+>>>       Thanks, Akira
+
