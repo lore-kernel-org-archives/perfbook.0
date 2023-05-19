@@ -1,71 +1,58 @@
-Return-Path: <SRS0=UFo0=BL=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=lLgH=BI=gmail.com=haolee.swjtu@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684718334; x=1687310334;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=T79jZwMcT9rTe2+hRYtFAwSUI4lty8T3koXesnhnsPw=;
-        b=rpMaafZHyYZJ5G9KPir5Vtj0auIVpFkWYERKURoPibeBBSt/CjrKa/eI+gT2zNTh8g
-         Hk9VYiU1AimoyAOq9CEFl44k8AlhamvbqbYEQ50smaRX05U5nWE5AdDt1PPypKJI5Z5u
-         EtE0phzA59Qg92cMWI1Ppc3ONb9AXz1AwY+pWzFihVVw1Fzu/7CPC5mNQ67SMqHIGXuM
-         wS8c+BoSd/TKHQGrEERdiKhLkg7gkD69mLGp3wTxTAHydxWQX04zJf/A9RmMQotHZpUn
-         rCFMn2jGLOlEHstGKUZ8MkXLuIsy6TuhuCp2gdkxYMesfi3JfvUamJpao915xRN9GuUc
-         Xf1w==
-Message-ID: <528192fd-8d2a-4006-2b5e-3a5cdb0de2a0@gmail.com>
-Date: Mon, 22 May 2023 10:18:49 +0900
+        d=gmail.com; s=20221208; t=1684477730; x=1687069730;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UP/lhQ7e7GorUJ5xO1KkvaYdajzUkOGHytaOtCJZf6k=;
+        b=cDrMypPZGeKQn5iNAgk4wFKFnenHONteQEaad3X2LCC9l9OanfMs+Qv+/587jyvZgF
+         f1z6ORhmwS0JRXQFv902EQieEH4laUh84wUpoiOXnjcm5GWP3e1Q2aqkn81gLcYtkrwb
+         YnHThXtZ0p8DEYsPpdwb2uTmYuI5leJRKZ+/Ox8zU1zc4e5IHR3q6VlmkPLirDumM8cO
+         EykvGEDFH03v1hKe4SgrkAcal+NZoSr5QWX+mWM3BhwYtFwhOLqfqUG7Na4GrFcuzvaU
+         rrrTAYKS+VSBkfviy7GSE/2ZFKaY/ozPRDU0HI9icDSm7Xjnwfyn9GKW2QbV0YpAuF8C
+         a9og==
+Date: Fri, 19 May 2023 06:28:47 +0000
+From: Hao Lee <haolee.swjtu@gmail.com>
+Subject: Re: A question about QuickQuiz 5.46
+Message-ID: <20230519062847.GA17791@haolee.io>
+References: <20230517120110.GA23586@haolee.io>
+ <5961e95e-70c5-7b1a-1e87-cbdf0931161a@gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] formal: Fix references
-References: <20230521162417.3751-1-mmpgouride@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20230521162417.3751-1-mmpgouride@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: Alan Huang <mmpgouride@gmail.com>, paulmck@kernel.org
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5961e95e-70c5-7b1a-1e87-cbdf0931161a@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org, paulmck@kernel.org
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Alan,
+On Thu, May 18, 2023 at 10:50:51AM +0900, Akira Yokosawa wrote:
+> Hi,
+> 
+> On Wed, 17 May 2023 12:01:10 +0000, Hao Lee wrote:
+> > Hi, Paul
+> > 
+> > I noticed that QuickQuiz 5.46 is causing confusion due to the fact that
+> > balance_count() and flush_local_count() are both located within the
+> > slowpath and are called sequentially. As a result, it is impossible for
+> > them to compete for the counterandmax thread-local variable.
+> 
+> Right.
+> And that's exactly what is mentioned in the answer to the quiz.
+> 
+> I guess it confused you because you didn't expect such an easy one,
+> no ? :-)
 
-On Sun, 21 May 2023 16:24:17 +0000, Alan Huang wrote:
-> The two references are misplaced, this patch fixes that.
-
-Nice catches!
-
-As I made the mistake in commit 30db63ed4177
-("formal/dyntickrcu: Cite git commits of dyntickrcu fixes"),
-let me add a Fixes: tag along with my R-b.
-
-Fixes: 30db63ed4177 ("formal/dyntickrcu: Cite git commits of dyntickrcu fixes")
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-
-        Thanks, Akira
+In fact I'm confused about the question description.
+I believe that this quiz should focus on the concurrency of global
+variables, rather than on the concurrency of the atomic variable
+`counterandmax`, which is currently the main focus of the description.
 
 > 
-> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
-> ---
->  formal/dyntickrcu.tex | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>         Thanks, Akira
 > 
-> diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
-> index 42c0c55c..2d118e69 100644
-> --- a/formal/dyntickrcu.tex
-> +++ b/formal/dyntickrcu.tex
-> @@ -1132,7 +1132,7 @@ This effort provided some lessons (re)learned:
->  	In this case, the documentation effort located
->  	a misplaced memory barrier in
->  	\co{rcu_enter_nohz()} and \co{rcu_exit_nohz()},
-> -	as shown by the following patch~\cite{PaulEMcKenney2008commit:d7c0651390b6}.
-> +	as shown by the following patch~\cite{PaulEMcKenney2008commit:ae66be9b71b1}.
->  
->  \begin{VerbatimU}
->   static inline void rcu_enter_nohz(void)
-> @@ -1155,7 +1155,7 @@ This effort provided some lessons (re)learned:
->  	This effort located one subtle bug in
->  	\co{rcu_try_flip_waitack_needed()}
->  	that would have been quite difficult to test or debug, as
-> -	shown by the following patch~\cite{PaulEMcKenney2008commit:ae66be9b71b1}.
-> +	shown by the following patch~\cite{PaulEMcKenney2008commit:d7c0651390b6}.
->  
->  \begin{VerbatimU}
->  -       if ((curr - snap) > 2 || (snap & 0x1) == 0)
+> >                                                               Therefore,
+> > I believe that this quiz may be referring to the global variables
+> > globalcount and globalreserve.
+> > 
+> > Thanks,
+> > Hao Lee
