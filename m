@@ -1,119 +1,84 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48778 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232343AbjE0KjQ (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sat, 27 May 2023 06:39:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C0921A7
-        for <perfbook@vger.kernel.org>; Sat, 27 May 2023 03:39:13 -0700 (PDT)
+        with ESMTP id S229730AbjE0Kkk (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sat, 27 May 2023 06:40:40 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3860ED8
+        for <perfbook@vger.kernel.org>; Sat, 27 May 2023 03:40:39 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A933260B67
-        for <perfbook@vger.kernel.org>; Sat, 27 May 2023 10:39:12 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C897A60BC8
+        for <perfbook@vger.kernel.org>; Sat, 27 May 2023 10:40:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685183952;
-        bh=H+whb6ApKievb9FSS9b5DTiQQ0XtAUgpPLxzK8GQOy0=;
+        s=k20201202; t=1685184038;
+        bh=xaB1UnpDaHIX9dMDT4Jo94c9syTUqI2EU/5CDufKqL8=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Lah8BVIOXpzAcSSczTXdq5AQy0X5t97S4L0bj16oSNKG7rNJRKkLWJSUzY1+4+Z7U
-         HvsZspaIMchv3MS4nP3NnEVW4XS4MxKncfMHFwEkF+9nekBSpauDidH9NanzkrDRrF
-         x+UlhPhYhJWBH5b2Iky+Ux5V3MpV8zqPuSNoNW5iI0CYb0XbD43kqn9zaWGY4g9pd1
-         SQtE1HUpDherynR6S+QujNMLrtML/MmDvRF/IQESFW682OBaNNfxG8DIJ6kZptH9Ko
-         qwREKkhEe3PkPSSiR2L6hnqk06g9spaMImL4UIr8ZleOms2PVEm/Wyax0gDn5lijhs
-         qTEjlxRZBI6/A==
-Date: Sat, 27 May 2023 03:39:09 -0700
+        b=GJhseZcGRsXGXvSjih2qKVArG0JRBenLVXdBKHqBHKd3RsSxVdWryaoa3LX3DSJBB
+         mXS022Pl0OLOjeiBT/Z00lssxdo0BNN7B3/ffdsh36G6WwpZFd8CGGfcmRmi182Dvk
+         F4XydsUueGtrYrOamavvXZ6PDJ7/NygVziH6T22eeSqYFcWdMxIQrxum59PuIvWjL+
+         VjEJb2nozqJyxDGJNm16RsQOoCv40uz77YAObzx52fMn0/xydrXk6i/s0wMykAeRc+
+         BVODu2vR9y3sdyYc+f1WGIxTFts89HGhZvnNVYA9nLAKHZdWkPFH83Yvg7bY/uNVOR
+         SVs51Y5R8x/4g==
+Date: Sat, 27 May 2023 03:40:35 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] formal/spinhint: Clarify the proof
-Message-ID: <209486bf-2ad8-4625-a67e-85e56d9877de@paulmck-laptop>
+Subject: Re: [PATCH] formal: Fix references
+Message-ID: <060cf4e3-ef35-4c71-bf99-b52240dc70da@paulmck-laptop>
 Reply-To: paulmck@kernel.org
-References: <20230514145123.37079-1-mmpgouride@gmail.com>
- <779cf72a-ab43-4b52-96be-8cd02ced105e@paulmck-laptop>
- <1FF6F171-B66C-47B0-91AB-36D4AF10F426@gmail.com>
+References: <20230521162417.3751-1-mmpgouride@gmail.com>
+ <8712984b-8cf9-8cfe-c5f5-fa1ff9d726de@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1FF6F171-B66C-47B0-91AB-36D4AF10F426@gmail.com>
+In-Reply-To: <8712984b-8cf9-8cfe-c5f5-fa1ff9d726de@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Alan Huang <mmpgouride@gmail.com>
-Cc: perfbook@vger.kernel.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org, Alan Huang <mmpgouride@gmail.com>
 
-On Sun, May 21, 2023 at 07:35:56PM +0800, Alan Huang wrote:
+On Fri, May 26, 2023 at 10:48:49PM +0900, Akira Yokosawa wrote:
+> Hi Paul,
 > 
-> > 2023年5月21日 18:20，Paul E. McKenney <paulmck@kernel.org> 写道：
+> On 2023/05/22 1:24, Alan Huang wrote:
+> > The two references are misplaced, this patch fixes that.
 > > 
-> > On Sun, May 14, 2023 at 02:51:23PM +0000, Alan Huang wrote:
-> >> The third step and the fourth step seem to have no causal relationship between them.
-> >> Therefore, this patch explains under what circumstances both counters will be at least 1.
-> >> 
-> >> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
-> >> ---
-> >> formal/spinhint.tex | 5 +++--
-> >> 1 file changed, 3 insertions(+), 2 deletions(-)
-> >> 
-> >> diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-> >> index 16764aef..dd2e88cc 100644
-> >> --- a/formal/spinhint.tex
-> >> +++ b/formal/spinhint.tex
-> >> @@ -1103,8 +1103,9 @@ follows:
-> >> execution.
-> >> \item The counter corresponding to this reader will have been
-> >> at least 1 during this time interval.
-> >> -\item The \co{synchronize_qrcu()} code forces at least one
-> >> - of the counters to be at least 1 at all times.
-> > 
-> > So this part is true and fundamental to understanding the code.  You can
-> > see this on lines 31-33 of Listing 12.14 ("QRCU Updater Process").
-> > This code increments the next counter before decrementing the previous
-> > counter.  I therefore don't see how we can reasonably delete this item.
+> > Signed-off-by: Alan Huang <mmpgouride@gmail.com>
 > 
-> Yes, this item is completely correct.
-> 
-> > 
-> >> +\item If the counter corresponding to this reader is 1, then
-> >> + the other counter is at least 1 because of the completion of
-> >> + counter flip.
-> > 
-> > However, we could potentially add this as an intermediate consequence
-> > of items 2 and 3.  Maybe something like this?
-> > 
-> > \item The above two items imply that if the counter corresponding
-> > to this reader is exactly one, then the other counter must be
-> > greater than or equal to one.  Similarly, if the other counter
-> > is equal to zero, then the counter corresponding to the
-> > reader must be greater than or equal to two.
-> 
-> That will be very helpful, adding an item will be better than deleting one!
+> Looks like you've lost this one.
+> Please holler if you need a resend.
 
-Very good, thank you!  I have added the following, with your
-Reported-by.
+Ah, thank you for the reminder!  I have queued and pushed it with
+your Fixes and Reviewed-by.  Thank you both!!!
+
+And "Hello!" from the Brussels airport.  ;-)
 
 							Thanx, Paul
 
-------------------------------------------------------------------------
-
-commit cbef7a09aa845ca2eded65a124970c6508d4b2b2
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Sat May 27 03:35:55 2023 -0700
-
-    spinhint: Add clarifying step to QRCU by-hand proof
-    
-    Reported-by: Alan Huang <mmpgouride@gmail.com>
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-
-diff --git a/formal/spinhint.tex b/formal/spinhint.tex
-index 16764aef..9e68198e 100644
---- a/formal/spinhint.tex
-+++ b/formal/spinhint.tex
-@@ -1105,6 +1105,11 @@ follows:
- 	at least 1 during this time interval.
- \item	The \co{synchronize_qrcu()} code forces at least one
- 	of the counters to be at least 1 at all times.
-+\item	The above two items imply that if the counter corresponding
-+	to this reader is exactly one, then the other counter must be
-+	greater than or equal to one.
-+	Similarly, if the other counter is equal to zero, then the counter
-+	corresponding to the reader must be greater than or equal to two.
- \item	Therefore, at any given point in time, either one of the
- 	counters will be at least 2, or both of the counters will
- 	be at least one.
+>         Thanks, Akira
+> 
+> > ---
+> >  formal/dyntickrcu.tex | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/formal/dyntickrcu.tex b/formal/dyntickrcu.tex
+> > index 42c0c55c..2d118e69 100644
+> > --- a/formal/dyntickrcu.tex
+> > +++ b/formal/dyntickrcu.tex
+> > @@ -1132,7 +1132,7 @@ This effort provided some lessons (re)learned:
+> >  	In this case, the documentation effort located
+> >  	a misplaced memory barrier in
+> >  	\co{rcu_enter_nohz()} and \co{rcu_exit_nohz()},
+> > -	as shown by the following patch~\cite{PaulEMcKenney2008commit:d7c0651390b6}.
+> > +	as shown by the following patch~\cite{PaulEMcKenney2008commit:ae66be9b71b1}.
+> >  
+> >  \begin{VerbatimU}
+> >   static inline void rcu_enter_nohz(void)
+> > @@ -1155,7 +1155,7 @@ This effort provided some lessons (re)learned:
+> >  	This effort located one subtle bug in
+> >  	\co{rcu_try_flip_waitack_needed()}
+> >  	that would have been quite difficult to test or debug, as
+> > -	shown by the following patch~\cite{PaulEMcKenney2008commit:ae66be9b71b1}.
+> > +	shown by the following patch~\cite{PaulEMcKenney2008commit:d7c0651390b6}.
+> >  
+> >  \begin{VerbatimU}
+> >  -       if ((curr - snap) > 2 || (snap & 0x1) == 0)
