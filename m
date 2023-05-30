@@ -1,69 +1,63 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47992 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjE3Aah (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 29 May 2023 20:30:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CA90AD
-        for <perfbook@vger.kernel.org>; Mon, 29 May 2023 17:30:36 -0700 (PDT)
+        with ESMTP id S229489AbjE3AgM (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Mon, 29 May 2023 20:36:12 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50337D9
+        for <perfbook@vger.kernel.org>; Mon, 29 May 2023 17:36:11 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1690662709
-        for <perfbook@vger.kernel.org>; Tue, 30 May 2023 00:30:36 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D7A3A62710
+        for <perfbook@vger.kernel.org>; Tue, 30 May 2023 00:36:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685406635;
-        bh=iqRuW5Ps6I/g1x+FLNN+0ERjoKMiE0Ow+dYcAxbMo6I=;
+        s=k20201202; t=1685406970;
+        bh=Mks8DJzSBKSc1CAuEKiabiEFnUpOiUlNzB9yMSgcs+s=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=r0u0GRSrRfRTnxJ2+ilKdTP4W6ksKh6Qfqyflpq+CucZYnuXXawNcIlJSXHYEnDj7
-         K7xsypltmI/BLTSjfEqSvSNnw1y1kPWnr2/8q0E/jwS8x1fa1TBCuLnD609Em1umXi
-         NGGjeXROeFtdgNyiYupUoULtM74DFuO+Wvsbqm0WB/Xd8ep4rlamSNMHqa7cC6nsW/
-         bLqlKkuDovB1GcbpN8nbGq7rK+hlaUePdgpT14r3pL8dUSzPzit9Arj5GAZouxs1zY
-         WO81ENouJNrb5yZMBY04XLJW+5DJMW3zM4j7/SdArQPiIOQrIrmSFB6M84XKh7u+ON
-         ixOaHwNuHLexA==
-Date: Mon, 29 May 2023 17:30:34 -0700
+        b=s/Gds9lgdRzz49KESO43y8wgWfpo4A0Te8OvEXNwYjO5IDRDlZx0Rh1L4+faP+j0k
+         QcbzSrGLTfqLqOh3ozS+HeIwfPRXhZSk2kUP8HFaME3CFsJ1vFVlR95vswzW9MUBJN
+         TCnMjc/FU/2mqgyfM+BFqhv3ieYlzhu6Ici89+bxO/hSSOx7J23UryKLZbxGeeQwML
+         Bq10TLtfbv4h7phkgczsbf5b/CVxotPyJT+91k7UV2rCk7/3u8OIkfJ+cl5iLXR5Tl
+         slSWZGuv7PfEN0JBvH5dOgwLUsNE6OiLV+uIPALGHEycM7/RszxA1T8zG0KS1LgbEn
+         Tyz5K/PR/dvrg==
+Date: Mon, 29 May 2023 17:36:09 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 1/2] CodeSample/count: Use plain access instead of
- WRITE_ONCE
-Message-ID: <7b569491-2591-4e0c-b334-a5ff1dbb2d7f@paulmck-laptop>
+Subject: Re: Question: In what circumstances would the enqueuer fail?
+Message-ID: <451e4440-b315-451b-a0ec-e211b219b724@paulmck-laptop>
 Reply-To: paulmck@kernel.org
-References: <20230528143729.15201-1-mmpgouride@gmail.com>
+References: <BC1D7582-8D92-411D-8E61-68252413A1BA@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <20230528143729.15201-1-mmpgouride@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <BC1D7582-8D92-411D-8E61-68252413A1BA@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 To: Alan Huang <mmpgouride@gmail.com>
 Cc: perfbook@vger.kernel.org
 
-On Sun, May 28, 2023 at 02:37:28PM +0000, Alan Huang wrote:
-> The cap here has not been published, plain access is enough.
+On Tue, May 30, 2023 at 12:48:33AM +0800, Alan Huang wrote:
+> Hi,
 > 
-> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
+> I’m reading 14.2.1.3 Half-NBS Queue, there is one sentence says:
+> 
+> 	The enqueuer might have failed between lines 9 and 10 of the listing, so that the element in question is only partially enqueued.
+> 
+> My question is: In what circumstances would the enqueuer fail between lines 9 and 10 ?
 
-Good catch, thank you!
+The following circumstances would do it:
 
-Does line 27 of that same listing need a READ_ONCE(*ctrp)?
+o	Someone kills the thread at that point.
+
+o	The CPU that the thread is running on takes an interrupt,
+	but there is an infinite-loop bug in the interrupt handler,
+	so that the thread's execution is never resumed.
+
+o	The CPU that the thread is running on fail-stops, again
+	preventing that thread from resuming.  (This is rare, but
+	does occasionally happen, especially on old or thermally
+	abused hardware.)
+
+So nothing normal, if that is what you are asking.  ;-)
 
 							Thanx, Paul
-
-> ---
->  CodeSamples/count/count_end_rcu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/CodeSamples/count/count_end_rcu.c b/CodeSamples/count/count_end_rcu.c
-> index 1171f0b6..8fc70611 100644
-> --- a/CodeSamples/count/count_end_rcu.c
-> +++ b/CodeSamples/count/count_end_rcu.c
-> @@ -89,7 +89,7 @@ void count_unregister_thread(int nthreadsexpected)	//\lnlbl{unreg:b}
->  	}						//\lnlbl{unreg:alloc:e}
->  	spin_lock(&final_mutex);			//\lnlbl{unreg:acq}
->  	*cap = *countarrayp;				//\lnlbl{unreg:copy}
-> -	WRITE_ONCE(cap->total, cap->total + counter);	//\lnlbl{unreg:add}
-> +	cap->total += counter;	//\lnlbl{unreg:add}
->  	cap->counterp[idx] = NULL;			//\lnlbl{unreg:null}
->  	capold = countarrayp;				//\lnlbl{unreg:retain}
->  	rcu_assign_pointer(countarrayp, cap);		//\lnlbl{unreg:assign}
-> -- 
-> 2.34.1
-> 
