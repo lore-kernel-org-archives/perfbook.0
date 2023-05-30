@@ -1,75 +1,89 @@
 Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48616 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjE3AkS (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 29 May 2023 20:40:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D9BC7
-        for <perfbook@vger.kernel.org>; Mon, 29 May 2023 17:40:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1308762347
-        for <perfbook@vger.kernel.org>; Tue, 30 May 2023 00:40:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685407216;
-        bh=sr7Lgladdcnc0uNreWSX3GaFRU5HEui5uwOW08Xp/og=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=ipkhPTedokR5GeF5h24/vbe4OMiEvyBM5LQfRcyOIgvmS0ri+lR8lnCycRIw3VuTy
-         wXEHebr9PKGZmDfW/ca7yMMzvsAcWvZnswGoH0fIZ/uUxK1AdgGLXFD9oOHBCvR/vt
-         JUWTqaIfNHKUACHtX9C1oxljHUG0wbZKlN3mFyfKyjxFPsEOYnr3eHFQ83gdOqftiO
-         avEDUL192yTlW0Zv/rggi3kH+wpiYZ9f0760+nyAhfhsdwscAh7j79j8/5ITsZe7p3
-         UN2K/PMc8Qy3pL6lSehqrswEDnb79yHZZvc/EWYGld1VmTdkT3yoI4K87zzkl7aJ4P
-         5A/gjkuICRkEA==
-Date: Mon, 29 May 2023 17:40:15 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] together: Fix the description of state traversal
-Message-ID: <2821caa4-1212-41ee-b853-dc20e051113d@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20230528164020.15935-1-mmpgouride@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230528164020.15935-1-mmpgouride@gmail.com>
+        with ESMTP id S230294AbjE3OxX (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Tue, 30 May 2023 10:53:23 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ACDED9
+        for <perfbook@vger.kernel.org>; Tue, 30 May 2023 07:53:22 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-53fb4ee9ba1so567258a12.3
+        for <perfbook@vger.kernel.org>; Tue, 30 May 2023 07:53:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685458402; x=1688050402;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wD/XUcZ4FAbM3/Xc6FzmzVtcymEskz3ile/bfagdpR8=;
+        b=OPQIwxtrhQBxPCmxdd6VHFn4xDw876IPKOdQndg0bsCTzfLVJN+VEHMRbnKM1Ogc+L
+         Qa+RqxaL0SOWyfPUg9LvQOsLCVHj2XaSpowo3q6u/EWyE7e59JLU1P9UI/ZQ1iXmcXnq
+         GULfLlxT5+NZlrl6x9f64MP3RtooeqKx6QW4onDq8SGIWigYUreIs3OD1AW0eabkV8ed
+         jRK7I1/HyGDb0tKUwTJhIO6N+dv+uPaGyYs9ZTCRucamI/X7xaZ1WQgaH8bXEOhEHcsZ
+         FPcF1KPdmIKXp3JMNTXB/YbqEK2rVV9qeEV5c2p/NQy4AVubwdfv5XKIt2XPhmwemy+v
+         6GlQ==
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
+Subject: Re: [PATCH 1/2] CodeSample/count: Use plain access instead of
+ WRITE_ONCE
+From: Alan Huang <mmpgouride@gmail.com>
+In-Reply-To: <7b569491-2591-4e0c-b334-a5ff1dbb2d7f@paulmck-laptop>
+Date: Tue, 30 May 2023 22:53:04 +0800
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <66E25A10-3F79-4F07-A60E-5C1D71C9A7E1@gmail.com>
+References: <20230528143729.15201-1-mmpgouride@gmail.com>
+ <7b569491-2591-4e0c-b334-a5ff1dbb2d7f@paulmck-laptop>
 List-ID: <perfbook.vger.kernel.org>
-To: Alan Huang <mmpgouride@gmail.com>
+To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org
 
-On Sun, May 28, 2023 at 04:40:20PM +0000, Alan Huang wrote:
-> There seem to be some issues with the description of state transitions.
-> This patch fixes that.
-> 
-> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
-> ---
->  together/applyrcu.tex | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/together/applyrcu.tex b/together/applyrcu.tex
-> index 09a265f7..dee027b9 100644
-> --- a/together/applyrcu.tex
-> +++ b/together/applyrcu.tex
-> @@ -676,11 +676,12 @@ The normal path through this state machine traverses the states CLOSED,
->  OPEN, CLOSING (with an invocation of \co{call_rcu()}), and back to CLOSED
->  once the callback has been invoked.
->  If \co{open()} is invoked before the grace period completes, the
-> -state machine traverses the cycle OPEN, CLOSING (with an invocation
-> -of \co{call_rcu()}), and back to CLOSED once the callback has been invoked.
-> +state machine traverses the cycle OPEN, CLOSING (with
-> +an invocation of \co{call_rcu()}), REOPENING, and back to OPEN once the
-> +callback has been invoked.
->  If \co{open()} and then \co{close()} are invoked before the grace period
->  completes, the state machine traverses the cycle OPEN, CLOSING (with
-> -an invocation of \co{call_rcu()}), REOPENING, and back to OPEN once the
-> +an invocation of \co{call_rcu()}), REOPENING, RECLOSING, and back to CLOSING once the
->  callback has been invoked.
 
-I took this patch (thank you!), but wonder if we should describe the
-additional callback and additional transition to CLOSED, both here
-and below.  Thoughts?
+> 2023=E5=B9=B45=E6=9C=8830=E6=97=A5 08:30=EF=BC=8CPaul E. McKenney =
+<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> On Sun, May 28, 2023 at 02:37:28PM +0000, Alan Huang wrote:
+>> The cap here has not been published, plain access is enough.
+>>=20
+>> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
+>=20
+> Good catch, thank you!
+>=20
+> Does line 27 of that same listing need a READ_ONCE(*ctrp)?
 
-							Thanx, Paul
+It does need! I have sent another patch.
 
->  Given an indefinite alternating sequence of \co{close()} and \co{open()}
-> -- 
-> 2.34.1
-> 
+Thanks,
+Alan
+
+>=20
+> 							Thanx, Paul
+>=20
+>> ---
+>> CodeSamples/count/count_end_rcu.c | 2 +-
+>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>=20
+>> diff --git a/CodeSamples/count/count_end_rcu.c =
+b/CodeSamples/count/count_end_rcu.c
+>> index 1171f0b6..8fc70611 100644
+>> --- a/CodeSamples/count/count_end_rcu.c
+>> +++ b/CodeSamples/count/count_end_rcu.c
+>> @@ -89,7 +89,7 @@ void count_unregister_thread(int nthreadsexpected)	=
+//\lnlbl{unreg:b}
+>> 	}						=
+//\lnlbl{unreg:alloc:e}
+>> 	spin_lock(&final_mutex);			=
+//\lnlbl{unreg:acq}
+>> 	*cap =3D *countarrayp;				=
+//\lnlbl{unreg:copy}
+>> -	WRITE_ONCE(cap->total, cap->total + counter);	=
+//\lnlbl{unreg:add}
+>> +	cap->total +=3D counter;	//\lnlbl{unreg:add}
+>> 	cap->counterp[idx] =3D NULL;			=
+//\lnlbl{unreg:null}
+>> 	capold =3D countarrayp;				=
+//\lnlbl{unreg:retain}
+>> 	rcu_assign_pointer(countarrayp, cap);		=
+//\lnlbl{unreg:assign}
+>> --=20
+>> 2.34.1
+>>=20
+
