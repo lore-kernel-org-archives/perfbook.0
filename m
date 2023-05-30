@@ -1,89 +1,138 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32842 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230294AbjE3OxX (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 30 May 2023 10:53:23 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ACDED9
-        for <perfbook@vger.kernel.org>; Tue, 30 May 2023 07:53:22 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-53fb4ee9ba1so567258a12.3
-        for <perfbook@vger.kernel.org>; Tue, 30 May 2023 07:53:22 -0700 (PDT)
+Return-Path: <SRS0=hS86=BT=gmail.com=mmpgouride@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685458402; x=1688050402;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wD/XUcZ4FAbM3/Xc6FzmzVtcymEskz3ile/bfagdpR8=;
-        b=OPQIwxtrhQBxPCmxdd6VHFn4xDw876IPKOdQndg0bsCTzfLVJN+VEHMRbnKM1Ogc+L
-         Qa+RqxaL0SOWyfPUg9LvQOsLCVHj2XaSpowo3q6u/EWyE7e59JLU1P9UI/ZQ1iXmcXnq
-         GULfLlxT5+NZlrl6x9f64MP3RtooeqKx6QW4onDq8SGIWigYUreIs3OD1AW0eabkV8ed
-         jRK7I1/HyGDb0tKUwTJhIO6N+dv+uPaGyYs9ZTCRucamI/X7xaZ1WQgaH8bXEOhEHcsZ
-         FPcF1KPdmIKXp3JMNTXB/YbqEK2rVV9qeEV5c2p/NQy4AVubwdfv5XKIt2XPhmwemy+v
-         6GlQ==
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [PATCH 1/2] CodeSample/count: Use plain access instead of
- WRITE_ONCE
+        d=gmail.com; s=20221208; t=1685458818; x=1688050818;
+        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=T2FUKd55RcbvbYa0tDGNVpLJ5PC9l5RKD3Rh1MtuyIU=;
+        b=k7tV1eXzk0v+XKIr0MWmMamsdgYOIPCiTllmqJ5DxUbAjiyv3Y7+Qo0vfyARfk6ehk
+         hRmfvnD+aDfmzNVq+BmPKjfj51E3lgj8hhnA+FzHrxb+mkhA9su1DuurCDgoIkkCa0qa
+         49Q9HFN7A2wrXW9q47gx0js0pPVoAA28Dt/v6BqqwG08v0fxVORnCzzzUXRTVzOZOFeU
+         P+skWIIwBSUmk0KVLbKzSgI+qVykOUrASaq7UHuAKkYewwbSL3h7fBoOz+50jfymPVEX
+         potjTgKbmnIqyMjzVXR/FC3w67j/z+Dy2ax+Jj9amXMTYNhtq97WnxYXFxj+eLewKyCr
+         972w==
 From: Alan Huang <mmpgouride@gmail.com>
-In-Reply-To: <7b569491-2591-4e0c-b334-a5ff1dbb2d7f@paulmck-laptop>
-Date: Tue, 30 May 2023 22:53:04 +0800
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <66E25A10-3F79-4F07-A60E-5C1D71C9A7E1@gmail.com>
-References: <20230528143729.15201-1-mmpgouride@gmail.com>
- <7b569491-2591-4e0c-b334-a5ff1dbb2d7f@paulmck-laptop>
-List-ID: <perfbook.vger.kernel.org>
+Message-Id: <C381BA67-FF62-4A89-AAB6-3B946B03A96C@gmail.com>
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_FC255FEE-F3C5-4CF9-8675-167ADE3754D8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
+Subject: Re: Question: In what circumstances would the enqueuer fail?
+Date: Tue, 30 May 2023 23:00:03 +0800
+In-Reply-To: <451e4440-b315-451b-a0ec-e211b219b724@paulmck-laptop>
+References: <BC1D7582-8D92-411D-8E61-68252413A1BA@gmail.com>
+ <451e4440-b315-451b-a0ec-e211b219b724@paulmck-laptop>
 To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
 
-> 2023=E5=B9=B45=E6=9C=8830=E6=97=A5 08:30=EF=BC=8CPaul E. McKenney =
+--Apple-Mail=_FC255FEE-F3C5-4CF9-8675-167ADE3754D8
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
+
+
+> 2023=E5=B9=B45=E6=9C=8830=E6=97=A5 08:36=EF=BC=8CPaul E. McKenney =
 <paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
 >=20
-> On Sun, May 28, 2023 at 02:37:28PM +0000, Alan Huang wrote:
->> The cap here has not been published, plain access is enough.
+> On Tue, May 30, 2023 at 12:48:33AM +0800, Alan Huang wrote:
+>> Hi,
 >>=20
->> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
+>> I=E2=80=99m reading 14.2.1.3 Half-NBS Queue, there is one sentence =
+says:
+>>=20
+>> 	The enqueuer might have failed between lines 9 and 10 of the =
+listing, so that the element in question is only partially enqueued.
+>>=20
+>> My question is: In what circumstances would the enqueuer fail between =
+lines 9 and 10 ?
 >=20
-> Good catch, thank you!
+> The following circumstances would do it:
 >=20
-> Does line 27 of that same listing need a READ_ONCE(*ctrp)?
+> o	Someone kills the thread at that point.
+>=20
+> o	The CPU that the thread is running on takes an interrupt,
+> 	but there is an infinite-loop bug in the interrupt handler,
+> 	so that the thread's execution is never resumed.
+>=20
+> o	The CPU that the thread is running on fail-stops, again
+> 	preventing that thread from resuming.  (This is rare, but
+> 	does occasionally happen, especially on old or thermally
+> 	abused hardware.)
+>=20
+> So nothing normal, if that is what you are asking.  ;-)
 
-It does need! I have sent another patch.
+Yeah, nothing normal. I often neglect to consider these exceptional =
+cases.
+
+Thank you for the explanation!
 
 Thanks,
 Alan
 
 >=20
 > 							Thanx, Paul
->=20
->> ---
->> CodeSamples/count/count_end_rcu.c | 2 +-
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/CodeSamples/count/count_end_rcu.c =
-b/CodeSamples/count/count_end_rcu.c
->> index 1171f0b6..8fc70611 100644
->> --- a/CodeSamples/count/count_end_rcu.c
->> +++ b/CodeSamples/count/count_end_rcu.c
->> @@ -89,7 +89,7 @@ void count_unregister_thread(int nthreadsexpected)	=
-//\lnlbl{unreg:b}
->> 	}						=
-//\lnlbl{unreg:alloc:e}
->> 	spin_lock(&final_mutex);			=
-//\lnlbl{unreg:acq}
->> 	*cap =3D *countarrayp;				=
-//\lnlbl{unreg:copy}
->> -	WRITE_ONCE(cap->total, cap->total + counter);	=
-//\lnlbl{unreg:add}
->> +	cap->total +=3D counter;	//\lnlbl{unreg:add}
->> 	cap->counterp[idx] =3D NULL;			=
-//\lnlbl{unreg:null}
->> 	capold =3D countarrayp;				=
-//\lnlbl{unreg:retain}
->> 	rcu_assign_pointer(countarrayp, cap);		=
-//\lnlbl{unreg:assign}
->> --=20
->> 2.34.1
->>=20
 
+
+--Apple-Mail=_FC255FEE-F3C5-4CF9-8675-167ADE3754D8
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"overflow-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: =
+after-white-space;"><br><div><blockquote =
+type=3D"cite"><div>2023=E5=B9=B45=E6=9C=8830=E6=97=A5 08:36=EF=BC=8CPaul =
+E. McKenney &lt;paulmck@kernel.org&gt; =E5=86=99=E9=81=93=EF=BC=9A</div><b=
+r class=3D"Apple-interchange-newline"><div><div>On Tue, May 30, 2023 at =
+12:48:33AM +0800, Alan Huang wrote:<br><blockquote =
+type=3D"cite">Hi,<br><br>I=E2=80=99m reading 14.2.1.3 Half-NBS Queue, =
+there is one sentence says:<br><br><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span>The enqueuer might have failed =
+between lines 9 and 10 of the listing, so that the element in question =
+is only partially enqueued.<br><br>My question is: In what circumstances =
+would the enqueuer fail between lines 9 and 10 ?<br></blockquote><br>The =
+following circumstances would do it:<br><br>o<span =
+class=3D"Apple-tab-span" style=3D"white-space:pre">	</span>Someone =
+kills the thread at that point.<br><br>o<span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span>The CPU that the thread is =
+running on takes an interrupt,<br><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span>but there is an infinite-loop bug =
+in the interrupt handler,<br><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span>so that the thread's execution is =
+never resumed.<br><br>o<span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span>The CPU that the thread is =
+running on fail-stops, again<br><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span>preventing that thread from =
+resuming. &nbsp;(This is rare, but<br><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span>does occasionally happen, =
+especially on old or thermally<br><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span>abused hardware.)<br><br>So =
+nothing normal, if that is what you are asking. =
+&nbsp;;-)<br></div></div></blockquote><div><br></div><div>Yeah, nothing =
+normal.&nbsp;<span style=3D"color: rgba(0, 0, 0, 0.85); font-family: =
+&quot;Helvetica Neue&quot;; font-size: 14px;">I often neglect to =
+consider these exceptional cases.</span></div><div><span style=3D"color: =
+rgba(0, 0, 0, 0.85); font-family: &quot;Helvetica Neue&quot;; font-size: =
+14px;"><br></span></div><div><font face=3D"Helvetica Neue"><span =
+style=3D"caret-color: rgba(0, 0, 0, 0.85); color: rgba(0, 0, 0, 0.85); =
+font-size: 14px;">Thank you&nbsp;for =
+the&nbsp;explanation!</span></font></div><div><font face=3D"Helvetica =
+Neue"><span style=3D"caret-color: rgba(0, 0, 0, 0.85); color: rgba(0, 0, =
+0, 0.85); font-size: 14px;"><br></span></font></div><div><font =
+face=3D"Helvetica Neue"><span style=3D"caret-color: rgba(0, 0, 0, 0.85); =
+color: rgba(0, 0, 0, 0.85); font-size: =
+14px;">Thanks,</span></font></div><div><font face=3D"Helvetica =
+Neue"><span style=3D"caret-color: rgba(0, 0, 0, 0.85); color: rgba(0, 0, =
+0, 0.85); font-size: 14px;">Alan</span></font></div><br><blockquote =
+type=3D"cite"><div><div><br><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span>Thanx, =
+Paul<br></div></div></blockquote></div><br></body></html>=
+
+--Apple-Mail=_FC255FEE-F3C5-4CF9-8675-167ADE3754D8--
