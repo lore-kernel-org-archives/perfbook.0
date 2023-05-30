@@ -1,53 +1,69 @@
-Return-Path: <SRS0=NUH/=BR=gmail.com=mmpgouride@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685292026; x=1687884026;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oNs08xvyrXfVFOCKYAOa6O1RWbIT5vZljUgfWX4BKto=;
-        b=czMSEGYd30xLljdtf7L/xASx2UG25v1I9yVvwxdmcvlS21WE2Wz5n6MzuWx1j7kD/6
-         BpK1k39/NxQxBBquBb+/4C4FrPEWhCfHKDC6wHJL7IuAGF8LkOA1/N4TytrYAE9qMBxn
-         szvnpq19Xbn1gmvih1mbv921GseVOmaecyMLL5N1WGPrgRlkLkB/RSeF/f14kCHtvGgd
-         PkvtxEeG6L8+GnYqtGDctVJG5uwWxe+mV0F3z5pVy+Y6SV4/PaH6s+vJ2qtZats30qIo
-         lSbpDrjNFjrZMo1gr7Lw7OIeKyZ+OUxNtouZuzP8aTiEj1n208YReAzM/lAarJbBjUEP
-         UVdw==
-From: Alan Huang <mmpgouride@gmail.com>
-Subject: [PATCH] together: Fix the description of state traversal
-Date: Sun, 28 May 2023 16:40:20 +0000
-Message-Id: <20230528164020.15935-1-mmpgouride@gmail.com>
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47992 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229489AbjE3Aah (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Mon, 29 May 2023 20:30:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CA90AD
+        for <perfbook@vger.kernel.org>; Mon, 29 May 2023 17:30:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1690662709
+        for <perfbook@vger.kernel.org>; Tue, 30 May 2023 00:30:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685406635;
+        bh=iqRuW5Ps6I/g1x+FLNN+0ERjoKMiE0Ow+dYcAxbMo6I=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=r0u0GRSrRfRTnxJ2+ilKdTP4W6ksKh6Qfqyflpq+CucZYnuXXawNcIlJSXHYEnDj7
+         K7xsypltmI/BLTSjfEqSvSNnw1y1kPWnr2/8q0E/jwS8x1fa1TBCuLnD609Em1umXi
+         NGGjeXROeFtdgNyiYupUoULtM74DFuO+Wvsbqm0WB/Xd8ep4rlamSNMHqa7cC6nsW/
+         bLqlKkuDovB1GcbpN8nbGq7rK+hlaUePdgpT14r3pL8dUSzPzit9Arj5GAZouxs1zY
+         WO81ENouJNrb5yZMBY04XLJW+5DJMW3zM4j7/SdArQPiIOQrIrmSFB6M84XKh7u+ON
+         ixOaHwNuHLexA==
+Date: Mon, 29 May 2023 17:30:34 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH 1/2] CodeSample/count: Use plain access instead of
+ WRITE_ONCE
+Message-ID: <7b569491-2591-4e0c-b334-a5ff1dbb2d7f@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20230528143729.15201-1-mmpgouride@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To: paulmck@kernel.org
-Cc: perfbook@vger.kernel.org, Alan Huang <mmpgouride@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230528143729.15201-1-mmpgouride@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Alan Huang <mmpgouride@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-There seem to be some issues with the description of state transitions.
-This patch fixes that.
+On Sun, May 28, 2023 at 02:37:28PM +0000, Alan Huang wrote:
+> The cap here has not been published, plain access is enough.
+> 
+> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
 
-Signed-off-by: Alan Huang <mmpgouride@gmail.com>
----
- together/applyrcu.tex | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Good catch, thank you!
 
-diff --git a/together/applyrcu.tex b/together/applyrcu.tex
-index 09a265f7..dee027b9 100644
---- a/together/applyrcu.tex
-+++ b/together/applyrcu.tex
-@@ -676,11 +676,12 @@ The normal path through this state machine traverses the states CLOSED,
- OPEN, CLOSING (with an invocation of \co{call_rcu()}), and back to CLOSED
- once the callback has been invoked.
- If \co{open()} is invoked before the grace period completes, the
--state machine traverses the cycle OPEN, CLOSING (with an invocation
--of \co{call_rcu()}), and back to CLOSED once the callback has been invoked.
-+state machine traverses the cycle OPEN, CLOSING (with
-+an invocation of \co{call_rcu()}), REOPENING, and back to OPEN once the
-+callback has been invoked.
- If \co{open()} and then \co{close()} are invoked before the grace period
- completes, the state machine traverses the cycle OPEN, CLOSING (with
--an invocation of \co{call_rcu()}), REOPENING, and back to OPEN once the
-+an invocation of \co{call_rcu()}), REOPENING, RECLOSING, and back to CLOSING once the
- callback has been invoked.
- 
- Given an indefinite alternating sequence of \co{close()} and \co{open()}
--- 
-2.34.1
+Does line 27 of that same listing need a READ_ONCE(*ctrp)?
 
+							Thanx, Paul
+
+> ---
+>  CodeSamples/count/count_end_rcu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/CodeSamples/count/count_end_rcu.c b/CodeSamples/count/count_end_rcu.c
+> index 1171f0b6..8fc70611 100644
+> --- a/CodeSamples/count/count_end_rcu.c
+> +++ b/CodeSamples/count/count_end_rcu.c
+> @@ -89,7 +89,7 @@ void count_unregister_thread(int nthreadsexpected)	//\lnlbl{unreg:b}
+>  	}						//\lnlbl{unreg:alloc:e}
+>  	spin_lock(&final_mutex);			//\lnlbl{unreg:acq}
+>  	*cap = *countarrayp;				//\lnlbl{unreg:copy}
+> -	WRITE_ONCE(cap->total, cap->total + counter);	//\lnlbl{unreg:add}
+> +	cap->total += counter;	//\lnlbl{unreg:add}
+>  	cap->counterp[idx] = NULL;			//\lnlbl{unreg:null}
+>  	capold = countarrayp;				//\lnlbl{unreg:retain}
+>  	rcu_assign_pointer(countarrayp, cap);		//\lnlbl{unreg:assign}
+> -- 
+> 2.34.1
+> 
