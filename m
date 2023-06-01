@@ -1,73 +1,50 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236003AbjFBUpQ (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Fri, 2 Jun 2023 16:45:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA57DE48
-        for <perfbook@vger.kernel.org>; Fri,  2 Jun 2023 13:45:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4FE5F61E9F
-        for <perfbook@vger.kernel.org>; Fri,  2 Jun 2023 20:45:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685738714;
-        bh=///MWLZZipRiSbLyS+HG3LCwo1IJzzes3qwWhOrHcSI=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=dnXzxtgg8V+LL3eW6TNRuo2sqG/8+lqa/IcdrCtPhb7qmQBaKZg0tseK0p3/CmAFl
-         8mLKDTacflEcg+DfPXPDxZNERjPIPWNt1MHPz9Cn0U7IptlTiGCnDkgqTPaJn+UuSS
-         ytFhOnWZFAr2ypaRoRm/22PvDFtufriN+kY0JevDZTSpyTl4XEJAuXXD7dcoKeTiVR
-         e8yDOl+Cuqt+FaAjk+hMu/g0jZwgHdLJNp9On7VW1MnWomKxc3hnA+kG3GL3EcU7IY
-         rX1ou8JHWJwp9Wuhy1UVwIo5HI0UvVY1Yvtf6/1DAeLy0RvNE7B+/6MndfCD2MQ8eT
-         7O9+NW+ggHgfA==
-Date: Fri, 2 Jun 2023 13:45:09 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] CodeSample/count: Update the places where READ_ONCE is
- used
-Message-ID: <90b826cb-8ad5-4c5b-b0f8-47e7e5006042@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20230530145127.18738-1-mmpgouride@gmail.com>
+Return-Path: <SRS0=JDvZ=BV=gmail.com=leobras.c@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685651919; x=1688243919;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dTeBE5zuY4L3a0KqR6r57TJWLEsh7ArpwYglt7ijqkQ=;
+        b=EOu1H3ZeInj2jpXMGwfbLsie0Kymh7zVVyL4jVBss/feSmgTsNkNUSHguEy21G6OCr
+         pkPsSgTtwv5RzgsLBmj68p2A95Df/6VPqyT78vO/BNfi0pOGtsPcCCGQlUVfcHMn5hsi
+         0dR6ffuOOlQ6YfGrEe9v+5joFXu++1rvpn/B9OCxicJG2EdjhNj4+vT+dS0No7qPwvVq
+         7TyKDSwHBpFAC4WmhJmwKBvpignxn21buAPKdU+8C2TmHw5j4ICGcEPl96eUN9Eo0TWz
+         q/jpYvypRlGY0Z+dJDgyvX4d/y7WXfG59b5zDofECIb9sTBMi+qeQVBSMQuRahj7dL6U
+         Kg4w==
+From: Leonardo Bras <leobras.c@gmail.com>
+Subject: [RFC PATCH 1/1] utilities/gitlab-ci: Fix gitlab-ci due to Arch Linux deprecating texlive-most
+Date: Thu,  1 Jun 2023 17:38:16 -0300
+Message-Id: <20230601203816.996788-1-leobras.c@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230530145127.18738-1-mmpgouride@gmail.com>
+Content-Transfer-Encoding: 8bit
+To: "Paul E . McKenney" <paulmck@kernel.org>
+Cc: Leonardo Bras <leobras.c@gmail.com>, perfbook@vger.kernel.org
 List-ID: <perfbook.vger.kernel.org>
-To: Alan Huang <mmpgouride@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Tue, May 30, 2023 at 02:51:27PM +0000, Alan Huang wrote:
-> There is no concurrent updates to 'total' by other threads, plain access
-> is enough. But there might be threads updating 'counter', READ_ONCE is
-> required.
-> 
-> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
+Arch Linux folks deprecated the texlive-most package group in favor of
+texlive-meta, which should contain the same packages with an aditional
+tool.
 
-Queued and pushed, thank you!
+Fix this script to use texlive-meta, so the gitlab pipeline is able to
+build the pdfs.
 
-							Thanx, Paul
+Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
+---
+ utilities/gitlab-ci.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> ---
->  CodeSamples/count/count_end_rcu.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/CodeSamples/count/count_end_rcu.c b/CodeSamples/count/count_end_rcu.c
-> index 8fc70611..71bd5269 100644
-> --- a/CodeSamples/count/count_end_rcu.c
-> +++ b/CodeSamples/count/count_end_rcu.c
-> @@ -48,10 +48,10 @@ unsigned long read_count(void)			//\lnlbl{read:b}
->  
->  	rcu_read_lock();			//\lnlbl{read:rrl}
->  	cap = rcu_dereference(countarrayp);	//\lnlbl{read:deref}
-> -	sum = READ_ONCE(cap->total);		//\lnlbl{read:init}
-> +	sum = cap->total;		//\lnlbl{read:init}
->  	for_each_thread(t) {			//\lnlbl{read:add:b}
->  		ctrp = READ_ONCE(cap->counterp[t]);
-> -		if (ctrp != NULL) sum += *ctrp;	//\lnlbl{read:add:e}
-> +		if (ctrp != NULL) sum += READ_ONCE(*ctrp);	//\lnlbl{read:add:e}
->  	}
->  	rcu_read_unlock();			//\lnlbl{read:rru}
->  	return sum;				//\lnlbl{read:ret}
-> -- 
-> 2.34.1
-> 
+diff --git a/utilities/gitlab-ci.yml b/utilities/gitlab-ci.yml
+index 42eda60f..6c3ec1e6 100644
+--- a/utilities/gitlab-ci.yml
++++ b/utilities/gitlab-ci.yml
+@@ -19,7 +19,7 @@ generate_pdfs:
+     stage: build
+ 
+     before_script:
+-        - pacman --noconfirm -Sy texlive-most fig2dev ghostscript graphviz inkscape wget make which fontconfig git ttf-dejavu gnu-free-fonts ttf-liberation
++        - pacman --noconfirm -Sy texlive-meta fig2dev ghostscript graphviz inkscape wget make which fontconfig git ttf-dejavu gnu-free-fonts ttf-liberation
+         - mkdir -p ~/.local/share/fonts && cp fonts/steel-city-comic.regular.ttf ~/.local/share/fonts/ && fc-cache
+         - wget https://sourceforge.net/projects/fig2ps/files/latest/download -O /dev/shm/fig2ps.tbz
+         - mkdir /dev/shm/build && tar -xjf /dev/shm/fig2ps.tbz -C /dev/shm/build --strip-components=1
+-- 
+2.40.1
+
