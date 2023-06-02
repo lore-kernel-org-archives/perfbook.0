@@ -1,51 +1,99 @@
-Return-Path: <SRS0=hS86=BT=gmail.com=mmpgouride@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685458293; x=1688050293;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G0/lZ8nxkWaPWjFArqHU1dPlnbP0JhIt7I6GjA8QzgE=;
-        b=BUJJRPDHQ/N+pz1UcHpVwi8qSAJ6gSqpu+K+N/KzfarEUwHBPr1szXqXF8aPl5D4K/
-         Fg8tbAojXeYwamqxLSYbmFoZRhGO0omZwtAjo/iF7/jRyAxBTQ9S1MJW29J/+rsmsiLm
-         WUU7IHx/ZBpmFh8Ojn41ko04rwoawIEJsE8wInsw7Ekn3QlTQP1iJG53oWXVgt/UsY9N
-         ozFGe6LxQxVyt2FruCo4CQWvzQFav1QpJ8P1jrvlWf9hMPkf1z8W0DJJGFxSw4yBgKvV
-         qiY0eiNc6Xk+qW2nFKFIixdQJn+0KUdJQYnoWMFo+JkiT9LwU3dl8dnwn6cLlk+FC0EX
-         wChA==
-From: Alan Huang <mmpgouride@gmail.com>
-Subject: [PATCH] CodeSample/count: Update the places where READ_ONCE is used
-Date: Tue, 30 May 2023 14:51:27 +0000
-Message-Id: <20230530145127.18738-1-mmpgouride@gmail.com>
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235686AbjFBSWR (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Fri, 2 Jun 2023 14:22:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 479231A1
+        for <perfbook@vger.kernel.org>; Fri,  2 Jun 2023 11:22:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BAE5860D3A
+        for <perfbook@vger.kernel.org>; Fri,  2 Jun 2023 18:22:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685730134;
+        bh=jlR5NHDLRXsEVzDXdj4WhdIvCRUlr0E89MfKliA8qDQ=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=l7kNvIradPBpPAUn8oxFhjgEe+gGP/7Zm4Olgao9uEKz/yNlnFSqNKIRIaoZIP6Lx
+         5tmwFd0MusLDZpBvdtJ2zyaWL30IcgOisRwCyUrahyd4F2eUWa2jlfRj12Hh/apT+I
+         pwrwm8rUUaL1VHTSlFBBl2hdZSYbCCrcKY48p+/6HbOEf7PDrhLHC4FYK7zVkQIZvR
+         qDfDtXen3mR3K1F8pUYzXbv4yC9nWSiQqsHrcpOJV5qwF2r51Zq5oRWAp/N1NneN66
+         PJsjYzWPr8v3pZzuyqRGcf03IpYNG7l0T2Kwxdm9225ytxDHyJHXo59PuTlfKxSa5G
+         hlfzR3IX8uQ0A==
+Date: Fri, 2 Jun 2023 11:22:13 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH] together: Fix the description of state traversal
+Message-ID: <5cecd964-c3b4-4758-861b-407e93baebbe@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20230528164020.15935-1-mmpgouride@gmail.com>
+ <2821caa4-1212-41ee-b853-dc20e051113d@paulmck-laptop>
+ <F67611BA-639A-40C6-9EA4-031B50D8B184@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-To: paulmck@kernel.org
-Cc: perfbook@vger.kernel.org, Alan Huang <mmpgouride@gmail.com>
+In-Reply-To: <F67611BA-639A-40C6-9EA4-031B50D8B184@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Alan Huang <mmpgouride@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-There is no concurrent updates to 'total' by other threads, plain access
-is enough. But there might be threads updating 'counter', READ_ONCE is
-required.
+On Tue, May 30, 2023 at 11:19:51PM +0800, Alan Huang wrote:
+> 
+> > 2023年5月30日 08:40，Paul E. McKenney <paulmck@kernel.org> 写道：
+> > 
+> > On Sun, May 28, 2023 at 04:40:20PM +0000, Alan Huang wrote:
+> >> There seem to be some issues with the description of state transitions.
+> >> This patch fixes that.
+> >> 
+> >> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
+> >> ---
+> >> together/applyrcu.tex | 7 ++++---
+> >> 1 file changed, 4 insertions(+), 3 deletions(-)
+> >> 
+> >> diff --git a/together/applyrcu.tex b/together/applyrcu.tex
+> >> index 09a265f7..dee027b9 100644
+> >> --- a/together/applyrcu.tex
+> >> +++ b/together/applyrcu.tex
+> >> @@ -676,11 +676,12 @@ The normal path through this state machine traverses the states CLOSED,
+> >> OPEN, CLOSING (with an invocation of \co{call_rcu()}), and back to CLOSED
+> >> once the callback has been invoked.
+> >> If \co{open()} is invoked before the grace period completes, the
+> >> -state machine traverses the cycle OPEN, CLOSING (with an invocation
+> >> -of \co{call_rcu()}), and back to CLOSED once the callback has been invoked.
+> >> +state machine traverses the cycle OPEN, CLOSING (with
+> >> +an invocation of \co{call_rcu()}), REOPENING, and back to OPEN once the
+> >> +callback has been invoked.
+> >> If \co{open()} and then \co{close()} are invoked before the grace period
+> >> completes, the state machine traverses the cycle OPEN, CLOSING (with
+> >> -an invocation of \co{call_rcu()}), REOPENING, and back to OPEN once the
+> >> +an invocation of \co{call_rcu()}), REOPENING, RECLOSING, and back to CLOSING once the
+> >> callback has been invoked.
+> > 
+> > I took this patch (thank you!), but wonder if we should describe the
+> > additional callback and additional transition to CLOSED, both here
+> > and below.  Thoughts?
+> 
+> That would be more accurate. But the transition to CLOSED has already been
+> described at the beginning of this paragraph. And omitting this description can
+> encourage readers to engage in critical thinking and draw their own conclusions.
+> 
+> But others may prefer more accurate explanations :)
+> 
+> So, both descriptions work for me.
 
-Signed-off-by: Alan Huang <mmpgouride@gmail.com>
----
- CodeSamples/count/count_end_rcu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Fair enough, let's keep it as your patch has it for now.  ;-)
 
-diff --git a/CodeSamples/count/count_end_rcu.c b/CodeSamples/count/count_end_rcu.c
-index 8fc70611..71bd5269 100644
---- a/CodeSamples/count/count_end_rcu.c
-+++ b/CodeSamples/count/count_end_rcu.c
-@@ -48,10 +48,10 @@ unsigned long read_count(void)			//\lnlbl{read:b}
- 
- 	rcu_read_lock();			//\lnlbl{read:rrl}
- 	cap = rcu_dereference(countarrayp);	//\lnlbl{read:deref}
--	sum = READ_ONCE(cap->total);		//\lnlbl{read:init}
-+	sum = cap->total;		//\lnlbl{read:init}
- 	for_each_thread(t) {			//\lnlbl{read:add:b}
- 		ctrp = READ_ONCE(cap->counterp[t]);
--		if (ctrp != NULL) sum += *ctrp;	//\lnlbl{read:add:e}
-+		if (ctrp != NULL) sum += READ_ONCE(*ctrp);	//\lnlbl{read:add:e}
- 	}
- 	rcu_read_unlock();			//\lnlbl{read:rru}
- 	return sum;				//\lnlbl{read:ret}
--- 
-2.34.1
+							Thanx, Paul
 
+> Thanks,
+> Alan
+> 
+> > 
+> > Thanx, Paul
+> > 
+> >> Given an indefinite alternating sequence of \co{close()} and \co{open()}
+> >> -- 
+> >> 2.34.1
+> >> 
+> 
