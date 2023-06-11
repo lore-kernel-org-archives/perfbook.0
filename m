@@ -1,36 +1,50 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1686503773;
-	bh=sFcRMY/2f1azJghFa/KsAkf+vVENjgzvUQZ/dubVDxY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=C4/i6Gr6PWZWJXfgQKAhPogA2/kdwBxozJe6X1mscxRTzgX/cYOFlwdw2MiqWuGVP
-	 eKZNRt8wLZAXUvl2uE2H626Rx2v+sZDvM56Sey6u+6YWOhh8QiYmi75V4hbxel0No4
-	 N5f7Wl9KoPruimcp2W5ikXo/GJCfu33Yf4I6i9ETsaYdIx13SedGVWwkB9YecSqcjf
-	 TG+CbxHn6OslyJm2FFiAsYRruJ/6W9n2IlXBqC51zptd6A8xFjepyseSp3Hmn/dM6z
-	 wtgvhgUWDC9voUH2H/g/dS5jVGbVvGj1EQ+aYVQIf671P2fG/ywrAXmK0+Xunt5DJr
-	 Ej7eBLBLZxKZg==
+	bh=KDajG7FiIJ/8jZBOUb+6JBe3yL07cyzHiCh9oN4GlFk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dSoXFDuBY1a3MjUAK7ANZaEzjVQasOvN2Jik05zMG/t7ZkfgNJ8u6PvlhflYZ0671
+	 9WNSHFyhrTJOih5V3AKofSeeKp8iGzYhCwFXetYDUOT8jtppV1CWb2YCUHGdb7ED9o
+	 Cm3kzYSziz9gpCVig6Zluut5Ydj4SY7Wyzb0o4VSDXjG5dEaehPQEA57QY5waS37/N
+	 9/a+qMZABY1/+Q64yiSbI0HhbMT2Pc3XbElh+8klgerV4X7AsNrT0NHrrEFz2dzRGX
+	 97xNlvhCX5l+pJqLb/+eBRGRq7cf1mBxTAQ/NNczzDWkSc7AJTOu0CXzW894FTDwED
+	 OjeiRCcXqcvTw==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 0/2] advsync: Minor fixups
-Date: Sun, 11 Jun 2023 10:15:04 -0700
-Message-Id: <20230611171506.32033-1-sj@kernel.org>
+Subject: [PATCH 1/2] advsync/rt: Update path to kernel-per-CPU-kthreads document
+Date: Sun, 11 Jun 2023 10:15:05 -0700
+Message-Id: <20230611171506.32033-2-sj@kernel.org>
+In-Reply-To: <20230611171506.32033-1-sj@kernel.org>
+References: <20230611171506.32033-1-sj@kernel.org>
 To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-This patchset contains trivial fixups for advsync/, which found while
-doing Korean translation[1].
+Linux commit 4f4cfa6c560c ("docs: admin-guide: add a series of orphaned
+documents") has moved Documentation/kernel-per-CPU-kthreads.txt to
+Documentation/admin-guide/kernel-per-CPU-kthreads.rst.  Update the old
+path in advsync/rt.tex.
 
-[1] https://github.com/sjp38/perfbook-ko_KR
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ advsync/rt.tex | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-SeongJae Park (2):
-  advsync/rt: Update path to kernel-per-CPU-kthreads document
-  advsync/rt: Mention the tree of Documentation/ directory
-
- advsync/rt.tex | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
+diff --git a/advsync/rt.tex b/advsync/rt.tex
+index c4d9c3c2..5bcdfabc 100644
+--- a/advsync/rt.tex
++++ b/advsync/rt.tex
+@@ -1486,7 +1486,8 @@ initiation take place on housekeeping CPUs, that special kernel
+ Kconfig or boot parameters be selected in order to direct work away from
+ the worker CPUs, or that worker CPUs never enter the kernel.
+ Specific per-kthread advice may be found in the Linux kernel source
+-\path{Documentation} directory at \path{kernel-per-CPU-kthreads.txt}.
++\path{Documentation} directory at
++\path{admin-guide/kernel-per-CPU-kthreads.rst}.
+ 
+ A third source of OS jitter in the Linux kernel for CPU-bound threads
+ running at real-time priority is the scheduler itself.
 -- 
 2.17.1
 
