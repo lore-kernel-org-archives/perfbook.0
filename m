@@ -1,59 +1,139 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46480 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbjFKUEX (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 11 Jun 2023 16:04:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2768A1A4
-        for <perfbook@vger.kernel.org>; Sun, 11 Jun 2023 13:04:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9B12E60F5E
-        for <perfbook@vger.kernel.org>; Sun, 11 Jun 2023 20:04:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686513861;
-        bh=BZF/3p9fDtzW3c9BNqm5/RD2mSiHPMyLUiZmkk1/pZ8=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=ssXsGk9tEA4lA2pXwqnMMPtTTqU8Gxm4FPLmhdxni4ufJPC8DFPR4fWNVr0uKXPEM
-         2UQp48XKSpEqEtGMtx/VwNOMyqqDlD2NLlDdOEfEsnAtfFv+gROWV60G9GiMhB1eFy
-         1YSdi1+t56AAzGgVAr8HwyXLlMD2LklKUeVOzV/I3Re/ZMoR0TYW9KZuTZoMoooCEx
-         h5TFzvif3r0m/+CUmKzinu8CuBcfjuqyn1GmelzgsCq5HF4vVPAQgDtw1Vk3zYVFFY
-         3N6jYqiVOId7HHj4eRRWF6bTsUIjwi4fxuBuTTSrYNWjsZL6pgjNVKo57qPWJ/2QBs
-         qVHz7lyZpjZZw==
-Date: Sun, 11 Jun 2023 13:04:20 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH 0/2] advsync: Minor fixups
-Message-ID: <527910de-de12-4d2c-99a4-111070f2f672@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20230611171506.32033-1-sj@kernel.org>
+Return-Path: <SRS0=HWqj=B7=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686525679; x=1689117679;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SpeHv2kue+h+k3pIv/djyImO6z37fcIvw5az0A7YpTI=;
+        b=UYo8LBHyn3hsZRSsH0LnyLIZkg/p+y1vLamgr7PzZxIhR/q99RmBGF5/6/o29Sb/lP
+         hipyXOtC1waC2ns5/AZW3z/7bNcQ89VWk04R2OSGUDWOM+kYz5eeI6A8bbFn0y2Oyq6O
+         e2jqaHTJuvyjyO90jB6chz8MHS1PgV+5ETjt2oyY2WyKYPeBhn3GJ4WA3ypsfV2KnHi1
+         U8e6on3tBwn1On5BlfdAY7u1yR5Ldq2fK/tRBJ52msDfqkKVHOG3SADoeDt8almfIn9k
+         pEw6tYVfMu5OpxIx1QGKpzrZAXnYWLwedLsiQW24YWw1msctXPqM2CtvVgbixxWehY0H
+         lb0A==
+Message-ID: <d6f99279-a618-7733-7f41-684bc33d624a@gmail.com>
+Date: Mon, 12 Jun 2023 08:21:15 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230611171506.32033-1-sj@kernel.org>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] defer/rcuapi: Embed Listing E.3 in Table E.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: perfbook@vger.kernel.org, SeongJae Park <sj38.park@gmail.com>
 
-On Sun, Jun 11, 2023 at 10:15:04AM -0700, SeongJae Park wrote:
-> From: SeongJae Park <sj38.park@gmail.com>
-> 
-> This patchset contains trivial fixups for advsync/, which found while
-> doing Korean translation[1].
-> 
-> [1] https://github.com/sjp38/perfbook-ko_KR
+In 2c layout, Table E.3 goes to the next page of Listing E.3.
+This is partly due to the table* environment, but as both of them
+are floating, there is no sure way for them to be on the same page.
 
-Good eyes, queued and pushed, thank you!
+Embed the listing at the bottom of the table so that they end up
+in the same page and adjust the wording in the text.
 
-							Thanx, Paul
+For 2c layout, using the table* environment causes the snippet to
+look unnecessarily wide. Instead, shrink the table by using the
+\tcresizewidth macro and use the normal table environment.
 
-> SeongJae Park (2):
->   advsync/rt: Update path to kernel-per-CPU-kthreads document
->   advsync/rt: Mention the tree of Documentation/ directory
-> 
->  advsync/rt.tex | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> -- 
-> 2.17.1
-> 
+Suggested-by: Paul E. McKenney <paulmck@kernel.org>
+Link: https://www.spinics.net/lists/perfbook/msg04070.html
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Paul,
+
+In 2c layout, the table might become too small.
+Does it look acceptable?
+
+        Thanks, Akira
+--
+ defer/rcuapi.tex | 58 ++++++++++++++++++++++--------------------------
+ 1 file changed, 27 insertions(+), 31 deletions(-)
+
+diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+index eea7259776d1..34791918588d 100644
+--- a/defer/rcuapi.tex
++++ b/defer/rcuapi.tex
+@@ -337,40 +337,15 @@ The \apik{rcu_barrier()} primitive does this job.
+ 	critical sections to complete, \co{rcu_barrier()} instead waits
+ 	for callbacks from prior calls to \co{call_rcu()} to be invoked.
+ 
+-\begin{listing}
+-\begin{fcvlabel}[ln:defer:synchonize-rcu vs rcu-barrier]
+-\begin{VerbatimL}[commandchars=\\\@\$]
+-	do_something_1();			\lnlbl@ds1$
+-	rcu_read_lock();			\lnlbl@rrl$
+-	do_something_2();			\lnlbl@ds2$
+-	call_rcu(&p->rh, f);			\lnlbl@cr$
+-	do_something_3();			\lnlbl@ds3$
+-	rcu_read_unlock();			\lnlbl@rrul$
+-	do_something_4();			\lnlbl@ds4$
+-	// f(&p->rh) invoked			\lnlbl@cb$
+-	do_something_5();			\lnlbl@ds5$
+-\end{VerbatimL}
+-\end{fcvlabel}
+-\caption{\tco{synchronize_rcu()} vs. \tco{rcu_barrier()}}
+-\label{lst:defer:synchronize-rcu vs. rcu-barrier}
+-\end{listing}
+-
+-	This distinction is illustrated by
+-	\cref{lst:defer:synchronize-rcu vs. rcu-barrier}, which
+-	shows code being executed by a given CPU\@.
+-	For simplicity, assume that no other CPU is executing
+-	\co{rcu_read_lock()}, \co{rcu_read_unlock()}, or
+-	\co{call_rcu()}.
+-
+-
+-\begin{table*}
++\begin{table}
+ \renewcommand*{\arraystretch}{1.2}
+ \centering
+ \small
++\tcresizewidth{
+ \begin{fcvref}[ln:defer:synchonize-rcu vs rcu-barrier]
+ \begin{tabular}{lll}
+ \toprule
+-            & \multicolumn{2}{c}{Must Wait Until (in \cref{lst:defer:synchronize-rcu vs. rcu-barrier}):} \\
++            & \multicolumn{2}{c}{Must Wait Until (in the snippet):} \\
+ \cmidrule{2-3}
+ \multicolumn{1}{c}{Invoked at:} & \multicolumn{1}{c}{\tco{synchronize_rcu()}}
+ 					& \multicolumn{1}{c}{\tco{rcu_barrier()}} \\
+@@ -384,12 +359,33 @@ The \apik{rcu_barrier()} primitive does this job.
+ \bottomrule
+ \end{tabular}
+ \end{fcvref}
++}
++
++\begin{fcvlabel}[ln:defer:synchonize-rcu vs rcu-barrier]
++\begin{VerbatimN}[commandchars=\\\@\$]
++	do_something_1();			\lnlbl@ds1$
++	rcu_read_lock();			\lnlbl@rrl$
++	do_something_2();			\lnlbl@ds2$
++	call_rcu(&p->rh, f);			\lnlbl@cr$
++	do_something_3();			\lnlbl@ds3$
++	rcu_read_unlock();			\lnlbl@rrul$
++	do_something_4();			\lnlbl@ds4$
++	// f(&p->rh) invoked			\lnlbl@cb$
++	do_something_5();			\lnlbl@ds5$
++\end{VerbatimN}
++\end{fcvlabel}
+ \caption{\tco{synchronize_rcu()} vs. \tco{rcu_barrier()}}
+ \label{tab:defer:synchonize-rcu vs rcu-barrier}
+-\end{table*}
++\end{table}
++
++	This distinction is illustrated by
++	\cref{tab:defer:synchonize-rcu vs rcu-barrier}, in which
++	the snippet at the bottom shows code being executed by a given CPU\@.
++	For simplicity, assume that no other CPU is executing
++	\co{rcu_read_lock()}, \co{rcu_read_unlock()}, or
++	\co{call_rcu()}.
+ 
+-	\Cref{tab:defer:synchonize-rcu vs rcu-barrier}
+-	shows how long each primitive must wait if invoked
++	The table shows how long each primitive must wait if invoked
+ 	concurrently with each of the \co{do_something_*()}
+ 	functions, with empty cells indicating that no
+ 	waiting is necessary.
+-- 
+2.25.1
+
+
