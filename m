@@ -1,21 +1,21 @@
 Return-Path: <SRS0=Gk1L=CD=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686822679; x=1689414679;
+        d=gmail.com; s=20221208; t=1686822754; x=1689414754;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=c2YDQTdcD1jlAs78BWxMrGu7LT2P+ytOjPY8Q9QnkRQ=;
-        b=lADthG5rVvyqjamEZZlf54iAX5L1TWauknAA1L5n5DyX8eqbh96PfsGvwwEn97v4Gb
-         JXdnXIvZQ7CZ7/ll9Wsr6bM38uoff11A/aI43Bz6lxR5oDZAfZZQHTGkwkuK5shrv12K
-         fOlaeIJFw7O7aXX2lGqAl8PxZsK8UlqUVj3l01vlchMgiz8SxJTOPTxYCtQ+b9qY9SgL
-         /mHDaEDtyzCO//HeR3+5yLllJWq2DnV34ahkZFLK0aCYdQvilS8nwSe6UxiDF/xQFBZk
-         DfHn+7QIPo9t2QrDfo8FcFSHIRMIfr6+iPlBjGLHEZ2pFUlAFlWw8bkJarMKN0oLZqES
-         geuA==
-Message-ID: <59a77a0c-5b4e-1b60-6c0d-177c79165f35@gmail.com>
-Date: Thu, 15 Jun 2023 18:51:16 +0900
+        bh=KexVgfx5fc/WsTGJZhse2Ci6+kruw+vYHtT+ew4qOtE=;
+        b=lQntdgg+vbD4voISRTwCNOyvscQTO5SFSvrrJhQs+czKQpFeh/JiG4TnqR1fhDxGP0
+         KblS4wnPrVi8+Hov9WgMBm1f+ieMIFHRb51NrFNPE20nm2VPcuH4/aPyrbs6YX7y4UQY
+         5C1aH2m4v7Cx2tEcmH4Femcle750L5gtJRjsANO7XX1+Ucj4AhHtYHvRGTMl77X7G/+m
+         M4iLvkFX9fg2RDobgqK3gjmDjc7tUscp4BWobBh6qBqBbcGuAfzlbCJAQGjFjAD7dKc3
+         nCkTRhWdTRHQH8MxxtzjcCqtF0d+tEfmVaI2AKZUWRBgFlzozEUzOfN0HowpGnN071oo
+         TnTQ==
+Message-ID: <c55b90c8-f00c-671a-1f17-f245c3825b89@gmail.com>
+Date: Thu, 15 Jun 2023 18:52:31 +0900
 MIME-Version: 1.0
-Subject: [PATCH -perfbook 2/6] FAQ-BUILD: Update nice-to-have fonts for SVG
- figures
+Subject: [PATCH -perfbook 3/6] docker/Dockerfile.fedora: Stay with Fedora 37
+ for the moment
 Content-Language: en-US
 References: <feeecfa4-ed23-bede-5487-49129030431f@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
@@ -26,50 +26,39 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-The list for Fedora in the answer to #5 doesn't cover DejaVu and
-Liberation font families.
+Inkscape of Fedora 38 has a regression in font markup corruption
+in SVG --> PDF conversion.
 
-Update A-2 of #9 to suggest packages for Fedora.
+Stay with Fedora 37 by Using an ARG variable "rel" with its value
+of 37.
 
-Update docker/Dockerfile.fedora accordingly.
+Add poppler-utils package for the pdffonts command to see font markup
+in PDF properties.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- FAQ-BUILD.txt            | 9 +++++++--
- docker/Dockerfile.fedora | 3 +--
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ docker/Dockerfile.fedora | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index 7c584c2444fe..e0fa0847fd53 100644
---- a/FAQ-BUILD.txt
-+++ b/FAQ-BUILD.txt
-@@ -201,8 +201,13 @@
- 
- 		in .svg --> .pdf conversions if that happens.
- 
--		As for Ubuntu and Fedora, packages listed in #5 should cover
--		all the font families needed.
-+		As for Ubuntu, packages listed in #5 should cover all the
-+		font families listed above.
-+
-+		As for Fedora, installing packages listed below should suffice:
-+
-+		  - dejavu-fonts-all
-+		  - liberation-fonts
- 
- 10.	Building perfbook fails with a warning of buggy cleveref or
- 	version mismatch of epigraph.
 diff --git a/docker/Dockerfile.fedora b/docker/Dockerfile.fedora
-index ff56ac4c751e..fdfbdc344bf5 100644
+index fdfbdc344bf5..9b5ed5440869 100644
 --- a/docker/Dockerfile.fedora
 +++ b/docker/Dockerfile.fedora
-@@ -2,8 +2,7 @@ FROM fedora:latest
+@@ -1,8 +1,15 @@
+-FROM fedora:latest
++# As of June 2023, Inkscape of Fedora 38 has a regression of font markup
++# corruption.
++# Stay with Fedora 37 for the moment.
++# You can override "rel" by saying:
++#    docker build -t <tag> --build-arg rel=latest -f Dockerfile.fedora .
++#
++ARG rel=37
++FROM fedora:$rel
  
  RUN dnf -y update && dnf install -y --setopt=tsflags=nodocs \
      fig2ps graphviz inkscape make git vim nano gnuplot-minimal groff time \
--    liberation-mono-fonts liberation-sans-fonts \
--    dejavu-sans-mono-fonts \
-+    liberation-fonts dejavu-fonts-all \
+-    liberation-fonts dejavu-fonts-all \
++    liberation-fonts dejavu-fonts-all poppler-utils \
      texlive-collection-plaingeneric texlive-collection-binextra \
      texlive-collection-latexextra texlive-epstopdf texlive-fontools \
      texlive-newtx texlive-newtxtt texlive-nimbus15 texlive-courier-scaled \
