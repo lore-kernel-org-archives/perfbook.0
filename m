@@ -1,155 +1,270 @@
 Return-Path: <SRS0=Gk1L=CD=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686822988; x=1689414988;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20221208; t=1686825794; x=1689417794;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=dBgam3gj2pJ4AvddS8lTG24a9ZSIMaf8w+bRgSpgv7k=;
-        b=Ws5MFbcQbXOeYTdbI8cyDLPBJ5HoBiWrWg8zwjOUnRNWn0EL8ypTbWyMJYkaM2mTO3
-         Hx9N2PUClwBlXmo0n2c5JDb+4KOJPX+mOxoe2DN2hpPVHHF3y7ZWu/ciImeLm0Vfjddv
-         PaKSkibdBvF2cuUBKc67uEi2MHeCBLPUmU2KHGMMaQdqzjmznpJjdkYCt1fTmxoV8jz0
-         RzA/mVyPRBDNY7C2XxN1zSCFj1fuc/oF/yotoR20jka2v25ip+sX+ZZhSgq6b7USU/Es
-         EvIovDw4Uani4La2knV95eburOwd++67M3V3yJoBChDeqKag4lS84E2SI801o6Z+8O4z
-         BAtw==
-Message-ID: <22d90cc4-0064-5f28-f499-e9b9d7d9e08a@gmail.com>
-Date: Thu, 15 Jun 2023 18:56:24 +0900
+        bh=So/NEvEQQo+mKzXiagqX4NggRysBR6mwmx2hji4Ptr0=;
+        b=CmCG+RpILQ9P/23onCUjlYcO7n1tEOxGeSTtpqKfrpOqUtte31XdHNPSVL96uguO27
+         tuiTx5ThJwDFHondJJrmAPbdWPiAQl72NC/m6hcMFlntRRpptwe+mv0DwWWpUYWXsa+H
+         XlGbLmq9mcX/vahUvJpL38kq7O3ZcJy1GTYFRe93bbUL5KyeGR6VSKXRhr5tiNioErRe
+         R2RFD4RKe5HKGD6GF1WmumcjlCvRy7ZHiQheUp4Ky3DGYusPbRAjL9j98kbyyA0uiY3P
+         JMROZbRlWbkRUl4f/Nc7MoczcphFHx6ANmPSlwuHsaNqAbHLoYyyzKpxKd/zb4HCWXxz
+         0P9Q==
+Message-ID: <203674d7-5b6d-1d09-5de1-ef824d1b7017@gmail.com>
+Date: Thu, 15 Jun 2023 19:43:10 +0900
 MIME-Version: 1.0
-Subject: [PATCH -perfbook 6/6] Dockerfile: Make uid:gid = 0:0 the default
-Content-Language: en-US
+Subject: Re: [PATCH -perfbook 0/6] Update Dockerfiles
 References: <feeecfa4-ed23-bede-5487-49129030431f@gmail.com>
+Content-Language: en-US
 From: Akira Yokosawa <akiyks@gmail.com>
 In-Reply-To: <feeecfa4-ed23-bede-5487-49129030431f@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+To: "Paul E. McKenney" <paulmck@kernel.org>, Leonardo Bras <leobras.c@gmail.com>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Most container images at dockerhub and other repositories have
-uid:gid = 0:0 by default.
-This makes it possible to run commands to update or install packages
-after invoking such images.
+[+To: Leo]
 
-Furthermore, rootless-mode docker has become easier to install [1]
-and podman is rootless by default.
+On 2023/06/15 18:48, Akira Yokosawa wrote:
+> Hi Paul,
+>=20
+> Commit a80a57b21a5e ("fixsvgfonts.sh: Convert sans-serif into 'DejaVu S=
+ans'")
+> assumed that having "DejaVu Sans Mono" is sufficent for "DejaVu Sans".
+>=20
+> It turns out that docker/Dockerfile.fedora doesn't cover "DejaVu Sans".=
 
-Change the default uid:gid pair to 0:0 in our Dockerfiles.
+> Fedora's dejavu-sans-mono-fonts package doesn't contain "DejaVu Sans Mo=
+no"!
+> There is a meta package of the name dejavu-fonts-all which covers them
+> both as well as dejavu-serif-fonts.
+>=20
+> It also turns out that Answer to #9 in FAQ-BUILD.txt saying:
+>=20
+>     As for Ubuntu and Fedora, packages listed in #5 should cover
+>     all the font families needed.
+>=20
+> is wrong on the Fedora front.  DejaVu and Liberation fonts need
+> font packages dejavu-fonts-all and liberation-fonts.
+>=20
+> Furthermore, Fedora 38 (released this April) has a regression of
+> Inkscape where font markup is corrupted in SVG --> PDF conversion.
 
-(Dockerfile.bionic will soon be removed and is not updated here)
+Leo, just for you info, I see the same regression under Arch Linux.
 
-Update FAQ-BUILD.txt accordingly. Container images uploaded to
-akiyks/perfbook-build will be for rootless mode by default from now
-on.
+Pick a perfbook.pdf from your gitlab-ci build, and run:
 
-akiyks/perfbook-build-focal and akiyks/perfbook-build-fedora
-should be regarded as deprecated but will be kept for a while.
+    pdffonts perfbook.pdf
 
-Link: [1] https://docs.docker.com/engine/security/rootless/
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- FAQ-BUILD.txt            | 27 ++++++++++++---------------
- docker/Dockerfile        |  4 ++--
- docker/Dockerfile.fedora |  4 ++--
- 3 files changed, 16 insertions(+), 19 deletions(-)
+You will see something like (I don't know how the corrupted encoding
+will work in your mailbox...):
 
-diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index e0fa0847fd53..5867acd9d4d3 100644
---- a/FAQ-BUILD.txt
-+++ b/FAQ-BUILD.txt
-@@ -40,7 +40,7 @@
- 		Alternatively, you can use the container image described
- 		in #13 below.  Otherwise, instructions follow.
- 
--		On Ubuntu Bionic and Focal, the following list should cover
-+		On Ubuntu Bionic and later, the following list should cover
- 		necessary packages (except for -doc packages):
- 			texlive-publishers texlive-pstricks
- 			texlive-science texlive-fonts-extra
-@@ -296,42 +296,39 @@
- 		subdirectory.  You can pull the container image built from
- 		it as follows:
- 
--		    docker pull akiyks/perfbook-build-focal:latest
-+		    docker pull akiyks/perfbook-build:latest
- 
- 		It can be run with the command:
- 
- 		    docker run --rm -it -v <path to perfbook dir>:/work \
--		      akiyks/perfbook-build-focal:latest
-+		      akiyks/perfbook-build:latest
- 
- 		Note:
--		The prebuilt container image assumes <uid:pid> = <1000:1000>.
--		If you have different IDs, you can still run the image by
-+		The prebuilt container image assumes rootless mode.
-+		If you run root-mode docker, you can still run the image by
- 		adding the option:
- 
- 		     -u $(id -u):$(id -g)
- 
--		to the "docker run" command.  The bash prompt will be in the
--		form of "I have no name!@abcdef012345:/work$".	Builds of
--		perfbook will nevertheless succeed.  You can also build
--		a container image of your own:
-+		to the "docker run" command.
-+
-+		You can build a container image on your own:
- 
- 		    cd docker
- 		    docker build -t <container image tag> \
- 		      --build-arg uid=$(id -u) --build-arg gid=$(id -g) .
- 
- 		For those prefer a Fedora-based container image,
--		akiyks/perfbook-build-fedora:latest is also available.
-+		akiyks/perfbook-build:fedora is also available.
- 		It is built from docker/Dockerfile.fedora.
- 
- 		If you have podman already installed, you can run the image
--		with podman. podman maps container's root to your host uid
--		by default.
--		Use the following command to run:
-+		with podman. podman runs in rootless mode by default.
-+		Use the following command to run (Note the ":z" in the -v flag):
- 
- 		    podman run --rm -it -v <path to perfbook dir>:/work:z \
--		      -u 0:0 akiyks/perfbook-build-fedora:latest
-+		      akiyks/perfbook-build:fedora
- 
--		You will see a prompt with a "#".
- 		Your updates under /work will have your host uid in host's POV.
- 
- 14.	It looks as if answers above all assume building under GNU/Linux
-diff --git a/docker/Dockerfile b/docker/Dockerfile
-index b11116493c6d..ec89c6f266dd 100644
---- a/docker/Dockerfile
-+++ b/docker/Dockerfile
-@@ -17,8 +17,8 @@ WORKDIR /opt
- RUN curl https://gitlab.com/latexpand/latexpand/-/archive/v1.3/latexpand-v1.3.tar.gz -o - | tar xfz - && \
-     sed -i -e 's/@LATEXPAND_VERSION@/v1.3/' latexpand-*/latexpand && \
-     cp latexpand-*/latexpand /usr/local/bin
--ARG uid=1000
--ARG gid=1000
-+ARG uid=0
-+ARG gid=0
- ARG user=perfbook
- ARG group=perfbook
- RUN if [ $uid -ne 0 ] ; then \
-diff --git a/docker/Dockerfile.fedora b/docker/Dockerfile.fedora
-index 9b5ed5440869..5eff2a2a00cd 100644
---- a/docker/Dockerfile.fedora
-+++ b/docker/Dockerfile.fedora
-@@ -22,8 +22,8 @@ WORKDIR /opt
- RUN curl https://gitlab.com/latexpand/latexpand/-/archive/v1.3/latexpand-v1.3.tar.gz -o - | tar xfz - && \
-     sed -i -e 's/@LATEXPAND_VERSION@/v1.3/' latexpand-*/latexpand && \
-     cp latexpand-*/latexpand /usr/local/bin
--ARG uid=1000
--ARG gid=1000
-+ARG uid=0
-+ARG gid=0
- ARG user=perfbook
- ARG group=perfbook
- RUN if [ $uid -ne 0 ] ; then \
--- 
-2.25.1
+name                                 type              encoding         e=
+mb sub uni object ID
+------------------------------------ ----------------- ---------------- -=
+-- --- --- ---------
+WGDPYX+LMMono8-Regular               Type 1            Custom           y=
+es yes yes   1722  0
+ULGKTM+TeXGyreTermesX-Regular        Type 1            Custom           y=
+es yes yes   1725  0
+OTFSIT+LMMono12-Regular              Type 1            Custom           y=
+es yes yes   1726  0
+IYVMBP+TeXGyreTermesX-Bold           Type 1            Custom           y=
+es yes yes   1741  0
+PSUFXP+TeXGyreTermes-Regular         Type 1            Custom           y=
+es yes yes   1742  0
+IMBSNT+NimbusRomNo9L-Regu-Slant_167  Type 1            Custom           y=
+es yes yes   1929  0
+NWEUXR+LMMonoLt10-Bold               Type 1            Custom           y=
+es yes yes   2227  0
+EOPMEH+LinBiolinumTI                 Type 1            Custom           y=
+es yes yes   2673  0
+UHVCIJ+LinBiolinumT                  Type 1            Custom           y=
+es yes yes   2674  0
+EOPMEH+LinBiolinumTI                 Type 1            Custom           y=
+es yes yes   2677  0
+OIRARM+LMMono10-Regular              Type 1            Custom           y=
+es yes yes   2764  0
+TLODOC+txsys                         Type 1            Builtin          y=
+es yes yes   2828  0
+UFJTMD+StandardSymL                  Type 1            Builtin          y=
+es yes yes   2830  0
+IGSKIX+NewTXMI5                      Type 1            Builtin          y=
+es yes yes   2831  0
+VVGNAR+TeXGyreTermesX-Italic         Type 1            Custom           y=
+es yes yes   2921  0
+YFRDMR+NimbusSanL-Regu               Type 1            Custom           y=
+es yes no    2980  0
+YFRDMR+NimbusSanL-Regu               Type 1            Custom           y=
+es yes no    3012  0
+JZAPTL+k=E6=B9=8C=E9=A1=95                       CID Type 0C       Identi=
+ty-H       yes yes yes   3038  0
+XCILRI+i=E6=B9=8C=E9=A1=95                       Type 1C           WinAns=
+i          yes yes yes   3039  0
+CZRRGJ+=3D=E6=BD=8C=E9=A1=95                       CID Type 0C       Iden=
+tity-H       yes yes yes   3040  0
+LAEXLB+o=E6=B9=8C=E9=A1=95                       Type 1C           WinAns=
+i          yes yes yes   3041  0
+WJVJMV+NimbusSans-Regular            Type 1C           Custom           y=
+es yes no    3066  0
+WGDQZH+NimbusSans-Regular            Type 1C           WinAnsi          y=
+es yes no    3129  0
+LSRNIT+NimbusSans-BoldItalic         Type 1C           WinAnsi          y=
+es yes no    3130  0
+WGDQZH+NimbusSans-Regular            Type 1C           WinAnsi          y=
+es yes no    3159  0
+LSRNIT+NimbusSans-BoldItalic         Type 1C           WinAnsi          y=
+es yes no    3160  0
+DEIMBC+j=EC=86=9B=E6=85=95                       TrueType          WinAns=
+i          yes yes yes   3209  0
+RWADWA+=E8=9B=92=E0=AD=96                       TrueType          WinAnsi=
+          yes yes yes   3238  0
+HDCMTE+=E8=9B=92=E0=AD=96                       TrueType          WinAnsi=
+          yes yes yes   3239  0
+JGKXJS+=C2=BD=EF=BF=BD=EF=BF=BD=EF=BF=BD=E4=95=96                      Ty=
+pe 1C           WinAnsi          yes yes yes   3269  0
+ANXDLC+X=DB=A8=E3=9D=96                        TrueType          WinAnsi =
+         yes yes yes   3320  0
+RUPDBM+=D1=93=E3=A1=96                       Type 1C           WinAnsi   =
+       yes yes yes   3553  00
+LWHAZS+=E7=A7=9E=E7=85=95                       Type 1C           WinAnsi=
+          yes yes yes   3560  0
+RQGRST+A=E7=BB=9E=E7=85=95                       TrueType          WinAns=
+i          yes yes yes   3561  0
+
+[...]
+
+Expected output is:
+
+name                                 type              encoding         e=
+mb sub uni object ID
+------------------------------------ ----------------- ---------------- -=
+-- --- --- ---------
+WGDPYX+LMMono8-Regular               Type 1            Custom           y=
+es yes yes   1722  0
+ULGKTM+TeXGyreTermesX-Regular        Type 1            Custom           y=
+es yes yes   1725  0
+ICXLWS+LMMono12-Regular              Type 1            Custom           y=
+es yes yes   1726  0
+IYVMBP+TeXGyreTermesX-Bold           Type 1            Custom           y=
+es yes yes   1741  0
+PSUFXP+TeXGyreTermes-Regular         Type 1            Custom           y=
+es yes yes   1742  0
+IMBSNT+NimbusRomNo9L-Regu-Slant_167  Type 1            Custom           y=
+es yes yes   1929  0
+NUKNCC+LMMonoLt10-Bold               Type 1            Custom           y=
+es yes yes   2227  0
+EOPMEH+LinBiolinumTI                 Type 1            Custom           y=
+es yes yes   2673  0
+UHVCIJ+LinBiolinumT                  Type 1            Custom           y=
+es yes yes   2674  0
+EOPMEH+LinBiolinumTI                 Type 1            Custom           y=
+es yes yes   2677  0
+OIRARM+LMMono10-Regular              Type 1            Custom           y=
+es yes yes   2764  0
+TLODOC+txsys                         Type 1            Builtin          y=
+es yes yes   2828  0
+UFJTMD+StandardSymL                  Type 1            Builtin          y=
+es yes yes   2830  0
+IGSKIX+NewTXMI5                      Type 1            Builtin          y=
+es yes yes   2831  0
+VVGNAR+TeXGyreTermesX-Italic         Type 1            Custom           y=
+es yes yes   2921  0
+YFRDMR+NimbusSanL-Regu               Type 1            Custom           y=
+es yes no    2980  0
+YFRDMR+NimbusSanL-Regu               Type 1            Custom           y=
+es yes no    3012  0
+QNDHMI+NimbusSans-Regular            CID Type 0C       Identity-H       y=
+es yes yes   3038  0
+JKBTOX+NimbusSans-Regular            Type 1C           WinAnsi          y=
+es yes yes   3039  0
+BIKSFC+NimbusSans-Bold               CID Type 0C       Identity-H       y=
+es yes yes   3040  0
+XFXZKY+NimbusSans-Bold               Type 1C           WinAnsi          y=
+es yes yes   3041  0
+WJVJMV+NimbusSans-Regular            Type 1C           Custom           y=
+es yes no    3066  0
+WGDQZH+NimbusSans-Regular            Type 1C           WinAnsi          y=
+es yes no    3129  0
+LSRNIT+NimbusSans-BoldItalic         Type 1C           WinAnsi          y=
+es yes no    3130  0
+WGDQZH+NimbusSans-Regular            Type 1C           WinAnsi          y=
+es yes no    3159  0
+LSRNIT+NimbusSans-BoldItalic         Type 1C           WinAnsi          y=
+es yes no    3160  0
+KPAYFY+steelcitycomic                TrueType          WinAnsi          y=
+es yes yes   3209  0
+IGYOWD+steelcitycomic                TrueType          WinAnsi          y=
+es yes yes   3238  0
+LVRVOR+steelcitycomic                TrueType          WinAnsi          y=
+es yes yes   3239  0
+OCNFNQ+FreeMonoBold                  Type 1C           WinAnsi          y=
+es yes yes   3269  0
+DHHOAV+DejaVuSans                    TrueType          WinAnsi          y=
+es yes yes   3320  0
+RVTHEX+DejaVuSansMono-Bold           TrueType          WinAnsi          y=
+es yes yes   3479  0
+ODJFYL+FreeMonoBold                  Type 1C           WinAnsi          y=
+es yes yes   3553  0
+HAXSLA+URWGothic-DemiOblique         Type 1C           WinAnsi          y=
+es yes yes   3560  0
+[...]
 
 
+        Thanks, Akira
+
+>=20
+> So Deckerfile.fedora should stay with Fedora 37 for the moment.
+>=20
+> Quick search of upstream Inkscape's issue tracker didn't hit the
+> font markup regression.  I'll open an issue there unless somebody
+> else beats me to it.
+>=20
+> So, this patch set consists of the following
+>=20
+> Patch 1/6 adds check of "DejaVu Sans" as nice-to-have font.
+>=20
+> Patch 2/6 updates FAQ-BUILD.txt and Dockerfile.fedora for nice-to-have
+> font packages.
+>=20
+> Patch 3/6 updates Dockerfile.fedora to stay with Fedora 37, using an AR=
+G
+> variable so that building from fedora:38 can be possible.
+> It also adds popller-utils to check the font markup info in PDF propert=
+ies.
+>=20
+> Patch 4/6 updates Dockerfile (from ubuntu) so that the default base
+> image is the "latest" (jammy at the moment).  There is no reason to sti=
+ck
+> with focal (20.04).
+>=20
+> Patch 5/6 adds poppler-utils to Dockerfile (from ubuntu) to detect
+> Inkscape regression early in case it actually sneaks in.
+> (Note: Ubuntu 23.04 is safe at the moment.)
+>=20
+> Patch 6/6 changes the default uid:gid pair of container images built
+> from Dockerfiles to 0:0, which is for rootless mode docker/podman.
+> Repository at dockerhub for prebuilt images is changed to
+> akiyks/perfbook-build, where the tags "latest" and "fedora" have
+> uid:gid pair of 0:0.
+>=20
+>         Thanks, Akira
+> --
+> Akira Yokosawa (6):
+>   Makefile: Add 'DejaVu Sans' to nice-to-have fonts
+>   FAQ-BUILD: Update nice-to-have fonts for SVG figures
+>   docker/Dockerfile.fedora: Stay with Fedora 37 for the moment
+>   docker/Dockerfile: Use 'latest' as the default tag
+>   docker/Dockerfile: Add poppler-utils package
+>   Dockerfile: Make uid:gid =3D 0:0 the default
+>=20
+>  FAQ-BUILD.txt            | 37 ++++++++++++++++++++-----------------
+>  Makefile                 | 15 ++++++++++++---
+>  docker/Dockerfile        |  9 +++++----
+>  docker/Dockerfile.fedora | 16 +++++++++++-----
+>  4 files changed, 48 insertions(+), 29 deletions(-)
+>=20
+>=20
+> base-commit: a80a57b21a5e8ea3dfa90471126920a1131682f7
