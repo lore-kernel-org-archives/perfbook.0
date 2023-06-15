@@ -1,113 +1,98 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37750 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236226AbjFLNrS (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 12 Jun 2023 09:47:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EEF11B8
-        for <perfbook@vger.kernel.org>; Mon, 12 Jun 2023 06:47:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0C21C615DA
-        for <perfbook@vger.kernel.org>; Mon, 12 Jun 2023 13:47:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686577634;
-        bh=Alph6T5iSEBCeo8H/XsT22FzYjzwUB1dPqMVYfHDbFw=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=MWbUyrTbOQsFQiO48Z8/lD5gk9yDGBQXTXvoT5PoysGAJtHGgFFxPQ34B1PxvssJL
-         EgudmpTSsgAPExibkn8cPOL/3SwVH5Cd1zBhY5AGmAn22AWnwRuxkZmI2xzJQwlxPg
-         islMJknAvpDiBNd49TkBQM4mAyfd6XkLx9PXY28Ap3DQO8WPReFGUKPT+SZyRU3aDh
-         a4zEzzEasgJ80CSjLC/K5eFkuZbMd1FPdi8Dvg97oBceZG4VvezcY5ENPOWZyGtSlO
-         m8tBjzfmCNGCCyJjjpIeKyvLO+tn5FMpQeiXrvC+7Te6KQ8xoGbMSSQr6Pc9HCSnlS
-         BYQbHHvgzzrYQ==
-Date: Mon, 12 Jun 2023 06:47:13 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook 2/2] fixsvgfonts.sh: Convert sans-serif into
- 'DejaVu Sans'
-Message-ID: <ffac8836-fc43-4ac1-b57f-830417ebf93f@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <4ab19efc-4940-c1f9-71cf-221cb048e86e@gmail.com>
- <882ffa53-f280-da10-abf7-cf50618ccce7@gmail.com>
+Return-Path: <SRS0=Gk1L=CD=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686822484; x=1689414484;
+        h=content-transfer-encoding:subject:cc:to:from:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2c8vceEfewc/3mh04NdjGfgsGJVQ3ml1ghaV0VGBFF8=;
+        b=lNIOTgbjBhKdwBCCTkGKsNBppDS6qdmHETBVclRmzzXrBf/IXJnW0fo9QQjIN3caeb
+         qJhjmJZuTom3hEpVN10pv10gTfJHuznElB04mtRcj8v1lnWmdKxJhBU5YKkvHh2LD6jK
+         N53bBLvmmoZLjmNTt1Bc4t7otaEuUjgjoCTIjIZskMZt59wYQmIRG2k3Lu55trGIdt52
+         05kIobfSP05KYdb/sTPDRrCKTRcKLuw9VPkwbuEVZwmCyalYLQoAyOtuNquI33u6ghN7
+         pBBSQJzXxLPYvHFo853PD8ubOZF/l2aJi3dJ7f3dxOJK8N1Hec0baKKDsQPO+GWZQtgq
+         X9+g==
+Message-ID: <feeecfa4-ed23-bede-5487-49129030431f@gmail.com>
+Date: Thu, 15 Jun 2023 18:48:00 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <882ffa53-f280-da10-abf7-cf50618ccce7@gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 0/6] Update Dockerfiles
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Mon, Jun 12, 2023 at 06:41:59PM +0900, Akira Yokosawa wrote:
-> Depending on fontconfig setting of a build system, it chooses
-> one of available sans-serif font families for generic font in
-> SVG files while SVG --> PDF conversion by Inkscape.
-> 
-> utilities/fixsvgfonts{-urwps}.sh scripts explicitly converted it
-> into "Nimbus Sans", which is a clone of Helvetica.
-> 
-> "DejaVu Sans", which originated from "Bitstream Vera", is slightly
-> wider than Helvetica and it is the fallback of Paul's setting.
-> 
-> Update fixsvgfonts{-urwps}.sh so that the explicit conversion meets
-> Paul's expectation.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
-> Hi Paul,
-> 
-> This change assumes "fc-match sans-serif" returns "DejaVu Sans"
-> under your setting.  The slight width mismatch causes texts you
-> centered inside boxes to be left shifted slightly.
-> 
-> If you don't see "DejaVu Sans" from the command above, what does
-> it say?
+Hi Paul,
 
-$ fc-match sans-serif
-DejaVuSans.ttf: "DejaVu Sans" "Book"
+Commit a80a57b21a5e ("fixsvgfonts.sh: Convert sans-serif into 'DejaVu Sans'")
+assumed that having "DejaVu Sans Mono" is sufficent for "DejaVu Sans".
 
-So it appears you assumption is correct.
+It turns out that docker/Dockerfile.fedora doesn't cover "DejaVu Sans".
+Fedora's dejavu-sans-mono-fonts package doesn't contain "DejaVu Sans Mono"!
+There is a meta package of the name dejavu-fonts-all which covers them
+both as well as dejavu-serif-fonts.
 
-You know, I distinctly recall a time when the concern was a lack of
-machine-usable fonts.  ;-)
+It also turns out that Answer to #9 in FAQ-BUILD.txt saying:
 
-Queued and pushed, thank you!!!  The new look of Figure 15.2 is much
-improved, very good!
+    As for Ubuntu and Fedora, packages listed in #5 should cover
+    all the font families needed.
 
-							Thanx, Paul
+is wrong on the Fedora front.  DejaVu and Liberation fonts need
+font packages dejavu-fonts-all and liberation-fonts.
 
->         Thanks, Akira
-> --
->  utilities/fixsvgfonts-urwps.sh | 2 +-
->  utilities/fixsvgfonts.sh       | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/utilities/fixsvgfonts-urwps.sh b/utilities/fixsvgfonts-urwps.sh
-> index 21eb15349063..5af10514a4d8 100644
-> --- a/utilities/fixsvgfonts-urwps.sh
-> +++ b/utilities/fixsvgfonts-urwps.sh
-> @@ -8,7 +8,7 @@
->  sed	-e 's+:Helvetica+:Nimbus Sans+g' \
->  	-e 's+="Helvetica+="Nimbus Sans+g' \
->  	-e 's+:Sans+:Nimbus Sans+g' \
-> -	-e 's+:sans-serif+:Nimbus Sans+g' \
-> +	-e 's+:sans-serif+:DejaVu Sans+g' \
->  	-e 's+:Courier+:Nimbus Mono PS+g' \
->  	-e 's+="Courier+="Nimbus Mono PS+g' \
->  	-e 's+:monospace+:DejaVu Sans Mono+g' \
-> diff --git a/utilities/fixsvgfonts.sh b/utilities/fixsvgfonts.sh
-> index 1fa4fedb2829..d75becdeef81 100644
-> --- a/utilities/fixsvgfonts.sh
-> +++ b/utilities/fixsvgfonts.sh
-> @@ -8,7 +8,7 @@
->  sed	-e 's+:Helvetica+:Nimbus Sans L+g' \
->  	-e 's+="Helvetica+="Nimbus Sans L+g' \
->  	-e 's+:Sans+:Nimbus Sans L+g' \
-> -	-e 's+:sans-serif+:Nimbus Sans L+g' \
-> +	-e 's+:sans-serif+:DejaVu Sans+g' \
->  	-e 's+:Courier+:Nimbus Mono L+g' \
->  	-e 's+="Courier+="Nimbus Mono L+g' \
->  	-e 's+:monospace+:DejaVu Sans Mono+g' \
-> -- 
-> 2.25.1
-> 
-> 
+Furthermore, Fedora 38 (released this April) has a regression of
+Inkscape where font markup is corrupted in SVG --> PDF conversion.
+
+So Deckerfile.fedora should stay with Fedora 37 for the moment.
+
+Quick search of upstream Inkscape's issue tracker didn't hit the
+font markup regression.  I'll open an issue there unless somebody
+else beats me to it.
+
+So, this patch set consists of the following
+
+Patch 1/6 adds check of "DejaVu Sans" as nice-to-have font.
+
+Patch 2/6 updates FAQ-BUILD.txt and Dockerfile.fedora for nice-to-have
+font packages.
+
+Patch 3/6 updates Dockerfile.fedora to stay with Fedora 37, using an ARG
+variable so that building from fedora:38 can be possible.
+It also adds popller-utils to check the font markup info in PDF properties.
+
+Patch 4/6 updates Dockerfile (from ubuntu) so that the default base
+image is the "latest" (jammy at the moment).  There is no reason to stick
+with focal (20.04).
+
+Patch 5/6 adds poppler-utils to Dockerfile (from ubuntu) to detect
+Inkscape regression early in case it actually sneaks in.
+(Note: Ubuntu 23.04 is safe at the moment.)
+
+Patch 6/6 changes the default uid:gid pair of container images built
+from Dockerfiles to 0:0, which is for rootless mode docker/podman.
+Repository at dockerhub for prebuilt images is changed to
+akiyks/perfbook-build, where the tags "latest" and "fedora" have
+uid:gid pair of 0:0.
+
+        Thanks, Akira
+--
+Akira Yokosawa (6):
+  Makefile: Add 'DejaVu Sans' to nice-to-have fonts
+  FAQ-BUILD: Update nice-to-have fonts for SVG figures
+  docker/Dockerfile.fedora: Stay with Fedora 37 for the moment
+  docker/Dockerfile: Use 'latest' as the default tag
+  docker/Dockerfile: Add poppler-utils package
+  Dockerfile: Make uid:gid = 0:0 the default
+
+ FAQ-BUILD.txt            | 37 ++++++++++++++++++++-----------------
+ Makefile                 | 15 ++++++++++++---
+ docker/Dockerfile        |  9 +++++----
+ docker/Dockerfile.fedora | 16 +++++++++++-----
+ 4 files changed, 48 insertions(+), 29 deletions(-)
+
+
+base-commit: a80a57b21a5e8ea3dfa90471126920a1131682f7
+-- 
+2.25.1
+
