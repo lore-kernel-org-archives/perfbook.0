@@ -1,21 +1,21 @@
 Return-Path: <SRS0=Gk1L=CD=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686822587; x=1689414587;
+        d=gmail.com; s=20221208; t=1686822679; x=1689414679;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=8j7bPY96ePJaQvZ22rDKRH8B8yBSuTBgH6JECZMqE8Y=;
-        b=U8Ivf4+ZCAk9YFmzlbky5f7fFXn52G9koMZVMobcpJXONew0A36gtexhcilU/Tq4lT
-         d3fzKn3MUG0Iw3s3UvwxKPpL1GAAycU6Z3tC7LGMz5T11JCYVCcA9NogVSOoCcuHD8Kj
-         YJkCJbnWFi2I4LVB+pLa7Xj5EJRCUYr8sOXBPPXEKIgq+YMbz01eJ2VfymbLL2EituZ9
-         HMCjFzqT3liVDTEVmp+Hv074eqNyhVWmrkNPUVALaspsyz9kHEOqxBu+o8pNrCrU8xRP
-         qLyODkj1P5syUvzY053VVww4gmInk44HgP9R7HQS1exsvflLcLqjXeHxSc5+EhHPiQDu
-         hW7w==
-Message-ID: <3b706eaf-4a91-9989-ad2f-38db7510edb5@gmail.com>
-Date: Thu, 15 Jun 2023 18:49:45 +0900
+        bh=c2YDQTdcD1jlAs78BWxMrGu7LT2P+ytOjPY8Q9QnkRQ=;
+        b=lADthG5rVvyqjamEZZlf54iAX5L1TWauknAA1L5n5DyX8eqbh96PfsGvwwEn97v4Gb
+         JXdnXIvZQ7CZ7/ll9Wsr6bM38uoff11A/aI43Bz6lxR5oDZAfZZQHTGkwkuK5shrv12K
+         fOlaeIJFw7O7aXX2lGqAl8PxZsK8UlqUVj3l01vlchMgiz8SxJTOPTxYCtQ+b9qY9SgL
+         /mHDaEDtyzCO//HeR3+5yLllJWq2DnV34ahkZFLK0aCYdQvilS8nwSe6UxiDF/xQFBZk
+         DfHn+7QIPo9t2QrDfo8FcFSHIRMIfr6+iPlBjGLHEZ2pFUlAFlWw8bkJarMKN0oLZqES
+         geuA==
+Message-ID: <59a77a0c-5b4e-1b60-6c0d-177c79165f35@gmail.com>
+Date: Thu, 15 Jun 2023 18:51:16 +0900
 MIME-Version: 1.0
-Subject: [PATCH -perfbook 1/6] Makefile: Add 'DejaVu Sans' to nice-to-have
- fonts
+Subject: [PATCH -perfbook 2/6] FAQ-BUILD: Update nice-to-have fonts for SVG
+ figures
 Content-Language: en-US
 References: <feeecfa4-ed23-bede-5487-49129030431f@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
@@ -26,72 +26,53 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Under RHEL and Fedora, it is possible to install "DejaVu Sans Mono"
-alone.  Add check of "DejaVu Sans" font in Makefile and print info
-on a nice-to-have font in case it is missing.
+The list for Fedora in the answer to #5 doesn't cover DejaVu and
+Liberation font families.
 
-Update FAQ-BUILD.txt accordingly.
+Update A-2 of #9 to suggest packages for Fedora.
+
+Update docker/Dockerfile.fedora accordingly.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- FAQ-BUILD.txt |  1 +
- Makefile      | 15 ++++++++++++---
- 2 files changed, 13 insertions(+), 3 deletions(-)
+ FAQ-BUILD.txt            | 9 +++++++--
+ docker/Dockerfile.fedora | 3 +--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index 024f98bd4555..7c584c2444fe 100644
+index 7c584c2444fe..e0fa0847fd53 100644
 --- a/FAQ-BUILD.txt
 +++ b/FAQ-BUILD.txt
-@@ -186,6 +186,7 @@
- 		There are SVG figures which use other font families
- 		listed below:
+@@ -201,8 +201,13 @@
  
-+		  - DejaVu Sans
- 		  - DejaVu Sans Mono
- 		  - FreeMono
- 		  - Liberation Sans
-diff --git a/Makefile b/Makefile
-index e44b370d58d0..6a389089e38c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -125,6 +125,7 @@ COURIERS := $(findstring couriers,$(FONTPACKAGES))
- NEWTXSF := $(findstring newtxsf,$(FONTPACKAGES))
- INCONSOLATA := $(findstring inconsolata,$(FONTPACKAGES))
- FREESANS := $(shell fc-list | grep FreeSans | wc -l)
-+DEJAVUSANS := $(shell fc-list | grep "DejaVu Sans" | grep -v "DejaVu Sans Mono" | wc -l)
- DEJAVUMONO := $(shell fc-list | grep "DejaVu Sans Mono" | wc -l)
- LIBERATIONSANS := $(shell fc-list | grep "Liberation Sans" | wc -l)
- LIBERATINOMONO := $(shell fc-list | grep "Liberation Mono" | wc -l)
-@@ -149,10 +150,15 @@ ifeq ($(FREESANS),0)
- else
-   RECOMMEND_FREEFONT := 0
- endif
-+ifeq ($(DEJAVUSANS),0)
-+  RECOMMEND_DEJAVUSANS := 1
-+else
-+  RECOMMEND_DEJAVUSANS := 0
-+endif
- ifeq ($(DEJAVUMONO),0)
--  RECOMMEND_DEJAVU := 1
-+  RECOMMEND_DEJAVUMONO := 1
- else
--  RECOMMEND_DEJAVU := 0
-+  RECOMMEND_DEJAVUMONO := 0
- endif
- ifeq ($(LIBERATIONSANS),0)
-   RECOMMEND_LIBERATIONSANS := 1
-@@ -461,7 +467,10 @@ endif
- ifeq ($(RECOMMEND_FREEFONT),1)
- 	$(info Nice-to-have font family 'FreeMono' not found. See #9 in FAQ-BUILD.txt)
- endif
--ifeq ($(RECOMMEND_DEJAVU),1)
-+ifeq ($(RECOMMEND_DEJAVUSANS),1)
-+	$(info Nice-to-have font family 'DejaVu Sans' not found. See #9 in FAQ-BUILD.txt)
-+endif
-+ifeq ($(RECOMMEND_DEJAVUMONO),1)
- 	$(info Nice-to-have font family 'DejaVu Sans Mono' not found. See #9 in FAQ-BUILD.txt)
- endif
- ifeq ($(RECOMMEND_LIBERATIONSANS),1)
+ 		in .svg --> .pdf conversions if that happens.
+ 
+-		As for Ubuntu and Fedora, packages listed in #5 should cover
+-		all the font families needed.
++		As for Ubuntu, packages listed in #5 should cover all the
++		font families listed above.
++
++		As for Fedora, installing packages listed below should suffice:
++
++		  - dejavu-fonts-all
++		  - liberation-fonts
+ 
+ 10.	Building perfbook fails with a warning of buggy cleveref or
+ 	version mismatch of epigraph.
+diff --git a/docker/Dockerfile.fedora b/docker/Dockerfile.fedora
+index ff56ac4c751e..fdfbdc344bf5 100644
+--- a/docker/Dockerfile.fedora
++++ b/docker/Dockerfile.fedora
+@@ -2,8 +2,7 @@ FROM fedora:latest
+ 
+ RUN dnf -y update && dnf install -y --setopt=tsflags=nodocs \
+     fig2ps graphviz inkscape make git vim nano gnuplot-minimal groff time \
+-    liberation-mono-fonts liberation-sans-fonts \
+-    dejavu-sans-mono-fonts \
++    liberation-fonts dejavu-fonts-all \
+     texlive-collection-plaingeneric texlive-collection-binextra \
+     texlive-collection-latexextra texlive-epstopdf texlive-fontools \
+     texlive-newtx texlive-newtxtt texlive-nimbus15 texlive-courier-scaled \
 -- 
 2.25.1
 
