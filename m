@@ -1,124 +1,153 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45548 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbjFTWkh (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Tue, 20 Jun 2023 18:40:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECD98193
-        for <perfbook@vger.kernel.org>; Tue, 20 Jun 2023 15:40:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 860E96131A
-        for <perfbook@vger.kernel.org>; Tue, 20 Jun 2023 22:40:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687300836;
-        bh=9Qtv1W+u3vUR6eTdHDu5VVb8YQj3eGMIqV6CltI8cSY=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=AoKQ5ntRAMadTSS2y5FOEnqangA27X/Cd5sPKRod2pkxmaP8Nsk1PUcgPyD9ZFIEA
-         0GNMf5cZvqtAOV3/MTJcZIDRb+OJRC+cpxRuL5UP0TF/jorboChz4iMD2EDlCHuDnt
-         j0fPKjIUfPY9wkbrpDS0rHUGjYwotyFvcg9con/mjgf8ThWFejKorkqThxUZsbn0XB
-         e/I2TbtrpdHsne7crlPIGea/8ln4rr0GlKhPf+VYt3jffDvAp7h9xWUCgfEm3FDTrb
-         iNOoWhcxiNJff+nh8lv0wZcunyMng05R/XkJ7jGZkVmC9qF6xix87gmYjnkNHQKrB+
-         GWprF+GI0Zmjg==
-Date: Tue, 20 Jun 2023 15:40:35 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
+Return-Path: <SRS0=fbDN=CJ=gmail.com=leobras.c@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687321571; x=1689913571;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XE43wJsb93RPJOGCTCvQVV1bDyrrCwmiTLBR5W4VDO4=;
+        b=F6k/CW2A8IxnG9TYu+KqRhHA2wtrYKYpz8M3FU/+5U1tnPZ9bl4kiRRCxFL6+yj0Cf
+         HVML4QIwTP73JZefw3BQzMQtDuoJDWt4PQL1zRF8huP5kzjC738zDyi3eJWPgasladcO
+         5celTvT3sI4Vr9HcZyVm/ec6lP/pEuOP1VUDal10SRy7/cIYw1ln6EFP9RuGa7PcY2WG
+         BLUkuy+3+Una1w5EtwZCFj5UM+JbWMZu37vrN1xGnE6HvHFjLGXtWMp3e/j2uTzhzyXN
+         mDQ98zAMurdm8iEDduSyhI7BtyDRgIWswFto34GK+gUTFUCHDkZOH40zwgjU8bTbloPa
+         FILw==
+Message-ID: <e6b02dffe91fdc670cb4ccfc3460f22b024a3e58.camel@gmail.com>
 Subject: Re: [PATCH] CodeSamples/tree: Fix compiler warning on free
-Message-ID: <bbb2031b-dba8-43b1-bc98-99394aec12c1@paulmck-laptop>
-Reply-To: paulmck@kernel.org
+From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
+Date: Wed, 21 Jun 2023 01:26:07 -0300
+In-Reply-To: <bbb2031b-dba8-43b1-bc98-99394aec12c1@paulmck-laptop>
 References: <20230616063903.207676-3-leobras.c@gmail.com>
- <e90e329664670a8b92a64970310be2ff92b41301.camel@gmail.com>
+	 <e90e329664670a8b92a64970310be2ff92b41301.camel@gmail.com>
+	 <bbb2031b-dba8-43b1-bc98-99394aec12c1@paulmck-laptop>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e90e329664670a8b92a64970310be2ff92b41301.camel@gmail.com>
-List-ID: <perfbook.vger.kernel.org>
-To: Leonardo Bras <leobras.c@gmail.com>
+To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
-On Mon, Jun 19, 2023 at 11:13:32PM -0300, Leonardo Bras wrote:
-> On Fri, 2023-06-16 at 03:39 -0300, Leonardo Bras wrote:
-> > While building the CodeSamples/datastruct/Issaquah/ directory, I can
-> > see
-> > a couple instances of this warning:
-> > 
-> > In function ‘free_treenode_cache’,
-> >     inlined from ‘tree_remove_all’ at tree.c:102:2,
-> >     inlined from ‘tree_free’ at tree.c:128:2:
-> > tree.c:251:9: warning: ‘free’ called on pointer ‘trp’ with nonzero
-> > offset 96 [-Wfree-nonheap-object]
-> >   251 |         free(tnp);
-> >       |         ^~~~~~~~~
-> > 
-> > I took a look and tried to understand what was happening:
-> > - tree_remove_all() calls free_treenode_cache() on it's input, which
-> > ends
-> >   up free()'ing it (!BAD_MALLOC)
-> > - It makes sense in most treenodes, since they are allocated with
-> >   alloc_treenode_cache() and the malloc() output is the same as the
-> > free()
-> >   input.
-> > - tree_free() calls tree_remove_all() on &trp->max, which ends up
-> > trying
-> >   to free() this same address.
-> > - trp is a struct treeroot, which is composed of 2 treenodes: min &
-> > max
-> > - The output of malloc() for trp ends up being different from the
-> > address
-> >   used for free(), since &trp->max is used instead, and there is an
-> > offset
-> >   since max is the second element of struct treeroot.
-> > 
-> > To solve this while keeping the tree_remove_all() generic, move
-> > struct traceroot->max to be the first element, and guarantee the
-> > address
-> > used for free() is the same returned by malloc().
-> 
-> Extra info:
-> 
-> Bug reproduction:
-> https://gitlab.com/linux-kernel/perfbook/-/jobs/4501216686#L212
-> 
-> With bugfix provided in this patch:
-> https://gitlab.com/linux-kernel/perfbook/-/jobs/4485986705
+On Tue, 2023-06-20 at 15:40 -0700, Paul E. McKenney wrote:
+> On Mon, Jun 19, 2023 at 11:13:32PM -0300, Leonardo Bras wrote:
+> > On Fri, 2023-06-16 at 03:39 -0300, Leonardo Bras wrote:
+> > > While building the CodeSamples/datastruct/Issaquah/ directory, I can
+> > > see
+> > > a couple instances of this warning:
+> > >=20
+> > > In function =E2=80=98free_treenode_cache=E2=80=99,
+> > > =C2=A0=C2=A0=C2=A0 inlined from =E2=80=98tree_remove_all=E2=80=99 at =
+tree.c:102:2,
+> > > =C2=A0=C2=A0=C2=A0 inlined from =E2=80=98tree_free=E2=80=99 at tree.c=
+:128:2:
+> > > tree.c:251:9: warning: =E2=80=98free=E2=80=99 called on pointer =E2=
+=80=98trp=E2=80=99 with nonzero
+> > > offset 96 [-Wfree-nonheap-object]
+> > > =C2=A0 251 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 free(tnp=
+);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 ^~~~~~~~~
+> > >=20
+> > > I took a look and tried to understand what was happening:
+> > > - tree_remove_all() calls free_treenode_cache() on it's input, which
+> > > ends
+> > > =C2=A0 up free()'ing it (!BAD_MALLOC)
+> > > - It makes sense in most treenodes, since they are allocated with
+> > > =C2=A0 alloc_treenode_cache() and the malloc() output is the same as =
+the
+> > > free()
+> > > =C2=A0 input.
+> > > - tree_free() calls tree_remove_all() on &trp->max, which ends up
+> > > trying
+> > > =C2=A0 to free() this same address.
+> > > - trp is a struct treeroot, which is composed of 2 treenodes: min &
+> > > max
+> > > - The output of malloc() for trp ends up being different from the
+> > > address
+> > > =C2=A0 used for free(), since &trp->max is used instead, and there is=
+ an
+> > > offset
+> > > =C2=A0 since max is the second element of struct treeroot.
+> > >=20
+> > > To solve this while keeping the tree_remove_all() generic, move
+> > > struct traceroot->max to be the first element, and guarantee the
+> > > address
+> > > used for free() is the same returned by malloc().
+> >=20
+> > Extra info:
+> >=20
+> > Bug reproduction:
+> > https://gitlab.com/linux-kernel/perfbook/-/jobs/4501216686#L212
+> >=20
+> > With bugfix provided in this patch:
+> > https://gitlab.com/linux-kernel/perfbook/-/jobs/4485986705
+>=20
+> Hello, Leo, and apologies for being slow.
+>=20
+> My feeling is that there is a deeper bug involving use of the wrong
+> pointer, as in freeing a pointer to a field of the enclosing structure.
 
-Hello, Leo, and apologies for being slow.
+That's correct.
+I have proposed a hack, which works even though the code is still 'incorrec=
+t'.
 
-My feeling is that there is a deeper bug involving use of the wrong
-pointer, as in freeing a pointer to a field of the enclosing structure.
-What are your thoughts on adjusting things so that the correct pointer
-is freed?  (And no, I have not yet looked at this closely, so there
-might well be a very good reason why my suggestion is bogus.  But I have
-to ask!)
+The thing is that the current code calls tree_remove_all() for &trp->max wh=
+ich
+was malloc'ed as a struct treeroot, unlike the other treenodes, and yet wil=
+l try
+to free trp->max.
 
-							Thanx, Paul
+> What are your thoughts on adjusting things so that the correct pointer
+> is freed?  (And no, I have not yet looked at this closely, so there
+> might well be a very good reason why my suggestion is bogus.  But I have
+> to ask!)
 
-> Thanks,
-> Leo
-> 
-> > 
-> > Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
-> > ---
-> >  CodeSamples/datastruct/Issaquah/tree.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/CodeSamples/datastruct/Issaquah/tree.h
-> > b/CodeSamples/datastruct/Issaquah/tree.h
-> > index f007558a..bbe5e7c1 100644
-> > --- a/CodeSamples/datastruct/Issaquah/tree.h
-> > +++ b/CodeSamples/datastruct/Issaquah/tree.h
-> > @@ -48,8 +48,8 @@ struct treenode {
-> >   * Root of a tree.
-> >   */
-> >  struct treeroot {
-> > -       struct treenode min;
-> >         struct treenode max;
-> > +       struct treenode min;
-> >  } __attribute__((__aligned__(CACHE_LINE_SIZE)));
-> >  
-> >  void treenode_wire_call_rcu(void);
-> 
+Sure, it's possible to do that.
+I will create a helper _tree_remove_all() that does everything except remov=
+e the
+treenode, and call that on trp->max @ tree_free(), as the trp itself is fre=
+ed
+soon after.
 
+Then I will call _tree_remove_all() + free_treenode_cache() at=20
+tree_remove_all(). This should make sure everything is right.
+
+It's a longer change, and I was unsure of how much would be ok to change in=
+ that
+code, but I am happy to provide v2 like this.
+
+I will send the v2 soon.
+
+Thanks,
+Leo
+
+
+>=20
+> 							Thanx, Paul
+>=20
+> > Thanks,
+> > Leo
+> >=20
+> > >=20
+> > > Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
+> > > ---
+> > > =C2=A0CodeSamples/datastruct/Issaquah/tree.h | 2 +-
+> > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/CodeSamples/datastruct/Issaquah/tree.h
+> > > b/CodeSamples/datastruct/Issaquah/tree.h
+> > > index f007558a..bbe5e7c1 100644
+> > > --- a/CodeSamples/datastruct/Issaquah/tree.h
+> > > +++ b/CodeSamples/datastruct/Issaquah/tree.h
+> > > @@ -48,8 +48,8 @@ struct treenode {
+> > > =C2=A0 * Root of a tree.
+> > > =C2=A0 */
+> > > =C2=A0struct treeroot {
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct treenode min;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct treenode max;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct treenode min;
+> > > =C2=A0} __attribute__((__aligned__(CACHE_LINE_SIZE)));
+> > > =C2=A0
+> > > =C2=A0void treenode_wire_call_rcu(void);
+> >=20
+>=20
+>=20
 
