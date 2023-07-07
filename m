@@ -1,20 +1,21 @@
 Return-Path: <SRS0=XIzw=CZ=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688731759; x=1691323759;
+        d=gmail.com; s=20221208; t=1688731954; x=1691323954;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=4T7GA/KFypaCnGG2wBVID5gKyeDfsgTmicRrLVJCWQY=;
-        b=qNuZKx82iFvF2+iEhslstHx79ab9QfUr4F7iiIrvlCX1Sd9fSF7QKl6wWCmcSeNbjn
-         nta14PzqwhTzg6bHrjYahEQWvCwmHwN5N1oj5htzu5UNXcFh41BoVoa56Xfzh1xS7+DH
-         6AGww0FZygqw1VZSaHm5Vke4Kz6pWW4C0lUuLPBR3RZuCAIHY6HYZP00z8SgPua+wL0H
-         Kf6PPtGkpomQ3qAwfhIHjHgB1f624WIjWR4z2I03ioSV5gtjfRmXBDO/mPToOJFSOCcc
-         weMWDayZSE+S+UAWR5CDNvN9C/O1mik4zbRtXTN0mZ6rtJa2NESKSTrppE7FMdbdqYUX
-         ZDQw==
-Message-ID: <54e5b9d0-354c-4663-d37f-67134ad38206@gmail.com>
-Date: Fri, 7 Jul 2023 21:09:17 +0900
+        bh=yYda7W+yaCuQsgI11MvhtYeQkORcTPBeYbf+BHBaNS4=;
+        b=hXzw4qcetPjwjuP1UY4HRKl/doPWU9ETALYlCVgFytXpTSPxuoVdDqArvwfSh6LjEK
+         9d0ydvZ0Jo4ovyZyBQziIj1Zi4fiAeY8pDRpn2aqa2A0DJXeW6dphFB9rVVzMPdkqzTm
+         dRTUCF/mX9RJK4yDZrqwk8nHi9qzxIpXPHGXzllDbpODLxtuG/ZrkXwSI1y4G6xdl+K2
+         mb04djRbk45xsOPZWlVPQ4xXNYsV6lqhMvoY0kmEi40luMwhOn926W/BRkKE3FfHHoQi
+         gLmw0oBhL5edCL0MTvoF+yAKv2eJV+w5Uo93XRPASZJCwj40yhQ38jxmK7dZI1T1v1Zk
+         sqSg==
+Message-ID: <c0624dc5-398e-8bd3-2378-977751648452@gmail.com>
+Date: Fri, 7 Jul 2023 21:12:30 +0900
 MIME-Version: 1.0
-Subject: [PATCH -perfbook 4/7] Silence font warning in sf (sans serif) builds
+Subject: [PATCH -perfbook 5/7] run{first}latex.sh: Reorder checks of fatal
+ error/warning messages
 Content-Language: en-US
 References: <fcac2844-3c91-c6d1-d921-5402eead1cfc@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
@@ -25,72 +26,165 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-There are a couple of warnings in sf (sans serif) builds:
+Testing $exitcode and "!pdfTeX error:" or "Emergency stop" early
+may ignore an earlier warning that tells the reason of such an
+error.
 
-    LaTeX Font Warning: Font shape `T1/qhv/m/sl' in size <7.3> not available
-    (Font)              Font shape `T1/qhv/m/it' tried instead on input line 367.
+Reorder the checks and make the relevant part of the log file be
+printed.
 
-This is because the qhv (Helvetica clone) font family doesn't
-provide slanted shape to be used in the header area of the page
-(chapter and section title) and LaTeX uses its italic shape as a
-fallback.
+$exitcode should be tested as late as possible.
 
-This is OK as italic and slanted shapes would look mostly the same
-for sans-serif font families.
+This improves output when a necessary .sty file is missing:
 
-Suppress the warning by using the silence package.
+before:
 
-Giving "save" option to silence makes it save filtered-out warnings
-in $basename.sil.  This is better than discarding silenced warnings.
+    or enter new name. (Default extension: sty)
 
-Add $basename.sil to .gitignore and Makefile's "clean" target.
+    Enter file name:
+    ! Emergency stop.
+    <read *>
+
+    l.332 \renewcommand
+                       {\sfdefault}{qhv}
+    End of file on the terminal!
+
+    Here is how much of TeX's memory you used:
+    [...]
+
+after:
+
+    LaTeX Info: Redefining \Bbbk on input line 2810.
+    LaTeX Info: Redefining \not on input line 2959.
+    )
+
+    ! LaTeX Error: File `biolinum.sty' not found.
+
+    Type X to quit or <RETURN> to proceed,
+    or enter new name. (Default extension: sty)
+
+    Enter file name:
+    ! Emergency stop.
+    [...]
+
+Subsequent runs of latex can also abort due to, e.g., a typo in .bib.
+Keep tests of "Emergency stop." and $exitcode in runlatex.sh to
+catch such errors.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- .gitignore      | 1 +
- Makefile        | 1 +
- perfbook-lt.tex | 4 ++++
- 3 files changed, 6 insertions(+)
+ utilities/runfirstlatex.sh | 34 +++++++++++++++++++++-------------
+ utilities/runlatex.sh      | 18 ++++++------------
+ 2 files changed, 27 insertions(+), 25 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-index 1604a4d8c5b1..fa20ccb5de94 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -45,6 +45,7 @@ autodate.tex
- /perfbook*.gls
- /perfbook*.glsdefs
- /perfbook*.ist
-+/perfbook*.sil
- extraction
- embedfonts
- CodeSamples/snippets.d
-diff --git a/Makefile b/Makefile
-index 6a389089e38c..bffdd2da1f4d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -597,6 +597,7 @@ clean:
- 	rm -f perfbook*.idx perfbook*.ind perfbook*.ilg perfbook*.ist
- 	rm -f perfbook*.acn perfbook*.acr perfbook*.alg
- 	rm -f perfbook*.glg perfbook*.glo perfbook*.gls perfbook*.glsdefs
-+	rm -f perfbook*.sil
- 	rm -f CodeSamples/snippets.d
- 	rm -f *.synctex*
- 	@rm -f $(OBSOLETE_FILES) $(EPSSOURCES_TMP)
-diff --git a/perfbook-lt.tex b/perfbook-lt.tex
-index 842e0fc6b924..fdfde1953225 100644
---- a/perfbook-lt.tex
-+++ b/perfbook-lt.tex
-@@ -330,6 +330,10 @@
- \renewcommand{\familydefault}{\sfdefault}
- \normalfont
- \usepackage[slantedGreek,scaled=.96]{newtxsf}
-+% Silence inevitable warnings on missing slanted shape
-+\RequirePackage[save]{silence}
-+\WarningFilter[sansslant]{latexfont}{Font shape `T1/qhv/m/sl'}
-+\ActivateWarningFilters[sansslant]
- }{
- \usepackage[slantedGreek]{newtxmath} % math package to be used with newtxtext
- % Poor person's slanted shape for roman --- newtxtext lacks slanted shape
+diff --git a/utilities/runfirstlatex.sh b/utilities/runfirstlatex.sh
+index f12f14886747..a89e8a70ab69 100644
+--- a/utilities/runfirstlatex.sh
++++ b/utilities/runfirstlatex.sh
+@@ -22,7 +22,7 @@
+ #
+ # Copyright (C) IBM Corporation, 2012-2019
+ # Copyright (C) Facebook, 2019
+-# Copyright (C) Akira Yokosawa, 2016
++# Copyright (C) Akira Yokosawa, 2016, 2023
+ #
+ # Authors: Paul E. McKenney <paulmck@us.ibm.com>
+ #          Akira Yokosawa <akiyks@gmail.com>
+@@ -72,11 +72,6 @@ basename=`echo $1 | sed -e 's/\.tex$//'`
+ echo "$LATEX 1 for $basename.pdf"
+ $LATEX $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null
+ exitcode=$?
+-if [ $exitcode -ne 0 ]; then
+-	tail -n 20 $basename.log
+-	echo "\n!!! $LATEX aborted !!!"
+-	exit $exitcode
+-fi
+ if grep -q 'LaTeX Warning: You have requested' $basename.log
+ then
+ 	grep -A 4 'LaTeX Warning: You have requested' $basename.log
+@@ -84,21 +79,34 @@ then
+ 	echo "### See items 9 and 10 in FAQ-BUILD.txt for how to update.          ###"
+ 	exit 1
+ fi
+-if [ $DETECTED_BUGGY -eq 1 ]; then
+-	exit 1
++if grep -q 'LaTeX Error:' $basename.log
++then
++	echo "----- !!! Fatal latex error !!! -----"
++	grep -B 5 -A 8 'LaTeX Error:' $basename.log
++	echo "----- See $basename.log for the full log. -----"
++	exit 2
+ fi
+-if grep -q '! Emergency stop.' $basename.log
++if grep -q 'pdfTeX error:' $basename.log
+ then
+-	grep -B 15 -A 5 '! Emergency stop.' $basename.log
+-	echo "----- Fatal latex error, see $basename.log for details. -----"
++	echo "----- !!! Fatal pdfTeX error !!! -----"
++	grep -B 10 -A 8 '!pdfTeX error:' $basename.log
++	echo "----- See $basename.log for the full log. -----"
+ 	exit 2
+ fi
+-if grep -q '!pdfTeX error:' $basename.log
++if grep -q '! Emergency stop.' $basename.log
+ then
+-	grep -A 2 '!pdfTeX error:' $basename.log
++	grep -B 10 -A 5 '! Emergency stop.' $basename.log
+ 	echo "----- Fatal latex error, see $basename.log for details. -----"
+ 	exit 2
+ fi
++if [ $exitcode -ne 0 ]; then
++	tail -n 20 $basename.log
++	echo "\n!!! $LATEX aborted !!!"
++	exit $exitcode
++fi
++if [ $DETECTED_BUGGY -eq 1 ]; then
++	exit 1
++fi
+ grep 'LaTeX Warning:' $basename.log > $basename-warning.log
+ touch $basename-first.log
+ exit 0
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index e23bc87ba978..b146da20559f 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -24,7 +24,7 @@
+ #
+ # Copyright (C) IBM Corporation, 2012-2019
+ # Copyright (C) Facebook, 2019
+-# Copyright (C) Akira Yokosawa, 2016, 2017
++# Copyright (C) Akira Yokosawa, 2016, 2017, 2023
+ #
+ # Authors: Paul E. McKenney <paulmck@us.ibm.com>
+ #          Akira Yokosawa <akiyks@gmail.com>
+@@ -78,22 +78,16 @@ iterate_latex () {
+ 	makeglossaries $basename > /dev/null 2>&1
+ 	$LATEX $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null
+ 	exitcode=$?
+-	if [ $exitcode -ne 0 ]; then
+-		tail -n 20 $basename.log
+-		echo "\n!!! $LATEX aborted !!!"
+-		exit $exitcode
+-	fi
+ 	if grep -q '! Emergency stop.' $basename.log
+ 	then
+-		grep -B 15 -A 5 '! Emergency stop.' $basename.log
++		grep -B 10 -A 5 '! Emergency stop.' $basename.log
+ 		echo "----- Fatal latex error, see $basename.log for details. -----"
+ 		exit 2
+ 	fi
+-	if grep -q '!pdfTeX error:' $basename.log
+-	then
+-		grep -A 2 '!pdfTeX error:' $basename.log
+-		echo "----- Fatal latex error, see $basename.log for details. -----"
+-		exit 2
++	if [ $exitcode -ne 0 ]; then
++		tail -n 20 $basename.log
++		echo "\n!!! $LATEX aborted !!!"
++		exit $exitcode
+ 	fi
+ 	if test -r $basename-warning.log
+ 	then
 -- 
 2.25.1
 
