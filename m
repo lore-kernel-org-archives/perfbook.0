@@ -1,58 +1,116 @@
 Return-Path: <SRS0=mW18=DA=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689343661; x=1691935661;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UZcqFYKn0AfWyE4jBxSqQchhYCBmjX38O57Sb+kUsqM=;
-        b=Ys24viaJSYVRZhKgl05vVt3oh97utu3W1h6aPumtmnkCzwAZfcpduYXcMMiPWc5C4L
-         YUu7JrUSuf4ivQEbn2ru4MQoiqGT+gH092vdI6LfNumhuhd2oWcNgDjjLnjpjXTqaZm9
-         0mXzJkOu6Ms4AkgUo+PG6FhCVwWPKF0AEBggynfDDvsqb1nucnap8OYm/1w+xPmAxsKj
-         PuQ3b5vCBMfxAbBSia8zoOjieOk6mWWig98bDVsRdeP98oD0hAQ7PkHa87RSg8DCul1l
-         DjrhojjLheQ+WXZNgzOtcw9+mlkVX7p9slsJ/nBHBt6O1SqtMkpmDu0bzSrLvWmUG52I
-         g9BA==
-Message-ID: <f8a28118-e3e4-d3ef-faa6-6c874e5c463a@gmail.com>
-Date: Fri, 14 Jul 2023 23:07:37 +0900
+        d=gmail.com; s=20221208; t=1689343762; x=1691935762;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=psbJudpoW9OGZCck23hC1nbj8LEezmGP3QW4Tdb5gwU=;
+        b=CQoHxYFMC6Q/EqA+Ebs4HAktxBp/eibWC5nAd1GvOdjQshf1Ku8XxjpeocA1A6EJef
+         dxX67MdDRHOLb1rDjyC8HvPnzaP+iAysuHCSEFuPTVewFcbMs5cJEsuAJu9FrZYbWuN2
+         xg0Cs0hvMxwkRL8DHQMQev6ZJP/t+uaYixQlj8REWpoxIx1DTrUK9cjHJXgsXb5GGGs1
+         BVhzaDlXoozglEtygdp2wPnfq2y5FMW7NvmHXt3vZ608pOtlxvGRX+6ExKNctpkHGGW3
+         RwmyDPPlBPQJ2YBgCxzRliu2R6xGsP0Ft4s35ivqDZlY+Nq/C7mZbQsvhw9xndPu/lXj
+         Bs/g==
+Message-ID: <4ac5f652-6b9d-ebfb-0f06-4459d955819a@gmail.com>
+Date: Fri, 14 Jul 2023 23:09:19 +0900
 MIME-Version: 1.0
+Subject: [PATCH -perfbook 2/2] SMPdesign: Specify sans-serif font in pstricks
+ figures
 Content-Language: en-US
+References: <f8a28118-e3e4-d3ef-faa6-6c874e5c463a@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 1/2] Don't run fixfonts for pstricks figures
+In-Reply-To: <f8a28118-e3e4-d3ef-faa6-6c874e5c463a@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-fixfonts scripts don't have any effect on EPS files generated
-from pstricks + dvips.
+The newtxtext package provides Helvetica-clone for sans-serif
+font family.
 
-Font in the figures should be specified in the source .tex files.
+As most other figures have sans-serif fonts with the help of fixfonts
+scripts, use it in pstricks figures for consistency.
+
+Compensate the slightly smaller look of the labels by using \large.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile | 2 --
- 1 file changed, 2 deletions(-)
+ SMPdesign/DiningPhilosopher4part-b.tex | 3 +++
+ SMPdesign/DiningPhilosopher5.tex       | 3 +++
+ SMPdesign/DiningPhilosopher5PEM.tex    | 3 +++
+ SMPdesign/DiningPhilosopher5TB.tex     | 3 +++
+ 4 files changed, 12 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index bffdd2da1f4d..f25baf27d8ad 100644
---- a/Makefile
-+++ b/Makefile
-@@ -414,13 +414,11 @@ perfbook-a4.tex:
+diff --git a/SMPdesign/DiningPhilosopher4part-b.tex b/SMPdesign/DiningPhilosopher4part-b.tex
+index 1a90f8105d5c..2d1c307ef7c0 100644
+--- a/SMPdesign/DiningPhilosopher4part-b.tex
++++ b/SMPdesign/DiningPhilosopher4part-b.tex
+@@ -5,9 +5,12 @@
+ \usepackage{pst-eps}
+ \usepackage{multido}
+ \usepackage{calc}
++\usepackage[helvratio=0.9]{newtxtext}
++\renewcommand{\familydefault}{\sfdefault}
  
- # Rules related to perfbook_html are removed as of May, 2016
+ \begin{document}
+ \thispagestyle{empty}
++\large
  
--$(EPSSOURCES_FROM_TEX): $(FIXANEPSFONTS) $(FIXFONTS)
- $(EPSSOURCES_FROM_TEX): %.eps: %.tex
- 	@echo "$< --> $(suffix $@)"
- 	sh utilities/mpostcheck.sh
- 	@latex -output-directory=$(shell dirname $<) $< > /dev/null 2>&1
- 	@dvips -Pdownload35 -E $(patsubst %.tex,%.dvi,$<) -o $@ > /dev/null 2>&1
--	@sh $(FIXANEPSFONTS) $@
+ \begin{TeXtoEPS}
+ \begin{pspicture}(12,10)
+diff --git a/SMPdesign/DiningPhilosopher5.tex b/SMPdesign/DiningPhilosopher5.tex
+index 08e6931846e6..a892f11bc42d 100644
+--- a/SMPdesign/DiningPhilosopher5.tex
++++ b/SMPdesign/DiningPhilosopher5.tex
+@@ -5,9 +5,12 @@
+ \usepackage{pst-eps}
+ \usepackage{multido}
+ \usepackage{calc}
++\usepackage[helvratio=0.9]{newtxtext}
++\renewcommand{\familydefault}{\sfdefault}
  
- $(EPSSOURCES_FROM_DOT): $(FIXANEPSFONTS) $(FIXFONTS)
- $(EPSSOURCES_FROM_DOT): %.eps: %.dot
-
-base-commit: b48ccb045d17f6d551ff210c74118f1769f66c63
+ \begin{document}
+ \thispagestyle{empty}
++\large
+ 
+ \begin{TeXtoEPS}
+ \begin{pspicture}(12,10)
+diff --git a/SMPdesign/DiningPhilosopher5PEM.tex b/SMPdesign/DiningPhilosopher5PEM.tex
+index 25aee7a401a1..55db3773608c 100644
+--- a/SMPdesign/DiningPhilosopher5PEM.tex
++++ b/SMPdesign/DiningPhilosopher5PEM.tex
+@@ -5,9 +5,12 @@
+ \usepackage{pst-eps}
+ \usepackage{multido}
+ \usepackage{calc}
++\usepackage[helvratio=0.9]{newtxtext}
++\renewcommand{\familydefault}{\sfdefault}
+ 
+ \begin{document}
+ \thispagestyle{empty}
++\large
+ 
+ \begin{TeXtoEPS}
+ \begin{pspicture}(12,10)
+diff --git a/SMPdesign/DiningPhilosopher5TB.tex b/SMPdesign/DiningPhilosopher5TB.tex
+index fcf96e9dee84..c2015991cd5e 100644
+--- a/SMPdesign/DiningPhilosopher5TB.tex
++++ b/SMPdesign/DiningPhilosopher5TB.tex
+@@ -5,9 +5,12 @@
+ \usepackage{pst-eps}
+ \usepackage{multido}
+ \usepackage{calc}
++\usepackage[helvratio=0.9]{newtxtext}
++\renewcommand{\familydefault}{\sfdefault}
+ 
+ \begin{document}
+ \thispagestyle{empty}
++\large
+ 
+ \begin{TeXtoEPS}
+ \begin{pspicture}(12,10)
 -- 
 2.25.1
+
 
