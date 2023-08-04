@@ -1,17 +1,17 @@
 Return-Path: <SRS0=UaWh=DV=redhat.com=lsoaresp@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1691171226;
+	s=mimecast20190719; t=1691170926;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding;
 	bh=h7c4rU1aXj49stewIMxLpk2m9mj+O6xhB/kDpzZDMOo=;
-	b=L1v99kYozw4nimLCR8SbcHljTHF6h1s7EQJVLfeBYxtDl63upPvWJTUXFU/zchIE4uRmMK
-	ongsn5cGBI6aQbpVPGZw4TeLGm0aUxDlj/IVi6S3qcCA2g1T5tM7Z1iSdj7kHrPxej+L/G
-	S0MtgUVgWCk14sdJH/IsIrAHUYy6CXQ=
+	b=eiGUn9p20KX9mSrdG4URXFlHB4T3cu0R17cmA37yoZ70L0V2YnaQZ/olwTLkB72RvMFczR
+	nmrCVu/+WcXZtxbRhJhEG4/SFtoGyHo/A9usdQ0zXSxD3zOoME8P9m1SRkbLe1G5jupZBq
+	kdHJFDrrG1Uw3KJt4y5ZyWUQnkz/YI0=
 From: Leonardo Bras <lsoaresp@redhat.com>
 Subject: [PATCH] utilities/gitlab-ci: Fully update system before building
-Date: Fri,  4 Aug 2023 14:46:38 -0300
-Message-ID: <20230804174638.1142845-2-leobras.c@gmail.com>
+Date: Fri,  4 Aug 2023 14:41:34 -0300
+Message-ID: <20230804174136.1142358-1-leobras.c@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
