@@ -1,100 +1,73 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjHFEzC (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sun, 6 Aug 2023 00:55:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 463D81FE4
-        for <perfbook@vger.kernel.org>; Sat,  5 Aug 2023 21:55:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 09D7160EC3
-        for <perfbook@vger.kernel.org>; Sun,  6 Aug 2023 04:55:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691297699;
-        bh=o73cpT/pJtoM17QB9qPDO/D+LVebcfTpdy5+KDsbir4=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=XqMuqlQxfvZp2Dkto5UBDaBnC53ZtJ334DTOmZ7DGFzNVP0ivBCxk+H3hG3pd96OQ
-         pADsr1hLqJ+lObjBJW7RgtH5tECLBCmO5Z86Lcf6qSHtnXlVWHg7c9EL3v0unZtXjX
-         zGjMsLaJ+bnENWfrZeBjab418vspeE6r9gp7N7Zs+dzo5RIowbGoE10i0U64trgCvX
-         O67E6FzOxqK06oMPxEHWdzrFxGtBYwJQCe6hfOFmexGg9ifM/t0EqGCuqkn01RLfX/
-         3EhbXg+NmPZCBrE/MPVkH6kRnsgFMADLL2qKrzcpYPHPJ2GzTP2+nR/E0ieWbI80zB
-         XPbFFp+QmEOkQ==
-Date: Sat, 5 Aug 2023 21:54:59 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] utilities/gitlab-ci: Fully update system before building
-Message-ID: <fbf1bc6f-892e-4cda-b78c-e551a2c88cd2@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20230804174638.1142845-2-leobras.c@gmail.com>
- <d5e9d874f3c432e49c7c824160ced4cbd250f28e.camel@gmail.com>
- <033be4b7-9403-4886-ab52-d704871d93ac@paulmck-laptop>
- <71946ccabc9534a3de1ded5cf659d90ee72285e7.camel@gmail.com>
+Return-Path: <SRS0=2H1n=D5=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691829706; x=1692434506;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i4RXf4y4zVdFprxffUyxP+lH4uRzmbdfzJnYe7qaPbE=;
+        b=nOscP11yt3gm06TUYOI8INQwkC+s05zCcpI32ww3uMp+lPdM0UJVbpxNcM96HU0wEB
+         o9GUIqbc17Y70vc386smFcGsAPhMmWKau19VbgoynYMjiCUfkrgjNQawFFrprd+YiMDO
+         eDwT21hudvQMEc21403WtVxh6fDkUO31ICW4nBdaoPuVfd46wF+lwvyVzp7/UPwo4Ccl
+         ieMKdPKrquKrFazorL+PI75FLCfCglh+3o+vFslqiY/jRV/nNwJR6bYCpTkEfBFR0+px
+         i2+cn6iBiCN3ncm9vTbThw7RwpN7sJclHD9WLWdXFdFhHsfRnG0ifDkzl53I5XYhypXU
+         UEcw==
+Message-ID: <bfc20978-26e4-8fa1-28a7-894dc8728615@gmail.com>
+Date: Sat, 12 Aug 2023 17:41:36 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <71946ccabc9534a3de1ded5cf659d90ee72285e7.camel@gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 1/4] bib/hw: Update CSIRAC entries
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Leonardo =?iso-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
-Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
 
-On Sat, Aug 05, 2023 at 12:16:04AM -0300, Leonardo Br=E1s wrote:
-> On Fri, 2023-08-04 at 11:05 -0700, Paul E. McKenney wrote:
-> > On Fri, Aug 04, 2023 at 02:53:04PM -0300, Leonardo Br=E1s wrote:
-> > > On Fri, 2023-08-04 at 14:46 -0300, Leonardo Bras wrote:
-> > > > Some recent CI errors come from the incompatibility between packages
-> > > > pre-installed in the docker image and the ones installed via pacman.
-> > > >=20
-> > > > To avoid this, make a full system upgrade when installing the needed
-> > > > packages.
-> > > >=20
-> > > > Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
-> > > > ---
-> > > >  utilities/gitlab-ci.yml | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > >=20
-> > > > diff --git a/utilities/gitlab-ci.yml b/utilities/gitlab-ci.yml
-> > > > index 544b9373..bcda8712 100644
-> > > > --- a/utilities/gitlab-ci.yml
-> > > > +++ b/utilities/gitlab-ci.yml
-> > > > @@ -9,7 +9,7 @@ test_codesamples:
-> > > >      stage: test
-> > > > =20
-> > > >      before_script:
-> > > > -        - pacman --noconfirm -Sy make gcc liburcu
-> > > > +        - pacman --noconfirm -Syu make gcc liburcu
-> > > > =20
-> > > >      script:
-> > > >          - make -C CodeSamples/
-> > > > @@ -19,7 +19,7 @@ generate_pdfs:
-> > > >      stage: build
-> > > > =20
-> > > >      before_script:
-> > > > -        - pacman --noconfirm -Sy texlive-meta fig2dev ghostscript =
-graphviz inkscape wget make which fontconfig git ttf-dejavu gnu-free-fonts =
-ttf-liberation
-> > > > +        - pacman --noconfirm -Syu texlive-meta fig2dev ghostscript=
- graphviz inkscape wget make which fontconfig git ttf-dejavu gnu-free-fonts=
- ttf-liberation
-> > > >          - mkdir -p ~/.local/share/fonts && cp fonts/steel-city-com=
-ic.regular.ttf ~/.local/share/fonts/ && fc-cache
-> > > > =20
-> > > >      script:
-> > >=20
-> > > Sorry about resending.=20
-> > > I had an issue with credentials, please ignore the ones sent from my =
-employer
-> > > account: the gmail is the correct one.
-> >=20
-> > Ah, I queued the wrong one.  I updated it and pushed it out, could you
-> > please double check?
->=20
-> Yeap, it's correct. Thanks!
->=20
-> (Sorry about the overhead)
+Museum Victoria Australia's web site was reorganized in 2020.
+It has a nice "CSIRAC Collection" page now.
+The page at University of Melboune was also expanded in 2017.
 
-No problem, as long as we have it set up correctly.  ;-)
+Update their bibliographic info.
 
-							Thanx, Paul
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ bib/hw.bib | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/bib/hw.bib b/bib/hw.bib
+index 164af19a5ebf..6b35552ba94f 100644
+--- a/bib/hw.bib
++++ b/bib/hw.bib
+@@ -145,20 +145,20 @@ and technical workloads.
+ 
+ @unpublished{CSIRACMuseumVictoria,
+  Author="{Museum Victoria Australia}",
+- Title="{CSIRAC}: {Australia's} First Computer",
+- year="2004",
++ Title="{CSIRAC} Collection",
++ year="2020?",
+  note="URL:
+-\url{http://museumvictoria.com.au/csirac/}",
+- lastchecked="November 14, 2016",
++\url{https://collections.museumsvictoria.com.au/articles/3145}",
++ lastchecked="August 10, 2023",
+ }
+ 
+ @unpublished{CSIRACUniversityMelbourne,
+  Author="{Department of Computing and Information Systems, University
+ of Melbourne}",
+- Title="{CSIRAC}",
+- year="2006",
++ Title="{CSIRAC}: Our first computer",
++ year="2017?",
+  note="\url{https://cis.unimelb.edu.au/about/csirac/}",
+- lastchecked="February 27, 2021",
++ lastchecked="August 10, 2023",
+ }
+ 
+ @unpublished{z80Wikipedia,
+
+base-commit: 11e363b6d3d9c6df03067807beff2262d0654a69
+-- 
+2.25.1
+
