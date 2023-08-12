@@ -1,55 +1,92 @@
-Return-Path: <SRS0=2H1n=D5=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691830221; x=1692435021;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=w5WINy6glqMzKxFnG6C4WGyCpZjx20ogYRbE77GP7qc=;
-        b=F8NsTTKeURLh5T/jLLjnD24VcJdxkv6TRwix8Y9xe7MPHoQ4TE8K7k7aGJnUms3lJm
-         w+LGhHREU5Egz4W59/lHRMb+VxIgF1bdX7zGixjAHq7n71EXzTj4VR69FcqH62FNN8T1
-         F1fnOc+kdO7NEGO/eIs3dzrngXG4ni3JuoMyv8vv/WPSrvxHDYy6oVH0UMwizEYijFF/
-         5f9jz68uxCUKmRn1l/8QYwwhvaRIGiStOQELSMRUMlu0e+0Lph6yuqvylMKnfrqyzEHs
-         FVVHssPtK5VXH3pj40sBMhCUc/xb084zRvxvrwHMjlgHle36heKXWsYTnADE/WpyDi/2
-         yH2g==
-Message-ID: <02da2982-e706-02a7-bb96-92bcd510c8b3@gmail.com>
-Date: Sat, 12 Aug 2023 17:50:16 +0900
-MIME-Version: 1.0
-Subject: [PATCH -perfbook 4/4] bib/hw: Declare URL of MichaelLyons05a as
- broken
-Content-Language: en-US
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38686 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229512AbjHLW5y (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sat, 12 Aug 2023 18:57:54 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB90D10CE
+        for <perfbook@vger.kernel.org>; Sat, 12 Aug 2023 15:57:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 575A361D51
+        for <perfbook@vger.kernel.org>; Sat, 12 Aug 2023 22:57:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691881073;
+        bh=TXZ85adu10wgjKzf8wnds8xtX7AjUQL3ktNID65tl/I=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=rGZb/OHktcoW13p/UzVyKgvdVTsDfDQUAMfVGTMooaST2S4Pg3lGOF0ki5M/amkGX
+         w2e/XqqQ9Rz23gTeiaJDIlBwWyhWnOC+e+oGQDmcUfilBHgCQh7MXCL7jypFIoqBMk
+         /Zy2x6k3EiWpchImcHHh12qo3jP2UnkJUwraEUmx5L6to6riEzB/s+WtBdPXp79d2t
+         J2jo528DKY/f3GbmyaU0GtF2WMf4FpqFyZdk9MqlwRaVmKKH7bUWJlxD6USGReY/Wj
+         9RILnxgA4xKFqbblfko0SOoaXj2WEx1xmGT6toMXJtZRRIGK15uq+PkEd3IE35ddwH
+         ayM4nu14VGExQ==
+Date: Sat, 12 Aug 2023 15:57:52 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH -perfbook 1/4] bib/hw: Update CSIRAC entries
+Message-ID: <e0e94277-b8e2-4da5-bc63-615e390c9cdc@paulmck-laptop>
+Reply-To: paulmck@kernel.org
 References: <bfc20978-26e4-8fa1-28a7-894dc8728615@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <bfc20978-26e4-8fa1-28a7-894dc8728615@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Looks like there is no way to see the article of 2005.
+On Sat, Aug 12, 2023 at 05:41:36PM +0900, Akira Yokosawa wrote:
+> Museum Victoria Australia's web site was reorganized in 2020.
+> It has a nice "CSIRAC Collection" page now.
+> The page at University of Melboune was also expanded in 2017.
+> 
+> Update their bibliographic info.
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-web.archive.org doesn't help here...
+Very nice!!!  Queued and pushed, thank you!
 
---
- bib/hw.bib | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+							Thanx, Paul
 
-diff --git a/bib/hw.bib b/bib/hw.bib
-index 905e3f7d9ebe..b0885e746d2f 100644
---- a/bib/hw.bib
-+++ b/bib/hw.bib
-@@ -380,7 +380,7 @@ System Programming",
-  month="November",
-  year="2005",
-  day="16",
-- note="\url{http://www.ibm.com/developerworks/systems/articles/powerpc.html}",
-+ note="\nolinkurl{http://www.ibm.com/developerworks/systems/articles/powerpc.html} [broken, August 2023]",
- }
- 
- @unpublished{IBMzSeries04a,
--- 
-2.25.1
-
-
+> ---
+>  bib/hw.bib | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/bib/hw.bib b/bib/hw.bib
+> index 164af19a5ebf..6b35552ba94f 100644
+> --- a/bib/hw.bib
+> +++ b/bib/hw.bib
+> @@ -145,20 +145,20 @@ and technical workloads.
+>  
+>  @unpublished{CSIRACMuseumVictoria,
+>   Author="{Museum Victoria Australia}",
+> - Title="{CSIRAC}: {Australia's} First Computer",
+> - year="2004",
+> + Title="{CSIRAC} Collection",
+> + year="2020?",
+>   note="URL:
+> -\url{http://museumvictoria.com.au/csirac/}",
+> - lastchecked="November 14, 2016",
+> +\url{https://collections.museumsvictoria.com.au/articles/3145}",
+> + lastchecked="August 10, 2023",
+>  }
+>  
+>  @unpublished{CSIRACUniversityMelbourne,
+>   Author="{Department of Computing and Information Systems, University
+>  of Melbourne}",
+> - Title="{CSIRAC}",
+> - year="2006",
+> + Title="{CSIRAC}: Our first computer",
+> + year="2017?",
+>   note="\url{https://cis.unimelb.edu.au/about/csirac/}",
+> - lastchecked="February 27, 2021",
+> + lastchecked="August 10, 2023",
+>  }
+>  
+>  @unpublished{z80Wikipedia,
+> 
+> base-commit: 11e363b6d3d9c6df03067807beff2262d0654a69
+> -- 
+> 2.25.1
+> 
