@@ -1,92 +1,68 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38686 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjHLW5y (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sat, 12 Aug 2023 18:57:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB90D10CE
-        for <perfbook@vger.kernel.org>; Sat, 12 Aug 2023 15:57:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 575A361D51
-        for <perfbook@vger.kernel.org>; Sat, 12 Aug 2023 22:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691881073;
-        bh=TXZ85adu10wgjKzf8wnds8xtX7AjUQL3ktNID65tl/I=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=rGZb/OHktcoW13p/UzVyKgvdVTsDfDQUAMfVGTMooaST2S4Pg3lGOF0ki5M/amkGX
-         w2e/XqqQ9Rz23gTeiaJDIlBwWyhWnOC+e+oGQDmcUfilBHgCQh7MXCL7jypFIoqBMk
-         /Zy2x6k3EiWpchImcHHh12qo3jP2UnkJUwraEUmx5L6to6riEzB/s+WtBdPXp79d2t
-         J2jo528DKY/f3GbmyaU0GtF2WMf4FpqFyZdk9MqlwRaVmKKH7bUWJlxD6USGReY/Wj
-         9RILnxgA4xKFqbblfko0SOoaXj2WEx1xmGT6toMXJtZRRIGK15uq+PkEd3IE35ddwH
-         ayM4nu14VGExQ==
-Date: Sat, 12 Aug 2023 15:57:52 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook 1/4] bib/hw: Update CSIRAC entries
-Message-ID: <e0e94277-b8e2-4da5-bc63-615e390c9cdc@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <bfc20978-26e4-8fa1-28a7-894dc8728615@gmail.com>
+Return-Path: <SRS0=btZ8=ED=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692403061; x=1693007861;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5OEABOOR3NTkXiMI+1dVx0YQPUI/ppZwp5Hzy5rpoj8=;
+        b=swYhS3FsKeeTpXxNq2WoVRJBF1eVO9vQFnOp0SPiSsJ2foTCKKmkxkVbfyC8u/JC6m
+         75iW6v78kQ5l4lWV3PRkAPBrndUYUJWqjXFgDBADv3CIsnkXL8d4oUkM7aick2n/1RyR
+         xm1jlm2tQekemz5vWMmY7kOrpWjuNuyNXmDtDbUovlccZ4J+ELGl11b3zI0Uc3u4DNc6
+         V8Wy9NOipqZj0jHsKsNGIIwlFjJ4MJFYMPfaQ0hoF7oOGhpd0rAiuT4gK4QH58yAfP6+
+         J7+8uoBqqDnyzpD7Abp+oc3Lz6uT2j1VF2ONZtfPauQmRSHQO/MBT223Ky2ZYwKb8dNH
+         q0YA==
+Message-ID: <bcfc8abd-05e4-2700-982e-e0cbd401fc1a@gmail.com>
+Date: Sat, 19 Aug 2023 08:57:38 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bfc20978-26e4-8fa1-28a7-894dc8728615@gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 1/2] qqz.sty: Work around orphaned section heading
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
 
-On Sat, Aug 12, 2023 at 05:41:36PM +0900, Akira Yokosawa wrote:
-> Museum Victoria Australia's web site was reorganized in 2020.
-> It has a nice "CSIRAC Collection" page now.
-> The page at University of Melboune was also expanded in 2017.
-> 
-> Update their bibliographic info.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+In ebook-size builds, tcolorbox occasionally complains:
 
-Very nice!!!  Queued and pushed, thank you!
+    Package tcolorbox Warning: Using nobreak failed. Try to enlarge
+    `lines before break' or set page breaks manually on input line
+    xxxx.
 
-							Thanx, Paul
+This warning is accompanied by an unfortunate page/column break just
+below a section heading in Appendix E.
 
-> ---
->  bib/hw.bib | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/bib/hw.bib b/bib/hw.bib
-> index 164af19a5ebf..6b35552ba94f 100644
-> --- a/bib/hw.bib
-> +++ b/bib/hw.bib
-> @@ -145,20 +145,20 @@ and technical workloads.
->  
->  @unpublished{CSIRACMuseumVictoria,
->   Author="{Museum Victoria Australia}",
-> - Title="{CSIRAC}: {Australia's} First Computer",
-> - year="2004",
-> + Title="{CSIRAC} Collection",
-> + year="2020?",
->   note="URL:
-> -\url{http://museumvictoria.com.au/csirac/}",
-> - lastchecked="November 14, 2016",
-> +\url{https://collections.museumsvictoria.com.au/articles/3145}",
-> + lastchecked="August 10, 2023",
->  }
->  
->  @unpublished{CSIRACUniversityMelbourne,
->   Author="{Department of Computing and Information Systems, University
->  of Melbourne}",
-> - Title="{CSIRAC}",
-> - year="2006",
-> + Title="{CSIRAC}: Our first computer",
-> + year="2017?",
->   note="\url{https://cis.unimelb.edu.au/about/csirac/}",
-> - lastchecked="February 27, 2021",
-> + lastchecked="August 10, 2023",
->  }
->  
->  @unpublished{z80Wikipedia,
-> 
-> base-commit: 11e363b6d3d9c6df03067807beff2262d0654a69
-> -- 
-> 2.25.1
-> 
+Make such ugly breaks less likely by enclosing the \section command
+with a pair of pagebreak/nopagebreak hints.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+--
+You need to be very lucky to observe this issue.  At the moment,
+you can observe it in perfbook-ebsf.pdf built on Ubuntu 22.04.
+Section E.18's heading goes to the bottom of page 1277.
+
+This change makes it go to the top of page 1278.
+--
+ qqz.sty | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/qqz.sty b/qqz.sty
+index 5c7eb5340194..74ee0566b1c2 100644
+--- a/qqz.sty
++++ b/qqz.sty
+@@ -223,8 +223,9 @@
+ %% Internal interfaces generated by scripts.
+ 
+ \newcommand{\QuickQAC}[3]{
++	\pagebreak[3]
+ 	\edef\QuickQuizAnswerChapter{\getrefnumber{#1}}
+-	\section{#2}}
++	\section{#2}\nopagebreak}
+ 
+ \IfNoQqz{
+ \newcommand{\QuickQQC}[3]{
+
+base-commit: 54b77242aac76979b8bbb832809b55736167bf5e
+-- 
+2.25.1
+
