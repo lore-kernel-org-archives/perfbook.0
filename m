@@ -1,70 +1,73 @@
-Return-Path: <SRS0=1fyB=E2=gmail.com=akiyks@kernel.org>
+Return-Path: <SRS0=cfv5=E3=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694333082; x=1694937882; darn=kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iDbvC6/NSjGZPrxbzQFRno+0AaboPgTj0O7rskheBLE=;
-        b=AdWsNgHZOzPH6nDNN0VgNQcM9vHFgO1oK8cO1APleJ4E0OQfxfNaTV+cgcYyVRQDFP
-         u2pHStT3o2LvD7cycxB+xAxHBraFDrOEP/vcS5gASXpe17uDeepJ3w0/EEI6HXR0FAOL
-         sZNcKtHg5iKUrYaa72KpS0z1Rsv6DX5mW1liAGec6DlQ96XhBXFnpWjsrilhDEx74GuX
-         UNt6I9/4I1RH0M7TmRLKdzsq0jONGWx67pp1wyHQnJjfb8TF29tenopcHaYMzp9ub0h1
-         8yJXDofTH7FC0zAR7KAhGx2vC7xOPU7dHoH9d6PzFhOxJq1huhfGr98AwlCiyEksgK+x
-         /pWA==
-Message-ID: <9f1664e3-61d4-de57-2adc-5d17d614b133@gmail.com>
-Date: Sun, 10 Sep 2023 17:04:38 +0900
+        d=gmail.com; s=20221208; t=1694405056; x=1695009856; darn=kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=grivCWomooWcRBLaDDCYNQN4sH9p8EVDO/bmdVjASF8=;
+        b=SP19GZzBbLtd86wDkfGxll8uUbxtITg1dWyuHw5DaPeVX1OdYtSw1GTheE8BeLRDP3
+         ZIWQxf4AztO5FkfHcZYFdc+1hXJ55e/1ubwhNF0MK+prsmOoheT5772sN2/RoJDEj6nh
+         6DFKVFFf4UpXN9qetk/6JHLY2s3iuSpJSe9KEiBu8ydfaCYmJGUhswlMcZDt6ys3D8Db
+         8Af88UFXYpXmK4lkm3BZWKiQk9rAOwJPBvdWikYmgHKvrid5j2lcm5Q3S5Y9L65KISN8
+         qNuKrLe4pKvOoGo63JG+RdWXkuXynd6hu2hY6V79A+yiqMsmdGCGKiIgdZq3iz8zD6ke
+         p/cQ==
+Message-ID: <1241d4bd-07c4-c358-9f89-760ac989065c@gmail.com>
+Date: Mon, 11 Sep 2023 13:04:13 +0900
 MIME-Version: 1.0
-Subject: [PATCH -perfbook v2] memorder: Shrink ifthen.pdf in -1c and -eb
- builds
-References: <a467db6f-c2ff-39bb-c606-cef301b8977e@gmail.com>
 Content-Language: en-US
 From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <a467db6f-c2ff-39bb-c606-cef301b8977e@gmail.com>
+Subject: [PATCH -perfbook] memorder: Shrink Figures 15.1 and 15.2 in 2c builds
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-ifthen.pdf is tall and using \columnwidth makes it exceed paper
-height in -1c and -eb builds.
+Figures 15.1 and 15.2 look unnecessarily large in 2c builds.
+Reduce their widths a bit by using \onecolumntextwidth.
 
-.5\onecolumntextwidth (defined in preamble) gives reasonable size
-figures in all layouts.
+This change doesn't affect -1c and -eb builds.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
-v1 -> v2:
-    Use \onecolumntextwidth for smaller figure in -2c builds.
+Figure 15.2 is now at the top of page 319.
+Figure 15.1 still appears in its own page. Tweaking the position
+of its definition in memorder.tex might help here, but it is not
+urgent, I guess.
 
-Paul, this is a minimal change for fixing gitlab-ci error [1].
+You can find other uses of \onecolumntextwidth in figure*
+environment in memorder.tex.  I think it is a reasonable template.
+\textwidth is good for a figure with tiny fonts such as Figures
+15.5 and 15.6.
 
-Figures 15.1 and 15.2 look unnecessarily large in -2c builds.
-I'll tweak those figures as a followup change.
-
-[1]: https://gitlab.com/linux-kernel/perfbook/-/jobs/5052273781
-
-        Thanks, Akira
 --
- memorder/memorder.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ memorder/memorder.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 947e09c9f885..6cf136b8dc6e 100644
+index 6cf136b8dc6e..1a4edf8bbb6d 100644
 --- a/memorder/memorder.tex
 +++ b/memorder/memorder.tex
-@@ -449,7 +449,7 @@ on
+@@ -151,7 +151,7 @@ description.
  
- \begin{figure}
+ \begin{figure*}
  \centering
--\resizebox{\columnwidth}{!}{\includegraphics{memorder/ifthen}}
-+\resizebox{.5\onecolumntextwidth}{!}{\includegraphics{memorder/ifthen}}
- \caption{If-Then Nature of Memory Ordering}
- \label{fig:memorder:If-Then Nature of Memory Ordering}
- \end{figure}
+-\resizebox{\textwidth}{!}{\includegraphics{memorder/locktrans}}
++\resizebox{\onecolumntextwidth}{!}{\includegraphics{memorder/locktrans}}
+ \caption{Locking Intuitions}
+ \label{fig:memorder:Locking Intuitions}
+ \end{figure*}
+@@ -262,7 +262,7 @@ description.
+ 
+ \begin{figure*}
+ \centering
+-\resizebox{\textwidth}{!}{\includegraphics{memorder/relacqtrans}}
++\resizebox{\onecolumntextwidth}{!}{\includegraphics{memorder/relacqtrans}}
+ \caption{Release-Acquire Intuitions}
+ \label{fig:memorder:Release-Acquire Intuitions}
+ \end{figure*}
 
-base-commit: 645f2734592176abc2f1eb87dcd1474b78ba9d2d
+base-commit: 2feb406642d90fac3fbbcc515d60d3573773a3f4
 -- 
 2.25.1
-
 
