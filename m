@@ -1,21 +1,21 @@
 Return-Path: <SRS0=7RMV=FG=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695390861; x=1695995661; darn=kernel.org;
+        d=gmail.com; s=20230601; t=1695390948; x=1695995748; darn=kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=EQqCbQLz6R19OE5JkWhuIOZhd2Vbc/azVkS9O0GVD1E=;
-        b=GZMWuI2fqG+3lONsLXZuzzjTPhWYq2zry46XSVUpHq9sxQwmY42ZALSB2EaaMVVUGo
-         21v25of5RCL7WOWbEwplxXzVpxb349I7vyyOmOx7tP+OBj9KIh8BQrgeFHPogzoJOb3y
-         qQGYOS3CTAVYdUhab1PYQehVXUMHwYWZj4SbnKKSvOonW1Y+RmzdcLqPLAJf4QZxkADy
-         XYkPnQzUsr18zgWtD8JTDm3msxd/fOlwhIVRHQgjp4ckfXQAH/vvTctZadEkMOcXS8D/
-         Beid9oWb7oOycMAfHT3EzWDkalYk7knnLmTNvW4IKEHfUn48OCB2asNorolqYJbFr1VA
-         fcOg==
-Message-ID: <c4a4e063-f470-aa33-707f-c1a31910b435@gmail.com>
-Date: Fri, 22 Sep 2023 22:54:18 +0900
+        bh=jTFWaUHINlU4dO2Bg3gcOiY0i83vG4Riiex4lYGwRwk=;
+        b=Iie8uo+Fk0mzyQB5Es0i2D78x49II2pphtRRKDN+DeHDCegDBAfNKniRD/mvWX8Nhi
+         dO4jiOwoLIm6z6lldPNTiRpZc77T+bnNFunVbSK+lBTkUjsJQXc57hVA8ebh+XdHxMd7
+         QdtOhSwJWw/naEAdVfbfqdmZ7JvAStzEw0Wa8MtUaj2EjMIo9dPRlpRpgqDOjGQQ4EZJ
+         elpq/60ntSObI1iHRkRNvbowFpLle7q+SjnK7/glEcXBTbZCVyD/DZIlQ93yZh0RzZp+
+         pLEAueMbVUmtahCbwz0MBEju6wpYDNrrdV/vuTQxjQ22JJHlbMIE4Q0kGFUFLOXXl2yS
+         JgaA==
+Message-ID: <a78a4604-cd3f-1adc-320d-2dbedf1f169b@gmail.com>
+Date: Fri, 22 Sep 2023 22:55:44 +0900
 MIME-Version: 1.0
-Subject: [PATCH -perfbook 1/4] memorder: Add index markers for
- 'address/control/data dependency', take 1
+Subject: [PATCH -perfbook 2/4] memorder: Add index markers for
+ 'address/control/data dependency', take 2
 Content-Language: en-US
 References: <f16891e8-6d60-327a-0d2d-4bb3cb04899e@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
@@ -26,84 +26,61 @@ To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Add index markers of bold face for "address dependency", "control
-dependency", and "data dependency" at their corresponding sections
-in memorder.
+Add a few more index markers.
 
-(hierarchical form)
+Note that the macro \IXpl{} and its friends don't work for the
+plural form of "dependencies".
 
-    - Dependency
-          address
-          control
-          data
-
-  with additional "see xxxx" entries as follows:
-
-    - Address dependency, see Dependency, address
-    - Control dependency, see Dependency, control
-    - Data dependency, see Dependency, data
-
-(flat form)
-
-    - Address dependency
-    - Control dependency
-    - Data dependency
+\IXalth{}{}{} is used instead.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- indexsee.tex          | 3 +++
- memorder/memorder.tex | 6 +++---
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ memorder/memorder.tex | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/indexsee.tex b/indexsee.tex
-index bd82fa1debfd..a77e9d642824 100644
---- a/indexsee.tex
-+++ b/indexsee.tex
-@@ -1,3 +1,4 @@
-+\index{Address dependency|see{Dependency, address}}
- \index{Anti-Heisenbug|see{Heisenbug, anti-}}
- \index{Associativity|see{Cache associativity}}
- \index{Associativity miss|see{Cache miss, associativity}}
-@@ -8,6 +9,8 @@
- \index{Capacity miss|see{Cache miss, capacity}}
- \index{Code locking|see{Locking, code}}
- \index{Communication miss|see{Cache miss, communication}}
-+\index{Control dependency|see{Dependency, control}}
-+\index{Data dependency|see{Dependency, data}}
- \index{Data locking|see{Locking, data}}
- \index{Direct-mapped cache|see{Cache, direct-mapped}}
- \index{Exclusive lock|see{Lock, exclusive}}
 diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 86bb8f41b5f8..9610618b41f4 100644
+index 9610618b41f4..9af41194f1de 100644
 --- a/memorder/memorder.tex
 +++ b/memorder/memorder.tex
-@@ -1815,7 +1815,7 @@ thus preventing the \co{exists} clause from triggering.
- \subsection{Address Dependencies}
- \label{sec:memorder:Address Dependencies}
+@@ -3411,7 +3411,8 @@ In contrast, the penalty for failing to use them when needed can be quite high.
+ \label{sec:memorder:Address- and Data-Dependency Difficulties}
+ \OriginallyPublished{sec:memorder:Address- and Data-Dependency Difficulties}{Address- and Data-Dependency Difficulties}{the Linux kernel}{PaulEMcKenney2014rcu-dereference}
  
--An \emph{address dependency} occurs when the value returned by a load
-+An \emph{\IXBh{address}{dependency}} occurs when the value returned by a load
- instruction is used to compute the address used by a later memory-reference
- instruction.
- This means that the exact same sequence of instructions used to traverse
-@@ -2028,7 +2028,7 @@ be fragile and easily broken by compiler optimizations, as discussed in
- \subsection{Data Dependencies}
- \label{sec:memorder:Data Dependencies}
+-The low overheads of the address and data dependencies discussed in
++The low overheads of the \IXalth{address}{address}{dependency}
++and \IXalth{data dependencies}{data}{dependency} discussed in
+ \cref{sec:memorder:Address Dependencies,%
+ sec:memorder:Data Dependencies},
+ respectively, makes their use extremely attractive.
+@@ -3770,7 +3771,7 @@ compiler-generated assembly code.
+ \subsection{Control-Dependency Calamities}
+ \label{sec:memorder:Control-Dependency Calamities}
  
--A \emph{data dependency} occurs when the value returned by a load
-+A \emph{\IXBh{data}{dependency}} occurs when the value returned by a load
- instruction is used to compute the data stored by a later store
- instruction.
- Note well the ``data'' above:
-@@ -2104,7 +2104,7 @@ compiler from breaking them.
- \subsection{Control Dependencies}
- \label{sec:memorder:Control Dependencies}
+-The control dependencies described in
++The \IXalth{control dependencies}{control}{dependency} described in
+ \cref{sec:memorder:Control Dependencies}
+ are attractive due to their low overhead, but are also especially
+ tricky because current compilers do not understand them and can easily
+@@ -5403,7 +5404,8 @@ One could place an \co{smp_rmb()} primitive
+ between the pointer fetch and dereference in order to force Alpha
+ to order the pointer fetch with the later dependent load.
+ However, this imposes unneeded overhead on systems (such as \ARM,
+-Itanium, PPC, and SPARC) that respect address dependencies on the read side.
++Itanium, PPC, and SPARC) that respect
++\IXalth{address dependencies}{address}{dependency} on the read side.
+ A \co{smp_read_barrier_depends()} primitive was therefore added to the
+ Linux kernel to eliminate overhead on these systems, but was removed
+ in v5.9 of the Linux kernel in favor of augmenting Alpha's definition
+@@ -5550,7 +5552,8 @@ similar to that of \Power{}'s cumulativity, both of which are
+ stronger than \IXacr{lkmm}'s cumulativity described in
+ \cref{sec:memorder:Cumulativity}.
  
--A \emph{control dependency} occurs when the value returned by a load
-+A \emph{\IXBh{control}{dependency}} occurs when the value returned by a load
- instruction is tested to determine whether or not a later store instruction
- is executed.
- In other words, a simple conditional branch or conditional-move
+-\ARM\ also implements control dependencies, so that if a conditional
++\ARM\ also implements \IXalth{control dependencies}{control}{dependency},
++so that if a conditional
+ branch depends on a load, then any store executed after that conditional
+ branch will be ordered after the load.
+ However, loads following the conditional branch will \emph{not}
 -- 
 2.25.1
 
