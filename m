@@ -1,47 +1,55 @@
-Return-Path: <sj@kernel.org>
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60434 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231993AbjIWQeS (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Sat, 23 Sep 2023 12:34:18 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A215792
+        for <perfbook@vger.kernel.org>; Sat, 23 Sep 2023 09:34:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695486852;
-	bh=RhsBNKG49fyrZgLN2MRwNslVk90YMk+sA4jImoEvKxw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vCEPGFiFxlxBFE6RSNprM6ezH/RrMRpaFap0AakqKIT5xW1aLH0mYsFB8uTt7prVo
-	 VVu7Pgycd40vmO8B+cGo1FCNkl/61VCwax7wJ1isQhL6wr7v5S5QJG0Y86NtXqkRnZ
-	 35zKzwQs2gTP4D8LtpQzEshJD3nIV91U5NHjDaQOMeyRP3ajItyvkHXtrTkkhx/EBe
-	 0EZs/B46L6nHYQpmNYRSw13nFRPCFQDjkE1h0SPggTJNCR9mnu4m75N5OKSmT4dVXK
-	 Qi7RY3S+4UuIiVgubX6o4gX9rjrdpTp5xAzJdUOQh0R05QUn7wQu3HE1RF58L367BI
-	 IFFUrEEOsVFDg==
+        s=k20201202; t=1695486852;
+        bh=3ZD1Lt+asmoMK3zjX092rlFZhynBiB+K8eHA+UM7+c0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Boq9qjqtHJ0rtH5WZF0T1h+OCj7lyy/Kgs5i/cO6RqZIZGnODe8xiddxu6+itHPj6
+         iAHeCgANQFKZVXMz4AfL6qot6sG1wvozc0nLVYlpQbTzLT85RwMhzQOTJ4BXM14aTy
+         e9Xc4u66NN/SJv5nAm8JVNHCwuLwVeRfEGUaUPN1nsktEUguhVKzMfNos+z6dd581F
+         vLYDgpItkw2q5EFk3ZNFKjnfMGVozQrbjAtDPb6Xc85GFCZf+GPxABSbuFT8DBOgAh
+         abIWhdYOuk8vl3PW1TIstCwtVNlmyJH+Y5XIjQbyLOPtoG7FdvjbbRIUF1tWYhLIWL
+         mIA5qoLuOmfQg==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 07/10] memorder: Consistently use '\co{}' for 'herd'
-Date: Sat, 23 Sep 2023 09:32:01 -0700
-Message-Id: <20230923163204.14558-8-sj@kernel.org>
+Subject: [PATCH 08/10] memorder: Remove a redundant sentence for memory barrier strength
+Date: Sat, 23 Sep 2023 09:32:02 -0700
+Message-Id: <20230923163204.14558-9-sj@kernel.org>
 In-Reply-To: <20230923163204.14558-1-sj@kernel.org>
 References: <20230923163204.14558-1-sj@kernel.org>
+List-ID: <perfbook.vger.kernel.org>
 To: paulmck@kernel.org
 Cc: SeongJae Park <sj38.park@gmail.com>, perfbook@vger.kernel.org
-List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-All sentences but one in memorder.tex use \co{} for herd.  Use it
-consistently.
+A sentence in memorder.tex explains the strength of smp_mb() and its
+cost.  Then, a quick quiz having very same answer follows.  Remove the
+sentence to reduce the redundancy.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- memorder/memorder.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ memorder/memorder.tex | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index b7699129..5ded6988 100644
+index 5ded6988..bd24b14c 100644
 --- a/memorder/memorder.tex
 +++ b/memorder/memorder.tex
-@@ -527,7 +527,7 @@ sometimes substitute \co{WRITE_ONCE()} plus \co{smp_wmb()} for
- and \co{READ_ONCE()} plus \co{smp_rmb()} for \co{smp_load_acquire()}
- on the other.
- However, the wise developer will check such substitutions carefully,
--for example, using the herd tool as described in
-+for example, using the \co{herd} tool as described in
- \cref{sec:formal:Axiomatic Approaches}
- on
- \cpageref{sec:formal:Axiomatic Approaches}.
+@@ -1346,8 +1346,6 @@ illustrates this for memory barriers.
+ Assuming that both memory barriers are strong enough, if CPU~1's access
+ Y1 happens after CPU~0's access Y0, then CPU~1's access X1 is guaranteed
+ to happen after CPU~0's access X0.
+-When in doubt as to which memory barriers are strong enough, \co{smp_mb()}
+-will always do the job, albeit at a price.
+ 
+ \QuickQuiz{
+ 	How can you tell which memory barriers are strong enough for
 -- 
 2.17.1
 
