@@ -1,55 +1,48 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60434 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231993AbjIWQeS (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Sat, 23 Sep 2023 12:34:18 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A215792
-        for <perfbook@vger.kernel.org>; Sat, 23 Sep 2023 09:34:12 -0700 (PDT)
+Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695486852;
-        bh=3ZD1Lt+asmoMK3zjX092rlFZhynBiB+K8eHA+UM7+c0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Boq9qjqtHJ0rtH5WZF0T1h+OCj7lyy/Kgs5i/cO6RqZIZGnODe8xiddxu6+itHPj6
-         iAHeCgANQFKZVXMz4AfL6qot6sG1wvozc0nLVYlpQbTzLT85RwMhzQOTJ4BXM14aTy
-         e9Xc4u66NN/SJv5nAm8JVNHCwuLwVeRfEGUaUPN1nsktEUguhVKzMfNos+z6dd581F
-         vLYDgpItkw2q5EFk3ZNFKjnfMGVozQrbjAtDPb6Xc85GFCZf+GPxABSbuFT8DBOgAh
-         abIWhdYOuk8vl3PW1TIstCwtVNlmyJH+Y5XIjQbyLOPtoG7FdvjbbRIUF1tWYhLIWL
-         mIA5qoLuOmfQg==
+	s=k20201202; t=1695486852;
+	bh=eRISUDI3ul5rF7GkRlPe5F/5dujIiWsork27v4flhj4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sWe0uVl/RUj6e8kuayFt6plTHnfqrEV5FMx6mojxanFmjoMw/Z5/68mMSoOc3ji5S
+	 tCfAA3JcalUhKvh1XEcPkWhCegj+26tJ4SO2snNsCT3brgWsIW1DsmABLMDhvXtBku
+	 ALk/W/ds5Q+UbSp2DX6axj7UlnB8LH7FMNwEeJNM0FJJHG1zBRbmq03RhYf30V0NDZ
+	 eTSXKO1tMSP5ydpvK0wFpJg2OLHlnD4XFKpQSb+rczT+/WfmEsDtqHQcYxBHoLbZsz
+	 PwXQHbb1N5v/uRDAKV+NOn8ZNYvdNWnJOCkYKdO0EeG4mWLxIThyB3L/7EZ37f4bgT
+	 wDN3KsZ5ZZcOg==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 08/10] memorder: Remove a redundant sentence for memory barrier strength
-Date: Sat, 23 Sep 2023 09:32:02 -0700
-Message-Id: <20230923163204.14558-9-sj@kernel.org>
+Subject: [PATCH 09/10] memorder: Make clear the scope of READ_ONCE()/WRITE_ONCE() heavy uses
+Date: Sat, 23 Sep 2023 09:32:03 -0700
+Message-Id: <20230923163204.14558-10-sj@kernel.org>
 In-Reply-To: <20230923163204.14558-1-sj@kernel.org>
 References: <20230923163204.14558-1-sj@kernel.org>
-List-ID: <perfbook.vger.kernel.org>
 To: paulmck@kernel.org
 Cc: SeongJae Park <sj38.park@gmail.com>, perfbook@vger.kernel.org
+List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-A sentence in memorder.tex explains the strength of smp_mb() and its
-cost.  Then, a quick quiz having very same answer follows.  Remove the
-sentence to reduce the redundancy.
+A sentence in memorder.tex is saying READ_ONCE() and WRITE_ONCE() will
+be heavily used in a section.  But, it's widely used in the chapter.
+Modify the sentence to make it more clear.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- memorder/memorder.tex | 2 --
- 1 file changed, 2 deletions(-)
+ memorder/memorder.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 5ded6988..bd24b14c 100644
+index bd24b14c..5c978fbe 100644
 --- a/memorder/memorder.tex
 +++ b/memorder/memorder.tex
-@@ -1346,8 +1346,6 @@ illustrates this for memory barriers.
- Assuming that both memory barriers are strong enough, if CPU~1's access
- Y1 happens after CPU~0's access Y0, then CPU~1's access X1 is guaranteed
- to happen after CPU~0's access X0.
--When in doubt as to which memory barriers are strong enough, \co{smp_mb()}
--will always do the job, albeit at a price.
- 
- \QuickQuiz{
- 	How can you tell which memory barriers are strong enough for
+@@ -668,7 +668,7 @@ even on relatively strongly ordered systems such as x86.
+ 	\co{READ_ONCE()} and \co{WRITE_ONCE()}
+ 	prevent the compiler from reordering.
+ 	And also from doing much else as well, so the examples in this
+-	section will be making heavy use of
++	chapter will be making heavy use of
+ 	\co{READ_ONCE()} and \co{WRITE_ONCE()}.
+ 	See \cref{sec:memorder:Compile-Time Consternation}
+ 	for more detail on the need for \co{READ_ONCE()} and \co{WRITE_ONCE()}.
 -- 
 2.17.1
 
