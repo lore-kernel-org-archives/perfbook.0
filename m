@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695486850;
-	bh=KUjdNmNh3EzhS21Zbu7ZstqS/1OyanEnV8wzjRhdrX0=;
+	s=k20201202; t=1695486851;
+	bh=MhxIPZzLJFP7tg9a86VFaxX/tbXc2xEH5ssw5JLtkiU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DQldx6zd+kxV/5kyV/0kTIEWhKd/njD8ZL+h+Recl82WULCPgwfs3YLSnbKq2RKoo
-	 2YVbyoHgNKxvGRLdKf4c2sNDsU00Y9OKmZH52AYNKXUr3lqjiIJf0W7lB8v/hAPnsJ
-	 RSKNoS8AKWMRNHIemwWUMR2V4DtoIyMJgS/V7tAEc5Amkgmmb+syqTwhb+TEAD+IIe
-	 vh1K16qRcEjnu4qVWqhBJI4mfDBaAsgwpNqZFiyKjXKE7BTKSVMDiP4NtSfWZ+gojj
-	 UxYpmUDIuruB6aqd93aLN8C0AIGoiBIzhDbqHj/NIiEWykowaExOfjYQ06QHV9LV7E
-	 EpRkETHpZx6pQ==
+	b=ODitdiLnVeu+rNoKyQloWtLPBN5wTk16CKwrs3SOMQT4vyVtXzmPlveE3PY/5dB/W
+	 hwzgiN6kzrfhx13R/MGZJzupI+5Zye0J4XWEKmX7tRZEk+/JhXsZYGLku+I5LA5I+h
+	 Xb3uXez9bBJvg8hbOlj27EPJPS882V4oFmZze0AawdGZHj6CrsESkTFXmPFyWUeopN
+	 37Mod4j72waAw46uUsjf0YLjZoXaxMmlcXRLkSm/0+jaRJN62/QHLgoa9eYvl0V1zA
+	 NFj7HuqaGPb6ks/0c17GbPYO96N8Q+epZaZEO0NWWUupj4zYtUgP1CnluRALhv32+9
+	 xitzJFTt6Y0eA==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 01/10] memorder: Fix typos: s/,/./
-Date: Sat, 23 Sep 2023 09:31:55 -0700
-Message-Id: <20230923163204.14558-2-sj@kernel.org>
+Subject: [PATCH 02/10] memorder/memorder: Add a missing space between column name and 'column'
+Date: Sat, 23 Sep 2023 09:31:56 -0700
+Message-Id: <20230923163204.14558-3-sj@kernel.org>
 In-Reply-To: <20230923163204.14558-1-sj@kernel.org>
 References: <20230923163204.14558-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,36 +21,27 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-Two sentences in memorder.tex are having commas instead of ending
-periods.  Fix those.
+A sentence in memorder.tex is missing a space between the column name
+and 'column'.  Add it.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- memorder/memorder.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ memorder/memorder.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 1c882ea4..75e336dc 100644
+index 75e336dc..ba921ad8 100644
 --- a/memorder/memorder.tex
 +++ b/memorder/memorder.tex
-@@ -4103,7 +4103,7 @@ The following list of rules summarizes the lessons of this section:
+@@ -1148,7 +1148,7 @@ are at most two threads involved.
  
- \item	If both legs of the \qco{if} statement begin with identical stores
- 	to the same variable, then the control dependency will not order
--	those stores,
-+	those stores.
- 	If ordering is needed, precede both of them with \co{smp_mb()} or
- 	use \co{smp_store_release()}.
- 	Please note that it is \emph{not} sufficient to use \co{barrier()}
-@@ -4763,7 +4763,7 @@ Perhaps surprisingly, despite the empty critical section, RCU nevertheless
- still manages to forbid the cycle.
- This can again be checked using the \co{herd} tool.
- Furthermore, the reasoning is once again similar to that for
--\cref{lst:memorder:What Happens Before RCU Readers?},
-+\cref{lst:memorder:What Happens Before RCU Readers?}.
- Recapping, if \co{P1()}'s \co{WRITE_ONCE()} follows the end of a given
- grace period, then \co{P1()}'s RCU read-side critical section---and
- everything following it---must follow the beginning of that same grace
+ 	The \co{WRITE_ONCE()} row captures the fact that accesses to
+ 	a single variable are always fully ordered, as indicated by
+-	the ``SV''column.
++	the ``SV'' column.
+ 	Note that all other operations providing ordering against accesses
+ 	to multiple variables also provide this same-variable ordering.
+ 
 -- 
 2.17.1
 
