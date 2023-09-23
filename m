@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1695486851;
-	bh=vvp/pxsCaFaCm5nMocCUw/ui2djWULCe3RvBjO2dYr0=;
+	bh=bsrB1VNCxrX0uwejaxfITf5C5c7auigOhL33TW/fR9g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PveB7DOzz/S0ibFZvCrca2a2ApwNolT/Roi/t78tsu6MX9OBLgcTkrCHjAUaV7aHu
-	 9p6iGO+/ebyJ/4Cyyr5BhAVK1MHH+mBgiQWecxUYSHd6ke/ETat3qyn2BGFvGHKkBB
-	 aepXra5I5fvBbE1U2y2Na2/D5Nht+Mz6xBiEuUPCDCldbTMV+IJpuCViArfOeqgD5Q
-	 fJnCkR503eK77BGa8EvaKw6AiLt1BjU2hrD9T8vrKnlVHtg93WccShYy7lwTK8h/TP
-	 tAVEv56bBAskeI4y/1/+rNF9l9WpQhkZh11+0vAHJw102kk+oay1INTxL3jPr2l/yq
-	 Q1z5xynt5NQhA==
+	b=HhRxE1qkc5xu56Ka+xzXbBHevKoBJqqZm2vpJ6V9KS6Xpq6pVEqcXfMVM61z+pI++
+	 tcpg62PjEIlUvpgUEvLlN5JScQd+rCXvwIbZzS5gw2XBDo5sEVy0qREibA6MeC7L04
+	 CoImt0PMrsg9f+ITLpIIoXZzA5rFtdBGcBRTSCeplg3fLiMi1Ta+uxIq/IXrU3Ng0C
+	 6/F7MK+1eqTH7J/n3dxzc3nDCr845YINlE4F3+54+Jd/+ywMrZIT2osNreUuBwEp7G
+	 bK/0oEzk03xIPyd/4Rpwy9Qvpl9n3Ib9a2tHuN2uQ9ZiScLpSG+IPVLmDHPUPFrwKm
+	 jcnwDBMzOCnkw==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 04/10] memorder: Remove an empty fcvref block
-Date: Sat, 23 Sep 2023 09:31:58 -0700
-Message-Id: <20230923163204.14558-5-sj@kernel.org>
+Subject: [PATCH 05/10] memorder: Remove braces for single line if-else blocks
+Date: Sat, 23 Sep 2023 09:31:59 -0700
+Message-Id: <20230923163204.14558-6-sj@kernel.org>
 In-Reply-To: <20230923163204.14558-1-sj@kernel.org>
 References: <20230923163204.14558-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,26 +21,47 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-memorder.tex is unnecessarily having one empty fcvref block.  Remove it.
+Code snippets in memorder.tex usually don't use braces for signle-line
+if blocks, like Linux kernel coding style.  However, some code snippets
+use braces.  Don't use the braces to be consistent.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- memorder/memorder.tex | 2 --
- 1 file changed, 2 deletions(-)
+ memorder/memorder.tex | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 38ff3a55..5ad7e796 100644
+index 5ad7e796..b5887764 100644
 --- a/memorder/memorder.tex
 +++ b/memorder/memorder.tex
-@@ -5431,8 +5431,6 @@ in v5.9 of the Linux kernel in favor of augmenting Alpha's definition
- of \co{READ_ONCE()}.
- Thus, as of v5.9, core kernel code no longer needs to concern itself
- with this aspect of DEC Alpha.
--\begin{fcvref}[ln:memorder:Insert and Lock-Free Search (No Ordering)]
--\end{fcvref}
- \begin{fcvref}[ln:memorder:Safe Insert and Lock-Free Search]
- However, it is better to use \co{rcu_dereference()}
- as shown on \clnref{deref1,deref2} of
+@@ -3896,11 +3896,10 @@ optimization levels:
+ q = READ_ONCE(x);
+ barrier();
+ WRITE_ONCE(y, 1);  /* BUG: No ordering!!! */
+-if (q) {
++if (q)
+ 	do_something();
+-} else {
++else
+ 	do_something_else();
+-}
+ \end{VerbatimN}
+ 
+ Now there is no conditional between the load from~\co{x} and the store
+@@ -4005,11 +4004,10 @@ not necessarily apply to code following the if-statement:
+ 
+ \begin{VerbatimN}
+ q = READ_ONCE(x);
+-if (q) {
++if (q)
+ 	WRITE_ONCE(y, 1);
+-} else {
++else
+ 	WRITE_ONCE(y, 2);
+-}
+ WRITE_ONCE(z, 1);  /* BUG: No ordering. */
+ \end{VerbatimN}
+ 
 -- 
 2.17.1
 
