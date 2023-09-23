@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1695486852;
-	bh=eRISUDI3ul5rF7GkRlPe5F/5dujIiWsork27v4flhj4=;
+	bh=FrCbq4C/NcuCu8+EfSD1Q2/KAGlFpKtShdsxFOb2qpo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sWe0uVl/RUj6e8kuayFt6plTHnfqrEV5FMx6mojxanFmjoMw/Z5/68mMSoOc3ji5S
-	 tCfAA3JcalUhKvh1XEcPkWhCegj+26tJ4SO2snNsCT3brgWsIW1DsmABLMDhvXtBku
-	 ALk/W/ds5Q+UbSp2DX6axj7UlnB8LH7FMNwEeJNM0FJJHG1zBRbmq03RhYf30V0NDZ
-	 eTSXKO1tMSP5ydpvK0wFpJg2OLHlnD4XFKpQSb+rczT+/WfmEsDtqHQcYxBHoLbZsz
-	 PwXQHbb1N5v/uRDAKV+NOn8ZNYvdNWnJOCkYKdO0EeG4mWLxIThyB3L/7EZ37f4bgT
-	 wDN3KsZ5ZZcOg==
+	b=HFOIzid38odLKQlpMZkzoVGOYVjJWyY5IxXqQw2ZRoTVoOiGKx6SD9TpWleH+uVQJ
+	 RgXzPHcyCjHZNq4zqwY89sVJx7LoP1Tfg3POp8OVTmrhFPwbY7JG6t8bFt4UwLHXsl
+	 ki1cj+UvY0ptDnmgOckqjfSPSC9SVYB4A0L4up0+KSWbi3DMRM9LnJi4Lp5w/+D6sE
+	 TUYYWRsEJK9iT6C8FNIxhGDssuFXa9QL1AKvBVmKOCq5RNUVAUvSlTSek4ch5IrQD7
+	 M/rHKCxkP4FAoWBN1419upzSUVKj1JATsyHpg+nmU3N/PM3NkGqovKWzo3wr0SAti1
+	 QHI2DIZBafFtg==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 09/10] memorder: Make clear the scope of READ_ONCE()/WRITE_ONCE() heavy uses
-Date: Sat, 23 Sep 2023 09:32:03 -0700
-Message-Id: <20230923163204.14558-10-sj@kernel.org>
+Subject: [PATCH 10/10] memorder: Fix wrong primitive names in a quick quizz
+Date: Sat, 23 Sep 2023 09:32:04 -0700
+Message-Id: <20230923163204.14558-11-sj@kernel.org>
 In-Reply-To: <20230923163204.14558-1-sj@kernel.org>
 References: <20230923163204.14558-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,9 +21,9 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-A sentence in memorder.tex is saying READ_ONCE() and WRITE_ONCE() will
-be heavily used in a section.  But, it's widely used in the chapter.
-Modify the sentence to make it more clear.
+memorder.tex explains READ_ONCE() is having smp_mb(), but the following
+quick quizz asks why it has mb() instead of rmb().  Fix the wrong names
+in the quick quizz.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
@@ -31,18 +31,18 @@ Signed-off-by: SeongJae Park <sj38.park@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index bd24b14c..5c978fbe 100644
+index 5c978fbe..b3acc14a 100644
 --- a/memorder/memorder.tex
 +++ b/memorder/memorder.tex
-@@ -668,7 +668,7 @@ even on relatively strongly ordered systems such as x86.
- 	\co{READ_ONCE()} and \co{WRITE_ONCE()}
- 	prevent the compiler from reordering.
- 	And also from doing much else as well, so the examples in this
--	section will be making heavy use of
-+	chapter will be making heavy use of
- 	\co{READ_ONCE()} and \co{WRITE_ONCE()}.
- 	See \cref{sec:memorder:Compile-Time Consternation}
- 	for more detail on the need for \co{READ_ONCE()} and \co{WRITE_ONCE()}.
+@@ -5491,7 +5491,7 @@ Alpha is the only CPU whose \co{READ_ONCE()} includes an \co{smp_mb()}.
+ \QuickQuizSeries{%
+ \QuickQuizB{
+ 	Why does Alpha's \co{READ_ONCE()} include an
+-	\co{mb()} rather than \co{rmb()}?
++	\co{smp_mb()} rather than \co{smp_rmb()}?
+ }\QuickQuizAnswerB{
+ 	Alpha has only \co{mb} and \co{wmb} instructions,
+ 	so \co{smp_rmb()} would be implemented by the Alpha \co{mb}
 -- 
 2.17.1
 
