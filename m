@@ -1,18 +1,18 @@
 Return-Path: <sj@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1695486851;
-	bh=MhxIPZzLJFP7tg9a86VFaxX/tbXc2xEH5ssw5JLtkiU=;
+	bh=bP66pSqw4uhGMbOQldTh4c/SWyNtYxFzCyHuxm624UI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ODitdiLnVeu+rNoKyQloWtLPBN5wTk16CKwrs3SOMQT4vyVtXzmPlveE3PY/5dB/W
-	 hwzgiN6kzrfhx13R/MGZJzupI+5Zye0J4XWEKmX7tRZEk+/JhXsZYGLku+I5LA5I+h
-	 Xb3uXez9bBJvg8hbOlj27EPJPS882V4oFmZze0AawdGZHj6CrsESkTFXmPFyWUeopN
-	 37Mod4j72waAw46uUsjf0YLjZoXaxMmlcXRLkSm/0+jaRJN62/QHLgoa9eYvl0V1zA
-	 NFj7HuqaGPb6ks/0c17GbPYO96N8Q+epZaZEO0NWWUupj4zYtUgP1CnluRALhv32+9
-	 xitzJFTt6Y0eA==
+	b=AbEgWdzsK9avdbTlbE4T+5dhEdym4LVGTCTBmwv1ca1uX7KLfVMu97iBoxi9w58je
+	 t9Y7LotfnCsCP1PjZSL51TqwsD3sya8p/N8FjXbmE/qqinZZ3Cw2pLWclO1TYL0AXU
+	 4sOXBNCS7bzkL9i3BnvMWhflk/pGz1SCEp588wC50xdhq3Pk7ShC9WpQGEovz3m42a
+	 Auldr/IlRYXXjeg8bN8SHAk7o4jeOkTEHYiVG9byMxN6Uk2pZ1S3cHvcmxtmWRWpv/
+	 +i8kFaPfADwn7G7zWAA0hJnn9WhTqBDmRtSZy4JXF+Onfkl1G1s7Q8vbHtNuOPSWo7
+	 Ev4krj9U3JkgQ==
 From: SeongJae Park <sj@kernel.org>
-Subject: [PATCH 02/10] memorder/memorder: Add a missing space between column name and 'column'
-Date: Sat, 23 Sep 2023 09:31:56 -0700
-Message-Id: <20230923163204.14558-3-sj@kernel.org>
+Subject: [PATCH 03/10] memorder: Add missing unbreakable spaces between 'values', 'and', and numbers
+Date: Sat, 23 Sep 2023 09:31:57 -0700
+Message-Id: <20230923163204.14558-4-sj@kernel.org>
 In-Reply-To: <20230923163204.14558-1-sj@kernel.org>
 References: <20230923163204.14558-1-sj@kernel.org>
 To: paulmck@kernel.org
@@ -21,27 +21,28 @@ List-ID: <perfbook.vger.kernel.org>
 
 From: SeongJae Park <sj38.park@gmail.com>
 
-A sentence in memorder.tex is missing a space between the column name
-and 'column'.  Add it.
+A sentence in memorder.tex is missing unbreakable spaces.  Add those.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- memorder/memorder.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ memorder/memorder.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 75e336dc..ba921ad8 100644
+index ba921ad8..38ff3a55 100644
 --- a/memorder/memorder.tex
 +++ b/memorder/memorder.tex
-@@ -1148,7 +1148,7 @@ are at most two threads involved.
- 
- 	The \co{WRITE_ONCE()} row captures the fact that accesses to
- 	a single variable are always fully ordered, as indicated by
--	the ``SV''column.
-+	the ``SV'' column.
- 	Note that all other operations providing ordering against accesses
- 	to multiple variables also provide this same-variable ordering.
- 
+@@ -2227,8 +2227,8 @@ situation arises.
+ 	But in
+ 	\cref{lst:memorder:Cache-Coherent IRIW Litmus Test},
+ 	wouldn't be just as bad if \co{P2()}'s \co{r1} and \co{r2}
+-	obtained the values 2 and 1, respectively, while \co{P3()}'s
+-	\co{r3} and \co{r4} obtained the values 1 and 2, respectively?
++	obtained the values~2 and~1, respectively, while \co{P3()}'s
++	\co{r3} and \co{r4} obtained the values~1 and~2, respectively?
+ }\QuickQuizAnswer{
+ 	Yes, it would.
+ 	Feel free to modify the \co{exists} clause to
 -- 
 2.17.1
 
