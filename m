@@ -1,82 +1,77 @@
-Return-Path: <SRS0=FzRX=FI=gmail.com=sj38.park@kernel.org>
+Return-Path: <SRS0=ReyI=FK=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695570007; x=1696174807; darn=kernel.org;
-        h=in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=35dPvTMFJRnHG8BZCXkED3zLdMobf+ouKWSZqvhr1PA=;
-        b=nVxCSs2uX40u03p00dPMO0h3GReM+DqeH8yaT/pUJs9lzK5P7UAsLbkaFeVhFXge5m
-         737JdW9F7IGeLxSo8XFvyJq4TcHqkMsxDW9/O/rMMLx2NFcOsYGgoAOgAixERA7ws3oq
-         e1zsq0cCGnhDuGDqUbjpWPNnzM3yCTIz4S/wFJAj/RpvkqBtyUcE8cHK25v7mJ/DAF+m
-         5VYoSObp/xivK5AekgoI+Mgw4roRQoWv3yrO5bkVMvHisBoNxg3KCRJjzSBPCSwdTJih
-         Dgg+BP2QGYscsyLjn4DHw5ZIiR9yaL35YXRHGrFN3Or878QQPiEB2Z6ZpajQU90cM6vg
-         YbEA==
-From: SeongJae Park <sj38.park@gmail.com>
-Subject: Re: [PATCH 10/10] memorder: Fix wrong primitive names in a quick quizz
-Date: Sun, 24 Sep 2023 08:40:04 -0700
-Message-Id: <20230924154005.5114-1-sj@kernel.org>
-In-Reply-To: <9783529e-b974-8f64-c2f0-4fc52b04746e@gmail.com>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>, paulmck@kernel.org, SeongJae Park <sj38.park@gmail.com>, perfbook@vger.kernel.org
+        d=gmail.com; s=20230601; t=1695722657; x=1696327457; darn=kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+9ck6LI83TXbNsv2Fyzl0Bo6xPKrxzMYf1kTPE48iO8=;
+        b=VaibVmMbWoaUi4j5Ft/gO4YBPWj1Yf2PbgbDK3e/8ukIkkaNnkRfEWY/gGZVVf5+94
+         NnmxfXu7v80K7chLz0cyy0FqK2Ya6jwvq/15qdubn14i8laFAuiV2frLrshahAhEeOo5
+         WUN7B9QJ/2EaXPTrCVb58wEySBnQAWFS9sJzWDU8TUXxWbmlLYf7i2wuR/3W8V3MPBbf
+         cqIa5cyrTH0hwA7L7oA1jElf1Z1LboF4MQUywJwRDSURihHiXPb2BLSv4pe1pE99rZ6/
+         ORirBm+szpcbLTtHnq9HkvVKGEn3aia1z9uVrtinVnsyDHo74uWdjCxYU6m3NV+IVzt9
+         1zUw==
+Message-ID: <5615921f-7c33-bcbe-f076-9ed1cbe900ee@gmail.com>
+Date: Tue, 26 Sep 2023 19:04:12 +0900
+MIME-Version: 1.0
+Subject: Re: [PATCH -perfbook 2/4] memorder: Add index markers for
+ 'address/control/data dependency', take 2
+References: <f16891e8-6d60-327a-0d2d-4bb3cb04899e@gmail.com>
+ <a78a4604-cd3f-1adc-320d-2dbedf1f169b@gmail.com>
+ <5a2ed909-84c9-4f2d-b598-d0b7442d92f0@paulmck-laptop>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <5a2ed909-84c9-4f2d-b598-d0b7442d92f0@paulmck-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: paulmck@kernel.org
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Akira,
+Hi,
 
-On Sun, 24 Sep 2023 09:02:53 +0900 Akira Yokosawa <akiyks@gmail.com> wrote:
+On 2023/09/23 17:23, Paul E. McKenney wrote:
+> On Fri, Sep 22, 2023 at 10:55:44PM +0900, Akira Yokosawa wrote:
+[...]
+>>  
+>> -The low overheads of the address and data dependencies discussed in
+>> +The low overheads of the \IXalth{address}{address}{dependency}
+> 
+> This looks strange given the different parameters to the \IXalth above
+> and the \IXalth below, but it gets the right thing to the right place
+> in the index, so I queued and pushed all four.
+> 
+[...]
+>> +and \IXalth{data dependencies}{data}{dependency} discussed in
 
-> Hi,
-> 
-> On 2023/09/24 1:32, SeongJae Park wrote:
-> > From: SeongJae Park <sj38.park@gmail.com>
-> > 
-> > memorder.tex explains READ_ONCE() is having smp_mb(), but the following
-> > quick quizz asks why it has mb() instead of rmb().  Fix the wrong names
-> > in the quick quizz.
-> > 
-> > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> > ---
-> >  memorder/memorder.tex | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-> > index 5c978fbe..b3acc14a 100644
-> > --- a/memorder/memorder.tex
-> > +++ b/memorder/memorder.tex
-> > @@ -5491,7 +5491,7 @@ Alpha is the only CPU whose \co{READ_ONCE()} includes an \co{smp_mb()}.
-> >  \QuickQuizSeries{%
-> >  \QuickQuizB{
-> >  	Why does Alpha's \co{READ_ONCE()} include an
-> > -	\co{mb()} rather than \co{rmb()}?
-> > +	\co{smp_mb()} rather than \co{smp_rmb()}?
-> 
-> Definition in Linux kernel's arch/alpha/include/asm/rwonce.h reads:
-> 
-> #define __READ_ONCE(x)							\
-> ({									\
-> 	__unqual_scalar_typeof(x) __x =					\
-> 		(*(volatile typeof(__x) *)(&(x)));			\
-> 	mb();								\
-> 	(typeof(x))__x;							\
-> })
-> 
-> So I don't think this change is needed.
-> 
-> As this quiz is talking about Alpha ISA, how about rewording the
-> quiz to:
-> 
->     Why does Alpha's \co{READ_ONCE()} include an
->     \co{mb} instruction rather than a \co{rmb}?
-> 
->         Thanks, Akira
-> 
-> >  }\QuickQuizAnswerB{
-> >  	Alpha has only \co{mb} and \co{wmb} instructions,
-> >  	so \co{smp_rmb()} would be implemented by the Alpha \co{mb}
-> > -- 
-> > 2.17.1
+Let me explain what's happening here.
 
-That makes sense.  Thank you for nice review and suggestion!  I will make the
-second version of this patch following your comment.
+Original sentence looked like this:
+
+    The low overheads of the address and data dependencies discussed in
+
+Here, if "address dependencies" were there, I could have said:
+
+    \IXalth{address dependencies}{address}{dependency}
+
+Instead, I put an index marker of "Dependency, address" on the lonely
+"address", therefore it became:
+
+    \IXalth{address}{address}{dependency}
+
+\IXalth{}{}{} prints any string in #1 with an index marker of
+"#3, #2" put on it.
+
+Macros of \IX*alt* are powerful and can do whatever you'd like.
+
+> Thank you!!!  And yes, I am now generating a set of glossary entries.  ;-)
+
+Thank you.  I like those cautionary remarks.
+
+        Thanks, Akira
+
+> 
+> 							Thanx, Paul
 
 
-Thanks,
-SJ
+
