@@ -1,63 +1,78 @@
 Return-Path: <SRS0=p/V2=F3=gmail.com=akiyks@kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697207601; x=1697812401; darn=kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x/CzaSpqvBzNpzON4e7rQNOacqSaCro/xPtapB+weFw=;
-        b=UE+DnEaKRGCXkPMI54XYfytCnCOBw31hZJqgTCPK1W7hfRBWsTem4A8QUU0AhoXnTF
-         zXHILq7TD/+xQ40ucbQ/JE9xfc/iBxqNvHHMTSCQlyxtoxQy/C5JyusWX12vQEI9by4q
-         cXt5KWO0U696vSInklPLimTgv1VkzFjlhSbg5U5z+kywk51fbxh7/sjYXEhUeZQ24NoX
-         rFTcPItGTc6KGVDsCgtMxUKhfOdasstKvnaIPCqQJkr0R7op5C6/Emh1MBtUnKkNHjYm
-         2N49HD851wi9zOGG6DQLg9EsdRqlVckL1Jvch2u6bnwvwvDEW9ML1J76CbRJzcj4TB6U
-         11xA==
-Message-ID: <603b38d3-7d46-4edf-869b-e688a1577b1c@gmail.com>
-Date: Fri, 13 Oct 2023 23:33:18 +0900
+        d=gmail.com; s=20230601; t=1697207896; x=1697812696; darn=kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9zKFS0Z1IREF2HU00d7YxLJ6GkZEZlcliGTgljDb0oc=;
+        b=N7RJw3OHtQseqMN8AKNtwp+9FkNJ8LsjoW+LRFKkNM5e72aDGxXFIK6hAg8m/fY2Oj
+         wUJw49bbNnRy5/qA4DwAujdepj1bSvqjuDhJzRSg3yOJXgL+QIn9SkGRcFI7VJ/gX/cr
+         5/PcPyTd5vCLsvDrcs6IrnRtSSQu7h3MTQ5EjIsMOrStwvpF79SzCLBc4ILy8DVhU6tI
+         79yD7RetOZ0eAgFELrIr4qb2XxAyy1cdmBBarY1ExQvwk5XLJbiC3//1q6SrETVPrlfB
+         YFiyr8VVS/k0sRABfC1C58xYPBE89m1I2FH7XomxXnkF3i8vJDqXnpJJ1uZSQnwtC9fE
+         0+9w==
+Message-ID: <c401ecc6-a63e-42c4-8d2d-9f777c03e33e@gmail.com>
+Date: Fri, 13 Oct 2023 23:38:12 +0900
 MIME-Version: 1.0
+Subject: [PATCH -perfbook 1/3] Ignore error of unstable Inkscape
 Content-Language: en-US
+References: <603b38d3-7d46-4edf-869b-e688a1577b1c@gmail.com>
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 0/3] Work around errors of unstable Inkscape
+In-Reply-To: <603b38d3-7d46-4edf-869b-e688a1577b1c@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
 
-Hi Paul,
+Recently, conversions of SVG --> PDF are hit by unstability of
+command-line runs of Inkscape under the GNOME session/window manager.
 
-I expected the crashing bug in Fedora's distro Inkscape would be
-resolved by the time of Fedora 39 release.
-I tested Fedora 39 beta and was disappointed to see more or less the
-same crashes of command-line runs of Inkscape as those under Fedora 38.
+There is an issue ticket at the upstream Inkscape repository [1].
 
-As a matter of fact, even when Inkscape crashes, the export of PDF
-is complete most of the time.  So the crashing bug can be worked
-around by ignoring the error code from Inkscape and continue building.
+It was closed after a bugfix in glib2, but Fedora 38 has not
+received the fix.  Furthermore, pre-release Fedora 39, as well as
+openSUSE tumbleweed, still has the very similar symptoms.
 
-This patch set implements the ad-hoc workaround in build scripts.
+As a matter of fact, the conversion is properly finished most
+of the time when the Inkscape error happened.
 
-As you can see in Patch 1/3, the workaround is enabled by default.
-This is because enabling it won't do any harm on systems with
-stable Inkscape.
+So let's add a make variable IGNORE_INKSCAPE_ERROR and ignore error
+code from Inkscape when it is enabled.  It is enabled by default.
 
-I might be able to add some heuristics not to enable the workaround
-for stable Inkscape installs, but that can wait.
+[1] Issue #4177 "glib2 2.76.0 breaks Command Line export" at
+    https://gitlab.com/inkscape/inkscape/-/issues/
 
-Ubuntu releases 22.04LTS, 23.04, and 23.10 are free of this issue.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Makefile | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-        Thanks, Akira
---
-Akira Yokosawa (3):
-  Ignore error of unstable Inkscape
-  Ignore emergency-save SVG files from Inkscape
-  Make sure all PDF conversions are complete
-
- .gitignore |  1 +
- Makefile   | 17 ++++++++++++++---
- 2 files changed, 15 insertions(+), 3 deletions(-)
-
-
-base-commit: 84759ebac65a03aa28c5b02007e6c472b3416d3d
+diff --git a/Makefile b/Makefile
+index f25baf27d8ad..18639b60cece 100644
+--- a/Makefile
++++ b/Makefile
+@@ -109,6 +109,7 @@ INKSCAPE := $(shell $(WHICH) inkscape 2>/dev/null)
+ ifdef INKSCAPE
+   INKSCAPE_ONE := $(shell inkscape --version 2>/dev/null | grep -c "Inkscape 1")
+ endif
++IGNORE_INKSCAPE_ERROR ?= 1
+ LATEXPAND := $(shell $(WHICH) latexpand 2>/dev/null)
+ QPDF := $(shell $(WHICH) qpdf 2>/dev/null)
+ 
+@@ -481,7 +482,11 @@ endif
+ ifeq ($(INKSCAPE_ONE),0)
+ 	@inkscape --export-pdf=$@ $<i > /dev/null 2>&1
+ else
++  ifneq ($(IGNORE_INKSCAPE_ERROR),0)
++	-@inkscape -o $@ $<i > /dev/null 2>&1
++  else
+ 	@inkscape -o $@ $<i > /dev/null 2>&1
++  endif
+ endif
+ 	@rm -f $<i
+ ifeq ($(chkpagegroup),on)
 -- 
 2.25.1
+
 
