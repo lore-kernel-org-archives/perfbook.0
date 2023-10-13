@@ -1,61 +1,77 @@
-Return-Path: <SRS0=p/V2=F3=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697208154; x=1697812954; darn=kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/32FJJH8Dla/BDkcW+psXUvR3tD9BrkxDvpGljbBFrs=;
-        b=glz6tNh5Z3ch6TNgplMBicYLonkE/c06WE5c3/FfeSZz1e6yQ/bNJaTxEmEXMfoYPF
-         8W3eGolgOQ1Tl7OL1sWU1xi8ac6Z9CRTyMHJXNWfOEEuWEuYfyTh6CJx+pPi5llgGJJG
-         SFklQZ1a09O75/e9lFEeGH7tWniaNiWdqhzxSBqJF1pR0hVXMUmAYludV69/WypA5JPS
-         sStAqQA6HxtjyRHeI8RTGQ0gFglHUoOiK+0UsCixWK4Ye3cBerHP4sB4E1xEIepk2QGe
-         umBaysPwM+luCpKk4IZwbnmys5S+WCHd6urkbeTV4413Ozb8eIh6yUVwQupoIUt43wSL
-         U42w==
-Message-ID: <93a5c37d-1f14-4522-9f39-3056e18a9c31@gmail.com>
-Date: Fri, 13 Oct 2023 23:42:31 +0900
-MIME-Version: 1.0
-Subject: [PATCH -perfbook 3/3] Make sure all PDF conversions are complete
-Content-Language: en-US
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55928 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232535AbjJMXnu (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Fri, 13 Oct 2023 19:43:50 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16950CA
+        for <perfbook@vger.kernel.org>; Fri, 13 Oct 2023 16:43:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697240628;
+        bh=XN6ioG/7RPenREscjKrlBNubpAlc4NH+mJgT6VN2SjE=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=jRFIGFbSVBNkyzesHarvu7i0UNN6tllx0TVJe+MFg5BjLNwJC1jkcqYo4W+kCxw5L
+         GuIcODHiU6HCDGwT7wVbdNbY+ctO4rz80XUXdV83IctVGycTFeB0CUx1oDlgFYWdd+
+         wjzE4yWquF+Xhh57F3xbX1k4d/u99vzkcaokPLG2j3cvGY/bemcnBenBj9/+Ojwi/B
+         6ago6A/U//t+3I6SDZfYz/d2D8wUFBlIObi5cgYoNKQmVSRxamDE0kG4msUtTZZHVd
+         723IxL13CvnvUAVXOFu45C7bgtk3Q2E5dgwc6mVsIcIhaUjTfJzWqfWHOM58npiOds
+         V9X69g5SaEozQ==
+Date: Fri, 13 Oct 2023 16:43:47 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH -perfbook 0/3] Work around errors of unstable Inkscape
+Message-ID: <f832504c-3c69-451d-9ca7-4c6ecff11385@paulmck-laptop>
+Reply-To: paulmck@kernel.org
 References: <603b38d3-7d46-4edf-869b-e688a1577b1c@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <603b38d3-7d46-4edf-869b-e688a1577b1c@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
 
-Crashes of Inkscape can disturb parallel runs of SVG --> PDF conversions.
+On Fri, Oct 13, 2023 at 11:33:18PM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> I expected the crashing bug in Fedora's distro Inkscape would be
+> resolved by the time of Fedora 39 release.
+> I tested Fedora 39 beta and was disappointed to see more or less the
+> same crashes of command-line runs of Inkscape as those under Fedora 38.
+> 
+> As a matter of fact, even when Inkscape crashes, the export of PDF
+> is complete most of the time.  So the crashing bug can be worked
+> around by ignoring the error code from Inkscape and continue building.
+> 
+> This patch set implements the ad-hoc workaround in build scripts.
+> 
+> As you can see in Patch 1/3, the workaround is enabled by default.
+> This is because enabling it won't do any harm on systems with
+> stable Inkscape.
+> 
+> I might be able to add some heuristics not to enable the workaround
+> for stable Inkscape installs, but that can wait.
+> 
+> Ubuntu releases 22.04LTS, 23.04, and 23.10 are free of this issue.
 
-Add a sub-make run of "make -j1 figs" in the early stage of latex
-run to make sure any missing PDF figures can be prepared in time.
+Ouch!
 
-Note:
-    If GNUmake's dependency check is perfect, when there were any
-    missing PDF files remaining, the recipe of autodate.tex shouldn't
-    run.  Unfortunately, it looks like that is not the case.
+But look like a good approach.  Queued and pushed, thank you!
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- Makefile | 4 ++++
- 1 file changed, 4 insertions(+)
+							Thanx, Paul
 
-diff --git a/Makefile b/Makefile
-index 6e220c2db524..3875c52b1570 100644
---- a/Makefile
-+++ b/Makefile
-@@ -267,6 +267,10 @@ endif
- autodate.tex: $(LATEXSOURCES) $(BIBSOURCES) $(LST_SOURCES) \
-     $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG) $(FCVSNIPPETS) $(FCVSNIPPETS_VIA_LTMS) \
-      $(GITREFSTAGS) utilities/autodate.sh
-+ifneq ($(IGNORE_INKSCAPE_ERROR),0)
-+	# Make sure all SVG --> PDF conversions are complete
-+	$(MAKE) -j1 figs
-+endif
- 	sh utilities/autodate.sh
- 
- perfbook_flat.tex: autodate.tex
--- 
-2.25.1
-
-
+>         Thanks, Akira
+> --
+> Akira Yokosawa (3):
+>   Ignore error of unstable Inkscape
+>   Ignore emergency-save SVG files from Inkscape
+>   Make sure all PDF conversions are complete
+> 
+>  .gitignore |  1 +
+>  Makefile   | 17 ++++++++++++++---
+>  2 files changed, 15 insertions(+), 3 deletions(-)
+> 
+> 
+> base-commit: 84759ebac65a03aa28c5b02007e6c472b3416d3d
+> -- 
+> 2.25.1
+> 
