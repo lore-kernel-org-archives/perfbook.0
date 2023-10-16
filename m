@@ -1,60 +1,74 @@
-Return-Path: <SRS0=1PbI=F4=gmail.com=akiyks@kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697273016; x=1697877816; darn=kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/ksc6WYDZDvw8qMlW6AlkvPQ6uR/1eS7GAmpngPTdic=;
-        b=FwmxWXOnnn10szmfB1P7xU/PRIoVAaeZtVbLtdTgpnJcDsHsKr9WBAj40WgfPVPoDW
-         u/Qn3rnXb7zzcLJung9KA+9ke0qmcAl6lJ+2FrA8F+5TbTJjIQWJF7FEUzM/ARs5DLms
-         jBMir51t3tPpg+GXlOq/Z/aAifYy/tlKNJdXgJC6SVdRCN3cmZJ8HbeSsCywKov31NIS
-         lfbtzCthTpATnP1kugfBvUKUKLHkwZSCWZC+VXoZpc6cXe1kMCXn3jq2+h1Z/6lXSkoC
-         +Jh+cs35OjwAbRG/YDivx7HvuDyn6C3933BKCcCmLHgRRdrVMgU3FQ1FjfRhJSbx0z3n
-         1+gw==
-Message-ID: <15c11f4f-52a7-4427-aec9-b2a875ad121c@gmail.com>
-Date: Sat, 14 Oct 2023 17:43:33 +0900
-MIME-Version: 1.0
-Subject: [PATCH -perfbook v2 3/3] memorder: Update of ordering SSE
- non-temporal memory move instructions
-Content-Language: en-US
+Return-Path: <perfbook-owner@vger.kernel.org>
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50426 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229623AbjJPEBn (ORCPT
+        <rfc822;perfbook@vger.kernel.org>); Mon, 16 Oct 2023 00:01:43 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 786D3C5
+        for <perfbook@vger.kernel.org>; Sun, 15 Oct 2023 21:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697428900;
+        bh=3eHBZhZsiEBONclPB9Ceaw1j9ufm0J0kxKVXyoRc2LM=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=qE4t70XLpKPBC6lYmz3u+NwWMUqpyIWayvvShR7TRPAM/TUD95sA2tyvRutrx+IA/
+         yiL6SzhgIzaBo+4C6HfBkEJ+hEwkmgpSBxTkYS03teoIMr1HpC6Zj7+kSZIiPxqm2v
+         LZs+x75J2W5R7KHIQS7GLJQfwwLqxkO9N/42nZwHqOpudjel8Hs8QKHkr30O/t++4y
+         IL8CoyalpVnb3M9aojj6gFszAz92n+tHJt7Dzx0FMkjh2Z427qL3zncMvosv9WvA01
+         B3mwRNoR83JbBKQ8psUHwLdphajZf7PNq3h1qsBnN+f7bgN+MqHQctxlBuR0YpOaj9
+         XpGE35oFZTUpw==
+Date: Sun, 15 Oct 2023 21:01:40 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH -perfbook v2 0/3] memorder: Add info on recent x86
+ implementation of smp_mb()
+Message-ID: <b89ac639-10f8-440f-8a80-2bc942934d12@paulmck-laptop>
+Reply-To: paulmck@kernel.org
 References: <20231013012238.1455140-1-joel@joelfernandes.org>
  <91cf01c3-3e67-4763-ab27-9070e50cb245@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <91cf01c3-3e67-4763-ab27-9070e50cb245@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc: paulmck@kernel.org, perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: "Joel Fernandes (Google)" <joel@joelfernandes.org>, perfbook@vger.kernel.org
 
-Since Linux v4.15, smp_mb(), smp_wmb(), and smp_rmb() don't suffice
-for ordering them.
+On Sat, Oct 14, 2023 at 05:37:04PM +0900, Akira Yokosawa wrote:
+> Hi Joel,
+> 
+> So this is v2 based on your patch.
+> 
+> As is often the case in perfbook workflow, I split the bib
+> update into Patch 1/3.
+> 
+> Patch 2/3 includes much more changes than I thought.
+> Please see notes under "---".
+> 
+> Patch 3/3 is my own adjustment of the paragraph in front of
+> your update.
+> 
+> And I dropped "Cc: Paul", as Paul is the one who will be in
+> the SOB chain.
 
-Update the text accordingly and add a footnote.
+Queued and pushed, thank you both!
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- memorder/memorder.tex | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+							Thanx, Paul
 
-diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index 6b9c3268e589..da56a6999c3f 100644
---- a/memorder/memorder.tex
-+++ b/memorder/memorder.tex
-@@ -6075,8 +6075,10 @@ that same location, you are on your own.
- Some SSE instructions are weakly ordered (\co{clflush}
- and non-temporal move instructions~\cite{IntelXeonV2b-96a}).
- Code that uses these non-temporal move instructions
--can also use \co{mfence} for \co{smp_mb()},
--\co{lfence} for \co{smp_rmb()}, and \co{sfence} for \co{smp_wmb()}.
-+can use \co{mfence} for \co{mb()},
-+\co{lfence} for \co{rmb()}, and \co{sfence} for \co{wmb()}.\footnote{
-+	\co{smp_mb()}, \co{smp_rmb()}, and \co{smp_wmb()} don't suffice
-+	for ordering non-temporal move instructions since Linux v4.15.}
- A few older variants of the x86 CPU have a mode bit that enables out-of-order
- stores, and for these CPUs, \co{smp_wmb()} must also be defined to
- be \co{lock;addl}.
--- 
-2.25.1
-
-
+>         Thanks, Akira
+> --
+> Akira Yokosawa (1):
+>   memorder: Update of ordering SSE non-temporal memory move instructions
+> 
+> Joel Fernandes (Google) (2):
+>   bib/memorymodel: Add Tsirkin2017
+>   memorder: Add info on recent x86 implementation of smp_mb()
+> 
+>  bib/memorymodel.bib   | 10 ++++++++++
+>  memorder/memorder.tex | 16 ++++++++++++++--
+>  2 files changed, 24 insertions(+), 2 deletions(-)
+> 
+> 
+> base-commit: a01629a5f734b7617ee0ac4d4ded28b0605cf7cd
+> -- 
+> 2.25.1
+> 
+> 
