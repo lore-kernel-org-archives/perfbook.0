@@ -1,74 +1,123 @@
-Return-Path: <perfbook-owner@vger.kernel.org>
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50426 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbjJPEBn (ORCPT
-        <rfc822;perfbook@vger.kernel.org>); Mon, 16 Oct 2023 00:01:43 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 786D3C5
-        for <perfbook@vger.kernel.org>; Sun, 15 Oct 2023 21:01:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697428900;
-        bh=3eHBZhZsiEBONclPB9Ceaw1j9ufm0J0kxKVXyoRc2LM=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=qE4t70XLpKPBC6lYmz3u+NwWMUqpyIWayvvShR7TRPAM/TUD95sA2tyvRutrx+IA/
-         yiL6SzhgIzaBo+4C6HfBkEJ+hEwkmgpSBxTkYS03teoIMr1HpC6Zj7+kSZIiPxqm2v
-         LZs+x75J2W5R7KHIQS7GLJQfwwLqxkO9N/42nZwHqOpudjel8Hs8QKHkr30O/t++4y
-         IL8CoyalpVnb3M9aojj6gFszAz92n+tHJt7Dzx0FMkjh2Z427qL3zncMvosv9WvA01
-         B3mwRNoR83JbBKQ8psUHwLdphajZf7PNq3h1qsBnN+f7bgN+MqHQctxlBuR0YpOaj9
-         XpGE35oFZTUpw==
-Date: Sun, 15 Oct 2023 21:01:40 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH -perfbook v2 0/3] memorder: Add info on recent x86
- implementation of smp_mb()
-Message-ID: <b89ac639-10f8-440f-8a80-2bc942934d12@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20231013012238.1455140-1-joel@joelfernandes.org>
- <91cf01c3-3e67-4763-ab27-9070e50cb245@gmail.com>
+Return-Path: <SRS0=0yOs=GC=gmail.com=akiyks@kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697794176; x=1698398976; darn=kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oRFWgrTTAcDniHBa987aPxy/QNNHGURshTySxFMPVFc=;
+        b=ET+wVwup9yjhq9fPlCK/fYLKLKTlhRraf6CksX5UGyNxWGtrKHIGAyp1hoBnDb01NX
+         SmvAnAuaeD8QLfnngcdxCLjB1hcSEikJGupGcCljW7fVNrUUcCq72ATCfP2mWd2ZKyse
+         CNvWEp1qHWY6D2caOqPyrDId3a1noQnfLYHpVuwayclQNFB5H0sDl4GTh+CoZS6nM1sN
+         6s4NHuL8Rhh2M+4GqAMUA7GioUsQcSmErHk+LD3rnpQq+anTFAHcZg4HME4idTIXVH4h
+         sq9cypUrL3LkxuaGHpgrvI0zaFQxkAzehe2PK00acbEtC+F92cm6gBuBst5CFcWRiw6C
+         RAgQ==
+Message-ID: <f3621f4d-17b8-4c36-8d92-f8f031fe1281@gmail.com>
+Date: Fri, 20 Oct 2023 18:29:32 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <91cf01c3-3e67-4763-ab27-9070e50cb245@gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] Prevent inkscape from interacting with desktop
+ manager
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 List-ID: <perfbook.vger.kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: "Joel Fernandes (Google)" <joel@joelfernandes.org>, perfbook@vger.kernel.org
 
-On Sat, Oct 14, 2023 at 05:37:04PM +0900, Akira Yokosawa wrote:
-> Hi Joel,
-> 
-> So this is v2 based on your patch.
-> 
-> As is often the case in perfbook workflow, I split the bib
-> update into Patch 1/3.
-> 
-> Patch 2/3 includes much more changes than I thought.
-> Please see notes under "---".
-> 
-> Patch 3/3 is my own adjustment of the paragraph in front of
-> your update.
-> 
-> And I dropped "Cc: Paul", as Paul is the one who will be in
-> the SOB chain.
+Crashes of command-line Inkscape happens when it exits too soon
+before it can be properly removed from window manager's list of
+applications it is aware of.
+Glib 2.75.3 has removed GSlice allocator [1], which was permissive
+about UAF issues.
 
-Queued and pushed, thank you both!
+Question is, "why is the command-line Inkscape registered in
+such a list in the first place?"
 
-							Thanx, Paul
+There is mention of an option named "--without-gui" in Inkscape's
+wiki page on "Using the Command Line" [2]:
 
->         Thanks, Akira
-> --
-> Akira Yokosawa (1):
->   memorder: Update of ordering SSE non-temporal memory move instructions
-> 
-> Joel Fernandes (Google) (2):
->   bib/memorymodel: Add Tsirkin2017
->   memorder: Add info on recent x86 implementation of smp_mb()
-> 
->  bib/memorymodel.bib   | 10 ++++++++++
->  memorder/memorder.tex | 16 ++++++++++++++--
->  2 files changed, 24 insertions(+), 2 deletions(-)
-> 
-> 
-> base-commit: a01629a5f734b7617ee0ac4d4ded28b0605cf7cd
-> -- 
-> 2.25.1
-> 
-> 
+    The --without-gui option has been removed. Most parameters
+    trigger Inkscape to run without GUI by default now. Instead
+    enable GUI mode specifically using --with-gui if needed.
+
+However, current Inkscape does *initialize* itself as a GUI
+application regardless of the need of GUI.
+
+Alternatively, Inkscape can be forced to run isolated from window/
+desktop managers with bogus strings set to a couple of env variables.
+
+After some tries and errors, these two env variables turned out
+to be essential here:
+
+    - XDG_RUNTIME_DIR
+    - DBUS_SESSION_BUS_ADDRESS
+
+Update Makefile and set bogus strings to them, which sounds a little
+rough but should be better than ignoring error codes, after reverting
+commits:
+
+    - c2f9a99366b3 ("Ignore error of unstable Inkscape")
+    - a01629a5f734 ("Make sure all PDF conversions are complete")
+
+This change resolves crashes of Inkscape observed under Fedora 38,
+Fedora 39 beta, Ubuntu 23.04, and openSUSE tumbleweed.
+
+[1]: https://gitlab.gnome.org/GNOME/glib/-/issues/1079
+[2]: https://wiki.inkscape.org/wiki/index.php/Using_the_Command_Line
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Makefile | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 3875c52b..424a166c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -111,7 +111,6 @@ INKSCAPE := $(shell $(WHICH) inkscape 2>/dev/null)
+ ifdef INKSCAPE
+   INKSCAPE_ONE := $(shell inkscape --version 2>/dev/null | grep -c "Inkscape 1")
+ endif
+-IGNORE_INKSCAPE_ERROR ?= 1
+ LATEXPAND := $(shell $(WHICH) latexpand 2>/dev/null)
+ QPDF := $(shell $(WHICH) qpdf 2>/dev/null)
+ 
+@@ -267,10 +266,6 @@ endif
+ autodate.tex: $(LATEXSOURCES) $(BIBSOURCES) $(LST_SOURCES) \
+     $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG) $(FCVSNIPPETS) $(FCVSNIPPETS_VIA_LTMS) \
+      $(GITREFSTAGS) utilities/autodate.sh
+-ifneq ($(IGNORE_INKSCAPE_ERROR),0)
+-	# Make sure all SVG --> PDF conversions are complete
+-	$(MAKE) -j1 figs
+-endif
+ 	sh utilities/autodate.sh
+ 
+ perfbook_flat.tex: autodate.tex
+@@ -455,6 +450,9 @@ else
+   include epstopdf-rule.mk
+ endif
+ 
++# bogus settings for preventing Inkscape from interacting with desktop manager
++ISOLATE_INKSCAPE ?= XDG_RUNTIME_DIR=na DBUS_SESSION_BUS_ADDRESS=na
++
+ $(PDFTARGETS_OF_SVG): $(FIXSVGFONTS)
+ $(PDFTARGETS_OF_SVG): %.pdf: %.svg
+ 	@echo "$< --> $(suffix $@)"
+@@ -488,11 +486,7 @@ endif
+ ifeq ($(INKSCAPE_ONE),0)
+ 	@inkscape --export-pdf=$@ $<i > /dev/null 2>&1
+ else
+-  ifneq ($(IGNORE_INKSCAPE_ERROR),0)
+-	-@inkscape -o $@ $<i > /dev/null 2>&1
+-  else
+-	@inkscape -o $@ $<i > /dev/null 2>&1
+-  endif
++	@$(ISOLATE_INKSCAPE) inkscape -o $@ $<i > /dev/null 2>&1
+ endif
+ 	@rm -f $<i
+ ifeq ($(chkpagegroup),on)
+
+base-commit: 0ecdabe67aae15f616e4a6ffeda8c4f76ff385ae
+-- 
+2.34.1
+
