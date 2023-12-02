@@ -1,116 +1,104 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IsfdT6JH"
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46AD6C4
-	for <perfbook@vger.kernel.org>; Sat,  2 Dec 2023 13:32:12 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-5c2b7ec93bbso1337798a12.2
-        for <perfbook@vger.kernel.org>; Sat, 02 Dec 2023 13:32:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ed9Pk30V"
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45E31BD
+	for <perfbook@vger.kernel.org>; Sat,  2 Dec 2023 13:33:53 -0800 (PST)
+Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-3b837d974ecso1562685b6e.2
+        for <perfbook@vger.kernel.org>; Sat, 02 Dec 2023 13:33:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701552732; x=1702157532; darn=vger.kernel.org;
-        h=in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=LbP17Ow5zgw6FNZDAwLAx1d80ywX84Vl1RdrS5C0LO4=;
-        b=IsfdT6JHbpaDmJInVdOsZUCww8wc0V2fodxO3mAYmBDB7z2ItHwm78N6p+Y4dXWjKw
-         0t7n5kGo1tqvd/gUpD2IsDLxvp//eXnG9lpH5EntqAHMt/X0nds19oIaH37mEMI8NfZF
-         AYAj+k0o3CqxPHsaN3Msqg5aX/9IRxSyTEB32QcMnzLHCkL8C8uk9dnteHVQHgXbAloy
-         Pts0H7ipSydjQcGzU4+SYHiTr3rHoVqkqRC4ZdDb4tb+8MfyDJhb38piDdCbPoFcS81r
-         iHkMh9Tfd9jYd+NlLu3cbdbORlFNCzqdYcUARoTQuZWtwp+QYMXc2Pnxn9CSMkG9ZnS9
-         uGqw==
+        d=gmail.com; s=20230601; t=1701552832; x=1702157632; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l/8QHF6mXqShons/ys5ln2Ob7ucbLk/HAHGl48RpD1M=;
+        b=Ed9Pk30VZemAlTrD+eoz+I8uxmFMWpz4PXTskiHlYdRud2Hb4M/CZvYKCVHWzKutdx
+         I6D7JD6jzp9pz2ve/2UdF/LyfnnJRpqgZDGZ1+QMOXuHx9INrG5xuu24ClcATTcWhodD
+         EjmjLvZL85lqUaNGPM/77NQp2L3XcS5RmvFQVZyO+Fl6BWccqudK5o6DMHisYiJE+/OQ
+         UmYaFMdEwfBpLa6Q7JobpIVoIaace8z3v+Kq64z055ZTChJX9KJ++Rza+MMJ6hoVtTq9
+         8tiW3Z8ybWhKA9FOe2mE9bFIFseCvxuSHYEJNJtOdXNxomnEywVsF6TFdLbHhI7ZnNAY
+         TD7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701552732; x=1702157532;
-        h=in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LbP17Ow5zgw6FNZDAwLAx1d80ywX84Vl1RdrS5C0LO4=;
-        b=epPL3UFmY1yx9VIHhGcWE9rl+XpSsLkeoZ/1MIfcIVJ99we2AJ4lyDzt9qrwTLWOgf
-         RXsJFU4PHbtvUOdkxCwvVmyuGEKv4pFR7k4vr77Fbk9dwNL8GrLNyoAy/l7UoAJdwd5S
-         MDJNH0iQ6ppnpTmB9kkyHvYs1yoKLyMcgk+D/hB/PRSdmA+luCja9gFgQpdeh0dUqzLh
-         SmIlQ8/rbkl4kMDd2lTQvUvFubOeyaVJC8vh8JD5n39baTXs+4j72W46vqnTEH7OOm1r
-         8RIbKsk9ZxpeW1SKeo+B/1as9i9Rd4qrs98mas8d2zMdBCm5nzBI7AVqRvx9qpcD3ScW
-         S/+Q==
-X-Gm-Message-State: AOJu0Yx5bPBgi1It+ytGx7ulriX4BYG3VCEalrHss0fNygWBCdEg+Urf
-	VyufV9lfJ+YD7yQDO7WFsYE=
-X-Google-Smtp-Source: AGHT+IFASMQ92mQCxxWOMAaCzggrr7u6tPVwlwYZ5V0l6Nv2klaHi4PAc6JjOpL8wut35kbMYWtwAA==
-X-Received: by 2002:a17:903:11c4:b0:1cf:f3a0:3c8e with SMTP id q4-20020a17090311c400b001cff3a03c8emr1949265plh.28.1701552731637;
-        Sat, 02 Dec 2023 13:32:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701552832; x=1702157632;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l/8QHF6mXqShons/ys5ln2Ob7ucbLk/HAHGl48RpD1M=;
+        b=qbBsnOrxYqLfcocuar4X0T87C/mWNBnsZr5KVmmiHNiE2ZK016tEdHok9db9Ian7ky
+         GmzQhp4+bZeyRML/NdzFxe4xL1jbR6xBIt9tuKgPJzg286P33yRvddGyARKDtE2IZK7o
+         HZb8b884qVFIrf+IrhBf1egEH1XVIrx6185vzG89bJyPGFFvDsOWAwVYTBhCvXBoJbV9
+         vqYnwlSUsUyq+3ymkG/lGi9+iQRRWvQ0FpnO/H91FhnjSvwS8ekYRm8NQmU2K3tR6gzo
+         9oUt5VwMtQUrv3idRUmd7wh2DQfXbpPTcdu/7/Uc6hBEw+Gxc+I5mMTNCYKr39A/qYr9
+         Sn4w==
+X-Gm-Message-State: AOJu0Yz2qTqVpNP1j9gd6i7ZdM86u6NCD4NRtnxkQ/wSbaN96WR1QNyg
+	iJqcua689PGJb4ZU1V1MqJ4=
+X-Google-Smtp-Source: AGHT+IGFjYEiV1Io8NwUtlbpWKqfXVWK9ebax5ZsD9qZTZV7ZY8AaHeF1bdsp4uv6tTp33eCmIFEcw==
+X-Received: by 2002:a05:6808:bd6:b0:3ae:bae2:fa76 with SMTP id o22-20020a0568080bd600b003aebae2fa76mr2418424oik.36.1701552832388;
+        Sat, 02 Dec 2023 13:33:52 -0800 (PST)
 Received: from localhost.localdomain ([216.243.7.87])
-        by smtp.gmail.com with ESMTPSA id h2-20020a170902f7c200b001d0695106c4sm2325469plw.105.2023.12.02.13.32.10
+        by smtp.gmail.com with ESMTPSA id l13-20020a170902eb0d00b001d07b6a0af4sm1252643plb.182.2023.12.02.13.33.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Dec 2023 13:32:10 -0800 (PST)
+        Sat, 02 Dec 2023 13:33:52 -0800 (PST)
 From: SeongJae Park <sj38.park@gmail.com>
-X-Google-Original-From: SeongJae Park <sj@kernel.org>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: SeongJae Park <sj38.park@gmail.com>,
-	perfbook@vger.kernel.org
-Subject: Re: [PATCH 7/7] future/formalregress: Use SEL4 consistently
-Date: Sat,  2 Dec 2023 13:32:09 -0800
-Message-Id: <20231202213209.22836-1-sj@kernel.org>
+To: paulmck@kernel.org
+Cc: perfbook@vger.kernel.org,
+	SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH v2] future/formalregress: Use seL4 consistently
+Date: Sat,  2 Dec 2023 13:33:46 -0800
+Message-Id: <20231202213346.23070-1-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <50a43146-d9dd-45fe-8569-0e33314a4648@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 
-On Sat, 2 Dec 2023 11:29:45 -0800 "Paul E. McKenney" <paulmck@kernel.org> wrote:
+formalregress.tex is using mixed use of SEL4 and seL4.  SEL4 is used 8
+times, while seL4 is used twice over the entire repository.  That said,
+seL4 seems the intended name since their website[1] uses the name.  Use
+seL4 consistently.
 
-> On Sat, Dec 02, 2023 at 09:26:14AM -0800, SeongJae Park wrote:
-> > formalregress.tex is using mixed use of SEL4 and seL4.  SEL4 is used 8
-> > times, while seL4 is used twice over the entire repository.  Use SEL4
-> > for the consistency.  Note that use of seL4 in swtools.bib is not
-> > changed by this commit.
-> > 
-> > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> 
-> Nice, thank you!
+[1] https://sel4.systems/
 
-You're very welcome, Paul!
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+Changes from v1
+- Use seL4 instead of SEL4
 
-> 
-> I queued and pushed all but this one.  Their website [1] says seL4.
-> At least I *think* that this is their website.
+ future/formalregress.tex | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Agreed :)
+diff --git a/future/formalregress.tex b/future/formalregress.tex
+index b1a39b29..63c9021f 100644
+--- a/future/formalregress.tex
++++ b/future/formalregress.tex
+@@ -118,23 +118,23 @@ that the compiler is correct.
+ An alternative approach is to take the binary produced by the C compiler
+ as input, thereby accounting for any relevant compiler bugs.
+ This approach has been used in a number of verification efforts,
+-perhaps most notably by the SEL4
++perhaps most notably by the seL4
+ project~\cite{ThomasSewell2013L4binaryVerification}.
+ 
+ \QuickQuiz{
+ 	Given the groundbreaking nature of the various verifiers used
+-	in the SEL4 project, why doesn't this chapter cover them in
++	in the seL4 project, why doesn't this chapter cover them in
+ 	more depth?
+ }\QuickQuizAnswer{
+-	There can be no doubt that the verifiers used by the SEL4
++	There can be no doubt that the verifiers used by the seL4
+ 	project are quite capable.
+-	However, SEL4 started as a single-CPU project.
+-	And although SEL4 has gained multi-processor
++	However, seL4 started as a single-CPU project.
++	And although seL4 has gained multi-processor
+ 	capabilities, it is currently using very coarse-grained
+ 	locking that is similar to the Linux kernel's old
+ 	Big Kernel Lock (BKL)\@.
+ 	There will hopefully come a day when it makes sense to add
+-	SEL4's verifiers to a book on parallel programming, but
++	seL4's verifiers to a book on parallel programming, but
+ 	this is not yet that day.
+ }\QuickQuizEnd
+ 
+-- 
+2.17.1
 
-> 
-> Either way, I agree that this should be consistent with their naming.
-
-Sure, I will send a new revision soon.
-
-> 
-> On the Promela/spin change, should a similar change be applied in the
-> Formal Verification chapter?
-
-I already finished the translation of the chapter, but hopefully I will revisit
-it soon :)  Don't wait for me, though!
-
-
-Thanks,
-SJ
-
-> 
-> 							Thanx, Paul
-> 
-> [1] https://sel4.systems/
-> 
-> > ---
-> >  future/formalregress.tex | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/future/formalregress.tex b/future/formalregress.tex
-> > index b1a39b29..40bf2b35 100644
-> > --- a/future/formalregress.tex
-> > +++ b/future/formalregress.tex
-> > @@ -701,7 +701,7 @@ so they are all yellow with question marks.
-> >  	Indeed there are!
-> >  	This table focuses on those that Paul has used, but others are
-> >  	proving to be useful.
-> > -	Formal verification has been heavily used in the seL4
-> > +	Formal verification has been heavily used in the SEL4
-> >  	project~\cite{ThomasSewell2013L4binaryVerification},
-> >  	and its tools can now handle modest levels of concurrency.
-> >  	More recently, Catalin Marinas used Lamport's
-> > -- 
-> > 2.17.1
-> > 
-> > 
