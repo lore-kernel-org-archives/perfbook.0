@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Te2mV8C6"
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27AD2134
-	for <perfbook@vger.kernel.org>; Sat,  2 Dec 2023 09:26:25 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-2867ace9967so290061a91.1
-        for <perfbook@vger.kernel.org>; Sat, 02 Dec 2023 09:26:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FNIrW77P"
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39CC611F
+	for <perfbook@vger.kernel.org>; Sat,  2 Dec 2023 09:26:26 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1cfd78f8a12so14314245ad.2
+        for <perfbook@vger.kernel.org>; Sat, 02 Dec 2023 09:26:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701537984; x=1702142784; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1701537985; x=1702142785; darn=vger.kernel.org;
         h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=+T5DAqFI4/Rt7TCiumJKip49Agoqf7Jxj6pyct/BMMk=;
-        b=Te2mV8C6aRm5gJrPIYA+ZasOAQd3r7ti2D7Mn8yAtrv7h+5IqS8Rt2QACWoQuD0Eeh
-         4JpFjTu7Zug0JiuZzG500B0m7WCVLWp3z+M3NrpqT8O4LKsytGNCWDCYLwdJ0A6ZpNwH
-         4BKCncFyHa6lawxPAcCK8/TFgxP/3EUFcKGoFck3ZqfJXNNQ+G2wmcRSpSNOWAAsPBXH
-         uq7kIIVgvDifpZ2Mr8muJOaZCKooJ7ap99Xk0nRPMQdrs8u1YvXs5xKyXv46DUFW7PMu
-         jbb2K1RvLLKbZSyqTYsr6VGPss1o+mD2f7Wb1IwnkIS6kWC2NNtaWaPca864GZ91oXee
-         fGZA==
+        bh=oKpABs2FizGJm2drpOyK/pzosQ6yQNDwx/81M1DUrvo=;
+        b=FNIrW77Pr/Ssn/w92aaQH5Qj9OVvI56FAIgwd2rFbRZptL4gENZtagdy5DZfXvNXjB
+         Y5j8fpZkjzabfdD3Tb9nmwiNaO84r4MSKIJAN5b4YXqbJ9KVr1J7bUGS1IeUky3aYJfT
+         HvzlXql8zBvN3j3pZ6pM+wqPC/urgDVsZ5ZhvNP/Llfz2ATgiLb3ilgtYP/YxeuX0mlN
+         7sQNXbfSVMC/MFLdfSIL1/uPOYe3tFepJJVePn5wnHVa+nokfn1+1Lyw0kMcDsKnDn1G
+         fPbAUqN7o6XW6aTsp3GeJs1ukp8CBsWcccGqRoeJIqjaG/ietZrqbFF+IqEWgWjRkQKj
+         x57g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701537984; x=1702142784;
+        d=1e100.net; s=20230601; t=1701537985; x=1702142785;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+T5DAqFI4/Rt7TCiumJKip49Agoqf7Jxj6pyct/BMMk=;
-        b=KvSAyq2i8i6rJ760FvtWmaUdcvGxITK8u4LIJWYZQ1nUGBbT3U7uJM1WqppxKLZnB+
-         cWrJiHfZGQOkygOXcD+vwhYjisNH6nd2eJ5/VJ7UazceqfUpW7IcV3x9e/+S4zScJEBd
-         DzzcWYp3Oc+lqDqU3N9hmVUnvY1xyloUUD84xk9QYzNnI76mIEzkXin2KrPUIKpNJCdV
-         mS0hh2NzZSK/eDAutkfPO3tLJr/crdlzJSYIUtnLqkEQFyPVF220UjMbziBJBswJDol9
-         DHU/KiWpEQ3ACY9Z4etkrOy33dDJITkawVSZz54AuW1Lau37MC8ndVR5/kUBS+Uc62C8
-         mCoA==
-X-Gm-Message-State: AOJu0YwTOlGOKpmrlOWlRDKv6UVitJBND3+sBr86/FxSKsz8J1uzFCYs
-	cHBnEEstBWfSW2atYAKNwQs=
-X-Google-Smtp-Source: AGHT+IHdQ2Ud9SgSToTG8mPsMP84sVpC/fqpZHyCDbJsyrhnJBPPQCE6BHYRdSWG1cW7KbzGvGVuyw==
-X-Received: by 2002:a17:90a:8a85:b0:286:6cc1:3f18 with SMTP id x5-20020a17090a8a8500b002866cc13f18mr1044317pjn.79.1701537984629;
-        Sat, 02 Dec 2023 09:26:24 -0800 (PST)
+        bh=oKpABs2FizGJm2drpOyK/pzosQ6yQNDwx/81M1DUrvo=;
+        b=DzZziA3G2L1+qKXHEgq8qTNA2/jbvOTJ/vjVoQ+L6M74CC03+hppTcIrScZ3J+v+Zv
+         cgdVthwy84UeJ7Ij9ZCs6hQ3HGpewY5Ky0qIzWEVoX8oSobNvhQyXHcBF9AM+Gh6XKwK
+         qvCuc4qxCaVnsxXab5kbMaRGWdOXKGOV2jn1rcb/fqfDv8RiP8EIQq7KXMocz8jKd7P6
+         dDE+ww91BuhoWiddFoVZ0Wk+5TX/8t9q6TkFTwclRlEY+BAUtWnhrNa1tVpzj3oUbt4/
+         wTqZc259CXfc7ioL99Lsv9d7Rz/7kCpfov46gE4dY4qpp2ZC6WfE+04PmBmB/EWzVmVb
+         z35g==
+X-Gm-Message-State: AOJu0Yw4V8v+VEzVkIsKS9tCaBhYOWzhLO4nwG+mLAolZ7CTSML3keEM
+	MYJGRT8KzFTx4X2BF1jkd+0=
+X-Google-Smtp-Source: AGHT+IHPco1kid26j9G671RbHRKyYpONozXSCLX6VcJINWtjLrdzCQl6faHmDqXeVBOKr3k50Axw1w==
+X-Received: by 2002:a17:902:8f8c:b0:1d0:6ffd:e2d7 with SMTP id z12-20020a1709028f8c00b001d06ffde2d7mr1485249plo.113.1701537985601;
+        Sat, 02 Dec 2023 09:26:25 -0800 (PST)
 Received: from localhost.localdomain ([216.243.7.87])
-        by smtp.gmail.com with ESMTPSA id x12-20020a170902ea8c00b001c736b0037fsm3600714plb.231.2023.12.02.09.26.23
+        by smtp.gmail.com with ESMTPSA id x12-20020a170902ea8c00b001c736b0037fsm3600714plb.231.2023.12.02.09.26.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Dec 2023 09:26:23 -0800 (PST)
+        Sat, 02 Dec 2023 09:26:24 -0800 (PST)
 From: SeongJae Park <sj38.park@gmail.com>
 To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org,
 	SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 4/7] future/htm: Remove unnecessary extra 'and'
-Date: Sat,  2 Dec 2023 09:26:11 -0800
-Message-Id: <20231202172614.20239-5-sj38.park@gmail.com>
+Subject: [PATCH 5/7] future/htm: Use \co{} in favor of $$
+Date: Sat,  2 Dec 2023 09:26:12 -0800
+Message-Id: <20231202172614.20239-6-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20231202172614.20239-1-sj38.park@gmail.com>
 References: <20231202172614.20239-1-sj38.park@gmail.com>
@@ -52,8 +52,8 @@ List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 
-A sentence in future/htm.tex is having 'and' unnecessarily.  Probably
-just a typo.  Remove it.
+A sentence in htm.tex is using $$ for a code snippet.  Use \co{}
+instead.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
@@ -61,18 +61,18 @@ Signed-off-by: SeongJae Park <sj38.park@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/future/htm.tex b/future/htm.tex
-index 1404169e..7a5e4ed3 100644
+index 7a5e4ed3..fd5a81d1 100644
 --- a/future/htm.tex
 +++ b/future/htm.tex
-@@ -582,7 +582,7 @@ semantics of locking, but loses locking's time-based messaging semantics.
- 
- 	On the other hand, it is possible for a non-empty lock-based
- 	critical section to be relying on both the data-protection
--	and time-based and messaging semantics of locking.
-+	and time-based messaging semantics of locking.
- 	Using transactional lock elision in such a case would be
- 	incorrect, and would result in bugs.
- }\QuickQuizEndM
+@@ -628,7 +628,7 @@ semantics of locking, but loses locking's time-based messaging semantics.
+ 	When worker threads complete their feed, they must disentangle
+ 	themselves from the rest of the application and place a status
+ 	value in a per-thread \co{my_status} variable that is initialized
+-	to $-1$.
++	to \co{-1}.
+ 	Threads do not exit; they instead are placed on a thread pool
+ 	to accommodate later processing requirements.
+ 	The control thread assigns (and re-assigns) worker threads as
 -- 
 2.17.1
 
