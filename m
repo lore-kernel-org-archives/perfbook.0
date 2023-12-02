@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FNIrW77P"
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39CC611F
-	for <perfbook@vger.kernel.org>; Sat,  2 Dec 2023 09:26:26 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1cfd78f8a12so14314245ad.2
-        for <perfbook@vger.kernel.org>; Sat, 02 Dec 2023 09:26:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NsDnpjNT"
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ED5A124
+	for <perfbook@vger.kernel.org>; Sat,  2 Dec 2023 09:26:27 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6ce403523e5so49969b3a.3
+        for <perfbook@vger.kernel.org>; Sat, 02 Dec 2023 09:26:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701537985; x=1702142785; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1701537986; x=1702142786; darn=vger.kernel.org;
         h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=oKpABs2FizGJm2drpOyK/pzosQ6yQNDwx/81M1DUrvo=;
-        b=FNIrW77Pr/Ssn/w92aaQH5Qj9OVvI56FAIgwd2rFbRZptL4gENZtagdy5DZfXvNXjB
-         Y5j8fpZkjzabfdD3Tb9nmwiNaO84r4MSKIJAN5b4YXqbJ9KVr1J7bUGS1IeUky3aYJfT
-         HvzlXql8zBvN3j3pZ6pM+wqPC/urgDVsZ5ZhvNP/Llfz2ATgiLb3ilgtYP/YxeuX0mlN
-         7sQNXbfSVMC/MFLdfSIL1/uPOYe3tFepJJVePn5wnHVa+nokfn1+1Lyw0kMcDsKnDn1G
-         fPbAUqN7o6XW6aTsp3GeJs1ukp8CBsWcccGqRoeJIqjaG/ietZrqbFF+IqEWgWjRkQKj
-         x57g==
+        bh=clMEIfqBirDiD6HL+cJgx0TmxmGvCI9aWSiP4DDExiE=;
+        b=NsDnpjNTfasC45Nta+tjVSikE+JhL7f0oj+4IWyouVRz+jzavXqpfWNOCb2UMuHkb2
+         oZc+kabwGTD75u8JVGFfzBkB3AhwsW70JzGLxjFu36ZdQvrFaWY2opdqDJHJ8AsYcohW
+         cIdeuY1vPjDubnbBrM+ncobImFo48w0otC+EjvV89MrJ4+Uz9dRUaf7EjdHTOKafw/NN
+         sj1PFS10qKwpuKEyfa2x3Lzj2AmIxr2mSD7O9WGO2E0u8pYQSSTY9Lv7g6wGta9zJQzZ
+         0hdo+nCUMj5r+eeHrKYc/EUfx0nnhMg5Wu90fivjiQC8U3pLUIYH6yzQwGtLr06HkaDz
+         x1hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701537985; x=1702142785;
+        d=1e100.net; s=20230601; t=1701537986; x=1702142786;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oKpABs2FizGJm2drpOyK/pzosQ6yQNDwx/81M1DUrvo=;
-        b=DzZziA3G2L1+qKXHEgq8qTNA2/jbvOTJ/vjVoQ+L6M74CC03+hppTcIrScZ3J+v+Zv
-         cgdVthwy84UeJ7Ij9ZCs6hQ3HGpewY5Ky0qIzWEVoX8oSobNvhQyXHcBF9AM+Gh6XKwK
-         qvCuc4qxCaVnsxXab5kbMaRGWdOXKGOV2jn1rcb/fqfDv8RiP8EIQq7KXMocz8jKd7P6
-         dDE+ww91BuhoWiddFoVZ0Wk+5TX/8t9q6TkFTwclRlEY+BAUtWnhrNa1tVpzj3oUbt4/
-         wTqZc259CXfc7ioL99Lsv9d7Rz/7kCpfov46gE4dY4qpp2ZC6WfE+04PmBmB/EWzVmVb
-         z35g==
-X-Gm-Message-State: AOJu0Yw4V8v+VEzVkIsKS9tCaBhYOWzhLO4nwG+mLAolZ7CTSML3keEM
-	MYJGRT8KzFTx4X2BF1jkd+0=
-X-Google-Smtp-Source: AGHT+IHPco1kid26j9G671RbHRKyYpONozXSCLX6VcJINWtjLrdzCQl6faHmDqXeVBOKr3k50Axw1w==
-X-Received: by 2002:a17:902:8f8c:b0:1d0:6ffd:e2d7 with SMTP id z12-20020a1709028f8c00b001d06ffde2d7mr1485249plo.113.1701537985601;
-        Sat, 02 Dec 2023 09:26:25 -0800 (PST)
+        bh=clMEIfqBirDiD6HL+cJgx0TmxmGvCI9aWSiP4DDExiE=;
+        b=TEm4BWm9MvTGGw9gV42HkpMrMm1+ZMIYxjOL/x+g4CkiaX5M+JbRYtSaTgBXNnRcl5
+         x1HsG8Ool7S59WUjZQ5dTAKjh/855DtAtrwTheSsWMEIkaAswph4zoUbmTlGHDDyyh/O
+         pB+2G6Yua9W+WiRpSqH3XvLNe2upr9AYmh6y5zIkqR2d4TAFCw8b2VQhI6EJ86QM+qPU
+         sZ1UJQY2Fw6CbngmQLrBxIUBwMCJawIdHtRUnK5y/QPCCHwCyrzCBdjPT1TwR40H3UnN
+         tvwti0Lm+AKvGZQLR8gZp+8+RB5XS+twbErPxx0shjYqncECLoQsr/+rewnPWao++gMN
+         1viw==
+X-Gm-Message-State: AOJu0YyvihmKIgz1LGaSPqzcdS+5ithTn/pCFAEwrqYgxqtcWC1ApYPf
+	L5D84eC99nElwwk92bym0tI60QxiSuWclQ==
+X-Google-Smtp-Source: AGHT+IFroNWgcRRq/W6+qKtJ4fq55G4wQOn0JKzXrXSEShuafuOF6rasaURIXzODSj8teiifeWmhgg==
+X-Received: by 2002:a05:6a20:3d11:b0:18c:4800:b0ac with SMTP id y17-20020a056a203d1100b0018c4800b0acmr481144pzi.23.1701537986609;
+        Sat, 02 Dec 2023 09:26:26 -0800 (PST)
 Received: from localhost.localdomain ([216.243.7.87])
-        by smtp.gmail.com with ESMTPSA id x12-20020a170902ea8c00b001c736b0037fsm3600714plb.231.2023.12.02.09.26.24
+        by smtp.gmail.com with ESMTPSA id x12-20020a170902ea8c00b001c736b0037fsm3600714plb.231.2023.12.02.09.26.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Dec 2023 09:26:24 -0800 (PST)
+        Sat, 02 Dec 2023 09:26:25 -0800 (PST)
 From: SeongJae Park <sj38.park@gmail.com>
 To: paulmck@kernel.org
 Cc: perfbook@vger.kernel.org,
 	SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 5/7] future/htm: Use \co{} in favor of $$
-Date: Sat,  2 Dec 2023 09:26:12 -0800
-Message-Id: <20231202172614.20239-6-sj38.park@gmail.com>
+Subject: [PATCH 6/7] future/formalregress: Use \co{} for spin
+Date: Sat,  2 Dec 2023 09:26:13 -0800
+Message-Id: <20231202172614.20239-7-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20231202172614.20239-1-sj38.park@gmail.com>
 References: <20231202172614.20239-1-sj38.park@gmail.com>
@@ -52,27 +52,36 @@ List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 
-A sentence in htm.tex is using $$ for a code snippet.  Use \co{}
-instead.
+formalregress.tex is using \co{} for spin in most cases.  Use it always
+for better consistency.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
- future/htm.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ future/formalregress.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/future/htm.tex b/future/htm.tex
-index 7a5e4ed3..fd5a81d1 100644
---- a/future/htm.tex
-+++ b/future/htm.tex
-@@ -628,7 +628,7 @@ semantics of locking, but loses locking's time-based messaging semantics.
- 	When worker threads complete their feed, they must disentangle
- 	themselves from the rest of the application and place a status
- 	value in a per-thread \co{my_status} variable that is initialized
--	to $-1$.
-+	to \co{-1}.
- 	Threads do not exit; they instead are placed on a thread pool
- 	to accommodate later processing requirements.
- 	The control thread assigns (and re-assigns) worker threads as
+diff --git a/future/formalregress.tex b/future/formalregress.tex
+index a50df4ad..b1a39b29 100644
+--- a/future/formalregress.tex
++++ b/future/formalregress.tex
+@@ -155,7 +155,7 @@ testing, which is in fact the topic of this section.
+ It is critically important that formal-verification tools correctly
+ model their environment.
+ One all-too-common omission is the memory model, where a great
+-many formal-verification tools, including Promela/spin, are
++many formal-verification tools, including Promela/\co{spin}, are
+ restricted to \IXh{sequential}{consistency}.
+ The QRCU experience related in
+ \cref{sec:formal:Is QRCU Really Correct?}
+@@ -359,7 +359,7 @@ What is needed is a tool that gives at least \emph{some} information
+ as to where the bug is located and the nature of that bug.
+ 
+ The \co{cbmc} output includes a traceback mapping back to the source
+-code, similar to Promela/spin's, as does Nidhugg.
++code, similar to Promela/\co{spin}'s, as does Nidhugg.
+ Of course, these tracebacks can be quite long, and analyzing them
+ can be quite tedious.
+ However, doing so is usually quite a bit faster
 -- 
 2.17.1
 
