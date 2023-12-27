@@ -1,131 +1,88 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF8044369
-	for <perfbook@vger.kernel.org>; Wed, 27 Dec 2023 10:53:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF314436F
+	for <perfbook@vger.kernel.org>; Wed, 27 Dec 2023 11:00:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BkyYuVte"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6d9a7233133so672999b3a.0
-        for <perfbook@vger.kernel.org>; Wed, 27 Dec 2023 02:53:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JeemVjEe"
+Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-35fcd6f8accso22414775ab.1
+        for <perfbook@vger.kernel.org>; Wed, 27 Dec 2023 03:00:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703674429; x=1704279229; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1703674812; x=1704279612; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=50RKIIgWV3g7eMG/+TYKL3T+qJPlZKGldhpiBHG1OhE=;
-        b=BkyYuVtejo5qKGStpS/Xz7mCwEkfG5FMvK0pwhrx19Vo1oo0HGj8WstfLekZ9m/KMr
-         OVqI06Gm/EhIhuRQlo5l7KjreoGaC9zJzH4XKmDEZ2lsqyJHFQ3rpW+6kL0r1IavKG3D
-         2o+JIWEMvdtUeWBD2FsNtJ9XXZT6Pt85VNrBkYjjMfGTz4tERtzwCw4uVu0u5v3wZNIH
-         olfr7dUjl0RJw2AIHzyDid1gMK+jXsmIP04k6GpeB1cwSZN7Of3Za72suAgA6aGN6rV5
-         0U7vGGdNNBpiAN7Brk5rjCeeL6X//aUcaMPpEqpo0it5ec5xsrYKxIAJ22A1uA2eGeGb
-         HXiA==
+        bh=2s2AE+vckiV9tEmU4b7zTY1/alPw76LojN0Fyyioipg=;
+        b=JeemVjEeMH78cVmzzJ+Of/yttwdxMBICfwoVVPD9xY9pHqNl0YetqkMoNcWn2oPsdi
+         5SpzPtFK3Q+WAQs8EYr09Fm+qH13M+ZVfCYGB64o9vlwcbMNiaDQqShDIwKGeHeFxgtY
+         KsfmOhCcwnLzz4jCjBISZsHXU93UtqSGd1XB6gNwNlq0hckLo6Udx1rv3oAjkA85Ydxn
+         InZSmXg4nESTtcfIpJs2QqT8uFvDlzMYGCF1StKZ3P5CIvuj049eQw6b0A+SVCkqrlaW
+         qQu8g/2fs++tYNbFQ4QmQpdMy7IqDXHcN4CuTrqsHxVMZuUEWyeJKrfWz/cpQVKKyXIY
+         QVmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703674429; x=1704279229;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1703674812; x=1704279612;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=50RKIIgWV3g7eMG/+TYKL3T+qJPlZKGldhpiBHG1OhE=;
-        b=l0CUPWrKRX+voYYbZ60bRQAflzupB4jlXVsv6XTWJJe3ig0W+Ww2MO/M1hXTPMKatU
-         inLxJyypXYyc+KJxAFRbnuXzkBQSI9Oa8Yf5etxcooQduMKh/6of+mqrV0qXH1c9sNLn
-         B2uqsEko3uN4idi5hmZ+77MPQuwqX7etcXM6cHReTfTqDWoy3gTsMfA+A7MQDbPAW/JO
-         s9544/boG5ZMokGvMxMMkOI3lxR8LNlRyxFyfWIyJIcrmJp/oerdqbRyXfT5iumMrzL0
-         V1pY2+6OAWon7mNUR1xTzR7mH4Jxi4NeU1+F3dCmTMLEqgc2j002ZIKqxbpC5+DqLrXo
-         6cyw==
-X-Gm-Message-State: AOJu0YzmORSA2Lydpi4+5ThB4z/9pk/8SxXOvhpjp4op8Dq0J8+qWTUD
-	RZApivYSUhlRQoFwaKDtZu84O3tSxrOzNkDJ8d1dbPMkEeZVYA==
-X-Google-Smtp-Source: AGHT+IFMXIkYwS2C/c3xT67YnOfUP5U47M+Gtmg5YSoae1sbz+gEzVzS54/cjBoHKcCQo3dH5BL+pAxskgezo6pTG88=
-X-Received: by 2002:a05:6a00:1b48:b0:6d9:abaf:8a97 with SMTP id
- o8-20020a056a001b4800b006d9abaf8a97mr1849428pfv.55.1703674428539; Wed, 27 Dec
- 2023 02:53:48 -0800 (PST)
+        bh=2s2AE+vckiV9tEmU4b7zTY1/alPw76LojN0Fyyioipg=;
+        b=qo592kw/eNjI/56ukXxXsJbLYQipALyxmCklUn8rrgLOinXjLLFRwcpBSgSuIgyZEd
+         i18RYNOFdkI83KismqeWNfAsfqeG+rBRQbApDmZLzFe8x2Ipv4ox88D4UvD21WGhWzpR
+         k2N7+qUxg7coYv7W6cxZYjhg6hLNyEIR0HsxTwIO+SmUEQmgiUTsaN0yq0+wJexTNL4U
+         3EoT/j+7tc7nBIWJ3AF1UEUa/0uQ6OUEJ1KMC0EJkrBqTC+TAp/MbckTUtXe6xRHA1iT
+         +ijfmlfvM0SX4x3Lb2dxKc5ZGxToIz1SYD/NYlLH9Nmxj4+lvQZIc3E0PbIeBA7b4Th+
+         ACnQ==
+X-Gm-Message-State: AOJu0YzD2ZSncg5nRWdWrKLHGHjohH2ALzGeBp9a0IZvMTwgzZJJWh8b
+	5BWm5wQpZbvJEe0mNkE7IF8ciH7QszSuag==
+X-Google-Smtp-Source: AGHT+IFmKYer4bCMNiJLw5w4RFYccYjogie1pxsqboBY7FdpeveLFObLDIbXnj9Ozb+hsmMOXYZ26A==
+X-Received: by 2002:a05:6e02:12cb:b0:35d:59a2:9295 with SMTP id i11-20020a056e0212cb00b0035d59a29295mr9065064ilm.41.1703674812630;
+        Wed, 27 Dec 2023 03:00:12 -0800 (PST)
+Received: from localhost.localdomain ([154.220.3.115])
+        by smtp.gmail.com with ESMTPSA id x62-20020a636341000000b005ce53bf5a82sm97845pgb.77.2023.12.27.03.00.10
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 27 Dec 2023 03:00:11 -0800 (PST)
+From: zhouzhouyi@gmail.com
+To: paulmck@kernel.org,
+	akiyks@gmail.com,
+	perfbook@vger.kernel.org
+Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Subject: [PATCH -perfbook v5] howto: make 'git archive' in answer to QQ1.3 explicit
+Date: Wed, 27 Dec 2023 18:59:58 +0800
+Message-Id: <1703674798-26270-1-git-send-email-zhouzhouyi@gmail.com>
+X-Mailer: git-send-email 1.7.1
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <1703669665-21764-1-git-send-email-zhouzhouyi@gmail.com> <59dc36ad-16f3-4424-b698-0a1678c3a48e@gmail.com>
-In-Reply-To: <59dc36ad-16f3-4424-b698-0a1678c3a48e@gmail.com>
-From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Date: Wed, 27 Dec 2023 18:53:37 +0800
-Message-ID: <CAABZP2y3uUT+6hqy=+Na=KzO2xCe0+jVqv2MEzu20uRCZTCZhw@mail.gmail.com>
-Subject: Re: [PATCH -perfbook v4] howto: make ref to git archive explicit
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: paulmck@kernel.org, perfbook@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 27, 2023 at 6:34=E2=80=AFPM Akira Yokosawa <akiyks@gmail.com> w=
-rote:
->
-> On Wed, 27 Dec 2023 17:34:25 +0800, zhouzhouyi@gmail.com wrote:
-> > From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-> >
-> > Make "git archive" in answer to Quick Quiz 1.3 more explicit, so that r=
-eader can easily know where
-> > "git archive" is.
->
-> Now that this patch adds just a footnote mentioning Section 1.5,
-> commit log can use some adjustments.
->
-> How about:
->
->     Make "git archive" in answer to Quick Quiz 1.3 more explicit by
->     adding a footnote, so that a first-time reader, who have never
->     read Section 1.5, can easily know how to clone the Git repo and
->     build PDFs.
->
-The revised version makes the commit log more clear and elegant! I
-will submit the 5th version.
-Thank you for your beautiful work=EF=BC=81
-> That said, I'm beginning to wonder how many of first-time readers
-> would bother trying -nq builds without having got annoyed by those
-> lots of QQz's in perfbook. ;-)
-Haha, that's a good point! It's indeed a challenge for first-timers to
-dive into nq builds, especially with the complexities
-in installing a latex environment and various fonts in Linux desktop
-;-) It's quite a learning curve, and it's rewarding in the end.
->
-> >
-> > Suggested-by: Akira Yokosawa <akiyks@gmail.com>
-> > Signed-off-by: Zhouyi Zhou<zhouzhouyi@gmail.com>
->
-> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
->
->     Thanks, Akira
-Thanks, Zhouyi
->
-> > ---
-> > Hi Akira
-> >
-> > Thank you for your valuable suggestions and guidances, I learned a lot
-> > during this process ;-)
-> >
-> > And I invoke make -j 20 in my ubuntu 22.04, everything works great!
-> >
-> > Our editor Yunjing Li is still too modest to provide her email, sorry.
-> >
-> > Thanks for your patient and hard work.
-> >
-> > Thanks
-> > Zhouyi
-> > --
-> >  howto/howto.tex | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/howto/howto.tex b/howto/howto.tex
-> > index 55270cba..8d678644 100644
-> > --- a/howto/howto.tex
-> > +++ b/howto/howto.tex
-> > @@ -226,7 +226,9 @@ Here are a few possible strategies:
-> >       only a blank sheet of paper.
-> >  \item        If you find the Quick Quizzes distracting but impossible
-> >       to ignore, you can always clone the \LaTeX{} source for
-> > -     this book from the git archive.
-> > +     this book from the git archive.\footnote{
-> > +             See \cref{sec:howto:Whose Book Is This?}
-> > +             for instructions to do this.}
-> >       You can then run the command \co{make nq}, which will
-> >       produce a \co{perfbook-nq.pdf}.
-> >       This PDF contains unobtrusive boxed tags where the Quick Quizzes
+From: Zhouyi Zhou <zhouzhouyi@gmail.com>
+
+Make "git archive" in answer to Quick Quiz 1.3 more explicit by
+adding a footnote, so that a first-time reader, who have never
+read Section 1.5, can easily know how to clone the Git repo and
+build PDFs.
+
+Suggested-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Zhouyi Zhou<zhouzhouyi@gmail.com>
+---
+ howto/howto.tex | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/howto/howto.tex b/howto/howto.tex
+index 55270cba..8d678644 100644
+--- a/howto/howto.tex
++++ b/howto/howto.tex
+@@ -226,7 +226,9 @@ Here are a few possible strategies:
+ 	only a blank sheet of paper.
+ \item	If you find the Quick Quizzes distracting but impossible
+ 	to ignore, you can always clone the \LaTeX{} source for
+-	this book from the git archive.
++	this book from the git archive.\footnote{
++		See \cref{sec:howto:Whose Book Is This?}
++		for instructions to do this.}
+ 	You can then run the command \co{make nq}, which will
+ 	produce a \co{perfbook-nq.pdf}.
+ 	This PDF contains unobtrusive boxed tags where the Quick Quizzes
+-- 
+2.34.1
+
