@@ -1,183 +1,100 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE6C24B2A
-	for <perfbook@vger.kernel.org>; Wed, 27 Dec 2023 09:17:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841832D787
+	for <perfbook@vger.kernel.org>; Wed, 27 Dec 2023 09:34:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JR/3/XUK"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso3922127a12.3
-        for <perfbook@vger.kernel.org>; Wed, 27 Dec 2023 01:17:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FWpGC+Fy"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-58a7d13b00bso2923795eaf.1
+        for <perfbook@vger.kernel.org>; Wed, 27 Dec 2023 01:34:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703668669; x=1704273469; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LbGEKCIUGvKSL8BrQp6l5ZoF2YJWnGM5sbEgaQ6BhnQ=;
-        b=JR/3/XUKJrC3efT3nIhGTe9O1KSShThCMUlRsx1DbruQ/IfpmyxMJKkDlk0V0DDR9Q
-         atZTPjCc3Aoq9zVOlqW4msVQNwgmbmj/yipPWDA97q1/YPaeSGhnAamFG/ajT5+OhIIn
-         JllTPt6EN5mRycalhxPovaUE4qoaDW4GGRxpqyJjnF+h6C5oqDTjuFa4gh1yOQpt/6EJ
-         cOEBqW9HdLtFUNjSjQS38cnwB6xASYGnGb6Vuh9m5NV6CECvOR3Cp7bpBYdDYcmnDnnV
-         n4942Ly89xDEDM6xrszqHZZalRnWekHXxJA+bOzfKzfmjOr+uwJ5k8qVUkLo5NnYZgqM
-         XsYQ==
+        d=gmail.com; s=20230601; t=1703669689; x=1704274489; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1dVYMq5a0GevCnW1zVO/1PdCmBGIXbk0CKwIw3fnKLk=;
+        b=FWpGC+FyRDUtb3JfXqp5YDThrW6vRMoLKOAeQsBs/U5xQ/MXlo3FY4EiWtwLxA6Wql
+         ZsbrRy1dqjPxHsFAq6QWkor8vNQwo0Ck6R30zX3o/NYmW3ii2vsaLMsGJMhitbAvcJmY
+         2xLvsTxbZfYsW4aZ8Vcgxvve+mCTU7ePx5Ufe0HSEGPGitcaDIKLcIEB/pJ9Tc3DjXqA
+         IG5vHfgHAACSaPjhHd3YnXv3h5yVowcgi1E4pXa+huYsUlBpqRzOVq13GbUXOr+NzNWS
+         aeBw+c/RlDCERRdI9FEgYJ5N80OTGZRAZr9qwVTQuXoUP8FIajpM51LJWP/2Qgrcxz31
+         XaMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703668669; x=1704273469;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LbGEKCIUGvKSL8BrQp6l5ZoF2YJWnGM5sbEgaQ6BhnQ=;
-        b=femheUrDtVEj3wtA17joIOrvjPiTDMGyQ7+tsmLUtt5oq9Nqf6dTWs1Jwlx8EJZ8pX
-         nalBHqwBue/eva8rQTq4Brzm/R+/3FbJwNZaoADSmM3/uwZkA9aSfRfjsZF66KPUr2dd
-         VLSa3csLOAeJ1yHarGP3LwqfTp27qR6y0Ln6pVnmT5HseHPK8y+SovDx9d1jhUaMDDQ1
-         zmu9lwcXGZpsjWO2yzRvTjHJISYMQNj9nUOSGk9+jZf8Huig8IK+Fqhczhhmizpr9Mbl
-         7zIR/xPh8dwjd7s3oIWlVgHp8qgXN2Tts6HZ9OVk8kTLTBRmzpjPN0Va/hJGWy2BO2he
-         AXAg==
-X-Gm-Message-State: AOJu0YzEfG8QgDK3SyX+HYbfi2lx6Y9+rD+aGq5mgm+EO75nB+FhStKI
-	q2ISxUW+BeNyf61pPD47urs=
-X-Google-Smtp-Source: AGHT+IHrIHMrsRCS4RLjBmFVv9eG4bonQMJdsVgiLcmpxLDd1OcYLI/Ssyv34uXhJpmTpFm7Ktyrdg==
-X-Received: by 2002:a17:902:bb84:b0:1d4:6732:1ab8 with SMTP id m4-20020a170902bb8400b001d467321ab8mr2959992pls.83.1703668669419;
-        Wed, 27 Dec 2023 01:17:49 -0800 (PST)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id a13-20020a170902b58d00b001ca86a9caccsm11504313pls.228.2023.12.27.01.17.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Dec 2023 01:17:49 -0800 (PST)
-Message-ID: <64dad428-543c-4caf-a2b2-99eb666a2720@gmail.com>
-Date: Wed, 27 Dec 2023 18:17:46 +0900
+        d=1e100.net; s=20230601; t=1703669689; x=1704274489;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1dVYMq5a0GevCnW1zVO/1PdCmBGIXbk0CKwIw3fnKLk=;
+        b=plHgb4sqv9EG4ur9qbkZ2sgtljWP/d8VsHYPE3rBOOiPKyjPFgFXdkqIcll7L6Tvv4
+         d2Y1jiXVdFpsZ6mlbwvcL7FBxAslaHMX5Q9EQ1OwRjYCfiNSuhfd2DfpIRBvk7XAp0cA
+         OskRWr+w3oQsdLGiR0zhDLB5qbsZQiN2abf4UnzdUr3nhZpmc3yvBtkf02Ba47JzBOef
+         Ae5lTzEtiG/+lPyyTQYBnuvuFluPeNa+mjW23sdMbeJZIm0cnYsWpCsHl1SFhhNnxXIZ
+         JiTosIEJJnnOOvxibnAl3ooBQspZuQ44zqmM60OQbSw107lKbp4IR+S8SM6F2fvb70T5
+         LIig==
+X-Gm-Message-State: AOJu0YwFKiP0svYEeQ9oJeqYAR42/bhdNhfSY2QpcrXrswpN/LfT8+R8
+	v1QSUYH73q+oFSuaL3Pl9wc=
+X-Google-Smtp-Source: AGHT+IFD3HrYjMOSM7F1K5i3OSIxqyLELCnnD4iL77zya02C+g8EC6TjMdDz1mPdfLR6IWjoBGVr2g==
+X-Received: by 2002:a05:6358:3a02:b0:172:ea55:1ae2 with SMTP id g2-20020a0563583a0200b00172ea551ae2mr10550037rwe.37.1703669689424;
+        Wed, 27 Dec 2023 01:34:49 -0800 (PST)
+Received: from localhost.localdomain ([154.220.3.115])
+        by smtp.gmail.com with ESMTPSA id p2-20020aa78602000000b006d9ac45206bsm6456556pfn.206.2023.12.27.01.34.48
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 27 Dec 2023 01:34:49 -0800 (PST)
+From: zhouzhouyi@gmail.com
+To: paulmck@kernel.org,
+	akiyks@gmail.com,
+	perfbook@vger.kernel.org
+Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Subject: [PATCH -perfbook v4] howto: make ref to git archive explicit
+Date: Wed, 27 Dec 2023 17:34:25 +0800
+Message-Id: <1703669665-21764-1-git-send-email-zhouzhouyi@gmail.com>
+X-Mailer: git-send-email 1.7.1
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -perfbook v3] howto: make ref to git archive explicit
-To: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Cc: perfbook@vger.kernel.org, paulmck@kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <1703659160-11466-1-git-send-email-zhouzhouyi@gmail.com>
- <33039676-e5dc-4ad1-8d4a-485c9844ed64@gmail.com>
- <CAABZP2z7_v=xt2pxxf3TH4uUaTbO7EV5bvz53OYWOrOJj20ytw@mail.gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <CAABZP2z7_v=xt2pxxf3TH4uUaTbO7EV5bvz53OYWOrOJj20ytw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-On Wed, 27 Dec 2023 16:30:35 +0800, Zhouyi Zhou wrote:
-> On Wed, Dec 27, 2023 at 3:50 PM Akira Yokosawa <akiyks@gmail.com> wrote:
->>
->> On Wed, 27 Dec 2023 14:39:20 +0800, zhouzhouyi@gmail.com wrote:
->>> From: Zhouyi Zhou <zhouzhouyi@gmail.com>
->>>
->>> Make "git archive" in answer to Quick Quiz 1.3 more explicit, so that reader can easily know where
->>> "git archive" is.
->>>
->>> Signed-off-by: Zhouyi Zhou<zhouzhouyi@gmail.com>
->>> ---
->>> Hi Akira
->>>
->>> This is version 3 of my patch "make ref to git archive explicit".
->>>
->>> I fixed the problem of version 1 under your guidance.
->>>
->>> The idea is originally proposed by our Chinese version editor Yunjing Li, but
->>> she was too modest to be a patch author.
->>
->> In that case, a Reported-by: or Suggested-by tag should work, that is
->> if Yunjing Li is OK with her reachable email address exposed.
-> Ok, I am try to ask her for her email address.
->>
->>>
->>> I have forget to add "Signed-off-by" in version 2 of my patch, sorry for the inconvenience that I brought.
->>>
->>> Thanks again
->>>
->>> Zhouyi
->>> --
->>>  bib/syncrefs.bib | 8 ++++++++
->>>  howto/howto.tex  | 2 +-
->>>  2 files changed, 9 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/bib/syncrefs.bib b/bib/syncrefs.bib
->>> index 6ee50e3b..63a7a8bc 100644
->>> --- a/bib/syncrefs.bib
->>> +++ b/bib/syncrefs.bib
->>> @@ -2025,3 +2025,11 @@ Parallel Server on UNIX",
->>>   Month="September",
->>>   Note="Linux Plumbers Conference \url{https://lpc.events/event/16/contributions/1226/}",
->>>  }
->>> +
->>> +@unpublished{PaulmckPerfbookGit,
->>> + author="Paul E. McKenney",
->>> + title="Is Parallel Programming Hard, And, If So, What Can You Do About It? Git Archive",
->>> + year="2023",
->>> + note={\url{git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/perfbook.git}},
->>> + lastchecked="December 27, 2023",
->>> +}
->>> diff --git a/howto/howto.tex b/howto/howto.tex
->>> index 55270cba..e7cd5f3c 100644
->>> --- a/howto/howto.tex
->>> +++ b/howto/howto.tex
->>> @@ -226,7 +226,7 @@ Here are a few possible strategies:
->>>       only a blank sheet of paper.
->>>  \item        If you find the Quick Quizzes distracting but impossible
->>>       to ignore, you can always clone the \LaTeX{} source for
->>> -     this book from the git archive.
->>> +     this book from the git archive~\cite{PaulmckPerfbookGit}.
->>
->> Alternatively, you can put a footnote instead. For example:
->>
->>   See \cref{sec:howto:Whose Book Is This?} for instructions to do this.
->>
->> should also suffice.
-> OK, I will do it.
->>
->> Generally speaking, citations are suitable when you want readers
->> to read the referenced document/code and the like.  In this case,
->> presenting just the URL of Git repo won't give readers sufficient
->> info.
->>
->> QQz 1.3 belongs to Section 1.2, while the instructions are in
->> Section 1.5.  So putting a footnote as a (kind-of) "forward reference"
->> looks more reasonable to me.
-> But the 'git archive' belongs to the Answer to QQz 3.1 which is in
+From: Zhouyi Zhou <zhouzhouyi@gmail.com>
 
-                                       you mean  QQz 1.3?
-				       
-> Appendix E, do we still need "forward reference".
+Make "git archive" in answer to Quick Quiz 1.3 more explicit, so that reader can easily know where
+"git archive" is.
 
-That's why I used double quotes and (kind-of), meaning it is not
-actually a forward reference.  Only for the first time readers
-who read the answer to QQz 1.3 before reading Section 1.5, it works
-as a forward reference  :-)
+Suggested-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Zhouyi Zhou<zhouzhouyi@gmail.com>
+---
+Hi Akira
 
-> If the answer is yes,  will  "See \cref{sec:howto:Whose Book Is This?}
-> (forward reference) for instructions to do this." be good ?
+Thank you for your valuable suggestions and guidances, I learned a lot
+during this process ;-)
 
-I don't think you need to say (forward reference) in the footnote.
-Just saying:
+And I invoke make -j 20 in my ubuntu 22.04, everything works great!
 
-    See \cref{sec:howto:Whose Book Is This?} for instructions to do this.
+Our editor Yunjing Li is still too modest to provide her email, sorry.
 
-should be good enough, I guess.
+Thanks for your patient and hard work.
 
-    Thanks, Akira
+Thanks
+Zhouyi
+--
+ howto/howto.tex | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
->>
->> Can you try this alternative in v4 ?
-> Ok, I am very glad to try this.
->>
->> If you are OK with it, please use
->>
->>   Suggested-by: Akira Yokosawa <akiyks@gmail.com>
-> OK,
->>
->>     Thanks, Akira
-> Thanks, Zhouyi
->>
->>>       You can then run the command \co{make nq}, which will
->>>       produce a \co{perfbook-nq.pdf}.
->>>       This PDF contains unobtrusive boxed tags where the Quick Quizzes
->>
+diff --git a/howto/howto.tex b/howto/howto.tex
+index 55270cba..8d678644 100644
+--- a/howto/howto.tex
++++ b/howto/howto.tex
+@@ -226,7 +226,9 @@ Here are a few possible strategies:
+ 	only a blank sheet of paper.
+ \item	If you find the Quick Quizzes distracting but impossible
+ 	to ignore, you can always clone the \LaTeX{} source for
+-	this book from the git archive.
++	this book from the git archive.\footnote{
++		See \cref{sec:howto:Whose Book Is This?}
++		for instructions to do this.}
+ 	You can then run the command \co{make nq}, which will
+ 	produce a \co{perfbook-nq.pdf}.
+ 	This PDF contains unobtrusive boxed tags where the Quick Quizzes
+-- 
+2.34.1
 
