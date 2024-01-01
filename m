@@ -1,139 +1,88 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7017F9
-	for <perfbook@vger.kernel.org>; Mon,  1 Jan 2024 01:51:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9FF7210B
+	for <perfbook@vger.kernel.org>; Mon,  1 Jan 2024 01:56:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UtnmIVgW"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3bbd6e3795eso2510098b6e.2
-        for <perfbook@vger.kernel.org>; Sun, 31 Dec 2023 17:51:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TyG4Ajd5"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d4b650bc9cso3774585ad.0
+        for <perfbook@vger.kernel.org>; Sun, 31 Dec 2023 17:56:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704073884; x=1704678684; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1704074207; x=1704679007; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rRPUuD9/Z3gbNM7/3wSqnKI3ghdurJXFfjxDtU9nnW4=;
-        b=UtnmIVgWeCq/CVS6R9fftwhozqJb/zeOwRj0ypW00vRyhe2ryS0jcJppjanmPqwCAY
-         /2g2WoRwVC5pVUrLx/ldo+Y3uPYwnlv7gm2pHKYW5SqnQjIAZ4k3gbuNcr2AHfSifHyH
-         0TmKA2ZlM42dnXgi0Csc8fF43RjPpng66OITV+DgHbHAr7GF72CFjHdNI9VH39YHNBO3
-         v7MiwA8u2wOvXr/OwN45L5lrOuftvE/2rtwzvaI6MBFc6GfpeMlaDGr3iXOxVZCMnGSZ
-         gKp6u8sFZ43HIZmgH0V18/casOhpnGCihbSiIX9UvFz3va7K0MiPvTCgcznXeqFancj5
-         ne/A==
+        bh=yshR6O/ZZCF91BRcN9cg5GsyV2qgjZc72Up2QfO+E54=;
+        b=TyG4Ajd5s5DvU2fwyHv5JR8ilL0v4Itdu9qamv7PQEKOmLjMeHg/BFkF3ko9uEM3lm
+         TyvSlI9pdvLQ2sA17HzyH1MjoUNhB0HIOide/vJGOKbEf1AvtcIqphivNtroZ2jTJSXH
+         RLiLGTOZY4t/xmNw5XaMCCPGyEYI47MAqlXwcObvyydHuJjGAJEwhmXrbi+lebNNOplx
+         zCUICiIZ0IBvFSIFDY0l3y7cqfuIHssfJUWfEedOK+zFgOA3k2dEqp9euvecDdSJOF00
+         AHwoUVsTwvdF8XHmSjZc/0qdxUorqKOcvWNsvmNif0mpTl/I24SZCmM1r1MdNUJJCl75
+         U0aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704073884; x=1704678684;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1704074207; x=1704679007;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rRPUuD9/Z3gbNM7/3wSqnKI3ghdurJXFfjxDtU9nnW4=;
-        b=v+/FnMXOZQ69zDWH3ra5Pf0nksJjZPQQGwidrIsrbh6lyLSUgr2ygqQ76QTXCBnr1s
-         BRnB3kV5BwvRIBnBK6aLNV51PJDc//sH34px43+MB7U7btU9zhbF7utsZCdXOeKnS/m/
-         nSHERb1FoeRMRVonOtDv4N+q2mSYyk1YC2xS3d8+aV71gaUm/3ZfhuEdKI5RvQ4jiNf4
-         /1IzHe6lsYkpq+5pjnlZ6NaPJIXym/AXBpeW5uIe+H5B2yygr5MQN5gGz5K0EGU/2wCH
-         Y6Wqb+KyR4OvuTWKTX0NNSLMCQ1dCF019B4MsBmCo6N8/aVNnV0wPrQ/qCKfCZ5nEK7n
-         4rmw==
-X-Gm-Message-State: AOJu0Yx5MwQ1LvPdsnrdJDt8Yc6CX1CGjP3LnvFO463Bo2Ito34qLoZ9
-	4ICLO1R300ayGGf+sTrXCHaI/GkbjvP8Bwp1hBA=
-X-Google-Smtp-Source: AGHT+IG6PJRiT78sh0nYaPF3kibAS79jH9AsCUCHIUEb7kID0apSi8q+Gd9lPIBVYTGTbm5YqB3yCDV4V7Og1LE9F8k=
-X-Received: by 2002:a05:6808:10c2:b0:3bb:d32d:702e with SMTP id
- s2-20020a05680810c200b003bbd32d702emr6477306ois.100.1704073883669; Sun, 31
- Dec 2023 17:51:23 -0800 (PST)
+        bh=yshR6O/ZZCF91BRcN9cg5GsyV2qgjZc72Up2QfO+E54=;
+        b=EusLzwYdX4GJ/r9BMcWQ1LhASBMLMT+oaSpO+/QDY+1dlv6VfdRZuPPyopkS5TNWxR
+         jvQPc5zcVMww5YgxLvII8Bhp/JWC/e4dyvZ4OcGN5CDSpEGoulHGbhkMZ0seQZvDGG96
+         f+O/3BZDiWksfoGfk40pmgq9u8xc1xHOFvPnoUCNnh0GsjvjV/2O9+Rn1KEL1M7p3M90
+         Odw7iZcX8CkLWAnF80UaBgzGxZi+LVjVCHgwkCC0LcKJHlo4fJYy6mlxrR0xb7wAo+kJ
+         K9riRrL3KHGembuKNl5WSTYgch6OJmqYYHwC1gzBDsLVyEtbz7wr/BlsKRwxMBUVaGHh
+         nBwA==
+X-Gm-Message-State: AOJu0YwH2uJVxyLqwQ/mhIPiIQCpk1F/ncDUi5cAzS+Omh0EgqwFSjPv
+	YzX9zxJIFm9XGXf1mkUtX8Q=
+X-Google-Smtp-Source: AGHT+IFG3FIVP7zOr2uKz1vESHgQIisvn1GXX7Aie/wFYlyZeLss0ea0dEadtoH5AXR2TcaQDZDPXQ==
+X-Received: by 2002:a17:903:64f:b0:1d3:f3c1:57a5 with SMTP id kh15-20020a170903064f00b001d3f3c157a5mr15406756plb.86.1704074207037;
+        Sun, 31 Dec 2023 17:56:47 -0800 (PST)
+Received: from localhost.localdomain ([154.220.3.115])
+        by smtp.gmail.com with ESMTPSA id y31-20020a17090a53a200b0028649b84907sm25897513pjh.16.2023.12.31.17.56.45
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 31 Dec 2023 17:56:46 -0800 (PST)
+From: zhouzhouyi@gmail.com
+To: paulmck@kernel.org,
+	akiyks@gmail.com,
+	perfbook@vger.kernel.org
+Cc: Zhouyi Zhou <zhouzhouyi@gmail.com>
+Subject: [PATCH -perfbook V2] toolsoftrade: fix a typo: manpages should be man pages
+Date: Mon,  1 Jan 2024 09:56:27 +0800
+Message-Id: <1704074187-6886-1-git-send-email-zhouzhouyi@gmail.com>
+X-Mailer: git-send-email 1.7.1
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <1703926769-5124-1-git-send-email-zhouzhouyi@gmail.com>
- <cfa2e0c6-f3fc-45b0-a11a-2ebb5537f8c8@paulmck-laptop> <CAABZP2wZ=eJu2ymJpD667ivFn+w1isVA+gmw9ewT4OD8T3PGZA@mail.gmail.com>
- <24c0a06b-d0e9-4c15-a0a7-9ccafecf3e79@paulmck-laptop> <17245b81-9294-47bd-8ae7-a3bd8963a5c7@gmail.com>
-In-Reply-To: <17245b81-9294-47bd-8ae7-a3bd8963a5c7@gmail.com>
+
 From: Zhouyi Zhou <zhouzhouyi@gmail.com>
-Date: Mon, 1 Jan 2024 09:51:12 +0800
-Message-ID: <CAABZP2yaLqZPw_b=BfP-KCdKFtD+Oi=ngbDW0jaR96zGqtR=bg@mail.gmail.com>
-Subject: Re: [PATCH -perfbook] toolsoftrade: fix a typo: manpages should be
- man pages
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org, Zhouyi Zhou <zhouyi.zhou@ucas.com.cn>, paulmck@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Thank Akira for the warm hearted reminder
-On Mon, Jan 1, 2024 at 9:00=E2=80=AFAM Akira Yokosawa <akiyks@gmail.com> wr=
-ote:
->
-> Hi Zhouyi,
->
-> On 2023/12/31 9:25, Paul E. McKenney wrote:
-> > On Sun, Dec 31, 2023 at 08:11:07AM +0800, Zhouyi Zhou wrote:
-> >> On Sun, Dec 31, 2023 at 7:59=E2=80=AFAM Paul E. McKenney <paulmck@kern=
-el.org> wrote:
-> >>>
-> >>> On Sat, Dec 30, 2023 at 04:59:29PM +0800, zhouzhouyi@gmail.com wrote:
-> >>>> From: Zhouyi Zhou <zhouyi.zhou@ucas.com.cn>
-> >>>>
-> >>>> According to [1][2], manpages should be man pages or man-pages.
-> >>>>
-> >>>> [1] https://en.wikipedia.org/wiki/Man_page
-> >>>> [2] https://www.kernel.org/doc/man-pages/
-> >>>> Signed-off-by: Zhouyi Zhou<zhouzhouyi@gmail.com>
->
-> You used mismatching email addresses in From: and Signed-off-by:
-> Technically, they need to match.
-Yes, and I will send a new version soon.
->
-> My guess is you intended the one at @ucas.com.cn for this patch.
->
-> If this is the case, you need to provide a Signed-off-by: with
-> the right address.
-When I prepare the above patch, I am also working on a Linux project
-for ucas.com.cn in parallel ;-) ;-) ;-), so my git email is
-erroneously set to Zhouyi Zhou <zhouyi.zhou@ucas.com.cn>.
+According to [1][2], manpages should be man pages or man-pages.
 
-I intend to use zhouzhouyi@gmail.com in my perfbook related works.
+[1] https://en.wikipedia.org/wiki/Man_page
+[2] https://www.kernel.org/doc/man-pages/
 
-Happy New Year to you, Paul, and the Perfbookers ;-)
-
+Signed-off-by: Zhouyi Zhou <zhouzhouyi@gmail.com>
+---
+"From:" and "Signed-off-by:" match as suggested by Akira
 Thanks, Zhouyi
->
->     Thanks, Akira
->
-> >>>
-> >>> I am happy either way, having seen it spelled both ways for some deca=
-des.
-> >>> But those two references are good standardization points.
-> >> Thanks Paul for supporting my point of view ;-)
-> >>>
-> >>> And before I queue this, did this also come from our Chinese editor?
-> >>> If so, should she be credited?
-> >> This modification was proposed by me independently ;-)
-> >
-> > Very good, queued and pushed, thank you!
-> >
-> >
-> >                                                         Thanx, Paul
-> >
-> >> Thanx, Zhouyi
-> >>>
-> >>>> ---
-> >>>>  toolsoftrade/toolsoftrade.tex | 2 +-
-> >>>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftra=
-de.tex
-> >>>> index 645ee74b..097c18d6 100644
-> >>>> --- a/toolsoftrade/toolsoftrade.tex
-> >>>> +++ b/toolsoftrade/toolsoftrade.tex
-> >>>> @@ -308,7 +308,7 @@ Parent process sees x=3D0
-> >>>>       (such as \co{mmap()} and \co{shmget()}).
-> >>>>       In the meantime, there are any number of textbooks that cover
-> >>>>       these primitives in great detail,
-> >>>> -     and the truly motivated can read manpages, existing parallel
-> >>>> +     and the truly motivated can read man pages, existing parallel
-> >>>>       applications using these primitives, as well as the
-> >>>>       source code of the Linux-kernel implementations themselves.
-> >>>>
-> >>>> --
-> >>>> 2.34.1
-> >>>>
+--
+ toolsoftrade/toolsoftrade.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+index 645ee74b..097c18d6 100644
+--- a/toolsoftrade/toolsoftrade.tex
++++ b/toolsoftrade/toolsoftrade.tex
+@@ -308,7 +308,7 @@ Parent process sees x=0
+ 	(such as \co{mmap()} and \co{shmget()}).
+ 	In the meantime, there are any number of textbooks that cover
+ 	these primitives in great detail,
+-	and the truly motivated can read manpages, existing parallel
++	and the truly motivated can read man pages, existing parallel
+ 	applications using these primitives, as well as the
+ 	source code of the Linux-kernel implementations themselves.
+ 
+-- 
+2.34.1
+
