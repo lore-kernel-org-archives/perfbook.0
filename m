@@ -1,49 +1,49 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1E5225AC
-	for <perfbook@vger.kernel.org>; Fri,  5 Jan 2024 09:44:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCEC224D6
+	for <perfbook@vger.kernel.org>; Fri,  5 Jan 2024 09:47:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mIh7S7AT"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d4d4542526so10404485ad.0
-        for <perfbook@vger.kernel.org>; Fri, 05 Jan 2024 01:44:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JUD8L+FY"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6dac225bf42so827018b3a.0
+        for <perfbook@vger.kernel.org>; Fri, 05 Jan 2024 01:47:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704447890; x=1705052690; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:cc:to:from:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cPQc6Un/DvOSXX4TQ3TkdQnQ/vThbcrtRYW+lMKWPbs=;
-        b=mIh7S7AT4w9Gob9rt0kYnNKO4HB7E8DHU/nXoob353iMP0Qvn7wCOUrax3ivzYlWc7
-         kkCn9KMft8zuUDwB0d6KK6xQp+bcFgQndO/sJ2tovbsT1sMSYUuFJnvilDMWTR7y/HGJ
-         l/fpKmAUYYgsJvUzC/qMko4L2xZiuGK2sLIoca2XVEzdvowRdXN2NFEym5uxw8hZdbbg
-         bG7ACirdiXK7QQE8t9W3H66FwcqMuq2VWMbzgy0gXzvXIOT6ndaDAEfX7K1ncgg5/mFR
-         WedPYLVQfkcP8kuL5x6NEDDeJFyF6F9cR9FiMCLJ26I3C7+mOHG87XQ6ESBJLUvU9AYp
-         qs+Q==
+        d=gmail.com; s=20230601; t=1704448053; x=1705052853; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bFljEa0mUm0Gg4T0yvHZ8ZsrT7giCZb+Xl2jWN1PVF0=;
+        b=JUD8L+FYeWrC60H2POgC7FdrziO1TgJ+TDILJpbyiVYTJ2R28cw9WWXkl2KGB12dnq
+         h65Pb/oRiCBVov+VnGK0NcrNic+V9KQlQN47oIHs0rGptkI7rr4HNj66NTjrspI1iTC8
+         bR2oc6sdftZQiOVIO5koW+fybcOxG9wMSwgxKtHFZyWZ7WA0sCyMqiYgfLAFu/5l1sxQ
+         GwuuxX1KN5cxDbJKsMlyWmRoMpyxZtPjVqImVRhyUcz2gaQ5p5s4qHMeM/JDI8H1xay8
+         T49axFA8ggtNJJpdboOeznslwDAcMAF3pxxynY2oOtDTR7aNga9D6m7S+6mQ8lm/2zXD
+         K65w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704447890; x=1705052690;
-        h=content-transfer-encoding:subject:cc:to:from:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=cPQc6Un/DvOSXX4TQ3TkdQnQ/vThbcrtRYW+lMKWPbs=;
-        b=N3oK6fPgd39A4Z29Zv8Bw0t9PZEo5JRyU3mUzFUMV/Kk3fh/VHJWBHA5BOE6FjVu1i
-         1uos4uenjwRxKNU7gLw6JNAs0r3fbRH2qIgg9sROdRFPD16qC08HyXTlR3z/Ntm+K7OS
-         ChDvt3YUnV2dzu/aWmPPwW8gPSwZurRDjpIVWIMD+ixV8U5vkW2xyoG9WbWDIwPLdT9O
-         Nz5c65dPjKz1McWemXaoWs2S51gAGtAt0ZVyNUTKIVgJfzersQt5hDGAJGqGZ9Jv7vHy
-         VJb1ZXKRCbaYh1u7oHaZggFkvVa7b5xYxnPqxd2hjDk6em3DI5vVVdo0zw2WIoKE3Z6f
-         Ud5w==
-X-Gm-Message-State: AOJu0Yw27Oe9Ij2WlDjbNicj4LVe2A8cRiuhfeHK3GZE3AK8SZeU2azK
-	K/p6ILlJzofitezvAGmejwo=
-X-Google-Smtp-Source: AGHT+IE+E4wGE/lAzCWMYDEec/n2HtQS1cOkydh978efGnRtnnAwQL8ASebsd+PuXjYHV6Xepm77Tg==
-X-Received: by 2002:a17:902:6a82:b0:1d4:bc19:d7cc with SMTP id n2-20020a1709026a8200b001d4bc19d7ccmr2024099plk.116.1704447890348;
-        Fri, 05 Jan 2024 01:44:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704448053; x=1705052853;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bFljEa0mUm0Gg4T0yvHZ8ZsrT7giCZb+Xl2jWN1PVF0=;
+        b=czrO4tRDl1rJXtsd5+vdA3g1FlgIN3qAaT2ooe8yYNFonwc/NHe4rpnBPPetpmG0Tu
+         i+dWiUYhZbgMhAPBuXblnN3kp2UIU2UHc3z14RCRIXv7xrIlvl9hf9jMBNVEIc8aNsXc
+         458brer1X5oZRgzM8ZZ5iQjbzMwjeq5NpjwWnmLNbLOQHwMS8as0abwFRGymwh+m+Vm1
+         JLEOYYmjmm5bi/JfG9aColedmjyVE39KjIdr/rcp9vjE/HcY/yhZCQchdy4SVs6c0iSN
+         PAUrie6l7R8LfqWA2Pyi3OHt9fM3QScFgqeAZzDeNEj6sXesWRZvA1Jcv+1Pb9Ma+5iH
+         d53g==
+X-Gm-Message-State: AOJu0YzzAtjhP0ys2c0ARrhgP/7tqGjNZex2llTQRt89rxogYX8+Vm5x
+	7A4M3opwwaN7G/G7SytUlUM=
+X-Google-Smtp-Source: AGHT+IFGbLEw3QkhPovCPvaKZ/0nfvwuqv0qpxTPcHspfWgaPRd0EaaUmikGw/HWJgBY84/eRnLbqg==
+X-Received: by 2002:a05:6a00:9386:b0:6d9:9996:deb3 with SMTP id ka6-20020a056a00938600b006d99996deb3mr1758505pfb.0.1704448052930;
+        Fri, 05 Jan 2024 01:47:32 -0800 (PST)
 Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id u13-20020a170902e80d00b001d072365b87sm1001128plg.106.2024.01.05.01.44.48
+        by smtp.gmail.com with ESMTPSA id y14-20020aa79e0e000000b006da04f1b884sm1006098pfq.105.2024.01.05.01.47.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Jan 2024 01:44:49 -0800 (PST)
-Message-ID: <8d0ffcdc-59f9-49ef-b8e1-313e71cac913@gmail.com>
-Date: Fri, 5 Jan 2024 18:44:47 +0900
+        Fri, 05 Jan 2024 01:47:32 -0800 (PST)
+Message-ID: <3a4ea85d-643f-4fab-92db-09605ed06138@gmail.com>
+Date: Fri, 5 Jan 2024 18:47:31 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -51,78 +51,108 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -perfbook 0/8] Use rsvg-convert for SVG --> PDF conversion
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
 To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Leonardo Bras <leobras.c@gmail.com>,
- Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 0/8] Use rsvg-convert for SVG --> PDF conversion
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <8d0ffcdc-59f9-49ef-b8e1-313e71cac913@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <8d0ffcdc-59f9-49ef-b8e1-313e71cac913@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Paul,
+Subject: [PATCH -perfbook 1/8] Makefile: Add rules to use rsvg-convert for SVG --> PDF conversion
 
-[Cc 0/8 and 8/8 to Leo, Patch 8/8 touches gitlab-ci.yml]
+Recently, Inkscape has had a number of stability issues in both of
+its GUI- and CLI- modes.  We have experienced crashes of CLI-mode
+Inkscape caused by a change in glib, which can been resolved
+by an update in the GTK3 library now released in GTK 3.24.39.
+Commit f307e19f2be0 ("Prevent inkscape from interacting with desktop
+manager") was an ugly hack for mitigating such crashes.
 
-Frequent crashes of Inkscape I encountered in 2023, which was mitigated
-in commit f307e19f2be0 ("Prevent inkscape from interacting with desktop
-manager"), made me look into alternative SVG --> PDF converters.
+There is an alternative converter called rsvg-convert.
+It is a light-weight CLI-only converter.
 
-It turns out that recent versions of rsvg-convert work reasonably well
-for perfbook.  By "recent versions", I mean 2.52.5 and 2.57.x.
-rsvg-convert is a light-weight CLI command and is much faster than inkscape.
+Up until Ubuntu 20.04 LTS, rsvg-convert's coverage of SVG features
+was not good enough for some of the figures in perfbook drawn by
+using Inkscape.
 
-Sequential SVG --> PDF conversion time I get from
-"make cleanfigs-svg; env time make figs":
+rsvg-convert has improved since, and version 2.52.5, which is the
+version on Ubuntu 22.04 LTS, and later versions do fairly good jobs
+in this respect.
 
-                elapsed
-Inkscape:        21.45s
-rsvg-convert:     6.05s
+So let's use rsvg-convert when it is available.
 
-So patches 1/8--4/8 add rules in Makefile for using rsvg-convert if it
-is recent enough.
+For Ubuntu and Debian, rsvg-convert belongs to the librsvg2-bin
+package.  For Fedora, it is provided in the librsvg2-tools package.
 
-One caveat: There is a SVG cartoon drawn by an ancient version of Inkscape,
-for which very recent versions of rsvg-convert produce distorted background
-of outlined text.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Makefile | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
 
-Patch 5/8 retouches the cartoon and put a SVG compatible with librsvg as
-cartoons/r-2023-Memory-barriers.svg.
-
-Patches 6/8 and 7/8 adjust FAQ-BUILD and Dockerfiles accordingly.
-
-Patch 8/8 updates gitlab-ci.yml.  It needs an explicit ACK or Tested-by:
-from Leo before applying.
-
-Finally, this series wouldn't affect those of you who don't have
-rsvg-convert.
-
-
-        Thanks, Akira
---
-Akira Yokosawa (8):
-  Makefile: Add rules to use rsvg-convert for SVG --> PDF conversion
-  Makefile: Don't use rsvg-convert < 2.57
-  Makefile: Allow rsvg-convert 2.52
-  Makefile: Use rsvg-convert anyway if no inkscape is found
-  cartoons: Retouch r-2014-Memory-barrier.svg
-  FAQ-BUILD: List package for rsvg-convert in package lists
-  docker: Add packages for rsvg-convert
-  gitlab-ci.yml: Install librsvg instead of inkscape
-
- FAQ-BUILD.txt                      |   23 +-
- Makefile                           |   48 +-
- cartoons/r-2023-Memory-barrier.svg | 1130 ++++++++++++++++++++++++++++
- cpu/overview.tex                   |    2 +-
- docker/Dockerfile                  |    4 +-
- docker/Dockerfile.fedora           |    7 +-
- utilities/gitlab-ci.yml            |    2 +-
- 7 files changed, 1198 insertions(+), 18 deletions(-)
- create mode 100644 cartoons/r-2023-Memory-barrier.svg
-
-
-base-commit: 1ea46c6d43475fbdf97404dec28a58036d505bc3
+diff --git a/Makefile b/Makefile
+index 424a166c..f869862c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -103,6 +103,8 @@ PDFTARGETS_OF_EPSOTHER := $(filter-out $(PDFTARGETS_OF_EPSORIG) $(PDFTARGETS_OF_
+ BIBSOURCES := bib/*.bib alphapf.bst
+ 
+ # required commands
++SED ?= sed
++
+ LATEX_CMD := $(shell $(WHICH) $(LATEX) 2>/dev/null)
+ DOT := $(shell $(WHICH) dot 2>/dev/null)
+ FIG2EPS := $(shell $(WHICH) fig2eps 2>/dev/null)
+@@ -111,6 +113,13 @@ INKSCAPE := $(shell $(WHICH) inkscape 2>/dev/null)
+ ifdef INKSCAPE
+   INKSCAPE_ONE := $(shell inkscape --version 2>/dev/null | grep -c "Inkscape 1")
+ endif
++# rsvg-convert is preferred to inkscape in SVG --> PDF conversion
++RSVG_CONVERT := $(shell $(WHICH) rsvg-convert 2>/dev/null)
++ifdef RSVG_CONVERT
++  SVG_PDF_CONVERTER = (rsvg-convert)
++else
++  SVG_PDF_CONVERTER = (inkscape)
++endif
+ LATEXPAND := $(shell $(WHICH) latexpand 2>/dev/null)
+ QPDF := $(shell $(WHICH) qpdf 2>/dev/null)
+ 
+@@ -455,12 +464,14 @@ ISOLATE_INKSCAPE ?= XDG_RUNTIME_DIR=na DBUS_SESSION_BUS_ADDRESS=na
+ 
+ $(PDFTARGETS_OF_SVG): $(FIXSVGFONTS)
+ $(PDFTARGETS_OF_SVG): %.pdf: %.svg
+-	@echo "$< --> $(suffix $@)"
++	@echo "$< --> $(suffix $@) $(SVG_PDF_CONVERTER)"
+ ifeq ($(STEELFONT),0)
+ 	$(error "Steel City Comic" font not found. See #1 in FAQ.txt)
+ endif
+-ifndef INKSCAPE
+-	$(error $< --> $@ inkscape not found. Please install it)
++ifndef RSVG_CONVERT
++  ifndef INKSCAPE
++	$(error $< --> $@ inkscape nor rsvg-convert not found. Please install either one)
++  endif
+ endif
+ ifeq ($(STEELFONTID),0)
+ 	@sh $(FIXSVGFONTS) < $< | sed -e 's/Steel City Comic/Test/g' > $<i
+@@ -483,10 +494,14 @@ ifeq ($(RECOMMEND_LIBERATIONMONO),1)
+ 	$(info Nice-to-have font family 'Liberation Mono' not found. See #9 in FAQ-BUILD.txt)
+ endif
+ 
+-ifeq ($(INKSCAPE_ONE),0)
+-	@inkscape --export-pdf=$@ $<i > /dev/null 2>&1
++ifdef RSVG_CONVERT
++	@cat $<i | rsvg-convert --format=pdf > $@
+ else
++  ifeq ($(INKSCAPE_ONE),0)
++	@inkscape --export-pdf=$@ $<i > /dev/null 2>&1
++  else
+ 	@$(ISOLATE_INKSCAPE) inkscape -o $@ $<i > /dev/null 2>&1
++  endif
+ endif
+ 	@rm -f $<i
+ ifeq ($(chkpagegroup),on)
 -- 
 2.34.1
-
 
