@@ -1,49 +1,49 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A21724B59
-	for <perfbook@vger.kernel.org>; Fri,  5 Jan 2024 09:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE082421D
+	for <perfbook@vger.kernel.org>; Fri,  5 Jan 2024 09:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hQ+lWo7R"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-595b208a050so623244eaf.0
-        for <perfbook@vger.kernel.org>; Fri, 05 Jan 2024 01:52:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IH+0R5nd"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-595559ab71eso712285eaf.3
+        for <perfbook@vger.kernel.org>; Fri, 05 Jan 2024 01:53:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704448321; x=1705053121; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1704448402; x=1705053202; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=GwD8JGEgH6r7Mc+3ejwnRjGPiF1uSiWCZH3dDRlPqlo=;
-        b=hQ+lWo7RSw0Uy4nOfPZiFC+MfI8cOajSW475e9bWvTrfwQZf5mt+dfTuanfIRipb0W
-         nQXcbykWBLSjTGtytw5muyXfqJts5xqoQZm5paRoOoeQDZ/PEgEFLxAmkPZnBv8VPVSx
-         PJ2vdjjn6rfkkDSIz2Hracng9F4WJIoMbN0bBdnFok5SD19M+tBrUPvjb2bEKhNu4daR
-         A4EiZXnOn6vzebjojDqGtHrIzVsOu3uGQUa0o5MFUGtnuu4lgVjjtIwBl8s4QTVeoZk8
-         eIX7DtM+DZJrx0+LiXD1pC0X0FWGIjysOeRlppCzcFopfXObwFTrQCdHS5EBSiDMDaEv
-         6Jog==
+        bh=4+3gEhn14XxuKwnESiQoWBNyU8LRZtGPJ7kSSGvXEJU=;
+        b=IH+0R5ndMm7LQ66XejYbeA3y2/N9Hnfbfc2gZGLToNfn77zysb+OvKIpXLm7fmjv5k
+         KLz4v5DHJpHyZ/M7m03TlprkMblo4N31kMNwG6I5Oss8jksGipb3/20bGMnzDYIayy4L
+         oFShf27APTypf1yf5iSFyB3MjJ2/cr4ZEg+aM9dtKVRWV4MCwLNzdrfzCS1A++3yDgay
+         ngabxd0a4EZBCJYrnwDpBFr9sr/ol2yrArsNRfpqJq9L/vxepUI9hrrchtQ/kDyeCBx0
+         ac53eDvF/8XwmhAA4Bu7oXiQcrqUpzlIQrw4XnlWLdv87+JHWuM8LRlwgTTpwqK6wHAj
+         OefA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704448321; x=1705053121;
+        d=1e100.net; s=20230601; t=1704448402; x=1705053202;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GwD8JGEgH6r7Mc+3ejwnRjGPiF1uSiWCZH3dDRlPqlo=;
-        b=wVCu6I33oWDR0k/+va8x40dM0VaIQT/2KBwChXqijR/RPVcUdz8meXJoBl08km8Z2f
-         GXoQcjrKeeUJ5Q98LdeZNU6UoExt7o76A/Yl6kyjUiCvJvHH7vzOD+JrBaURnUQeQHL9
-         vquXrZ0vZkcA0IofmLYDHy/AnFpS8IXrr+h4QRnjxrQsBeMnWFeGiZlbtNfaUBd51RDP
-         eLOJKKBJmYaZc/puMUXx23qviwjMZejKYFMOAYNwUyA7vJCzr4xtyYLDkh2anLIMZzBj
-         OKXiFNHud5ZQ1CEM2kLfT0VNN7mt5wSQSiSzHEsuNXOmfUwn1nR32UqyW3f4DX+vODEu
-         AMlA==
-X-Gm-Message-State: AOJu0YwDGMmES3jp1i3LcUQ50K5kp7mwJUkqP+9arS3WNuHUY8FqquNx
-	LO0tAoyf77snZdTvP7AhZYMs1lwu48k=
-X-Google-Smtp-Source: AGHT+IEzpOcTWCOB9ij3k97mefk/WJGTWKNJgGE9OA0XNdaxOLGuvZrOss8Ty+h+CdnO9Ed/bF7T7g==
-X-Received: by 2002:a05:6359:5c30:b0:174:c1b6:86d1 with SMTP id pu48-20020a0563595c3000b00174c1b686d1mr1549544rwb.46.1704448321220;
-        Fri, 05 Jan 2024 01:52:01 -0800 (PST)
+        bh=4+3gEhn14XxuKwnESiQoWBNyU8LRZtGPJ7kSSGvXEJU=;
+        b=AfCXesQ3qv0jKnLfY39Hs3mBNXNBhdLojr+n2zLwDtZEJTcG6V02BJ86YogEZx/kpo
+         rNfg57hYt5aFv1UtWUJkyrJtCZY4XKxWFODPP/G6W7duL/PAoOQ+u2vCQ97lzPILvORv
+         RNHk6lfsGEq4ddXWlUfRPJ1SAi4XBdsC44p1itSOZtHSH9TvN2ZgcCYNjrm/eyRMcvjo
+         1gP2eDqSPCvafGVR1Z+5ybjg0OIhDOTz1VVSN+E0FNzv9diTum85b+cdFT7+WA3a/xx0
+         RmnPOmla0lUBryVV3NlwQWrn7/Zzu98EVApXcnFHIH20ojTFIhxLbiq/S42HSFLj6qO5
+         g5GA==
+X-Gm-Message-State: AOJu0YxxuNWLfUZElctgdfqM5wu4VZqitqoqbSP/gmaH3W2KfC3w7elt
+	ksPgTyh4OPUP1MpHrFsAt5g=
+X-Google-Smtp-Source: AGHT+IE9Mtk6hIZ2K9JNgP/1A57YdY+iVdJdItNUWQIJDMmK0bvfcKwFk+o/xgDMj0Gm/riCw86pbA==
+X-Received: by 2002:a05:6358:70f:b0:16b:9480:41c8 with SMTP id e15-20020a056358070f00b0016b948041c8mr2171299rwj.1.1704448401618;
+        Fri, 05 Jan 2024 01:53:21 -0800 (PST)
 Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id z6-20020aa785c6000000b006da24e7c16dsm1029605pfn.186.2024.01.05.01.51.59
+        by smtp.gmail.com with ESMTPSA id z6-20020aa785c6000000b006da24e7c16dsm1029605pfn.186.2024.01.05.01.53.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Jan 2024 01:52:00 -0800 (PST)
-Message-ID: <46bdaf6a-d83b-4466-aa22-259a8edcbbc1@gmail.com>
-Date: Fri, 5 Jan 2024 18:52:00 +0900
+        Fri, 05 Jan 2024 01:53:21 -0800 (PST)
+Message-ID: <fcb36d22-36aa-45ae-af9c-c48b2fa1daee@gmail.com>
+Date: Fri, 5 Jan 2024 18:53:21 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -51,7 +51,8 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 3/8] Makefile: Allow rsvg-convert 2.52
+Subject: [PATCH -perfbook 4/8] Makefile: Use rsvg-convert anyway if no
+ inkscape is found
 Content-Language: en-US
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
@@ -61,57 +62,29 @@ In-Reply-To: <8d0ffcdc-59f9-49ef-b8e1-313e71cac913@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-rsvg-convert 2.52.5 (on Ubuntu 22.04 LTS) output PDF 1.5 by default
-and is good enough for perfbook.
-Add rules for using it in SVG --> PDF conversion.
-
-rsvg-convert versions >= 2.54 and < 2.57 default to PDF 1.7 and don't
-have option of --format pdf1.5.  Avoid using those interim versions
-by default.
+Even if rsvg-convert is too young and its SVG --> PDF conversion
+sometimes results in poor-looking figures, using it is much better
+than giving up the conversion at all.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ Makefile | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/Makefile b/Makefile
-index 9f19ce52..3844c37b 100644
+index 3844c37b..46c2bfb4 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -119,12 +119,24 @@ ifdef RSVG_CONVERT
-   RSVG_CONVERT_VER := $(shell rsvg-convert --version | $(SED) -e 's/rsvg-convert version //')
-   RSVG_CONVERT_VER_MINOR := $(shell echo $(RSVG_CONVERT_VER) | $(SED) -E -e 's/^([0-9]+\.[0-9]+).*/\1/')
-   RSVG_CONVERT_GOOD_VER ?= 2.57
-+  RSVG_CONVERT_PDFFMT_VER := 2.57
-+  RSVG_CONVERT_ACCEPTABLE_VER := 2.52
-   RSVG_CONVERT_GOOD := $(shell echo $(RSVG_CONVERT_VER_MINOR) $(RSVG_CONVERT_GOOD_VER) | awk '{if ($$1 >= $$2) print 1;}')
-+  RSVG_CONVERT_ACCEPTABLE := $(shell echo $(RSVG_CONVERT_VER_MINOR) $(RSVG_CONVERT_ACCEPTABLE_VER) | awk '{if ($$1 == $$2) print 1;}')
-+  ifeq ($(RSVG_CONVERT_ACCEPTABLE),1)
+@@ -126,6 +126,9 @@ ifdef RSVG_CONVERT
+   ifeq ($(RSVG_CONVERT_ACCEPTABLE),1)
+     RSVG_CONVERT_GOOD := 1
+   endif
++  ifndef INKSCAPE
 +    RSVG_CONVERT_GOOD := 1
 +  endif
-+  RSVG_CONVERT_PDFFMT := $(shell echo $(RSVG_CONVERT_VER_MINOR) $(RSVG_CONVERT_PDFFMT_VER) | awk '{if ($$1 >= $$2) print 1;}')
+   RSVG_CONVERT_PDFFMT := $(shell echo $(RSVG_CONVERT_VER_MINOR) $(RSVG_CONVERT_PDFFMT_VER) | awk '{if ($$1 >= $$2) print 1;}')
    ifeq ($(RSVG_CONVERT_GOOD),1)
      SVG_PDF_CONVERTER = (rsvg-convert v$(RSVG_CONVERT_VER))
-   else
-     SVG_PDF_CONVERTER = (inkscape)
-   endif
-+  ifeq ($(RSVG_CONVERT_PDFFMT),1)
-+    RSVG_FMT_OPT := --format=pdf1.5
-+  else
-+    RSVG_FMT_OPT := --format=pdf
-+  endif
- else
-   SVG_PDF_CONVERTER = (inkscape)
- endif
-@@ -503,7 +515,7 @@ ifeq ($(RECOMMEND_LIBERATIONMONO),1)
- endif
- 
- ifeq ($(RSVG_CONVERT_GOOD),1)
--	@cat $<i | rsvg-convert --format=pdf1.5 > $@
-+	@cat $<i | rsvg-convert $(RSVG_FMT_OPT) > $@
- else
-   ifeq ($(INKSCAPE_ONE),0)
- 	@inkscape --export-pdf=$@ $<i > /dev/null 2>&1
 -- 
 2.34.1
 
