@@ -1,98 +1,140 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C5713AC8
-	for <perfbook@vger.kernel.org>; Sun,  7 Jan 2024 17:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775E61171E
+	for <perfbook@vger.kernel.org>; Sun,  7 Jan 2024 21:17:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ChRyrsWO"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-28c7e30c83fso492588a91.1
-        for <perfbook@vger.kernel.org>; Sun, 07 Jan 2024 09:01:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704646896; x=1705251696; darn=vger.kernel.org;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=w6jihWJFY7NdNrLllIWSInzHZ6pDu6IIHglgF1j3zww=;
-        b=ChRyrsWOTcmZg1f8qtbVW0HKfInPk1sKNrYFN9EdCOjNtnzzeC1Weu/5s+lKL+YK+V
-         x1OnD2vG9N/R7XwCNPbEWqS4e9McPkaGwSLQhbb6+8344LXCPf3AoR5bD7pzy8y5KJ2J
-         aM/bLW4nlYRXuj7D0snu3SyyozJ2/bMkB2QHjBh9ZN/62dnZgmIj1l0dPbkn2a2AaFfq
-         E6lwjeGefET0L6/JDScNEgTfz2dwS4g8M/UWJi6qHSbzPDmjEZkmQwMIEzCM9QgZ7Dhc
-         g3jPa7la4tprujao1DZ30H+TwiWLQSDWlV8AQnYAcpBQquhYdcjVqussHTkFElKnJ2Zu
-         l8Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704646896; x=1705251696;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=w6jihWJFY7NdNrLllIWSInzHZ6pDu6IIHglgF1j3zww=;
-        b=X3ni5k4Ad9hWulQhtAgXqlq+9KYc38ZhWzNm6dEy8RbDPA1gD90CAG0owY0/hxSk3m
-         3cZNUuK9cHKgX1VoynoC5Rm48kEPP6ppsENESyc27dIaty5uRpANBfuK5CClnVqQrejX
-         moo7H4w2waofja+XUnz7Ez6s7BAzl/lWw1HlTmUEXvxt/tMcuPvTEzI/rO1XJFdJwq/C
-         0GffGcTgN+aFxNAtoCjH8M4dQkZDTgz7L/5GtCn+XefN+64IIfXD/exucgKtrZ8AXhGF
-         oKRv49ZcDnkEX3LwBWSn5ePfUD1qnfb07SCw/kKWXSugM1+XQqQMbOhDNNjE1d83WMFD
-         McFQ==
-X-Gm-Message-State: AOJu0YwyxsT2iKyTO89jfBF4vBt4BI5DRvgie/tPak820pgcc5e1o+hh
-	U5xXfcAK3jSFQda5wR0HSBw=
-X-Google-Smtp-Source: AGHT+IEtlG58G0LlI3bj3u/f9EIGx/Mxus/7AG0DfD+DL6GAzZlbrEzx85U9jmqBTPKAD5DgJS+4zw==
-X-Received: by 2002:a05:6a20:8f01:b0:199:9448:f9e4 with SMTP id b1-20020a056a208f0100b001999448f9e4mr198914pzk.1.1704646896373;
-        Sun, 07 Jan 2024 09:01:36 -0800 (PST)
-Received: from localhost.localdomain ([216.243.7.87])
-        by smtp.gmail.com with ESMTPSA id h7-20020a170902704700b001d3f03c3460sm4608469plt.158.2024.01.07.09.01.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jan 2024 09:01:35 -0800 (PST)
-From: SeongJae Park <sj38.park@gmail.com>
-To: paulmck@kernel.org
-Cc: SeongJae Park <sj38.park@gmail.com>,
-	perfbook@vger.kernel.org
-Subject: [PATCH 3/3] appendix/toyrcu: Add missing parentheses for rcu_quiescent_state()
-Date: Sun,  7 Jan 2024 09:01:22 -0800
-Message-Id: <20240107170122.18010-4-sj38.park@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240107170122.18010-1-sj38.park@gmail.com>
-References: <20240107170122.18010-1-sj38.park@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DgApqQ9V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D06B6C433C7;
+	Sun,  7 Jan 2024 21:17:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704662228;
+	bh=Qy1zJagNLE8qwfuzEjcSvuITcFcSktpn6p63FgFd5LM=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=DgApqQ9VOqVzlShawGo88DmtwiqwWTDQtYeI9ToOKNlvNpWnCGCiY8mHG3VzDQQRb
+	 E4fC9tFnSW27teVozYjQRHZ9ODUEEzAKYMawzA2liIcFuggsljva6qWPgdbJzqWMfJ
+	 JzUc5DW0HAIgZC7nTlnUQNGO4LsX7vFOVR0mLUaNdxTOkYszjglslBDMKrZ6P/+AP+
+	 N49gf1SywHfnn4ThDnaHdmxDGwhw2ytCT50C7ZIanizBNNk9eYVpLHeRGLib7k8FNh
+	 lagVNWq8pk2CUvMhAPOrd+DUK/d/3aJd+ho2ck0bcrpQCUKs04hmLn21iBEn9RJ+O4
+	 2aGZLf0EqZJ5g==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 59E86CE1F74; Sun,  7 Jan 2024 13:17:08 -0800 (PST)
+Date: Sun, 7 Jan 2024 13:17:08 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Leonardo =?iso-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
+Subject: Re: [PATCH -perfbook 8/8] gitlab-ci.yml: Install librsvg instead of
+ inkscape
+Message-ID: <a45327d6-729c-40ae-a7bb-6ad7fb63f3cd@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <8d0ffcdc-59f9-49ef-b8e1-313e71cac913@gmail.com>
+ <07aca12c-85f9-4e8c-b0f6-1e502cdd8cc5@gmail.com>
+ <b49648d42bbd646241edbf4b360adb68d7322cb4.camel@gmail.com>
+ <ae5a1ed4-dd5b-469f-9a6a-b3c7dc475d49@gmail.com>
+ <887c14299660953517677bd3ba5d8f0c64623d7e.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <887c14299660953517677bd3ba5d8f0c64623d7e.camel@gmail.com>
 
-Some sentences on toyrcu.tex is missing parentheses for
-rcu_quiescent_state().  Add those.
+On Sat, Jan 06, 2024 at 12:37:38AM -0300, Leonardo Brás wrote:
+> On Sat, 2024-01-06 at 10:15 +0900, Akira Yokosawa wrote:
+> > Hi Leo,
+> > 
+> > On Fri, 05 Jan 2024 18:39:15 -0300, Leonardo Brás wrote:
+> > > On Fri, 2024-01-05 at 18:58 +0900, Akira Yokosawa wrote:
+> > > > On Arch Linux, rsvg-convert is provided in the librsvg package.
+> > > > Install it instead of inkscape.
+> > > > 
+> > > > Using rsvg-convert can shorten runtime of CI job for building PDFs
+> > > > a bit.
+> > > > 
+> > > > Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> > > > Cc: Leonardo Bras <leobras.c@gmail.com>
+> > > > ---
+> > > 
+> > > Hello Akira, 
+> > > 
+> > > I used the leobras-ci branch from gitlab/linux_kernel/perfbook to test your
+> > > patchset: 
+> > > https://gitlab.com/linux-kernel/perfbook/-/jobs/5872530547
+> > 
+> > Thank you for taking the time!
+> > 
+> > > 
+> > > It generated the pdf successfully, could you check if the images were generated
+> > > correctly?
+> > > https://gitlab.com/linux-kernel/perfbook/-/jobs/5872530547/artifacts/browse
+> > 
+> > Looks good to me.
+> > 
+> 
+> Amazing! so
+> Tested-by: Leonardo Bras <leobras.c@gmail.com>
+> 
+> > > 
+> > > > Needs an explicit ACK or Tested-by from Leo.
+> > > > Expected order of reduction of build time:  ~10s
+> > 
+> > And the job took 11m53s.
+> > Previous runs: 13m29s, 12m57s, 13m50s, 13m45s, 12m26s ...
+> > Not installing inkscape should also help reduce the time.
+> > 
+> 
+> Yeah, it's a pretty big suite, you are most probably correct.
+> 
+> > > > 
+> > > >  utilities/gitlab-ci.yml | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/utilities/gitlab-ci.yml b/utilities/gitlab-ci.yml
+> > > > index bcda8712..17525fb4 100644
+> > > > --- a/utilities/gitlab-ci.yml
+> > > > +++ b/utilities/gitlab-ci.yml
+> > > > @@ -19,7 +19,7 @@ generate_pdfs:
+> > > >      stage: build
+> > > >  
+> > > >      before_script:
+> > > > -        - pacman --noconfirm -Syu texlive-meta fig2dev ghostscript graphviz inkscape wget make which fontconfig git ttf-dejavu gnu-free-fonts ttf-liberation
+> > > > +        - pacman --noconfirm -Syu texlive-meta fig2dev ghostscript graphviz librsvg wget make which fontconfig git ttf-dejavu gnu-free-fonts ttf-liberation
+> > > 
+> > > so s/inkscape/librsvg/ right? 
+> > 
+> > Yes.
+> > 
+> > > 
+> > > It's fine by me.
+> > 
+> > May I take that as your Acked-by: ?
+> > 
+> 
+> Sure:
+> 
+> Acked-by: Leonardo Bras <leobras.c@gmail.com>
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- appendix/toyrcu/toyrcu.tex | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Applied both, thank you!
 
-diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
-index 4083f9f0..a33ccdb3 100644
---- a/appendix/toyrcu/toyrcu.tex
-+++ b/appendix/toyrcu/toyrcu.tex
-@@ -1447,13 +1447,13 @@ re-ordered with the \clnrefrange{gp1}{gp2}.
- 	\begin{fcvref}[ln:defer:rcu_qs:read_lock_unlock:qs]
- 	Doesn't the additional memory barrier shown on \clnref{mb2} of
- 	\cref{lst:app:toyrcu:Quiescent-State-Based RCU Read Side}
--	greatly increase the overhead of \co{rcu_quiescent_state}?
-+	greatly increase the overhead of \co{rcu_quiescent_state()}?
- 	\end{fcvref}
- }\QuickQuizAnswer{
- 	\begin{fcvref}[ln:defer:rcu_qs:read_lock_unlock:qs]
- 	Indeed it does!
- 	An application using this implementation of RCU should therefore
--	invoke \co{rcu_quiescent_state} sparingly, instead using
-+	invoke \co{rcu_quiescent_state()} sparingly, instead using
- 	\co{rcu_read_lock()} and \co{rcu_read_unlock()} most of the
- 	time.
- 
-@@ -1574,7 +1574,7 @@ certain types of library functions.
- 	effect extended beyond the enclosing
- 	\co{rcu_read_lock()} and \co{rcu_read_unlock()}, out to
- 	the previous and next call to \co{rcu_quiescent_state()}.
--	This \co{rcu_quiescent_state} can be thought of as an
-+	This \co{rcu_quiescent_state()} can be thought of as an
- 	\co{rcu_read_unlock()} immediately followed by an
- 	\co{rcu_read_lock()}.
- 
--- 
-2.17.1
+							Thanx, Paul
 
+> 
+> >         Thanks, Akira
+> > 
+> 
+> Thank you!
+> Leo
+> 
+> > > 
+> > > Thanks!
+> > > Leo
+> > > 
+> > > >          - mkdir -p ~/.local/share/fonts && cp fonts/steel-city-comic.regular.ttf ~/.local/share/fonts/ && fc-cache
+> > > >  
+> > > >      script:
+> > > 
+> 
