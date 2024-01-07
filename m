@@ -1,52 +1,52 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C4213ACD
-	for <perfbook@vger.kernel.org>; Sun,  7 Jan 2024 17:01:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2698B13ADE
+	for <perfbook@vger.kernel.org>; Sun,  7 Jan 2024 17:01:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I9s3JI+b"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-28bc8540299so495388a91.0
-        for <perfbook@vger.kernel.org>; Sun, 07 Jan 2024 09:01:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6e1VUdN"
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7b7fb34265fso52356739f.3
+        for <perfbook@vger.kernel.org>; Sun, 07 Jan 2024 09:01:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704646893; x=1705251693; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1704646895; x=1705251695; darn=vger.kernel.org;
         h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=BpnOxN8JO9b1sMfrrE739Ytq80Sr9C7KdFIwC2oXFrA=;
-        b=I9s3JI+bNDpfnimQdg+8MQIGVMQ1wnRMVIE+OU+xqqsdU5lqBlB+3KR9UvhGwOBNL+
-         dzMGcyLJwdzTpmxKWFhhwCZWq6PljHR0827c+6nNk9qv1kZBa9BXahSg6ZT34noNeXtd
-         YXl05cXRbsIS6y6M/qjCJ6n+9dt/HRHw5Qh1PYY5TfO8F+IM2Q4/U8k6K4ZKxyHz9Gm5
-         2VW3Rnbl0bCrsNwW5sginslFTeBhFUuSCgxar7TBDoO/pV9ukoEcmh3HSlZxtJHSfuLU
-         XoRjY6BS5NxzK2g1/T4RduiLOyBqARFhH1DDzeWiTfaUznu0yFBdn0BAYnA/5ffLktYo
-         uXxg==
+        bh=HNAapI6ovqiM/CV/GA5mus095xzp7Zx1Blag0KBxABk=;
+        b=F6e1VUdNdvNWJF+24OLmCt3BtdsvbLqod+0UneJMQnPDry45kfDHk2lrQQgRzL/Q/3
+         jDCxmRSGQbKKeDmYCAfsOIHvu3knWGL2r+W8Nvyz/Z/LTyCWEdqw+vyKkse4Xdhpfnox
+         5XaPPge/tBqY2IDCXHOWnyAeES1++uuaCUtm66VDGqV9kqD6ZzRRv7U/h485cNNhZ82o
+         eGJSCGYFUwQJ6fmnTk3EWSOxgSwaG2Pi9e9F/MCzLZ1wdlZKcg8SPxXDCFsUsqWe/fI7
+         /L9r5R8DMPsIY/r2EUBn6OlxcLvLQlZlSbJsDc+ZGa76Fmc//NKufiDMVB3XMsiChZVx
+         Dh2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704646893; x=1705251693;
+        d=1e100.net; s=20230601; t=1704646895; x=1705251695;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BpnOxN8JO9b1sMfrrE739Ytq80Sr9C7KdFIwC2oXFrA=;
-        b=WTZIdS9KvnJRYQIYVRjaIC5zt3mK9f55gwcbhwO1DIUNniZDzt2Uw39ZBFMaReEuWq
-         tToiLzr9krE6RNEFY1bKPl4uLXhDOj3n+A5PdAmfsjjl9O2UECc3G/tMJkmEirJQNLlw
-         z0R/fhEc5e5YoEkaOHFMKq9bnvLx7Z2sklHGrjXiUvo6MWQN3UljbPyGnjGOojsvWypk
-         B3uEr0QZ7Z1lXAPKEUBOFoffhmJyaZ/qPEcsJp6uqlgNh4WjtoMSW/RphQhLMTUgBv26
-         mNbyUvVjczrdxXQA0nT2ofSD/O6JnGkqOt9ixBAqiSAP6n9QjQoDxEAz2j2U218AthxJ
-         +CYQ==
-X-Gm-Message-State: AOJu0YzPg7vnL1uHo4E7K2iUrFMkXLoRtRTc5XwNsssTHJYCfb0m85hI
-	CiqaXSfp/TWD7V60NZGBJybgg6XXEHE=
-X-Google-Smtp-Source: AGHT+IHfqmEKIgrUXA7mU6gh4NhyKre5xrIRSQ5Aq2RMhamxuronuEHybwZARnYm1nXNzb7eE4A7aA==
-X-Received: by 2002:a17:903:110c:b0:1d4:cea8:5d6a with SMTP id n12-20020a170903110c00b001d4cea85d6amr926070plh.4.1704646893471;
-        Sun, 07 Jan 2024 09:01:33 -0800 (PST)
+        bh=HNAapI6ovqiM/CV/GA5mus095xzp7Zx1Blag0KBxABk=;
+        b=Aaxo5j2scToIvAAZV6m3wdUlPZ7e+YVQp9bGoyZjMLlySXP2luNJO8lo/j5KixuDhq
+         fVHyojlSDAhFO+sOMJV1mAIoqP8M3JhnskS18sf8elhvA96iY2ED8uUxdx7t7Xiyn1Yj
+         BSu0t8QbWasgkVAHCDcDv7NkMZ8+VqRomomOz9Q9MCveVGmSN95voHC/TmBVfTyEVkhe
+         CXidA4YJc9UtR8W+xcYoqVhgSGalSnINY9w8l7X4310PwMqedXSlBodBRHbw8aeEltBY
+         oxYFlfp+RiILtapsPfj0cIBl1EmYiC6x0PWa60ZZDfssE9wOyw6qF1ytDTHCav62AwxE
+         PGIg==
+X-Gm-Message-State: AOJu0Yw8bC+ObCslpZ6HMfRQP9hXTZR9CqvKE/yWLrcGP3B5q4r4rNJW
+	3QyZgpXRg4DkHK97CIdOqyh82OJWXmc=
+X-Google-Smtp-Source: AGHT+IGlnkYNQfN6BGAdqf3oyKl1TUx5xoBoAuVoFTfL5v3gKToAtznezRtsBdOvmHH6/oYsv02Mcg==
+X-Received: by 2002:a05:6e02:1d94:b0:35f:e963:b990 with SMTP id h20-20020a056e021d9400b0035fe963b990mr2964420ila.54.1704646895093;
+        Sun, 07 Jan 2024 09:01:35 -0800 (PST)
 Received: from localhost.localdomain ([216.243.7.87])
-        by smtp.gmail.com with ESMTPSA id h7-20020a170902704700b001d3f03c3460sm4608469plt.158.2024.01.07.09.01.32
+        by smtp.gmail.com with ESMTPSA id h7-20020a170902704700b001d3f03c3460sm4608469plt.158.2024.01.07.09.01.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jan 2024 09:01:32 -0800 (PST)
+        Sun, 07 Jan 2024 09:01:33 -0800 (PST)
 From: SeongJae Park <sj38.park@gmail.com>
 To: paulmck@kernel.org
 Cc: SeongJae Park <sj38.park@gmail.com>,
 	perfbook@vger.kernel.org
-Subject: [PATCH 1/3] appendix/toyrcu: Add missing parentheses
-Date: Sun,  7 Jan 2024 09:01:20 -0800
-Message-Id: <20240107170122.18010-2-sj38.park@gmail.com>
+Subject: [PATCH 2/3] appendix/toyrcu: Use \co{} for spin tool
+Date: Sun,  7 Jan 2024 09:01:21 -0800
+Message-Id: <20240107170122.18010-3-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240107170122.18010-1-sj38.park@gmail.com>
 References: <20240107170122.18010-1-sj38.park@gmail.com>
@@ -56,9 +56,9 @@ List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 
-A sentence on toyrcu.tex is missing enclosing code with parentheses,
-unlike other parts on the sentence.  Add the parentheses to be
-consistent.
+formalregress.tex is using \co{} for spin tool, especially when
+mentionging it together with Promela.  A sentence in toyrcu.tex is not
+using \co{} for same representation.  Use \co{} for consistency.
 
 Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 ---
@@ -66,18 +66,18 @@ Signed-off-by: SeongJae Park <sj38.park@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
-index 27c11968..1634953e 100644
+index 1634953e..4083f9f0 100644
 --- a/appendix/toyrcu/toyrcu.tex
 +++ b/appendix/toyrcu/toyrcu.tex
-@@ -391,7 +391,7 @@ shows the read-side primitives of an RCU implementation that uses a pair
- of reference counters (\co{rcu_refcnt[]}),
- along with a global index that
- selects one counter out of the pair (\co{rcu_idx}),
--a per-thread nesting counter \co{rcu_nesting},
-+a per-thread nesting counter (\co{rcu_nesting}),
- a per-thread snapshot of the global index (\co{rcu_read_idx}),
- and a global lock (\co{rcu_gp_lock}),
- which are themselves shown in
+@@ -535,7 +535,7 @@ checking of \co{rcu_refcnt}.
+ 	data element.
+ 
+ 	Exercise for the reader:
+-	Use a tool such as Promela/spin to determine which (if any) of
++	Use a tool such as Promela/\co{spin} to determine which (if any) of
+ 	the memory barriers in
+ 	\cref{lst:app:toyrcu:RCU Update Using Global Reference-Count Pair}
+ 	are really needed.
 -- 
 2.17.1
 
