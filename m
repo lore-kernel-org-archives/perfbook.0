@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2268914E2D1
-	for <perfbook@vger.kernel.org>; Tue, 30 Jan 2024 17:57:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E372569E1E
+	for <perfbook@vger.kernel.org>; Tue, 30 Jan 2024 20:20:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706637427; cv=none; b=B8iExLiRDky/KWdFdpnwqwnO5fCgnIHu1+92zSP/WT46zX+fQ9jV82DsQ+WDgxwpaLo97KopDuHLYY5SjjZ1SLgz88ZzClTmgpAEYDeX0KsbalrG9Vq6DWH+dITKEEmDiMrNZwlDR6wJegJff+L3rBdvSkxQu49XphgqRH5wnNE=
+	t=1706646012; cv=none; b=RHxV9E1wG72x/i7dJiuXRbfiiYHiWmSWDAX5DQE85XTYO6Hbp8AY8wCmidaxJk6mdy0c4Uw5cEA8rcxztXbsiQWhjbFZBWSYOplMtFBArlRj2ntag/gGyd/pHGLsJDBrqSDKv+cDqRp1FVs6jhAI/cPYzMjniLzF7rR5klEfBAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706637427; c=relaxed/simple;
-	bh=PNNUnORNqodg1TEJZQBdGgUIK04aAXNxTqhSKj0SV7g=;
+	s=arc-20240116; t=1706646012; c=relaxed/simple;
+	bh=lTr2kqmdC1MuDJlcCGwUBKfAF1Jr5P3MYqT5v5npWHg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DeArWmTOAJLeVU5X2sgGSoxGW7EBa7Z9w0M0iLKk2brkEVEDAAthJR7RUgT3bmHju9f5QMPQp3gWa0cWezIJngPsmWPSzxiZWzwXclURxl4Y+N4kAdIBtLW2RYE0r/Tr0qsQy9p0Bt0tLKBfq3t3ZlWP07NenxIMgXmS1lFIkHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lsEEUGng; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=L+pB7rTRP7FCBCKyceF0NB+ljsfpq6LDhNk76mEDoRmsoSbNxT0vrS11iX2KzNzuaEd1Ey/p06wle10jOpe0jXMABP/xdvVfqOX9SeWhdy4oaglDHpyYAt87E4lSL5zyqIHit0Z8JM7+7NEDwPgTNFSl9M6ATf1KnzrstJ+GQrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O8x+DmpX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lsEEUGng"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DD8CC433C7;
-	Tue, 30 Jan 2024 17:57:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O8x+DmpX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AA1AC433C7;
+	Tue, 30 Jan 2024 20:20:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706637426;
-	bh=PNNUnORNqodg1TEJZQBdGgUIK04aAXNxTqhSKj0SV7g=;
+	s=k20201202; t=1706646011;
+	bh=lTr2kqmdC1MuDJlcCGwUBKfAF1Jr5P3MYqT5v5npWHg=;
 	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=lsEEUGngriDYnDn/EBdx+uApWjrAnA8iIY49Fra80azuL7aAyxI3Sd4klwF5toUUb
-	 +JvgcCTVnLLpgDUAHpaiQKy9G4CU6pbcSTdmuB9365141BOOIKtUtT/SGGg5JewbTX
-	 UWvtiwAVpGM4pUCaeFQx6FM3qdCHMYG0GN5aQ/bp52mX7iRayzwS/Xo8xG9zZeKMJU
-	 Ct0lmsovZu6+S8eLA90dFDhtyyg0pozcbQ0QvhBsjhQoakW2aAMrrBXBqx4Lau/Ogh
-	 mGTmaU4wCkl4abrkjnGrn++hjbm52OYxxvPVNIQ3acvQkQUZ3JnOl+5yEVafro7FNh
-	 E1hYQR1tB/Wmw==
+	b=O8x+DmpXGm4zbN4X1PRQbPD/XeqFviI6Vlzr/oS0QRCXM3s72A67Ti0GK5DK1BplN
+	 0xgq9S1wJf2Cjv8oxsMP9C+40ViZInUIQ3W06WPKEBs1V+qFBViXV/13iTE407nrYB
+	 CPz9WDDtycCuFqzgDFMl74KX2kJkhfo9Mj5YT4lWtmdGSYmce/s0KDiZsauvkeWCYh
+	 MZPuF7VQikaVL7pvFWP29Dt+vS3p3EHLEbi+24yNP2dp1FH1K7LmuS5tWsiDz+qKbW
+	 m63h4l4QbZ6FCPirOQQ/9+mPBHOwhNFpgh0EcCaicXETPYlNCQ1dOt/Ayj7K4FzOO8
+	 3yqFadScD58yQ==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 41A41CE0556; Tue, 30 Jan 2024 09:57:06 -0800 (PST)
-Date: Tue, 30 Jan 2024 09:57:06 -0800
+	id 03E0FCE0556; Tue, 30 Jan 2024 12:20:11 -0800 (PST)
+Date: Tue, 30 Jan 2024 12:20:10 -0800
 From: "Paul E. McKenney" <paulmck@kernel.org>
 To: Akira Yokosawa <akiyks@gmail.com>
 Cc: perfbook@vger.kernel.org
 Subject: Re: [RFT PATCH -perfbook 0/2] Retouch plots in QQA 15.31
-Message-ID: <94eba816-c48f-4d48-9b33-1ee978b33bdc@paulmck-laptop>
+Message-ID: <b38a195a-1f23-421c-89cb-f79472458599@paulmck-laptop>
 Reply-To: paulmck@kernel.org
 References: <903d71c1-b92c-49a9-8365-a931fcaf2514@gmail.com>
+ <94eba816-c48f-4d48-9b33-1ee978b33bdc@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -44,99 +45,111 @@ List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <903d71c1-b92c-49a9-8365-a931fcaf2514@gmail.com>
+In-Reply-To: <94eba816-c48f-4d48-9b33-1ee978b33bdc@paulmck-laptop>
 
-On Wed, Jan 31, 2024 at 12:31:06AM +0900, Akira Yokosawa wrote:
-> Hi Paul,
+On Tue, Jan 30, 2024 at 09:57:06AM -0800, Paul E. McKenney wrote:
+> On Wed, Jan 31, 2024 at 12:31:06AM +0900, Akira Yokosawa wrote:
+> > Hi Paul,
+> > 
+> > I'm not sure if you are already working on those figures in .png,
+> > but I'm sending updates in scripts.  I'm dropping changes and
+> > additions of .eps and .png files generated by the updated scripts.
+> > 
+> > Here is a list of commands you'd need to reflect the changes in
+> > perfbook.pdf.
+> > 
+> >     pushd CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/
 > 
-> I'm not sure if you are already working on those figures in .png,
-> but I'm sending updates in scripts.  I'm dropping changes and
-> additions of .eps and .png files generated by the updated scripts.
+> I removed this directory due to my having tweaked the data to paper over
+> bugs in early versions of my scripts.  So I focused instead on
+> CodeSamples/cpu/data/kerneltest054.05.atn6.2024.01.22-12.28.01.
 > 
-> Here is a list of commands you'd need to reflect the changes in
-> perfbook.pdf.
+> Ah, and I never did push out the commit where I removed the
+> CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02
+> directory.  Apologies, and it is out there now.
 > 
->     pushd CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/
-
-I removed this directory due to my having tweaked the data to paper over
-bugs in early versions of my scripts.  So I focused instead on
-CodeSamples/cpu/data/kerneltest054.05.atn6.2024.01.22-12.28.01.
-
-Ah, and I never did push out the commit where I removed the
-CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02
-directory.  Apologies, and it is out there now.
-
->     sh plots.sh
-
-This failed until I installed the groff package to get pfbtops.
-I of course also had to move expand.pl to this directory.
-
->     evince coe-nvalue.eps &
->     evince coe.eps &
->     evince fre.eps &
->     evince rfe.eps &
->     display fre.png &
-
-I do like the vertical dashed line at x=0.  I see artifacts on my
-screen due to pixel/plot misalignment, but increasing size makes
-things look good.  It will be fine on paper.  And the fill is
-good compared to the funny datapoint labels.
-
-I adjusted coe.eps's xrange to include the entire curve in the plot.
-
-And it does look a lot more professional than my original, so thank
-you for that!
-
-> If those plots look reasonable to you, please copy them to the parent
-> directory and do the "make":
+> >     sh plots.sh
 > 
->     cp *.eps fre.png ../
-
-I don't understand why fre.png is needed.  I am leaving it out, so
-perhaps I will learn the hard way.  ;-)
-
->     popd
->     make
+> This failed until I installed the groff package to get pfbtops.
+> I of course also had to move expand.pl to this directory.
 > 
-> If those figures in the resulting perfbook.pdf looks good to you,
-> I'd like you to go forward and commit the changes and additions:
+> >     evince coe-nvalue.eps &
+> >     evince coe.eps &
+> >     evince fre.eps &
+> >     evince rfe.eps &
+> >     display fre.png &
 > 
->     git add CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/*.eps
->     git add CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/fre.png
->     git add CodeSamples/cpu/data/*.eps
->     git add CodeSamples/cpu/data/fre.png
+> I do like the vertical dashed line at x=0.  I see artifacts on my
+> screen due to pixel/plot misalignment, but increasing size makes
+> things look good.  It will be fine on paper.  And the fill is
+> good compared to the funny datapoint labels.
 > 
->     git commit -a # with a suitable tag such as Requested-by: me
+> I adjusted coe.eps's xrange to include the entire curve in the plot.
 > 
-> Furthermore, if you think those .png figures, now obsoleted by the
-> new .eps figures, are not needed anymore, please "git rm" them as well.
+> And it does look a lot more professional than my original, so thank
+> you for that!
+> 
+> > If those plots look reasonable to you, please copy them to the parent
+> > directory and do the "make":
+> > 
+> >     cp *.eps fre.png ../
+> 
+> I don't understand why fre.png is needed.  I am leaving it out, so
+> perhaps I will learn the hard way.  ;-)
+> 
+> >     popd
+> >     make
+> > 
+> > If those figures in the resulting perfbook.pdf looks good to you,
+> > I'd like you to go forward and commit the changes and additions:
+> > 
+> >     git add CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/*.eps
+> >     git add CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/fre.png
+> >     git add CodeSamples/cpu/data/*.eps
+> >     git add CodeSamples/cpu/data/fre.png
+> > 
+> >     git commit -a # with a suitable tag such as Requested-by: me
+> > 
+> > Furthermore, if you think those .png figures, now obsoleted by the
+> > new .eps figures, are not needed anymore, please "git rm" them as well.
+> 
+> Done.
+> 
+> I kept the old .png files where they are generated because I did not
+> remove that part of the plots.sh file.  Showing both ways of doing
+> this is not necessarily a bad thing.  ;-)
+> 
+> > If there is anything I've missed, please let me know.
+> 
+> Queued and pushed, thank you!
 
-Done.
+Except that github choked on the 366MB coe.out file.  The gzip command
+compresses it to 72MB, and "tar -cJf" gets it down to 33MB, so maybe I
+rebase the compressed version into the commit that created that file.
 
-I kept the old .png files where they are generated because I did not
-remove that part of the plots.sh file.  Showing both ways of doing
-this is not necessarily a bad thing.  ;-)
+And change the script that collects the data to do the compression.  ;-)
 
-> If there is anything I've missed, please let me know.
+Now kernel.org had no problem with the full file, but it might also
+be good to avoid imposing too much on their storage-space largesse...
 
-Queued and pushed, thank you!
+Other thoughts?
 
 							Thanx, Paul
 
->         Thanks, Akira
-> --
-> Akira Yokosawa (2):
->   CodeSamples/cpu/data: plots.sh: Fix typo in xlabel for fre plot
->   CodeSamples/cpu/data: Use "smooth frequency" for plotting histogram
-> 
->  .../expand.pl                                 | 42 +++++++++
->  .../plots.sh                                  | 85 ++++++++++++++++++-
->  2 files changed, 126 insertions(+), 1 deletion(-)
->  create mode 100755 CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/expand.pl
-> 
-> 
-> base-commit: 9caac64bfabf85439c480ce928dddef969354369
-> -- 
-> 2.34.1
-> 
-> 
+> >         Thanks, Akira
+> > --
+> > Akira Yokosawa (2):
+> >   CodeSamples/cpu/data: plots.sh: Fix typo in xlabel for fre plot
+> >   CodeSamples/cpu/data: Use "smooth frequency" for plotting histogram
+> > 
+> >  .../expand.pl                                 | 42 +++++++++
+> >  .../plots.sh                                  | 85 ++++++++++++++++++-
+> >  2 files changed, 126 insertions(+), 1 deletion(-)
+> >  create mode 100755 CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/expand.pl
+> > 
+> > 
+> > base-commit: 9caac64bfabf85439c480ce928dddef969354369
+> > -- 
+> > 2.34.1
+> > 
+> > 
