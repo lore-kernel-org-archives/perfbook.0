@@ -1,232 +1,142 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031C167728
-	for <perfbook@vger.kernel.org>; Tue, 30 Jan 2024 15:37:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2268914E2D1
+	for <perfbook@vger.kernel.org>; Tue, 30 Jan 2024 17:57:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706629043; cv=none; b=WOatFzV9K4yu1BZbAVe0zW17Fxqd2VRvGfNxcE/EBhh4xY4xkH/kElJR11LRRbD0y16ZZYtvl6DesWQgdbvP+CcR7HCNuxZX/+dVp/B72yLqJVii7+BcU9qcBm6UwCpfz+qxHSdW2VgpZ/ntgM/Q82Ue0V/ecXCRkpqCSX06N78=
+	t=1706637427; cv=none; b=B8iExLiRDky/KWdFdpnwqwnO5fCgnIHu1+92zSP/WT46zX+fQ9jV82DsQ+WDgxwpaLo97KopDuHLYY5SjjZ1SLgz88ZzClTmgpAEYDeX0KsbalrG9Vq6DWH+dITKEEmDiMrNZwlDR6wJegJff+L3rBdvSkxQu49XphgqRH5wnNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706629043; c=relaxed/simple;
-	bh=cmeDf7PYBGPhq61/Y5ABvQzYAuhMmaDU1YLaI1LEDow=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vA0rH0R2okaUlbu7Zm9J6IvvMDXDkakweD9fpVOoAe3siDvYu6V7H3jA/tm20574XnFq5u74p2D7Kpu1dvP4LBNYnbnMLHSQxqZou87Rov/9G16IXQ4RNOQGgE1CQ5j5sSMTvk9GC94n5pP3Bkkf3cp5cRkJewQ+/BdoQpBNYp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bEgfm/YL; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706637427; c=relaxed/simple;
+	bh=PNNUnORNqodg1TEJZQBdGgUIK04aAXNxTqhSKj0SV7g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DeArWmTOAJLeVU5X2sgGSoxGW7EBa7Z9w0M0iLKk2brkEVEDAAthJR7RUgT3bmHju9f5QMPQp3gWa0cWezIJngPsmWPSzxiZWzwXclURxl4Y+N4kAdIBtLW2RYE0r/Tr0qsQy9p0Bt0tLKBfq3t3ZlWP07NenxIMgXmS1lFIkHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lsEEUGng; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bEgfm/YL"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6ddf26eba3cso2553113a34.0
-        for <perfbook@vger.kernel.org>; Tue, 30 Jan 2024 07:37:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706629041; x=1707233841; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hvO2wiMf/fJTW1+MmyfpV3m8wAIT1U5BiwJRBHqjRzE=;
-        b=bEgfm/YLWupbv+Q/laLvKxBWpisba74p/0Scv9dpIM2I5lySU22Mt8yPLWRGnr+DZx
-         q6HnCkQ7fq3uYiGiv8m0IApB1YHvF13He/lsvy1Y4QzJ10FQJ5QADniB6vftfSA/MxaR
-         hLdLp2UWi9yX1bAHN3nGqP9JXInDDW7tFBeEH67unJsNNjSIFZ+6SHzt4eGvlFamzunS
-         Jy2SpQ/Hx+yqhema3mjKJyskcT9jlOtSXlJ6SXGNReJbWIiFeRF9ZBgtN9jiNMmfS2bG
-         EFR++yO/9SAryNWKa6Wa5Z6XtyoKHP7odrIUkSXbJ2HJOyuMleEhTYNH6Lkue02L1rJj
-         rwyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706629041; x=1707233841;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hvO2wiMf/fJTW1+MmyfpV3m8wAIT1U5BiwJRBHqjRzE=;
-        b=p42/slPXm5ahnuxmzV8act3jALt3K4pL5v16hE/fOmpwYwX8TbeHmgMn7S/SRlyda2
-         jkvUWrKCML1ytLLz7OPdUN1DKskdTzJPELQcDJWkDNu3LLNSTrzLmxHPUo046scsxx1O
-         CcKcI7+k7Jc5Pb4lwZHfSepS/VjWA+IKRDmh1fLUhkVcpoaYrETDn+tgU/fxjlcjVEZG
-         TJHuJ7gsdCVL8RYIgxRKAAgK90eSltooGHCBMciLyEdUGQLpeAFaHGKJLD5m9X01vUoj
-         fqkxNhrQ+8ntT822pNPf9Zl2zF2RFQXIyKuxlyhphEst79aogClNuHN6l03HKxrfX9y6
-         uzqg==
-X-Gm-Message-State: AOJu0YyjBw1uZ3Amz1YGlF43auGvtBZxf6NU/ar6VJXFSANUvTudVQis
-	Tpst927rS7qs6E9KEMrha6+EU5vpa7gM04eBFtWAtNCPYEUyVfXM
-X-Google-Smtp-Source: AGHT+IFTQMyZUKeiNCmZ9xTNVMhHu03hj99z/LoasRfYiLc0TxNq4K4CLysrxLNFbT1NNGLHW9wdMA==
-X-Received: by 2002:a05:6358:ed0a:b0:178:951b:d1a6 with SMTP id hy10-20020a056358ed0a00b00178951bd1a6mr1268196rwb.25.1706629040953;
-        Tue, 30 Jan 2024 07:37:20 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVM8yzNkt50pZ/hO+3oAf8ue3CTCi+brnux5/U2Y0Ve+8TKWGPj6zAz0BUPymrL+WTBgwEo8u5UcIPHJvhDHW8F
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id s22-20020a635256000000b005ca0ae17983sm8339245pgl.8.2024.01.30.07.37.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jan 2024 07:37:20 -0800 (PST)
-Message-ID: <e8dbc1ec-3980-450e-91aa-5814bdc5f0c0@gmail.com>
-Date: Wed, 31 Jan 2024 00:37:18 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lsEEUGng"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DD8CC433C7;
+	Tue, 30 Jan 2024 17:57:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706637426;
+	bh=PNNUnORNqodg1TEJZQBdGgUIK04aAXNxTqhSKj0SV7g=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=lsEEUGngriDYnDn/EBdx+uApWjrAnA8iIY49Fra80azuL7aAyxI3Sd4klwF5toUUb
+	 +JvgcCTVnLLpgDUAHpaiQKy9G4CU6pbcSTdmuB9365141BOOIKtUtT/SGGg5JewbTX
+	 UWvtiwAVpGM4pUCaeFQx6FM3qdCHMYG0GN5aQ/bp52mX7iRayzwS/Xo8xG9zZeKMJU
+	 Ct0lmsovZu6+S8eLA90dFDhtyyg0pozcbQ0QvhBsjhQoakW2aAMrrBXBqx4Lau/Ogh
+	 mGTmaU4wCkl4abrkjnGrn++hjbm52OYxxvPVNIQ3acvQkQUZ3JnOl+5yEVafro7FNh
+	 E1hYQR1tB/Wmw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 41A41CE0556; Tue, 30 Jan 2024 09:57:06 -0800 (PST)
+Date: Tue, 30 Jan 2024 09:57:06 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
+Subject: Re: [RFT PATCH -perfbook 0/2] Retouch plots in QQA 15.31
+Message-ID: <94eba816-c48f-4d48-9b33-1ee978b33bdc@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <903d71c1-b92c-49a9-8365-a931fcaf2514@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [RFT PATCH -perfbook 2/2] CodeSamples/cpu/data: Use "smooth
- frequency" for plotting histogram
-Content-Language: en-US
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <903d71c1-b92c-49a9-8365-a931fcaf2514@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <903d71c1-b92c-49a9-8365-a931fcaf2514@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Add gnuplot scripts for generating EPS plots.
+On Wed, Jan 31, 2024 at 12:31:06AM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> I'm not sure if you are already working on those figures in .png,
+> but I'm sending updates in scripts.  I'm dropping changes and
+> additions of .eps and .png files generated by the updated scripts.
+> 
+> Here is a list of commands you'd need to reflect the changes in
+> perfbook.pdf.
+> 
+>     pushd CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/
 
-Use "smooth frequency" feature of gnuplot for plotting distribution
-histograms.
+I removed this directory due to my having tweaked the data to paper over
+bugs in early versions of my scripts.  So I focused instead on
+CodeSamples/cpu/data/kerneltest054.05.atn6.2024.01.22-12.28.01.
 
-Distribution data in coe.dat, fre.dat, and rfe.dat are converted
-on-the-fly into single-column data by using expand.pl as a filter.
+Ah, and I never did push out the commit where I removed the
+CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02
+directory.  Apologies, and it is out there now.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- .../expand.pl                                 | 42 ++++++++++
- .../plots.sh                                  | 83 +++++++++++++++++++
- 2 files changed, 125 insertions(+)
- create mode 100755 CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/expand.pl
+>     sh plots.sh
 
-diff --git a/CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/expand.pl b/CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/expand.pl
-new file mode 100755
-index 00000000..30719692
---- /dev/null
-+++ b/CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/expand.pl
-@@ -0,0 +1,42 @@
-+#!/usr/bin/env perl
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Expand frequency data of the form:
-+#
-+#   1000 4
-+#   1004 2
-+#   1050 1
-+#
-+# into:
-+#
-+#   1000
-+#   1000
-+#   1000
-+#   1000
-+#   1004
-+#   1004
-+#   1050
-+#
-+# Copyright (C) Akira Yokosawa, 2024
-+#
-+# Authors: Akira Yokosawa <akiyks@gmail.com>
-+
-+use strict;
-+use warnings;
-+
-+my $line;
-+my $freq;
-+my $count;
-+
-+open(my $fn, '<:encoding(UTF-8)', $ARGV[0])
-+    or die "Could not open file '$ARGV[0]' $!";
-+
-+while($line = <$fn>) {
-+    if ($line =~ /(\-?[0-9]+)\s+([0-9]+)/ ) {
-+	$freq = $1;
-+	$count = $2;
-+	for (my $i = 0; $i < $count; $i++) {
-+	    print "$freq\n";
-+	}
-+    }
-+}
-diff --git a/CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/plots.sh b/CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/plots.sh
-index 5b589858..ca083bca 100644
---- a/CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/plots.sh
-+++ b/CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/plots.sh
-@@ -67,3 +67,86 @@ set nokey
- # set label 5 "refcnt" at 0.15,2.8 left
- plot "rfe.dat" w points pt 6 pointsize 0.5
- ---EOF---
-+
-+# For eps output
-+font=../../../../fonts/uhvr8a.pfb
-+fontsize=8
-+przsize="nosquare 0.55,0.25"
-+
-+gnuplot << ---EOF---
-+set term postscript portrait color ${fontsize} enhanced fontfile "${font}" "NimbusSanL-Regu" 
-+set size $przsize
-+set output "coe-nvals.eps"
-+
-+set xlabel "Time (Timestamp Periods)"
-+set ylabel "Number of Simultaneous Values"
-+#set logscale y
-+set xrange [:10000]
-+#set yrange [100:10000]
-+set nokey
-+plot "coe-nvals.dat" w l
-+---EOF---
-+
-+gnuplot << ---EOF---
-+set term postscript portrait color ${fontsize} enhanced fontfile "${font}" "NimbusSanL-Regu"
-+set size $przsize
-+set output "coe.eps"
-+stats "< perl expand.pl coe.dat" nooutput
-+N = STATS_records
-+
-+set xlabel "Store-to-Store Latency (Timestamp Periods)"
-+set ylabel "Frequency (arb. unit)"
-+#set logscale y
-+set xrange [-1000:3000]
-+set yrange [0:]
-+set nokey
-+#set border 3
-+set yzeroaxis
-+set boxwidth 40
-+#set style fill solid 1.0 noborder
-+bin_width = 40
-+bin(x) = bin_width * floor(x/bin_width)
-+plot "< perl expand.pl coe.dat" using (bin(column(1))):(20./N) smooth frequency with boxes
-+---EOF---
-+
-+gnuplot << ---EOF---
-+set term postscript portrait color ${fontsize} enhanced fontfile "${font}" "NimbusSanL-Regu"
-+set size $przsize
-+set output "fre.eps"
-+stats "< perl expand.pl fre.dat" nooutput
-+N = STATS_records
-+
-+set xlabel "Load-to-Store Latency (Timestamp Periods)"
-+set ylabel "Frequency (arb. unit)"
-+#set logscale y
-+set xrange [-250:50]
-+set yrange [0:]
-+set nokey
-+set yzeroaxis
-+set boxwidth 2
-+#set style fill solid 1.0 noborder
-+bin_width = 2
-+bin(x) = bin_width * floor(x/bin_width)
-+plot "< perl expand.pl fre.dat" using (bin(column(1))):(20./N) smooth frequency with boxes
-+---EOF---
-+
-+gnuplot << ---EOF---
-+set term postscript portrait color ${fontsize} enhanced fontfile "${font}" "NimbusSanL-Regu"
-+set size $przsize
-+set output "rfe.eps"
-+stats "< perl expand.pl rfe.dat" nooutput
-+N = STATS_records
-+
-+set xlabel "Store-to-Load Latency (Timestamp Periods)"
-+set ylabel "Frequency (arb. unit)"
-+#set logscale y
-+set xrange [0:350]
-+set yrange [0:]
-+set nokey
-+set yzeroaxis
-+set boxwidth 2
-+#set style fill solid 1.0 noborder
-+bin_width = 2
-+bin(x) = bin_width * floor(x/bin_width)
-+plot "< perl expand.pl rfe.dat" using (bin(column(1))):(20./N) smooth frequency with boxes
-+---EOF---
--- 
-2.34.1
+This failed until I installed the groff package to get pfbtops.
+I of course also had to move expand.pl to this directory.
 
+>     evince coe-nvalue.eps &
+>     evince coe.eps &
+>     evince fre.eps &
+>     evince rfe.eps &
+>     display fre.png &
 
+I do like the vertical dashed line at x=0.  I see artifacts on my
+screen due to pixel/plot misalignment, but increasing size makes
+things look good.  It will be fine on paper.  And the fill is
+good compared to the funny datapoint labels.
+
+I adjusted coe.eps's xrange to include the entire curve in the plot.
+
+And it does look a lot more professional than my original, so thank
+you for that!
+
+> If those plots look reasonable to you, please copy them to the parent
+> directory and do the "make":
+> 
+>     cp *.eps fre.png ../
+
+I don't understand why fre.png is needed.  I am leaving it out, so
+perhaps I will learn the hard way.  ;-)
+
+>     popd
+>     make
+> 
+> If those figures in the resulting perfbook.pdf looks good to you,
+> I'd like you to go forward and commit the changes and additions:
+> 
+>     git add CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/*.eps
+>     git add CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/fre.png
+>     git add CodeSamples/cpu/data/*.eps
+>     git add CodeSamples/cpu/data/fre.png
+> 
+>     git commit -a # with a suitable tag such as Requested-by: me
+> 
+> Furthermore, if you think those .png figures, now obsoleted by the
+> new .eps figures, are not needed anymore, please "git rm" them as well.
+
+Done.
+
+I kept the old .png files where they are generated because I did not
+remove that part of the plots.sh file.  Showing both ways of doing
+this is not necessarily a bad thing.  ;-)
+
+> If there is anything I've missed, please let me know.
+
+Queued and pushed, thank you!
+
+							Thanx, Paul
+
+>         Thanks, Akira
+> --
+> Akira Yokosawa (2):
+>   CodeSamples/cpu/data: plots.sh: Fix typo in xlabel for fre plot
+>   CodeSamples/cpu/data: Use "smooth frequency" for plotting histogram
+> 
+>  .../expand.pl                                 | 42 +++++++++
+>  .../plots.sh                                  | 85 ++++++++++++++++++-
+>  2 files changed, 126 insertions(+), 1 deletion(-)
+>  create mode 100755 CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/expand.pl
+> 
+> 
+> base-commit: 9caac64bfabf85439c480ce928dddef969354369
+> -- 
+> 2.34.1
+> 
+> 
