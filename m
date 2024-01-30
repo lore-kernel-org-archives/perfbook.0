@@ -1,79 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31E351009
-	for <perfbook@vger.kernel.org>; Thu, 25 Jan 2024 13:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8407F7F8
+	for <perfbook@vger.kernel.org>; Tue, 30 Jan 2024 15:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706187952; cv=none; b=Kxiv4Qi3alTLN9hi6UyGJtOP/TH6t6ADk+LwCen6MQbuwp3hJ7cHSfaz8kmPgcR5r5MGvDrDDdQhIFs0Z462mv4SUAyRqjj6u90h3Bf/ERXwdPk3MZGzSu/e6A9FR1q1U1rCbYtoSLbAgsN9KcawQxa6wdtzt8TWypcf+p2eJR0=
+	t=1706628672; cv=none; b=g9dVoZiLzgRnAbeSrY6DE2SW5oaoYKZa8Xg1/vz6JEWVc/TQ7VTP77pdpPwV8ucBrg3+OSB8xB1WuuWbUJc3B52/eTOrFdNbKrCrzLAJkXOZnKmki2HJBhuB17hMyJeOzshhPNqhafdsdkWPhdIb1u4eIP/HI4KUiryPa7CJBhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706187952; c=relaxed/simple;
-	bh=UVaQ+j1BHa8Djwk7LxUOUkZD1vyeQLLONDymUxTWqjE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AzJvopmpo+4bRm2wRl62qXzPvaeZH19tX0eBttk7dl3APELsPZdBaUVRRFuwDEIr4LfXPNR5tlSExHpB9hrcIY/NEF0OpAQJFh8OrQl6bqWsQKBNJDPuzU9TEc8jcJf7NeAeIt11y5/1Ia/5MvQZUD5uPFZuIxrM9IppoPZCLfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bctAXr9P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706628672; c=relaxed/simple;
+	bh=ZtvP61LTi4+DO1wCII1Rb5B11sLYSbEBs679wojr4JQ=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=HVxfWAF+No0/y/nw8u9JL0Oqx9TJaOIdjeovjXKVNgf58VCfemn86zHM5esebkv5uO4n8/OdwsZiVCVNf3vtRXd+JU9BFz8U0Es4hYj0cWPbhXPtGd853/BAYcTYlsvbHN8dr63qA2SkSlzpzGd5bV+rVeLxg2WtoxxW8cSG6F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J60J1QUV; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bctAXr9P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A727C433F1;
-	Thu, 25 Jan 2024 13:05:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706187952;
-	bh=UVaQ+j1BHa8Djwk7LxUOUkZD1vyeQLLONDymUxTWqjE=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=bctAXr9P/jJA+O3xEr2l0fy9FFI3dGzMmPinsV/ACAqK5j27k/pL/m4A21NrizAg1
-	 lEyokb8nplntZGQInZNiOriRqfFR000vy3TTHqX+aCLgJRCo/7HGRWEPgP8v9XYOo4
-	 vPSaLFP6pQM/dBMWWLHtjdNX/OUIZ/uQVpzCk8gO5FCuj96VpjLuCo8lvMGm0Eh2P3
-	 Cow03yVjjmSYmHORdwQAsFXAFiPdgWI1tu6nO3Rphwap4WHXf7bDWtTBMPN7dG8GT3
-	 DM2YYpqKKQZE9XbV7vFIsYCpyB1xHt0rx4dx4Zi6Td9BUjvW22GFIyp0dEl4ZoyWuf
-	 yTG47ctXwP4BA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id F1271CE12D9; Thu, 25 Jan 2024 05:05:51 -0800 (PST)
-Date: Thu, 25 Jan 2024 05:05:51 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
-Subject: Re: [PATCH -perfbook] memorder: Tweak size of figures in Answer to
- QQz on x86 memory ordering
-Message-ID: <a92f174f-6f48-4cda-8f61-6e91b3494c2f@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <4c252203-5802-4183-af41-f6a311663df7@gmail.com>
- <6cefb50a-4240-4e79-b038-4cdbaddb3702@paulmck-laptop>
- <b083ef95-a20d-4e77-a0cc-63c26a4a3ad5@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J60J1QUV"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5d7005ea1d0so2614182a12.1
+        for <perfbook@vger.kernel.org>; Tue, 30 Jan 2024 07:31:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706628670; x=1707233470; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=42h29nTgEehnpNywg0ygkq+gOuxWST3FNnwYf+TPjUY=;
+        b=J60J1QUVePeii8rW9VKlMnRDRw0w9fmJtJUD3FxaKmjzqlM16pIcjTqb3kUu5xO3Zx
+         sKcekkBqTOej548vqTnXIM1hCEi+RgzxCLoKjbJ6XqnT24VnvgASQ30iECBYiW+W73pZ
+         4ggGORl8insA/Km78xeMSKYysl6yhdTezu31tOSERNQOQDJyrHR3tV60GyVM0zXnbMOg
+         JUak4+quFSwqspbuaUp7ZGV5mE0mx5G/uzyrBvJs++BHzm8+3oTEenw33Xo6sNVKwHRZ
+         0tZIXoVeuu3FU7BIjYEF4aMW22poszfcygVpawY3HNaZg8jymaVKs/6mjyT4hB61Y8K2
+         Ap6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706628670; x=1707233470;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=42h29nTgEehnpNywg0ygkq+gOuxWST3FNnwYf+TPjUY=;
+        b=jpb5BhGJC5m48UwnWeEdInJE0CuBnT7pJCBeCg/810FHnEWBYgMptFa46XG5AeasI0
+         rI3PHjmiWPTlubGhvX0+JFg3gpA9QWLAEg7kJmnZjJTOAjpXH1zuo4lKmBdc3aBVCF8x
+         MLBNV8gU81n+1QP0WWrv2Raprnc9u85F3WCi+ETuMBO9SOHROSVnwiHBrxeRY8k4dUpr
+         MRxsM6qMHvGe9R7X7ERjbUMw1JTzJXRfCxuEQcC6a6ry+SgvoXeBbdQvCE2BoB55FM8I
+         UWvK86T+G+hoXQQhI0fC+Sz//oK3t9GNj/zpPWQoowEoyzvGwU6oEAQtthVPdD7e27r4
+         zgLQ==
+X-Gm-Message-State: AOJu0Yw+2oi1zybWdbHYEEh9qi1Q85GZnAbQIgS7cYo4SjS+cdrpuwE2
+	lkzH5WchUZDN7DypXx3sRKnjtVHUXRMHzTCgIt2nIV2CtbBYXLJB
+X-Google-Smtp-Source: AGHT+IHv8Zsc+63b51MDihA3aHHUvfMpgG464lgIn3qdAllpiOELuBmau0d05tQbagw7GMCVfG4WYQ==
+X-Received: by 2002:a05:6a20:f82:b0:19c:b1f1:6140 with SMTP id ga2-20020a056a200f8200b0019cb1f16140mr1667178pzb.11.1706628670093;
+        Tue, 30 Jan 2024 07:31:10 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWFnZ8pyU49AfEDN2EYoPfUn/GcXDoAp4ty2Ytv64YGNoXL+HXFXByX3sBa31ZwI0icCxTPKDlKgJqb/Tg3C9mB
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id j2-20020a635942000000b005d5445349edsm8291381pgm.19.2024.01.30.07.31.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jan 2024 07:31:09 -0800 (PST)
+Message-ID: <903d71c1-b92c-49a9-8365-a931fcaf2514@gmail.com>
+Date: Wed, 31 Jan 2024 00:31:06 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b083ef95-a20d-4e77-a0cc-63c26a4a3ad5@gmail.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [RFT PATCH -perfbook 0/2] Retouch plots in QQA 15.31
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 25, 2024 at 08:15:22PM +0900, Akira Yokosawa wrote:
-> On 2024/01/24 1:51, Paul E. McKenney wrote:
-> > On Tue, Jan 23, 2024 at 11:58:24PM +0900, Akira Yokosawa wrote:
-> >> The use \columnwidth results in too large figures in -1c and -eb
-> >> builds.  Instead, use \twocolumwidth (\columnwidth of 2c build) and
-> >> make them more or less similarly scaled.
-> >>
-> >> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> > 
-> > Queued, thank you!  And at some point, I should learn that \twocolumnwidth
-> > is *not* the width of both columns.  ;-)
-> 
-> That would be \twocolumntextwidth.
-> 
-> Yes, those namings (by me) are confusing.
-> 
-> How about calling \twocolumnwidth as \columnwidthofTwoCol,
-> \onecolumntextwidth as \textwidthofOneCol, and
-> \twocolumntextwidth as \textwidthofTwoCol ?
-> 
-> I'd love to use "1c" and "2c" in these names, but numbers are
-> not allowed in command names of LaTeX.
+Hi Paul,
 
-I cannot think of a short name that would not be confusing.  :-(
+I'm not sure if you are already working on those figures in .png,
+but I'm sending updates in scripts.  I'm dropping changes and
+additions of .eps and .png files generated by the updated scripts.
 
-So it is probably best for me to get myself used to the current name.
+Here is a list of commands you'd need to reflect the changes in
+perfbook.pdf.
 
-							Thanx, Paul
+    pushd CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/
+    sh plots.sh
+
+    evince coe-nvalue.eps &
+    evince coe.eps &
+    evince fre.eps &
+    evince rfe.eps &
+    display fre.png &
+
+If those plots look reasonable to you, please copy them to the parent
+directory and do the "make":
+
+    cp *.eps fre.png ../
+    popd
+    make
+
+If those figures in the resulting perfbook.pdf looks good to you,
+I'd like you to go forward and commit the changes and additions:
+
+    git add CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/*.eps
+    git add CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/fre.png
+    git add CodeSamples/cpu/data/*.eps
+    git add CodeSamples/cpu/data/fre.png
+
+    git commit -a # with a suitable tag such as Requested-by: me
+
+Furthermore, if you think those .png figures, now obsoleted by the
+new .eps figures, are not needed anymore, please "git rm" them as well.
+    
+If there is anything I've missed, please let me know.
+
+        Thanks, Akira
+--
+Akira Yokosawa (2):
+  CodeSamples/cpu/data: plots.sh: Fix typo in xlabel for fre plot
+  CodeSamples/cpu/data: Use "smooth frequency" for plotting histogram
+
+ .../expand.pl                                 | 42 +++++++++
+ .../plots.sh                                  | 85 ++++++++++++++++++-
+ 2 files changed, 126 insertions(+), 1 deletion(-)
+ create mode 100755 CodeSamples/cpu/data/kerneltest009.05.atn6.2024.01.17-08.25.02/expand.pl
+
+
+base-commit: 9caac64bfabf85439c480ce928dddef969354369
+-- 
+2.34.1
+
