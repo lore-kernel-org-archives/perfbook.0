@@ -1,481 +1,134 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A13D25761
-	for <perfbook@vger.kernel.org>; Mon, 12 Feb 2024 09:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59173D0A0
+	for <perfbook@vger.kernel.org>; Mon, 12 Feb 2024 12:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707731979; cv=none; b=q9/EqUY4ESu5abpdfxIdMckncaQHua8UkWpKLho5nM3x7Uo5aMoVdoBDb32Rd0gCmlT0KZ/gq2E2NyLBE2XWGBwk2rG2Id4LlODKLcIZR+ZgDd68WzhfnEI7Ve19otdnRSDhJIRpIJyO8p8qAgiOlDmhAitbyjs4ietTldO4JL4=
+	t=1707739370; cv=none; b=Q8uzA/x+ShoGhWmxM4y6OYneIsGc6g2WT58MT1DKy9MowbSu/G+Jzy22RYfY+pCpG/ItR85c8ypWJJl1ZGYk1hQ+bs9jELKdXhTbvRGs9SF27bVB8FxEMhXRmkWRiTGN1uZaXHvBEAwWEL9hwZ37udvpGY2fakEVhD/8h9JWeGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707731979; c=relaxed/simple;
-	bh=9phgxwoFNj3XTXwd2QNMZCgCDtbFF5eyzlOAtytbBK4=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=avogqU7CkeTBWG2cSsJtwwrscAuYu6uZMJVSOlMbULoVyWq7wOnnmC4gRc10YYgs/KOZeo1/awR1wMtjaWOO/EExFn39dOKhevs39aOI01UM7GcXU1wdG/mm+IT9TeKxn9dg1mznVNrjJzWkgPtW+piQTl9+AslzXyn4uf+h100=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VzdB9y/r; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707739370; c=relaxed/simple;
+	bh=LaYSBMTm72I2GrOXakhByN4hLh1nFo4/72DEqnEXJJw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C6JcMcL3iXbFm+iuw9CVBtw/qK292HNgkSzVeWCZf8ctPbuqEPOPJy8ytPLDgpPrhT8rWyzkgtMO0p3xOTtsqF2xT4Aeg8YmPdFvJw48p9+EzCmjeVknZzxNDPz/gajif/GFTQh2rlnbcfH7QHLpOEsP2gOatYfO0rvabnNi2R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Keqahw2L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VzdB9y/r"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1d94323d547so25812515ad.3
-        for <perfbook@vger.kernel.org>; Mon, 12 Feb 2024 01:59:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707731977; x=1708336777; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=031Ak2uaC0KthyTxV4HRbibedkBLLYAJR4gFt61U2Dc=;
-        b=VzdB9y/rN7WSlrwTQ6KbQ29jts1WMSfInMz4O3Te8NitggX4SlZbUAHBNSbwFKh4K9
-         Gq0/981oglVv6ouY7niA5ZVulJ+5KeugEBXLlU8Ki8wJJrNEwZfE14ZEO7Dq9vHuoFTr
-         HwlLdvZ7TMmHJaHLpcH2odwNh+x/kmDIrQfopdIePSFn9E15p1mqw9vBH0zwVF8VFYGz
-         bCSCBf547DO4zYKx7BL2Meu4Fs8PwiNy9pvdqaruNB9d+N1rkv6v6zO+zvpHoDah3pz4
-         knDlkXt+tqNefPVnuBAduyYgfPizLyLl9INk+EVQexejJiwehI35Sq4r11mAKovCM5nc
-         sFvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707731977; x=1708336777;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=031Ak2uaC0KthyTxV4HRbibedkBLLYAJR4gFt61U2Dc=;
-        b=aDnflBmnTGqJ039WB1M5ogkiuNangEirmm2d8lc3uvZMTajEQLtTofQvJlT0C5lJGY
-         leOdxMWI2PkmvPWdssKErcGWPpzq6fgeucRngBtxdqHzBWCVpLfNeJgIVSJHaKYirDvZ
-         btWQKSPsRaa4P2LZClhlx8nKi96IKMWSMDQQe/Moy6SJCvAXHgYT/BrFu/d4vFsq/SQ+
-         JeOcspTJfB4Dg2l8vb2UXyCCi61kvBg6Sbha4/gkPtSHtxmDfMnNyfKmG/Qj+LC/erbG
-         /V3qqAo+N/bB2HzCAvxXNmc4EMLJhTrrx2cDMqG3riJp2KY12eSUA0jtdIbkdx9hQW9p
-         nRog==
-X-Gm-Message-State: AOJu0YxLpzw259AHDNBJmveg1+VLaCYMVFp/odnaqIJpYS90Q2R5/kz0
-	9H+JvAV3hKbW2eH2/OWClfzBq+iw6G0P3lzbectkA/ie7OnPLuZ2
-X-Google-Smtp-Source: AGHT+IGmNAZXRT97gESZNT06Zd3DzBlD4db+iu7dCHst8OpfeBvReOHBU/HXcZJcZfl+uYkRLQHVHg==
-X-Received: by 2002:a17:902:e74d:b0:1d9:a2d3:812a with SMTP id p13-20020a170902e74d00b001d9a2d3812amr6054615plf.56.1707731976697;
-        Mon, 12 Feb 2024 01:59:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVr+mq85RsQYOW/3JjNsUvQno87GDkpBSfv6zlIRk2AlNfkFEEeL8kQvNj1aME58jwsLowZN91jldbDxwNkBbSi
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id a17-20020a170902ecd100b001d8f251c8b2sm13987plh.221.2024.02.12.01.59.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Feb 2024 01:59:36 -0800 (PST)
-Message-ID: <f5db6884-b08d-4823-baf2-fba5d87b28b6@gmail.com>
-Date: Mon, 12 Feb 2024 18:59:34 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Keqahw2L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EE85C433F1;
+	Mon, 12 Feb 2024 12:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707739370;
+	bh=LaYSBMTm72I2GrOXakhByN4hLh1nFo4/72DEqnEXJJw=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=Keqahw2LwrXTLedMqr6eo/M1AenEgurwOpFmf0FeJE5bMXH5X7jjs6b0nf3HQnRIx
+	 0W0suslTCn7yeOUT8ccczF7NKFJMOTCDOwH/0UbvkbZJU21J/+NmiXGl7SfYzQwi4q
+	 ogerihQFA0wc9LpFQSF6Op6jt4mkyGB6U9mRepJxVpnLPEOGAm21SBf7A41rnJtfEI
+	 R149cbw4V3gLeKgDH1KCJWS9jr8bBFBawSby3KD0Jgk7i1EoK23umHrKWey5LTfgob
+	 U2ZZE+t2zDu1GWyeFsj3ie3mEzZvamvl6pqJXah/ukO0e9e3iNJFkgUbgej3vIqX7a
+	 0lwkgnc5e7UzA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id D5318CE1261; Mon, 12 Feb 2024 04:02:49 -0800 (PST)
+Date: Mon, 12 Feb 2024 04:02:49 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
+Subject: Re: memorder: SVG figures incompatible with Ubuntu 20.04's Inkscape
+Message-ID: <d2c25f6a-43b7-451e-bc09-139dc265d40d@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <6756f12f-ec44-49dd-bf52-e74348a4e4f0@gmail.com>
+ <d849b105-a899-4679-90b2-5e655bfabd96@paulmck-laptop>
+ <f3a562de-0283-477b-96a4-cd3cdc7050ab@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook] memorder: Retouch co-, fr-, and rf-hopes.svg
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f3a562de-0283-477b-96a4-cd3cdc7050ab@gmail.com>
 
-These SGVs have bi-directional arrows which cause Ubuntu 20.04's
-inkscape 0.92.5 to crash.
+On Mon, Feb 12, 2024 at 11:26:10AM +0900, Akira Yokosawa wrote:
+> On 2024/02/12 8:48, Paul E. McKenney wrote:
+> > On Mon, Feb 12, 2024 at 08:30:49AM +0900, Akira Yokosawa wrote:
+> >> Hi Paul,
+> >>
+> >> I just did a test build under Ubuntu 20.04.
+> >>
+> >> Inkscape 0.92.5 crashes with new SVG figures memorder/*-hopes.svg.
+> >>
+> >> $ inkscape --export-pdf=/tmp/test.pdf memorder/co-hopes.svg
+> >> [usual warnings ...]
+> >>
+> >> ** (inkscape:9): CRITICAL **: 23:17:05.340: void Inkscape::Extension::Internal::CairoRenderContext::_setFillStyle(const SPStyle*, const Geom::OptRect&): assertion '!style->fill.set || style->fill.isColor() || style->fill.isPaintserver()' failed
+> >> **
+> >> ERROR:/build/inkscape-QIwD1g/inkscape-0.92.5/src/extension/internal/cairo-render-context.cpp:1422:void Inkscape::Extension::Internal::CairoRenderContext::_setStrokeStyle(const SPStyle*, const Geom::OptRect&): assertion failed: (style->stroke.isPaintserver() || SP_IS_GRADIENT(SP_STYLE_STROKE_SERVER(style)) || SP_IS_PATTERN(SP_STYLE_STROKE_SERVER(style)) || dynamic_cast<SPHatch *>(SP_STYLE_STROKE_SERVER(style)))
+> >> Bail out! ERROR:/build/inkscape-QIwD1g/inkscape-0.92.5/src/extension/internal/cairo-render-context.cpp:1422:void Inkscape::Extension::Internal::CairoRenderContext::_setStrokeStyle(const SPStyle*, const Geom::OptRect&): assertion failed: (style->stroke.isPaintserver() || SP_IS_GRADIENT(SP_STYLE_STROKE_SERVER(style)) || SP_IS_PATTERN(SP_STYLE_STROKE_SERVER(style)) || dynamic_cast<SPHatch *>(SP_STYLE_STROKE_SERVER(style)))
+> >>
+> >> [...]
+> >>
+> >>
+> >> It looks like those SVG figures are generated from dot, and you
+> >> added x-axis and y labels to it.
+> >>
+> >> Can you share the dot scripts you used?
+> >>
+> >> Hopefully, Ubuntu 20.04's dot might generate SVGs compatible with
+> >> the old inkscape.
+> > 
+> > I generated them using Ubuntu 22.04 inkscape:
+> > 
+> > 	$ inkscape --version
+> > 	Inkscape 1.1.2 (0a00cf5339, 2022-02-04)
+> > 
+> > But weren't we having trouble with this combination earlier, back when
+> > I was on Ubuntu 20.04?  Now if I can remember what we did about it...  ;-)
+> 
+> memorder/co-hopes.svg has this head comment:
+> 
+> <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+> <!-- Generated by graphviz version 2.36.0 (20140111.2315)
+>  -->
+> 
+> Where does it come from?
 
-As workarounds, replace them with the ones which are safe in the
-old version of inkscape.
+I really did create that in inkscape.  If I had created it in
+graphviz:
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- memorder/co-hopes.svg | 80 +++++++++++++++++++++++++++++++------------
- memorder/fr-hopes.svg | 80 +++++++++++++++++++++++++++++++------------
- memorder/rf-hopes.svg | 80 +++++++++++++++++++++++++++++++------------
- 3 files changed, 174 insertions(+), 66 deletions(-)
+$ dot -v
+dot - graphviz version 2.43.0 (0)
 
-diff --git a/memorder/co-hopes.svg b/memorder/co-hopes.svg
-index 8c465939..e8d40a76 100644
---- a/memorder/co-hopes.svg
-+++ b/memorder/co-hopes.svg
-@@ -10,7 +10,7 @@
-    viewBox="0 0 343.3322 260.03502"
-    id="svg2"
-    version="1.1"
--   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
-+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
-    sodipodi:docname="co-hopes.svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-@@ -228,6 +228,44 @@
-          transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
-          inkscape:connector-curvature="0" />
-     </marker>
-+    <marker
-+       style="overflow:visible"
-+       id="ConcaveTriangle-3"
-+       refX="0"
-+       refY="0"
-+       orient="auto-start-reverse"
-+       inkscape:stockid="Concave triangle arrow"
-+       markerWidth="1"
-+       markerHeight="1"
-+       viewBox="0 0 1 1"
-+       inkscape:isstock="true"
-+       inkscape:collect="always"
-+       preserveAspectRatio="xMidYMid">
-+      <path
-+         transform="scale(0.7)"
-+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
-+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
-+         id="path7-7" />
-+    </marker>
-+    <marker
-+       style="overflow:visible"
-+       id="ConcaveTriangle-3-8"
-+       refX="0"
-+       refY="0"
-+       orient="auto-start-reverse"
-+       inkscape:stockid="Concave triangle arrow"
-+       markerWidth="1"
-+       markerHeight="1"
-+       viewBox="0 0 1 1"
-+       inkscape:isstock="true"
-+       inkscape:collect="always"
-+       preserveAspectRatio="xMidYMid">
-+      <path
-+         transform="scale(0.7)"
-+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
-+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
-+         id="path7-7-9" />
-+    </marker>
-   </defs>
-   <sodipodi:namedview
-      pagecolor="#ffffff"
-@@ -238,22 +276,24 @@
-      guidetolerance="10"
-      inkscape:pageopacity="0"
-      inkscape:pageshadow="2"
--     inkscape:window-width="2245"
--     inkscape:window-height="1528"
-+     inkscape:window-width="1850"
-+     inkscape:window-height="1009"
-      id="namedview88"
-      showgrid="false"
-      fit-margin-left="5"
-      fit-margin-top="5"
-      fit-margin-right="5"
-      fit-margin-bottom="5"
--     inkscape:zoom="1.8568507"
--     inkscape:cx="332.28304"
--     inkscape:cy="279.77478"
--     inkscape:window-x="523"
--     inkscape:window-y="318"
--     inkscape:window-maximized="0"
-+     inkscape:zoom="3.7137014"
-+     inkscape:cx="175.96999"
-+     inkscape:cy="131.53992"
-+     inkscape:window-x="70"
-+     inkscape:window-y="34"
-+     inkscape:window-maximized="1"
-      inkscape:current-layer="svg2"
--     inkscape:pagecheckerboard="0" />
-+     inkscape:pagecheckerboard="0"
-+     inkscape:showpageshadow="2"
-+     inkscape:deskcolor="#d1d1d1" />
-   <path
-      style="fill:none;stroke:#000000;stroke-width:1.60492;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend-32)"
-      d="m 52.826274,238.12321 283.686986,0.883"
-@@ -494,12 +534,6 @@
-      id="path3011-5-3"
-      inkscape:connector-curvature="0"
-      sodipodi:nodetypes="cc" />
--  <path
--     style="fill:none;stroke:#000000;stroke-width:0.802462px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow2Lstart);marker-end:url(#Arrow2Lend-3)"
--     d="m 110.85867,88.312174 -22.669423,0.20855"
--     id="path3011-3"
--     inkscape:connector-curvature="0"
--     sodipodi:nodetypes="cc" />
-   <text
-      xml:space="preserve"
-      style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
-@@ -522,12 +556,6 @@
-        x="84.749611"
-        y="169.91011"
-        style="font-size:9.62954px;line-height:1.25;font-family:sans-serif">co</tspan></text>
--  <path
--     style="fill:none;stroke:#000000;stroke-width:0.802462px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow2Lstart-7);marker-end:url(#Arrow2Lend-3-7)"
--     d="m 161.81454,178.4363 -49.07457,0.0506"
--     id="path3011-3-0"
--     inkscape:connector-curvature="0"
--     sodipodi:nodetypes="cc" />
-   <path
-      style="fill:none;stroke:#000000;stroke-width:0.802462px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend-98-4)"
-      d="M 192.47764,168.99739 235.90688,67.014124"
-@@ -568,4 +596,12 @@
-        x="24.576328"
-        y="196.10069"
-        style="font-weight:bold;font-size:12.0492px;line-height:1.25;font-family:sans-serif;fill:#020000;fill-opacity:1">CPU 2</tspan></text>
-+  <path
-+     style="fill:none;stroke:#000000;stroke-width:0.627991px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#ConcaveTriangle-3);marker-end:url(#ConcaveTriangle-3)"
-+     d="m 90.963672,88.008382 c 17.972248,0 17.972248,0 17.972248,0 v 0"
-+     id="path3" />
-+  <path
-+     style="fill:none;stroke:#000000;stroke-width:0.907462px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#ConcaveTriangle-3-8);marker-end:url(#ConcaveTriangle-3-8)"
-+     d="m 118.52762,177.53124 c 37.52759,0 37.52759,0 37.52759,0 v 0"
-+     id="path2-6" />
- </svg>
-diff --git a/memorder/fr-hopes.svg b/memorder/fr-hopes.svg
-index e925a409..c77626f1 100644
---- a/memorder/fr-hopes.svg
-+++ b/memorder/fr-hopes.svg
-@@ -10,7 +10,7 @@
-    viewBox="0 0 272.95364 262.96874"
-    id="svg2"
-    version="1.1"
--   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
-+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
-    sodipodi:docname="fr-hopes.svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-@@ -256,6 +256,44 @@
-          transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
-          inkscape:connector-curvature="0" />
-     </marker>
-+    <marker
-+       style="overflow:visible"
-+       id="ConcaveTriangle-3-8"
-+       refX="0"
-+       refY="0"
-+       orient="auto-start-reverse"
-+       inkscape:stockid="Concave triangle arrow"
-+       markerWidth="1"
-+       markerHeight="1"
-+       viewBox="0 0 1 1"
-+       inkscape:isstock="true"
-+       inkscape:collect="always"
-+       preserveAspectRatio="xMidYMid">
-+      <path
-+         transform="scale(0.7)"
-+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
-+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
-+         id="path7-7-9" />
-+    </marker>
-+    <marker
-+       style="overflow:visible"
-+       id="ConcaveTriangle-3-8-3"
-+       refX="0"
-+       refY="0"
-+       orient="auto-start-reverse"
-+       inkscape:stockid="Concave triangle arrow"
-+       markerWidth="1"
-+       markerHeight="1"
-+       viewBox="0 0 1 1"
-+       inkscape:isstock="true"
-+       inkscape:collect="always"
-+       preserveAspectRatio="xMidYMid">
-+      <path
-+         transform="scale(0.7)"
-+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
-+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
-+         id="path7-7-9-6" />
-+    </marker>
-   </defs>
-   <sodipodi:namedview
-      pagecolor="#ffffff"
-@@ -266,22 +304,24 @@
-      guidetolerance="10"
-      inkscape:pageopacity="0"
-      inkscape:pageshadow="2"
--     inkscape:window-width="2245"
--     inkscape:window-height="1528"
-+     inkscape:window-width="1850"
-+     inkscape:window-height="1009"
-      id="namedview88"
-      showgrid="false"
-      fit-margin-left="5"
-      fit-margin-top="5"
-      fit-margin-right="5"
-      fit-margin-bottom="5"
--     inkscape:zoom="1.8568507"
--     inkscape:cx="331.20595"
--     inkscape:cy="235.61399"
--     inkscape:window-x="523"
--     inkscape:window-y="318"
--     inkscape:window-maximized="0"
-+     inkscape:zoom="5.2519669"
-+     inkscape:cx="112.52927"
-+     inkscape:cy="138.51953"
-+     inkscape:window-x="70"
-+     inkscape:window-y="34"
-+     inkscape:window-maximized="1"
-      inkscape:current-layer="svg2"
--     inkscape:pagecheckerboard="0" />
-+     inkscape:pagecheckerboard="0"
-+     inkscape:showpageshadow="2"
-+     inkscape:deskcolor="#d1d1d1" />
-   <g
-      id="g28235"
-      transform="translate(9.4514979,85.433725)">
-@@ -483,12 +523,6 @@
-      id="path3011-5-3"
-      inkscape:connector-curvature="0"
-      sodipodi:nodetypes="cc" />
--  <path
--     style="fill:none;stroke:#000000;stroke-width:0.802462px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow2Lstart);marker-end:url(#Arrow2Lend-3)"
--     d="m 109.58386,89.370899 -22.669422,0.20855"
--     id="path3011-3"
--     inkscape:connector-curvature="0"
--     sodipodi:nodetypes="cc" />
-   <text
-      xml:space="preserve"
-      style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
-@@ -500,12 +534,6 @@
-        x="135.37384"
-        y="192.42451"
-        style="font-size:9.62954px;line-height:1.25;font-family:sans-serif">-t</tspan></text>
--  <path
--     style="fill:none;stroke:#000000;stroke-width:0.802462px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow2Lstart-7);marker-end:url(#Arrow2Lend-3-7)"
--     d="m 160.53973,196.37002 -49.07457,0.0506"
--     id="path3011-3-0"
--     inkscape:connector-curvature="0"
--     sodipodi:nodetypes="cc" />
-   <path
-      style="fill:none;stroke:#000000;stroke-width:0.802462px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend-98-4)"
-      d="M 161.12053,175.02377 111.39632,149.47465"
-@@ -579,4 +607,12 @@
-        x="24.576328"
-        y="200.90344"
-        style="font-weight:bold;font-size:12.0492px;line-height:1.25;font-family:sans-serif;fill:#020000;fill-opacity:1">CPU 2</tspan></text>
-+  <path
-+     style="fill:none;stroke:#000000;stroke-width:0.907462px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#ConcaveTriangle-3-8);marker-end:url(#ConcaveTriangle-3-8)"
-+     d="m 117.81815,197.54089 c 37.52759,0 37.52759,0 37.52759,0 v 0"
-+     id="path2-6" />
-+  <path
-+     style="fill:none;stroke:#000000;stroke-width:0.61668px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#ConcaveTriangle-3-8-3);marker-end:url(#ConcaveTriangle-3-8-3)"
-+     d="m 89.875692,86.068108 c 17.330588,0 17.330588,0 17.330588,0 v 0"
-+     id="path2-6-7" />
- </svg>
-diff --git a/memorder/rf-hopes.svg b/memorder/rf-hopes.svg
-index 2cbac595..df6849c3 100644
---- a/memorder/rf-hopes.svg
-+++ b/memorder/rf-hopes.svg
-@@ -10,7 +10,7 @@
-    viewBox="0 0 389.50302 242.06765"
-    id="svg2"
-    version="1.1"
--   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
-+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
-    sodipodi:docname="rf-hopes.svg"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-@@ -270,6 +270,44 @@
-          transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
-          inkscape:connector-curvature="0" />
-     </marker>
-+    <marker
-+       style="overflow:visible"
-+       id="ConcaveTriangle-3-8"
-+       refX="0"
-+       refY="0"
-+       orient="auto-start-reverse"
-+       inkscape:stockid="Concave triangle arrow"
-+       markerWidth="1"
-+       markerHeight="1"
-+       viewBox="0 0 1 1"
-+       inkscape:isstock="true"
-+       inkscape:collect="always"
-+       preserveAspectRatio="xMidYMid">
-+      <path
-+         transform="scale(0.7)"
-+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
-+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
-+         id="path7-7-9" />
-+    </marker>
-+    <marker
-+       style="overflow:visible"
-+       id="ConcaveTriangle-3-8-3"
-+       refX="0"
-+       refY="0"
-+       orient="auto-start-reverse"
-+       inkscape:stockid="Concave triangle arrow"
-+       markerWidth="1"
-+       markerHeight="1"
-+       viewBox="0 0 1 1"
-+       inkscape:isstock="true"
-+       inkscape:collect="always"
-+       preserveAspectRatio="xMidYMid">
-+      <path
-+         transform="scale(0.7)"
-+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
-+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
-+         id="path7-7-9-6" />
-+    </marker>
-   </defs>
-   <sodipodi:namedview
-      pagecolor="#ffffff"
-@@ -280,22 +318,24 @@
-      guidetolerance="10"
-      inkscape:pageopacity="0"
-      inkscape:pageshadow="2"
--     inkscape:window-width="2245"
--     inkscape:window-height="1528"
-+     inkscape:window-width="1850"
-+     inkscape:window-height="1009"
-      id="namedview88"
-      showgrid="false"
-      fit-margin-left="5"
-      fit-margin-top="5"
-      fit-margin-right="5"
-      fit-margin-bottom="5"
--     inkscape:zoom="1.8568507"
--     inkscape:cx="327.97467"
--     inkscape:cy="213.53359"
--     inkscape:window-x="860"
--     inkscape:window-y="345"
--     inkscape:window-maximized="0"
-+     inkscape:zoom="5.2519669"
-+     inkscape:cx="168.6035"
-+     inkscape:cy="88.443056"
-+     inkscape:window-x="70"
-+     inkscape:window-y="34"
-+     inkscape:window-maximized="1"
-      inkscape:current-layer="svg2"
--     inkscape:pagecheckerboard="0" />
-+     inkscape:pagecheckerboard="0"
-+     inkscape:showpageshadow="2"
-+     inkscape:deskcolor="#d1d1d1" />
-   <g
-      id="g28235"
-      transform="translate(126.00079,64.532629)">
-@@ -491,12 +531,6 @@
-      id="path3011-5-3"
-      inkscape:connector-curvature="0"
-      sodipodi:nodetypes="cc" />
--  <path
--     style="fill:none;stroke:#000000;stroke-width:0.802462px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow2Lstart);marker-end:url(#Arrow2Lend-3)"
--     d="m 166.13315,68.469803 -22.66942,0.20855"
--     id="path3011-3"
--     inkscape:connector-curvature="0"
--     sodipodi:nodetypes="cc" />
-   <text
-      xml:space="preserve"
-      style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
-@@ -508,12 +542,6 @@
-        x="202.73589"
-        y="165.89842"
-        style="font-size:9.62954px;line-height:1.25;font-family:sans-serif">t</tspan></text>
--  <path
--     style="fill:none;stroke:#000000;stroke-width:0.802462px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow2Lstart-7);marker-end:url(#Arrow2Lend-3-7)"
--     d="m 237.42132,170.13008 -69.40688,-0.23556"
--     id="path3011-3-0"
--     inkscape:connector-curvature="0"
--     sodipodi:nodetypes="cc" />
-   <path
-      style="fill:none;stroke:#000000;stroke-width:0.802462px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend-98-4)"
-      d="m 227.17463,128.43082 12.71532,19.87415"
-@@ -593,4 +621,12 @@
-        x="24.576328"
-        y="174.46837"
-        style="font-weight:bold;font-size:12.0492px;line-height:1.25;font-family:sans-serif;fill:#020000;fill-opacity:1">CPU 2</tspan></text>
-+  <path
-+     style="fill:none;stroke:#000000;stroke-width:1.11284px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#ConcaveTriangle-3-8);marker-end:url(#ConcaveTriangle-3-8)"
-+     d="m 175.6647,171.29089 c 56.43602,0 56.43602,0 56.43602,0 v 0"
-+     id="path2-6" />
-+  <path
-+     style="fill:none;stroke:#000000;stroke-width:0.615678px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#ConcaveTriangle-3-8-3);marker-end:url(#ConcaveTriangle-3-8-3)"
-+     d="m 146.43039,65.500188 c 17.27428,0 17.27428,0 17.27428,0 v 0"
-+     id="path2-6-7" />
- </svg>
+Huh.  What I really did was to grab a random .svg, pull that into
+inkscape, and edit it.  So let's see what we have:
 
-base-commit: cb74c776aa3257249c79e24eb1b93cd7fb22700d
--- 
-2.34.1
+$ find . -name '*.svg' -exec grep -l 'Generated by graphviz version' {} \;
+./memorder/fr.svg
+./memorder/fr-hopes.svg
+./memorder/rf.svg
+./memorder/rf-hopes.svg
+./memorder/co.svg
+./memorder/co-hopes.svg
+./memorder/co_backup.svg
+./memorder/co-hopes_backup.svg
 
+And memorder/co.svg was created in 2017, which might be consistent
+with a 2014 graphviz.  Except that why would I use graphviz to create
+something like that?  I most definitely recall manually adjusting to
+create those colored polygons, and that would not have been the experience
+with graphviz.
+
+The original was in LibreOffice.  Maybe I somehow used graphviz to convert
+from LibreOffice format to .svg?  Maybe LibreOffice uses graphviz to
+do exports?  (But lately I just use control-C/control-V to copy/paste
+from LibreOffice to Inkscape, though not always with great results.)
+
+> Anyway, I'll see if I can figure out which element in those SVGs
+> make the inkscape crash.
+
+On the other hand, I definitely did something strange to create those
+files.  Because I have to hand-edit the .svg file to change font sizes.
+
+If they cause you much more trouble, please let me know.  It might be
+best for me to just re-create them from scratch.
+
+							Thanx, Paul
