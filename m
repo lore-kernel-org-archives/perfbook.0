@@ -1,91 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA9D381D1
-	for <perfbook@vger.kernel.org>; Wed, 20 Mar 2024 23:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C9285C58
+	for <perfbook@vger.kernel.org>; Wed, 20 Mar 2024 23:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710975755; cv=none; b=t8AAUA1E8bfQRl8QbjUu0NGSHjNHF/Acbh+quWqhztz6kyoUPvpN3j7FSG0wvOZkiB+mFx3LXg1EqvIR7gy8jUlOik4uuj+rTtWTe4XkoZX1C7HB+MUr1YWI4x774+xct19ocXssW4RG82tgdUmC0mcrQA8IJGsf1swKSV2J/m4=
+	t=1710975963; cv=none; b=ordZMceB+opV5XhavceieE81wwqNGxV6LsJxVB7Aqr2/IdiX9OqYfo0FXTi5T9i58uppEr09GgkQbTsDMQwGloy6SOtGEGareTYhlmk7q3Ze3JQMeUFQyWplOCY/a/6M1pbF5dj7ZunLTCZaHArvHbBjQ9jGCxZ4C2A9N6RTwik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710975755; c=relaxed/simple;
-	bh=SCMHx/qn22Uko+f/QGVndDsH1B3htAoyEUwKsXakd6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wg3EYF5OTb5SmxpTSDcvmoSuHeX/+ccujfyt6SrAVU7ncGq9x99igBPCQWIhVttY6B+BESfK+xHuFxlScmMlI0LSGTM2FQxWrQyW2sJJ1Vnm+LUdYbZxE9RAkLy7WSTb/XjJKh6ir7a8PVMRSwVNNhbzybdeVvA0NCdzzmTK514=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j3QHyu2E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710975963; c=relaxed/simple;
+	bh=wEdID/kDQvkS/rrHzt0dzje9qrsjoUkI5mDoadHLhAE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=DGuN8LfG6qrMgyGNu2rcHnrsBa3jkh3/o7E+8II3iLLVgTRKNvdszYH113iAAZ4ILvCGJ80yH5WFNnMxv/lBazW/ZfWHmaiqcwR4l5RFMQGg5r3yrGwCxDqsYsEnFAL9en2RKC7FjWRAj8yjlbNwAIROQ0FsuVtdwEMBJZ5ndnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F3o5aqiL; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j3QHyu2E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B2E1C433C7;
-	Wed, 20 Mar 2024 23:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710975754;
-	bh=SCMHx/qn22Uko+f/QGVndDsH1B3htAoyEUwKsXakd6A=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=j3QHyu2ElzTDJq3qw+ht+aIq7Sk+zfJu2M4+5nbzxgGw0VGPQgg4VsBxS5s2VzKei
-	 Xty+kRKp9it9xAGLdlVNyogdtsTK/vqeddWQyjTOnXO7oP5BMtYQXUE2T1fFOq45li
-	 XCwZV/HCgsI+atdW304cdTEVVbg2y6a2FKJV3R41oY2XN1ohzqKZLesRiL6PejK2o+
-	 SP2kLtkQAn9lfIYtR8Q7OtTYjP/bTP5oQGobH5/SXmqyN6HD7lf3hmHwRp0iaX57LI
-	 km4Gh3BR/rDbCUWcCsMg+ayMRi7VfIlsJikcMkMhpnSFAqQPxnWKUuCXqmjUWKZoCX
-	 z5aBTxyDi7bAA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 64301CE0716; Wed, 20 Mar 2024 16:02:32 -0700 (PDT)
-Date: Wed, 20 Mar 2024 16:02:32 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Guilherme Janczak <guilherme.janczak@yandex.com>
-Cc: perfbook@vger.kernel.org
-Subject: Re: [PATCH] signal handlers: volatile sigatomic_t, not volatile OR
- sigatomic_t
-Message-ID: <65c00ce1-8bc8-4e59-9113-b616fd7749da@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <wehwhnxba7wraxuevaqvuutug4k4orzn4yxrvlm2bcva5qpax6@ctvbjzt5dlqb>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F3o5aqiL"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-60a434ea806so3413177b3.3
+        for <perfbook@vger.kernel.org>; Wed, 20 Mar 2024 16:06:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710975961; x=1711580761; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ejt+VJdXrkaC4sXjRGlF37fVhx+s53503xSlIl4bpbk=;
+        b=F3o5aqiLtAOY4T2RPinBGpNSjrb3POnVww1yevPsA4iaiRNhyjlZ90KA1vPe7YPItv
+         ZvzofZwHOYPLL+2KTxCcQLEbUK4vXD1bLFyoD20vR4Q64UzO+TEq3k+TJQuKmchwlzOL
+         3I4jV0TQ5dd5P99Y0oY4lBiLAwxt3C5cfPscmBYdwOC6SDwtFiNM3vzPnVZRjitxgiSH
+         tkFzuHlOdNO3361luZf5FoABhArIEWsXk6rP7ZYYuVSi6Pinihm8mA8MlslwQunz5Xwl
+         mSVCwEbVicFLFYHF6zlpq/ot3yuIDDsSFWfeuclTM1qUDHvH+LfCApxHnnj5Jp0j7C5/
+         sqRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710975961; x=1711580761;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ejt+VJdXrkaC4sXjRGlF37fVhx+s53503xSlIl4bpbk=;
+        b=AME1FVB6KaUyRKYp0XaPH02VTC4g/evQuQoSBHCtf6lVuTynfOGBMHY3vJvM+4wO8p
+         9NI1BY5B446whCXLn3z+abAtdcedf+ZbXPQSavxNatX4AfwBOBZggTT6eqUPJ4sh6iUO
+         oT+cscYYTzGu3xvqfcRarsBdeMd1W0o+pNQH23iT2yVfLmt2iOl1OJtabhAXzHi6z0eh
+         oKbX57PKo2Mr6X+LNVyk+/dSj+3NRcuLIQ6B5jMmYhYIYBwrT7UUkG6ZVsKEUJeCD0HL
+         HCT55G4C+LduwIN+8PAHzhTawqMR3ZEkLiYEZVaII4yU/QhyKwMYeMlF9zQu3Xp01hX4
+         eTeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUdCgCT9ndgeOsd9Xa7I/9v3lMsZz8JRvkunD40L/cWMUBS5LiMdr17QTs2OE4SBUFQVlZfefTpauey8OqpVEdIScZWBozSGbk=
+X-Gm-Message-State: AOJu0YwB9DMZWLinNsW1ALbDb4m+i1yJEYbMAhWYIzIO/5NeUK7aroVB
+	awSGgdIrYEeleDRnjxx9eAqMzbdEfDEZc7VmguXmH/3m12tUDTckn7BEeX5hH7kZibzPmXS9Nhv
+	nztGdg9G7/Afd6aZ+xaUkvbZGBt251eWFdHk=
+X-Google-Smtp-Source: AGHT+IFkowstse/5cSH1le5XdehcYsD1OhUivzGwOKREd2SijkZuva7Fh/RXzH7Hf/rZKxuIma6LHlFa4KC0aACblTE=
+X-Received: by 2002:a25:ce41:0:b0:dcb:f5f9:c062 with SMTP id
+ x62-20020a25ce41000000b00dcbf5f9c062mr18658391ybe.14.1710975960937; Wed, 20
+ Mar 2024 16:06:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <wehwhnxba7wraxuevaqvuutug4k4orzn4yxrvlm2bcva5qpax6@ctvbjzt5dlqb>
+References: <wehwhnxba7wraxuevaqvuutug4k4orzn4yxrvlm2bcva5qpax6@ctvbjzt5dlqb>
+ <CAJbg=FXeXVLvvUNHs6Z_usd0=5rcjTu_Vjkt+yzYgNb4KYLbzw@mail.gmail.com> <r63f5f54bb6cilp542vw52ctpjnjbik5pbfrsswvjzccipokgg@c2kdkpmxbfue>
+In-Reply-To: <r63f5f54bb6cilp542vw52ctpjnjbik5pbfrsswvjzccipokgg@c2kdkpmxbfue>
+From: Elad Lahav <e2lahav@gmail.com>
+Date: Wed, 20 Mar 2024 19:05:50 -0400
+Message-ID: <CAJbg=FWq5hWFy48bYXHnaBQpV5Xga9pryB-qHCbFgUGpFZ1bNg@mail.gmail.com>
+Subject: Re: [PATCH] signal handlers: volatile sigatomic_t, not volatile OR sigatomic_t
+To: Guilherme Janczak <guilherme.janczak@yandex.com>, perfbook@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 20, 2024 at 08:25:23PM +0000, Guilherme Janczak wrote:
-> Variables shared with signal handlers must be of type `volatile
-> sigatomic_t`, not `volatile` or `sigatomic_t` as the current text says,
-> according to a C11 draft:
-> 
->     When ... interrupted by ... a signal, values of objects that are
->     neither lock-free atomic objects nor of type volatile sig_atomic_t
->     are unspecified.
-> 
-> Ref: https://www.iso-9899.info/n1570.html#5.1.2.3p5
-> Signed-off-by: Guilherme Janczak <guilherme.janczak@yandex.com>
-> ---
->  memorder/memorder.tex | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-> index 5c50d42d..873c3424 100644
-> --- a/memorder/memorder.tex
-> +++ b/memorder/memorder.tex
-> @@ -1317,8 +1317,8 @@ from the viewpoint of the interrupted thread, at least at the
->  assembly-language level.
->  However, the C and C++ languages do not define the results of handlers
->  and interrupted threads sharing plain variables.
-> -Instead, such shared variables must be \co{sig_atomic_t}, lock-free
-> -atomics, or \co{volatile}.
-> +Instead, such shared variables must be \co{volatile sig_atomic_t} or
-> +lock-free atomics.
+No problem...
+Yes, in your example the issue is that the type is not atomic, and
+thus subject to partial updates that can be interrupted.
+Looking at the example given in
+https://en.cppreference.com/w/c/program/sig_atomic_t the volatile is
+needed to let the compiler know that the value can be updated in
+between two reads by the main function. That makes sense, especially
+if you have code that loops waiting for the value to change.
 
-You might be right about "sig_atomic_t" needing to also be "volatile"
-(I will let you and Elad settle your differences on this one), but if
-device drivers are to work correctly, then volatile variables that are
-machine-word sized and aligned must necessarily work for communication
-between process-level code and interrupt/signal handlers.
+--Elad
 
-							Thanx, Paul
-
->  On the other hand, because the handler executes within the interrupted
->  thread's context, the memory ordering used to synchronize communication
-> -- 
-> 2.42.0
-> 
-> 
+On Wed, Mar 20, 2024 at 6:39=E2=80=AFPM Guilherme Janczak
+<guilherme.janczak@yandex.com> wrote:
+>
+> Actually, uh, I misread your reply, forget the previous reply I sent.
+>
+> You don't need the volatile with lock-free atomics, but the standard
+> says you do need it with sig_atomic_t. I don't know of a case that would
+> break a plain `sig_atomic_t` variable with no `volatile`, however.
+>
+> On Wed, Mar 20, 2024 at 04:44:33PM -0400, Elad Lahav wrote:
+> > Do you really need volatile?
+> > There are two cases to consider. Either your code synchronizes updates
+> > to the shared value with the signal handler (e.g., by blocking and
+> > then unblocking the signal), in which case I believe the compiler
+> > cannot ignore updates to the value; or you don't, and you can't depend
+> > on the variable having any specific value in the signal handler. The
+> > only thing you want to prevent in the latter case is the handler
+> > observing a partial update to the variable, which I presume is where
+> > the other requirements originate. (In practice, there should be little
+> > or no concern with any primitive type on modern hardware).
+> >
+> > --Elad
+> >
+> > On Wed, Mar 20, 2024 at 4:32=E2=80=AFPM Guilherme Janczak
+> > <guilherme.janczak@yandex.com> wrote:
+> > >
+> > > Variables shared with signal handlers must be of type `volatile
+> > > sigatomic_t`, not `volatile` or `sigatomic_t` as the current text say=
+s,
+> > > according to a C11 draft:
+> > >
+> > >     When ... interrupted by ... a signal, values of objects that are
+> > >     neither lock-free atomic objects nor of type volatile sig_atomic_=
+t
+> > >     are unspecified.
+> > >
+> > > Ref: https://www.iso-9899.info/n1570.html#5.1.2.3p5
+> > > Signed-off-by: Guilherme Janczak <guilherme.janczak@yandex.com>
+> > > ---
+> > >  memorder/memorder.tex | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+> > > index 5c50d42d..873c3424 100644
+> > > --- a/memorder/memorder.tex
+> > > +++ b/memorder/memorder.tex
+> > > @@ -1317,8 +1317,8 @@ from the viewpoint of the interrupted thread, a=
+t least at the
+> > >  assembly-language level.
+> > >  However, the C and C++ languages do not define the results of handle=
+rs
+> > >  and interrupted threads sharing plain variables.
+> > > -Instead, such shared variables must be \co{sig_atomic_t}, lock-free
+> > > -atomics, or \co{volatile}.
+> > > +Instead, such shared variables must be \co{volatile sig_atomic_t} or
+> > > +lock-free atomics.
+> > >
+> > >  On the other hand, because the handler executes within the interrupt=
+ed
+> > >  thread's context, the memory ordering used to synchronize communicat=
+ion
+> > > --
+> > > 2.42.0
+> > >
+> > >
+> >
