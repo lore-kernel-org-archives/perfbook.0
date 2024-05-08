@@ -1,103 +1,90 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4FF1A2C05
-	for <perfbook@vger.kernel.org>; Wed,  8 May 2024 15:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF92112BEB4
+	for <perfbook@vger.kernel.org>; Wed,  8 May 2024 17:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715181531; cv=none; b=A8U4SN8cCtmrRHm5lLl6/0esus4+JlJn5YCj1AWA/NlfPdLwG/z50vUgNv6DhJuvc0dRvhxtnXut1/QjnRl6nw+fgT5b27iHPASRADef7YMDojYGgLyi4czkn//+cYJNMK/8BRpeGc1Ua/O4DKFZQGRy11ng1W8xZ6uFLHabZ+I=
+	t=1715189972; cv=none; b=hzl2yEtZbWIrqgMfD3Re7lUx49Z2InJpctUyMMPrH/AnELtWQn2Ef7lIzVPPf5Uwcip30f+GnXmCOeqIGhrfW96Eu8zup8EYh3OrHFdyoeHh2qLcCE/J6JMsdJABGgQEcQl2nF9dZQrulk0b/5qGKql9xPitVWSQDhL8vtdCGgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715181531; c=relaxed/simple;
-	bh=RBWjmhBYAvcV1bATeVBOSz/xq789SSLsxF8Zp3ZOqZI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ppWr3A2i7qPzNnMlmyq0IdSzzDTGZJAYnRKqwvLNXMFqCqwvM6qHTXKYIDu+5c8OqVRtgsD8+7EPgO9W2k+Nya5chYcxuRHpsZc1eJRtxIh+/hp8J3P/YFAtDxX1Z5w9U4rUJkD3XAu/k9sOSUpm76fIx0OUEQUE2/bUEv23UDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K0erEUVR; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715189972; c=relaxed/simple;
+	bh=UMlSsN1mH7xSMtcukGiqUegrG408KOoxaiv6+JUk324=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K4VB3Z0b8uLFlVrzlQV6iSSaJUp8kJsYoKRHWvru34C40ruaxhPHbzhrUwFdioDOqTTyqIjYLRsnTL24j6jArGnSAKFRbv2p+rz89DIx/eDU7oRoro81V7ByZIM/06OilKawoNIbS4AtkBv2klLYMgJ5gFnkBL/ctwkFjZVo6EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R/wwkRcs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K0erEUVR"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1eeb1a4c10aso8407085ad.3
-        for <perfbook@vger.kernel.org>; Wed, 08 May 2024 08:18:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715181530; x=1715786330; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EqgD796gWjm19h1EOwBFR1PmJG/+i0WCMBAK3f4e4Ts=;
-        b=K0erEUVRmq1zzp40mITYLON6kPN1qjbDUNxxk5xtLdkhLpHoeTWYkQzcRAb+eli8qn
-         dJY3QDCD4+BJjPo7pTzzJihHrw5rVOds2wR+EcRmZ+SXve5AXEOMcLXVa4klRwoFMisX
-         8oiF0bu21wgaTleQ8F70QGY8APPYslSZoaDUr+K77laWKHpTBsKnVHb2oHVGUN1XQmpH
-         9w1ZG8MHwLaI+kR/dqcNIyJIlNoPkejrPGislGoWwWHKFlyf2jXImM0B9ABduWAlMZvi
-         6AfVQfEQzItBWhUJa2BKDpTM6w/OLUQ14AEGIwVKPcr72WLrgPuYBFaCtLpp8FqAGbU5
-         2kmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715181530; x=1715786330;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EqgD796gWjm19h1EOwBFR1PmJG/+i0WCMBAK3f4e4Ts=;
-        b=TMSETN5BDQpdOqOhlWtWjcQqS6btU8LZnNNdmWoQo6MiCYLTW4VP2w7XziS6Yul2v9
-         awIi81fF/OWVhp8vV39S+znV5hiN/HA+Pw/vo2gH3YmAGqHpkDoRTS/7FmUYxnCkd6C0
-         RhhLUlYZWTQIKo23EcCXyxAx2NQsdxJ8VJ4qlvVwr8l1uWzkD2Ms7VLBY/Is1OBQ876e
-         CJXts4S3aS6MSCz0tZmrBUB2TvTbbXTUkf0E19Hg0TyC95lZWx7W1bRHJC53aD4YTHj7
-         EctvFLhAupQNVwMuMnxruJ/w+HiY+6R3WuRmP+WRazHebYc/u3ae3BiBBM2V8b6mtMOw
-         bP4w==
-X-Gm-Message-State: AOJu0Yw9qY4sJnOLHKyjUbo5mxt0ABaGkgRedw7xQX967f0KcwGy5YEW
-	FkOiyLJsUKx4bWf/9NvCEcGqdbuyGiXyNvAZAVJ6r5/sgxximnckSWHgrg==
-X-Google-Smtp-Source: AGHT+IHm5Sh6+CeRgKAitlFIWFQCWaqPP5OMvW6PuLKMUHc2Xkxesp8fRWgfi4kkqo5mQ/fm1wqB1Q==
-X-Received: by 2002:a17:903:98e:b0:1ea:26bf:5989 with SMTP id d9443c01a7336-1eeb0195400mr40170945ad.1.1715181529853;
-        Wed, 08 May 2024 08:18:49 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id q14-20020a170902a3ce00b001ed8886e794sm8494261plb.165.2024.05.08.08.18.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 May 2024 08:18:49 -0700 (PDT)
-Message-ID: <7c8a128e-b49c-41ff-be52-d05706cc878b@gmail.com>
-Date: Thu, 9 May 2024 00:18:45 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R/wwkRcs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F9C3C113CC;
+	Wed,  8 May 2024 17:39:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715189972;
+	bh=UMlSsN1mH7xSMtcukGiqUegrG408KOoxaiv6+JUk324=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=R/wwkRcsGTZlHsj9fNpkLfJLyZJ9SpkNJPG+Q/4lGrbf/T15MA48YE15N1X/w3hCm
+	 z7astQ/1TaZZbNzMEHCK9KMNxsmOzni7hokhf5DVrYol45jMPe2nfbO/ENVFiAoIsW
+	 2fYqbM2yYKAcks9Fsu+/+4I8hiPkUddHmZUaNJCNE/jA7kboPc+9KvEUcHydRg2CM1
+	 r0jmblClG0NsmsQYcPTijkHeu3tnUzrFILu8bLbtHXSI9VkOMilqlTYsmBKTaZmf0R
+	 fYoaFlF2ivE3raxhN7YSZD+Sw0ifjuNpGkqJTx/m+TeX7Q0sdlqBzTjIDpKbPEXTa2
+	 jUVDNjlh+Wmpg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id A5B0ECE0448; Wed,  8 May 2024 10:39:31 -0700 (PDT)
+Date: Wed, 8 May 2024 10:39:31 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
+Subject: Re: [PATCH -perfbook 1/2] locking: Mark sentence-ending period as
+ such
+Message-ID: <0aa0ec43-c89e-417d-b63a-3d98749f2f13@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <bc5fc6da-1f06-43b3-b065-3292652d78f8@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 2/2] defer: Use \tco{} in inline enum list
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <bc5fc6da-1f06-43b3-b065-3292652d78f8@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <bc5fc6da-1f06-43b3-b065-3292652d78f8@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Using \co{} in list environments such as enumerate* can confuse
-LeTeX engines in width estimation due to possible line breaks
-therein.
+On Thu, May 09, 2024 at 12:16:13AM +0900, Akira Yokosawa wrote:
+> Silence warning from "make punctcheck":
+> 
+>     vvv Hint: sentence ending with an uppercase needs "\@." vvv
+>     ./locking/locking.tex:2039:traditionally used in scheduling disk I/O.
+> 
+> It is needed because commit 678e6cc3c0f1 ("locking: Cite Dice et al.
+> for hierarchical lock") have added a sentence in the paragraph.
+> 
+> Fixes: 678e6cc3c0f1 ("locking: Cite Dice et al. for hierarchical lock")
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-It causes an overlap of "," over the closing ")" of "read_seqretry()"
-in the answer to QQz 9.14.
+Apologies, I was clearly in way too much of a hurry...
 
-Use \tco{} to avoid such undesired results.
+Queued and pushed both, thank you!!!
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- defer/seqlock.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+							Thanx, Paul
 
-diff --git a/defer/seqlock.tex b/defer/seqlock.tex
-index 5be8ae56..3ed2f483 100644
---- a/defer/seqlock.tex
-+++ b/defer/seqlock.tex
-@@ -141,7 +141,7 @@ will pass to a later call to \co{read_seqretry()}.
- 	\begin{enumerate*}[(1)]
- 	\item	This added check is a relatively expensive conditional branch,
- 	\item	It cannot be substituted for the later check done by
--		\co{read_seqretry()}, which must happen after the
-+		\tco{read_seqretry()}, which must happen after the
- 		critical section completes, and
- 	\item	Sequence locking is intended for read-mostly workloads,
- 		which means that this extra check would slow down the
--- 
-2.34.1
-
-
+> ---
+>  locking/locking.tex | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/locking/locking.tex b/locking/locking.tex
+> index e4ebce51..e0e17253 100644
+> --- a/locking/locking.tex
+> +++ b/locking/locking.tex
+> @@ -2036,7 +2036,7 @@ into account, preferentially granting locks locally, while also taking
+>  steps to avoid
+>  starvation~\cite{McKenney02e,radovic03hierarchical,radovic02efficient,BenJackson02,McKenney02d}.
+>  Many of these can be thought of as analogous to the elevator algorithms
+> -traditionally used in scheduling disk I/O.
+> +traditionally used in scheduling disk I/O\@.
+>  Dice et al.~discuss use of local and global locks in order to transform
+>  any architecture-oblivious lock into a local/global locking scheme
+>  that optimizes for the system's structure by providing (for example)
+> 
+> base-commit: 15fc91c0c6dafb32337f505069a0805a4e3c5858
+> -- 
+> 2.34.1
+> 
+> 
