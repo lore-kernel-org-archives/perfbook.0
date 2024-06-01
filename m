@@ -1,90 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF92112BEB4
-	for <perfbook@vger.kernel.org>; Wed,  8 May 2024 17:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755E928EC
+	for <perfbook@vger.kernel.org>; Sat,  1 Jun 2024 02:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715189972; cv=none; b=hzl2yEtZbWIrqgMfD3Re7lUx49Z2InJpctUyMMPrH/AnELtWQn2Ef7lIzVPPf5Uwcip30f+GnXmCOeqIGhrfW96Eu8zup8EYh3OrHFdyoeHh2qLcCE/J6JMsdJABGgQEcQl2nF9dZQrulk0b/5qGKql9xPitVWSQDhL8vtdCGgU=
+	t=1717210243; cv=none; b=KcIb0GAs46PQUa9Qe1C2sG3irgYc4USpm4GdT1kD1YG3mxOEt/1yRQj686+NEiQ7qDL94qrMEJfB4vO0sToSX/xUa0FsvdMdrvu0PkFWT8vZnAb5HW0pcQNxgHXkpKJ/xNpw/RA4lcajZ50Umrspni2vcQhVTf0rCtSuRwVAwTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715189972; c=relaxed/simple;
-	bh=UMlSsN1mH7xSMtcukGiqUegrG408KOoxaiv6+JUk324=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K4VB3Z0b8uLFlVrzlQV6iSSaJUp8kJsYoKRHWvru34C40ruaxhPHbzhrUwFdioDOqTTyqIjYLRsnTL24j6jArGnSAKFRbv2p+rz89DIx/eDU7oRoro81V7ByZIM/06OilKawoNIbS4AtkBv2klLYMgJ5gFnkBL/ctwkFjZVo6EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R/wwkRcs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717210243; c=relaxed/simple;
+	bh=BCR/iz01MuneufUFhgZ5OiHOc8D6ffVSfQB/ZNj42GU=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=RDWSy0OMCAYfgA/2dTnPBprM0f/ezTT018p0MhDkAOrZjtkFN07oFE30f5/rL2t+d/7gYBxkPyw8+uM5yWEUTUcioSouFJDrp1+caHCGYXMm3ZodjGsgdPHs12DTU3lFHjiS+EC/oSwpngWLLjC9JjQNQlFhhsSn1ZBpVFfvg7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e/6vAG/5; arc=none smtp.client-ip=209.85.160.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R/wwkRcs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F9C3C113CC;
-	Wed,  8 May 2024 17:39:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715189972;
-	bh=UMlSsN1mH7xSMtcukGiqUegrG408KOoxaiv6+JUk324=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=R/wwkRcsGTZlHsj9fNpkLfJLyZJ9SpkNJPG+Q/4lGrbf/T15MA48YE15N1X/w3hCm
-	 z7astQ/1TaZZbNzMEHCK9KMNxsmOzni7hokhf5DVrYol45jMPe2nfbO/ENVFiAoIsW
-	 2fYqbM2yYKAcks9Fsu+/+4I8hiPkUddHmZUaNJCNE/jA7kboPc+9KvEUcHydRg2CM1
-	 r0jmblClG0NsmsQYcPTijkHeu3tnUzrFILu8bLbtHXSI9VkOMilqlTYsmBKTaZmf0R
-	 fYoaFlF2ivE3raxhN7YSZD+Sw0ifjuNpGkqJTx/m+TeX7Q0sdlqBzTjIDpKbPEXTa2
-	 jUVDNjlh+Wmpg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id A5B0ECE0448; Wed,  8 May 2024 10:39:31 -0700 (PDT)
-Date: Wed, 8 May 2024 10:39:31 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
-Subject: Re: [PATCH -perfbook 1/2] locking: Mark sentence-ending period as
- such
-Message-ID: <0aa0ec43-c89e-417d-b63a-3d98749f2f13@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <bc5fc6da-1f06-43b3-b065-3292652d78f8@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e/6vAG/5"
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-24c9f91242dso1419003fac.2
+        for <perfbook@vger.kernel.org>; Fri, 31 May 2024 19:50:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717210241; x=1717815041; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qka40fbcBbyqnH+eG/b3Yo6ygWjP9dkCvi+biq8bZNQ=;
+        b=e/6vAG/5jThyiINViAcxbUJoTn2D43wU5DM8ZLfCK+5xdNPAtHsqesUt7vORKKedjS
+         rWesQVftBqP1Vsg9cv1JwgrhLFQ2HBJiaHSX55sS1I0U+nqeUJtd7y82RTtkXU+JxT1t
+         UoupDZ0+Kv14TIxPN4kOammc36rIeq1ith6lHhxAEx0TQI6bAqxyaMsEYcK2u1wcdnwU
+         fvMM5C7pDACBWaUZgWhvAnorSWVIJf33siXyUFs1BvWbMpZuAjFQINcsi/ZDdA3KS3nl
+         NymY9a4DhI3Ia0g3+emd3dDvRWDnOuhi/BAPjoPG4Q+3lqXXmQ2pvT61ThSGsi3dKr3N
+         +Wfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717210241; x=1717815041;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Qka40fbcBbyqnH+eG/b3Yo6ygWjP9dkCvi+biq8bZNQ=;
+        b=AyiNyz4yzA3unXO7vsQ0Tc6Gdk1X4oi4D+H3SDHYE1i9HcaZZV+UnSCWiD6p/+mJMv
+         /vQTmc7oe2lPo0FRbYcA1rJi2TW9ofyb/LtD8KN1wERYqLexgXCQQnik1ePoTNcVVipE
+         v9vDKbSnaoYcsgT7uqncedvh1oD5tQv4T5Fd/KJWZv0JGX4A25nhzYDOpr/q/L5JXvj8
+         QMgWjGtuSDBVf0ju3tuA5vmIrm1KuGXEFs+rs9IRQQZScXfdZtdFt9WSBshk8JZQXASy
+         WyAZL60Lc/ksb6VT4MRad8AJmTQyzYiHLq6NXVtAPPi3NXr1Z6m0UJ2UCOw8XbQ85gRo
+         whWQ==
+X-Gm-Message-State: AOJu0YyJwdas5/HMdYW/CUlJkzqBL/2K7AoABcEBSzcPRJUgFHficuaW
+	LXISDE29LivPw8cVwfqm2W+Qt0d4GxdqFeL1oznuRt/oKQHponES
+X-Google-Smtp-Source: AGHT+IF+VpWUd1VrUROHLzeiAoTzXcsreta2nFq1zSgwZYQIrZoVL83lcAgymYP5K8qQBqbJYrimUQ==
+X-Received: by 2002:a05:6870:2483:b0:24e:97d2:3a82 with SMTP id 586e51a60fabf-2508ba2002dmr4234509fac.27.1717210241326;
+        Fri, 31 May 2024 19:50:41 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6c353f0ae9csm1855921a12.17.2024.05.31.19.50.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 May 2024 19:50:40 -0700 (PDT)
+Message-ID: <bb58334a-c475-47db-87fc-d24b8ebf80cc@gmail.com>
+Date: Sat, 1 Jun 2024 11:50:37 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bc5fc6da-1f06-43b3-b065-3292652d78f8@gmail.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 1/2] CodeSamples/formal: Add data for Linux v6.9 to
+ rcu-test.dat
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 09, 2024 at 12:16:13AM +0900, Akira Yokosawa wrote:
-> Silence warning from "make punctcheck":
-> 
->     vvv Hint: sentence ending with an uppercase needs "\@." vvv
->     ./locking/locking.tex:2039:traditionally used in scheduling disk I/O.
-> 
-> It is needed because commit 678e6cc3c0f1 ("locking: Cite Dice et al.
-> for hierarchical lock") have added a sentence in the paragraph.
-> 
-> Fixes: 678e6cc3c0f1 ("locking: Cite Dice et al. for hierarchical lock")
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ CodeSamples/formal/data/rcu-test.dat | 1 +
+ 1 file changed, 1 insertion(+)
 
-Apologies, I was clearly in way too much of a hurry...
+diff --git a/CodeSamples/formal/data/rcu-test.dat b/CodeSamples/formal/data/rcu-test.dat
+index c0ac6fda..12aa01fc 100644
+--- a/CodeSamples/formal/data/rcu-test.dat
++++ b/CodeSamples/formal/data/rcu-test.dat
+@@ -96,3 +96,4 @@ v6.4  21444 11748 33192 35.4
+ ""    21651 12009 33660 35.7
+ ""    21957 12064 34021 35.5
+ v6.8  22018 12071 34089 35.4
++""    22108 12076 34184 35.3
 
-Queued and pushed both, thank you!!!
+base-commit: 43ebeda6629d8203e510b518dacf2863b32b5a85
+-- 
+2.34.1
 
-							Thanx, Paul
-
-> ---
->  locking/locking.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/locking/locking.tex b/locking/locking.tex
-> index e4ebce51..e0e17253 100644
-> --- a/locking/locking.tex
-> +++ b/locking/locking.tex
-> @@ -2036,7 +2036,7 @@ into account, preferentially granting locks locally, while also taking
->  steps to avoid
->  starvation~\cite{McKenney02e,radovic03hierarchical,radovic02efficient,BenJackson02,McKenney02d}.
->  Many of these can be thought of as analogous to the elevator algorithms
-> -traditionally used in scheduling disk I/O.
-> +traditionally used in scheduling disk I/O\@.
->  Dice et al.~discuss use of local and global locks in order to transform
->  any architecture-oblivious lock into a local/global locking scheme
->  that optimizes for the system's structure by providing (for example)
-> 
-> base-commit: 15fc91c0c6dafb32337f505069a0805a4e3c5858
-> -- 
-> 2.34.1
-> 
-> 
