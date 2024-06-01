@@ -1,103 +1,74 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89C04A1C
-	for <perfbook@vger.kernel.org>; Sat,  1 Jun 2024 02:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E90E546
+	for <perfbook@vger.kernel.org>; Sat,  1 Jun 2024 04:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717210493; cv=none; b=O6A4Yy2a7eKFEFdKuct4XTV10IGkzVw6eoH34ilifcDrPxgkpeWgV25tua+Bat3Cd+lQJaRpAQ8Xhxb/rf0nbQq1QwvBoe4Z4xs/IpjGalKxstKFra22zeJizW8XLNRJO3M62ZCj0d4mjsZ1zj0h/StZ9XXgCLMqX3WoERB0ZPc=
+	t=1717216675; cv=none; b=cbBY19n7ngFlqUTHyC/xERlohIx0aFFHdloF3Kmhc3jz5oBdgKrqf1Jh2tVLAiwgOREGdkHa3iuUkm2Zbw4TQEYz7fM4lQjfj8JTRJukI6GRHf41Q8W4z1v5PiETjMaZs/mn36oju012CysygWnL19cINOSVztNGS+X4Su/1Vww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717210493; c=relaxed/simple;
-	bh=Womr93Pp236SigDechEBG8kfYAXet1tUdIESLi3JR3k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A4jbVKZmtM7Ub16D63XpsMk41Lu3J7twvHvNLuTm3fwVIpJbYT5WCm0bBfaOiTg43il4NuUwSaBUxc7fj/MmKFMLue9HnMJ8VtMj5O4Aw1BleqrMNpxG044EHZnN6SDpvv4psYM714x/iNVH87YUpO6rzI/KkGQXBkD0SnF+EWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RHEQ53Xg; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717216675; c=relaxed/simple;
+	bh=howPko/lt24Q+yhg7XrDI05lHNOCCkPXK68qig/iGy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sWNrNx0GEcO3Bf9QJMmAMkOlhmASaGUVUMr/Dk/SUyoKcHNwYEdBSngwpMOx90Ko+BZ/UJxeyG6U1UzMPOa/ms1zgyY+iX+szh8AzQeazYdc49pHrqXXIt16SZKYtDcjjQ5jYqsWfA1NYQOr4/uiOyqbLV5ZV6LR7YTAuhrli7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IEgDw7VO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RHEQ53Xg"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-6c821775f82so102512a12.0
-        for <perfbook@vger.kernel.org>; Fri, 31 May 2024 19:54:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717210491; x=1717815291; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=34/pSZGLZfqoLdx6PsN7DFTZ+H86v0Hxo8f5r4Cu7p0=;
-        b=RHEQ53XgamaZx1lWuDlQF0Nx9qzqA2K4hUnJYs8tv32hM3j+zuQOm0LWcy4GpVp/9l
-         0EtF9lJOXYG6mdzJEFitaIrCUOE/9eeGnSEWV+YhVHV8AOqBPUxwNQe7EuT8gE9kr2sY
-         e/bqP5nr3sdq6lXmeKdeuvK4Go8s2TwhcNpInKz27Z/HMkQy8vmOh+NICZyhz3zlTKzy
-         CPZqvC8bnvpVXW8vsOCv8nwOHqvwkbSicNSPlFsDPtNkrtLqaYDra9+E7yWMGtIi1VZx
-         /8zEft8C0Aq5FkKhyHP7vKDYr8ky3w+r/c2pM00JavmFum4w22KJa0xA+HAXVJHbm7J6
-         K2gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717210491; x=1717815291;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=34/pSZGLZfqoLdx6PsN7DFTZ+H86v0Hxo8f5r4Cu7p0=;
-        b=KVuXmdslp3CazvWyQNntkpC9tb8FmXUqn8hF3tYoPR/f/OgtpooWJ7rvxsj1q8ayed
-         JF6bGGSpEHEV5CWQMC+LqzNlgYvTtawiUXK7+LWr2x/4igGy7EH/6oJwg140ziFv/cOt
-         ZoofsYoQmu+GrsghbgVoZQFrt3Nyh4FMuFmhArtjxEDxJ/8M7SUKOeAra0g3/zxHN810
-         PZOpQHNDgrThx1KkNrWbEyu0fT3DMtVi18Ut2pN8lzPpz8qU5PvTn/2o1vO39LXlfI3P
-         IYNfjOwwIQw6udP5W65MJYENiBsgDl+GrXVgJByujdtg87arOHyjvh2+XrWc9hPp9Om+
-         Lgdg==
-X-Gm-Message-State: AOJu0Yxn2zYew0tmwCct6jcNko4lAWjWhLel5+xDUpqSoOrJpRZN6+1S
-	S63mlqSxwPzNwqvzg0b7//x7c8MVDUriSvdi0YEJrMrShQC+VduA
-X-Google-Smtp-Source: AGHT+IFqPHKTs1sCa6/Zaab8wzRx9RCIApqMs3CA1FNX61IpjmsWs2MCbYzlP5FoosemWivXBB/VFw==
-X-Received: by 2002:a05:6a21:7888:b0:1af:a37e:367e with SMTP id adf61e73a8af0-1b26f139070mr4338336637.15.1717210491001;
-        Fri, 31 May 2024 19:54:51 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6323dd945sm23402365ad.161.2024.05.31.19.54.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 May 2024 19:54:50 -0700 (PDT)
-Message-ID: <f3aa05eb-828f-4a10-a735-5976f3bd9771@gmail.com>
-Date: Sat, 1 Jun 2024 11:54:47 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IEgDw7VO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A712C116B1;
+	Sat,  1 Jun 2024 04:37:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717216675;
+	bh=howPko/lt24Q+yhg7XrDI05lHNOCCkPXK68qig/iGy0=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=IEgDw7VOlRKkchqZ30UQQOd4uycgNqANyAQyGzCUBmlRSHvZ55a7yUiJ8OVRUHZtT
+	 jJh7BinymfQyOaaSTHW8R1v31RzE46EJFOOM4k4G0AJv8di7Nh+ZOwXau6zBkXj01A
+	 mM8w8SWR/x1DcFisVbpp/FZ8Xap3ivwR7WWHrmdhEMZpYkIqIdbsybJicv9JC1EneC
+	 nya6BydR4RlGt6VeMua2eld5NnsCr7TOeFZKaHm2exQLS3/g2s90gqJPawal1+KIoX
+	 xSbKRCEwbMPc3m5QFSgx2YopwgKSOqBx6Zbza74FTsV1jhsA9BV4bJw3ZYoYvQ9T0u
+	 jULxGvSvSQsBw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id A9E26CE3ED6; Fri, 31 May 2024 21:37:54 -0700 (PDT)
+Date: Fri, 31 May 2024 21:37:54 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
+Subject: Re: [PATCH -perfbook 1/2] CodeSamples/formal: Add data for Linux
+ v6.9 to rcu-test.dat
+Message-ID: <b0600a36-b87f-4845-972b-828ba648beda@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <bb58334a-c475-47db-87fc-d24b8ebf80cc@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 2/2] Don't remove $(SVG_GENERATED) in 'make clean'
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <bb58334a-c475-47db-87fc-d24b8ebf80cc@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <bb58334a-c475-47db-87fc-d24b8ebf80cc@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-"make clean" is supposed to remove files generated by running pdflatex,
-not those generated in the earlier stages, such as *.eps, *.pdf, *.fcv,
-and so on.
+On Sat, Jun 01, 2024 at 11:50:37AM +0900, Akira Yokosawa wrote:
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-It was a mistake in commit dac608ac4e69 ("Plot RCU-test-ratio
-on-the-fly") which listed $(SVG_GENERATED) in "clean".
+Queued and pushed both, thank you!
 
-Fix it.
+							Thanx, Paul
 
-Fixes: dac608ac4e69 ("Plot RCU-test-ratio on-the-fly")
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- Makefile | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index dc8fceec..762df051 100644
---- a/Makefile
-+++ b/Makefile
-@@ -654,7 +654,6 @@ clean:
- 	rm -f perfbook*.sil
- 	rm -f CodeSamples/snippets.d
- 	rm -f *.synctex*
--	rm -f $(SVG_GENERATED)
- 	@rm -f $(OBSOLETE_FILES) $(EPSSOURCES_TMP) $(SVG_EMERGENCY)
- 
- paper-clean:
--- 
-2.34.1
-
-
+> ---
+>  CodeSamples/formal/data/rcu-test.dat | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/CodeSamples/formal/data/rcu-test.dat b/CodeSamples/formal/data/rcu-test.dat
+> index c0ac6fda..12aa01fc 100644
+> --- a/CodeSamples/formal/data/rcu-test.dat
+> +++ b/CodeSamples/formal/data/rcu-test.dat
+> @@ -96,3 +96,4 @@ v6.4  21444 11748 33192 35.4
+>  ""    21651 12009 33660 35.7
+>  ""    21957 12064 34021 35.5
+>  v6.8  22018 12071 34089 35.4
+> +""    22108 12076 34184 35.3
+> 
+> base-commit: 43ebeda6629d8203e510b518dacf2863b32b5a85
+> -- 
+> 2.34.1
+> 
