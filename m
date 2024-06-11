@@ -1,58 +1,58 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D5B176FB8
-	for <perfbook@vger.kernel.org>; Tue, 11 Jun 2024 09:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8660D2230F
+	for <perfbook@vger.kernel.org>; Tue, 11 Jun 2024 09:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718098616; cv=none; b=eRtV7H+q8eZ2SC7QBqF2zzGtHvbDuKKnw8dom1ovILER/8jjo75IHpL2NGw6ekOYclBbiOH80V7LoOEIvvTt/3w/1ptcinT7rV1gE2aSIRHKW1kPKM39lAO+X1OBcPASaq5kAp0py/R9AdMu8BySlfEUZKew8VQ7UF+xFsDLv0s=
+	t=1718098816; cv=none; b=LoDTU5HpYOt75uX6YH7TuGrBB6Q9UxyTFHN3sFMYGhVq88IHyUa+SWoe+ypwnV7C6xTSiyLmZ/9C3QllSCIszyVf1uHNY9NgEYSNRHAztRWCSVdnj50HePlfIeSBOfdEKrUxhx5vKQRIs83v7MCFhFSnlNoMJSTyTmlRLOKIGso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718098616; c=relaxed/simple;
-	bh=FuZRIGwQem2YoDOjUF+XEOvDTXd4T/g2vneIvXH3zCc=;
+	s=arc-20240116; t=1718098816; c=relaxed/simple;
+	bh=eykrhWgJTLmtbbZ27HJ4E20XOxASTRKIropLzyLWgk8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZRG+2M9dOjAoX/RgapQu1gY/O9Ff3f9G1AdFMONtN+flqLSMGnqXWAv9GX14CEGSRZpJ6zfKDrz0n2pTRL67eNSQ2UnJwqpB1BAdR/iiTcIOTZqpLvdmzhLLOB8f1mkGykEYF8a7i12ItF+A2wlbK2jYZWIYbGCMvosMJxMsCCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fFtBsKyf; arc=none smtp.client-ip=209.85.214.170
+	 In-Reply-To:Content-Type; b=f2eFBFNnnmRByCJ5zZXhZC2R8JsLcHCqzmGO+dRjrihQPFUKONqApjvVxrJfzUVU0yVAhdXul78kYrErMQOFhVH8UlcDOHsGAGFFJaIs537UIjpl/N93D58HnqOA1EIymGNNixrV3BWcX1A111FORb/pcaziL9lNoDbGqcGXyFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hvUb+8R0; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fFtBsKyf"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1f480624d10so47698165ad.1
-        for <perfbook@vger.kernel.org>; Tue, 11 Jun 2024 02:36:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hvUb+8R0"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-70255d5ddc7so784082b3a.3
+        for <perfbook@vger.kernel.org>; Tue, 11 Jun 2024 02:40:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718098614; x=1718703414; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718098814; x=1718703614; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=v2cQE2Ovdl/vSw65SPbGuOJrQmpBwxJVemEQSq1xqqQ=;
-        b=fFtBsKyfw4vsQ7uL3zjDLXDdwhri9kgK4kOkOvs82bndL9LRKE5IHfyHqtNJegctLi
-         5vdTmDB5DOxbpCFIMVlO+HhL9VV+gxC8EUyqRSiOv4OG1jnOFcw0ifRlzXEThfRDiLMX
-         F6zRRpxtL+uwZto/GPve7eNm6ydsYmMRBG6LvZIo/KqbQke0lG/8np5Uq0u6JZUbAvh2
-         VqEA2e6IWIg4vtJMvJVH4zx9k+K9DN7G2sJTiudMWnPlvC4pffKcHzG/1JtUyTUJ/6T6
-         vQ12rj7RrTu7c52T7/CV2Ngt8OMA0UnTu/out5IDBJKXH7zdRjYMWMZBdTk7POQOHEzX
-         6Qdw==
+        bh=AGQgN8pUd+ci4Zg6XlcL8OkoxIxF7tbZZ6TFPUvxjGA=;
+        b=hvUb+8R0EPLKW53qkokz6H+yIQwGKqgZKkuW6bK4bLt1tVkjgIokRR8tZo8pADx25k
+         VX+sKN/4Q5IGGS9LtBsiXZxa79pZXqOyMgQlJEITKfBqLbKw1gZb9otWZorzoBajdOwm
+         gY27Sd/xHHTfRqBKeN4cwYdNgyKU0EOvxYCjW1C0jKSW/9b7t7WCoCxbeJQ4mfyRqcUV
+         Vx2U4W9mohcEC6gRr2ystH3yG3k2dJDkxiUcpa+mFxNt/VLq1NRYCqPOKEKNonWD+gHr
+         7UlA9nGD6nA2w4zbqPpGYdlLIvv16cZL3Tnm1iEAQszeHMQtZSO4UzZ+NCq5UIs0BwV2
+         6f3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718098614; x=1718703414;
+        d=1e100.net; s=20230601; t=1718098814; x=1718703614;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v2cQE2Ovdl/vSw65SPbGuOJrQmpBwxJVemEQSq1xqqQ=;
-        b=vFQRlUxNHnZ3kk4tyscSfXiCrrVqEY3Pxcv+gLK04s6semycDIOqU6i/k9/3gZPaRM
-         BSiQBR/Cv3bTsNNidyCcvwQSb45XHFTwzHG/CyeITwomnttWLRd+Cw/wW9PDeBy/EN6F
-         hKDNhcF15qB9vaF7ay6bvD5WmiBXdiJT/KxDItMx4MmeXSTT8eKdoe3tUiKwww8s9MvM
-         M/eQLWnKIOaXknFDaadnL/OM4I+Zl7ACLdCaKiS4GBee+7csjVlILkeN4J/5I1fmXHH8
-         isU46nmhi9X/MceOTWdvbG+dIqrdvyokr0ELzYwgIVOf4S32FbaQrHr5N9vM5yNyTcX+
-         FuxQ==
-X-Gm-Message-State: AOJu0Yw2YP7aBgWdybHJjvNsU25inxZQTMDWxsc2JFg7aZsvu4NDs5nB
-	8/nSa+zN9d5IS3u57gpPD34qW/FXvF/LRJUGPmXZMqnBzk0nQZXRX1AO6Q==
-X-Google-Smtp-Source: AGHT+IEFB94lIv3Ymi4wEm5qjwkiBSrx3Mz0whozkx3/ejLM9F+uAiRnyK4bWnjYhhU9Xqyw+8BXUw==
-X-Received: by 2002:a17:902:a515:b0:1f4:a6cb:db3d with SMTP id d9443c01a7336-1f6d0397784mr112882155ad.44.1718098614099;
-        Tue, 11 Jun 2024 02:36:54 -0700 (PDT)
+        bh=AGQgN8pUd+ci4Zg6XlcL8OkoxIxF7tbZZ6TFPUvxjGA=;
+        b=umEXF8dgyp3tHZtV00OE14fPfKa5ePiQSEuXsNdRhVlLyVlvrgQ82tl8hD/r2/dBhA
+         MQamp/e/C+jcnqvqCj6D0jP/EiUVc9kyiPl14wUuvsHiUUAzjf3FRh49rv6boO3F19Hx
+         YHD/L0tA4QNPld8/8SMg54nKlwldhxOj2mzCSMv3LobY3R7we5NS0uoT8LbUrGn5o4g9
+         B+L7+gTtfzCWYGV65+v5A77WFu0BqTB9/YEsnXCGF4QsSYkCvvAjmReyHSoKjiUjKgEA
+         NG9L2MYY7OjofmlPjjaXxIzvVzNtYfWy5ovI2Gh+v3Cmtnppo9maoR+ge/7azXgdsKFB
+         u70w==
+X-Gm-Message-State: AOJu0Yw5KmroQVzZ3b6E9rTz57ZkcmZhJ/NPTEMioBH4ArpD+GPTioUP
+	CEYF63Nxpbyd6sbCNu+czW+Og0EYqYVP8ChY1wgUmWoVXNTf7tw2
+X-Google-Smtp-Source: AGHT+IHBNhQ5W4H9EjhSVYRvPH9PAZ1bs5HujM+b/Ow9hx+4g2ldpqHPZ8RkL0u8oQHIaaD4y8gpjQ==
+X-Received: by 2002:a05:6a00:189b:b0:6f3:ea8a:f974 with SMTP id d2e1a72fcca58-7040c61950amr12059659b3a.1.1718098814493;
+        Tue, 11 Jun 2024 02:40:14 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f71c7f218csm26119795ad.5.2024.06.11.02.36.53
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7041bb50dd1sm6049439b3a.193.2024.06.11.02.40.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jun 2024 02:36:53 -0700 (PDT)
-Message-ID: <e81a8b3a-9542-405c-baf9-c18a11c98e0a@gmail.com>
-Date: Tue, 11 Jun 2024 18:36:52 +0900
+        Tue, 11 Jun 2024 02:40:14 -0700 (PDT)
+Message-ID: <9fdb80f4-85b6-48ef-81b5-801cbf86d8c6@gmail.com>
+Date: Tue, 11 Jun 2024 18:40:12 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -60,8 +60,8 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook v2 1/3] Work around conflict between arydshln and
- array v2.6
+Subject: [PATCH -perfbook v2 2/3] Silence warning msg from LaTeX while loading
+ parnotes package
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <5c81ae1b-ddf5-402e-a5b4-0e332a753c87@gmail.com>
@@ -71,40 +71,37 @@ In-Reply-To: <5c81ae1b-ddf5-402e-a5b4-0e332a753c87@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Version 2.6 of array.sty released along with LaTeX2e <2024-06-01>
-is not compatible with arydshln's assumption of internal behavior
-of array.
+LaTeX2e <2024-06-01> emits warning on loading parnotes.sty saying:
 
-Stick to a compatible version of array by adding \RequirePackage{array}
-with a rollback option.
+    LaTeX Warning: Command `\theparnotemark' already defined -- not changed on input line 54.
 
-Use of date as in [=2024-05-01] makes the LaTeX code compatible
-with earlier installation of TeX Live, where the latex engine can pick
-a suitable version available.
+This looks like a harmless warning.
+As perfbook's build scripts treat "LaTeX Warning" as build error,
+silence it by enabling a filter for this particular message.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
-I have tried to contact arydshln package maintainer, but failed to
-get any response so far.
+Unfortunately, parnotes doesn't have any maintainer assigned and it
+is not clear if the issue can be taken care of soon.
 
 ---
  perfbook-lt.tex | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/perfbook-lt.tex b/perfbook-lt.tex
-index fd598a56..ad4463be 100644
+index ad4463be..3c6fb9f3 100644
 --- a/perfbook-lt.tex
 +++ b/perfbook-lt.tex
-@@ -9,6 +9,9 @@
- % within a page. See: https://tex.stackexchange.com/questions/183149/
- \ifdefined\pdfsuppresswarningpagegroup \pdfsuppresswarningpagegroup=1 \fi
- 
-+% Work around conflict between arydshln and array since array v2.6c
-+\RequirePackage{array}[=2024-05-01] % One month before the release date of v2.6c
-+
- % standard packages
- 
- % A more pleasant font
+@@ -79,6 +79,9 @@
+ \usepackage[split,makeindex]{splitidx}
+ \usepackage[nottoc]{tocbibind}
+ \usepackage[columns=3,totoc,indentunit=12pt,justific=raggedright,font=small,columnsep=.15in]{idxlayout}
++\RequirePackage[save]{silence}
++\WarningFilter[parnotes]{latex}{Command `\theparnotemark' already defined}
++\ActivateWarningFilters[parnotes]
+ \usepackage{parnotes} % for footnotes in tabularx
+ \usepackage[bookmarks=true,bookmarksnumbered=true,pdfborder={0 0 0},linktoc=all,pdfusetitle]{hyperref}
+ \usepackage{footnotebackref} % to enable cross-ref of footnote
 -- 
 2.34.1
 
