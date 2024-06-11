@@ -1,57 +1,58 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75082230F
-	for <perfbook@vger.kernel.org>; Tue, 11 Jun 2024 09:34:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D5B176FB8
+	for <perfbook@vger.kernel.org>; Tue, 11 Jun 2024 09:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718098469; cv=none; b=Exkqjf7mT7gllWeTJZGFAb5HRyNfthDFwmLzhxtAq7mBfsPleVpQhVpfPbQGI15Pb2kMo7Ac91f/DggRU7+E+impboVDQN1ERvKfRYM21TIU++TF2rZzWhhkF9GL4hfm98FRRKYtF+fQqNEVZAkbYMeXgJNT4CPVsYYZzZBSJYU=
+	t=1718098616; cv=none; b=eRtV7H+q8eZ2SC7QBqF2zzGtHvbDuKKnw8dom1ovILER/8jjo75IHpL2NGw6ekOYclBbiOH80V7LoOEIvvTt/3w/1ptcinT7rV1gE2aSIRHKW1kPKM39lAO+X1OBcPASaq5kAp0py/R9AdMu8BySlfEUZKew8VQ7UF+xFsDLv0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718098469; c=relaxed/simple;
-	bh=vLFhpA0aBrrOt3JKp9EcfzTLNJveGszUidsQ7bve0cU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=hTOY2qJI9mdHxAOQ1mBNVIOuAI9TNke8s/TKk2SMVlLI1gkPR8KXssPvLK30IF/5Fdz+3syvDhqayrnd5M4KEomIsjFTj9ciNeK0I6CHwsvZUUdbyKYoFAsWueSiNico4Uw1VIYQSGiqzSqEaWvxICfeMqepLH6zdHQ/+4JwGeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hp0Vojom; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1718098616; c=relaxed/simple;
+	bh=FuZRIGwQem2YoDOjUF+XEOvDTXd4T/g2vneIvXH3zCc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZRG+2M9dOjAoX/RgapQu1gY/O9Ff3f9G1AdFMONtN+flqLSMGnqXWAv9GX14CEGSRZpJ6zfKDrz0n2pTRL67eNSQ2UnJwqpB1BAdR/iiTcIOTZqpLvdmzhLLOB8f1mkGykEYF8a7i12ItF+A2wlbK2jYZWIYbGCMvosMJxMsCCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fFtBsKyf; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hp0Vojom"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1f44b45d6abso43467945ad.0
-        for <perfbook@vger.kernel.org>; Tue, 11 Jun 2024 02:34:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fFtBsKyf"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1f480624d10so47698165ad.1
+        for <perfbook@vger.kernel.org>; Tue, 11 Jun 2024 02:36:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718098467; x=1718703267; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Uw9S4WZMDsDjapwgMcnV66wqFJlvzq1fJST/BBHkPuQ=;
-        b=Hp0VojomykA3iYGdcPoTDmHyGJYdqyGFIb7/4uCaw65bF6qEZ3mcGVOZktPyHbAuH9
-         6WTNNB/OLtFU2BQi2xqbYW50BISDRj8X5cpTOKjUrrlRNWE/mo2HZgaQWmdpVde4wRpv
-         kWdaCXb4P2XrZrLqY7RXzh0Ecngp4y0KrUg+OQS5UNokL9m5PKXEibw9OicBVkWlPprc
-         Gc6eGKfMnAGUFHC+D75oMUkFVd5XDpMG87lQ2rTIZ3cj9mPYlJg7tdMkj/Hl2uUYei+V
-         LBDThZ7pyvlIYljyT/A3eJwp+pDeThV0wK08NusoXdfPG1bZ5JvWbrkancUjjevhdGF0
-         bq1g==
+        d=gmail.com; s=20230601; t=1718098614; x=1718703414; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=v2cQE2Ovdl/vSw65SPbGuOJrQmpBwxJVemEQSq1xqqQ=;
+        b=fFtBsKyfw4vsQ7uL3zjDLXDdwhri9kgK4kOkOvs82bndL9LRKE5IHfyHqtNJegctLi
+         5vdTmDB5DOxbpCFIMVlO+HhL9VV+gxC8EUyqRSiOv4OG1jnOFcw0ifRlzXEThfRDiLMX
+         F6zRRpxtL+uwZto/GPve7eNm6ydsYmMRBG6LvZIo/KqbQke0lG/8np5Uq0u6JZUbAvh2
+         VqEA2e6IWIg4vtJMvJVH4zx9k+K9DN7G2sJTiudMWnPlvC4pffKcHzG/1JtUyTUJ/6T6
+         vQ12rj7RrTu7c52T7/CV2Ngt8OMA0UnTu/out5IDBJKXH7zdRjYMWMZBdTk7POQOHEzX
+         6Qdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718098467; x=1718703267;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Uw9S4WZMDsDjapwgMcnV66wqFJlvzq1fJST/BBHkPuQ=;
-        b=asSPpnqbmxkk20UPBCiCam4M+6SJY/A6WDoYjBu0h282Q7IeIH1RJdm9Y5eqrC9Wbs
-         CaldgQvor2argPF88EcJ3VabUqH9F84sotDsFXpBye9QuSgtCQ7J70PuL3WqkcJ5rWNs
-         w6vZ/H5qodB1WIv9ktrocI4vsWy9ngHIevsHwVwm/1sIRX3C/HMbZ5xR3f16qgu+gVDw
-         3BlHun5dCCDYhzo1eLtG9ke0lSA/JWHVe1U8fgf2m10hqBlJcdKF3W4ey/qxMI1/jqDz
-         1EcfGPlTthHifBrfF/RtYPn+A0X/uGVK/2dg7EBeUk/0xpOZifC+HA4nvge+YaKrJZE9
-         BgFw==
-X-Gm-Message-State: AOJu0Yxg3eokIHEMuHVsp2GpQWeX+GH+LKl2oiNB377XIgRdCUNXcs58
-	JUOCAR/rkOIZxqkfHrCh+lCibJeV7JMEbhszX4zdPkBlJunQapmy
-X-Google-Smtp-Source: AGHT+IHtVl5bIibQrvjNrJ7hw6eWMyxD0WpnRHsC/9xOvVkgyT5NvOhKV0GhNf0WlH3hGodXTH4+xw==
-X-Received: by 2002:a17:902:ea06:b0:1f4:8a01:283e with SMTP id d9443c01a7336-1f6d02cc84fmr133084725ad.5.1718098467255;
-        Tue, 11 Jun 2024 02:34:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718098614; x=1718703414;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v2cQE2Ovdl/vSw65SPbGuOJrQmpBwxJVemEQSq1xqqQ=;
+        b=vFQRlUxNHnZ3kk4tyscSfXiCrrVqEY3Pxcv+gLK04s6semycDIOqU6i/k9/3gZPaRM
+         BSiQBR/Cv3bTsNNidyCcvwQSb45XHFTwzHG/CyeITwomnttWLRd+Cw/wW9PDeBy/EN6F
+         hKDNhcF15qB9vaF7ay6bvD5WmiBXdiJT/KxDItMx4MmeXSTT8eKdoe3tUiKwww8s9MvM
+         M/eQLWnKIOaXknFDaadnL/OM4I+Zl7ACLdCaKiS4GBee+7csjVlILkeN4J/5I1fmXHH8
+         isU46nmhi9X/MceOTWdvbG+dIqrdvyokr0ELzYwgIVOf4S32FbaQrHr5N9vM5yNyTcX+
+         FuxQ==
+X-Gm-Message-State: AOJu0Yw2YP7aBgWdybHJjvNsU25inxZQTMDWxsc2JFg7aZsvu4NDs5nB
+	8/nSa+zN9d5IS3u57gpPD34qW/FXvF/LRJUGPmXZMqnBzk0nQZXRX1AO6Q==
+X-Google-Smtp-Source: AGHT+IEFB94lIv3Ymi4wEm5qjwkiBSrx3Mz0whozkx3/ejLM9F+uAiRnyK4bWnjYhhU9Xqyw+8BXUw==
+X-Received: by 2002:a17:902:a515:b0:1f4:a6cb:db3d with SMTP id d9443c01a7336-1f6d0397784mr112882155ad.44.1718098614099;
+        Tue, 11 Jun 2024 02:36:54 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6f7864c5csm54720805ad.275.2024.06.11.02.34.26
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f71c7f218csm26119795ad.5.2024.06.11.02.36.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jun 2024 02:34:27 -0700 (PDT)
-Message-ID: <5c81ae1b-ddf5-402e-a5b4-0e332a753c87@gmail.com>
-Date: Tue, 11 Jun 2024 18:34:25 +0900
+        Tue, 11 Jun 2024 02:36:53 -0700 (PDT)
+Message-ID: <e81a8b3a-9542-405c-baf9-c18a11c98e0a@gmail.com>
+Date: Tue, 11 Jun 2024 18:36:52 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -59,52 +60,52 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+Subject: [PATCH -perfbook v2 1/3] Work around conflict between arydshln and
+ array v2.6
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <5c81ae1b-ddf5-402e-a5b4-0e332a753c87@gmail.com>
+Content-Language: en-US
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook v2 0/3] Work around backward incompatible changes in
- LaTeX2e 2024-06-01
+In-Reply-To: <5c81ae1b-ddf5-402e-a5b4-0e332a753c87@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Paul,
+Version 2.6 of array.sty released along with LaTeX2e <2024-06-01>
+is not compatible with arydshln's assumption of internal behavior
+of array.
 
-As I mentioned earlier [1], recent updates in core LaTeX and accompanying
-changes in the array package broke build of perfbook.
+Stick to a compatible version of array by adding \RequirePackage{array}
+with a rollback option.
 
-There are two modes of incompatibilities.
+Use of date as in [=2024-05-01] makes the LaTeX code compatible
+with earlier installation of TeX Live, where the latex engine can pick
+a suitable version available.
 
-  1. arydshln assumes array's internal implementation of a past version of
-     array, which is no longer true with array >=v2.6.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+I have tried to contact arydshln package maintainer, but failed to
+get any response so far.
 
-  2. A "LaTeX Warning:" message in loading parnotes.sty.
+---
+ perfbook-lt.tex | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Neither arydshln nor parnotes is actively maintained, so here are
-workarounds made in perfbook-lt.tex.
-
-Patch 1/3 adds a rollback option to array and sticks with array v2.5 or
-earlier.
-
-Patch 2/3 enables a silence filter for the particular warning.
-
-Patch 3/3 is a follow up change to use date as rollback options of
-glossaries related packages.  By saying [=2022-10-01] rather than
-[=v2.07], [=v4.49], etc., it becomes obvious when those packages worked
-well with our custom code for glossaries & indexing.
-
-[1]: https://lore.kernel.org/r/a3ff0522-fd2d-4c87-9c7b-00cbdd5f3c68@gmail.com/
-
-Akira Yokosawa (3):
-  Work around conflict between arydshln and array v2.6
-  Silence warning msg from LaTeX while loading parnotes package
-  Use date as rollback options for glossaries related packages
-
- perfbook-lt.tex | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
-
-
-base-commit: ef80c4a3ecb96f115b27f1d60bcf7448074ea2e7
+diff --git a/perfbook-lt.tex b/perfbook-lt.tex
+index fd598a56..ad4463be 100644
+--- a/perfbook-lt.tex
++++ b/perfbook-lt.tex
+@@ -9,6 +9,9 @@
+ % within a page. See: https://tex.stackexchange.com/questions/183149/
+ \ifdefined\pdfsuppresswarningpagegroup \pdfsuppresswarningpagegroup=1 \fi
+ 
++% Work around conflict between arydshln and array since array v2.6c
++\RequirePackage{array}[=2024-05-01] % One month before the release date of v2.6c
++
+ % standard packages
+ 
+ % A more pleasant font
 -- 
 2.34.1
+
 
