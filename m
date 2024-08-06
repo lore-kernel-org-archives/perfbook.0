@@ -1,74 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462271878
-	for <perfbook@vger.kernel.org>; Sat, 27 Jul 2024 03:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E25A59
+	for <perfbook@vger.kernel.org>; Tue,  6 Aug 2024 04:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722051471; cv=none; b=gnkG6mmoq08sxrxW69JEluqnpx4d39opHXIrGSIZ4tu7WIGGmaaVaUZkt2jMN2YIe83PGZc4ck1to8sdqdhW2CBAreaCOZLCN33s23uwKIW+/lGtDe3UPDJIB83V8HoicNdpXhyXTgdaFvzVJ8lhHsv71U2jCHvODE4AJUPtnTI=
+	t=1722916997; cv=none; b=dVdQ89OLI5bM/0+C9e4nWdbXOYq6je9vlycv/RNTqRkaPzQ/mUWtpQFMRlbVAZhhaoe0H0afEL/4ZRXBsRTl3oDScqqRc/sbqcWhnb4LdR3Sg/WHg35gxPFE1b7gez/70eHsBNe3mrM1Pql7BMiMLaCAdAclV4KbM7/D7Uf53pU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722051471; c=relaxed/simple;
-	bh=s9LfE2IBbtJoXwBsEceggPYqollTK579SJ7P0+/ogGA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CJFoyV3uEkLbvmztwPpMb2GctgabUmDohdjXdNTbEvzkIUzHigHdcxvuQ+D4nMMEJ9WR02C7LxthTx9XLSqJg/0nd6Bj9okg40nEPyBhPsBjRI43JIWQTTrIekFYXoF5z7QZ3h9xzQBDMWNKopSxLkox+XodFZK1aFAzDj2vP6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ywmtgrmx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722916997; c=relaxed/simple;
+	bh=+COe4hez56hYafHLsTRGnX0b9lLjRRu7DXSxWp54hYs=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=BjNB757yQKV5tXqh0HvGa/mmhlGRp+9XIR3ZqPjrAfzcku3ynQukcf2ZY9nZyzlthPibIx8k4Ag/0OB4fNe6p9q+x9dSyY/JO/Yau/+wybGbin6/7tskbm5Vj+X6wK3OPoM9Emsq8XurfXMb/LPcsLfSSUYXApnxRth9SQ9dTb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ESrI+9oz; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ywmtgrmx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C94D8C32781;
-	Sat, 27 Jul 2024 03:37:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722051470;
-	bh=s9LfE2IBbtJoXwBsEceggPYqollTK579SJ7P0+/ogGA=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=Ywmtgrmxg00qErISeLKz83lQsSAjGHPPud3xd1+mndb2BHJL/iAeN6NQoq/ImwmA4
-	 PRns/JVbyibpd2JI8k0vetmDsyeYcx7f0c2sW+yS3fVPjuXzE4f5FBFkPPL9TzpgD1
-	 Wb1bLAfV5TB+lbJ46kujUNiBfCm66JHzUiZ0vGJevBSoyb2+jnj1KYZtAieu/FFiPg
-	 ttEOlQdpN2AYf/IceI85VPwdab2d7pNiVSggM0yHzQndlw2IwhTTlcPmScc0Pmg1Oy
-	 ingF4QuYDwCHtiKAi2YVFicuiVPoSYt1ymXHku5f22MKqpdZJ901nvuyXLTS5T2H5D
-	 laZFoyBZB7ZKQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 722C9CE09D8; Fri, 26 Jul 2024 20:37:50 -0700 (PDT)
-Date: Fri, 26 Jul 2024 20:37:50 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
-Subject: Re: [PATCH -perfbook 1/2] CodeSamples/formal: Update rcu-test.dat
- for v6.10
-Message-ID: <642e1eb0-2b35-4793-a0ba-d58d994e87f1@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <0b5765df-1ff2-4fff-ba1f-704c4087e437@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ESrI+9oz"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-70d18d4b94cso124271b3a.2
+        for <perfbook@vger.kernel.org>; Mon, 05 Aug 2024 21:03:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722916996; x=1723521796; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vDTF4PpE2fO1T+B2SelFmbHeGWeuNy9PCRwxYyqdLXE=;
+        b=ESrI+9ozYnvPulutWodFZRMzM0sWdFUDnxomWLlZcr0vhqRqm73O933joMnGRmdqnz
+         /HNLfbxVZ7A1NleBfWTa4MR6y4+NP0bFq7BL71iKWgRjdi9LqWvh+R7wI8JTvbkkt7jl
+         qU1sVv1Yix78RRZATvS6G2riaeNMTxEwGXNKYQTHspKNFWv2Hw8D+IFNhxjFl46vcQIP
+         VPRNacHQuYcEsJLYa6Qlf9W9tiFz8IicQ8+3gg6oT5kVnl6ojvwB+OMPlRlQz06wSD7y
+         6qQjmu/wbcAw+8Ypwu7Vd5d9+BPWIPu5IuBWpT8TOrTOWKoEclbosERWxKNwEqQ92ghi
+         ReIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722916996; x=1723521796;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=vDTF4PpE2fO1T+B2SelFmbHeGWeuNy9PCRwxYyqdLXE=;
+        b=vgvIVRKPWvX4bRIsac+fFIgJ/YgBqvZYmpTbwfRiH6+LhvASewBGhhcSU8vUTha/Hh
+         p3ws4jw0SVqJzZhQCt6R/9iF4MJtFGG6aLJ5dLOKtfMDdsBsXzC3gNEhSAXNmqrJ4Pec
+         98hKIVL163W92vkQaLdobcI3d2UpV0YVleCC7sS3o64/m9kdAmZ8wVKp1Uy26mvC4Vih
+         I7eAHLnyvlodeF7mpoc8nBI1LRHGpHIbgDxKGP+/OLutQLxbGUfF0x6TYG4gU1LP18XR
+         u/qScjdytNyUavjWroGNbL9aMmXAxKcX6l0IVrT+Hs1cX5Fo5Gh9utvmWFKA69DJkqrB
+         sbgg==
+X-Gm-Message-State: AOJu0YyNX6wxRsmqA87AvjGEZu3sp01ARt4jzrnDZ7hhPsbnOYS4MFwr
+	qbv1gmgmBks3nvBCFA5DfOKq+sqNCEe0WPStue8c/YarkmMXAFO4
+X-Google-Smtp-Source: AGHT+IH7SuUbbWeICeHBlGl7Q7VYV28/8h9vUFqKeD0lzFCb/hACrhRsl4WsvweU1IcTL8Q8l1JECA==
+X-Received: by 2002:a05:6a20:2444:b0:1c4:e0d3:9637 with SMTP id adf61e73a8af0-1c69969efe7mr14557448637.52.1722916995698;
+        Mon, 05 Aug 2024 21:03:15 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7b762e9fc0csm6134087a12.18.2024.08.05.21.03.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Aug 2024 21:03:15 -0700 (PDT)
+Message-ID: <f7f4e7b0-9843-42d3-b79f-3d18404140cc@gmail.com>
+Date: Tue, 6 Aug 2024 13:03:12 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0b5765df-1ff2-4fff-ba1f-704c4087e437@gmail.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 1/2] whymb: Tweak width of Table C.1 for -eb builds
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jul 27, 2024 at 12:20:30PM +0900, Akira Yokosawa wrote:
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Commit ffdab3a2e986 ("whymb: Show "permissions" misses in C.1")
+made Table C.1 too wide for -eb builds.
 
-Queued and pushed, thank you!
+Add \ebresizewidth{ ... } around the table.
 
-							Thanx, Paul
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ appendix/whymb/whymemorybarriers.tex | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> ---
->  CodeSamples/formal/data/rcu-test.dat | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/CodeSamples/formal/data/rcu-test.dat b/CodeSamples/formal/data/rcu-test.dat
-> index 12aa01fc..4a958dfc 100644
-> --- a/CodeSamples/formal/data/rcu-test.dat
-> +++ b/CodeSamples/formal/data/rcu-test.dat
-> @@ -97,3 +97,4 @@ v6.4  21444 11748 33192 35.4
->  ""    21957 12064 34021 35.5
->  v6.8  22018 12071 34089 35.4
->  ""    22108 12076 34184 35.3
-> +v6.10 22579 12085 34664 34.9
-> 
-> base-commit: f823b459645b872ef3481d746fa82b7ff1a91da8
-> -- 
-> 2.34.1
-> 
+diff --git a/appendix/whymb/whymemorybarriers.tex b/appendix/whymb/whymemorybarriers.tex
+index e5b16677..01c6a703 100644
+--- a/appendix/whymb/whymemorybarriers.tex
++++ b/appendix/whymb/whymemorybarriers.tex
+@@ -562,6 +562,7 @@ are up to date (``V'') or not (``I'').
+ \begin{table*}
+ \small
+ \centering
++\ebresizewidth{
+ \renewcommand*{\arraystretch}{1.2}
+ \rowcolors{6}{}{lightgray}
+ \begin{tabular}{lclcccccc}
+@@ -602,6 +603,7 @@ are up to date (``V'') or not (``I'').
+ 				& $-$/I & 0/S   & 0/S   & $-$/I   & I & V \\
+ 	\bottomrule
+ \end{tabular}
++}
+ \caption{Cache Coherence Example}
+ \label{tab:app:whymb:Cache Coherence Example}
+ \end{table*}
+
+base-commit: 61d5f16b87eeee8897af56f5e083b464919161f8
+-- 
+2.34.1
+
