@@ -1,58 +1,58 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545564C62
-	for <perfbook@vger.kernel.org>; Thu, 29 Aug 2024 01:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD7E208CA
+	for <perfbook@vger.kernel.org>; Thu, 29 Aug 2024 01:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724896683; cv=none; b=X+Ga4LgRjSL+KwIIly7IQEhRRQJrVK3OI9Zad5Nnk3lQf4Hksa8MjPc0A4fE4hNxsme/E07oWUqv8/SyQHVB6Ne92qMZyIhnaVB+lQepKC/xPU7F6Akv82qbyhVuvu0PuUdZQQTrCVnb7TyyfRSMRQ6SDVBVkSx7+obj6JOup2A=
+	t=1724896788; cv=none; b=rLpemiOmXRhuNYJzB0PDlkNxM8GkL81UoO9n86RQJs2VvC6hMD9e/Bj9ig1ktlmRr+HLONIRhB/NO0y1ZVVLzGfNz14YgAtcx0GqnUbYq/7R4+JpZNW+7O2SGYQY6WWNmBCnLXN/VcVOGcO/yVu+8HonmiiWY/jV9oQ9d6nwL58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724896683; c=relaxed/simple;
-	bh=9AR3BvN6CcOKsxQQsYG2PYdVCV92kL0LCagPEymUVGQ=;
+	s=arc-20240116; t=1724896788; c=relaxed/simple;
+	bh=TgfE02/euPegTZ252BzwdZLSfVaQ8+tMDP1k5FGoPyM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Tu6GrEyIRtsSOtpCTKW8bKlLSEJYVKb9joNMcFRdF6CDewpr3ig20QwDNwZ/g5krkYbZlsIaTfhzCIMRjmg/ZI3hBc887ccqWuBrsZ9r9j3qxBn7W0BOz095aLkZEFBlsamxskbkGHUaLK2QKbz5k63Q4z0hqscn87X575b3Crc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RFBYUHTm; arc=none smtp.client-ip=209.85.214.176
+	 In-Reply-To:Content-Type; b=HqhrEMMkR9B+0hWBUAz6mS+OMgFLPXujJ5TvfK9XaspRZkA/apK1PQXqmPg3ReWAyFTSROTMam/g/rGf1I4Ttb/o+a/ojnr2KnUJEsuBNxD37xDgMk6KlD5XgiCWyhkP+0Pt4Vi34cGz5CUPbVJv7tY9lyeeVpj+57yT/kJkLl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dotyzyFp; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RFBYUHTm"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-202089e57d8so970335ad.0
-        for <perfbook@vger.kernel.org>; Wed, 28 Aug 2024 18:58:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dotyzyFp"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2d3dc25b1b5so81972a91.2
+        for <perfbook@vger.kernel.org>; Wed, 28 Aug 2024 18:59:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724896681; x=1725501481; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724896786; x=1725501586; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=w4Y6BpC5Aae56QxWutQ/oYmUlTf0NjrUnl6Ll8tjpqw=;
-        b=RFBYUHTmRLhELmAIgnq1xtz2F1KD2gAC0ceCzIpH+NPwVhHy6fzYVkx7lwmIYGQcAN
-         JqHIJhNpo+8XVOOmic0MIuFb0EHl6Z6CPhpZDW4sXoUZZYqmQcAZGdNkIo8B6q3qsmVy
-         l8nKWASbfAE+n5TACnsx+mDZRaOYiGE/HLuL6Oy+PvKyJH32TKFb+BWf7UFkHVTjZKUp
-         88lOCfbFbAzigBtrFcUi+fIbh6OeKQju794+IDcfigzESRt7nOPPITBXtBXTRE9gwtSO
-         qObDCRbjKbIM+rR8+lmOCz46xjByudM3qp5fIMw8+D3SiPI6pWK5MsmsaeWoKSerKLXn
-         iZ6Q==
+        bh=lR7sKMMUzX50eDRlOTVXQEKIMWD6u084ad+zhztHbys=;
+        b=dotyzyFpRMXPunhK3CmPbpt+1hzx3kPCOJCDBJO97jxuxY2OpIJIb46xuAabxLQW7V
+         oA9jVxXsN6VALcx6XHGQq5tdicwKNqQfqX53+b0SRpLU49zgK/f5S0KDcQb376xKZG6a
+         xLwugEAwHJAiUowHY//Mir/Y2Cj5bUzxPqXds3hIu8bvx8LLlnBo9ZjxV5af7YePRWPM
+         Mc/Sww1YTGBVltGsOVPhqKTXosUFINRu1tvzkhvgdllXMsIDpVsqZwKLj1DbnM1eDxBN
+         fRwruuLz5Y976i+I5PN4Rf/gk87JooiTj1q5Y1Rv2xQvlbDBmncm7ZP4wHhqVltIgrMU
+         8dRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724896681; x=1725501481;
+        d=1e100.net; s=20230601; t=1724896786; x=1725501586;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=w4Y6BpC5Aae56QxWutQ/oYmUlTf0NjrUnl6Ll8tjpqw=;
-        b=QWVKUDNvnMTILYy2OYRZKP/U3jXE9G2o18YTQ/KGNZw1Nmo8wEXdCwwRhVshW/tD72
-         b6IejlufYk5Nmfr/iqJPOXdmChFB3VYTkv4SeiLxYZHo8Dyc67zJluASagx9TAGwbWKG
-         t7TUupCqyQCHW4+qSTI/Z0h0fph+e1EcGv1YcRGlT79L0LBuALKaVJNeqUEv6K/7zHRW
-         txXTuYdFuh0HNOgTWCgtOwolgLoa2c45gIAzwxQCB6noZWgx/aUI0l2yBp1qVB0w+SVS
-         Qf4Wv1cbIzK603qr6MBDaqcPm0jy+1uYF6YZvb6aJQXOCy5Yxn13jktOtzpgjz480ih4
-         yYpQ==
-X-Gm-Message-State: AOJu0YxHhHKV6DgGrpAOe58dDL6/rcowjgBrw02T2U9anCvYA6GQhrY9
-	54032wjYTBImr9eEkZDDU++qWdSwvszRHmiGby9DqhhKKeEsfohV
-X-Google-Smtp-Source: AGHT+IE0Zjj0WGupskj2Okll8vbdm334BWVAVy2DZqEBxYtFX62G9R2JNnbCFOE24sPGsmX1BUERYw==
-X-Received: by 2002:a17:902:e80b:b0:1fc:4680:820d with SMTP id d9443c01a7336-20516703755mr1197405ad.9.1724896681409;
-        Wed, 28 Aug 2024 18:58:01 -0700 (PDT)
+        bh=lR7sKMMUzX50eDRlOTVXQEKIMWD6u084ad+zhztHbys=;
+        b=JPQ1wk/ptIiki3r+Ej/h7DUCr4Fz7+GP31juDwiN+rnDn4AyvoDFb3btv9HUv45nR5
+         OcMXH0w2btGSKjvbrOp65C3klI/h/ESYaX0elHgxNfB3Rl/6whG2vipGnDQD59Yp0ALo
+         ftbOoGYfr3Jmzj1E4uILgIQcHywKZ76PkWzEybQMjq3W2K+2S19Y/MUXw9HOrVj14s+Z
+         a02RT0lUYalRo9oE/PN20Gt6bh//IERr2Kf8B0jRv+iynDunzFEBT9dKJj4XYJEnviTo
+         cF/mXv/fE753kM+PTadOOnRdwpBQ/vv8zT2kuUbdZUClrjdb66LoRAj0I3OsMPZ1Wkbn
+         PUmg==
+X-Gm-Message-State: AOJu0YwZna7nDU8wM1bOfV3gnO78kni2fWtbowMK1w6lbgARUEk934fW
+	KbRqHXk/0hjsFrRAdkJRFTHCiKNCXic+FOeK6oASBIh/LF6zP67N
+X-Google-Smtp-Source: AGHT+IHbEJBYetLXkMu6BsHJeY/cc3PXUdT2ZplHhFEvelH0MJTk0MuLCEWNhdMTx+nulH9NbPf9sw==
+X-Received: by 2002:a17:90b:4c4e:b0:2c9:64fb:1c7e with SMTP id 98e67ed59e1d1-2d8561b1952mr1342411a91.14.1724896785862;
+        Wed, 28 Aug 2024 18:59:45 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20515537a2csm1187895ad.176.2024.08.28.18.58.00
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d85b141fc9sm157798a91.30.2024.08.28.18.59.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Aug 2024 18:58:01 -0700 (PDT)
-Message-ID: <f8cbb6a3-1bcc-45a8-8c96-6d7c6f572267@gmail.com>
-Date: Thu, 29 Aug 2024 10:57:59 +0900
+        Wed, 28 Aug 2024 18:59:45 -0700 (PDT)
+Message-ID: <83f8dc7b-7920-4a2f-9103-f5e9f5bf8263@gmail.com>
+Date: Thu, 29 Aug 2024 10:59:44 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -60,8 +60,8 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 2/5] bib/os: Update URLs of papers related to
- Synthesis OS
+Subject: [PATCH -perfbook 3/5] bib/os: Add LWN's KHB article on Synthesis by
+ Valerie (Feb 2008)
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <964bef9a-b1d4-4316-a846-b57e304ace50@gmail.com>
@@ -71,60 +71,31 @@ In-Reply-To: <964bef9a-b1d4-4316-a846-b57e304ace50@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-In commit 2dce7928ddfa ("Bibliography updates (append urls -- part 1)"),
-I picked a URL under http://valerieaurora.org/.  This one was used in
-an LWN article titled "KHB: Synthesis: An Efficient Implementation of
-Fundamental Operating Systems Services" by Valerie dated February 2008.
-Unfortunately, it doesn't work any more.
-
-Instead, point a page at ACM's "Browse Theses".
-
-Add URLs to other papers on Synthesis OS along the way.
-
-Note: Wikipedia page of "Alexia Massalin" at
-https://en.wikipedia.org/wiki/Alexia_Massalin has a link to the
-dissertation (cucs-039-92.ps.gz) archived at the Wayback Machine.
-The used-to-work URL is added in the makeshift "brokenurl" field
-for the moment.
-
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- bib/os.bib | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ bib/os.bib | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/bib/os.bib b/bib/os.bib
-index 75e5a9bb..7f608172 100644
+index 7f608172..301c74ab 100644
 --- a/bib/os.bib
 +++ b/bib/os.bib
-@@ -254,6 +254,8 @@ Multiprocessor Systems",
-  volume="1",
-  number="1",
-  pages="11-32",
-+ url="https://www.usenix.org/legacy/publications/compsystems/1988/win_pu.pdf",
-+ lastchecked="August 25, 2024",
+@@ -1016,6 +1016,15 @@ on Operating Systems Principles",
+ [Viewed November 26, 2008]",
  }
  
- @article{Massalin89a,
-@@ -276,6 +278,8 @@ Systems Principles ({SOSP})",
-  Number="CUCS-005-91",
-  Month="October",
-  Year="1991",
-+ url="https://cs.uwaterloo.ca/~brecht/courses/856-Internet-Server-Performance-2003/readings-new/massalin91lockfree.pdf",
-+ lastchecked="August 25, 2024",
- }
- 
- @phdthesis{HMassalinPhD,
-@@ -285,8 +289,8 @@ System Services",
-  school="Columbia University",
-  address="New York, NY",
-  year="1992",
-- url="http://valerieaurora.org/synthesis/SynthesisOS/index.html",
-- lastchecked="November 13, 2016",
-+ url="https://dl.acm.org/doi/book/10.5555/143219",
-+ brokenurl="http://www.cs.columbia.edu/~library/TR-repository/reports/reports-1992/cucs-039-92.ps.gz",
- }
- 
- @conference{Pu95a,
++@unpublished{ValerieAurora2008Synthesis,
++ Author="Valerie Aurora",
++ Title="{KHB: Synthesis:} An Efficient Implementation of Fundamental Operating Systems Services",
++ month="February",
++ year="2008",
++ day="20",
++ note="\url{https://lwn.net/Articles/270081/}",
++}
++
+ @article{10.1109/IPDPS.2009.5161046,
+  author = {Pradipta De Vijay Mann and Umang Mittaly},
+  title = {Handling OS jitter on multicore multithreaded systems},
 -- 
 2.34.1
 
