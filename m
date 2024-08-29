@@ -1,77 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B064146A63
-	for <perfbook@vger.kernel.org>; Wed, 28 Aug 2024 23:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14C48814
+	for <perfbook@vger.kernel.org>; Thu, 29 Aug 2024 01:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724888887; cv=none; b=bvA3R81KTsYqC4tTMyUN2w1b7H9FIudDhmV0K4q+WXvTNwiIRXiOVLnOI7fa860tO/u0Ql2f7aUGCY/5H+AELKsvRgGeg6PHrUGLHWJlxcuTn2v3Md3bB95bsxXsBtURu0YMKHwoPe1HXnMEFuxnGk4g3Sx0401z1p3vuSMYZRc=
+	t=1724896199; cv=none; b=MOGTZGp/YihIhPF5XawF87UWxFkKn7WNCmkdcf2FgXrVGrZS9bqJlBAG1qyaAbRkGLGI9Chu4wPznd6gOHdJJ9gGkreR55iLz84bEgYcyw4bq8ZroLwoujURMFKziZaq/gX6dPMz4ueq/ISR/ZCjf2oJdhYXHcKuu2VpUxmoxew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724888887; c=relaxed/simple;
-	bh=AcVleqov92w+5+kv1sCvvu4EwvhoWVKoJ8X+x5uYhOU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=emKVPFwvcQ3h2MFD+l8rjWKAWvfQPFNAzT/JbzgQxj0MANdtidVunXR62NI3xElzvgUuBZhPR1SkHIhWGNzJT9lWUHAQT4Om09p6ZC+k8qKiK4xuJCRlnl8Gd6vp73F4iYrERTa7NSFmdU1OOLwVwJwhHZ8pUOyGHPi6gz3msA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hf1v/hPW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724896199; c=relaxed/simple;
+	bh=FHxcBnD4AJFFYvQVp3sj1QitJk8XrllRBNsOhEX1UX8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=mtBVkCpk+/Mj7FP8y6ogRLUAs8RBqoOT/8eWJFFYHuWnw5Pt21LPZhsnuU18W8NVSZr1n8OMruUumdb1w9TRyon2oll93bNw+a31t/lxtFOzgdjR6LsrPMGaSWMwilazrpPY355Ghq1Dbd5Qb+WjmeqlKm2eA6scEIBcCWgL3jE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TpFJftSt; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hf1v/hPW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB726C4CEC0;
-	Wed, 28 Aug 2024 23:48:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724888886;
-	bh=AcVleqov92w+5+kv1sCvvu4EwvhoWVKoJ8X+x5uYhOU=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=hf1v/hPWjXkZCziy19LM28wUK6k0mYLEPBaAdqV45LaCLJkPiQwYh/SXjgUoriWfV
-	 jqQ4lufwNS8VLWPCQ+5dyr8VlsSSk/09uK5z+AgWmbiytXMjIRY8Eus0zf1aZN03DG
-	 4ImtDtvmUo1p95/q+Eug4cywcaO/kpmt7Rd03EJhR7Q1S2GW5oYYDUIB5ztG9w078x
-	 evrsKfW+DIvBw3JxcMtnMwegr1WXS0rCZp9NlNPrILHVFx6gYUsKq2YfVaWi3RAn2P
-	 isUBzmwwlBX3nmpGQyGNwSkkrgvWtKD7bBwMXvFkROiUxnRE8gtlUr0tQ/r4Zxre9E
-	 qjHvVbuGX+Vdg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 4F3C0CE114C; Wed, 28 Aug 2024 16:48:06 -0700 (PDT)
-Date: Wed, 28 Aug 2024 16:48:06 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org, Leonardo Bras <leobras.c@gmail.com>
-Subject: Re: New Figure 3.13 is too tall in -eb size builds
-Message-ID: <ebdcfd61-e3c2-4d70-b917-59de4c71efb9@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <5974cbc2-3436-41bc-84a5-b7f1b22ab4a5@gmail.com>
- <c973c3a1-f321-417b-83e0-b5a4dc521857@paulmck-laptop>
- <59df9d95-9f8d-4eab-afd9-0552ed6f054b@gmail.com>
- <f566b5cf-c7f4-41a5-9cab-e44b8d3eaacf@paulmck-laptop>
- <e74fab26-b30f-4187-9117-4d16c11e94cf@paulmck-laptop>
- <db9b9f7b-cbe2-477d-8b15-c4bcdcac30ff@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TpFJftSt"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5de8647f0d5so87341eaf.3
+        for <perfbook@vger.kernel.org>; Wed, 28 Aug 2024 18:49:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724896197; x=1725500997; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cYdjRqUJVapZB90HEHiS5XQ/TjqODCn9ZTTMtdFcNGY=;
+        b=TpFJftStOeglCxcsEGsENx3zXzQIucQTYXUTaBO0D3mg/8Bq1nzC0n77pzA9NpfQDS
+         hbfNQmD+FeU8JPReNX9vOPcCRm9xK+HFdW1G17YGQDSa7I461GxkeMFa/9FraO5udV8w
+         sBmwke58o797Oz4NqgjuUEzu2nMI/lvKmStZoWksyDQrx2qtEAZO+1d1NdhbOC5RsBMd
+         g98imrfTgu20h8p8ra8A4JfJhodD/3dpyLu4k4YsO2RJCqDorX69NhjvkiEGxenZDzWB
+         9pho8/Fa3/tVts9YTbIe9Khz7SOlB1L/Fbfs+mY/2oQPdj8IS9QokN7MXlUjIhyCZ2hs
+         7p7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724896197; x=1725500997;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=cYdjRqUJVapZB90HEHiS5XQ/TjqODCn9ZTTMtdFcNGY=;
+        b=d3u5YDV5XILQe5WRDFgLxI61ystsmHpVzvqfPtGhrtk7WDR4nA0cu3gssm2tAN68U9
+         qzxlW8kGd91OLFuePlbKtRP3jzF9UMWBbyQ1/tV1/phtThxQBiPZjLD/zY77lc+3Wkn1
+         k+P1+W/xhc/bT7jvFvSlHquakLpmugJo7sczIAG1RI5mXMLnGWnW9Ym0Gzdv9W1FXgpy
+         nYMz+NCchCAbYoHOWUy+njfrHGMqNecYXulihZvLJTXzell5OFi4/qcub6DSzE/uqeU9
+         KHTxjDmZASwVy50HumCrf0UZRc24ODMXFunK1js4D0afO+Ajg7WRvQveMZozGIr6V3zp
+         Sr3w==
+X-Gm-Message-State: AOJu0Yzl+QICvqVnJXvayog8PhCgTiQ/C1ZMj2g0UuAQw/REB4hzI26M
+	C3s0KagsNcZL51HVnS8uC8lVZhObxilD5DpI99v7yvqbTNSlLSk0
+X-Google-Smtp-Source: AGHT+IEZEmXCboxt5XapNnj1vn71rmUGW/mR9zrP+l4X12v50cRc2ZTYi9KGrwKsxAN2nPpb3eYNFA==
+X-Received: by 2002:a05:6358:5292:b0:1ac:66a0:b6ae with SMTP id e5c5f4694b2df-1b603c5db07mr186287055d.15.1724896196593;
+        Wed, 28 Aug 2024 18:49:56 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e575c417sm116058b3a.197.2024.08.28.18.49.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Aug 2024 18:49:56 -0700 (PDT)
+Message-ID: <964bef9a-b1d4-4316-a846-b57e304ace50@gmail.com>
+Date: Thu, 29 Aug 2024 10:49:54 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <db9b9f7b-cbe2-477d-8b15-c4bcdcac30ff@gmail.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 0/5] bib: URL updates
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 29, 2024 at 08:41:10AM +0900, Akira Yokosawa wrote:
-> On Wed, 28 Aug 2024 07:49:39 -0700, Paul E. McKenney wrote:
-> [...]
-> > I added a grey rectangle to connect the two CPUs, which allowed me to
-> > halve the space between each row.  I also narrowed the gap between the
-> > CPUs a bit.  For me, the result is more readable in 2c mode and also
-> > builds eb without complaint.
-> > 
-> > How does it look for you?
-> 
-> Mostly looks good to me.
-> 
-> I see a vertical line on the right side of the grey zone.
-> Having another one on the left would make the figure look more
-> symmetrical, wouldn't it?
+Hi Paul,
 
-That would be because I forgot to remove the construction line that I
-used to line up the right-hand boxes.  This is an old habit from back
-in the days when I used a real drafting board with real pencils and a
-real T-square.  ;-)
+As I mentioned in the off-list message to you, it looks like some
+(or most) of citeseerx URLs have stopped working for a while, probably
+due to configuration errors.
 
-Good catch, thank you, and I will remove it.
+Patch 1/5 replaces such URLs with (hopefully) more robust ones
+or DOIs.
 
-							Thanx, Paul
+Patches 2/5--4/5 take care of URLs related to "Synthesis OS" and
+add a lay summary article of LWN's in bib/os.bib.
+
+Patch 5/5 employs underline-style hyperlink marker in bibliography
+pages for 2c builds.  It avoids visual interference caused by
+the current light-blue-border style.
+
+There remain quite a few URLs under bib/ who need updates.
+I'm going to take care of them.
+
+        Thanks, Akira
+--
+Akira Yokosawa (5):
+  bib: Replace citeseer{x} URLs
+  bib/os: Update URLs of papers related to Synthesis OS
+  bib/os: Add LWN's KHB article on Synthesis by Valerie (Feb 2008)
+  defer: Cite Valerie's KHB article
+  Use underline for url links in 2c builds' bibliography
+
+ bib/RCU.bib      |  2 +-
+ bib/WFS.bib      |  4 +---
+ bib/hw.bib       |  2 +-
+ bib/os.bib       | 28 +++++++++++++++++++++-------
+ bib/syncrefs.bib |  2 +-
+ defer/defer.tex  |  3 ++-
+ perfbook-lt.tex  |  2 +-
+ 7 files changed, 28 insertions(+), 15 deletions(-)
+
+
+base-commit: 971b39e51a1f3b808fe49088b9e3f3ef0c137aca
+-- 
+2.34.1
+
