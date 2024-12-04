@@ -1,97 +1,110 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB351F80CD
-	for <perfbook@vger.kernel.org>; Tue, 12 Nov 2024 00:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D11926AFC
+	for <perfbook@vger.kernel.org>; Wed,  4 Dec 2024 03:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731372487; cv=none; b=JK/y9ZM7c4ynocju3uhXUY86Y2V8OycGKN+POz1jdPjuvHtOS55bVgKdZ8l+sVapeCebc7it3yf0Jtj7AkdZpv4tlZUSVPB21OuL/FpurFK5zAzcCI7XS91+0r4zJTkL37eHdN4r0HHMnbiJRc+eX3WRDWlf4KQY6Jrmas46wSM=
+	t=1733283210; cv=none; b=BLc6+73W/JiDvdZxf5D1ntG5ZHArDpGj8SWuLWFkGs67bLt5QrMdc+ydv4YzcT3oRxT3ZLrcMNMcyptLznxHpIjD5LnasaSfzEucxYORy2j3BJy9t6qHdo3QwZqS7P8Qe2Paa+XHFZ7gutQIh5IJbq/70Xr2jLcZewJoweFv+Es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731372487; c=relaxed/simple;
-	bh=AESKqLYDV57LWzHy1YvxHplrCxQkXaBZmGc9ZgonMD0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gWxvobHTvCKsFKdE6py8wHAAFcjaqY90/oP1kHw27qomjjme4Z1OZOnKCHUY+RGpDnFuNwa7vKoZ+sVhpzJj4rXIkVLkv412vcIx5Qkclsnf3XFzQkmyI3fIUQit+U/ObKnAPVjJPX3wtvaF54jiJmBd/NvX/4VvmFdJQ79ffAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UPGeQHzI; arc=none smtp.client-ip=209.85.208.43
+	s=arc-20240116; t=1733283210; c=relaxed/simple;
+	bh=A8U22Y6Nuhz1+Kq0tpljTUepDbZNrK26sl0QUTXnDoc=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=RlUT/eRTSybTNP3jsC+kw0uu9jZZdC3TTlTWhW5tY8uTRXjxvLXIhKtoTnUiCtV+zf3bbK6Mnn1V7DHdzmMqY0roDsytgoHT6fk96XOqldOhLGg5L8qYKsz8cO3o/dERzTPL4dmYszPBvSi8bJFGtt6xEFM+7BxiQZIgUl5gobo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lj+bFzRe; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UPGeQHzI"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c95a962c2bso7619855a12.2
-        for <perfbook@vger.kernel.org>; Mon, 11 Nov 2024 16:48:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lj+bFzRe"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7fcdbfd8090so2168203a12.2
+        for <perfbook@vger.kernel.org>; Tue, 03 Dec 2024 19:33:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731372484; x=1731977284; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1733283207; x=1733888007; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AESKqLYDV57LWzHy1YvxHplrCxQkXaBZmGc9ZgonMD0=;
-        b=UPGeQHzIqaW8onGY9TBdVd2tzuHWPMTQ4ZdZH0SwWKkDWCTKJnqwzIMxogMFAQHHct
-         7M0T8TraGh8uozx3ONf70Gxo9HdTURNaIbqRiQiPQR02+Gi6dWbLYBRApG+n0/71F1kI
-         D3W44p94RGWUHc1cWzntAJmEOBLQRxxPl2hYnSKjBI0NfKwLK4YpYEl0seu2zIyEMUnZ
-         tSuKjZXmPaHKURJydQCFnxji7akV1mhy87uCsOa7j/j7bJnaVsmX1+Dz6rOqyZqkLvgc
-         NfcZw8fGKm2V635EMpeHztQ8lFEZ1XFpuy6XmQRPqRRjQ2JefXYpSuO6HNAoq0kHrYZl
-         yTxg==
+        bh=I8W8QuKeNlYYV3nZHlCEEl63hsQ6mewGj+G/rZe2TO8=;
+        b=lj+bFzReMmsaS6o3EljCOvSCgSu6zsL+TKgm/gKxMc/wbc4QvhYIx78qCxjwApwQJY
+         0xQS03hlM8iLuHChX6FxpRT3APEWdvtLMcWlDkyBWnLMppFWMkFWzAzdGBlbd2+lzY20
+         KLsjlvd4yNMuwIE0errww252e+WdyT2bmd5RQ2dUo8Pkb7otxpMuMxq4u2FfueGvKFeD
+         IUzdz0q51yqJlzRttxwyjPqyflJcbDGYUi7bydgzV1WSG2TYMyTerb6dVSKUJgu5M2fv
+         Us5CVHH4bay1KVAGliYdSCmVoUxJFD7XS+OMQGFCiGciyz55Tuwa4HqaN4AsBr5YWv/i
+         YUjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731372484; x=1731977284;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AESKqLYDV57LWzHy1YvxHplrCxQkXaBZmGc9ZgonMD0=;
-        b=hpi26Yli+vvgo73SmWBq05d1rN/gfpFgqguKxJ4BdKPn8iFl2MGG5HVLnUk2xLmSbD
-         GiUKSm2c++ZXF16FtXeffjRwmz5+ySy3RAQrG121qpAWQtvyLKzzL5kaC241UFbDgWSO
-         cIOwTh/ua0k837+NF3EO2VtvQuHUHCQzsjyAoNYXdmAsIfTe+IOgUyYYO6AftAPO7fA9
-         hbda+3YUiJSFR5yfI9B8FQ1UEfWTh3osb/VWXsXIUOfu4vMtUn+0D5eo/5kOOCiTOEBi
-         +SQeLqaQshXMRv1+UYcnsMco7jjR3c9trYrbJBSuAGajt95m9IDgSFcrMTX07bf01luS
-         fMvA==
-X-Forwarded-Encrypted: i=1; AJvYcCVZMdmVPWFGS95hOCkrhknCodPd358yKACGq4Rvn02aN6CParC2wSMSBAxYEdlZVB9yO10xEvFsXg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGBog8bo+RI1uTMEJkBeb5HiFnUn0gm4CRYL1PoSUXU496D7v2
-	tP6870Mqbs/mHd0bInte8tMGV65ILf22D6mgf4H9Iu8h1imD/2ytMfouUvn8UMH5FJmj6D6/kvu
-	bUac4/D0Sll4DoyS0B+AN1CKs/Enfxw==
-X-Google-Smtp-Source: AGHT+IE2ykBwOR9Ci5gpX3q7CmRVPax+tOclVufmaDjNxAybe5k5LkE+Eo/JUWdPeZ18ogG9uU0YuFG5/E3HqZqXnus=
-X-Received: by 2002:a05:6402:d05:b0:5cb:b65d:2b6 with SMTP id
- 4fb4d7f45d1cf-5cf0a45e6abmr10581902a12.32.1731372484046; Mon, 11 Nov 2024
- 16:48:04 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733283207; x=1733888007;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=I8W8QuKeNlYYV3nZHlCEEl63hsQ6mewGj+G/rZe2TO8=;
+        b=I1nmfdtFhT3RGxDgLmhsS0XWRkKw9xOanv8ADWqfcp2mfL+DRyh1rYwF7x1dKut7eX
+         Mg9ikbr82wqUd+rejR2IHBNY5GluII0irG04O8wAdGVX/q0aDbesQYEt8nNFI4xQdY3Y
+         t6daFChl6AtXCUBz23Ib18fPAQdULik1tGN2jzWWltQBGIoy9OyhYbuDbtpX2nusvdKc
+         ynbX5Ij1nEjOVJptdhSYhDDKm358XZdDvak1m3bMNxhJWVy62opfUnmDa3gbs1MGnAtY
+         iHMn8qo2VsEfjCPIk68CxgG0np007wtT2vggZEIklcVtQEmhAmazWm4rgkRF1RK5PdB9
+         uYdA==
+X-Gm-Message-State: AOJu0Yw1x2TBLt7vXoFLU4rFClkFMqtS9+0mT/N2apc1zojhnfUI5KSM
+	qOpw67q2Jj+kzNFz4GB+LP7IeuFZoOutDK6w/ONl3iNeRgU4D73iqm1bDA==
+X-Gm-Gg: ASbGncsGeDN19suF4IM9jOPhYTTScdh8Xxlfe6gUsZzNB5fAExBCLEFk/IbdjKVbneF
+	Pw6QjQWqRDkWhbog298TmxFnHDNdWhso+/X81bZXh/jnbS4w9UfEJp3/hKOta6W3xzLzJUezDGu
+	ahowlGA+4Is0I/quq2YB34wtGRsW88ZcmByr4ganoXSErxUU0zRCN70p8Uq8hESeMdvHFIwwtk0
+	DBEpQXYDWdSoycZ3OeyRi2LqFzqclvxPyUb55VicTThBQC4JgW1g/1AB7Iyd7e//nCTIqG718VZ
+	2T0pXqUY3BOZWNcx
+X-Google-Smtp-Source: AGHT+IF8nw6AGMSOcWxOAxWEp37u+z0aAWN7uCjd8hWcDrV6GCdDQOClxVTOvURlArDcjvGq5MGOug==
+X-Received: by 2002:a05:6a20:7f99:b0:1db:e096:8497 with SMTP id adf61e73a8af0-1e165334d1fmr7217075637.0.1733283206655;
+        Tue, 03 Dec 2024 19:33:26 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254176129fsm11257841b3a.4.2024.12.03.19.33.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Dec 2024 19:33:26 -0800 (PST)
+Message-ID: <3d5a7d0b-7a3d-4629-bfa9-724b820869bd@gmail.com>
+Date: Wed, 4 Dec 2024 12:33:11 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CA+MhoaPy0Rf3V4A4B8DNneZmNdF2heJn4YaoTXeDAD8880veKg@mail.gmail.com>
- <317b9b3f-9dc9-4a5f-9d47-8d5b9d32b55e@gmail.com> <CA+MhoaM4O-WFsc7pDBHiPoin0dqt0ZDLrZRq-SQ4z=i_T_5r+g@mail.gmail.com>
- <7C3222F1-80F2-4EA5-AB70-F9922DBE4210@gmail.com> <CAJbg=FVpjoBHHHTaYewTn-k-Dfa9LqmyZ2vPT7+b2Ep6Xi0xbg@mail.gmail.com>
-In-Reply-To: <CAJbg=FVpjoBHHHTaYewTn-k-Dfa9LqmyZ2vPT7+b2Ep6Xi0xbg@mail.gmail.com>
-From: Nan Xiao <xiaonan830818@gmail.com>
-Date: Tue, 12 Nov 2024 08:47:52 +0800
-Message-ID: <CA+MhoaMx2VjxYOSCNmxmhHQ80Fmes-MbnVTT6tGM=Zaxokpr=g@mail.gmail.com>
-Subject: Re: A question about "4.3.4.2 A Volatile Solution" of perfbook
-To: Elad Lahav <e2lahav@gmail.com>
-Cc: Alan Huang <mmpgouride@gmail.com>, Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] CodeSamples/formal: Update rcu-test.dat for v6.12
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Elad,
+As the total line count has exceeded 35000, tweak yrange of the plot
+as well.
 
-Thanks very much for your time and clarification!
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ CodeSamples/formal/data/plot.sh      | 2 +-
+ CodeSamples/formal/data/rcu-test.dat | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-Best Regards
-Nan Xiao
+diff --git a/CodeSamples/formal/data/plot.sh b/CodeSamples/formal/data/plot.sh
+index bd325d58..93b13494 100644
+--- a/CodeSamples/formal/data/plot.sh
++++ b/CodeSamples/formal/data/plot.sh
+@@ -17,7 +17,7 @@ set ytics out
+ set y2tics 1 10
+ set y2tics out
+ set ytics nomirror
+-set yrange [0:35000]
++set yrange [0:40000]
+ set y2range [0:50]
+ set style data histogram
+ set style histogram rowstacked
+diff --git a/CodeSamples/formal/data/rcu-test.dat b/CodeSamples/formal/data/rcu-test.dat
+index e56d1d7c..e984fa8a 100644
+--- a/CodeSamples/formal/data/rcu-test.dat
++++ b/CodeSamples/formal/data/rcu-test.dat
+@@ -98,4 +98,5 @@ v6.4  21444 11748 33192 35.4
+ v6.8  22018 12071 34089 35.4
+ ""    22108 12076 34184 35.3
+ ""    22579 12085 34664 34.9
+-v6.11 22676 12095 34771 34.8
++""    22676 12095 34771 34.8
++v6.12 22834 12313 35147 35.0
+-- 
+2.34.1
 
-On Mon, Nov 11, 2024 at 8:05=E2=80=AFPM Elad Lahav <e2lahav@gmail.com> wrot=
-e:
->
-> > Machine-sized means smaller than or equal to sizeof(long).
-> >
-> > Take a look at the implementation of WRITE_ONCE or READ_ONCE of linux.
->
-> That is not necessarily true. What sizes and alignments are guaranteed
-> to be atomic for access (i.e., writing a value to a memory location
-> results in everyone seeing either the old value or the new value,
-> never a mix) is defined by the hardware architecture, and need not
-> align with the C definition of long. You can use the C11
-> ATOMIC_*_LOCK_FREE() to determine if a type is atomic.
->
-> As Akira points out, the term "atomic" is overloaded, and can cause
-> much confusion. A type being atomic for read or write access does not
-> imply atomic read-modify-write.
->
-> --Elad
