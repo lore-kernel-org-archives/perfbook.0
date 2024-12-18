@@ -1,128 +1,103 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB2A15575F
-	for <perfbook@vger.kernel.org>; Wed, 18 Dec 2024 06:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7704D156225
+	for <perfbook@vger.kernel.org>; Wed, 18 Dec 2024 13:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734502905; cv=none; b=udqOH4N2gDl94XO5BjfP2j6vHl0pifC8pFPN+kqAHg9WgCdLw1rwOotKwH8yBaQpdP8sY3w3LEZYH7u5TyxC8aGQFmJeE3HDltkQYy0PRMarUjljQ/YYxoTHsIFc5/MqER90LZI6XLjeGJzu8yr2KChrOWGv/Nb3fLVJaqn6Iwk=
+	t=1734528089; cv=none; b=UDaeWDxvevO2tjmPGr0w4dAzzLTRaM9uqhFcLuRYc6ytZhsfmY7i2ibWLqX4YVscydMdrIbB1J6i2BrH7QJwQhBb5hW3NrC6r7fhAZibuAhcVGIfD7sCHavrkHNMFOuvuZ4g2IoWQSQBSxMEQ5zRsY45dyuWGHzbMu8NqpyR2nM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734502905; c=relaxed/simple;
-	bh=iMSGo9TfzSp1PKVBeuDtSzsPHmgQu8T2rwl/VwoFv44=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RidbNlReGGIPqBQF+cReHVm6/SX6FZCWGANb2JJ42B/DKWMqYTnyyFxSH7VgurWNETEcwPotuDE5JMMehGXe2DLCJfm/ChQ/rGONEFBRrBpWWZ5hTwGGEqSZ8UbVSO6DSJDYJTVm26bNWVMQvszN3IVqZrEU05UabhEcqZpGQVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=chPvnnJ2; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1734528089; c=relaxed/simple;
+	bh=PzVM2/9Q+vYtzG0J8dDFXULbOK1ceTu/MWjdlh+gbo0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j6FqVzFCZlokkiRU7SLMYOIYubdKMl+M+IK+dboi6XKt1lQm4lVyHx1/+KK1qp51pi30Ou7uWDXgvAKBDmTgSs+qqOmjSTjuVsDkPi2L8d2HsL4e4YPpRAHoJxhc83lZ+tkCDFaP6HrFh/+sDia/CrYoBA1N/A/7c4gmrfFg6IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gBlI9oWi; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="chPvnnJ2"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2164b1f05caso56422485ad.3
-        for <perfbook@vger.kernel.org>; Tue, 17 Dec 2024 22:21:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gBlI9oWi"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6eed30536acso5052957b3.1
+        for <perfbook@vger.kernel.org>; Wed, 18 Dec 2024 05:21:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734502903; x=1735107703; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tFFEiuM64HSsaR6CeimV3jjW4bRpc9nOTiVE1XIHdEQ=;
-        b=chPvnnJ2dPpIpYmFYTqC8BkbJ15Zy4n6xx5AOCBEJLFQj1WlLKIa8iWqNYLwb2/F8h
-         sUVkT9ZrxGaO+8FPHFNcXFK1YqBS0HtiNTqPFeMS/TresD3BmzeuRHPym7SxEru5EBTJ
-         anm9R6U7Nuk+h1V9OpwItAy25CTorfy89jTTx7wQZ3CFxDIBOnEycujCGD7iDsmvue0X
-         Tsb9+d9Vzcg4t04U4+Qf4ct77l6p+kQlx2tUu+o5sECFySqnHncN8Fkhayjqhi8YygWW
-         POOqmqgOJkNr7ZVLk0aGp44sekxAp6M6c4QDfX2/C38bigK7RBIo7WHevnuI9wwBZurw
-         Brmg==
+        d=gmail.com; s=20230601; t=1734528086; x=1735132886; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PzVM2/9Q+vYtzG0J8dDFXULbOK1ceTu/MWjdlh+gbo0=;
+        b=gBlI9oWibZoa6NqI8/kOlym3xmYCMh4m2txM7poeoqgfm3lMLMUfNQNpgXSaKSwAoO
+         UhG373E10Tju7eKxk1PKk8LWVCrkSOxUP1eFN/RVDPhpce15CXQF6H7mT3O8cUyd/Z8v
+         5F0TvsOn8o87P/kv8oqF8ZrGmOSHhZFbLqx4SW8CDw6cfRNTKZMiJI1cgOs1jb8Fd+gX
+         94+F9IuHRgFuKrSj8TSEi1PtYhXyq6XhbdpogmUiYZhIo/w3Ljr4ZB8/kGYo4OPb/HH4
+         iZ4LHPwQSjfmz2HhZq00iE2Ab5lCY+qtjj/wZ2tLsSjnnJk9t2s1zGIy3aKj5+2z/yw1
+         e6KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734502903; x=1735107703;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tFFEiuM64HSsaR6CeimV3jjW4bRpc9nOTiVE1XIHdEQ=;
-        b=GSP+4wOkIzHxPSHrtz9qyIYWWNyQxMUSUQ0Xbd8DwI2PITvC9+fNh0q7gvv4OvKfPK
-         isKhZrOxd+SlKnwIKV5URWzVxp3H/yQUwclrQEnPqZTken1+Pz80OOMJvRRjiwG0cpb8
-         2mJeKuWOQOqsa0BtkBUOCB7Dddc19ofZMEGT363GzMO16HvRQvQPcEJbB4Ol2t1LtMWQ
-         SsyGZnVoXz0uZ3PMcZwymitWLsYMfccMihLFrCiF8tS8LC56ODVZnnnyKE9T9yAi/QuP
-         jK39w8KcvgxiqSeZdcJikIYmgLg1HYOpGjnTj4h6hx6wyP1e4pvjjtYFUAmAuFM+6GGP
-         51CA==
-X-Gm-Message-State: AOJu0YzSgSpMD0rM8vl7L9ucuXw6G4HkAse5iGJW5blBNQwI5P43wMxv
-	1ZbQJhsRoF6wbre02Tg4Gp9pD1YOp2F5QWOjAD6UV1j84d8T8/4s
-X-Gm-Gg: ASbGncvP2oCHzAsNl7uQvqH7gwdytq7pcw3m2HMMiAW/1FK7Wnz77CywmWKc0lSNGSM
-	ob8IjAcJigOLnGEB/modB3NDD1+OxM0cJ+z1/1fGuAE6AOMkNPCR4TRIFBMe5GQ4vtGvXimJUZx
-	3LQqJDaoS2P2oeEq5g1TTDW1A5kREj5JCRW8/CewNpmgYbOelAanMPCtDVKqmlUQrwTKUgaTfXf
-	+HYV0rvUF1vy6zG4ROkGuNqtIhYCkc5FNp5rqWdksP4SthHRwcmErdfCFlZjD2jcQD5Ork/e1sN
-	WgV80TnVpFSaHA0ayJAjM0k=
-X-Google-Smtp-Source: AGHT+IFtshnJvzwDIYhbi67Ao8/gCGwqVKNnyIQXYlL4VHiPmC+TKxBBrWoO4yTzxTMg6lzqW4O3/w==
-X-Received: by 2002:a17:902:eccd:b0:215:352c:af73 with SMTP id d9443c01a7336-218d70d9671mr23924845ad.18.1734502903036;
-        Tue, 17 Dec 2024 22:21:43 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1db755dsm69002125ad.42.2024.12.17.22.21.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2024 22:21:42 -0800 (PST)
-Message-ID: <9f6a9df6-a5b2-4001-81d1-30e7001285dd@gmail.com>
-Date: Wed, 18 Dec 2024 15:21:42 +0900
+        d=1e100.net; s=20230601; t=1734528086; x=1735132886;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PzVM2/9Q+vYtzG0J8dDFXULbOK1ceTu/MWjdlh+gbo0=;
+        b=gOQLirsAddP7c1doBE7BGtEWwWzv+y1koFG6VfkZlQLF43q7n6IE0mVPZhNDymjcMm
+         uox9msi2KPwTyG+hhswIe8dR71StVkg3foI8EjhCEdp2u94GZ1Ewlxy0huWByJpMxu1O
+         L/xKXd2WsKkRJDIdcHkSytpu5mBjgOtNdI5HYbQl+G1iReTzcWvW1P3szQ2s9RuEJpKY
+         xJDG91I9lWUv05GrZXDXFGSo4F8BugeaK29VJb/RlDmh5VfnzkqqiIUWtDLQThjdG9YV
+         xYdA6p2TFLQFCQpYovJfWTli9Rknp7t4xbij9YYRtm8j84RUc7lWYsQ0I7D8vlYNILfv
+         28cw==
+X-Forwarded-Encrypted: i=1; AJvYcCWLEwEdkIw1GNSiTv34IJrZxGREawTf1EtsKxXFia34ZS+HsyO+uitrWOCFJ0A7mLHEEW9AflmnMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpC2fEOF5MhX0pP4hLdIPhSYK5fWgkigAydwteOb27by7xo+XI
+	S/7YoPNK5A/ULGswJTxiuyOot5UPJxpa6aXZH9e+/CsA/PNqeF12JUYo1gT+WGlT4RaEteAlX6g
+	6sQxwYNGJ4TDtPTl+8OfWdtpssLK2Lw==
+X-Gm-Gg: ASbGncsJDNdWeoJFFS2huz1vDsADLtfA4aTt33HZU1/LktvgUAG+bhp1mJ7xCbNxiZy
+	NJ4NM6g8vmVmlbld+PbGYjUsg2Irut0aXwG9yYg==
+X-Google-Smtp-Source: AGHT+IHS+2B7D5IoAtno29VshBgpGqzJukpYsveW8ymm6w6bwfkI2vdLIhVpTiTVEtocijKZGaTWzQ9R9C1D/m5ry0Q=
+X-Received: by 2002:a05:690c:6c85:b0:6ef:4d12:12f1 with SMTP id
+ 00721157ae682-6f3d2679742mr8564857b3.5.1734528086279; Wed, 18 Dec 2024
+ 05:21:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <3a7519aaad6329084fb4f8e6acfebc8f05924bc4.1734474057.git.dxu@dxuuu.xyz>
+ <114890d2-e51c-4bb7-943d-9276c6e3de93@gmail.com> <bb8ad6dd-7a9e-4288-9b11-c173d318a87a@app.fastmail.com>
+In-Reply-To: <bb8ad6dd-7a9e-4288-9b11-c173d318a87a@app.fastmail.com>
+From: Elad Lahav <e2lahav@gmail.com>
+Date: Wed, 18 Dec 2024 08:21:14 -0500
+Message-ID: <CAJbg=FVZoWTk5VanWn6YG5-8y69ktDnzq91APMmnVEuHJi5v6w@mail.gmail.com>
 Subject: Re: [PATCH] seqlock: Use WRITE_ONCE() on sequence update
 To: Daniel Xu <dxu@dxuuu.xyz>
-Cc: perfbook@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
- Akira Yokosawa <akiyks@gmail.com>
-References: <3a7519aaad6329084fb4f8e6acfebc8f05924bc4.1734474057.git.dxu@dxuuu.xyz>
- <114890d2-e51c-4bb7-943d-9276c6e3de93@gmail.com>
- <bb8ad6dd-7a9e-4288-9b11-c173d318a87a@app.fastmail.com>
- <9d088173-a038-483c-a4ba-ef56f7162b62@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <9d088173-a038-483c-a4ba-ef56f7162b62@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Cc: Akira Yokosawa <akiyks@gmail.com>, perfbook@vger.kernel.org, 
+	"Paul E. McKenney" <paulmck@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Akira Yokosawa wrote:
-> Daniel Xu wrote:
->> Hi Akira,
->>
->> Thanks for taking a look!
->>
->> On Tue, Dec 17, 2024, at 5:53 PM, Akira Yokosawa wrote:
->>> Hello,
->>>
->>> Daniel Xu wrote:
->>>> WRITE_ONCE() is needed here to prevent store tears and other unwanted
->>>> compiler optimizations.
->>>
->>> That might be true if there were chances of these two accesses to
->>> race with each other.
->>>
->>> I don't see any possibility of such races.
->>>
->>> Can you elaborate?
->>
->> My understanding is that read_seqbegin() and read_seqretry()
->> can execute at any time. That means the read side access of
->> the sequence number can occur doing an increment.
->>
->> To prevent the reader from reading a partially written value,
->> we need the WRITE_ONCE() to ensure the relaxed atomic
->> write.
-> 
-> OK, now I see the race there.
-> 
-> But see below.
-> 
-[...]
->  
-> Those two READ_ONCE()s don't have any concurrent writes.
-> So there seems to be no need of them, IIUC.
-> 
+On Tue, Dec 17, 2024 at 9:05=E2=80=AFPM Daniel Xu <dxu@dxuuu.xyz> wrote:
+> My understanding is that read_seqbegin() and read_seqretry()
+> can execute at any time. That means the read side access of
+> the sequence number can occur doing an increment.
+>
+> To prevent the reader from reading a partially written value,
+> we need the WRITE_ONCE() to ensure the relaxed atomic
+> write.
 
-Furthermore, in sequence locking, readers will retry if they see
-an inconsistent sequence count due to store tearing, so WRITE_ONCE()
-is not necessary, either.
+Hi Daniel,
 
-READ_ONCE()s in read_seqbegin() and read_seqretry() are there for
-preventing read accesses in retry loops from being optimized out.
+This seems very odd to me. Assuming that the lock field is of an
+atomic type, no reader will ever see a partial write.
+By "atomic" I don't mean subject to atomic read-modify-write
+operations, but simply that the hardware always completes a write to
+the value before it is made visible to any observers. This should be
+true for all aligned integral types in all modern architectures.
 
-        Thanks, Akira
+Also, I don't believe WRITE_ONCE() imposes any atomicity where none
+exists. I'm not a Linux kernel developer, but from what I can tell all
+it does is wrap a pointer with volatile, to ensure that the compiler
+does not optimize-away the write. In this case I don't see how the
+compiler can ignore seq->lock++ between a spin lock and a barrier.
 
+--Elad
+
+>
+> Thanks,
+> Daniel
+>
