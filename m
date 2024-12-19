@@ -1,87 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EF81FC7DD
-	for <perfbook@vger.kernel.org>; Wed, 18 Dec 2024 20:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E0E208A7
+	for <perfbook@vger.kernel.org>; Thu, 19 Dec 2024 02:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734552680; cv=none; b=lcRHryoACRDGog9KN0FbJ13jMWhvFL+5KMXAYSb99UIcuySBrMRNnCHmeplO8ZLprDSX6UKAdCwV43gp/f44KKW1zSDtUt8RE9oli43QP3Pker0E1LlaaJpWa0SZAdfgM0Fy4p5xN1pW7dAesQ7CLq7+z6gCoW5GQ/ZToFfpkpk=
+	t=1734576995; cv=none; b=qS8QkMuVeUg2JdFm5UEZT5wuZ2DoqvqQvIBqoKZaaRWf8xAjdtGNvbQ1Mkh+fOXI2iPUbNbWGTMAJltYHSO9xczDAUqiRZ2emagEV9AUj160tcfLvs6J+od4W3fc4O5X0BYZqHQwVLnlu1sDtV+TPJQbUlOa28lM6kjL3bTsjU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734552680; c=relaxed/simple;
-	bh=yAyLNqRy3G8gQhdQqpFLFS3kEPSfRGy3gPuRtvHbpns=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JapI+W2akAeVeHNG3eHjieM7wL4ub1croDz6dLOzpGhs+ZMa8PJC4x1mrPeuG9hVU7DSjyxJUn0MqkHIjtNYQ37TIOjZAkO6Eb8NdgVMIdNBKm9B/a24FnXpbGmTgqZF/NrJNqN4v0z+rPo7RQy5fShf5MyggMgKHaisb/hFscg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B+yBgZza; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734576995; c=relaxed/simple;
+	bh=TB05CAILoFDHkOoTZpWHOGP0YJUbWmHXEtV8RCyYtJ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZgjKQlrkaDVZsD2Ki819KLy9QbrwXCUrfvCpmeFCBXaZI2Sp2StJKaX7jbzisqsGdEt3wfmehi6BKiOtnSWQVuAKDSOU+QGgb+DfGkj4nyZz6a+mPkxwdX1pYuSifoNwDAAV1P6yN+pM3AueBE0+QCS5pZI0enM3zlcjZQgIlw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iYiv7UyX; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B+yBgZza"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1020C4CECD;
-	Wed, 18 Dec 2024 20:11:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734552679;
-	bh=yAyLNqRy3G8gQhdQqpFLFS3kEPSfRGy3gPuRtvHbpns=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=B+yBgZza8BwqLTOybxOFX4/ZMCaO8ZhTtr+CuGrs3YFCPTDhiZBmSkxe3QuhSPeVs
-	 9WZS3DuTJ4lAq3IX+22Q2QelrT3uDHeEer+Y6LRhbRD5Wg9lvim5zhwzKKxKRpklwO
-	 mg8yNjhuynEhBCjhcoaYZyR1i1diLJIcj2M7KhuQw9geKLjauoxB2WMuyLzFlcXyP3
-	 SzsCfIed37bJY2Y/f29Y7kctFqf3v7ff69F1sffpgiQMclp3InRhWVTLRYdXcR7uTX
-	 pw8BzQMhiN0RNPV9YQXz518soe/TxqCXo/1hdKy/OiCC0B7A829gYsB3QZ0EC2RNh3
-	 OubjOGjcKT9xw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 70321CE0B9F; Wed, 18 Dec 2024 12:11:19 -0800 (PST)
-Date: Wed, 18 Dec 2024 12:11:19 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Daniel Xu <dxu@dxuuu.xyz>
-Cc: perfbook@vger.kernel.org
-Subject: Re: [PATCH] seqlock: Use WRITE_ONCE() on sequence update
-Message-ID: <e16f8adb-7cc2-4172-8359-24633bea49e0@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <3a7519aaad6329084fb4f8e6acfebc8f05924bc4.1734474057.git.dxu@dxuuu.xyz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iYiv7UyX"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-216395e151bso2226415ad.0
+        for <perfbook@vger.kernel.org>; Wed, 18 Dec 2024 18:56:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734576993; x=1735181793; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g5xA5TarSMIfZmWiNs3D12PwVcdIvnLz0txDpBM44AY=;
+        b=iYiv7UyXZ+gyWRQnm3hmPUp7s/5fRorStLRFC/QvK6YXmYNlfZOtJA6mGBWSjiklsm
+         FXgc77+Uu3myLLYlM905a4P9sGpofGc8Q5R0a2Bt8mPcfYGBeHya2xp6AGjXMj9QbsqT
+         0C5bkO07fBHpvVHqQolV5GapSH3qh6312Rka6jSibiDmH69AFYr7b9K8z0oEV5pknW9R
+         vtnBH/uzd4faB6ty6vKsbSyOwMiYxlwZ1d9h+0Xme1dfavFgYh1Y9nw3OZZo0+XMe5BB
+         /cJF9uGpOGsp8NtnBlU6ppYGQSy7G7/uxu2LvpA2R3aTM4O0CtFxotWPTMFHhnu7zHIQ
+         qVgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734576993; x=1735181793;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g5xA5TarSMIfZmWiNs3D12PwVcdIvnLz0txDpBM44AY=;
+        b=LKKk/MSNTkcwsXjIyX26n96snzk6VRjVEe6/gnAjpfcQY/yDnwzQniIbC6ear0Y2Dx
+         BWL7RMi5Z7+voGDazE4oolfbFvURBXv/nptXNCw0TonUptnihVg37zAy4FpIUlel641H
+         NURqtf8lDJ0by2bDWoi/fnz9/E96gtga071io+WEqE18Ya6W+LpkK3bOrJdL/WGqf4rC
+         db2HDz159mmCFlsercuhPuzd62dq91N3F76zUjnDAbsOxYU/8rCbJaVtkD0tyacUBjE9
+         Cc13hJbND9nUaMFRAU7Aw7caqQRF4DmFa9//P3vhS2rEm5TKIcXuHNhSS/v39MDkrHI6
+         Bgug==
+X-Forwarded-Encrypted: i=1; AJvYcCUAPvVpgJUS/2Y68dkej3Jgb1kUV4I4Nkiy2aVc3COImTuVnkoUAwALIYnPe6tkTh+mAM5h6aAeCA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXl+pqF1ut65O9ZTM/k8naRJHvM+nPFYK0bo/GGYEOvvAZ8Nt6
+	erF1gb9KZoPmzlMi6tbcGmKRX5SDar0Iu+fSfaTjQ2qijALQT4z0
+X-Gm-Gg: ASbGncu9Jn4dKLM3QX8grXk90f0bO+3VjYNhSpI3mrWTGR3DAtFbuf/ahUhQTRlX5Px
+	+4fpmOrN0rkejoXAzyXWq60WnRd3FU/hXziMGSw3PhBjR9epBz+zKyaYWvn25pQ6CVltXSAR5ri
+	Z09s+PnGMEfGoUQONUqIu5XpIAyErrkSUXVZH2y1fml3w9IGVBidgY2rt5O2OCJpJqTnW1BK8Dl
+	ktjZmCeJkqxdX5muVrw0fnaKW9+/ILKgkljOG6GJlWScUtn2DejreW7tALNGvD5S8IbvuRgc6T5
+	y+zGNx/PGTbj9hzQpaTbASQ=
+X-Google-Smtp-Source: AGHT+IE0+WEH+HWCVRiwASs3Gk2BXc14QX74UohIQI3Ced70Uq03y3nw82aTT4sw8euLBk/uVfRsaQ==
+X-Received: by 2002:a17:902:c94e:b0:215:5d8c:7e46 with SMTP id d9443c01a7336-219da7fbe14mr25766135ad.27.1734576993218;
+        Wed, 18 Dec 2024 18:56:33 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dca0256dsm2366695ad.258.2024.12.18.18.56.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Dec 2024 18:56:32 -0800 (PST)
+Message-ID: <da91f21a-213c-4647-b8e7-e4735dba3081@gmail.com>
+Date: Thu, 19 Dec 2024 11:56:32 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3a7519aaad6329084fb4f8e6acfebc8f05924bc4.1734474057.git.dxu@dxuuu.xyz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] seqlock: Use WRITE_ONCE() on sequence update
+To: paulmck@kernel.org
+Cc: Daniel Xu <dxu@dxuuu.xyz>, perfbook@vger.kernel.org,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <3a7519aaad6329084fb4f8e6acfebc8f05924bc4.1734474057.git.dxu@dxuuu.xyz>
+ <114890d2-e51c-4bb7-943d-9276c6e3de93@gmail.com>
+ <bb8ad6dd-7a9e-4288-9b11-c173d318a87a@app.fastmail.com>
+ <9d088173-a038-483c-a4ba-ef56f7162b62@gmail.com>
+ <9f6a9df6-a5b2-4001-81d1-30e7001285dd@gmail.com>
+ <17b06c2e-f97d-444a-9db6-7094677d9a38@paulmck-laptop>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <17b06c2e-f97d-444a-9db6-7094677d9a38@paulmck-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Dec 17, 2024 at 02:22:29PM -0800, Daniel Xu wrote:
-> WRITE_ONCE() is needed here to prevent store tears and other unwanted
-> compiler optimizations.
+Paul E. McKenney wrote:
+> On Wed, Dec 18, 2024 at 03:21:42PM +0900, Akira Yokosawa wrote:
+>> Akira Yokosawa wrote:
+>>> Daniel Xu wrote:
+>>>> Hi Akira,
+>>>>
+>>>> Thanks for taking a look!
+>>>>
+>>>> On Tue, Dec 17, 2024, at 5:53 PM, Akira Yokosawa wrote:
+>>>>> Hello,
+>>>>>
+>>>>> Daniel Xu wrote:
+>>>>>> WRITE_ONCE() is needed here to prevent store tears and other unwanted
+>>>>>> compiler optimizations.
+>>>>>
+>>>>> That might be true if there were chances of these two accesses to
+>>>>> race with each other.
+>>>>>
+>>>>> I don't see any possibility of such races.
+>>>>>
+>>>>> Can you elaborate?
+>>>>
+>>>> My understanding is that read_seqbegin() and read_seqretry()
+>>>> can execute at any time. That means the read side access of
+>>>> the sequence number can occur doing an increment.
+>>>>
+>>>> To prevent the reader from reading a partially written value,
+>>>> we need the WRITE_ONCE() to ensure the relaxed atomic
+>>>> write.
+>>>
+>>> OK, now I see the race there.
+>>>
+>>> But see below.
+>>>
+>> [...]
+>>>  
+>>> Those two READ_ONCE()s don't have any concurrent writes.
+>>> So there seems to be no need of them, IIUC.
+>>
+>> Furthermore, in sequence locking, readers will retry if they see
+>> an inconsistent sequence count due to store tearing, so WRITE_ONCE()
+>> is not necessary, either.
 > 
-> Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
-
-I am pulling this in despite the misgivings on this thread.  If the kernel
-gets an INC_ONCE(), maybe perfbook should too.  But in the meantime...
-
-							Thanx, Paul
-
-> ---
->  CodeSamples/defer/seqlock.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> True, but this is needlessly increasing the state space.  Plus there
+> are other potential optimizations.  These points were discussed for the
+> Linux-kernel counterpart to this patch here:
 > 
-> diff --git a/CodeSamples/defer/seqlock.h b/CodeSamples/defer/seqlock.h
-> index ec00177b..842d10a6 100644
-> --- a/CodeSamples/defer/seqlock.h
-> +++ b/CodeSamples/defer/seqlock.h
-> @@ -60,14 +60,14 @@ static inline int read_seqretry(seqlock_t *slp,		//\lnlbl{read_seqretry:b}
->  static inline void write_seqlock(seqlock_t *slp)	//\lnlbl{write_seqlock:b}
->  {
->  	spin_lock(&slp->lock);
-> -	++slp->seq;
-> +	WRITE_ONCE(slp->seq, READ_ONCE(slp->seq) + 1);
->  	smp_mb();
->  }							//\lnlbl{write_seqlock:e}
->  
->  static inline void write_sequnlock(seqlock_t *slp)	//\lnlbl{write_sequnlock:b}
->  {
->  	smp_mb();					//\lnlbl{write_sequnlock:mb}
-> -	++slp->seq;					//\lnlbl{write_sequnlock:inc}
-> +	WRITE_ONCE(slp->seq, READ_ONCE(slp->seq) + 1);  //\lnlbl{write_sequnlock:inc}
->  	spin_unlock(&slp->lock);
->  }							//\lnlbl{write_sequnlock:e}
->  //\end{snippet}
-> -- 
-> 2.47.0
-> 
+> https://lore.kernel.org/all/0eaea03ecc9df536649763cfecda356fc38b6938.1734477414.git.dxu@dxuuu.xyz/
+
+Thank you for the link.
+
+Hopefully, INC_ONCE() can land in the near future.
+
+        Thanks, Akira
+
