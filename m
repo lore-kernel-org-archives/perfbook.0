@@ -1,63 +1,63 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A39184F
-	for <perfbook@vger.kernel.org>; Sun,  5 Jan 2025 11:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCEA414A617
+	for <perfbook@vger.kernel.org>; Sun,  5 Jan 2025 11:15:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736075629; cv=none; b=bnhphlxceWi7IjwKpxZCOIkvF5aJJbZtMNGhzOQ39JjQRFSBvEGP66QJRFAKv1j0FN3lZeK7huAkoVtv1ECtQQBpJBm4AsOaQ2tBWXIiE/S/Wtr8VD2j9BKesqcAyXRtdbnpsMj1FsGoWbSDZTtRNLHwopCLYQRlGJ0Zwba27Q4=
+	t=1736075715; cv=none; b=knksYJt5eHVo9GbwOLFogty/mPmfrg8O+1Vtrcx9rdBcILW0gizI7z7qz0yR4ir6dY1QMsEN01N21SgBwVbccpQYoN8iMPCv6/CV0+xI0+Sxu5HEYehmOq+dcHl8XfsFmd9Z0S6RmJKWmqbLq09zDn+Ko9wcG5A6c1LHxoqMoJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736075629; c=relaxed/simple;
-	bh=q/3l6eTlJU+3UMbD+DSJzdefRidsYDzUl9ISkWEtoDg=;
+	s=arc-20240116; t=1736075715; c=relaxed/simple;
+	bh=ly9fSS1kB8ipjQGtSc0YBdW0R35aCZX7UAiZQG3BUEk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GUJlj8C4uLQ9XnwAN6yNt0UMyFkNrfJhrrh3RyOFJTIgmf9biIX0m4yMghBxOjTn+iP/6pPeNKdvmKxhmmJegnwUtlKo7e+t431z/bjMPhFtoEztJdMeG7YUxBMcyNZoND16AoKKuBwXX58BepVPs6FdyxI+JkX5SaX7eAHUDc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I+uFe1Lf; arc=none smtp.client-ip=209.85.214.180
+	 In-Reply-To:Content-Type; b=imSI3t0FM/rbW4X9G90+2nRUnVIaRslKLI+VwMYJ8v+RAvpwSQ55NHEhkTkPLbrBObpWINOXqzgnr9VoNNkQrlumQpi9JPQ5Vmeh4Mj5ujjjvGGFtLpZNARujNz4QVTk6Q0v3fQMICim3b49MYW0RFK1Bnj7bAP57ZyPcEmJKko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P70qKZDW; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I+uFe1Lf"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2166360285dso192182725ad.1
-        for <perfbook@vger.kernel.org>; Sun, 05 Jan 2025 03:13:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P70qKZDW"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2eec9b3a1bbso15129864a91.3
+        for <perfbook@vger.kernel.org>; Sun, 05 Jan 2025 03:15:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736075627; x=1736680427; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1736075713; x=1736680513; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=3Lvwlhbh6wcM2+Uex10k8TP7fIyUiW1kH1Pb+HjE2lM=;
-        b=I+uFe1Lfazp8a5j5onrM9klcWGipnyLV/JyT6tvZRFIPH/tMGfAIFGe4WpM9BDd6+Q
-         hv6TiX4nzyUd/nNbFHvSKyZEcIRjMGTP1r5gbUuuZIErPnm/pBOMd4zzsnA+BY6LdLmh
-         qvEWGVWUlwcpFDreyHqqAH6FhEq4J1KoHWqAn/R2uqSDFJDzxi64RyXxB5P0Akyd7a0+
-         w7G2A+4RS59sD7P/TQMdBW0rCQys0lS2kGl0FCjfvLbYbCoVw3mdb4pGV7Bx1HRZeFYt
-         oVS05D8DkszBQFyL43JP0dQBUr9vpAEu/5C3eoSHvh/oZiksimIe7+NmIsn+3Y6MNX2J
-         GYvA==
+        bh=/WTfcqKThXmSSAQcywtBi9ezpjAlPa6SZWjF6fXsFNI=;
+        b=P70qKZDWy+QhPwY08Uxqgrsp8gbBXbpkNWt1jIuGs2FWdlO3Uhpb9mvuqRNU/UMuiv
+         SrsESNcW3/zJtPo8B7MM0z+31we73eFDU0cxvkinWtox2NJm3EpRsNs9VxT4UpD5MUXM
+         SZzfgnEII0OGUISO7w6IrYGORPS5bXtMQJOq6qDLYRh2a1kSV3hTxwp5dVCowbt9QpV2
+         NXpoQB49ybo0b1WFjUyDSW/b9LHqw/M1gmzfPXGH6pHmT9PqKEyeEpgRqeEvi/PVNuCk
+         i0b3xE5Fe68OtXZ3vjDUqJ0r4xM2jSdz7LukF5y4THYoIw//CcVtS/tLVSMFsnWmFRcJ
+         vaNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736075627; x=1736680427;
+        d=1e100.net; s=20230601; t=1736075713; x=1736680513;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Lvwlhbh6wcM2+Uex10k8TP7fIyUiW1kH1Pb+HjE2lM=;
-        b=lyi2mN4XQYO5dnuD3VI0teew2PuJUcsPOlcMiVi+G911oIl8PYQi6POJjxHP+6TghN
-         owUWaukN5TcJxKkb/wVnMKyCaHn0buNEXrhO/rlortb6KEloKkvnMc3tASjGhHce6Glt
-         n78Ds8WVcwSD3IYeKTgeOhn3EZtg4iPqFBc/5t27Yv1gTKK8w5uDCGl7G7B6U0hdm7Gg
-         Wy5Q0L6rYHlJwd/hPcxL6Xl6Uz21uLK0eABLiIOBPxDFDrZY/438dYGpviamzRFVdRA+
-         V8KUoaA4K+eK3mPaK/6hsyYoIUAks/fphW8jTg+v+9cb/6VxmVKk1GDq71sw5Rza1o1L
-         FvDA==
-X-Gm-Message-State: AOJu0YzWGfbgmO1mInWtMNgm8Aqwj8b5KW+5LCPl8EoXDoI+9FA/+Jhu
-	k0OwtxvnYR4TTV+sMG16oVynSLPUP0txHRyTS1Q9D54uNqEncLqH
-X-Gm-Gg: ASbGncu/x83Kk6CXq2G72jIKH1gVpTyJxm56kwGIm5SICG+zgGNnvfdJZuNpAG5R9Kb
-	NgqgUkFUDnY8S0ZjDQoYNapPv9qxH3qNGxsO0OvNuYIv6JDyOKkwgt3gDv4dl+nxh6RugBpvrVR
-	kPYL3Du7wI0fKcA2PKJrJa4o3TMsaA5sMjlM9vENUH87SQuMZahF/ZayxeT5jcD4SRSpwDAmz/N
-	zU16bAG8UahxGf9dXBtmWFjrlGWkMQw/0ttwa83VDt0jWDsOxDmeHcGeuUE1n0bfawML+y8GapB
-	h+8n5I9TCajtUfHmrwlkTW8=
-X-Google-Smtp-Source: AGHT+IEZSupdxxoICWFc4UKnF2efPRSqYbUgKrycCsmR5kWVelaDfc9xqHSj8mO0Da3fSz7NXYqbsA==
-X-Received: by 2002:a17:902:ea10:b0:215:72a7:f39f with SMTP id d9443c01a7336-219e6f108c9mr712982305ad.36.1736075627565;
-        Sun, 05 Jan 2025 03:13:47 -0800 (PST)
+        bh=/WTfcqKThXmSSAQcywtBi9ezpjAlPa6SZWjF6fXsFNI=;
+        b=wkbrCLhlJzYGnFiHkrsKqc3KoZ6DjGnfPevD/zbElv3CKVA9gDDBO+bTIeuVnfpStm
+         fIdQxgTE5ODNEWVzKt7VMXwdErDIDyV73XChKZOm64Rdz0CJyenlQxm+7iBvzBOzg1Z+
+         QaFmVrexgjaBI4vrDRx6a5F6i1E63AfgzXReBJnHCQ187edVSHRusi+xHQdvyEQbwdWA
+         JEd8kvvK0iHimDIaTNybD68ZhS+R+pBa5S6O8FJIffNT7mfbe/v4MM4K9zVTPVjSrAQv
+         7bXuYgMYW72y+fTMskHOV4wQ3D47WylT45/+yH25IE/560oBXsF8003FbxUgWkCSge3x
+         qzRw==
+X-Gm-Message-State: AOJu0YwU7jvklniHyd2slH6q2jgYLf5Y/CznJSA4UVhf/9sCH6OJIlcg
+	uNtei2NWju0IyqAwxYGwj/5VrxPovqtM/tibHQKN3gJySNn9oTBu
+X-Gm-Gg: ASbGncuofqAmsXodK6xeCvfKsgpRLrEfiFdtaFWGLZa/BjaHb85rKUOlGCPkQEmYMkM
+	LPn8+A6u9SThbOcqY4H3m3B2sMoTaR3spfKS15MdmPzWvbgRCpwBIqnSaUkHLU8TTWp3I3yeUfQ
+	ZRmsIKlnWgvctZqMrtaPLxUq/DPNb5JQR1kkRx4JYVooU3xemu3DgRKjMcGQfc1ETBhbtVEcPG7
+	J/mRFXiRauG+Ff7MrDjDTS1FG0lTzrdDeqr0d6CNSuO+oGs8r+eBcrm9MOOX0t6kOvegYDYyKtJ
+	FTnnKOPaW0tCyXxwLJnzFlA=
+X-Google-Smtp-Source: AGHT+IEtlRO3th0mjxirvxiJ6wVlBdJEi1BI0ygkezm7SsqIq/Qp+rZShsQo17n9mZeOSpPwvw97yA==
+X-Received: by 2002:a17:90b:1f92:b0:2f5:63a:449c with SMTP id 98e67ed59e1d1-2f5063a45f6mr15418686a91.28.1736075712893;
+        Sun, 05 Jan 2025 03:15:12 -0800 (PST)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9d9468sm267186155ad.120.2025.01.05.03.13.46
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f454f58087sm32998212a91.11.2025.01.05.03.15.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Jan 2025 03:13:47 -0800 (PST)
-Message-ID: <517ef7fb-570d-4938-adc1-6dc19292a663@gmail.com>
-Date: Sun, 5 Jan 2025 20:13:47 +0900
+        Sun, 05 Jan 2025 03:15:12 -0800 (PST)
+Message-ID: <b9733477-e415-4aad-a893-3a8704d30d27@gmail.com>
+Date: Sun, 5 Jan 2025 20:15:12 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -65,8 +65,8 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 4/6] CodeSamples/count: Add static to __inline__
- function declarations
+Subject: [PATCH -perfbook 5/6] CodeSamples: Add #ifndef SUBOBJ to
+ api-pthreads.h
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <bf045b9a-4a09-4c84-9df8-4ec7154144c7@gmail.com>
@@ -76,133 +76,172 @@ In-Reply-To: <bf045b9a-4a09-4c84-9df8-4ec7154144c7@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-At lower optimization levels of GCC, __inline__ functions without "static"
-cause build errors like below:
+When multiple object (.o) files, who include api.h, are linked together
+into an executable, you might see build errors at lower optimization
+levels like this:
 
-    make[1]: Entering directory 'perfbook/CodeSamples/count'
-    cc -g -O0 -Wall  -o count_end count_end.c -lpthread
-    /usr/bin/ld: /tmp/ccxpkcHA.o: in function `perftestrun':
-    perfbook/CodeSamples/count/counttorture.h:159: undefined reference to `count_cleanup'
-    /usr/bin/ld: /tmp/ccxpkcHA.o: in function `main':
-    perfbook/CodeSamples/count/counttorture.h:248: undefined reference to `count_init'
+    make[1]: Entering directory 'perfbook/CodeSamples/defer'
+    ...
+    cc -g -O0 -Wall -o route_hazptr route_hazptr.c hazptr.c ../lib/random.c -lpthread
+    /usr/bin/ld: /tmp/xxx.o:perfbook/CodeSamples/defer/../api.h:278:
+      multiple definition of `__thread_id_map';
+      /tmp/xxx.o:perfbook/CodeSamples/defer/../api.h:278: first defined here
+    /usr/bin/ld: /tmp/xxx.o:perfbook/CodeSamples/defer/../api.h:279:
+      multiple definition of `__thread_id_map_mutex';
+      /tmp/xxx.o:perfbook/CodeSamples/defer/../api.h:279: first defined here
+    ...
     collect2: error: ld returned 1 exit status
-    make[1]: *** [Makefile:55: count_end] Error 1
-    make[1]: Leaving directory 'git/perfbook/CodeSamples/count'
+    make[1]: *** [Makefile:132: route_hazptr] Error 1
 
-Always put "static" to those function declarations.
+This is due exported symbols of:
 
-While here, add __inline__ to read_count() of count_stack.c.
+    o __thread_id_map[]
+    o __thread_id_map_mutex
+    o thread_id_key
+    o smp_processor_id
+
+defined in api.h.
+
+Avoid such duplicates by guarding their declarations by
+"#ifndef SUBOBJ" and put external reference in their #else cases.
+
+Take care of HP in hazptr.h similarly.
+
+In Makefiles, add recipes for building objects who don't have their own
+main() with the -DSUBOBJ flag appended.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/count/count_end.c         | 4 ++--
- CodeSamples/count/count_end_rcu.c     | 4 ++--
- CodeSamples/count/count_stack.c       | 6 +++---
- CodeSamples/count/count_stat_atomic.c | 6 +++---
- 4 files changed, 10 insertions(+), 10 deletions(-)
+ CodeSamples/api-pthreads/api-pthreads.h  | 14 ++++++++++++++
+ CodeSamples/datastruct/Issaquah/Makefile | 14 ++++++++++----
+ CodeSamples/datastruct/hash/Makefile     |  7 +++++--
+ CodeSamples/defer/Makefile               |  7 +++++--
+ CodeSamples/defer/hazptr.h               |  6 +++++-
+ 5 files changed, 39 insertions(+), 9 deletions(-)
 
-diff --git a/CodeSamples/count/count_end.c b/CodeSamples/count/count_end.c
-index b6ed851c..cf6056e6 100644
---- a/CodeSamples/count/count_end.c
-+++ b/CodeSamples/count/count_end.c
-@@ -48,7 +48,7 @@ static inline unsigned long read_count(void)
- }
+diff --git a/CodeSamples/api-pthreads/api-pthreads.h b/CodeSamples/api-pthreads/api-pthreads.h
+index 3e21fdb9..8edbad4e 100644
+--- a/CodeSamples/api-pthreads/api-pthreads.h
++++ b/CodeSamples/api-pthreads/api-pthreads.h
+@@ -159,8 +159,14 @@ typedef pthread_t thread_id_t;
  
- #ifndef FCV_SNIPPET
--inline void count_init(void)
-+static __inline__ void count_init(void)
+ #define __THREAD_ID_MAP_EMPTY 0
+ #define __THREAD_ID_MAP_WAITING 1
++
++#ifndef SUBOBJ
+ thread_id_t __thread_id_map[NR_THREADS];
+ spinlock_t __thread_id_map_mutex;
++#else
++extern thread_id_t __thread_id_map[NR_THREADS];
++extern spinlock_t __thread_id_map_mutex;
++#endif
+ 
+ #define for_each_thread(t) \
+ 	for (t = 0; t < NR_THREADS; t++)
+@@ -175,7 +181,11 @@ spinlock_t __thread_id_map_mutex;
+ 		if ((((tid) = __thread_id_map[t]) != __THREAD_ID_MAP_EMPTY) && \
+ 		    ((tid) != __THREAD_ID_MAP_WAITING))
+ 
++#ifndef SUBOBJ
+ pthread_key_t thread_id_key;
++#else
++extern pthread_key_t thread_id_key;
++#endif
+ 
+ static __inline__ int num_online_threads(void)
  {
- }
- #endif /* FCV_SNIPPET */
-@@ -73,7 +73,7 @@ void count_unregister_thread(int nthreadsexpected)	//\lnlbl{unreg:b}
- }							//\lnlbl{unreg:e}
- //\end{snippet}
+@@ -368,7 +378,11 @@ static __inline__ long long get_microseconds(void)
+ 	} __per_cpu_##name[NR_CPUS]
+ #define DECLARE_PER_CPU(type, name) extern DEFINE_PER_CPU(type, name)
  
--inline void count_cleanup(void)
-+static __inline__ void count_cleanup(void)
++#ifndef SUBOBJ
+ DEFINE_PER_THREAD(int, smp_processor_id);
++#else
++DECLARE_PER_THREAD(int, smp_processor_id);
++#endif
+ 
+ static __inline__ int smp_processor_id(void)
  {
- }
+diff --git a/CodeSamples/datastruct/Issaquah/Makefile b/CodeSamples/datastruct/Issaquah/Makefile
+index 6a51ff90..ca379b3e 100644
+--- a/CodeSamples/datastruct/Issaquah/Makefile
++++ b/CodeSamples/datastruct/Issaquah/Makefile
+@@ -45,11 +45,17 @@ LURCU_SIG := $(shell pkg-config --libs liburcu-signal 2>/dev/null)
+ #		-DUSE_JEMALLOC
+ #	 Verify by using the nm command and searching output for malloc.
  
-diff --git a/CodeSamples/count/count_end_rcu.c b/CodeSamples/count/count_end_rcu.c
-index 71bd5269..104a016b 100644
---- a/CodeSamples/count/count_end_rcu.c
-+++ b/CodeSamples/count/count_end_rcu.c
-@@ -34,7 +34,7 @@ unsigned long __thread counter = 0;		//\lnlbl{perthread:b}
- struct countarray *countarrayp = NULL;
- DEFINE_SPINLOCK(final_mutex);			//\lnlbl{perthread:e}
+-existence_test: existence.c existence_test.c
+-	cc $(GCC_ARGS) -o existence_test existence.c existence_test.c -lpthread -lurcu $(LURCU_SIG)
++existence_sub.o: existence.c existence.h ../../api.h
++	cc $(GCC_ARGS) -o existence_sub.o -c -DSUBOBJ existence.c
  
--__inline__ void inc_count(void)			//\lnlbl{inc:b}
-+static __inline__ void inc_count(void)		//\lnlbl{inc:b}
- {
- 	WRITE_ONCE(counter, counter + 1);
- }						//\lnlbl{inc:e}
-@@ -99,7 +99,7 @@ void count_unregister_thread(int nthreadsexpected)	//\lnlbl{unreg:b}
- }							//\lnlbl{unreg:e}
- //\end{snippet}
+-treetorture: tree.c existence.c spinlockmult.c $(LIB)/random.c ../../api.h treetorture.h treetorturetrace.h $(LIB)/random.h existence.h tree.h
+-	cc $(GCC_ARGS) -o treetorture tree.c existence.c spinlockmult.c $(LIB)/random.c -lpthread -lurcu $(LURCU_SIG)
++existence_test: existence_sub.o existence_test.c ../../api.h
++	cc $(GCC_ARGS) -o existence_test existence_sub.o existence_test.c -lpthread -lurcu $(LURCU_SIG)
++
++spinlockmult_sub.o: spinlockmult.c spinlockmult.h ../../api.h
++	cc $(GCC_ARGS) -o spinlockmult_sub.o -c -DSUBOBJ spinlockmult.c
++
++treetorture: tree.c existence_sub.o spinlockmult_sub.o $(LIB)/random.c ../../api.h treetorture.h treetorturetrace.h $(LIB)/random.h existence.h tree.h
++	cc $(GCC_ARGS) -o treetorture tree.c existence_sub.o spinlockmult_sub.o $(LIB)/random.c -lpthread -lurcu $(LURCU_SIG)
  
--__inline__ void count_cleanup(void)
-+static __inline__ void count_cleanup(void)
- {
- }
+ clean:
+ 	rm -f $(PROGS)
+diff --git a/CodeSamples/datastruct/hash/Makefile b/CodeSamples/datastruct/hash/Makefile
+index 7f244e09..5f3d740c 100644
+--- a/CodeSamples/datastruct/hash/Makefile
++++ b/CodeSamples/datastruct/hash/Makefile
+@@ -47,8 +47,11 @@ hash_bkt_qsbr: hash_bkt_rcu.c ../../api.h hashtorture.h
+ hash_bkt_rcu: hash_bkt_rcu.c ../../api.h hashtorture.h
+ 	cc $(GCC_ARGS) -DTEST_HASH -o hash_bkt_rcu hash_bkt_rcu.c $(LIB)/random.c -lpthread -lurcu $(LURCU_SIG)
  
-diff --git a/CodeSamples/count/count_stack.c b/CodeSamples/count/count_stack.c
-index e10bcbbd..384310b7 100644
---- a/CodeSamples/count/count_stack.c
-+++ b/CodeSamples/count/count_stack.c
-@@ -27,7 +27,7 @@ unsigned long *counterp[NR_THREADS] = { NULL };
- unsigned long finalcount = 0;
- DEFINE_SPINLOCK(final_mutex);
+-hash_bkt_hazptr: hash_bkt_hazptr.c ../../defer/hazptr.c ../../defer/hazptr.h ../../api.h hashtorture.h
+-	cc $(GCC_ARGS) -DTEST_HASH -o hash_bkt_hazptr hash_bkt_hazptr.c ../../defer/hazptr.c $(LIB)/random.c -lpthread
++../../defer/hazptr_sub.o: ../../defer/hazptr.c ../../defer/hazptr.h ../../api.h
++	$(MAKE) -C ../../defer hazptr_sub.o
++
++hash_bkt_hazptr: hash_bkt_hazptr.c ../../defer/hazptr_sub.o ../../api.h hashtorture.h
++	cc $(GCC_ARGS) -DTEST_HASH -o hash_bkt_hazptr hash_bkt_hazptr.c ../../defer/hazptr_sub.o $(LIB)/random.c -lpthread
  
--__inline__ void inc_count(void)
-+static __inline__ void inc_count(void)
- {
- 	WRITE_ONCE(*counter,
- 		   READ_ONCE(*counter) + 1);
-@@ -47,7 +47,7 @@ unsigned long read_count(void)
- 	return sum;
- }
+ hash_global: hash_global.c ../../api.h hashtorture.h
+ 	cc $(GCC_ARGS) -DTEST_HASH -o hash_global hash_global.c $(LIB)/random.c -lpthread
+diff --git a/CodeSamples/defer/Makefile b/CodeSamples/defer/Makefile
+index abfbe202..0cb77122 100644
+--- a/CodeSamples/defer/Makefile
++++ b/CodeSamples/defer/Makefile
+@@ -128,8 +128,11 @@ rcu_sig: rcu_sig.c rcu_sig.h ../api.h rcutorture.h
+ rcu_ts: rcu_ts.c rcu_ts.h ../api.h rcutorture.h
+ 	cc $(GCC_ARGS) -o rcu_ts -DTEST rcu_ts.c -lpthread
  
--__inline__ void count_init(void)
-+static __inline__ void count_init(void)
- {
- }
+-route_hazptr: route_hazptr.c hazptr.c hazptr.h ../api.h ../lib/random.h ../lib/random.c routetorture.h
+-	cc $(GCC_ARGS) -o route_hazptr route_hazptr.c hazptr.c ../lib/random.c -lpthread
++hazptr_sub.o: hazptr.c hazptr.h ../api.h
++	cc $(GCC_ARGS) -o hazptr_sub.o -c -DSUBOBJ hazptr.c
++
++route_hazptr: route_hazptr.c hazptr_sub.o ../api.h ../lib/random.h ../lib/random.c routetorture.h
++	cc $(GCC_ARGS) -o route_hazptr route_hazptr.c hazptr_sub.o ../lib/random.c -lpthread
  
-@@ -71,7 +71,7 @@ void count_unregister_thread(int nthreadsexpected)
- 	spin_unlock(&final_mutex);
- }
+ route_rcu: route_rcu.c ../api.h ../lib/random.h ../lib/random.c routetorture.h
+ 	cc $(GCC_ARGS) -o route_rcu route_rcu.c ../lib/random.c -lpthread  -lurcu $(LURCU_SIG)
+diff --git a/CodeSamples/defer/hazptr.h b/CodeSamples/defer/hazptr.h
+index e061303d..bdeb5c15 100644
+--- a/CodeSamples/defer/hazptr.h
++++ b/CodeSamples/defer/hazptr.h
+@@ -52,8 +52,12 @@ typedef struct hazard_pointer_s {
+ } hazard_pointer;
  
--__inline__ void count_cleanup(void)
-+static __inline__ void count_cleanup(void)
- {
- }
- 
-diff --git a/CodeSamples/count/count_stat_atomic.c b/CodeSamples/count/count_stat_atomic.c
-index 9d9457a4..ec57c4b0 100644
---- a/CodeSamples/count/count_stat_atomic.c
-+++ b/CodeSamples/count/count_stat_atomic.c
-@@ -28,7 +28,7 @@ void inc_count(void)
- 	atomic_inc(&__get_thread_var(counter));
- }
- 
--__inline__ unsigned long read_count(void)
-+static __inline__ unsigned long read_count(void)
- {
- 	int t;
- 	unsigned long sum = 0;
-@@ -38,11 +38,11 @@ __inline__ unsigned long read_count(void)
- 	return sum;
- }
- 
--__inline__ void count_init(void)
-+static __inline__ void count_init(void)
- {
- }
- 
--__inline__ void count_cleanup(void)
-+static __inline__ void count_cleanup(void)
- {
- }
- 
+ /* Must be dynamically initialized to be an array of size H. */
++#ifndef SUBOBJ
+ hazard_pointer *HP;
+- 
++#else
++extern hazard_pointer *HP;
++#endif
++
+ void hazptr_init(void);
+ void hazptr_thread_exit(void);
+ void hazptr_scan();
 -- 
 2.34.1
 
