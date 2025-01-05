@@ -1,160 +1,124 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACB5EAC7
-	for <perfbook@vger.kernel.org>; Sun,  5 Jan 2025 11:16:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BA313C807
+	for <perfbook@vger.kernel.org>; Sun,  5 Jan 2025 19:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736075788; cv=none; b=oL2tadMcx2fD+J5cA71MSRk4he6ljudavDnlmwPxUd09sxeFjtuw8yHE0/vhea3ccvCMggvZHGS7GPvWXwjvKJI+dhxF9a0c5RJ7pIqQQ4ViLBRC+fq2auAsBOCwbuBqp/pMm+Lgb8Rir59gKFhcXyAk6dBSxhJ796Ll/zcYOrQ=
+	t=1736103732; cv=none; b=mxlPbUyMa1LgfqC0Y5bHwv+jsnDk+uTmZSB9ZReVMjYbj4TWsxnfV5Tc3SrbnvtvSrf0hBM/yh0Eaf88hiTEgy1u3QdRHtZBX3zNkboq1K8CCcH1vJvKfpPscANH9ZoLZyuIkNeCy3E8qUJL+A1goUAEbtaA01MOwmQpDeqoiIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736075788; c=relaxed/simple;
-	bh=1shNZCrF6cNPBGF2OdmmtRcX96Cn2/0f5LDJOPTcJbA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GtBCXNeCtJt0twS4KWsEbpEbd5SwZ4r+1fPE4C9IGsfqJEJATNc6et/1RjAyITvXjulTdckLHRVKESL0UyStlwcVCQAg7+TBlbf/g1fhppI4qeymolO8ClF13sKfJarLawjh23q6QBZuCI5GC/+IeSrq9wkxSWKfEifCUX2cgkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mOux491N; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736103732; c=relaxed/simple;
+	bh=SJxsTIGQlZCKzBl296AXCopKLeDIquTPA5B+NGpEE+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aj0QBLGedbXYWjPHmT98Ya92oLbf4bynEsKGEmGi35HKI860HdlRiwYgUyq1b7onzc18ZI4HXYeCZ4ZR8pMrQXnRx2z/6drvolB/0K4MGnYvwccXalRd5wfMKEbOJRE7Vf/XQSmoKTIxaj+FJcQgsyetBHZXgOcnmeUUJyAaOSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M7Sf/Jt2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mOux491N"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-219f8263ae0so145299855ad.0
-        for <perfbook@vger.kernel.org>; Sun, 05 Jan 2025 03:16:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736075786; x=1736680586; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IRCIFmsEjUx9isFqX//NeJthy7FOtWsPSs2Sk32u4f0=;
-        b=mOux491NSFI7u7X8rKEj0hRM/vT4inPokDRsIO3XPnPaksHmA0QrPSy1PNXU/eQ3rf
-         onazCrOFSEdcZCNpqHLWJoyosTBr0K6sVmlw/x0Mz6gkTKn4OsJOFABaDitytgW5paLa
-         WZXWIphcB6M+b0OJ/lBV+twVMkQ6q8kYsbixYpZKqE16NxluEtbVnvDYfkx55rOlt+mO
-         PxrXuXmMtACEn2gkjAHY3EAJdoPWAhi60T4tm80Gj9PAzOOHa/ToV/PhRuDco6Jz2m4E
-         72AIEHhbHWvvTIK3RMkpgvv/w960d1ozJQsInDymzrq2egvSujDittOTgc4XeyfCgcrw
-         +Rhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736075786; x=1736680586;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IRCIFmsEjUx9isFqX//NeJthy7FOtWsPSs2Sk32u4f0=;
-        b=Jqp1BpM+lXLjmkuNoByKTe1ySyY9Dk1HxXDRC6vYe7cjPP9u3JycIVXuzfsJ0oyr/g
-         FYXwMknC079J0TeoVMd1HjN33vf5AkmFIwQKt6eafYyHGXNGJiVrU+dfjPka5na5/atT
-         Uz4LUEsI8WrXtz6amZtcVKon6tdj257itHfKXdhsDVVNYf4bvLqeuu1scTLubxVm8ouU
-         v+eXS4sqBz8ydcX7doMqKzm+3dI14zuOG6InZlX9iZS8BfKM+WsjljTTkaJnBKOLjmm7
-         cGbwetGod3cskAY55Qtjso3lBNRJ9tJVfYlQMzBH34ZJMPdm5Uj7TkhehGieQhBLPbxM
-         WsJA==
-X-Gm-Message-State: AOJu0Yxx5utm4/6jS+iwhw3IAPytPgeoXv8yWCtmJTsugIijeNz+5Nq7
-	gmlTBD3hKkPz4nIUZF7NYyOsrKPvcRQc2SCeep/nFEivvGjrsbaL
-X-Gm-Gg: ASbGncsOeGlewjjIiRlRChb4xaex5ExorD12uWBfNSzylDpwsTOfCEMR1dMyj8Yk34E
-	gVkjgZB7P+bcwW6ZqpaT2lhxWx4K492vnuAKYdtaH31MLiLezUpbSOngnMYLUjK7kIkWqzJUwBA
-	aDbEC3ZNAoKyCfuvUtxo97x2/TZLOuefBnOOq7Hoy/RGmGGTfVEBmSzl2sk605zuHldWH9+2HtB
-	PfgN/1/EvmAXLDf9duICBASZR5G+5QAo4LpNnSKLt7R8vcndIYZLCbcMMmbvUpvsM0I5B7UnHhF
-	Xbr8WGvtmHj5B/qjOhc/fII=
-X-Google-Smtp-Source: AGHT+IHdNcuHEsysLiB7P9PwJQ0/FtpVs+LHHsTK1PcAEa7J2eXHpVJyvZzQOrfGXNH9RU70DoVzlQ==
-X-Received: by 2002:a17:902:d587:b0:216:5af7:eb2a with SMTP id d9443c01a7336-219e6ebb70bmr834873375ad.33.1736075786077;
-        Sun, 05 Jan 2025 03:16:26 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc971751sm273281775ad.109.2025.01.05.03.16.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Jan 2025 03:16:25 -0800 (PST)
-Message-ID: <9f5eb706-0ff0-4bb0-b1ca-fec996d4c771@gmail.com>
-Date: Sun, 5 Jan 2025 20:16:25 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M7Sf/Jt2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7D9BC4CED0;
+	Sun,  5 Jan 2025 19:02:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736103731;
+	bh=SJxsTIGQlZCKzBl296AXCopKLeDIquTPA5B+NGpEE+Y=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=M7Sf/Jt2oN0ELBVlkLFS1ixll8QRVz5CL5PyyUPtOrYAuXbgWxf0NiSNzXygTgw7Z
+	 O+mmHwU48KVdmdHHGpyYACKDAlLMDlbtfoBgjMElWQ7T7zcfqW5HkC0Be+cZmO4xOw
+	 1jk6lNd7LBCr3P74xjNv5tDsAwAUAgTXz2sBSgnNPAvKqieMDT8x5ON1TtxTkOTvoK
+	 JGugGPuNZBybzND2ivZBVNmU/WtSqXEX75aj70hrZ+eC+xLSCjaYe60OSu0wH8ym+4
+	 z61ohq0fR252rOWsmtdz2KPw8MnZIJrbWj/uYHsNWLCCB6MLeun4Z618mz6GexRyxL
+	 9dlqRIev5NboQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 74DC8CE0A35; Sun,  5 Jan 2025 11:02:11 -0800 (PST)
+Date: Sun, 5 Jan 2025 11:02:11 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
+Subject: Re: [PATCH -perfbook 0/6] CodeSamples: Make non-default combinations
+ of cc and -O levels happy
+Message-ID: <a5d64bed-4e80-40e9-aa66-86165f31e3ea@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <bf045b9a-4a09-4c84-9df8-4ec7154144c7@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 6/6] CodeSamples/datastruct/Issaquah: Remove unused
- variables
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <bf045b9a-4a09-4c84-9df8-4ec7154144c7@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <bf045b9a-4a09-4c84-9df8-4ec7154144c7@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Recent versions of CLANG emit warnings like:
+On Sun, Jan 05, 2025 at 08:06:38PM +0900, Akira Yokosawa wrote:
+> While testing commit f2596972845b ("CodeSamples: Fix liburcu-signal
+> support deprecation"), I observed build errors under Ubuntu 22.04.
+> 
+> Which prompted me to test various combinations of cc and optimization
+> levels in building under CodeSamples/.
+> 
+> This patch set is a collection of fixes/adjustments to make such various
+> choices happy.
+> 
+> Patch 1/6 is a preliminary change for ease of experimenting alternative
+> GCC_ARGS such as "-g -Wall -O0", "-g -Wall -O1", and so on, under
+> CodeSamples/.
+> 
+> Patch 2/6 fixes an issue around forward declaration of struct in .h file
+> failing to satisfy compiler's assumption of accessing them from inline
+> functions.  Looks like this matters with some of gcc versions in low
+> level optimization, but gcc of Ubuntu 22.04 hits this even at -O3.
+> Actual declaration of a struct seems to be needed in front of inline
+> functions who access such a struct.
+> 
+> Patch 3/6 adjusts indirection level of pointer arguments in xchg().
+> 
+> Patch 4/6 adds "static" to __inline__ functions.
+> 
+> Patch 5/6 fixes errors of duplicate symbols due to api.h being included
+> in multiple .c files linked together.  As a workaround, "#ifndef SUBOBJ"
+> is added in api-pthreads.h and a flag of -DSUBOBJ is added in Makefiles
+> to recipes of .c --> _sub.o.
+> 
+> Patch 6/6 removes variables whose final values are never used.
+> Recent clang is pretty strict on set-but-unused variables.
+> 
+> To test against clang, you need to redirect cc --> clang by, for example,
+> symlinking $HOME/bin/cc --> /usr/bin/clang or similar.
 
-    - variable 'i' set but not used [-Wunused-but-set-variable]
-    - warning: variable 'tries' set but not used [-Wunused-but-set-variable]
+Queued and pushed, thank you very much!  And happy perfect-square
+new year!
 
-Silence them by removing those unnecessary variables and related code
-incrementing them.
+							Thanx, Paul
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- CodeSamples/datastruct/Issaquah/existence_test.c | 3 ---
- CodeSamples/datastruct/Issaquah/tree.c           | 6 ------
- 2 files changed, 9 deletions(-)
-
-diff --git a/CodeSamples/datastruct/Issaquah/existence_test.c b/CodeSamples/datastruct/Issaquah/existence_test.c
-index 5f31d09e..b55a7fd0 100644
---- a/CodeSamples/datastruct/Issaquah/existence_test.c
-+++ b/CodeSamples/datastruct/Issaquah/existence_test.c
-@@ -36,8 +36,6 @@ struct existence_group *egp;
- 
- static void *scan_existence(void *arg)
- {
--	int i = 0;
--
- 	for (;;) {
- 		if (!existence_exists(&outgoing)) {
- 			BUG_ON(!existence_exists(&incoming));
-@@ -47,7 +45,6 @@ static void *scan_existence(void *arg)
- 			BUG_ON(existence_exists(&outgoing));
- 			break;
- 		}
--		i++;
- 	}
- 	/* printf("scan_existence(): %d loops\n", i); */
- 	return NULL;
-diff --git a/CodeSamples/datastruct/Issaquah/tree.c b/CodeSamples/datastruct/Issaquah/tree.c
-index 26600118..6627e460 100644
---- a/CodeSamples/datastruct/Issaquah/tree.c
-+++ b/CodeSamples/datastruct/Issaquah/tree.c
-@@ -504,10 +504,8 @@ void *tree_lookup(struct treeroot *trp, int key, void (*func)(void *data))
- 	struct treenode *par;
- 	spinlock_t *lockp = NULL;
- 	int wantdelay = 0;
--	int tries = 0;
- 
- retry:
--	tries++;
- 	rcu_read_lock();
- 	cur = _tree_lookup(trp, key, &par);
- 	TREE_BUG_ON(cur == NULL);
-@@ -580,7 +578,6 @@ int tree_insert_existence(struct treeroot *trp, int key, void *data,
- 	struct treenode *par;
- 	int ret = 0;
- 	spinlock_t *lockp[2];
--	int tries = 0;
- 	int wantdelay = 0;
- 
- 	TREE_BUG_ON(data == NULL);
-@@ -588,7 +585,6 @@ int tree_insert_existence(struct treeroot *trp, int key, void *data,
- 	if (!new)
- 		return -ENOMEM;
- retry:
--	tries++;
- 	rcu_read_lock();
- 	cur = _tree_lookup(trp, key, &par);
- 	TREE_BUG_ON(cur == NULL || par == NULL);
-@@ -660,11 +656,9 @@ static int tree_delete_existence(struct treeroot *trp, int key,
- 	struct treenode *par;
- 	spinlock_t *lockp[2];
- 	int ret = -ENOENT;
--	int tries = 0;
- 	int wantdelay = 0;
- 
- retry:
--	tries++;
- 	rcu_read_lock();
- 	cur = _tree_lookup(trp, key, &par);
- 	TREE_BUG_ON(cur == NULL || par == NULL);
--- 
-2.34.1
-
-
+>         Thanks, Akira
+> --
+> Akira Yokosawa (6):
+>   CodeSamples: Put $(GCC_ARGS) in cc argument list
+>   CodeSamples/datastruct: Move struct declaration from .c to .h
+>   CodeSamples/advsync: Add explicit type cast in xchg()
+>   CodeSamples/count: Add static to __inline__ function declarations
+>   CodeSamples: Add #ifndef SUBOBJ to api-pthreads.h
+>   CodeSamples/datastruct/Issaquah: Remove unused variables
+> 
+>  CodeSamples/advsync/q.c                          |  2 +-
+>  CodeSamples/advsync/wfenqueue.c                  |  2 +-
+>  CodeSamples/api-pthreads/api-pthreads.h          | 14 ++++++++++++++
+>  CodeSamples/count/count_end.c                    |  4 ++--
+>  CodeSamples/count/count_end_rcu.c                |  4 ++--
+>  CodeSamples/count/count_stack.c                  |  6 +++---
+>  CodeSamples/count/count_stat_atomic.c            |  6 +++---
+>  CodeSamples/datastruct/Issaquah/Makefile         | 14 ++++++++++----
+>  CodeSamples/datastruct/Issaquah/existence.c      |  6 ------
+>  CodeSamples/datastruct/Issaquah/existence.h      |  7 ++++++-
+>  CodeSamples/datastruct/Issaquah/existence_test.c |  3 ---
+>  CodeSamples/datastruct/Issaquah/tree.c           |  6 ------
+>  CodeSamples/datastruct/hash/Makefile             |  7 +++++--
+>  CodeSamples/defer/Makefile                       |  7 +++++--
+>  CodeSamples/defer/hazptr.h                       |  6 +++++-
+>  CodeSamples/intro/Makefile                       | 12 ++++++------
+>  CodeSamples/locking/Makefile                     |  6 +++---
+>  17 files changed, 66 insertions(+), 46 deletions(-)
+> 
+> 
+> base-commit: 41e6a800d630336b1d8e614b3d11281e42e880c7
+> -- 
+> 2.34.1
+> 
