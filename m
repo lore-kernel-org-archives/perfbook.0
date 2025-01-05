@@ -1,63 +1,63 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D085D13C807
-	for <perfbook@vger.kernel.org>; Sun,  5 Jan 2025 11:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A39184F
+	for <perfbook@vger.kernel.org>; Sun,  5 Jan 2025 11:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736075555; cv=none; b=aytv06Y8oR4hm7LAp+fSSRxhRzh6ay8cwdcq3pJqmBMe3j69a7toXob2GP0OY9v3wTEOXneVMqXYjDBYjUbd5rhnfRBGAL1VMXLmOiKeVE/RIu8X1iJk7fK6/QpLBVXDwSQAXO28v/7OKZzZGClBIE9NxBJEtgnNHkwjhJmFHCc=
+	t=1736075629; cv=none; b=bnhphlxceWi7IjwKpxZCOIkvF5aJJbZtMNGhzOQ39JjQRFSBvEGP66QJRFAKv1j0FN3lZeK7huAkoVtv1ECtQQBpJBm4AsOaQ2tBWXIiE/S/Wtr8VD2j9BKesqcAyXRtdbnpsMj1FsGoWbSDZTtRNLHwopCLYQRlGJ0Zwba27Q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736075555; c=relaxed/simple;
-	bh=GRCI4hRtLra2398w2Hh9tiwRDIbD7FQFL+7nCOt3Yhg=;
+	s=arc-20240116; t=1736075629; c=relaxed/simple;
+	bh=q/3l6eTlJU+3UMbD+DSJzdefRidsYDzUl9ISkWEtoDg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cVsa04x+YN5ck3fAiHpaWOAeTL5OOPVFL3Oh4HGpiDCnKwgLIts9s/oXpDJUvWo/vthIOJJO/vLowuNmPHKheCF8+0SnnrDbeCuFMQK3HrMXHCPIF7tuGjx4PVXgb7JqIhj+h56rPqDU9yxDvVD4Fq2peJ82YzoDB0V0CJkYpWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RArtVigz; arc=none smtp.client-ip=209.85.214.173
+	 In-Reply-To:Content-Type; b=GUJlj8C4uLQ9XnwAN6yNt0UMyFkNrfJhrrh3RyOFJTIgmf9biIX0m4yMghBxOjTn+iP/6pPeNKdvmKxhmmJegnwUtlKo7e+t431z/bjMPhFtoEztJdMeG7YUxBMcyNZoND16AoKKuBwXX58BepVPs6FdyxI+JkX5SaX7eAHUDc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I+uFe1Lf; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RArtVigz"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2161eb95317so196681325ad.1
-        for <perfbook@vger.kernel.org>; Sun, 05 Jan 2025 03:12:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I+uFe1Lf"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2166360285dso192182725ad.1
+        for <perfbook@vger.kernel.org>; Sun, 05 Jan 2025 03:13:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736075553; x=1736680353; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1736075627; x=1736680427; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ldDYxl252SvQv6XTFXDJHW+yklF2g43YgLC16/ZHSrs=;
-        b=RArtVigzJG/ARW3smPXYIU6ZTChONE2B/qbUy30Zjpt7opnTZEfdJi8878HECMBXPi
-         kd22o87wrNvs2sWQJIbSavXz/S8M4Apxz/S3/82j4HMHH6z+VccxKt068GNhHw2eLw9Q
-         rR5f/PDauuGqPhZCXmCjHDoMZhSrMxh7qWabmEH2cSaPXEBswogfT/wDv/Uj0Ck4e7FM
-         OO1U+RC4vMYYLwvt4eugddpSES0PmFpbCktotJpAQYt31DPSjvdcBJpLRhYZFq5bjZG6
-         PB7k93fzAOicMr/Rc1yf9A0N6puJez1XfWX+uHpRg0xy9PwIndNOalQoD0vUedy2/z9S
-         q9Kg==
+        bh=3Lvwlhbh6wcM2+Uex10k8TP7fIyUiW1kH1Pb+HjE2lM=;
+        b=I+uFe1Lfazp8a5j5onrM9klcWGipnyLV/JyT6tvZRFIPH/tMGfAIFGe4WpM9BDd6+Q
+         hv6TiX4nzyUd/nNbFHvSKyZEcIRjMGTP1r5gbUuuZIErPnm/pBOMd4zzsnA+BY6LdLmh
+         qvEWGVWUlwcpFDreyHqqAH6FhEq4J1KoHWqAn/R2uqSDFJDzxi64RyXxB5P0Akyd7a0+
+         w7G2A+4RS59sD7P/TQMdBW0rCQys0lS2kGl0FCjfvLbYbCoVw3mdb4pGV7Bx1HRZeFYt
+         oVS05D8DkszBQFyL43JP0dQBUr9vpAEu/5C3eoSHvh/oZiksimIe7+NmIsn+3Y6MNX2J
+         GYvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736075553; x=1736680353;
+        d=1e100.net; s=20230601; t=1736075627; x=1736680427;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ldDYxl252SvQv6XTFXDJHW+yklF2g43YgLC16/ZHSrs=;
-        b=IA/ETfQX2Sn1RcXDFARg2Y3DE+PkB3nOMCPhvecoKDVPQs1Kle+mt42WYFBhbKiU/R
-         YierZLuuO/4K7JVm3WRDtStNBgKfJk89MU8vKGF8wRGOBhGJOq61sS71l9J9nI3EwQxZ
-         nMhMRUjArQkd3FzFvJEepLNVWFdBopYfr1QeN+/V/BAxnQ8lVVWLeH6MJAOdx7loh7/l
-         9FfKP2u7FSrNF0UFqFfGkDHoZ7RLlHITXiq2wQ4a/nOzOJOb0ej5SxDktBG2c2PwCvu1
-         j7eAVTOf+QcuXy3BeUWVZ7CoiDIY7QwghIQlb+o2xwDALDy2Nqp5hTSlMb8Aj3GY1KDc
-         Y+zg==
-X-Gm-Message-State: AOJu0Yy5adhjnSzOX4Jm5rlk9Gpllw9dILpt2I3VNY30nxKsHuIXZ606
-	exMRTrWsVhQIfsGdX73eliYJEqksAQ2wGSJgxhI08vcK5lsNcDVknIMuSg==
-X-Gm-Gg: ASbGnctYOfqKBo/HJS4/Z8udY1glqEvEgsY1tRL1k9HeFyxpYZ7NwRhYg+TtAnEi188
-	6P5anZyyV1SPm1UTQP4htcK/E/5Ez9CxL1jwUsGE7c6v8hkiHEXOa1R6mkoOqZ4rhf2nrfR6RFX
-	r2L3u0n0phEGCYIEN5+DFJIGQglo0VMJ0QHFGJFr0Gj8q4gr+XQjneZwxNhucrjeRTT7YE+isJv
-	Kht8IwDU4w5sxmkrinIGZAD2P++QZPtRbc1JET6Zm0VvS2cVKCrB11cA8zd5/Xh94Dmg5sLZ/mS
-	2FMsiUz0hPVR/iBXtKC7ASc=
-X-Google-Smtp-Source: AGHT+IFjtzbu4rl2kHlAHCAmK2nFKGiLDY07zrgQfa1JIfL9steZVOZFvi/narBQwwxouH2yS0Mmrg==
-X-Received: by 2002:a05:6a20:9191:b0:1e1:b60c:5bdb with SMTP id adf61e73a8af0-1e5e049f2d1mr86817150637.26.1736075553130;
-        Sun, 05 Jan 2025 03:12:33 -0800 (PST)
+        bh=3Lvwlhbh6wcM2+Uex10k8TP7fIyUiW1kH1Pb+HjE2lM=;
+        b=lyi2mN4XQYO5dnuD3VI0teew2PuJUcsPOlcMiVi+G911oIl8PYQi6POJjxHP+6TghN
+         owUWaukN5TcJxKkb/wVnMKyCaHn0buNEXrhO/rlortb6KEloKkvnMc3tASjGhHce6Glt
+         n78Ds8WVcwSD3IYeKTgeOhn3EZtg4iPqFBc/5t27Yv1gTKK8w5uDCGl7G7B6U0hdm7Gg
+         Wy5Q0L6rYHlJwd/hPcxL6Xl6Uz21uLK0eABLiIOBPxDFDrZY/438dYGpviamzRFVdRA+
+         V8KUoaA4K+eK3mPaK/6hsyYoIUAks/fphW8jTg+v+9cb/6VxmVKk1GDq71sw5Rza1o1L
+         FvDA==
+X-Gm-Message-State: AOJu0YzWGfbgmO1mInWtMNgm8Aqwj8b5KW+5LCPl8EoXDoI+9FA/+Jhu
+	k0OwtxvnYR4TTV+sMG16oVynSLPUP0txHRyTS1Q9D54uNqEncLqH
+X-Gm-Gg: ASbGncu/x83Kk6CXq2G72jIKH1gVpTyJxm56kwGIm5SICG+zgGNnvfdJZuNpAG5R9Kb
+	NgqgUkFUDnY8S0ZjDQoYNapPv9qxH3qNGxsO0OvNuYIv6JDyOKkwgt3gDv4dl+nxh6RugBpvrVR
+	kPYL3Du7wI0fKcA2PKJrJa4o3TMsaA5sMjlM9vENUH87SQuMZahF/ZayxeT5jcD4SRSpwDAmz/N
+	zU16bAG8UahxGf9dXBtmWFjrlGWkMQw/0ttwa83VDt0jWDsOxDmeHcGeuUE1n0bfawML+y8GapB
+	h+8n5I9TCajtUfHmrwlkTW8=
+X-Google-Smtp-Source: AGHT+IEZSupdxxoICWFc4UKnF2efPRSqYbUgKrycCsmR5kWVelaDfc9xqHSj8mO0Da3fSz7NXYqbsA==
+X-Received: by 2002:a17:902:ea10:b0:215:72a7:f39f with SMTP id d9443c01a7336-219e6f108c9mr712982305ad.36.1736075627565;
+        Sun, 05 Jan 2025 03:13:47 -0800 (PST)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-842b1ce01b8sm22931064a12.20.2025.01.05.03.12.31
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9d9468sm267186155ad.120.2025.01.05.03.13.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Jan 2025 03:12:32 -0800 (PST)
-Message-ID: <866ed90d-da73-4e40-ba04-b6cac4e93725@gmail.com>
-Date: Sun, 5 Jan 2025 20:12:32 +0900
+        Sun, 05 Jan 2025 03:13:47 -0800 (PST)
+Message-ID: <517ef7fb-570d-4938-adc1-6dc19292a663@gmail.com>
+Date: Sun, 5 Jan 2025 20:13:47 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -65,8 +65,8 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 3/6] CodeSamples/advsync: Add explicit type cast in
- xchg()
+Subject: [PATCH -perfbook 4/6] CodeSamples/count: Add static to __inline__
+ function declarations
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <bf045b9a-4a09-4c84-9df8-4ec7154144c7@gmail.com>
@@ -76,66 +76,133 @@ In-Reply-To: <bf045b9a-4a09-4c84-9df8-4ec7154144c7@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Building with CLANG, you'll see a couple of warnings while building
-under CodeSamples/ as follows:
+At lower optimization levels of GCC, __inline__ functions without "static"
+cause build errors like below:
 
-    cc -g -O3 -Wall -o q -DTEST q.c -lpthread
-    q.c:39:12: warning: incompatible pointer types passing 'struct el *'
-      to parameter of type 'struct el **'; take the address with &
-      [-Wincompatible-pointer-types]
-            oldtail = xchg(&q->tail, p);
-                      ^~~~~~~~~~~~~~~~~
-    ./../api.h:778:49: note: expanded from macro 'xchg'
-                                                 ^~~
-    1 warning generated.
+    make[1]: Entering directory 'perfbook/CodeSamples/count'
+    cc -g -O0 -Wall  -o count_end count_end.c -lpthread
+    /usr/bin/ld: /tmp/ccxpkcHA.o: in function `perftestrun':
+    perfbook/CodeSamples/count/counttorture.h:159: undefined reference to `count_cleanup'
+    /usr/bin/ld: /tmp/ccxpkcHA.o: in function `main':
+    perfbook/CodeSamples/count/counttorture.h:248: undefined reference to `count_init'
+    collect2: error: ld returned 1 exit status
+    make[1]: *** [Makefile:55: count_end] Error 1
+    make[1]: Leaving directory 'git/perfbook/CodeSamples/count'
 
-and:
+Always put "static" to those function declarations.
 
-    cc -g -O3 -Wall -o wfenqueue -DTEST wfenqueue.c -lpthread
-    wfenqueue.c:38:9: warning: incompatible pointer types passing
-      'struct el *' to parameter of type 'struct el **'; take the
-      address with & [-Wincompatible-pointer-types]
-            tail = xchg(&qp->tail, ep);
-                   ^~~~~~~~~~~~~~~~~~~
-    ./../api.h:778:49: note: expanded from macro 'xchg'
-                                                 ^~~
-    1 warning generated.
-
-This is due to indirection-level mismatch in the argument of xchg().
-Add explicit cast and silence those warnings.
+While here, add __inline__ to read_count() of count_stack.c.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/advsync/q.c         | 2 +-
- CodeSamples/advsync/wfenqueue.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ CodeSamples/count/count_end.c         | 4 ++--
+ CodeSamples/count/count_end_rcu.c     | 4 ++--
+ CodeSamples/count/count_stack.c       | 6 +++---
+ CodeSamples/count/count_stat_atomic.c | 6 +++---
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/CodeSamples/advsync/q.c b/CodeSamples/advsync/q.c
-index 4198b3c8..8997a460 100644
---- a/CodeSamples/advsync/q.c
-+++ b/CodeSamples/advsync/q.c
-@@ -36,7 +36,7 @@ int q_push(struct el *p, struct queue *q)
- 	struct el **oldtail;
- 
- 	p->next = NULL;
--	oldtail = xchg(&q->tail, p);
-+	oldtail = xchg(&q->tail, (struct el **)p);
- 	*oldtail = p;
- 	return 1;
+diff --git a/CodeSamples/count/count_end.c b/CodeSamples/count/count_end.c
+index b6ed851c..cf6056e6 100644
+--- a/CodeSamples/count/count_end.c
++++ b/CodeSamples/count/count_end.c
+@@ -48,7 +48,7 @@ static inline unsigned long read_count(void)
  }
-diff --git a/CodeSamples/advsync/wfenqueue.c b/CodeSamples/advsync/wfenqueue.c
-index fed8d87b..9970b075 100644
---- a/CodeSamples/advsync/wfenqueue.c
-+++ b/CodeSamples/advsync/wfenqueue.c
-@@ -35,7 +35,7 @@ int q_push(struct el *ep, struct queue *qp)
- 	struct el **tail;
  
- 	ep->next = NULL;
--	tail = xchg(&qp->tail, ep);
-+	tail = xchg(&qp->tail, (struct el **)ep);
- 	*tail = ep;
- 	return 1;
+ #ifndef FCV_SNIPPET
+-inline void count_init(void)
++static __inline__ void count_init(void)
+ {
  }
+ #endif /* FCV_SNIPPET */
+@@ -73,7 +73,7 @@ void count_unregister_thread(int nthreadsexpected)	//\lnlbl{unreg:b}
+ }							//\lnlbl{unreg:e}
+ //\end{snippet}
+ 
+-inline void count_cleanup(void)
++static __inline__ void count_cleanup(void)
+ {
+ }
+ 
+diff --git a/CodeSamples/count/count_end_rcu.c b/CodeSamples/count/count_end_rcu.c
+index 71bd5269..104a016b 100644
+--- a/CodeSamples/count/count_end_rcu.c
++++ b/CodeSamples/count/count_end_rcu.c
+@@ -34,7 +34,7 @@ unsigned long __thread counter = 0;		//\lnlbl{perthread:b}
+ struct countarray *countarrayp = NULL;
+ DEFINE_SPINLOCK(final_mutex);			//\lnlbl{perthread:e}
+ 
+-__inline__ void inc_count(void)			//\lnlbl{inc:b}
++static __inline__ void inc_count(void)		//\lnlbl{inc:b}
+ {
+ 	WRITE_ONCE(counter, counter + 1);
+ }						//\lnlbl{inc:e}
+@@ -99,7 +99,7 @@ void count_unregister_thread(int nthreadsexpected)	//\lnlbl{unreg:b}
+ }							//\lnlbl{unreg:e}
+ //\end{snippet}
+ 
+-__inline__ void count_cleanup(void)
++static __inline__ void count_cleanup(void)
+ {
+ }
+ 
+diff --git a/CodeSamples/count/count_stack.c b/CodeSamples/count/count_stack.c
+index e10bcbbd..384310b7 100644
+--- a/CodeSamples/count/count_stack.c
++++ b/CodeSamples/count/count_stack.c
+@@ -27,7 +27,7 @@ unsigned long *counterp[NR_THREADS] = { NULL };
+ unsigned long finalcount = 0;
+ DEFINE_SPINLOCK(final_mutex);
+ 
+-__inline__ void inc_count(void)
++static __inline__ void inc_count(void)
+ {
+ 	WRITE_ONCE(*counter,
+ 		   READ_ONCE(*counter) + 1);
+@@ -47,7 +47,7 @@ unsigned long read_count(void)
+ 	return sum;
+ }
+ 
+-__inline__ void count_init(void)
++static __inline__ void count_init(void)
+ {
+ }
+ 
+@@ -71,7 +71,7 @@ void count_unregister_thread(int nthreadsexpected)
+ 	spin_unlock(&final_mutex);
+ }
+ 
+-__inline__ void count_cleanup(void)
++static __inline__ void count_cleanup(void)
+ {
+ }
+ 
+diff --git a/CodeSamples/count/count_stat_atomic.c b/CodeSamples/count/count_stat_atomic.c
+index 9d9457a4..ec57c4b0 100644
+--- a/CodeSamples/count/count_stat_atomic.c
++++ b/CodeSamples/count/count_stat_atomic.c
+@@ -28,7 +28,7 @@ void inc_count(void)
+ 	atomic_inc(&__get_thread_var(counter));
+ }
+ 
+-__inline__ unsigned long read_count(void)
++static __inline__ unsigned long read_count(void)
+ {
+ 	int t;
+ 	unsigned long sum = 0;
+@@ -38,11 +38,11 @@ __inline__ unsigned long read_count(void)
+ 	return sum;
+ }
+ 
+-__inline__ void count_init(void)
++static __inline__ void count_init(void)
+ {
+ }
+ 
+-__inline__ void count_cleanup(void)
++static __inline__ void count_cleanup(void)
+ {
+ }
+ 
 -- 
 2.34.1
 
