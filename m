@@ -1,93 +1,74 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE8D1ADFE0
-	for <perfbook@vger.kernel.org>; Thu, 30 Jan 2025 10:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642541E9B32
+	for <perfbook@vger.kernel.org>; Thu, 30 Jan 2025 16:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738232905; cv=none; b=PPJukdXMBOMKoavGGUm+oxAScFWHHaW5WddSyHJE8Sn3ps7V8xvzrjOnaR+NPF+JtYhXuuo2f3mTlE5GbXUyktRjy6mp79s2PlLfvVsii/HZM2JEqT4JyJyP2kqwOIhL67PzeSw9S6SVuG1g7WPHzR64TbG+XQrJd2XGdFJ+rt4=
+	t=1738253222; cv=none; b=a1fEFmnTaoi85oo4vdnWmfJTz2nlwTTRYFYyCnY7Ng4MeWDsZutVN8KKbiIeUPbqsDad1g/y4V6nXA9/MPBblJcN18byi911XA5/iztpEWeOvchU+Xaxp0TG1LZd1FcUOwoZnLRWBdZTDr1e/0XPcsx5R0CcwS/bV2lQK7khfOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738232905; c=relaxed/simple;
-	bh=N7+bhK0Vv/ipz//xzSimE7vrovkw1CK+upsSNWTKeAw=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=EoKRzC+U6IvVeg6BUHLIpDxmkdjxPZ16sgX2wHFHcPPLbvg5UJ1oW0LxBjNCF1ehKCDBo7ZVo1v9WBEUI4v+xRlOWK90M/XHFP09HWjawO15XLYupqy++X9mYclur1Pg66iAHqjbFkPZdND2+45qD1GSsIg/7ICCKZlJQaOSvWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fJpXyvdY; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738253222; c=relaxed/simple;
+	bh=1L1N8eqqtojmHnq2xzu7ESn8vO9B156JwTn9G3VFyFQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d95E+eO5ZyLvu34Ws7SCc7cPM7779SpgrTDjtIznbTZeMqLjz5gYvIXUeCR7wDZjAEPorI2RBWsgJv+J24kVPyKOadttKz2AV5yFaqjMBh4AO7nwyLrrgCa6/05AQvtbY94aBn3x4EAu8tZfOhqORwakq/DlyQO9D+CdCoV4ypU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L0G8Vt4E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fJpXyvdY"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-216281bc30fso13989055ad.0
-        for <perfbook@vger.kernel.org>; Thu, 30 Jan 2025 02:28:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738232904; x=1738837704; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h656tcH1GiRFkHw3+0e9m4O1eU46u7mqgYlaV9O/e0k=;
-        b=fJpXyvdYugmYHCfJZuZaJ/YNLSgxBstuqfVzWiTMWFYU3s0id5Zq7GjqqlB+rd24YT
-         mWqix8Vmnprq8rxOCd0PJ/ipJG1agc0Xex4uKCTmxSygCKIVr0bsq7KnAmbhfFukWxmB
-         AHUiJ0rwflJEBuXyg2i2Gw3D2569DqItbDSUyq1NeBoiKbLcr+H6PBQEy8Iv+N2BlnMu
-         ZNrbePHhc6de5PlctatDOr2gnJVrtZCqu4RtgzImay/qxzXjO3nmxMSxVfpTnJJgLJAn
-         AAF9R5R0wJ/nKi1FA1PkW2btu4AdH/zZnyKPqOp4QSkpelb6GoRMZoriMu13Ucx9rT0S
-         mKfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738232904; x=1738837704;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=h656tcH1GiRFkHw3+0e9m4O1eU46u7mqgYlaV9O/e0k=;
-        b=RUUdx+R/zG6v/9arYbD7I6OjkeGi8Ir6R1BVGBdDqm8Psw+FgPhqEurc46mJcWdFNY
-         gIR2J0KLIk40KWPn787zXUdKW0atyduD9VFU+WGEBrFCCVNQZZcgHHQowTYkU6BTngZp
-         5gqXWBxaYdeWxIUQOXSouyV36BfRDvRdrRSKNNio+zLhwPvBCD+ZB48lAy96g7+hMbO4
-         nEsOLU+Z2ClwvCiRNz6p79m2Xiidhz/n3VeOQq9QpxNyDnwBBBrL0tttCVRWHn8eIvT7
-         qXY1xgeCPzKU7jfni0c/sZLWDmWzv1ZDuAjtyWUWiDZbro0PeFKVnPsWcS3/P+Zrhcfw
-         /tAg==
-X-Gm-Message-State: AOJu0Yz0dGyLsbUOPNz9cZHCqLdEARUI+890y071PKOlz27T6u7bkdfx
-	ZhvTVEU9YNSyE1FZ4vyHT6vJEqfZIG0wwNg9B+y9xfSbn7lmLSDM
-X-Gm-Gg: ASbGncvQrodOdafgjKyCjrIQpXRL620esTCX1KuX0KtWHUlQtZP4tx2b01Hyx9LUclW
-	laxrfIiVNNffuvJZyVn5AWJywAx34lGfSAVwFLynxzqEw3YJ6+ipNfvvwtZqOwx9panYaUmRF2b
-	Fzmkc87K0xro46Yrq0SxcrrFnF5awxnAtovP1t2quwtOMTirKjUCbDdueddhwdvzyLSt1nqNUY9
-	B3H5TKjSfeDBLFWluxFIqZCtekQLmOKHqQRXRJyofAz+6bDJFgSefy7mwlhTB85fJGdnsqIHCZU
-	VzISTb6c6lcwSI3uilYsw6GGtAnelkIfiFnIRBIhJPVT1m82w/gMcO/bJnnCEw==
-X-Google-Smtp-Source: AGHT+IHYnDsWeQqSYPsXBITsq+C3KB/QTCs39Rg5orVxARgVRbvQeLbpGitSFu2k42zYVompgHRhDg==
-X-Received: by 2002:a05:6a00:10d1:b0:72a:8b8f:a0f1 with SMTP id d2e1a72fcca58-72fd0c9460cmr9393725b3a.20.1738232903686;
-        Thu, 30 Jan 2025 02:28:23 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72fe64292b2sm1128728b3a.62.2025.01.30.02.28.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2025 02:28:23 -0800 (PST)
-Message-ID: <9ade7bc8-2937-4117-9fb5-f52d8a44d75a@gmail.com>
-Date: Thu, 30 Jan 2025 19:28:16 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L0G8Vt4E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38327C4CEE0;
+	Thu, 30 Jan 2025 16:07:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738253222;
+	bh=1L1N8eqqtojmHnq2xzu7ESn8vO9B156JwTn9G3VFyFQ=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=L0G8Vt4EqqjxOheJNPBQqad4FZaNUzDOivvLIbq+gHU7qPGmohucBImoBPfoxI1Jm
+	 PQD53UKbUrwGLfFNYrHhT9gorb4Qw3hbAqktSGpK9jHhvONG03ZnAHqsxRO3qvcGzG
+	 Taa8QK3dLriijs5s2ZuAhQdi/aQg3CyfpLWyBwhMGkRe6fH5SRxWZWHZ7WI2yW8BU2
+	 stMBa8kgJNjTCSC+zF7Sc3Xh8iqK/Up/NezsUYgA6aSiCRZlcnHIctZadZPMVpWK99
+	 hzPU4zbGr2v+lD+inbgCzZzjXVIgE+g/g3vaXMVN1S5VIztY7MAnpZrQh/+aqy99+e
+	 o6awxtrit/k1w==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id C9D4DCE37D9; Thu, 30 Jan 2025 08:07:01 -0800 (PST)
+Date: Thu, 30 Jan 2025 08:07:01 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
+Subject: Re: [PATCH -perfbook] CodeSamples/formal: Update rcu-test.dat for
+ v6.13
+Message-ID: <b47c291a-6209-4819-a893-cc3298e7df35@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <9ade7bc8-2937-4117-9fb5-f52d8a44d75a@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook] CodeSamples/formal: Update rcu-test.dat for v6.13
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9ade7bc8-2937-4117-9fb5-f52d8a44d75a@gmail.com>
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- CodeSamples/formal/data/rcu-test.dat | 1 +
- 1 file changed, 1 insertion(+)
+On Thu, Jan 30, 2025 at 07:28:16PM +0900, Akira Yokosawa wrote:
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-diff --git a/CodeSamples/formal/data/rcu-test.dat b/CodeSamples/formal/data/rcu-test.dat
-index e984fa8a..acb29ae2 100644
---- a/CodeSamples/formal/data/rcu-test.dat
-+++ b/CodeSamples/formal/data/rcu-test.dat
-@@ -100,3 +100,4 @@ v6.8  22018 12071 34089 35.4
- ""    22579 12085 34664 34.9
- ""    22676 12095 34771 34.8
- v6.12 22834 12313 35147 35.0
-+""    22961 12414 35375 35.1
+Queued, and thank you!
 
-base-commit: ff5ebfc467117f34c4d4066d83b7883b151da63b
--- 
-2.34.1
+							Thanx, Paul
 
+> ---
+>  CodeSamples/formal/data/rcu-test.dat | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/CodeSamples/formal/data/rcu-test.dat b/CodeSamples/formal/data/rcu-test.dat
+> index e984fa8a..acb29ae2 100644
+> --- a/CodeSamples/formal/data/rcu-test.dat
+> +++ b/CodeSamples/formal/data/rcu-test.dat
+> @@ -100,3 +100,4 @@ v6.8  22018 12071 34089 35.4
+>  ""    22579 12085 34664 34.9
+>  ""    22676 12095 34771 34.8
+>  v6.12 22834 12313 35147 35.0
+> +""    22961 12414 35375 35.1
+> 
+> base-commit: ff5ebfc467117f34c4d4066d83b7883b151da63b
+> -- 
+> 2.34.1
+> 
