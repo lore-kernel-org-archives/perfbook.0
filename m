@@ -1,63 +1,64 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E78F1BEF9B
-	for <perfbook@vger.kernel.org>; Sat,  5 Apr 2025 08:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D034D1B4251
+	for <perfbook@vger.kernel.org>; Sat,  5 Apr 2025 09:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743843501; cv=none; b=UGEi/QlUdQ1lkvIvyajq5/P+jFH/MMcDbQt1ZVytHRhE9+YEaJIjeUTH1WHu2q4tjVmScOXs0w2h6hyepm7v63pfm/HB1MsFmFzlmeMtKfydbj+C7Vz3TDsNDrNZAKYeJtMjqGkwxLWhtQEBrRVDpx4Yly0PbylTJgs05NVGtKQ=
+	t=1743843620; cv=none; b=H8EhHPY7kV+NunYspr3K1HPavHahzNr1zfXYL/lbub5z4A9JCwKGAf0kA0wPCfT6LQhuzVvdx+pY56YN5c/mvbXTX/5dlH2blqvAN+eiNj0TlKoZqMJO8fXcrrGCc7ckQnIxjMO/P8qXeT5UMldRkrwzhW9UbthD88kmIuA/1oE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743843501; c=relaxed/simple;
-	bh=ZgWTTQDWGwMhL0lV098Q+tv8C/g2p+p8O5VKX98+pSI=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=UfhfUipLJa7J+JzcqSbvteEbeFVV6pwW/RcKGroIhXxQuOZMWLwZMlRHJug6mScaYljGLaEdmLbSCmi8scX+3R2HRcHZsO/mr30jlrXMq3JuHJ0tg9kMphblL+02D2mppkAec1jz5qJ4P6Lvnw03bCvT0lo1P6O0EdXSWDZDP0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=htx77Sng; arc=none smtp.client-ip=209.85.215.175
+	s=arc-20240116; t=1743843620; c=relaxed/simple;
+	bh=nLMvwroc+1j6StWvinNeMOEGgZf8FGazqhON9goLeSA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mfQ1fwEgZ+NQAIdt8YO5OmulQYZ3ZTbgy+mObEyeoal8HrPTOPqDefPvtAZR/nmoHh1/aWo5d+Yijs46TrVXtYMrYMy8Nf+abq/Kca72HOttXaL5pP2FmTnFqU2HL7qGgHef/zBeCXU4p9G2qG/ozaxymCfr8IvzX29y/l/UdRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b4Ip2OA1; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="htx77Sng"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-af91fc1fa90so2366705a12.0
-        for <perfbook@vger.kernel.org>; Sat, 05 Apr 2025 01:58:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b4Ip2OA1"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2241053582dso37495955ad.1
+        for <perfbook@vger.kernel.org>; Sat, 05 Apr 2025 02:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743843500; x=1744448300; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6LsqJIdwxWTBgcp7aQhPKfvGOvVLpygPdscV1EodpaM=;
-        b=htx77SngI0MGiaZpd0qQraPJ5k/yDcoNZeeWlwNZbj9R0IOOE4NB0viAxM20QWjQXO
-         h4Q5t/f5kZ6LsMkHZH8lx6woFOq/bfkDjX41LZu/BDNRWPmdxPS1tCWbyKg04MDuM2VC
-         f1SevOsDmQdJUnMR5mIoJNT/yGTLOTMdHHPo9C2M7WxBme40NvndrHPm6YzolAkafIb0
-         SnClGfHNsBHUPAtIg5Z1z5g2bF3WDi9+aTSvWrc905XZlLDrEIeKIQsyhHCOgE22lDjd
-         7xWfVwp5aLBVMUcJ25AH1UPmSxK6vY5NgYfXZGH0nRSS/xgwdrcs5FGz8b27Js9Umm+D
-         Vr6w==
+        d=gmail.com; s=20230601; t=1743843617; x=1744448417; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gwdFehujRcpG1OQCUo0k7LbBkM/HolI/wpOXF5bPMLU=;
+        b=b4Ip2OA12zQ4Mt/3xKr3gO3u+HE+yS8n4UFBz2jIpT7dTcrLQt85dgWb3HGsjd4PbV
+         qLCbK9dCpnhR0P/FcdRT+yXEqUjTBBwEj4UkwBPss7JzWcy9MGuXJE3IhmkjlfY7A1Dw
+         Jd01o2xxZVL9QNzzvBMwMW1Nb9Kk8RnYkdfdbcFE4dd+DHM1aLqKq1TkW0JDsdOo0oi3
+         akj2KImtK3Hqb8LgaMLHFZBCLROCPAwwCb+ZQNPA2+n0sjcUzXymzjcEFnHKPD9H4OmI
+         CQXQvCr94sJne9YJhSQ82it6pOJ5xhv1Gph+ND4a5A5xeGA695a3uxcq+q712nWIfged
+         mPrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743843500; x=1744448300;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6LsqJIdwxWTBgcp7aQhPKfvGOvVLpygPdscV1EodpaM=;
-        b=w8ja64y2dr8V0eNwjvGxr/OdV+FQbJnxmriYIri7tjwGiS6V2FyS+l0JAfUDvAkie3
-         5PHdN4iX3Fmp2pfzt6qBC4eQiRzP7YPVgthLLGg/HPEJDYxxjWOfbrtwRH8jdtEidh8u
-         e6i3kFondmkulIX8mWTg+jr8lwJikKJ/y/1LZp2/9WvuYi9V1HFKeGlj0QLa39zv5wg0
-         Se34RnArDI3Ccqq3D4q3i2tQzHpS9Hjuazi7inKTUhykxZbvREUlQmnWC1OIK4bNuyJW
-         ttPt0cpdu+cn9WwweGSqa8RvIB+6Cu93KcE6mIo0Gi/zBIvGLFBe3q9x2CDvqddMgHCn
-         a+Nw==
-X-Gm-Message-State: AOJu0Ywb5ZB8bQmNzrOtHu2vpID4rmQ804ETMU/rAYoEoqrJHFKyjXW+
-	Z5CwpAPOeBx7/NxQxv70RSHaaZKy28Wtt8qHTeQNdp8auu0JHJaqD3WPPBXp
-X-Gm-Gg: ASbGnctP/bLgK4B0o0Hi2/BTMUkJpOyPbdwJQIoL/G/G0hvmU+9uUG7qVWOHldAGaIH
-	ncHW194ngR9LiuuXZdYfr9xST8IHPqpLwzzW0fvDLDZTi1iGTuy+KNdTZn+BdDrZ0OvzOwY8cN4
-	s6HjAdecLfQPXtYSpzqYXUS6g02uujCm+46M2+e5ZyPke17U21kl9E3J8tfrBNrrP6zD4hwnBOo
-	gDl78g92M9sv8fow3i2dck0S6UQFzGRMooRcHqYb+XtQD222su6XCW6BAw3vtMYk6JuI+C6YKHa
-	SM6y4VIBTwIQ8G1w/pLR00ZLAEO8Z3iVg9SHi5e2bdZ9jdWlDLHKEQs7TTebSIEaGJDJPTbh+bS
-	7oVRM3jxgeNwt/dJPNdYhshpT9w==
-X-Google-Smtp-Source: AGHT+IHv9QwOoN+GbWSaJ4n6K/DdniXJ+nmtHKK+yz9KjCHYSz0mbZ64wZu1N+ajsosXzqklPhpEag==
-X-Received: by 2002:a17:903:2c5:b0:224:1294:1d24 with SMTP id d9443c01a7336-22a954f9deamr29559165ad.3.1743843499700;
-        Sat, 05 Apr 2025 01:58:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743843617; x=1744448417;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gwdFehujRcpG1OQCUo0k7LbBkM/HolI/wpOXF5bPMLU=;
+        b=bZ44khXOQfrpLEPc/cpIGaBKP9hkX9apbfpwgXjcPqxElTkLGSVMXFZmrsKpC+tLHB
+         DT//fbdfrV8XO2dVTEjTgukp8rh1cdD1uVnFRHOqEq1CgVH8hd0bkx7dyVJ5ot+/63mh
+         BWSRKxgPLKzzucHpGs0TN/WFeAs7G4jU1AE04rMEEqRClJPg7h8j6ycOYxfz6zdy9Hmm
+         M35Ib143WpMMxdlh29oR2Vch7v32t2yfDXiqGmyNAVdja+75rgZVoAw4+zVOpC5CLZIF
+         4Q99lQ8rBXXL4+D92zTurz1TUnNy7OYUN2BpxKzNxiGJlz4aOOnt/rPlm0lsPbl6YNeh
+         MFsA==
+X-Gm-Message-State: AOJu0Yy2s3ww1QRPKRUgRDveq0bxLsaNQxbB6s0pSis2tVpP5Esd1vKu
+	KWlcA6pnEc9Y7dpeYZIvRpxL3XSdSUyjpSoPmOn3Dp5M15a1Idfw
+X-Gm-Gg: ASbGncvHT7PnHI0/mZ096hh+3hbMIgf6IFRgzAMfWIx1bDqO1NuGC5QeUkiSAXUAtsR
+	pv3Qi3KyQZcnlXtb/XnaSJAXPnbCVcd1Be8M57HF228bGYx+bosjtPGMHDDLamF1Blm25R6VvDJ
+	dCYjpJtK9ipFm8boqHkI2jjP8yav9wvNf+scxwHfiSBxkJz7mMXCY9m5HW2MD9k3q1ZCXpf/xca
+	QVD5zYK2neYUaJzpQuCtUPvC7e3DEVlpQCtuQEImdKA8o+0kCHj+MetrBVZGDC7E1MGTS7CuDAU
+	PHRreMJjUcBpbEO8AAbn6qP9P7Fs8HoAIqhrQGZUqRI2BjuQTNAeXt/xt4kMVuw3fz4f5RvSGF4
+	IoS/1hEhx3TXEFnY=
+X-Google-Smtp-Source: AGHT+IEucjCv/ZxcaXd5GyJA2ecZbdJ6av5SouFnAQqExJ+55PXEaTcBHMsxfjnsHjSn8cF9Ar5BmA==
+X-Received: by 2002:a17:902:e542:b0:223:f408:c3e2 with SMTP id d9443c01a7336-22a8a05491dmr86855055ad.14.1743843617083;
+        Sat, 05 Apr 2025 02:00:17 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785c2791sm45419785ad.80.2025.04.05.01.58.18
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297877275fsm45447815ad.221.2025.04.05.02.00.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Apr 2025 01:58:19 -0700 (PDT)
-Message-ID: <775f9284-0768-4510-a5a5-1b46f4369e93@gmail.com>
-Date: Sat, 5 Apr 2025 17:58:17 +0900
+        Sat, 05 Apr 2025 02:00:16 -0700 (PDT)
+Message-ID: <fc0f16c3-cc63-4f36-a08c-29c056938f02@gmail.com>
+Date: Sat, 5 Apr 2025 18:00:14 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -65,31 +66,56 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+Subject: [PATCH -perfbook 2/2] formal: Mention code move of kvfree_rcu()
+ happened in Linux v6.14
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <775f9284-0768-4510-a5a5-1b46f4369e93@gmail.com>
+Content-Language: en-US
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 1/2] CodeSamples/formal: Update rcu-test.dat for
- v6.14
+In-Reply-To: <775f9284-0768-4510-a5a5-1b46f4369e93@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Decrease of LoC in v6.14 wants some comment.
+
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/formal/data/rcu-test.dat | 1 +
- 1 file changed, 1 insertion(+)
+ bib/RCU.bib       | 9 +++++++++
+ formal/formal.tex | 2 ++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/CodeSamples/formal/data/rcu-test.dat b/CodeSamples/formal/data/rcu-test.dat
-index acb29ae2..33a66ac8 100644
---- a/CodeSamples/formal/data/rcu-test.dat
-+++ b/CodeSamples/formal/data/rcu-test.dat
-@@ -101,3 +101,4 @@ v6.8  22018 12071 34089 35.4
- ""    22676 12095 34771 34.8
- v6.12 22834 12313 35147 35.0
- ""    22961 12414 35375 35.1
-+v6.14 22107 12620 34727 36.3
-
-base-commit: 0b760b3c35bfc8fb544c9bfa9e14b3bfc6a52998
+diff --git a/bib/RCU.bib b/bib/RCU.bib
+index 9ec242e6..3ba2b11e 100644
+--- a/bib/RCU.bib
++++ b/bib/RCU.bib
+@@ -3539,3 +3539,12 @@ series = {SPAA '20}
+  day="27",
+  note="\url{https://bitbashing.io/gc-for-systems-programmers.html}",
+ }
++
++@unpublished{20241212180208.274813-1-urezki,
++ Author="Uladzislau Rezki",
++ Title="{[PATCH v2 0/5] Move kvfree\_rcu() into SLAB (v2)}",
++ year="2024",
++ month="December",
++ day="12",
++ note="\url{https://lore.kernel.org/20241212180208.274813-1-urezki@gmail.com/}",
++}
+diff --git a/formal/formal.tex b/formal/formal.tex
+index 4348aacb..9a3b20dc 100644
+--- a/formal/formal.tex
++++ b/formal/formal.tex
+@@ -375,6 +375,8 @@ which was successful in locating a number of race conditions.\footnote{
+ 	pairs of vCPUs
+ 	(\url{https://paulmck.livejournal.com/62071.html}).}
+ Linux kernel v5.17 removed the \co{RCU_FAST_NO_HZ} Kconfig option.
++Linux kernel v6.14 moved \co{kvfree_rcu()} into SLAB (in
++\path{mm/slab_common.c})~\cite{20241212180208.274813-1-urezki}.
+ Numerous other changes may be found in the Linux kernel's \co{git} archives.
+ % rcutorture
+ % v2.6.15: First torture test
 -- 
 2.34.1
+
 
