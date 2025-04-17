@@ -1,104 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4035290F
-	for <perfbook@vger.kernel.org>; Wed, 16 Apr 2025 00:10:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587361C3F30
+	for <perfbook@vger.kernel.org>; Thu, 17 Apr 2025 02:02:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744762206; cv=none; b=fwGtSyF0kYiQ1RvMXHiLqDTPV6KUX5espqwMbc8+O3UL842+aqr57F7KowIAhN9q7dSD189zJf4oLdpIG3fsjF6A0NwsmbwUMkE6C22cpEVxm/+kOEsJNqWphMD/r9c/r3nTnFLnTDXfs5uC2BSvbfmfOwcqS1IQ9P5Fl3P3lfk=
+	t=1744855327; cv=none; b=U4ouGhZ/TZQfHw0gUbrJINkXfIxuzFcJDzs35CjSHxUQvaZwSi7X8dSNihT7z0NtaNkmOj+yzUfDedGdHyAlqDeVdNBU+T0Rs9tn0vqZVKwJ22RSFCVo44IZl6Nf+VF+BhmDtUc1MOcCp2hbw867fr83DxRZ1dtasw9g3OHlGns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744762206; c=relaxed/simple;
-	bh=Um/HLR841KR018meZrV92PlyFbDWfOC4tZKrlBQ22mw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LL1htQebbXM36sOYwTZFsLJFLvhY4sKl8fLWtih9tLqrzXDkOKWBc2bAyEUQqzZCrHBqh8SkodchFAU/jftkV6F2BgmPNwvMnlow+cepgLrsnU+y/aBl+v+idaZosJUg9CgPmNzhxq2kywon6uphgfoSgifRqtwW76pTYInNzN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJ6t/aL0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744855327; c=relaxed/simple;
+	bh=YSC6Ow9VEl5z8CvI3z7rY19TRihgdKfCE0Xmd82S/nw=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Ri08XkggHuPvk10HPZ1sa/mUxE3v4aRSxMWYTRzl4VcUmpGBqgTCOOHPB745Hwv7DuzvaQ8B2KpFqvNybaFOLgkY4xtx+QRY62NHxNIb2EAhD2sg+7iSVXDmvYOWxIK9cozjsjXNA7ya61kAA0Hca0V7jJgZVjXlbrS2oYjnyJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SOU/ecuL; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJ6t/aL0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A6C6C4CEE9;
-	Wed, 16 Apr 2025 00:10:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744762205;
-	bh=Um/HLR841KR018meZrV92PlyFbDWfOC4tZKrlBQ22mw=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=IJ6t/aL0kNRwdYHTFRj+G3bamq3i0gd7+TxQ9cVx3twozFZcZ6L+RBdoq6H61NoKM
-	 H8SAAvv5M6Wg6nYTA8Ob6r40/Stfi+viAU1K+ED1dk8nlPeOZJzwHtQkeug3c3LOfd
-	 QSJaeESP7ioMferRlJyYhbqqRnDZmc71bNvvJeLNuwwdXMNo4ETFk4433VThEzM91J
-	 xtUwSY8TbVHLSzT4wXtJhBm1v2b6MS9GbT3D5wNOg8DC4szPVcRX0PEjerCjdVejgv
-	 cNoLG+F8u9wy3UozxJO3WxefmB1oGrfU+BxSAE7FylELKmOOxzvXXphodS5QP1UhSs
-	 5oCCabDBzEJeg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 0E2F4CE05B1; Tue, 15 Apr 2025 17:10:05 -0700 (PDT)
-Date: Tue, 15 Apr 2025 17:10:05 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
-Subject: Re: [PATCH perfbook 0/2] Split "Index of People" from general "Index"
-Message-ID: <59c07a19-64db-4f20-badb-833a199eea5a@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <044918d6-0b23-4e9f-91dc-14219b171548@gmail.com>
- <6834efcb-0108-40d7-bdea-1cf288485e02@paulmck-laptop>
- <dfe093c9-e09e-4541-ac58-53eb259c9b85@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SOU/ecuL"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-224100e9a5cso3074155ad.2
+        for <perfbook@vger.kernel.org>; Wed, 16 Apr 2025 19:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744855325; x=1745460125; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4c5qU3X7obs9mTR7GcHkeOQG6hd6esycqoFzkUHwbfA=;
+        b=SOU/ecuLcPPlt2a1dr2MgmlhK+uV6bJB9TbmrfbRgWrzaC5rXczUeTNfSupgTrho3f
+         77pozzqVWscWed6yN1XTXUoY5yd8H8Wdjnv93d68hJ8Fr5OZCOTTH2ydb1frlZHcgrau
+         bE5tYbW/oSCBkejAYD+u6tAQThNqrdMKuOinGqZi6vkh8DTtmrM7KgYJGofXvMaZl3Vv
+         siMr25hdWWwDJEidzNhCdfUTBEbdJigNFTrDr62XHDfpG80vwNQ1OCnH055U91HXooYD
+         7FVnoxLHsflrT32KeCIn7sXxPgmBgAelrw6FR+9tRUVKGNeWjcrQoDs0RQJK6XsI5IZk
+         a8Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744855325; x=1745460125;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4c5qU3X7obs9mTR7GcHkeOQG6hd6esycqoFzkUHwbfA=;
+        b=W8C0FVm9gd0MkAftVJICg7zhpGs5/25xu8V00HHSrsa0gWulfBU5tfhh5gzoNTTHXo
+         aSpXAHgT6Qwv80dCG8ESI9MAMPfFSCS1UB66iZYMAqm6ncJjcRiMQt5Tzx5kqnVSEXYs
+         /xzcntNonp+Nv9c94NKoQdhCLJBrEDJlg6O9s/6Kh8A+dfPheLMO0+6MlibTgxgihBhe
+         EKwjP+QiVsHxEgdR00emKPz9LnaUr3lHNGyxWYeZ2w9xT6EIDKV/nbny92QTnL4dP2/D
+         kIGyAE5J4JYx2QJG7zjPK4ABDDnrY99R3QnOMybCouHcHZWES/aaH9V/vRQcOZDdKkwO
+         JTNQ==
+X-Gm-Message-State: AOJu0Yy838uOPITwYYD9iIHeMwJ6hzeM2seB3Qc22O4e+3r+Sci+bYGl
+	i0X5Prs3lvutO6vneiqNdTYeBEpcGClE8nUCwrnqxDgDgrUnJuzBac6EUA==
+X-Gm-Gg: ASbGnctl+8NKsx7wi8BLF/zPZiQuEv+U+RiFhYMRgk8pyD2G97wmyIMx64gc9+rPPBl
+	jAnTofgIltqHLt9Vt8jZt9St7ci7uCrOsmnKkdmhuwl8h54+7MkKTv4gDzAnp1UPwFMLjFp6TKk
+	vSDnBTs3qiGtAhUaDC/vgCz4w0wZaXwE/qPScIAKI5Il4Z71mu1C8epE7Cxr/cgCCHyVFcJLOXW
+	/p7mN2e2WM51Jrs4Yqu1XiohdbsGvS+2GP+HcUMTMvq2Z2SNGhzqaTCkf6OWonxKI5I9I/JcZA0
+	v+dzCRZ5Wiz7sR9TMtKhz8HFc67MoR1bwBEy6M2MiPO0ellWDqPiQN7DYbldjRV/KwoBRK3z8kg
+	G87UEiiZ+B1A=
+X-Google-Smtp-Source: AGHT+IHX/1UjVNUT3oDOA77a9VFPR3KsAqhEoOp2v32iIo4XP0LmjpkCBWfwgo/I7JBDPqvAoPpa0Q==
+X-Received: by 2002:a17:902:c40f:b0:223:66a1:4503 with SMTP id d9443c01a7336-22c358ead7cmr50731705ad.30.1744855325532;
+        Wed, 16 Apr 2025 19:02:05 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-308613b383csm2670483a91.37.2025.04.16.19.02.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Apr 2025 19:02:05 -0700 (PDT)
+Message-ID: <ec0b5744-65b9-4335-be12-6f3ff0e8c31b@gmail.com>
+Date: Thu, 17 Apr 2025 11:02:02 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dfe093c9-e09e-4541-ac58-53eb259c9b85@gmail.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Ideas on reorganizing terms in perfbook's Index pages
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 16, 2025 at 08:08:26AM +0900, Akira Yokosawa wrote:
-> On Tue, 15 Apr 2025 11:47:39 -0700, Paul E. McKenney wrote:
-> > On Tue, Apr 15, 2025 at 06:04:14PM +0900, Akira Yokosawa wrote:
-> >> Hi Paul,
-> >>
-> >> Mixed list of technical terms and people's names in the Index pages
-> >> doesn't look great, especially with the growing numbers of people's
-> >> names.
-> >>
-> >> Patch 2/2 splits people's names from existing general index pages into
-> >> "Index of People".
-> >>
-> >> Patch 1/2 is an independent fix of a minor issue in single-level index
-> >> pages.
-> >>
-> >>         Thanks, Akira
-> > 
-> > Nice, thank you, and I have queued this.
-> > 
-> > After building perfbook.pdf twice, I have "Index of Terms" in the table
-> > of contents, but not "Index of People".  Which is fine from my viewpoint,
-> > but thought I should check.
-> 
-> Strange.
-> 
-> I have pushed my local branch at:
-> 
->     https://github.com/akiyks/perfbook/tree/test-split-index-of-people
-> 
-> Appended is the screenshot of TOC in my build.
-> 
-> Running "make clean" might help.
+Hi Paul,
 
-And "make clean" did the trick!  I should have thought of that, and
-thank you for bearing with me on this one.  I have pushed them out.
+With regard to "memory consistency" and "memory model", currently,
+Index of Terms pages have the following:
 
-							Thanx, Paul
+  - Consistency
+     - memory
+     - process
+     - sequential
+     - weak
 
-> >> --
-> >> Akira Yokosawa (2):
-> >>   Fix \IXhmr and \IXalthmr for single-level index mode
-> >>   Split "Index of People" from general "Index"
-> >>
-> >>  perfbook-lt.tex       | 21 +++++++++++++--------
-> >>  utilities/runlatex.sh |  3 ++-
-> >>  2 files changed, 15 insertions(+), 9 deletions(-)
-> >>
-> >>
-> >> base-commit: 6e66e280e548545c69dde85f8eeee400f66b4bfc
-> >> -- 
-> >> 2.34.1
-> >>
+  - Memory consistency -> Consistency, memory
 
+, and
 
+  - Linux kernel memory consistency model (LKMM)
+
+, which comes from markings for acronym of "LKMM".
+
+The redirection to "Consistency, memory" looks strange to me, as
+
+  - Process consistency
+  - Sequential consistency
+  - Weak consistency
+
+are about "memory consistency".
+
+So, I'm thinking of reorganizing them into something like, including
+additional markers for "memory model":
+
+  - Memory consistency
+     - process
+     - sequential
+     - weak
+
+  - Memory model
+     - Linux kernel
+     - Armv7
+     - Armv8
+     - etc.
+
+  - Memory consistency model -> Memory model
+
+  - Linux kernel memory consistency model (LKMM) -> Memory model, Linux kernel
+
+How does the above sound to you?
+
+        Thanks, Akira
