@@ -1,132 +1,111 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622E62139D2
-	for <perfbook@vger.kernel.org>; Mon, 21 Apr 2025 10:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E899826560B
+	for <perfbook@vger.kernel.org>; Mon, 21 Apr 2025 13:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745229840; cv=none; b=Hu+QhjLr5z5VXkUULkYo5ZXjTmxxrrinv1AYJBjOXY+9d1E/jzZQGOhgZ3ZTLjR3yAwk9ACNH/Oe+9w3RMvHIXVFwFXD4wZkrggSKJxRqjzOcbZ2/bwH8mDvlxfo9GvgoXBYgCsbQXb2u881d54XOSaDykzfG9gtcoH2ol2zwT0=
+	t=1745243923; cv=none; b=QFN6/8pfqJBKbagOkbRKrkwqMQS3Hsdc8sRrDAe2ujV2A4EUJoHdfbu4IFF71gb56tVJEkW+sY7uLs593/07yKd+hj3uDom9FSKLWncBTuQIaLiWYp6u8W7CCvlEjO17DhXvrJSaMkpCUQ+YjRnWaKlNE6kXmgLHv1JdhDtaRYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745229840; c=relaxed/simple;
-	bh=gTuSJ61mbWFY1AnhmCHAgWghm0vkdJF56wkR0AXAXPQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n4dk7NLcmXad6ZUcglojXInGZDbESrIat22OavI1kQE91hcWmla+36SrOjfT/zMxHLprl5ZluSJntZlt2+JCdw8kmY0jpgGhzi4enHICf5heK029MkHGaCB1qIXnCrt1gLeKtD2OXAyfv8tecQOqcINuEcO6X8s0AJ0dfnxHTqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z+cMkFz/; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745243923; c=relaxed/simple;
+	bh=ARGfoEvldqiXrvWgtfC9OgZYHkCiqjFWorurhdRN6cU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NJOQlk/w1zmNuW/d/M8/HjBWIQhWM0C+5jbU/AYTpTS4WDhsWg/L4Pj1fCleC5kJxFqTpCo/2jWKzElhxevNK1sSYmAUyrr2cNUolGmeSQ7OWEvNFkrPj51d2id1fojPm8wnuezc/Uk0o67nOqZKrfIYze7gofJCrXgZ5Xp/I3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rWXq8Qpe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z+cMkFz/"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-30332dfc820so4544911a91.2
-        for <perfbook@vger.kernel.org>; Mon, 21 Apr 2025 03:03:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745229838; x=1745834638; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FdyGR0q9pWCat1rqCvtRBrRkma4Yn13Kmr7+N60PYnc=;
-        b=Z+cMkFz/WF+vv9aViNIaGQhr0BhyEtUJMGS8ZEXIaAmLpzgfKsz3eiZ99t2iY6l6XJ
-         xq50A29L7M7QymlJYAqdIGyjNBoRKtIrsjrhQNa1SY+x7sOs9xie7LfdbqpWNGvCgByG
-         1f+kD9OD3I/6djgFI9gD7ZcPvHn1PmzUtAhfCLhNJW0aPWD6lI51aerV2yRRz3ugnl9D
-         IiXcNfW91jnk0pnab1VF/i6kMQ6sFkDn7lY6IH9ai7m+NJfZcbQhrTNxOD0rpcox5nd4
-         Rgev80Y9278UhjvhHys/USzpbLUmR2HFX//zh3geWDoZrKJt/w/Y1bOmQf63qB1mwm9o
-         vPGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745229838; x=1745834638;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FdyGR0q9pWCat1rqCvtRBrRkma4Yn13Kmr7+N60PYnc=;
-        b=aCK9r1KB+/i+GeU7JFgFoV6NUkOmgjp1B2/SkcHHZhKqqASwbeuNVGpWZIwb3DXpMn
-         fl/tzc1R63TgXyYNa041kMmUxixQrvhuGLdOC2vK1MNwD6lpKWndgwaD1uJzWgWiD6S5
-         Bc3JpTifXBFKhOG6hOQrhnUvuVR6KKqeXON4wJp7xe1BOL4ALFdhVk0iCskoTxhc5zlV
-         6zOXXnJ8VomDOpvzYQlECJHgvTrwU0eTXJBqGueLRli2Ky6GvSrab0no376vY1JPlTSm
-         iX78xcq/n1s7g89CwDuwBqWe57k10C0apucBLUXSAz22j9Z9x3NLyHM6AdUvluR1mogQ
-         4Llg==
-X-Gm-Message-State: AOJu0YxuqNargcgYrBtLa2g5EgEzASodAo3NJ091KKuu4bcLStnxoU/I
-	PqPkpQ19jtmcdgeusdfCB+cCiGhZH+9zBnp1M1GO0VKLiB6zB79G
-X-Gm-Gg: ASbGnct9pYy1fy/Og7n+TXxGeCZsknVBt4pq0vD2jDsZpxpwWCUaA8UcZwoe8+a8wKu
-	uTZhPmbFgzag0TmdJdcvnT28wKnOxBMeiNqGTsOx6ctDAwxIi5no1V68QJeVtF36U5TvfZaXUQo
-	Nu/XVfFLqE8HNNsTwOLUGPoyYZ/Ucp+QiPi6LNuU/WjANQgdC16Y2B4npfhjvWrHwYflj7pbevH
-	ZA/Lsfit5CJOs3rZvh7IyRg1ZazDYDoa8KpoZRDmyuctfFujr93qSUPRSK0zqeiWwXOdmrnGuti
-	9q0Mm+HZsX1c+lxrE/NGokPJGRDvHFJde/r2xk43+DighZC3bx4Bh62m7wStqHqROzlr4YpXCBC
-	SzR7q6SF3uUKvsysb44KiZA==
-X-Google-Smtp-Source: AGHT+IES8FlYxtU+MpHVKvikcyt9RXAP3QW/et1A6w0Hs28FNUX27HE30v4mzmkw8YL7RR/b5Yr0Kw==
-X-Received: by 2002:a17:90b:2f48:b0:2ee:ee77:2263 with SMTP id 98e67ed59e1d1-3087bb418dfmr17970164a91.7.1745229838570;
-        Mon, 21 Apr 2025 03:03:58 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50fe055fsm61686695ad.253.2025.04.21.03.03.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Apr 2025 03:03:58 -0700 (PDT)
-Message-ID: <54fc239f-5574-4a24-8a4c-6105e552140a@gmail.com>
-Date: Mon, 21 Apr 2025 19:03:57 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rWXq8Qpe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6564EC4CEE4;
+	Mon, 21 Apr 2025 13:58:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745243922;
+	bh=ARGfoEvldqiXrvWgtfC9OgZYHkCiqjFWorurhdRN6cU=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=rWXq8QpeoFDZsNb83LeKlyX6bbOaHiAZ2GxA5EKpuLYbnrucW0eGaCkRlq/C8VP4P
+	 5sc2Qad1LjkQz6ca5xHY+WlLH1NBP40MVqKgWhCkvqfFqgwwiJWoyT5Lw2WTtsSPji
+	 9InaxTmDBAG/MWxTViP/xbpvllUpLRx6lAfgA5ZoFlqIrK0GFaHmo4XSFPRn5Nwk7A
+	 VjRbCOdo0xjjVQ/AxikmayHY7cjxQD48U1uKSMnKNGJ/thScoB5t0A304EbevUPcK8
+	 IH7UAH2UIu4Q8ezvqAAZxbO50DAng1a2gkKIVvSNvxi2rob7kr3VW4FJMwnhXZMX15
+	 +CMvWAGNH43kA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 0C146CE0855; Mon, 21 Apr 2025 06:58:42 -0700 (PDT)
+Date: Mon, 21 Apr 2025 06:58:42 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
+Subject: Re: Ideas on reorganizing terms in perfbook's Index pages
+Message-ID: <ee594737-8a9b-4c84-925a-2f16008482af@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <ec0b5744-65b9-4335-be12-6f3ff0e8c31b@gmail.com>
+ <2751a064-a9d4-4753-8948-346e12bbe456@paulmck-laptop>
+ <2d36f655-0054-4428-b8d0-b25b06954d09@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH perfbook 5/5] indexsee: Add redirections for arch specific
- memory models
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <ec0b5744-65b9-4335-be12-6f3ff0e8c31b@gmail.com>
- <2751a064-a9d4-4753-8948-346e12bbe456@paulmck-laptop>
- <2d36f655-0054-4428-b8d0-b25b06954d09@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <2d36f655-0054-4428-b8d0-b25b06954d09@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- indexsee.tex | 6 ++++++
- 1 file changed, 6 insertions(+)
+On Mon, Apr 21, 2025 at 06:53:39PM +0900, Akira Yokosawa wrote:
+> On Thu, 17 Apr 2025 12:43:06 -0700, Paul E. McKenney wrote:
+> > On Thu, Apr 17, 2025 at 11:02:02AM +0900, Akira Yokosawa wrote:
+> [...]
+> >> So, I'm thinking of reorganizing them into something like, including
+> >> additional markers for "memory model":
+> >> 
+> >>   - Memory consistency
+> >>      - process
+> >>      - sequential
+> >>      - weak
+> >> 
+> >>   - Memory model
+> >>      - Linux kernel
+> >>      - Armv7
+> >>      - Armv8
+> >>      - etc.
+> >> 
+> >>   - Memory consistency model -> Memory model
+> >> 
+> >>   - Linux kernel memory consistency model (LKMM) -> Memory model, Linux kernel
+> >> 
+> >> How does the above sound to you?
+> > 
+> > That works for me, and thank you for going through this!
+> 
+> Hi Paul,
+> 
+> This patch set is my attempt taking care of above.
 
-diff --git a/indexsee.tex b/indexsee.tex
-index fc2042aa..fe57094b 100644
---- a/indexsee.tex
-+++ b/indexsee.tex
-@@ -5,12 +5,15 @@
- \index{Single-copy atomic|see{Cache coherence}}
- \index{Single-variable SC|see{Cache coherence}}
- \IfIndexHier{ % effective only in two-level index
-+\index{Armv7 memory model|see{Memory model, Armv7}}
-+\index{Armv8 memory model|see{Memory model, Armv8}}
- \index{Address dependency|see{Dependency, address}}
- \index{Anti-heisenbug|see{Heisenbug, anti-}}
- \index{Associativity|see{Cache associativity}}
- \index{Associativity miss|see{Cache miss, associativity}}
- \index{Bounded wait free|see{Wait free, bounded}}
- \index{Bounded population-oblivious wait free|see{Wait free, bounded population-oblivious}}
-+\index{C11 memory model|see{Memory model, C11}}
- \index{Cache-invalidation latency|see{Latency, cache-invalidation}}
- \index{Cache-miss latency|see{Latency, cache-miss}}
- \index{Capacity miss|see{Cache miss, capacity}}
-@@ -24,11 +27,13 @@
- \index{Full memory barrier|see{Memory barrier, full}}
- \index{Fully associative cache|see{Cache, fully associative}}
- \index{Grace-period latency|see{Latency, grace-period}}
-+\index{Itanium memory model|see{Memory model, Itanium}}
- \index{Linux kernel memory consistency model (LKMM)|see{Memory model, Linux kernel}}
- \index{Memory latency|see{Latency, memory}}
- \index{Memory-barrier latency|see{Latency, memory-barrier}}
- \index{Memory-barrier overhead|see{Overhead, memory-barrier}}
- \index{Message latency|see{Latency, message}}
-+\index{MIPS memory model|see{Memory model, MIPS}}
- \index{Non-multi-copy atomic|see{Multi-copy atomic, non-}}
- \index{Other-multi-copy atomic|see{Multi-copy atomic, other-}}
- \index{Process consistency|see{Memory consistency, process}}
-@@ -43,6 +48,7 @@
- \index{Write memory barrier|see{Memory barrier, write}}
- \index{Write miss|see{Cache miss, write}}
- \index{Write-side critical section|see{Critical section, write-side}}
-+\index{x86 memory model|see{Memory model, x86}}
- }{ % effective for single-level index
- \index{Linux kernel memory consistency model (LKMM)|see{Linux kernel memory model}}
- \index{Process consistency|see{Process memory consistency}}
--- 
-2.43.0
+Looks good to me, queued and pushed, thank you!
 
+							Thanx, Paul
 
+>         Thanks, Akira
+> 
+> --
+> Akira Yokosawa (5):
+>   Refactor index markers of "memory consistency"-related terms
+>   index: List LKMM under "Memory model"
+>   indexsee: Add a couple of redirections to "Cache coherence"
+>   together/seqlock: Remove wrong index marker for "sequential consistency"
+>   indexsee: Add redirections for arch specific memory models.
+> 
+>  formal/axiomatic.tex     |  7 ++++---
+>  formal/ppcmem.tex        |  4 ++--
+>  formal/spinhint.tex      |  4 +++-
+>  future/formalregress.tex | 11 ++++++-----
+>  glossary.tex             |  6 +++---
+>  indexsee.tex             | 27 +++++++++++++++++++++------
+>  memorder/memorder.tex    | 39 ++++++++++++++++++++++++---------------
+>  together/seqlock.tex     |  2 +-
+>  8 files changed, 64 insertions(+), 36 deletions(-)
+> 
+> 
+> base-commit: d4014ed9b2f2ec4074f86b2bdf0cf79953408cb0
+> -- 
+> 2.43.0
+> 
+> 
+> 
