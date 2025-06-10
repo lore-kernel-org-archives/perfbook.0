@@ -1,118 +1,89 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B4C27FD67
-	for <perfbook@vger.kernel.org>; Tue, 10 Jun 2025 10:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E559922DFBB
+	for <perfbook@vger.kernel.org>; Tue, 10 Jun 2025 12:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749552188; cv=none; b=XtWK8k3DOpI1UxCZV/TxsVKuq2Qtn5xdC0prCr2OEafVky6+/r8/KM4Ga+3lpLXbbsHBsKY7BP3NN230CCJ8fB8TTjIHTCryGPayZCDc184dwlaChowgsKg7tCECtlywXNUfa4azRwEpPmLOdP0CLRSEPuE/Qlvgfd9RRRy/0zg=
+	t=1749557051; cv=none; b=Cq/TbN85oXJEgZR8dZy0KlnLonl+H7Z9ww9vTMglJPEv0yLFuCk6XvWCaGsRoiO+ScO3aIYIRI3dQefCMs3Uyq5iK3HYaoUmDfByAcJbnVIRiWviH89nLsxVCEdzQVYuDletJuhZakRyAf9iWTxXj1mzb/RLrk8sJAyrpgcgxGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749552188; c=relaxed/simple;
-	bh=Ebgkw4knWNb/sxqIND3G4olPxl0PguisuNvijcmgXkY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cfAvDxnsv6xb+WQjy0ZsmMIppiW55s4Z2KCz/vHKLFqqHfr2mKQXf3j3VMPL/xLLPc7QphNPt8gx/GlgmP5++bmTSyVLlZl8Bq/kduSCEoHyihbIQ5BUW1iSSNLNhcl4t9DZPDo4Cp2wfU9ScmZ05zp4i4cvS2JqdehnL40CR+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UgaaCSuK; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749557051; c=relaxed/simple;
+	bh=FHtZd8YEV9jAn8Rr29TK99JSwOmY2CAYCfOe5SizSvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KApYaOLHnAX1aI3Wn/7r2A28uQQCSIh3BvmW+dklTaQhP81QS5k8RfVg+GkQJgBKSc2WPg3vkz/cTmBQkhP9N6A3Zx3Zd1P4RiXnlZAYq4FXSoyCoEJh/4w7Chs1Uf+w5YuPeSy6aK+qaeuv1fDlI66xy0V/ho3fSQRIt2IA7DY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NVZcumbS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UgaaCSuK"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-747fba9f962so4476074b3a.0
-        for <perfbook@vger.kernel.org>; Tue, 10 Jun 2025 03:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749552186; x=1750156986; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=57662UsNEvRijSWOF8IRqWojGI3z0yd3GC/LRQpr3Go=;
-        b=UgaaCSuKE3UEVm+fkaMj9ze+eb3twCefP/Ys1Yq1v/yAIjRC2RKLjIhgy81GLPuNF1
-         F6lgWd2PTLkp5ChWk5cfDnOao3siiYUCUDwyGXrRM+aAN9E/h93Lnqco8MDxngqQcBwD
-         EpvlDv7tfcfvhoqHmXBlL6tqmThYuo6y3Kg2aVGV64+dN5yNM8vjKQE9+9keK2AC7tJW
-         yEeKxjN8lybRBKYW3hiDQ85zOBzhTLV8LyjEcSXwbhRxdUyBCz7g0OIsjfuxLts0b7d/
-         1g7dQaIpHlPfq8euKrSB9H3VYS5YeEEb9dAylbbu7rGgYLb8DDjn68uRHuHiUz0FxMN1
-         25yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749552186; x=1750156986;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=57662UsNEvRijSWOF8IRqWojGI3z0yd3GC/LRQpr3Go=;
-        b=xMRavoMG4X10uAuxcZQmJnPhW/w+0eHTjgM4N2kjl3wjbwq9lM4InRqjchCi7pkFmg
-         iccd93DhRAx7soLocA6WWPysVIsd4Mm4WXY8Kw2u3dVc/8bQ34FL5qo20ysUk8+BuIoJ
-         yApXzU9AID7GWAc3+5pcx2v7hfwCX2JULtr12pqw3a94d6BwVwKThp8HcD6awO/794rM
-         QFP2fBN6Z01eJhBvWNwwVO6ddt+iD15y4ThaJkFIaXNldu1HoIRTBtAFmuVmXrx1TzkL
-         OHz5sgSXZ3NLI9S+TA4SKapasIckwri3BZCSloUniDzNoViM32g7503tYWm5KjB8EKhN
-         1mtg==
-X-Gm-Message-State: AOJu0YyuKpk/VZrz5ITFy21ysI2HKGWfpBSoyVeGBWGlU3B8/5q7J1BQ
-	YXEOeQ8oMWjAx/ABZTSwwNWJCZae1+x3GCpnOzRc/d0jE+dRWucxMx4bnnJzMw==
-X-Gm-Gg: ASbGncvuIlYXudZvTLya/Ka4RIPiGhJX8Bmnek5SsemjtZ7xySI1s/xV/VvH6VBxaih
-	kQ6CJA8VCub9d1Iaif/7/0V0pNnqAGHaslAZ6j5wD7a2aU1aSHZJAMKdaHmTVpckL0MjCOXsu1t
-	oT3jNenotlKaltg5IplFCjJqH5CMznMvKobzphqKZwH6gMzBPBeRSXsJsMZfw2aOP3gIVBFk5FQ
-	iSizdYLAa7UdPdK71UBe60Xr5aG2oUmUnUvStxf0joI5TrxmjoGgbFv+YfEw2frFef5pSY0Tb+v
-	EffkGsjABr7Oi1Nv8i9gatGCWK9ZO+nuRYsTLFzasxNpBchPml45QdDwNkNYnLHRoLxz1zDYb+G
-	MRHAsct9KufXkVmxSzCUXF4JF6oz84XCJ
-X-Google-Smtp-Source: AGHT+IH168+TCrvS7SRDHg/ru9/yoIrSc3PHjNyKG2AnXyjO6XPckzMDRCpKZvS2BDeEhQ4hWt9hmQ==
-X-Received: by 2002:a05:6a00:c88:b0:73d:fdd9:a55 with SMTP id d2e1a72fcca58-7485ea7097emr3802153b3a.8.1749552185878;
-        Tue, 10 Jun 2025 03:43:05 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b0c061esm7161340b3a.117.2025.06.10.03.43.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jun 2025 03:43:05 -0700 (PDT)
-Message-ID: <3abfe662-887f-451c-9e7a-3450b7d815f7@gmail.com>
-Date: Tue, 10 Jun 2025 19:43:03 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NVZcumbS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C646CC4CEEF;
+	Tue, 10 Jun 2025 12:04:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749557050;
+	bh=FHtZd8YEV9jAn8Rr29TK99JSwOmY2CAYCfOe5SizSvc=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=NVZcumbS9VV65tJeSjBEOgR+VhGYrA3yObUwtw7xR1YIDrOpha00/0tx5dthdx7Sv
+	 ADPruuF8k9YYTBVjMYqVwGhlXqPPlYECWfcNRq8HQDUSeRARHprtNExrrH1pJdhf6l
+	 Hd4C3rR0P+02W4olIw17hY6+aGwXv5CZxcEI6FOE2GDZPIVfOL+dtGB8jKVhvgzXhS
+	 Ykliv06IEXKt6G6ckQng6DipA68kqhiCUaGB0php8UmYJ5xUVm8Doye/42ntNRyCLk
+	 0RyUAKEeiGtgs/P++LSpnJo2CYoetJQ5nk33/FUfo+e58rWtX6+LSEMSLaNgY1pxy4
+	 nSEkWfKRkFrtg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 65063CE10FA; Tue, 10 Jun 2025 05:04:10 -0700 (PDT)
+Date: Tue, 10 Jun 2025 05:04:10 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
+Subject: Re: [PATCH -perfbook 0/5] Misc updates and cleanups
+Message-ID: <a7777ea9-8e6f-415b-952e-06140b0e9be5@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <2a03c9df-bdef-4895-9459-477e9451d3b2@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 5/5] toolsoftrade, count: Adjust shrink ratio of
- tall code snippets for -eb builds
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <2a03c9df-bdef-4895-9459-477e9451d3b2@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <2a03c9df-bdef-4895-9459-477e9451d3b2@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-These two code snippets have become shorter than earlier.
-Adjust their shrink ratio so that they can enjoy ebook's page size.
+On Tue, Jun 10, 2025 at 07:34:25PM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> This patch set is a collection of updates/cleanups here and there.
+> 
+> Patch 1/5 is a routine update of rcu-test.dat.
+> Patch 2/5 contains cosmetic changes in formal/dyntickrcu regarding
+> non-breakable spaces.
+> Patch 3/5 works around missing "awk" command observed in recent fedora-based
+> container images.
+> Patch 4/5 makes SVG --> PDF conversions more resilient to inkscape crashes
+> observed with an old (and possibly a future) release of inkscape.
+> Patch 5/5 tweaks shrink ratio of tall code snippets for ebook-size builds.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- count/count.tex               | 2 +-
- toolsoftrade/toolsoftrade.tex | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Queued and pushed, thank you very much!
 
-diff --git a/count/count.tex b/count/count.tex
-index 754c4dd7..46b20e86 100644
---- a/count/count.tex
-+++ b/count/count.tex
-@@ -997,7 +997,7 @@ converge on the true value---hence this approach qualifies as
- eventually consistent.
- 
- \begin{listing}
--\ebresizeverb{.9}{\input{CodeSamples/count/count_stat_eventual@whole.fcv}}
-+\ebresizeverb{1.0}{\input{CodeSamples/count/count_stat_eventual@whole.fcv}}
- \caption{Array-Based Per-Thread Eventually Consistent Counters}
- \label{lst:count:Array-Based Per-Thread Eventually Consistent Counters}
- \end{listing}
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index 097c18d6..616a21e3 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -479,7 +479,7 @@ lock~\cite{Hoare74}.
- }\QuickQuizEnd
- 
- \begin{listing}
--\ebresizeverb{.85}{
-+\ebresizeverb{.91}{
- \input{CodeSamples/toolsoftrade/lock@reader_writer.fcv}
- }
- \caption{Demonstration of Exclusive Locks}
--- 
-2.43.0
+							Thanx, Paul
 
-
+>         Thanks, Akira
+> --
+> Akira Yokosawa (5):
+>   CodeSamples/formal: Update rcu-test.dat for v6.15
+>   formal/dyntickrcu: Add non-breakable spaces around \co{i} and \co{j}
+>   docker/Dockerfile.fedora: Add gawk in package list
+>   Makefile: Fall back to rsvg-convert if inkscape crashes
+>   toolsoftrade, count: Adjust shrink ratio of tall code snippets for -eb
+>     builds
+> 
+>  CodeSamples/formal/data/rcu-test.dat |  3 ++-
+>  Makefile                             | 24 ++++++++++++++----------
+>  count/count.tex                      |  2 +-
+>  docker/Dockerfile.fedora             |  2 +-
+>  formal/dyntickrcu.tex                | 12 ++++++------
+>  toolsoftrade/toolsoftrade.tex        |  2 +-
+>  6 files changed, 25 insertions(+), 20 deletions(-)
+> 
+> 
+> base-commit: f25caca80f576d06c14c23aaca673528163ca0b9
+> -- 
+> 2.43.0
+> 
