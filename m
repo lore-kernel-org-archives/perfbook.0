@@ -1,111 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E899826560B
-	for <perfbook@vger.kernel.org>; Mon, 21 Apr 2025 13:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348AD21D59F
+	for <perfbook@vger.kernel.org>; Tue, 10 Jun 2025 10:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745243923; cv=none; b=QFN6/8pfqJBKbagOkbRKrkwqMQS3Hsdc8sRrDAe2ujV2A4EUJoHdfbu4IFF71gb56tVJEkW+sY7uLs593/07yKd+hj3uDom9FSKLWncBTuQIaLiWYp6u8W7CCvlEjO17DhXvrJSaMkpCUQ+YjRnWaKlNE6kXmgLHv1JdhDtaRYs=
+	t=1749551670; cv=none; b=gO2jP9t1Ue9+dQapyYoEFKA72p1Q5fhhCbkPbc73/6QY67ta+vTXaqhWuwFtpqvMTOXvVSgXadi1k1jdJ6nT0Hp4l/1Sx0UJwvLkGbx3Ty6PbI4pBnXQbeqJeQNT9FQxn95uofjYxScMyur/hzbr5b+sukwGgjlN1oxtZxJW1rE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745243923; c=relaxed/simple;
-	bh=ARGfoEvldqiXrvWgtfC9OgZYHkCiqjFWorurhdRN6cU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NJOQlk/w1zmNuW/d/M8/HjBWIQhWM0C+5jbU/AYTpTS4WDhsWg/L4Pj1fCleC5kJxFqTpCo/2jWKzElhxevNK1sSYmAUyrr2cNUolGmeSQ7OWEvNFkrPj51d2id1fojPm8wnuezc/Uk0o67nOqZKrfIYze7gofJCrXgZ5Xp/I3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rWXq8Qpe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749551670; c=relaxed/simple;
+	bh=8dgAcYToa6bavLNEYAX0LVzWDbh+FkE3EuyScvIwNdU=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=ryqoR3BImEVeMSbut+6ABG1D2il55VUhJ2vuKsXjHevBmTaubpHwAzwbt8plDDbv/JDyEqFJupdL4b4I8NH+3XgygTKXqkYtRWiw0cHsY8AIA1kD6EQ26nIMjd9NCkABm36hBtY6Sn5dFvqYC8htdGF05RAgkyc2KF622SIgP/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/fLjEZn; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rWXq8Qpe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6564EC4CEE4;
-	Mon, 21 Apr 2025 13:58:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745243922;
-	bh=ARGfoEvldqiXrvWgtfC9OgZYHkCiqjFWorurhdRN6cU=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=rWXq8QpeoFDZsNb83LeKlyX6bbOaHiAZ2GxA5EKpuLYbnrucW0eGaCkRlq/C8VP4P
-	 5sc2Qad1LjkQz6ca5xHY+WlLH1NBP40MVqKgWhCkvqfFqgwwiJWoyT5Lw2WTtsSPji
-	 9InaxTmDBAG/MWxTViP/xbpvllUpLRx6lAfgA5ZoFlqIrK0GFaHmo4XSFPRn5Nwk7A
-	 VjRbCOdo0xjjVQ/AxikmayHY7cjxQD48U1uKSMnKNGJ/thScoB5t0A304EbevUPcK8
-	 IH7UAH2UIu4Q8ezvqAAZxbO50DAng1a2gkKIVvSNvxi2rob7kr3VW4FJMwnhXZMX15
-	 +CMvWAGNH43kA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 0C146CE0855; Mon, 21 Apr 2025 06:58:42 -0700 (PDT)
-Date: Mon, 21 Apr 2025 06:58:42 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
-Subject: Re: Ideas on reorganizing terms in perfbook's Index pages
-Message-ID: <ee594737-8a9b-4c84-925a-2f16008482af@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <ec0b5744-65b9-4335-be12-6f3ff0e8c31b@gmail.com>
- <2751a064-a9d4-4753-8948-346e12bbe456@paulmck-laptop>
- <2d36f655-0054-4428-b8d0-b25b06954d09@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/fLjEZn"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-742af84818cso3665939b3a.1
+        for <perfbook@vger.kernel.org>; Tue, 10 Jun 2025 03:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749551668; x=1750156468; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=juvOXJAQodWjRy1B2zVBQTPQf4YRSbIfUw+1yWcxVhE=;
+        b=B/fLjEZn6RIl9tXne3TpshVBbps9q+yhxH35GW0yakNgM4AXcuGWxmhkOMcOQ8gALZ
+         MMbyAfvcgejyBY5DYKGpeZxPxSe1b2+hi0X6ihO3HQFyZQXVReOmsM0WNJ/2bYAWfY2J
+         v0GbqDncDUczYNO8mj8+tz821jL2d79S1MfzA+1pzWPrhtuGSN+kHlRyeiaptLfeU8O6
+         ++bCdjc/ErhD81KvWAsmfGX7/LMjpv2HhbRJqi1X7AQIz4PZg2kM8dTywLSi6tUhxo+v
+         Vn7Kbu5Vxc4Oj7JiNM8KzOD9uL1YMPqj3RG3RXtIVWvBYNKiK1EEMmPeyqwkbvUcG9Yl
+         LwDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749551668; x=1750156468;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=juvOXJAQodWjRy1B2zVBQTPQf4YRSbIfUw+1yWcxVhE=;
+        b=wipN5iE0TauMDhyUZ3Mvon3MpSzqqe8obG7E/lw439ua3AApBoHR8+gErYeqg22oaC
+         8fdPGGKZ1GBOheWt0qeNtfwbMBCQ1u9P3uoDjyFtqPSB2TmH+vZSs/eEA7eO/2FFm8G1
+         SZRyUBsLdIxg0ranBKbgWoowV8CCFeGhKRldYeZ0LC4gd8PPl7B960oaQYyQ4GRmtlXn
+         uH5891w6kLJGSY+PpDogDDtllrVNdupyaVjW8X0P77V4HqN+TsvhIysmBbuVUr4ahtOH
+         KP8SEKOHfN1/ksxXNpxZGws9EDDz9EcJa2E9RvMZxIJr1fH4wfWncsuSlu+A8i9Ir/JN
+         8nhA==
+X-Gm-Message-State: AOJu0YyldvXY8+kk2kgEzAcHZfDWuTUQkj9m59i3w/INZGcBlfgwj6dK
+	OZi8E48fanPzv1CGrJTwoicmt/JSczocM7lxaloYXiHrnok3kWJ08Ax5
+X-Gm-Gg: ASbGnctHon6uYnpv5ifbvSWLWvlgqpAxO5BnNIh1mg+jEZNDS4FXRrbkYfjlAqGjQNN
+	12EihxQEwvxDJv0VN09LIjbrZAv+jxBmiPY3RAfe65MsdV1/3dLBGqo0d8g+lfy2Y4AHtVMJOR0
+	rHApWQrpmT/+EvEo0JMeLJePauQe3ArKgO6y2YpaNmAzIeYmIgAFXrZkr7n2wtG45BVxmnUqHD9
+	u0K2T3oIXsnwZWDBAU6/diEinvCKRr4ROV1BvZwSgx1eAd29Pxqleq8Kehpnax4Bl0nnc413LDe
+	lWFGsqd+/TV8ZVW9dbx3WsK8LB2AuX++z6N/fwrIn+AOZZrs5Z1lcQ3vWPzdSboQIvvE/I8I8yg
+	BldYAabMIi2YehiZMETvBvVkdcdOInbPYzNqYAmZyH5A=
+X-Google-Smtp-Source: AGHT+IEeYZIWAsNRZL2YzaBgbQpRTuymn305rEsbh4XJWedVwwVl63ccUG3lwLyWIz2I+s2RkwvQpQ==
+X-Received: by 2002:a05:6a21:6009:b0:21c:fa68:b47c with SMTP id adf61e73a8af0-21ee25b3bb4mr26463592637.18.1749551668361;
+        Tue, 10 Jun 2025 03:34:28 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b0ea282sm7127002b3a.151.2025.06.10.03.34.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Jun 2025 03:34:28 -0700 (PDT)
+Message-ID: <2a03c9df-bdef-4895-9459-477e9451d3b2@gmail.com>
+Date: Tue, 10 Jun 2025 19:34:25 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2d36f655-0054-4428-b8d0-b25b06954d09@gmail.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 0/5] Misc updates and cleanups
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 21, 2025 at 06:53:39PM +0900, Akira Yokosawa wrote:
-> On Thu, 17 Apr 2025 12:43:06 -0700, Paul E. McKenney wrote:
-> > On Thu, Apr 17, 2025 at 11:02:02AM +0900, Akira Yokosawa wrote:
-> [...]
-> >> So, I'm thinking of reorganizing them into something like, including
-> >> additional markers for "memory model":
-> >> 
-> >>   - Memory consistency
-> >>      - process
-> >>      - sequential
-> >>      - weak
-> >> 
-> >>   - Memory model
-> >>      - Linux kernel
-> >>      - Armv7
-> >>      - Armv8
-> >>      - etc.
-> >> 
-> >>   - Memory consistency model -> Memory model
-> >> 
-> >>   - Linux kernel memory consistency model (LKMM) -> Memory model, Linux kernel
-> >> 
-> >> How does the above sound to you?
-> > 
-> > That works for me, and thank you for going through this!
-> 
-> Hi Paul,
-> 
-> This patch set is my attempt taking care of above.
+Hi Paul,
 
-Looks good to me, queued and pushed, thank you!
+This patch set is a collection of updates/cleanups here and there.
 
-							Thanx, Paul
+Patch 1/5 is a routine update of rcu-test.dat.
+Patch 2/5 contains cosmetic changes in formal/dyntickrcu regarding
+non-breakable spaces.
+Patch 3/5 works around missing "awk" command observed in recent fedora-based
+container images.
+Patch 4/5 makes SVG --> PDF conversions more resilient to inkscape crashes
+observed with an old (and possibly a future) release of inkscape.
+Patch 5/5 tweaks shrink ratio of tall code snippets for ebook-size builds.
 
->         Thanks, Akira
-> 
-> --
-> Akira Yokosawa (5):
->   Refactor index markers of "memory consistency"-related terms
->   index: List LKMM under "Memory model"
->   indexsee: Add a couple of redirections to "Cache coherence"
->   together/seqlock: Remove wrong index marker for "sequential consistency"
->   indexsee: Add redirections for arch specific memory models.
-> 
->  formal/axiomatic.tex     |  7 ++++---
->  formal/ppcmem.tex        |  4 ++--
->  formal/spinhint.tex      |  4 +++-
->  future/formalregress.tex | 11 ++++++-----
->  glossary.tex             |  6 +++---
->  indexsee.tex             | 27 +++++++++++++++++++++------
->  memorder/memorder.tex    | 39 ++++++++++++++++++++++++---------------
->  together/seqlock.tex     |  2 +-
->  8 files changed, 64 insertions(+), 36 deletions(-)
-> 
-> 
-> base-commit: d4014ed9b2f2ec4074f86b2bdf0cf79953408cb0
-> -- 
-> 2.43.0
-> 
-> 
-> 
+        Thanks, Akira
+--
+Akira Yokosawa (5):
+  CodeSamples/formal: Update rcu-test.dat for v6.15
+  formal/dyntickrcu: Add non-breakable spaces around \co{i} and \co{j}
+  docker/Dockerfile.fedora: Add gawk in package list
+  Makefile: Fall back to rsvg-convert if inkscape crashes
+  toolsoftrade, count: Adjust shrink ratio of tall code snippets for -eb
+    builds
+
+ CodeSamples/formal/data/rcu-test.dat |  3 ++-
+ Makefile                             | 24 ++++++++++++++----------
+ count/count.tex                      |  2 +-
+ docker/Dockerfile.fedora             |  2 +-
+ formal/dyntickrcu.tex                | 12 ++++++------
+ toolsoftrade/toolsoftrade.tex        |  2 +-
+ 6 files changed, 25 insertions(+), 20 deletions(-)
+
+
+base-commit: f25caca80f576d06c14c23aaca673528163ca0b9
+-- 
+2.43.0
+
