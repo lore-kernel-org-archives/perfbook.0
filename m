@@ -1,63 +1,64 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348AD21D59F
-	for <perfbook@vger.kernel.org>; Tue, 10 Jun 2025 10:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D590E28030F
+	for <perfbook@vger.kernel.org>; Tue, 10 Jun 2025 10:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749551670; cv=none; b=gO2jP9t1Ue9+dQapyYoEFKA72p1Q5fhhCbkPbc73/6QY67ta+vTXaqhWuwFtpqvMTOXvVSgXadi1k1jdJ6nT0Hp4l/1Sx0UJwvLkGbx3Ty6PbI4pBnXQbeqJeQNT9FQxn95uofjYxScMyur/hzbr5b+sukwGgjlN1oxtZxJW1rE=
+	t=1749551762; cv=none; b=pgmaTXDmXyK5vnG4+x10aAWTTyNcCUkt42IU0bks/YJc0rMK5xuECzcgD+VUV/cbf4TU+Wt/SI7cBw4w/CDXZFZhplVgn62W15kPCwiZNRB0mjJsP/kydHadzvpf4rmeFOB5691X/EKyzipROB7FSctmr/WLAhUKqJFBUHUI/T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749551670; c=relaxed/simple;
-	bh=8dgAcYToa6bavLNEYAX0LVzWDbh+FkE3EuyScvIwNdU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=ryqoR3BImEVeMSbut+6ABG1D2il55VUhJ2vuKsXjHevBmTaubpHwAzwbt8plDDbv/JDyEqFJupdL4b4I8NH+3XgygTKXqkYtRWiw0cHsY8AIA1kD6EQ26nIMjd9NCkABm36hBtY6Sn5dFvqYC8htdGF05RAgkyc2KF622SIgP/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/fLjEZn; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1749551762; c=relaxed/simple;
+	bh=1oV0cXv9k3CCg0UDnXgSyOi8M4T3DBiobRZzbpK248M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dhRquhwQCwGgifCqLV119+KAiDKCHhUsRq6BjkfZzVhGgdqPprzmVYwauPgWaxtn9tAoXdGthnnGyQtGnLQ7R6xw82Em9O3L86wUvNV8SLcsDV2zj/HPOM6QTmaOwdD1Wlz6BfQGzCqdzCy/S/pWlNEONw7KFXJCeAr8nRqRKY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jdI36UdS; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/fLjEZn"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-742af84818cso3665939b3a.1
-        for <perfbook@vger.kernel.org>; Tue, 10 Jun 2025 03:34:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jdI36UdS"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-235ae05d224so45432785ad.1
+        for <perfbook@vger.kernel.org>; Tue, 10 Jun 2025 03:36:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749551668; x=1750156468; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=juvOXJAQodWjRy1B2zVBQTPQf4YRSbIfUw+1yWcxVhE=;
-        b=B/fLjEZn6RIl9tXne3TpshVBbps9q+yhxH35GW0yakNgM4AXcuGWxmhkOMcOQ8gALZ
-         MMbyAfvcgejyBY5DYKGpeZxPxSe1b2+hi0X6ihO3HQFyZQXVReOmsM0WNJ/2bYAWfY2J
-         v0GbqDncDUczYNO8mj8+tz821jL2d79S1MfzA+1pzWPrhtuGSN+kHlRyeiaptLfeU8O6
-         ++bCdjc/ErhD81KvWAsmfGX7/LMjpv2HhbRJqi1X7AQIz4PZg2kM8dTywLSi6tUhxo+v
-         Vn7Kbu5Vxc4Oj7JiNM8KzOD9uL1YMPqj3RG3RXtIVWvBYNKiK1EEMmPeyqwkbvUcG9Yl
-         LwDQ==
+        d=gmail.com; s=20230601; t=1749551760; x=1750156560; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iF5rs10tEjm5xFZBAkF1mfBcIk/WGO6aex0bqDwqSU8=;
+        b=jdI36UdSC2wIMgoC20AiTj2dlTKqeRplg8kB9+ShVrtNrMKbzbQKSWFGd8BsqhLfD8
+         5dPb0BF2SbSajk5zNzqdfBPjST8xQfrR7ys7Gp/NACJ7fOF5i5iT+52/FjWhHcrho5uA
+         uUkmQpC7KSchSulUIRvZtQ5ZsQWMUu6aJ/xbsMSBli0HLH7soFsrJ6iR+ZnAXqzxzEKM
+         wRNtkaf/raqT+oPTAqaz3T6c2RdWg5rADgYRuW8pGtRp7/uA6HBlbiLI6HO5Y2ONonqn
+         CBNte0smObVdhns/ShfnIY9nGRZT8+8AMKtaoVggobFBz+z0TZ17vQfI6XWbnUxP34zg
+         Yo0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749551668; x=1750156468;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=juvOXJAQodWjRy1B2zVBQTPQf4YRSbIfUw+1yWcxVhE=;
-        b=wipN5iE0TauMDhyUZ3Mvon3MpSzqqe8obG7E/lw439ua3AApBoHR8+gErYeqg22oaC
-         8fdPGGKZ1GBOheWt0qeNtfwbMBCQ1u9P3uoDjyFtqPSB2TmH+vZSs/eEA7eO/2FFm8G1
-         SZRyUBsLdIxg0ranBKbgWoowV8CCFeGhKRldYeZ0LC4gd8PPl7B960oaQYyQ4GRmtlXn
-         uH5891w6kLJGSY+PpDogDDtllrVNdupyaVjW8X0P77V4HqN+TsvhIysmBbuVUr4ahtOH
-         KP8SEKOHfN1/ksxXNpxZGws9EDDz9EcJa2E9RvMZxIJr1fH4wfWncsuSlu+A8i9Ir/JN
-         8nhA==
-X-Gm-Message-State: AOJu0YyldvXY8+kk2kgEzAcHZfDWuTUQkj9m59i3w/INZGcBlfgwj6dK
-	OZi8E48fanPzv1CGrJTwoicmt/JSczocM7lxaloYXiHrnok3kWJ08Ax5
-X-Gm-Gg: ASbGnctHon6uYnpv5ifbvSWLWvlgqpAxO5BnNIh1mg+jEZNDS4FXRrbkYfjlAqGjQNN
-	12EihxQEwvxDJv0VN09LIjbrZAv+jxBmiPY3RAfe65MsdV1/3dLBGqo0d8g+lfy2Y4AHtVMJOR0
-	rHApWQrpmT/+EvEo0JMeLJePauQe3ArKgO6y2YpaNmAzIeYmIgAFXrZkr7n2wtG45BVxmnUqHD9
-	u0K2T3oIXsnwZWDBAU6/diEinvCKRr4ROV1BvZwSgx1eAd29Pxqleq8Kehpnax4Bl0nnc413LDe
-	lWFGsqd+/TV8ZVW9dbx3WsK8LB2AuX++z6N/fwrIn+AOZZrs5Z1lcQ3vWPzdSboQIvvE/I8I8yg
-	BldYAabMIi2YehiZMETvBvVkdcdOInbPYzNqYAmZyH5A=
-X-Google-Smtp-Source: AGHT+IEeYZIWAsNRZL2YzaBgbQpRTuymn305rEsbh4XJWedVwwVl63ccUG3lwLyWIz2I+s2RkwvQpQ==
-X-Received: by 2002:a05:6a21:6009:b0:21c:fa68:b47c with SMTP id adf61e73a8af0-21ee25b3bb4mr26463592637.18.1749551668361;
-        Tue, 10 Jun 2025 03:34:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749551760; x=1750156560;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iF5rs10tEjm5xFZBAkF1mfBcIk/WGO6aex0bqDwqSU8=;
+        b=cs1cCyConA59BzYkFanJOvAz3wVa7QSi4puV4F85V0kZ6au1v6gyqRLKqU1xvfQbSY
+         7dtCMaTw5BzAT8VxFporV2KEFYHHcNoKMunF2Jy4YRzhTog0KSQ5VAcuj1ufciVNtyDG
+         1wiCh+gCjCJZRAasaQvNzTsYweOn3BHrgsy/dgd9UpuMOTcaO9mXhvlW3qm63Y04C417
+         LpfeIqbDcf8VnIPRLYIVEyHCSIdxNmMoGjsj2me/4+sfvKn8HzAT0mtYPLPYsgbNgtgK
+         sz8i7DBC8WewepN1Uayy5MXAt5qZGtE0fwXJUb2Qbqijjks9bNOwHmT81FxBI1tzOfMO
+         P3Gg==
+X-Gm-Message-State: AOJu0YwlNfMtNWDv61lCmEaw84ToXZ8hqgYD+Cl7LB194saOFsDVNAmo
+	/StOZGqhDnF3lE/PlwIp5Y2+8JFN7wJSaVFHSH0kpa5yC2m30Gn/fU3o
+X-Gm-Gg: ASbGncszmK/QcEtJ++gXRGzPTEN2hpLb9cCk8fyFZBQtbcbclizpEu+N1XyolAGdVbK
+	GIXMmtmdSJaQNc92VXypB+7SFonGYsFi9wXjTAWG8ADCJeyyLjQ5LVdoBrOWfdLq11kuPrdfMGl
+	sQvuKHvu9PvVnlivUnSfK/FFqXwE4IzqJ7Lxdx3PN8DrFd4vLSvYhKldFBjxROrc/smnJzvinmW
+	tLLbNoE62sMsFuOq3gcWyLyDh8A1/1P3R9LfxdTfZQzma8aWpSVeXgW7nSnNh7Svyms5TU+BOfK
+	OYCZ4st8N784GolqW3NDZnTdxsuaAYyLFRn6+K3uY0G1WzFA88IaSCJ+HHyjxRA0tcZYGCYkbPM
+	LXDO3wTK5lDDTKST1n7tWPUF/76b2fbZW
+X-Google-Smtp-Source: AGHT+IHMGm5EEnUfCMGLC6jytbmvu3q8v0uoVyvCBl7Wo1S8Eg6CYlQTo4PipA7YinrOMN0DycnAlg==
+X-Received: by 2002:a17:902:d592:b0:234:adce:3eb8 with SMTP id d9443c01a7336-23635bda7bdmr43856505ad.12.1749551760054;
+        Tue, 10 Jun 2025 03:36:00 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b0ea282sm7127002b3a.151.2025.06.10.03.34.26
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-236032fcd6esm68561705ad.102.2025.06.10.03.35.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jun 2025 03:34:28 -0700 (PDT)
-Message-ID: <2a03c9df-bdef-4895-9459-477e9451d3b2@gmail.com>
-Date: Tue, 10 Jun 2025 19:34:25 +0900
+        Tue, 10 Jun 2025 03:35:59 -0700 (PDT)
+Message-ID: <19b41193-3d17-487d-b3b9-a0ef83e35963@gmail.com>
+Date: Tue, 10 Jun 2025 19:35:58 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -65,47 +66,34 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+Subject: [PATCH -perfbook 1/5] CodeSamples/formal: Update rcu-test.dat for
+ v6.15
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <2a03c9df-bdef-4895-9459-477e9451d3b2@gmail.com>
+Content-Language: en-US
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 0/5] Misc updates and cleanups
+In-Reply-To: <2a03c9df-bdef-4895-9459-477e9451d3b2@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Paul,
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ CodeSamples/formal/data/rcu-test.dat | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-This patch set is a collection of updates/cleanups here and there.
-
-Patch 1/5 is a routine update of rcu-test.dat.
-Patch 2/5 contains cosmetic changes in formal/dyntickrcu regarding
-non-breakable spaces.
-Patch 3/5 works around missing "awk" command observed in recent fedora-based
-container images.
-Patch 4/5 makes SVG --> PDF conversions more resilient to inkscape crashes
-observed with an old (and possibly a future) release of inkscape.
-Patch 5/5 tweaks shrink ratio of tall code snippets for ebook-size builds.
-
-        Thanks, Akira
---
-Akira Yokosawa (5):
-  CodeSamples/formal: Update rcu-test.dat for v6.15
-  formal/dyntickrcu: Add non-breakable spaces around \co{i} and \co{j}
-  docker/Dockerfile.fedora: Add gawk in package list
-  Makefile: Fall back to rsvg-convert if inkscape crashes
-  toolsoftrade, count: Adjust shrink ratio of tall code snippets for -eb
-    builds
-
- CodeSamples/formal/data/rcu-test.dat |  3 ++-
- Makefile                             | 24 ++++++++++++++----------
- count/count.tex                      |  2 +-
- docker/Dockerfile.fedora             |  2 +-
- formal/dyntickrcu.tex                | 12 ++++++------
- toolsoftrade/toolsoftrade.tex        |  2 +-
- 6 files changed, 25 insertions(+), 20 deletions(-)
-
-
-base-commit: f25caca80f576d06c14c23aaca673528163ca0b9
+diff --git a/CodeSamples/formal/data/rcu-test.dat b/CodeSamples/formal/data/rcu-test.dat
+index 33a66ac8..dc7ac7ec 100644
+--- a/CodeSamples/formal/data/rcu-test.dat
++++ b/CodeSamples/formal/data/rcu-test.dat
+@@ -101,4 +101,5 @@ v6.8  22018 12071 34089 35.4
+ ""    22676 12095 34771 34.8
+ v6.12 22834 12313 35147 35.0
+ ""    22961 12414 35375 35.1
+-v6.14 22107 12620 34727 36.3
++""    22107 12620 34727 36.3
++v6.15 22300 12758 35058 36.4
 -- 
 2.43.0
+
 
