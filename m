@@ -1,65 +1,65 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D743074A4
-	for <perfbook@vger.kernel.org>; Tue, 14 Oct 2025 03:00:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41DB1EE7DC
+	for <perfbook@vger.kernel.org>; Tue, 14 Oct 2025 03:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760410839; cv=none; b=XWPvnkOCrAnjXQLmuKx7PQXXQUMD7D+mP3BbaBXtOmNKPJ+rvGwYTGCoE/GOQEX4nQ6WF/BBEhkS3O278u8n1BrLz2lMbQHPCMHJDK/Rb2YAZj3zxwuF+tCpW+BjafvIq7BfN5dcBWOmHQjgnT/VbhZPGC93yDomx5YXRLZ7j2A=
+	t=1760410940; cv=none; b=FLEzTvfRWdvPXjVvR9IbQnKOLX8GG+HL/p6d07VTF1NufJVdCqdVCMoRcWw7n4YkXzhEZo44safKqE1GRwMx7ElBJVFUJ/aIDcbj4SoK5SS8+BYUIQudxs1YvRg+XWUNLo8zdcuSgT1VXgsYyEg7xTFp4Xovy7m+oQwWjyoyy2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760410839; c=relaxed/simple;
-	bh=lrHB9gy9ZXPguy8CjSt0acOvNbvZ5wjMGjfVwwt+mN4=;
+	s=arc-20240116; t=1760410940; c=relaxed/simple;
+	bh=+u7pS4MjW5w/vW3AQhOKcGX4Rw9aVbeqEeQ6dOOHS3c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R+0YIJJzKoDL3VpI1IiUfGHUYPSclzDyf2d63R24Egv44aGZSCbqi8H/mY9iLtVxNeZ1NnyShwGJREL8QzBEsvYcHRI4J5RH6hYlq0ULEQ3wpPuyCul/ZzSWiBNkqRCjJjlrFZ37PdmvuSDSvYImMcDhOfxuacRYLBsbf8D1bes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KW+JEye6; arc=none smtp.client-ip=209.85.215.177
+	 In-Reply-To:Content-Type; b=ceZKL+kqfQ1U029lwZOeO0Si6wg8ZkcXtE6P9QVXa0/VzNm45jAjLCCflt74Yc2B/n2nWlzTiE7dTmGjffHoYZOnpYXQaSWMvtvMnrAeFiQOXVL0paIL2vUFxB514gcv+qMkwyvM9Bv+kBxeH+8nROB8e7e9XbBRispcFuHIno8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xp5NjZK2; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KW+JEye6"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b57d93ae3b0so2872648a12.1
-        for <perfbook@vger.kernel.org>; Mon, 13 Oct 2025 20:00:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xp5NjZK2"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2907948c1d2so5649305ad.3
+        for <perfbook@vger.kernel.org>; Mon, 13 Oct 2025 20:02:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760410838; x=1761015638; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1760410938; x=1761015738; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=hZ2WJLxYAMYPuHmrmWlqQ50AoWfEJR/zg34iApINDFU=;
-        b=KW+JEye6niv3yivWFCBSkvw5zRFdt7ytUTQW3YvOcUyXeiTDEXi5bg/RPeD5v//cUU
-         t/U315HiPe2CfbcDx6KmoD1/uLZhbskwap6fylqbGhfA+J8HAGmDqufR7Gki4yaLGxow
-         RDIZ5WW0IUQqBjFeceYIedVvCfwMOUXDYzpHNYTbZhIrtDNGcbVXatracIDC5z5f2uRU
-         ArvcD0Wu2nNB+hqxpnIQ5enrIotuuMb2WHpJO1/69Elhgxo2uRqgdS/lMcSFKvBiW2O2
-         R4T6ctctl/B1KN+6ap5QnzR78sS6SXV8MEhrYPS/y5HQBd3BAjADxuPAbl9tftlF7rzh
-         nfZg==
+        bh=rzh+I9UN3ZP+xADdwvn0VMKVB5TUtMkOcKD6K/eVlSs=;
+        b=Xp5NjZK2XIt89LMfxZVNwAbOv0bV425btHZIlpkD+c2ZZMhBhh3sAro0plYrA2Rlas
+         uebwsjop1WeeZdt3MVJmkqPyQJv9x0L0QL+QjM/x6OSbuGNiSNyEKWPQF6svf6QL+hzd
+         rgrOwayfs2OiZdOUrDg2xwE5FH49RC0CNoT2tQ7rRn/OamnRKOsDXVw4B8s0Ip5dkvXL
+         ziybzc4vswMBTCE6cbcS5mmOwrdBKsBXXi2NaqYPt6lIyD6mkuDSWvqbpcs+0bWbIgM5
+         4jKv1kAaV6eABqxjWkE+X7Di+93xO5tS5/u/3NcH1rVcsvYBnCusTI/xAHz4tGodRCiR
+         99dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760410838; x=1761015638;
+        d=1e100.net; s=20230601; t=1760410938; x=1761015738;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hZ2WJLxYAMYPuHmrmWlqQ50AoWfEJR/zg34iApINDFU=;
-        b=TFOEznhkYnr9rFo9PdDu/lbZ3OvWapaPxFJM2lJPT4SpODWUTdioEWc9vJ2YyHQpG4
-         +X9aRxVtWJFPrwj9Y/IS8Pta6U8luAfNA3UPOdEEyaZwUk/LjR/LfwfxjP9DDMaYGxd3
-         5T57dTGZpRDl4gz5jrEQfS9KhSDKJEW3shx03rZOlipoXKYEQhFKR76CeQB+9C/rVMsQ
-         ymL8TtkpW3xVBF6F2ILge+iLMDcyKZwibGFa1QTCRGRUJaBU3FUPbCjLrSF+caX6/CQ8
-         VUSYzRqg55gU8VBqNE+L9eY8m6nmZOm6zJ58DSoUm2icoH/D/HyNooPxz7L2HDjUx3HB
-         1LGg==
-X-Gm-Message-State: AOJu0YyjhUsa9mhW5ai95QcBL9WfAAl2n6VZcvc/2kFvUCFgRhjXw93G
-	3Ehz/hl/HG/v2AOKkeVjTeVKM33ufhaUwVFyuejiuqTx/9o+3SksF4Qz
-X-Gm-Gg: ASbGnctr5bdTAkQqjAgOYAgueafPNmJCvJgUsQjwvDT8YTefn28Icdn0GqWOUgkIPYt
-	ZoTodAFY/XvqTxC10yPhgIuLX0J36qj6Gic22/oIJ2UDSwurZksd/sntKcygFBli7giy7Nk0Qwi
-	xFAtDC/OSEU4UOluC+zBfzj+gT+pb2bkTYNOM86rsHGsNHwP1UilCDJQ/11C2UBmCtqOHLVA+hX
-	TvwNkiWHbo9B3//OPHVrz51dxQ2VuncVCTsfA07qjEBr9mTmLnHdN1RTW5lOrvJFHOMGF2C+oya
-	89Hs4pDX692yIQpR+ZOFBydWJFf1Uoj51EAFs4JDGuG0WCaQ2yz1fSf4xv6IEF2Gct+HB8J639N
-	bqjlHbKdBDHHkHyglA0lbPR/c85aKcmtA36GURh41J31omujGSZ6RAb7LaHZPfVkXzbW14bdYHV
-	UCyB/Q6fgSF0W6wCqiVwJvmg==
-X-Google-Smtp-Source: AGHT+IEFBPwc9XrtI8vmZhWWAhWZWkTHMBS080CDjR09fqbX2pstPgpLGhjtfTWfKBKP3sYBvstM0Q==
-X-Received: by 2002:a17:903:3807:b0:269:8d16:42d1 with SMTP id d9443c01a7336-290272e1e24mr264004685ad.50.1760410837492;
-        Mon, 13 Oct 2025 20:00:37 -0700 (PDT)
+        bh=rzh+I9UN3ZP+xADdwvn0VMKVB5TUtMkOcKD6K/eVlSs=;
+        b=NxlvTuwzEe0vOCg9brttFUOugqEDCBWH90yQ85uPeFvyra+l186mk/IJ+3p9rAvBTg
+         yOIyaaPa5liOqntV5JBj1U8mhebDSMM0xQwLLLWtuG4g24T8lu6YDsTHuU2O/1oj6v8g
+         PPy9abpPkQ5Nh5Nn5NlNh7HlKEqoAWB4QTqRnzIN2VwQpTOLf6/4nHCRGZm7rws5FaAR
+         TjJb8jcqsAuC1kPE/R17drU7cIOQBPZqVv3SsD1OPZaSGWnGNM1s0OYHqE7eDbwwuGDK
+         zCuCW7e8XuFBOLSBJACbF86QrK9MkO3VvS7esrbd1eR3q+7KHuO1NLFDFW0ycaP+Z0VC
+         8b5Q==
+X-Gm-Message-State: AOJu0Yx6M+3C3ZCUQ3Zso6M8E9jOQU7AEaiHKSTOUIjeJOC817whvDZW
+	pEV4IlHM6jv+qCtk1wKfRDqjibXp347uqP+EqN19L2OYC5r6pCsKK1f7
+X-Gm-Gg: ASbGnctmRW/IYj/ymffBL8BF+5Ie+KMhlxJQmFBjk3E2sUFgz4MMuGzdlKSB72Tur0V
+	UtzWHecbodS6tyoPfHE3NkXZnPZj7eHwbPIm8r8zkUefNqtT7bw/0vyS8TGOhXX28Mi9/z4MSck
+	l2NJbRjrdCvmNbqVUvIUIJ2uijZUBf18KuEwO5k+060wiqJ2qYxNvikdkBsFEK24iz/zZgd3xrz
+	Cl3nlyCOUD8y+s/FbJO3pkTUkbOX1kF3QMEI8x9t9nHp37oETkcTky0YDBoGbcrRUmuHKjo1Tfs
+	wEgVgp+gB4zrmsezvmE7GSfWdh9RRJ0xVDJbdUfKU4wIaWtzgaTcE2Sek6VJD8EAQq6iOexnkE9
+	+aaA9xLu7XDsX7CICoPQhHk8xs2pyygIcI4Ttfo0wrlzdF+i1C2S6SYvXvvjFVcfmuMWgLcu1sp
+	JIFALtS5LxHvE=
+X-Google-Smtp-Source: AGHT+IG4dX7+HdSDpgM6CntLaxa0aCoOxcv2U9474c7nfDmXwKFWn4juUvBHFosvyCO5PO6E7WRHMw==
+X-Received: by 2002:a17:903:2409:b0:290:52aa:7291 with SMTP id d9443c01a7336-29052aa8299mr137743495ad.53.1760410938186;
+        Mon, 13 Oct 2025 20:02:18 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f362fasm148295625ad.97.2025.10.13.20.00.36
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b678df2799esm10219069a12.29.2025.10.13.20.02.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Oct 2025 20:00:37 -0700 (PDT)
-Message-ID: <cbd7c82b-8c60-4068-b6d8-ef3017da4e26@gmail.com>
-Date: Tue, 14 Oct 2025 12:00:35 +0900
+        Mon, 13 Oct 2025 20:02:17 -0700 (PDT)
+Message-ID: <798f6a18-3b68-4db8-b6cc-bd6c3dce4e13@gmail.com>
+Date: Tue, 14 Oct 2025 12:02:15 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -67,8 +67,7 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 1/5] intro: Use "VerbatimU" env for non-float code
- snippet
+Subject: [PATCH -perfbook 2/5] docker: Remove "-A" option from localedef
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <ec715cd9-35d8-4ff4-bf08-7b16d531ae78@gmail.com>
@@ -78,33 +77,36 @@ In-Reply-To: <ec715cd9-35d8-4ff4-bf08-7b16d531ae78@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Let's use our custom environment for this sort of snippet.
+Ubuntu 25.10 stopped providing /usr/share/locale/locale.alias, which
+had been declared as "obsolete" for quite a while, as is mentioned in
+its header:
+
+  # Note: This file is obsolete and is kept around for the time being for
+  # backward compatibility.  Nobody should rely on the names defined here.
+
+Remove the option who depends on it.
+
+Note: This option is still mentioned at ubuntu's container image description
+at https://hub.docker.com/_/ubuntu#locales as of this writing.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- intro/intro.tex | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ docker/Dockerfile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/intro/intro.tex b/intro/intro.tex
-index 7def3d9b..fc0f97e2 100644
---- a/intro/intro.tex
-+++ b/intro/intro.tex
-@@ -1200,13 +1200,11 @@ adapting systems to run on multi-core systems.
- For example, consider the following hash-table API that might be used
- in sequential code:
+diff --git a/docker/Dockerfile b/docker/Dockerfile
+index c3e2a237..ee120e4b 100644
+--- a/docker/Dockerfile
++++ b/docker/Dockerfile
+@@ -2,7 +2,7 @@ ARG rel=latest
+ FROM ubuntu:$rel
  
--\begin{quote}
--\begin{verbatim}
-+\begin{VerbatimU}
- int hash_add(struct htab *htp);
- int hash_del(int key);
- struct htab *hash_lookup(int key);
--\end{verbatim}
--\end{quote}
-+\end{VerbatimU}
- 
- Here, \co{hash_add()} and \co{hash_del()} both return the exact number
- of elements in the hash table after the operation completes, or -1
+ RUN apt-get update && apt-get upgrade -y && apt-get install -y locales && \
+-    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && \
++    localedef -i en_US -c -f UTF-8 en_US.UTF-8 && \
+     rm -rf /var/lib/apt/lists/*
+ ENV LANG en_US.utf8
+ RUN apt-get update && DEBIAN_FRONTEND=noninteractive TZ=UTC apt-get install -y tzdata && \
 -- 
 2.43.0
 
