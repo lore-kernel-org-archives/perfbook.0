@@ -1,84 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAE72FFFB1
-	for <perfbook@vger.kernel.org>; Tue, 14 Oct 2025 15:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E9F32860A
+	for <perfbook@vger.kernel.org>; Thu, 16 Oct 2025 15:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760456364; cv=none; b=C9yGIO9r6TMH4nbIufONFPNh60UHoZaWF5XTt7FdoHzgq+YU511HozzxsFLMCQBTs8btgq7Wcw9Q1tXWxwyP37zPKQSsIxWnjTtATGodIHhaDe+7grus5ZnzI7q43HIGrOr7jz8xkE9dCwK2NnLC8jojWSgrmjlVkdidH/8bqKQ=
+	t=1760627772; cv=none; b=Zr8sUmnMaQtMzsXjLVKNp+yfOfAMlyDZVNiO4nZ9V3vE5I/6OVEkp8yTr6DP2LHRlKIB5JREElIGX07gVK1gpmR1rA1FRpCGaPDBuTJnDB+a9Sn3o4poD7kFqSrA4v6rf7WaZzMlWgGGoL+BDG+T//2Aoa7xzaRnOYx2LgmvngI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760456364; c=relaxed/simple;
-	bh=JbI0SZVDr7Qj7pb+CoRDkU9Zsm9hRvcmKtFgQ1vX95w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q18w1P09PMGYYl9r0CpyUedaqmXCd74yPXPc4zwKwzv06Suu90CKxYqJR+B906VGfZ2ZRhn3/ynZ60/eo8HJTolUl8ZXyoGfhnuneZ05Yt+xhiRJh+CoNlo5mXXwlybuo2Z4jQAx4RT5okux3xTQWY0oDXSPYGbmuc8J4JtQys4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VCIq1m4r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760627772; c=relaxed/simple;
+	bh=e5ynhPunD5frc9G9RHZl7GeFnSvRGIWorPdwSxsMyuo=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=IhA38IgfrO4XS0swubg5M2Ms699Mm2QfLsrABhk48L1DoW0K805jogNEWJ3k2j7/grwhdSyXUvVcW8nghPQyDmuWX2LklPkx3e5ksubjNRqX7XF6TSD8ZRsFJg9/+aDTV0rxmwR5WOZCGs8gE4q8yF32hpFliIIKu2uZKtXVqds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VOeAo39J; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VCIq1m4r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AE17C4CEE7;
-	Tue, 14 Oct 2025 15:39:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760456364;
-	bh=JbI0SZVDr7Qj7pb+CoRDkU9Zsm9hRvcmKtFgQ1vX95w=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=VCIq1m4rvZK+ZjmNUuLQnjLUiJJVpyuvbIJ3AQrOZ+cY6HKj0FRSGebbpsNCd6xWX
-	 6La98yeN1Dat/rLSXc7deUabkCGU9JO7+SLs09+T1T+dognm/xVqm5oxFhOkQhhIKR
-	 PBW6RchjdGPkUf8AjKn3SjK6DpLo1tGr8F4rU+61zKySHoIruwf4pdJivISMo32AyG
-	 7lF3u1ejkJWj6UzyexxuMzx/FyW+IJu4PHfXzN8KkURE6Nfih4v6Xxi6N4EqiDAVuH
-	 3RDMxD72bKj5HEaoNJTrYDwgLGmptsK4vhpagRP0xmXJpeoN6eYhPVF+GC0OCubj0O
-	 COL6gz9v/GbiQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id C6BA2CE0CB5; Tue, 14 Oct 2025 08:39:23 -0700 (PDT)
-Date: Tue, 14 Oct 2025 08:39:23 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
-Subject: Re: [PATCH -perfbook 0/5] Misc updates and tweaks
-Message-ID: <ad8ae685-6bc2-41d3-8b2d-1621d86b49c3@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <ec715cd9-35d8-4ff4-bf08-7b16d531ae78@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VOeAo39J"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7a213c3c3f5so1213038b3a.3
+        for <perfbook@vger.kernel.org>; Thu, 16 Oct 2025 08:16:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760627771; x=1761232571; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K03m27xc9XT4z2seHWglOhnPCBfNPhyW8X1JrVzamXA=;
+        b=VOeAo39JBxUBtws0Jl874qoW0bJrkg2rlJ3X2vbeq+oJlo2Fbn5jxCuMaV1/a2Mvsn
+         vt0Hl8hFuiF/+s/tYSGxOELGY8yu8zL9CXhnGgE8DTSMWJ+D3uKtuDWcW8wBUrU5pAfR
+         lNvXfOCtZAV1BwO+nYivCW9oHZoqjydagG+UDU2e/2SUP0Z2FflKRBhnYchPVW0WdA45
+         hMHfR38tS9F3l/aEvb+C7qS9InC2d7EbWPQr2hkpR9pIb5XVreeCfxBtPSmjmkDT1OzL
+         El/JddNi5ktcbLOEOE2BWBA1NWyAaHoKQilH7rOArVxKBq3WJs6WCLkFEV1nQ237GZqc
+         I02Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760627771; x=1761232571;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=K03m27xc9XT4z2seHWglOhnPCBfNPhyW8X1JrVzamXA=;
+        b=n4ZcWR5cEA4LmmRmzvV3reejRugi+oOQKrZlOk1umy+4j1YM4Gu6Ko/f+yqmHBTccj
+         T8Vb12iQ1dIY59Oh7i7ZfRC4agbnJhpfwJLiROpEvzpsJkpFOLAiILpptVFDw/L4/XWx
+         CNPdunYj/V5+AIl5z9j2cWo5Fi3DK8tRLn8v7iLuzEkiie2rEk8Hdg+S/QbMV6R8BxVx
+         BdcfXaaZl68t3cLh+JG+rhauuWyF0XItEuVWDcGWnzyrM74PgAFl/A/7gyN/ZmKIgw8k
+         Vbq551mYZ3lcvVwFbvSOP+uK7kjTA1zWnbcBLF5f7dTiumLwoNpLuh1cjMVAZccfDvKP
+         xcvw==
+X-Gm-Message-State: AOJu0Yw5ZA2rYdJQP/4kFb3EITqjrNYo0sHH9vSx59mXwA4hqPBaGpsU
+	udUFVEz22qwgSw1pBoHe14gAIJAl/qPJXPzdg7uKGJ5QiodG8EDuULIn
+X-Gm-Gg: ASbGncvHTrKprVVUfA5hH/XJOKfAwicU8x5BYIS/OWXclk06rOK2VJO5+3tBPqZCx7u
+	JhS9oXB6BaMkTlDDakiW53al8xntTHdl1EIGrsKspvKfuzdTLH9ODOcZUUzPKAvhpxODDeRCQPv
+	OtTAso1gM2FesLl1BegrXd6myiKDQCoOYuiXHgUZpi69gplyCswxVPz8dZtEdkLRBv+oooXxsOZ
+	mwVUZACmDqY/ILiel7gXa3BCn2Io0jfN435MTk45vwjQ2E+3PQGS2dY/SddI/kqFJZVoiefmScG
+	DOiJVLPVhm0JKPF2ex/7clcvdigT3jeYBKkdDN6ioX9eor5RiZ7LvyFtzyHb5LclHpoPvPA09JU
+	3YSLDIAXGmgsx9OcEl6fEaH8KIakVcwCJBOm6C0R0SDx5wiuOoFpkXvRyz3I5K9RgvnEpy1/mt8
+	npsaZQOvHzQRmm3sZKgMPbb5hOxIH0XTeZ+hacMxQj6zuMSw==
+X-Google-Smtp-Source: AGHT+IH9JAZhQK67haUal3F3tRnxCneRDWfGwEAPfLuCET67FCS32tTaVg3Pzs7K5OdzfXpyuhstOQ==
+X-Received: by 2002:a05:6a20:1585:b0:334:7ab1:5203 with SMTP id adf61e73a8af0-334a85a5480mr514886637.28.1760627770544;
+        Thu, 16 Oct 2025 08:16:10 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33bb6625662sm2286545a91.6.2025.10.16.08.16.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Oct 2025 08:16:10 -0700 (PDT)
+Message-ID: <1193cace-2484-4c4c-b14c-a40a51550117@gmail.com>
+Date: Fri, 17 Oct 2025 00:16:12 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ec715cd9-35d8-4ff4-bf08-7b16d531ae78@gmail.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook] runlatex.sh: Detect fvextra versions with known
+ minor regression
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 14, 2025 at 11:58:54AM +0900, Akira Yokosawa wrote:
-> Hi Paul,
-> 
-> This is a random collection of misc updates.
-> 
-> Patch 1/5 improves the look of new snippet added recently.
-> Patch 2/5 avoids build error of ubuntu:questing based container images.
-> Patch 3/5 takes care of pre-v3.0 siunitx (Ubuntu focal).
-> Patch 4/5 prevents page/column break in a short VerbatimN snippet.
-> Patch 5/5 avoids the use of plain "-" as a minus sign.
+fvextra versions from v1.11.0 to v1.13.2 (latest) have a minor regression
+which ignores fancyvrb's "samepage=true" key.  It is used in perfbook to
+prevent short snippets from broken across columns/pages.  This is a minor
+regression but affects reproducible build of perfbook.
 
-Queued and pushed, thank you!
+Add commands at the final phase of runlatex.sh to detect those buggy
+fvextra and emit suggestion of installing unaffected fvextra.
 
-							Thanx, Paul
+Unfortunately, distro texlive packages based on upstream TeX Live since
+early March 2025 are all affected by this regression, including debian
+trixie and opensuse/leap 16.0 (Long Term Support); and ubuntu plucky
+and questing (Rolling release); as well as archlinux and
+opensuse/tumbleweed (Rapid release) as of this writing.
 
->         Thanks, Akira
-> 
-> --
-> Akira Yokosawa (5):
->   intro: Use "VerbatimU" env for non-float code snippet
->   docker: Remove "-A" option from localedef
->   Provide \qty{} and \unit{} for siunitx < v3.0
->   cpu/overhead: Add "samepage=true" option to short VerbatimN env
->   intro: Say \co{-1} for constant -1
-> 
->  cpu/overview.tex  | 2 +-
->  docker/Dockerfile | 2 +-
->  intro/intro.tex   | 8 +++-----
->  perfbook-lt.tex   | 2 ++
->  4 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> 
-> base-commit: f8c73ec9c6006b74bc2d9a87b1379c74b7541e37
-> -- 
-> 2.43.0
-> 
+This issue was reported upstream at [1].
+
+Link: https://github.com/gpoore/fvextra/issues/32 [1]
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ utilities/runlatex.sh | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index 17d833ad..d5b1844d 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -169,6 +169,22 @@ then
+ 	echo "### Consider upgrading to Ubuntu 20.04 LTS or later.     ###"
+ 	echo "############################################################"
+ fi
++# fvextra version check (Ubuntu 25.04 and 25.10 have buggy one
++FVEXTRA_VER=`grep -E -e 'fvextra .* v[0-9\.]+' $basename.log | \
++		sed -e 's/.* \(v.*\) fv.*/\1/'`
++#echo $FVEXTRA_VER
++FVEXTRA_BUGGY_SINCE=v1.11.0
++FVEXTRA_BUGGY_UNTIL=v1.13.2
++
++fvextra_since=`env printf "$FVEXTRA_BUGGY_SINCE\n$FVEXTRA_VER" | sort -V | head -n 1`
++fvextra_until=`env printf "$FVEXTRA_BUGGY_UNTIL\n$FVEXTRA_VER" | sort -V | tail -n 1`
++
++if [ $fvextra_since = $FVEXTRA_BUGGY_SINCE -a $fvextra_until = $FVEXTRA_BUGGY_UNTIL ] ; then
++	echo "Buggy fvextra $FVEXTRA_VER detected."
++	echo "It causes undesirable page/column breaks in short code snippets."
++	echo "Consider installing fvextra < $FVEXTRA_BUGGY_SINCE or > $FVEXTRA_BUGGY_UNTIL."
++fi
++
+ # to avoid redundant run of bibtex and pdflatex
+ touch $basename.bbl
+ touch $basename.pdf
+
+base-commit: f3d75a725a3efbb5ba4822d3f1b835c6ae08c464
+-- 
+2.43.0
+
