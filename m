@@ -1,66 +1,66 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59952F5A0B
-	for <perfbook@vger.kernel.org>; Mon, 24 Nov 2025 09:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BEC221FA0
+	for <perfbook@vger.kernel.org>; Mon, 24 Nov 2025 09:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763975784; cv=none; b=g9PM9iQuI9MFSHZrNT0+IJA/SZm9WmZRx/YNz0G/1x+1KaAxKfnCvTecZWFVNKCl94MsA/8JeT1Dl1OUD8Wyg1CT8v8ue7G6jWeOdIpnoaxajCE1VDQsh8UKTmwUTTz8/iX2WXtarzJ9PDsuZOyKeUJymLWEGLTiu/RqcrzWz1A=
+	t=1763975981; cv=none; b=IigzsydaWiSKaaPqBOxkO5n2DM9k3md7LMgZFKDHWoeoxluEvCKr5lBpdaoyyi2NDNerR9pDf4wVXhENL3y8ZyWTgzjTo5G8qSqU4kPY621mE2sngFVT3JXt2bVlY3TZxwScAcV3wwixWrab4xzHtFCArbNZJ9XnScxRzHctmH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763975784; c=relaxed/simple;
-	bh=LTWF9bWYM63paQctKYcNo30DOZt3A8z+ME9j87cqg+c=;
+	s=arc-20240116; t=1763975981; c=relaxed/simple;
+	bh=XKp3NYGjH0UJAs2yMeR9ZvdF5AI7mvrpqeJsCOK+GPU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aiE4LlryzZUSAEJbWR2LWiczj/UWYdfXtPS8HDf7zOcrhrjou5VqiAsoCkwxjGVbFwefX90FAfdtjrNlOtwc279fRNe0Q3Ui0CbRUPsc4uTLbh4zHbIdyvqLtNP8vm694n8dZszmMOE2+HFV4+wgRPpl7tWRpyCmaPCY1YQ8Pmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C0sjvxu8; arc=none smtp.client-ip=209.85.214.169
+	 In-Reply-To:Content-Type; b=eLnwL58YynRio/YzeRzw5D3zkiiXPzXJKFERDA1Z4KCgWQCj3pQgB4nsfc22mOtHCxdqXVLP3PWAISa6oB4ecHNblJcfnvjw77HDYiJnHtUse/8LInwYPOdyRIhfIguQFy8u+cWS7nSePKRmWC7asVIKq3SqdrlC1G+SFXI7qa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DDt6ZK4q; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C0sjvxu8"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-298144fb9bcso44208805ad.0
-        for <perfbook@vger.kernel.org>; Mon, 24 Nov 2025 01:16:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DDt6ZK4q"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-29806bd47b5so24349835ad.3
+        for <perfbook@vger.kernel.org>; Mon, 24 Nov 2025 01:19:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763975782; x=1764580582; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763975979; x=1764580779; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=LMtqSrITwuOfDm4jdF21kZRA816ZlvGbONBDBXuTcvE=;
-        b=C0sjvxu8b1pUaMcU0Z3k6iws4B7GOroAQ+F4mVbj8lCcZ+LMOlg6V+thD1WtZ4HBxK
-         9ooJHsWSNKSaZUZoWvXwawSwf7ycc0aY9M1gMlHm6QIXFsZEqS1d5dIdAjPkFg2ml454
-         0zouyNMDEm6DLt+mLCYjgEj/Yh+MFK11LkYCW5PLYbKFnuzGuoTvAp1/Ep3vQMzP3x21
-         W+mXhg8IIzrRTM4DpQnyarHbT50d+L6CdQzj/pGnPnGQsHTb+7hT2eppdETDjKzNdvpN
-         yeKejNliO58okpt9Btp8RptOLfXitmX/U/od7zqXltmjnZkU1BDet+LV+cg2yQoRE92G
-         6egQ==
+        bh=JnbKTkmDoFE8b1sLcv5UV3x+6+QZJWcxqLAF9pSajxA=;
+        b=DDt6ZK4qaurhbrT7lmyUh0xFgEIGEbYpyAcWgLScvAD6oO4O9ryOf3fEiwS4DII1Cc
+         xt+7Un3XPQ8q4RVfIqWbnWOzoV7t1GoXVuT25XexD/ZDseAg8utKE9I40sThWV1GNYPR
+         PRAlfPJQR9WnHuuEnPCx6Plb34g46fnmoBdbCc/yAPdyDPN12stFQ3/Q7zcJpJAZfk4W
+         w6wdev/Jb9may4Q7gnxfBNp36Ca4zKbBTr7ZDZvU1cO0Z47yW4LUrdhrC51xFenRbo9p
+         WfzW8uGwOr2tS3BgtnaftwJiptPnDoRqQF91CaGHRLbWtFevY714gouH9qHrV5y3tQVu
+         GY0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763975782; x=1764580582;
+        d=1e100.net; s=20230601; t=1763975979; x=1764580779;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LMtqSrITwuOfDm4jdF21kZRA816ZlvGbONBDBXuTcvE=;
-        b=HzpKbF1ER0Ao26vlMFHAyIiC7yduNnC4bQADOFd/8Vfd4zBR+jd+XnT5xWuoYiDRqH
-         wl1VV606eqKlfOKej05yE8YXsgg2dkpbpk6t8drF6cHH9HtSTMu4/eukCSi9LYqwGMDn
-         MNGaYNIya1IFqQo6A6XH5vylpey7hu+Hdd/wvyNMpKQY8bMGBQoDl0MWn4X2sqMmMfq6
-         z//8PkNtHR2QzrN4SsIE8WsJWlYmOpcmfQp07vgNfYV+zZb1XCN9DdDwmCrW5JDK7pQ/
-         rrdrt+Pjx/dN9dtlBbZLkfh+i1H//QpRaa2fVGBzqQ+CC3d7n7lH5Wuh5kk+6mVVn3G+
-         Vkog==
-X-Gm-Message-State: AOJu0YyDKjP/aEM3DGLPKmIn5ToF8uCUFAFGc32TAhkRO2XpGEEPCIcC
-	soK1fvsDnmiR7A7TG73ze60MvHrDNHyFK63OLA2ATMzF2z8+zBZLC5V4aGtTxA==
-X-Gm-Gg: ASbGncvEcguQ+0Zsg++qJnp2cVfk+rItnTcIsNYIKe80fSKFTBchYgzIoU1DKKXGrAH
-	NybmlRqsx21n31BRROC3PDO6otJA/1pmnss1r+6TcgwdvE+kPkxNHvMyXfVHOQpn5U4w7oGEISj
-	2+ioJJ2Re0IBgiqIcTTgmq5vrOV/tmxAPlU3EbDvnmjPzFxuC6i7oMkvPofoXXB6UqJu7jgDLm9
-	qqyefPp+c4O8B0LWcFMHqGck7zNUvxi4ZhyM5m6DSjxRYECGla7NAaBQ7Tt1lUwYIlQUEXynmMa
-	wC+0fOjrssL/6dnmBAsNgEcdJrlAYJVJ/dnwKO8b5EvmQ/iErj6TcFLXGyAihnavElhXvP/4bZx
-	iQN4aWXNjJ5oVmZjZF4fhvjcUpcUp/NbjCM4Nrc7BI7Ro0dX8lCLBe6rqTLUOeB1pVqbDElNWcz
-	Bso+RPW7PwMURCmY9OxQyYU1nEoIGZOl1V8h5rDjSXc7cS3tyYCnIOkroE
-X-Google-Smtp-Source: AGHT+IGlkYzIDhrB9aSAp6oJjzJSV72IM+XT7FzBziMlROq2TSH/0ZtMSTgtx0qGSjwKaIqkJI9TzQ==
-X-Received: by 2002:a17:902:c949:b0:299:e041:ecf6 with SMTP id d9443c01a7336-29b6bf5f087mr114873165ad.40.1763975781886;
-        Mon, 24 Nov 2025 01:16:21 -0800 (PST)
+        bh=JnbKTkmDoFE8b1sLcv5UV3x+6+QZJWcxqLAF9pSajxA=;
+        b=iR0MbsR5aBXDCYk1JpcdUbEbyaKlkk6gqA3q0V4zMgYixd4TcCeGGoAJO5vC6IQKaG
+         /jqHFvcv9nrPOS73QhTY2Hv0yjHZiiUER+m9VyTI8dgoLN8ZR50k92nycQaczIeZuNQY
+         Y9ikmJ/+TYqh0NT/+H/J2/cz5MvJg29EUlZyleTFSDNYaBVGDznPEPIDzYn/Hwn5AbXJ
+         AgiCAtbhWaHoinyzlcxS6OaTqjTDRq1dqkzqdV2XKbREYrTgdJSaLT87pS/e79W1I1u4
+         Rx8kWqgDSWIzvG8TzjyffSQf4hngPoabuTNDW/TlDp1kShDr3y9gwU26ANzxBRoWwo1i
+         ue8g==
+X-Gm-Message-State: AOJu0Yw7XlNGy6LoSqG9MlTuRrULQpv+CMl0IapgEHDRYNEqtCTYtbXV
+	aRlYaGwUTPAsM6nrNb15DLJtX/lmvFXjFinRGU/jw65uWvzfnP5CewdLJ7qagQ==
+X-Gm-Gg: ASbGncuF1cDvyjhP7ab1by6qSI7Kv0TgWtwPRI5qpgLRcIgFResQDiJKxoYGks93o5Q
+	S3Abk8nP45GSPz2+c7/H/h3G2dtXLWVM88gbsjNYl2Fv4I+c1FLVfRsrlHg/r/5kqhz2zt6iC9R
+	QclbztwAjUCD/AMQf2SUNLQ2PfTfwRVCcwZXFKcnjOch+Jf+zs1Hsd3R+bi/M+FBR5rpVpwiatc
+	FAEpk4AttyyQC582zWuenOH2ipWB6Eu9pVuANA1bSAUSsS/g648EyMNB20ZEOZxT1D1xq6CDrpQ
+	IqtheSUzbS1UAXVaDX3B06/M49LX0w2kHF7oQrqhcirWhKk9gsCfd8Qtc/yXWUtJvEx+REwx2od
+	GVNaYaK2E2y/S2hN0QF614NI/pFrrlp2PfEwVt/5uDEI8+wBIF4WkC44yTXsQG0D6aY4WsqR6Gc
+	xcYCKWN7zBUYUS4Z+yOWmqKl4xPrh78bX30lPzyn/jW9z2DKUE/iyOWOvn
+X-Google-Smtp-Source: AGHT+IHdD/bVWOjY3SKBStWGXo0of9cl1n/SNexVZMaCUtZoZhPKKmYHm2EVBQ8LxAKNDqGvEcTzLw==
+X-Received: by 2002:a17:903:3508:b0:297:dd7f:f1e0 with SMTP id d9443c01a7336-29b6c68dd8fmr107243335ad.43.1763975979413;
+        Mon, 24 Nov 2025 01:19:39 -0800 (PST)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b1584c7sm128191405ad.44.2025.11.24.01.16.20
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b274752sm129145305ad.75.2025.11.24.01.19.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Nov 2025 01:16:21 -0800 (PST)
-Message-ID: <85114b57-7716-4487-985d-eebb344ab174@gmail.com>
-Date: Mon, 24 Nov 2025 18:16:20 +0900
+        Mon, 24 Nov 2025 01:19:39 -0800 (PST)
+Message-ID: <898de3d7-5db3-4daa-a8c1-e8c0a57aa16e@gmail.com>
+Date: Mon, 24 Nov 2025 18:19:38 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 2/3] CodeSamples/.../herd/Makefile: Add
- klitmus7-ready tests
+Subject: [PATCH -perfbook 3/3] CodeSamples/formal/herd/Makefile: Exclude
+ time-consuming test from run-herd7
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <ceb4f33e-fd07-48f6-88c7-fe9c3ef2db20@gmail.com>
@@ -79,34 +79,73 @@ In-Reply-To: <ceb4f33e-fd07-48f6-88c7-fe9c3ef2db20@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-While here, fold the long list as well.
+C-double-check-rcu-4 needs 20 mins or so to complete.
+The other tests in "make run-herd7" take a few seconds at most.
+Exclude it from run-herd7 and let it be run by a new target:
+run-dblcheck4.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- CodeSamples/formal/herd/Makefile | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ CodeSamples/formal/herd/Makefile | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/CodeSamples/formal/herd/Makefile b/CodeSamples/formal/herd/Makefile
-index 069f77ea..257ee556 100644
+index 257ee556..959b8ed7 100644
 --- a/CodeSamples/formal/herd/Makefile
 +++ b/CodeSamples/formal/herd/Makefile
-@@ -49,7 +49,15 @@ ABSPERF_SHORT  := $(filter-out $(ABSPERF_LONG),$(ABSPERF_TEST))
+@@ -7,6 +7,7 @@
+ # cross-klitmus7:  Cross-compile transformed litmus tests by klitmus7
+ # run-absperf:     Run memory model benchmark tests of absperf
+ # run-absperf-all: Run all absperf tests (including those take quite a while)
++# run-dblcheck4:   Run C-double-check-rcu-4 (takes 20 mins or so)
+ #
+ # Warning: absperf tests take more than 1 hour by default.
+ #
+@@ -47,7 +48,9 @@ ABSPERF_TEST   := $(wildcard C-SB+l-*.litmus)
+ ABSPERF_LONG   := $(wildcard C-SB+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u+l-o-o-u-*.litmus)
+ ABSPERF_SHORT  := $(filter-out $(ABSPERF_LONG),$(ABSPERF_TEST))
  ABSPERF_OUT    = absperf.out absperf-all.out
- HERD7_TEST     := $(filter-out $(ABSPERF_TEST),$(HERD7_LITMUS))
+-HERD7_TEST     := $(filter-out $(ABSPERF_TEST),$(HERD7_LITMUS))
++DBL_CHECK_LONG = C-double-check-rcu-4.litmus
++DBL_CHECK_LONG_OUT := $(DBL_CHECK_LONG:%.litmus=%.out)
++HERD7_TEST     := $(filter-out $(ABSPERF_TEST) $(DBL_CHECK_LONG),$(HERD7_LITMUS))
  HERD7_OUT      := $(HERD7_TEST:%.litmus=%.out)
--KLITMUS_READY = C-Lock1 C-Lock2 C-RCU-remove C-RomanPenyaev-list-rcu-rr C-SB+o-rcusync-o+rl-o-o-rul
-+KLITMUS_READY = \
-+    C-Lock1 C-Lock2 \
-+    C-RCU-remove C-RomanPenyaev-list-rcu-rr \
-+    C-SB+o-rcusync-o+rl-o-o-rul \
-+    C-MP+o-xchg-rcusync-o+o-xchg-rcusync-o+rl-o-o-rul \
-+    C-MP+o-o-rcusync-o+o-o-rcusync-o+rl-o-o-rul \
-+    C-double-check-cas-2 \
-+    C-double-check-rcu-2 C-double-check-rcu-3 C-double-check-rcu-4
-+
+ KLITMUS_READY = \
+     C-Lock1 C-Lock2 \
+@@ -61,7 +64,7 @@ KLITMUS_READY = \
  KLITMUS_TEST   := $(addsuffix .litmus,$(KLITMUS_READY))
  
  .PHONY: all clean litmus2herd run-herd7 run-absperf run-absperf-all cross-klitmus
+-.PHONY: help
++.PHONY: run-dblcheck4 help
+ 
+ all: litmus2herd
+ 
+@@ -73,6 +76,7 @@ $(LITMUS7_HERD_TEST): %.herd: ../litmus/%
+ run-herd7: $(LITMUS7_HERD_OUT) $(HERD7_OUT)
+ run-absperf: absperf.out
+ run-absperf-all: absperf-all.out
++run-dblcheck4: $(DBL_CHECK_LONG_OUT)
+ 
+ $(LKMM_LIST):
+ 	@echo "#####################################################"
+@@ -89,7 +93,7 @@ $(LITMUS7_HERD_OUT) $(ABSPERF_OUT) $(HERD7_OUT): $(LKMM_LIST)
+ $(LITMUS7_HERD_OUT): %.out: %.herd
+ 	cd $(LKMM_DIR); herd7 -conf linux-kernel.cfg $(HERD_DIR)/$< > $(HERD_DIR)/$@
+ 
+-$(HERD7_OUT): %.out: %.litmus
++$(HERD7_OUT) $(DBL_CHECK_LONG_OUT): %.out: %.litmus
+ 	cd $(LKMM_DIR); herd7 -conf linux-kernel.cfg $(HERD_DIR)/$< > $(HERD_DIR)/$@
+ 
+ absperf.out: ABSPERF_LIST = $(ABSPERF_SHORT)
+@@ -122,6 +126,7 @@ help:
+ 	@echo "    cross-klitmus7:  Cross-compile transformed litmus tests by klitmus7"
+ 	@echo "    run-absperf:     Run memory model benchmark tests of absperf"
+ 	@echo "    run-absperf-all: Run all absperf tests (including those take quite a while)"
++	@echo "    run-dblcheck4:   Run C-double-check-rcu-4 (takes 20 mins or so)"
+ 	@echo
+ 	@echo "Warning: absperf tests require more than 1 hour by default."
+ 	@echo "    Refer to comment in Makefile for instructions to override default setting."
 -- 
 2.43.0
 
