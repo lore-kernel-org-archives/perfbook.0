@@ -1,103 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD3018D636
-	for <perfbook@vger.kernel.org>; Thu, 13 Nov 2025 01:16:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865DD2E7F1D
+	for <perfbook@vger.kernel.org>; Mon, 24 Nov 2025 09:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762996560; cv=none; b=e55EW3Gj71t2xmxg5GYobazF6u7zBQoxbWNaloQ0elmsHiyElK5MvhB8IkS2ggCIfMVRmJFE3rUQqF/U76SUL31ep+q0heGfucgRltNZHEMoI8fjfg4Tdsbeu+o/uiIg56meeJFPceNwbBwoKOz8k9x4z754xbPSzfBK9o+vGeA=
+	t=1763975461; cv=none; b=KW33LEP2rJVEAnZAcFYHX0FuPRmvxcdU6EVkoDOr/IqInSSpmgAtvsWTbaydAc79hjiGQ9Rj/Tlw0m+wDS75hGK6uYs/9OuXNYmyQLmqL8BgEh9qIPfUYIUmG7hopLcsNpj5vZYprjX8GNfyYgaf9AYrJj1HUGckVMMez/9fbvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762996560; c=relaxed/simple;
-	bh=EJ8QNRFxHk5ZURXunn8dof0Yuy40aJERdAbeOilKFV4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hJERDVoDru+AB2LOP7pH71rEWu/iQAVnKh5f43PZDG3k/966stoWgO3Dsh2wpnvR2cNd/nRCfUWzxkhycp9+nblDjoALeKFTeyAfIIf9bdfk8VBZqVBfSwt7jFiep6nlgL/PI3++65XixbacMmbgF7DOEquMNHscrk/BxHZIH+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F31c2qP2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763975461; c=relaxed/simple;
+	bh=h/LBMD872bP6DBWqqdwcVINbRn4Vrx6eNv2yPtyQKXQ=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=kqVgl3b5VBHQa1pTwrrt0Wd5qe5m1t4ynML/cs7ipFupYKczy7TCFyYVVZw4xYNRQMhaJk+OrYS0edGdJqrzzurBdlmrV7FGnQKZ5FsTc2WQJzpOrB1/NSDmEykT5SynrmSDB2skJ6J+iCQNL8ju8YUl/Ci/4vNI50yTEzAnx/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N180peam; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F31c2qP2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCAD7C4CEF1;
-	Thu, 13 Nov 2025 01:15:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762996559;
-	bh=EJ8QNRFxHk5ZURXunn8dof0Yuy40aJERdAbeOilKFV4=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=F31c2qP2ZLhlr1Q5iS30HC9rcAkrSBAzR6hnVxZ2Cx02wJfe6t5V8Wq3R1ps/b2Sa
-	 IJB1O0i41P+b8lMC3EOGBZkLSy97N1Ue86l1U79sHZtVRDvrKLj1BwwlMLQ3kRyn9g
-	 sphM5Ql57xFVVNOdbQiDnCYbSLIZtgX4t+ZJndWLTW1YfM+8iZcAe7r/xfdwPSQCgQ
-	 7GvoOA3vgkmhfVZWAFg4UXRSUGl2jV77P7V+UVVPvF307Av9Nxes85hYBcZnIZmGWv
-	 LjooBBiRFrLWXfyDR4SaVYMNy+Ip/xoH/c900upGY2MNeaVanyw2zeD76UjPEUUX15
-	 aTL0/YxmV8U2g==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 5B1B5CE0876; Wed, 12 Nov 2025 17:15:59 -0800 (PST)
-Date: Wed, 12 Nov 2025 17:15:59 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
-Subject: Re: [PATCH -perfbook] defer/hazptr: Fix markers of final qqz in a
- series for "nq" builds
-Message-ID: <69a722b2-b833-4113-815c-2a14e7099e37@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <23edc53b-c087-45ce-a874-8142da4286fd@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N180peam"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3437c093ef5so4308160a91.0
+        for <perfbook@vger.kernel.org>; Mon, 24 Nov 2025 01:10:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763975459; x=1764580259; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KcYmJZjLsGG3lQsoAseTuhavDC7wwY83reFfQYa2sg4=;
+        b=N180peamo+/3mcoijU6Kwt7UBB27oBK0q0K6kqFTPkLzn7BOMQ+t+/LLkrRWMick3F
+         +l+SZR7sU5E5LWzuNRgMZrL+5RV3QMN7JjqMzKNzpOSa3nQ4UCi/CjxoPI8T7ddw5ovW
+         2JkpEb5uRF+Qv+mAUBh7y9fpAXewtCzn33/ZQDhCcbcny/Uvyt7jBZ3408cXECfG2EVC
+         PWInRiLTRPAStXIzeppQ0TRcmsSGcAAF+VvunJXsEIsrQchR6nYEME8MkYnitf0qGpwY
+         bgbDLGqy3/IAKj0hkTNqL1N7jtrOjiXo9YNb2d3kV85AQXJ0/ny1jG51x5K0YstL46lV
+         oYVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763975459; x=1764580259;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KcYmJZjLsGG3lQsoAseTuhavDC7wwY83reFfQYa2sg4=;
+        b=dVl76nUT2vmC3viDgXJf/q1XM3bFcnR3OfdBqCyuMEQQyswPQHHerqdMF/eXYXZa/R
+         5b05wEEVqiOC/fRtwwi0tDvsW8q5kpxWVbfXzRI/kWmMIfWrLwpwBm8IpzhBGCia7IgU
+         /Y1cJMKOuRG9S3XLcMg3WBczBqhYqIxsqymPx+lAosrVcxvbCQSt8ePfBtEGKuX5eG6i
+         n+KXOYTXZbZvRXN5lD9iTdse/xNwj98bJ3cPAqQCPOWsIS2Q6ZLE2ZP6xUF0yU6/vSl5
+         hqHaZbxU46fHGDcxrpFQxxnPp8MM85XEEIdY1yoPw3LYSxQc/wgyu5xBCWFtSoJI5ZhG
+         JMdg==
+X-Gm-Message-State: AOJu0YxFIPKLGb1prNOPUNFOmf3bsiDd6czAG2I0AB0MrxmR2o/zLWJo
+	dhqFnCGRqVQOkbTyOlsU+9k7yIGHcW4n5w3Z8hfd2QUp+X9mRPgA8xhG
+X-Gm-Gg: ASbGncvYLfMwl0HuemGjr6+UpGE/EJ12FCdMW40itpmVLvPREBezLW3nYJlnnrTSkXU
+	ZHJlM1+lRuBPYGwGSE8pG57PG7EtptrDy7cbkTIFhLUXahTgLOkWFRiFowZljdgOWZjykC7CHNI
+	CzWryjZAlgxZMXqgiUUgd+UtgYAoa5qlH6sqsh9hu+t2zp/ua5JSc92Uzrqudt/XWRYWq+yuhTx
+	rW8kgIUoq+I60Zzq1A8aCf4PA5xNX7jfc2XcbkihiKCjq+EGUnNRShrCIUaDvVtYdpncOIc36pB
+	jCVK8ZKA/dseuss97EaB/WLDofUUUWK0ZgNBI3eejQJVoXYWYd2fX14Xj9QsQDdQBoVioCBfPTE
+	oMJudve+Ke790DDoeqXX6/YRAkZlv5ETWB2PsXJqQpQstE9H7HRxV69cQ2fwJQ9/4zaSyfNTk0D
+	AuyFm61dtFNASJOj2ZmNDFI55/bzKuiWQwMa9ZDLuP1q+JEU/LSApA/Q/H
+X-Google-Smtp-Source: AGHT+IFk8wczh0XB1VWkWvn8moukdQ8BilfebD3WKHf7L/kkXfGIzhaEvaDFxTVpNjLnWAn/viVXJw==
+X-Received: by 2002:a17:90b:580f:b0:33b:a906:e40 with SMTP id 98e67ed59e1d1-34733e2b07amr7401645a91.2.1763975458798;
+        Mon, 24 Nov 2025 01:10:58 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3ed471f8dsm14146124b3a.23.2025.11.24.01.10.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Nov 2025 01:10:58 -0800 (PST)
+Message-ID: <ceb4f33e-fd07-48f6-88c7-fe9c3ef2db20@gmail.com>
+Date: Mon, 24 Nov 2025 18:10:56 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <23edc53b-c087-45ce-a874-8142da4286fd@gmail.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 0/3] CodeSamples/formal/herd: Tweaks for new litmus
+ tests
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 13, 2025 at 09:19:29AM +0900, Akira Yokosawa wrote:
-> Final one needs to be marked by the sequence of:
-> 
->   \QuickQuizE{ ... }\QuickQuizAnswerE{ ... }\QuickQuizEndE
-> 
-> Fixes: e736a602fdcf ("defer/hazptr: Add steps to move from refctr to hazptr")
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
-> Hi Paul,
-> 
-> This will remove extra "," in the box of "QQ 9.11, 9.12, 9.13," of
-> "nq" builds.
+Hi Paul,
 
-What I get for doing perfbook while distracted!  Thank you for catching
-and fixing this, and it is queued and pushed.
+I see a couple of minor issues in running
 
-							Thanx, Paul
+   - make cross-klitmus; cd klitmus; make
+   - make run-herd7
 
->         Thanks, Akira
-> --
->  defer/hazptr.tex | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/defer/hazptr.tex b/defer/hazptr.tex
-> index 0fd63d78..22fca499 100644
-> --- a/defer/hazptr.tex
-> +++ b/defer/hazptr.tex
-> @@ -398,10 +398,10 @@ and in other publications~\cite{ThomasEHart2007a,McKenney:2013:SDS:2483852.24838
->  	operation needs a minimal number of hazard pointers.
->  }\QuickQuizEndM
->  %
-> -\QuickQuizM{
-> +\QuickQuizE{
->  	What needs to be done to convert reference-counted code to
->  	instead use hazard pointers?
-> -}\QuickQuizAnswerM{
-> +}\QuickQuizAnswerE{
->  	You will need to:
->  	\begin{enumerate}
->  	\item	Allocate and deallocate the hazard pointers,
-> @@ -415,7 +415,7 @@ and in other publications~\cite{ThomasEHart2007a,McKenney:2013:SDS:2483852.24838
->  	counters, there is no efficient and scalable way to determine
->  	precisely when the number of hazard pointers referencing a given
->  	data element has dropped to zero.
-> -}\QuickQuizEndM
-> +}\QuickQuizEndE
->  }
->  
->  On June 17, 2023, the ISO C++ Standards committee voted hazard pointers
-> 
-> base-commit: e736a602fdcf8ff57537b2f692a745eb331c74c8
-> -- 
-> 2.43.0
-> 
+under CodeSamples/formal/herd/.
+
+This patch set should resolve those issues.
+
+        Thanks, Akira
+--
+Akira Yokosawa (3):
+  CodeSamples/.../herd: Declare non-int reg variables in init block
+  CodeSamples/.../herd/Makefile: Add klitmus7-ready tests
+  CodeSamples/formal/herd/Makefile: Exclude time-consuming test from
+    run-herd7
+
+ ...-rcusync-o+o-o-rcusync-o+rl-o-o-rul.litmus |  3 +++
+ ...usync-o+o-xchg-rcusync-o+rl-o-o-rul.litmus |  3 +++
+ .../formal/herd/C-double-check-cas-2.litmus   |  2 ++
+ .../formal/herd/C-double-check-rcu-2.litmus   |  2 ++
+ .../formal/herd/C-double-check-rcu-3.litmus   |  3 +++
+ .../formal/herd/C-double-check-rcu-4.litmus   |  4 ++++
+ CodeSamples/formal/herd/Makefile              | 21 +++++++++++++++----
+ 7 files changed, 34 insertions(+), 4 deletions(-)
+
+
+base-commit: 11bc82274338c587732236210f9f6aaa5b5c0343
+-- 
+2.43.0
+
