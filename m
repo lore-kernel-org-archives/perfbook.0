@@ -1,66 +1,66 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E692F5A39
-	for <perfbook@vger.kernel.org>; Mon, 24 Nov 2025 09:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59952F5A0B
+	for <perfbook@vger.kernel.org>; Mon, 24 Nov 2025 09:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763975665; cv=none; b=OEk6AuSSA5mI0VeGaCrYXYZKkIkCaaMobYpmlLrNDEi8ATNata0JNz41arQzEfImFtVeJVxMVXEAdlyAZ+mZBwwLaH1EghztGyJlu/oliEc0sW8uBbKEu3mSxPNmJRNLmkylMkB5zzGc27/lBw3BBM6WzTost0SrPdRbjQg183I=
+	t=1763975784; cv=none; b=g9PM9iQuI9MFSHZrNT0+IJA/SZm9WmZRx/YNz0G/1x+1KaAxKfnCvTecZWFVNKCl94MsA/8JeT1Dl1OUD8Wyg1CT8v8ue7G6jWeOdIpnoaxajCE1VDQsh8UKTmwUTTz8/iX2WXtarzJ9PDsuZOyKeUJymLWEGLTiu/RqcrzWz1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763975665; c=relaxed/simple;
-	bh=97pgOQAm3YvzcyK8Hmwhb1L3UG+CpRf96b3BiyDSI/8=;
+	s=arc-20240116; t=1763975784; c=relaxed/simple;
+	bh=LTWF9bWYM63paQctKYcNo30DOZt3A8z+ME9j87cqg+c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A9HnauyRqFvBMn42o4S7WRWlM2XooRFFXxUuI1zi2vH6roSNgChN8wDCW9GYQvOeZDICrEnXMb/lqO4pYSrdUCUQZc2drQZi/R6F/IMF1e9r8LAWMaonCUUqMkXP7g1wDpOwUnB0pKUwgVDnocjgJpqtuGSN0m1lUX8HKjI7+I4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WpSH2tRI; arc=none smtp.client-ip=209.85.214.174
+	 In-Reply-To:Content-Type; b=aiE4LlryzZUSAEJbWR2LWiczj/UWYdfXtPS8HDf7zOcrhrjou5VqiAsoCkwxjGVbFwefX90FAfdtjrNlOtwc279fRNe0Q3Ui0CbRUPsc4uTLbh4zHbIdyvqLtNP8vm694n8dZszmMOE2+HFV4+wgRPpl7tWRpyCmaPCY1YQ8Pmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C0sjvxu8; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WpSH2tRI"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-29555b384acso50069325ad.1
-        for <perfbook@vger.kernel.org>; Mon, 24 Nov 2025 01:14:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C0sjvxu8"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-298144fb9bcso44208805ad.0
+        for <perfbook@vger.kernel.org>; Mon, 24 Nov 2025 01:16:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763975663; x=1764580463; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763975782; x=1764580582; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=qe1HAWWdkdtrlYyU092HXacWhSHjtcD0FUTRrMY7TYU=;
-        b=WpSH2tRIKX5eLfDEcZuKW/JpbdFe47f+Oj260gy67nUvewelzphh5VusfO7C/AeEyu
-         vO80k5/OARVjEjeM5YDBkY96D571Mksxri1F/6hEWEkrEhVs7dhKD2/JjnKry7aDxApw
-         CX8rPftt2XKXR6XrHVfITRN1b7a4T21MCLZutNvn6ytavG6mC6g6RcMlBmXjYC3spILB
-         D2zCO8zY++mqYg+fmCrEoflg8l4Rt3KnRCChzu+kZDSPiXxzq6+O/0ux+2Jkd89htpBf
-         yqwP1kjcjofhTZf2ksW1HXk6pSL6bvvG5TZ8mFcLt7DOMj4J2QAquQo5M9VW4OA/yd0e
-         XOQA==
+        bh=LMtqSrITwuOfDm4jdF21kZRA816ZlvGbONBDBXuTcvE=;
+        b=C0sjvxu8b1pUaMcU0Z3k6iws4B7GOroAQ+F4mVbj8lCcZ+LMOlg6V+thD1WtZ4HBxK
+         9ooJHsWSNKSaZUZoWvXwawSwf7ycc0aY9M1gMlHm6QIXFsZEqS1d5dIdAjPkFg2ml454
+         0zouyNMDEm6DLt+mLCYjgEj/Yh+MFK11LkYCW5PLYbKFnuzGuoTvAp1/Ep3vQMzP3x21
+         W+mXhg8IIzrRTM4DpQnyarHbT50d+L6CdQzj/pGnPnGQsHTb+7hT2eppdETDjKzNdvpN
+         yeKejNliO58okpt9Btp8RptOLfXitmX/U/od7zqXltmjnZkU1BDet+LV+cg2yQoRE92G
+         6egQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763975663; x=1764580463;
+        d=1e100.net; s=20230601; t=1763975782; x=1764580582;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qe1HAWWdkdtrlYyU092HXacWhSHjtcD0FUTRrMY7TYU=;
-        b=nvuWe6gheG7V7snPj6MjCjHzGQ6rZ6KLtXHTTIlvoqxSSjcWix2pErYT6VSmLBosfx
-         sTJr20AEjvSapTnrrKOOo/Yb3Cpzwf7iUIWdwBk09UgScKE21nGG+N7h6TQO4bDEhmm+
-         hEJDmhp29oowybJYr/3OUBmR7xt8/xvOmH4nM4wenlPb77T+tmfYefEJmFYsgVu8Z4//
-         NEmYF2RSrdr4+GWFLbSLiCWYd12GFDFB6LLgeVgNlffn3otvHxVi4ACNseD57vj/J1M1
-         U9M6SYyACRZW6VQ8dA3eI6i2LVf9U4cAiGAcsbnQ/KgoYeL6OrXtG1ShH8eZscAUmrkv
-         Q7rw==
-X-Gm-Message-State: AOJu0YymsYCoXHLOQAGsRgtGCuoJgJ+3oDGhq2ujq4/fp8g+jFFyDNhk
-	hf3u+woQny04ejxGY0Rm6k8UWV2Y2sejzxQfvbyVpgaMZntOi9vaddixOx4uug==
-X-Gm-Gg: ASbGncvcpHGU21GW35DhKvvigHOQqiswDHWRy+9ncnpZSIcjHSqGTAPSUycMF3ne8/x
-	THg7xw3TSBkEXt1/KDPaBzLYtJPDRbAsRWlftlOasCJfZ8uSAZH4TyXvFcETKVP/CgxtyQSsrvU
-	3pj5jYvPmfMHAF8SOS6srFNR79EYI8irskRiUHEJpAGkYa8uTVfse1+nhNc3bEW4kRmoeeWURk6
-	JoWQ0tjOoLGzRGsIQMI4XBEGqW23mnkkgLspyH6d8T3v/2s1ADYJR8u2E/GM5ZEJVqFEmmX0SmM
-	uwe6g7cngfHQZxcMxSGbUWwAwkgWjkCV0ejguz4RfEUIAQhsA2T45ezyccxx/idxCNfB+J/9lvR
-	navvVFVcqI53SrV1zk3G6KNQaRImFCaIIvNdNf6t6U852dcmpZ7OCqgDmvwBsOmj3sFHm6KYQbw
-	o6z2CMWW3faTn2M/B3db1qleiSFCYWvRmnJ96JaQk099XPLc3lSiwGNTnf
-X-Google-Smtp-Source: AGHT+IFcs/nOXXmEsVLY+Teb0hSSsw9Zc7dwkRNMDF5P4tF6zmEKhduC1TGBpo1q+YY0BlhWVGofvA==
-X-Received: by 2002:a17:902:ef08:b0:298:60d5:d272 with SMTP id d9443c01a7336-29b6c3e42c8mr122292225ad.17.1763975663063;
-        Mon, 24 Nov 2025 01:14:23 -0800 (PST)
+        bh=LMtqSrITwuOfDm4jdF21kZRA816ZlvGbONBDBXuTcvE=;
+        b=HzpKbF1ER0Ao26vlMFHAyIiC7yduNnC4bQADOFd/8Vfd4zBR+jd+XnT5xWuoYiDRqH
+         wl1VV606eqKlfOKej05yE8YXsgg2dkpbpk6t8drF6cHH9HtSTMu4/eukCSi9LYqwGMDn
+         MNGaYNIya1IFqQo6A6XH5vylpey7hu+Hdd/wvyNMpKQY8bMGBQoDl0MWn4X2sqMmMfq6
+         z//8PkNtHR2QzrN4SsIE8WsJWlYmOpcmfQp07vgNfYV+zZb1XCN9DdDwmCrW5JDK7pQ/
+         rrdrt+Pjx/dN9dtlBbZLkfh+i1H//QpRaa2fVGBzqQ+CC3d7n7lH5Wuh5kk+6mVVn3G+
+         Vkog==
+X-Gm-Message-State: AOJu0YyDKjP/aEM3DGLPKmIn5ToF8uCUFAFGc32TAhkRO2XpGEEPCIcC
+	soK1fvsDnmiR7A7TG73ze60MvHrDNHyFK63OLA2ATMzF2z8+zBZLC5V4aGtTxA==
+X-Gm-Gg: ASbGncvEcguQ+0Zsg++qJnp2cVfk+rItnTcIsNYIKe80fSKFTBchYgzIoU1DKKXGrAH
+	NybmlRqsx21n31BRROC3PDO6otJA/1pmnss1r+6TcgwdvE+kPkxNHvMyXfVHOQpn5U4w7oGEISj
+	2+ioJJ2Re0IBgiqIcTTgmq5vrOV/tmxAPlU3EbDvnmjPzFxuC6i7oMkvPofoXXB6UqJu7jgDLm9
+	qqyefPp+c4O8B0LWcFMHqGck7zNUvxi4ZhyM5m6DSjxRYECGla7NAaBQ7Tt1lUwYIlQUEXynmMa
+	wC+0fOjrssL/6dnmBAsNgEcdJrlAYJVJ/dnwKO8b5EvmQ/iErj6TcFLXGyAihnavElhXvP/4bZx
+	iQN4aWXNjJ5oVmZjZF4fhvjcUpcUp/NbjCM4Nrc7BI7Ro0dX8lCLBe6rqTLUOeB1pVqbDElNWcz
+	Bso+RPW7PwMURCmY9OxQyYU1nEoIGZOl1V8h5rDjSXc7cS3tyYCnIOkroE
+X-Google-Smtp-Source: AGHT+IGlkYzIDhrB9aSAp6oJjzJSV72IM+XT7FzBziMlROq2TSH/0ZtMSTgtx0qGSjwKaIqkJI9TzQ==
+X-Received: by 2002:a17:902:c949:b0:299:e041:ecf6 with SMTP id d9443c01a7336-29b6bf5f087mr114873165ad.40.1763975781886;
+        Mon, 24 Nov 2025 01:16:21 -0800 (PST)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b274752sm128980565ad.75.2025.11.24.01.14.21
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b1584c7sm128191405ad.44.2025.11.24.01.16.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Nov 2025 01:14:22 -0800 (PST)
-Message-ID: <7079499e-959b-4fbe-b9e0-b8a1b532843d@gmail.com>
-Date: Mon, 24 Nov 2025 18:14:21 +0900
+        Mon, 24 Nov 2025 01:16:21 -0800 (PST)
+Message-ID: <85114b57-7716-4487-985d-eebb344ab174@gmail.com>
+Date: Mon, 24 Nov 2025 18:16:20 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 1/3] CodeSamples/.../herd: Declare non-int reg
- variables in init block
+Subject: [PATCH -perfbook 2/3] CodeSamples/.../herd/Makefile: Add
+ klitmus7-ready tests
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <ceb4f33e-fd07-48f6-88c7-fe9c3ef2db20@gmail.com>
@@ -79,111 +79,34 @@ In-Reply-To: <ceb4f33e-fd07-48f6-88c7-fe9c3ef2db20@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-There are missing declarations of local variables listed in the
-"locations" or "exists" clause.
-
-They can cause warnings from gcc that look like:
-
-.../litmus0xx.c: In function 'code0':
-.../litmus0xx.c:458:15: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-  458 |   *out_0_r1 = (int)r1;
-      |               ^
-
-Declare such local variables in the init blocks.
+While here, fold the long list as well.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- .../herd/C-MP+o-o-rcusync-o+o-o-rcusync-o+rl-o-o-rul.litmus   | 3 +++
- .../C-MP+o-xchg-rcusync-o+o-xchg-rcusync-o+rl-o-o-rul.litmus  | 3 +++
- CodeSamples/formal/herd/C-double-check-cas-2.litmus           | 2 ++
- CodeSamples/formal/herd/C-double-check-rcu-2.litmus           | 2 ++
- CodeSamples/formal/herd/C-double-check-rcu-3.litmus           | 3 +++
- CodeSamples/formal/herd/C-double-check-rcu-4.litmus           | 4 ++++
- 6 files changed, 17 insertions(+)
+ CodeSamples/formal/herd/Makefile | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/CodeSamples/formal/herd/C-MP+o-o-rcusync-o+o-o-rcusync-o+rl-o-o-rul.litmus b/CodeSamples/formal/herd/C-MP+o-o-rcusync-o+o-o-rcusync-o+rl-o-o-rul.litmus
-index d074d6c1..58887051 100644
---- a/CodeSamples/formal/herd/C-MP+o-o-rcusync-o+o-o-rcusync-o+rl-o-o-rul.litmus
-+++ b/CodeSamples/formal/herd/C-MP+o-o-rcusync-o+o-o-rcusync-o+rl-o-o-rul.litmus
-@@ -6,6 +6,9 @@ C C-MP+o-o-rcusync-o+o-o-rcusync-o+rl-o-o-rul
- 	int b;
- 	int c;
- 	int *p=a;
-+	int *0:r1;			(* \fcvexclude *)
-+	int *1:r1;			(* \fcvexclude *)
-+	int *2:r1;			(* \fcvexclude *)
- }
+diff --git a/CodeSamples/formal/herd/Makefile b/CodeSamples/formal/herd/Makefile
+index 069f77ea..257ee556 100644
+--- a/CodeSamples/formal/herd/Makefile
++++ b/CodeSamples/formal/herd/Makefile
+@@ -49,7 +49,15 @@ ABSPERF_SHORT  := $(filter-out $(ABSPERF_LONG),$(ABSPERF_TEST))
+ ABSPERF_OUT    = absperf.out absperf-all.out
+ HERD7_TEST     := $(filter-out $(ABSPERF_TEST),$(HERD7_LITMUS))
+ HERD7_OUT      := $(HERD7_TEST:%.litmus=%.out)
+-KLITMUS_READY = C-Lock1 C-Lock2 C-RCU-remove C-RomanPenyaev-list-rcu-rr C-SB+o-rcusync-o+rl-o-o-rul
++KLITMUS_READY = \
++    C-Lock1 C-Lock2 \
++    C-RCU-remove C-RomanPenyaev-list-rcu-rr \
++    C-SB+o-rcusync-o+rl-o-o-rul \
++    C-MP+o-xchg-rcusync-o+o-xchg-rcusync-o+rl-o-o-rul \
++    C-MP+o-o-rcusync-o+o-o-rcusync-o+rl-o-o-rul \
++    C-double-check-cas-2 \
++    C-double-check-rcu-2 C-double-check-rcu-3 C-double-check-rcu-4
++
+ KLITMUS_TEST   := $(addsuffix .litmus,$(KLITMUS_READY))
  
- P0(int *a, int *b, int *c, int **p)
-diff --git a/CodeSamples/formal/herd/C-MP+o-xchg-rcusync-o+o-xchg-rcusync-o+rl-o-o-rul.litmus b/CodeSamples/formal/herd/C-MP+o-xchg-rcusync-o+o-xchg-rcusync-o+rl-o-o-rul.litmus
-index 86ea5553..37c7cb0f 100644
---- a/CodeSamples/formal/herd/C-MP+o-xchg-rcusync-o+o-xchg-rcusync-o+rl-o-o-rul.litmus
-+++ b/CodeSamples/formal/herd/C-MP+o-xchg-rcusync-o+o-xchg-rcusync-o+rl-o-o-rul.litmus
-@@ -6,6 +6,9 @@ C C-MP+o-xchg-rcusync-o+o-xchg-rcusync-o+rl-o-o-rul
- 	int b;
- 	int c;
- 	int *p=a;			(* \lnlbl[init:p] *)
-+	int *0:r1;			(* \fcvexclude *)
-+	int *1:r1;			(* \fcvexclude *)
-+	int *2:r1;			(* \fcvexclude *)
- }
- 
- P0(int *a, int *b, int *c, int **p)
-diff --git a/CodeSamples/formal/herd/C-double-check-cas-2.litmus b/CodeSamples/formal/herd/C-double-check-cas-2.litmus
-index 4c2dc523..2296fe3d 100644
---- a/CodeSamples/formal/herd/C-double-check-cas-2.litmus
-+++ b/CodeSamples/formal/herd/C-double-check-cas-2.litmus
-@@ -5,6 +5,8 @@ C C-double-check-cas-2
- 	int a;
- 	int b;
- 	int *p=0;
-+	int *0:r1;			(* \fcvexclude *)
-+	int *1:r1;			(* \fcvexclude *)
- }
- 
- P0(int *a, int *b, int **p)
-diff --git a/CodeSamples/formal/herd/C-double-check-rcu-2.litmus b/CodeSamples/formal/herd/C-double-check-rcu-2.litmus
-index ff7a1dd3..a108d318 100644
---- a/CodeSamples/formal/herd/C-double-check-rcu-2.litmus
-+++ b/CodeSamples/formal/herd/C-double-check-rcu-2.litmus
-@@ -5,6 +5,8 @@ C C-double-check-rcu-2
- 	int a;
- 	int b;
- 	int *p=0;
-+	int *0:r1;			(* \fcvexclude *)
-+	int *1:r1;			(* \fcvexclude *)
- }
- 
- P0(int *a, int *b, int **p)
-diff --git a/CodeSamples/formal/herd/C-double-check-rcu-3.litmus b/CodeSamples/formal/herd/C-double-check-rcu-3.litmus
-index c5d5f9e4..6bff1f82 100644
---- a/CodeSamples/formal/herd/C-double-check-rcu-3.litmus
-+++ b/CodeSamples/formal/herd/C-double-check-rcu-3.litmus
-@@ -6,6 +6,9 @@ C C-double-check-rcu-3
- 	int b;
- 	int c;
- 	int *p=0;
-+	int *0:r1;			(* \fcvexclude *)
-+	int *1:r1;			(* \fcvexclude *)
-+	int *2:r1;			(* \fcvexclude *)
- }
- 
- P0(int *a, int *b, int *c, int **p)
-diff --git a/CodeSamples/formal/herd/C-double-check-rcu-4.litmus b/CodeSamples/formal/herd/C-double-check-rcu-4.litmus
-index 02f34366..e81d5850 100644
---- a/CodeSamples/formal/herd/C-double-check-rcu-4.litmus
-+++ b/CodeSamples/formal/herd/C-double-check-rcu-4.litmus
-@@ -7,6 +7,10 @@ C C-double-check-rcu-4
- 	int c;
- 	int d;
- 	int *p=0;
-+	int *0:r1;			(* \fcvexclude *)
-+	int *1:r1;			(* \fcvexclude *)
-+	int *2:r1;			(* \fcvexclude *)
-+	int *3:r1;			(* \fcvexclude *)
- }
- 
- P0(int *a, int *b, int *c, int *d, int **p)
+ .PHONY: all clean litmus2herd run-herd7 run-absperf run-absperf-all cross-klitmus
 -- 
 2.43.0
 
