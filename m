@@ -1,158 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A9B225A35
-	for <perfbook@vger.kernel.org>; Thu, 27 Nov 2025 00:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12E684A35
+	for <perfbook@vger.kernel.org>; Sat, 27 Dec 2025 08:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764204301; cv=none; b=pR97lNPCFiK1wj99E0gsYVOtNeWfAFKhgMxBev7n2iiu4vIsEFeM8mPm/OOVNvXCdYA4qSdHw2jjZr0ydNjLHemU6QZ6TXziRrKYuRrj42OnQs+zU6Ylz/iTjIfZ7N3SqlKZrcKSsRLrWoCE6AEYcj4VsRJeTnXXf5NoTfp+2bQ=
+	t=1766824615; cv=none; b=e6aFLzTlQwQQzEgav6zpfhQAhx4oehgNNKxA4NKJSIBL+RrDSwoKK0+JvN9KhIIAYCs1kc9YjLR9wpDMYq0OoarMwTiZIhwUQmuctQg+xjDjKyZPTw8tvyKbE5gZrsQJd4qtyPt8uxSV4Ny5QWoQNiQdoCQm3V1C5UzAVLPOQlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764204301; c=relaxed/simple;
-	bh=inVbxcWeZ86R3bvqVhSUdG1O2M8UUDLgD68ERp5F30E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N1qjTFbgDzzEO+d7fqBqBHfgWESjJ9B7ZTqqziOxZmwyUXP5ln1qZYgTCxj+cbbKlasGlYIcOewDhQVwxXWEtlMTQZK4jbfU05fmTkCl7D+PeJfFc3Pm96zlYiN8TYn6ZkTV3c1eXdS76TqpUcQJVGnPMZDMYXcuFAywY/uiMFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DV9bE7f+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766824615; c=relaxed/simple;
+	bh=+a5bGOTwiQ0YlZnECAqDREqmkdW4oIo5WnJyNIIDUOU=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=f/2WdH3rbw4W1hq2sGys0WgYBiXvwlgUwmqaht2glkDvtXC7iYAgwx39fAOjpzGg+rw7Gn9lpbP03bl8T5hHyaS+YtHJVHwbY1CeQUQFqUdfVT2CPvBjSTEQqgDHbjNFD7fJ/1c1nbwf1Ychw7zrkDk1fod3Z6x6OgpKGMQnyO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IWFpzQJ9; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DV9bE7f+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFA5FC4CEF7;
-	Thu, 27 Nov 2025 00:45:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764204301;
-	bh=inVbxcWeZ86R3bvqVhSUdG1O2M8UUDLgD68ERp5F30E=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=DV9bE7f+yag8nr42IhKVD0EBsQNDfNGQ7+il/sLTzEMRqguYSNEb7taZGE4GRw3zA
-	 omGf9T9EVX7o7fe/UcREvUluRU0AUbcSruXFxLw0rfAWJu0Tc7JeqxgypOSgEcM8by
-	 uye0ObAAqneFo3Dhssb9eI1RJJOUSuuDoWLWFwvsLmuyw6YlYlD0q40+a/M/cRoK6u
-	 ypNt+muw8WX2fdbIRcM4+VNMWBEj/NoanytF5k/EwcNwee70VcgOXiLPaQ2MxIJVr2
-	 z3XWNGh+frJnJ++JYEp6UXN4o3bB1qqb62oDmo5NlNzBlI3HYczKq49wWas42i2KUL
-	 QVsxsI/oNciZA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 69934CE0E29; Wed, 26 Nov 2025 16:45:00 -0800 (PST)
-Date: Wed, 26 Nov 2025 16:45:00 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: perfbook@vger.kernel.org
-Subject: Re: [PATCH -perfbook 0/3] CodeSamples/formal/herd: Tweaks for new
- litmus tests
-Message-ID: <74e097c3-1811-4346-82c2-18ebb88aca8d@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <ceb4f33e-fd07-48f6-88c7-fe9c3ef2db20@gmail.com>
- <7c5487c4-1ecd-4522-b14e-dd00d4c52319@paulmck-laptop>
- <a6128f7a-a811-4121-b877-4103782f3fdc@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWFpzQJ9"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7f0db5700b2so6824597b3a.0
+        for <perfbook@vger.kernel.org>; Sat, 27 Dec 2025 00:36:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766824612; x=1767429412; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tQ/RZeI7muDJbXGRD0VziyPvvHTkRhFSLSuu7JB5tf0=;
+        b=IWFpzQJ9ia0Y2klFuOl06YlD++5XK3iCZD8ug1e37bTM6saXZ+Mv8/CCsopoMd3QkF
+         moPwMQ7YV1Cw3huD+n5aZBJI5rZayZu7ADtT/EVFwHlbX9t2FLRP/U2rZhhW0vGi9VcU
+         CBiQAFGTSoyMoiC8fHcxP/xAyZ8lWRSh+3bFb2zijTQbPG1RYIY35zcqG5xcxacr9+sN
+         UNVbDdkshShdctrXQ6vF2YF4Bo+i/Rb4rei0HkLesWfTLI788b+BTfehvUKrOqpXT7dv
+         cbWkn7r3i+z7NY2/9Sb0napR3G+2Az7LFC2LB9TPccGVz0BozfgJTGQdAAxyr2o1osxB
+         FTIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766824612; x=1767429412;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tQ/RZeI7muDJbXGRD0VziyPvvHTkRhFSLSuu7JB5tf0=;
+        b=c7uhyUg3zhFk5Dq5Bljpzx1+smZ1iUudjPnEFmjI1YkoX1vWjQwfl+DAh3stBSTck0
+         1+vyKZEpHj8LzQANMrVs1htJ8khfv8GWYXwyVIarPL2e8tlhYjWhkOL70qkMpqzUIGKr
+         GI+BMoNBSVH4CWDVmsWjJaAAdLGUBJ5j+KCKG/79YS38eFgR0BDwRRypou+YqSBGur8o
+         /zP0RS1qD8nA03gpmFh1g3ePfi2RXRGwlibqxoZ8lkGpR6VwTGrzVJeZ1+gCXW1wansi
+         o715TFpbwtzw2/aRRCuC953cD2h1E4QmGdVbaZzTqlLQoqKR+Xaq6fIp95Mu1hu+sd2c
+         hRRQ==
+X-Gm-Message-State: AOJu0Ywu3BjCTlb0Rbii4Nt0cHJweqKA80NgFH3PhMdA7Tz4G3Y9Xiuv
+	Xr4b7p00cODpr5ZKgvsur4+AErKYWiWzP4SexJZkYNZIyHSydGGWyvpRhhCRCw==
+X-Gm-Gg: AY/fxX771wondMUjdABSqXlIK502aQoPHMfu8i5KVX1qw3YP2aKl873P2yKYw0SBfXi
+	S7MqeHJEeNIPW6w7fofVDVkv3RmhetCm8Ih0g3czbhqu1RB3JFvQQmI1/JEwvzHghZu9c9cfo7e
+	vGDpjnsg2V56wjaCvsUjkpDEsjU4IBi6JgT3hUP2beSw4BBfWyUFb5Dp28COih3kz1MXij8NgNT
+	hDWFabddEf5BGlR2tCqLXh+HePPhaM+w3W0oosCeC47x/8ciXedFDTj38Oh0YyF6vQkwEgu0o8O
+	rdm6ED3iO0OdFaxd8LizFXUW8p51cPmZNwOlz0sDTZkPDiZlUAHqTEUKRgHlekTKP+5v1PlxpLw
+	KQnEg44ov9kpYQZkIhAcaUFiYS6/y57zEeWsJugF5Oxw2OwadtlpqEZuqJJe/INexFTsC6wra2R
+	aYjB/ZzVeyvO9mGnRE3xLKEZGdLPseT+DhOC9xGkVHo6dUOlZLw2/FhOyy
+X-Google-Smtp-Source: AGHT+IFopkXWatiqpV2gyX3zmftGw4MjfkKXcBEM6O13Gtv/UtVc6pnR2pMuOC2akQ9jQwsUR+PrZA==
+X-Received: by 2002:a05:6a21:99aa:b0:35d:d477:a7d8 with SMTP id adf61e73a8af0-376a8ebe380mr24291923637.36.1766824612160;
+        Sat, 27 Dec 2025 00:36:52 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e70dbd618sm25276910a91.12.2025.12.27.00.36.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 27 Dec 2025 00:36:51 -0800 (PST)
+Message-ID: <43d0a319-a3c7-4b91-88b3-d8f029019d9f@gmail.com>
+Date: Sat, 27 Dec 2025 17:36:50 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a6128f7a-a811-4121-b877-4103782f3fdc@gmail.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH -perfbook 0/5] December updates
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 27, 2025 at 12:43:28AM +0900, Akira Yokosawa wrote:
-> On Mon, 24 Nov 2025 09:14:57 -0800, Paul E. McKenney wrote:
-> > On Mon, Nov 24, 2025 at 06:10:56PM +0900, Akira Yokosawa wrote:
-> >> Hi Paul,
-> >>
-> >> I see a couple of minor issues in running
-> >>
-> >>    - make cross-klitmus; cd klitmus; make
-> >>    - make run-herd7
-> >>
-> >> under CodeSamples/formal/herd/.
-> >>
-> >> This patch set should resolve those issues.
-> > 
-> > Queued and pushed, thank you!
-> 
-> Paul, this is a side note with regard to klitmus7.
-> 
-> In the old days with Linux kernel <6.0, tests listed in KLITMUS_READY
-> took less than a minute.
-> 
-> That have changed a lot.  Litmus tests with RCU primitives tend to
-> take much longer.
-> 
-> In the list of processes shown by "top", such klitmus threads are
-> accompanied by a single (and fairly busy) "rcu_exp_gp_kthread_worker".
-> Yes, the frequency RCU primitives are invoked in those litmus tests,
-> especially synchronize_rcu(), is unusually high.  In realistic workloads,
-> such burst of synchronize_rcu()s would indicate you are doing something
-> wrong.  So the longer time to complete does not mean any performance
-> regression.
+Hi Paul,
 
-If I remember correctly, the klitmus tool switch from synchronize_rcu() to
-synchronize_rcu_expedited() at about that time.  That would definitely
-account for the appearance of rcu_exp_gp_kthread_worker(), which
-handles expedited grace periods.  The motivation for switching klitmus
-to synchronize_rcu_expedited() is that the shorter grace periods make
-detecting RCU-usage bugs in litmus tests.
+Here is a small set of patches for December.
 
-Except that your data below shows that downgrading to a pre-v6.0 kernel
-reduces the overhead.  Hmmm...
+Patch 1/5 is another routine update of rcu-test.dat
+Patch 2/5 mediates longer run time of RCU related litmus tests under
+kltimus7 by exclude those tests from default list of tests.
+Patch 3/5 works around a strict policy on ghostscript (gs) under Ubuntu
+25.10's apparmor.
+Patches 4/5 and 5/5 are obvious fixes to your recent updates in toyrcu.
 
-> Following is a list of summaries from C-RomanPenyaev-list-rcu-rr runs
-> under several VMs:
-> 
-> - Ubuntu 20.04 POWER8 (kernel: 5.4.0-223-generic #243-Ubuntu SMP, 8 CPUs)
-> 
->   Hash=890796f9231134fff935fc64b2b98940
->   Observation C-RomanPenyaev-list-rcu-rr Never 0 4000000
->   Time C-RomanPenyaev-list-rcu-rr 17.85
-> 
->   no rcu_exp_gp_kthread_worker.
-> 
-> - Ubuntu 24.04 POWER9 (kernel: 6.8.0-88-generic #89-Ubuntu SMP, 8 CPUs)
-> 
->   Hash=890796f9231134fff935fc64b2b98940
->   Observation C-RomanPenyaev-list-rcu-rr Never 0 4000000
->   Time C-RomanPenyaev-list-rcu-rr 153.49
-> 
->   no rcu_exp_gp_kthread_worker observed.
-> 
-> - Ubuntu 24.04 x86_64 (kernel: 6.8.0-88-generic #89-Ubuntu SMP PREEMPT_DYNAMIC, 6 CPUs)
-> 
->   Hash=890796f9231134fff935fc64b2b98940
->   Observation C-RomanPenyaev-list-rcu-rr Never 0 3000000
->   Time C-RomanPenyaev-list-rcu-rr 60.46
-> 
->   no rcu_exp_gp_kthread_worker.
-> 
-> - Ubuntu 25.10 x86_64 (kernel: 6.17.0-7-generic #7-Ubuntu SMP PREEMPT_DYNAMIC, 6 CPUs)
-> 
->   Hash=890796f9231134fff935fc64b2b98940
->   Observation C-RomanPenyaev-list-rcu-rr Never 0 3000000
->   Time C-RomanPenyaev-list-rcu-rr 311.79
-> 
->   rcu_exp_gp_kthread_worker consumes a lot of time.
-> 
-> - Fedora 43 x86_64 (kernel: 6.17.8-300.fc43.x86_64 #1 SMP PREEMPT_DYNAMIC, 6 CPUs)
-> 
->   Hash=890796f9231134fff935fc64b2b98940
->   Observation C-RomanPenyaev-list-rcu-rr Never 0 3000000
->   Time C-RomanPenyaev-list-rcu-rr 326.54
-> 
->   rcu_exp_gp_kthread_worker consumes a lot of time.
+As for Patch 2/5, klitmus7 converts synchronize_rcu() into
+synchronize_rcu_expedited() by default ever since herdtools7 7.45
+released in 2017.  So, the longer time to run suggests decreasing
+trend in "throughput of synchronize_rcu_expedited()".
+Have you done any benchmark on such a thing/concept?
 
-How much time?  A full CPU's worth through the klitmus run?  More than
-a CPU?  Less?
+        Thanks, Akira
+--
+Akira Yokosawa (5):
+  CodeSamples/formal: Update rcu-test.dat for v6.18
+  CodeSamples/formal/herd/Makefile: Add KLITMUS7_EXTRAOPTS variable
+  Makefile: Let ghostscript access under /tmp
+  toyrcu: Replace \co{} with \cref{}
+  toyrcu: Mark inline enumerate list as such
 
-You mention that this might not be a regression, but then again, it might
-well be.  ;-)
+ CodeSamples/formal/data/rcu-test.dat |  1 +
+ CodeSamples/formal/herd/Makefile     |  3 +-
+ Makefile                             |  5 ++-
+ a2ping-rule.mk                       | 40 +++++++++++++++++------
+ appendix/toyrcu/toyrcu.tex           | 13 +++++---
+ epstopdf-rule.mk                     | 48 +++++++++++++++++++++-------
+ 6 files changed, 83 insertions(+), 27 deletions(-)
 
-> Just out of curiosity, is there any knob I can tweak to reduce the time
-> to complete, preferably some kernel boot arg?
 
-Well, there is the rcupdate.rcu_normal=1 kernel boot parameter, which
-disables expedited grace periods completely.  But that cure might be
-worse than the disease.
+base-commit: f10ba2161229db12af9a1e38fd23850483721b7d
+-- 
+2.43.0
 
-Just to make sure, you are using the exact same version of klitmus
-throughout, right?
-
-If you are using the same klitmus throughout, are you comfortable building
-and booting kernels on any of these systems?  (If so, I would ask you to
-bisect, but to focus only on changes affecting kernel/rcu, for example,
-"git bisect start v6.17 v6.8 -- kernel/rcu".)
-
-							Thanx, Paul
