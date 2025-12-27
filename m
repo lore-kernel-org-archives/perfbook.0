@@ -1,66 +1,66 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA951E5B73
-	for <perfbook@vger.kernel.org>; Sat, 27 Dec 2025 08:50:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8B31E5B73
+	for <perfbook@vger.kernel.org>; Sat, 27 Dec 2025 08:51:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766825437; cv=none; b=JO4g7rL1VLuiPxY80NM/ten/9FKqYr97xl8WnpT7Xv0uvS9ECvpEDwHQsn51vpb9NMvmA3bDF0R467Hb5pkW5gH/iMGR8LlOG1tDB/hZjw6rNREP4/hg/e0HdFAnx+if7x0FIYNVJwfuTgC9H5cC9VfLfgEwxi6maoiG41UhBRU=
+	t=1766825498; cv=none; b=FtCkY/1O0jWkpN0ZDYs+3Fm18f0Pb4FK7JkT7GBGgqW3+nAMUgW0YqCAwVrLw1xB8Scxh3wFoIaPRGmnCUNnrihCpZzpYxWrfwbI1sgh5mMJqNZ+8X1psQWltk9fD0UsfhzLAPVFlQvf5F0I6v+hLivtbYqFVVzNAlRJHhI27lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766825437; c=relaxed/simple;
-	bh=/Ws6WbyP9gu3Gmplil7rl/keoiHbfLSxJDTDeHh+I+A=;
+	s=arc-20240116; t=1766825498; c=relaxed/simple;
+	bh=RPBhfDJmIC2Zf6sypNbcgHhiqfUFn7ROf8FQhZMk0fs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jFpfX2VQEAiSJSiCaUOpPFcWWeDa+mq93g2JFB4JEE/BobC9HHxRsj+eK8zGVTXRfF2Mi1P1NY/Cc8sNxzrWKT+w2/VsjGXu9Cw5i67sHAcWTU43JpW89hCp4nCeSfimfpVWM3ce8DLsqvjCEKu80vpJfTP3vjsJ4IYaP3UhHi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nf1OZMq0; arc=none smtp.client-ip=209.85.216.51
+	 In-Reply-To:Content-Type; b=VoLCzp9U9OqMhuYYPfoze0rhyAJrDUU5TEPi1D2bks9ftE0cOKSCK3z2cXttC1wb/OPJbYwT8aYUWq+k+kDQIDP8/t/8Tv6ceDV1HenyXvouK4mk6Y9BxWjsIR3y5dYMPN3skzLjEzaa4RdFa6KGcwRoyUdyc/Ur8YMn6VKj+Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XaPSxmpH; arc=none smtp.client-ip=209.85.210.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nf1OZMq0"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-34c27d14559so6071866a91.2
-        for <perfbook@vger.kernel.org>; Sat, 27 Dec 2025 00:50:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XaPSxmpH"
+Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-7aae5f2633dso7800707b3a.3
+        for <perfbook@vger.kernel.org>; Sat, 27 Dec 2025 00:51:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766825436; x=1767430236; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1766825496; x=1767430296; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ctlulie+JbXWZs6oIm+GFLRTXyaLHgmI8WVDkPV/lI0=;
-        b=nf1OZMq0Tp0+VC4vmkaW0fTZBznof04+O7EZWE04noIUTDx2JetQCyMENByT/1yS1t
-         Zu8Ulod2vlZxvtvFi48wFJAcmcAei5GLOpXxk3ell9veLhj0NeinIcA1ejzJm2xXd/to
-         yTs/51K3A4kCoKDcFfvRzoZUShaQBotkIEn1Wiz8Lxr36RghgM9bGk74jYmDO5/oTTZR
-         GGrvj8YS6GSYn0eIQWnUInTzuDfLWk/3ITac8342SEkbhhEDfIN7rjScNDxc638M0L0Z
-         IFbASvWRjTM7il/dzAEJO5eJ7yg62RBOkRkaHzNQXxMWVmBgDKYDk481BUcCzawcBU+3
-         x7/w==
+        bh=XAPTa7r9kNgsHf5Y8CV2AGfz/TgVCdhPdr+H7U10CAk=;
+        b=XaPSxmpHsSpBMp4Or1IYGR9ZlSagvpEeIFyGhQt6Zbhxipp796Z2eoSkhEa56fTCMn
+         YHGgtbIfopd+r9XF3cV0A0RKxT/DiBgvLDekzymOpvdThZLYR2HlzpFviFBmD9el2w42
+         U0Lt1FG+s4/I0omCvE7Y0Z1MvgQmXVMVx3nb3xJ2nUt4Ahaw8sRmXWi32MrKP/UlPvW3
+         weTWjDxxcAyEjaYhVbykEwcNBwGwnLKPJ93uhJcV1hq5PuIsPGQgknDOa2XwMpbijDRi
+         hx3UDgVhQiYjL/ACP2tF8kOcH+O1reOsEj9aOHD79t6gVpYjacuOQ9UFDhqSGCrVUVpf
+         ljng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766825436; x=1767430236;
+        d=1e100.net; s=20230601; t=1766825496; x=1767430296;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ctlulie+JbXWZs6oIm+GFLRTXyaLHgmI8WVDkPV/lI0=;
-        b=AHccn2Dh6x0ziiU3X3NHkO5nIwIkuuDk4PqrYqB822jaKtvD7Xo/9KC9NprDpk7ZZs
-         YBBi3P8CNdaLgADAm61SQ0WCBRE59VV1ZRkywdhcFlfJfRj978ds9fLQNsqZpoVmH8Kv
-         bGf0b8jdtler2fVtdJbfpC8slaHjePWVF6+MKpH4v7hrZRlDr7463GhjdZSo4hQLa20e
-         Z8UDtAXfS2F5UKGltVA5IKNxwoSEQFxFXuOqcHwcps70C6TjWYEzXDcIgwnxUzOFPmNM
-         3YweLLfIyLnu5bFvDEEu5ukGqGEer8txp6FOaqFGb6/YNwsamz8+CJGDlj8sCVEYUpNb
-         msBA==
-X-Gm-Message-State: AOJu0YwYfprsaGEuoWbgpwfdy9Y7b0AE+3vFBj/PgziT1SbN0eB5NowR
-	dIdWv1Hbv6fZFGhS5vSXi/zx5eEa8/zvj/Thnig717HPhQNfpH/dxKeD
-X-Gm-Gg: AY/fxX4YadNrqB3EmGEcb1oYfftwIoTfxZb+r5Kr/x/kIVVAsRYNoI+l56P59nh3l1c
-	vulZcKy2FJYDZMbPd1G7F65BtO3mK4+MdFvUqQu+/EFnHwqiS+aQQNIhkzNi3CE0y3xEev/KhsV
-	jcZyk1LcUhpqO0EtisZeee1ScSktpaoKRD/WuZfy77Bu1CHnaqxSHZr7Vj0XqhrGc74HqZKW5oa
-	2QmTZwqlZh3BK35AIqt+6woO3pBJ2Hn/giYEWWfg8v0V5deNzE+RG6ApsrpRt5s84BUFF6jyK4S
-	OgvCpGPvEPZ+PW/95FPb5Jx0JnVqCw6YRInDkZ6ybisTcjLEutVLQH+P4hQtCOal8snkV8s4aJd
-	ZrGuDqkSEL2Nb5JYYjfNN/Nw2YThXSptPMZiu6kLElfHFsuY1uVxfaXoQkHDac1sPGePVYi/tWL
-	Twk5lzubR4HbgR4pfea5RJEeUhizZdIyMrsQZuTDixjJdfnfgefOii6mFO
-X-Google-Smtp-Source: AGHT+IF83w1TCUow7P1qcr/pXNa8yuU+TS2cyA9A8tTXLJCbYD1PwNMll2a6lpPU5ITs4wTDHIrpTw==
-X-Received: by 2002:a17:90b:5610:b0:34c:7182:cf9d with SMTP id 98e67ed59e1d1-34e921c7373mr20389814a91.25.1766825435636;
-        Sat, 27 Dec 2025 00:50:35 -0800 (PST)
+        bh=XAPTa7r9kNgsHf5Y8CV2AGfz/TgVCdhPdr+H7U10CAk=;
+        b=n9srON+6baniml6xw4qVzxZP1UDEmxmsjWNbUSmBJ6f8+7iM4v/ElZArtjzoOb6EXw
+         LzIpF5DDP0rtGc6hSS+NxcIr7hOwvDt8TnpiIXN2agFRvIEznKjMd8DOHGE0wAzOlgDn
+         lrLMO4ZE2SwfAqxW/mlgPQRR0HMp4iaYshoMLfY/w9yAAVGe2ePvenjoVrlDrvfrmtYj
+         JLq9QBrUEORnzbFq1erPyNjgaoDvdWxiDGPcL01+iTVmSzBu191k5S1jaCM+n1SeoyoY
+         BL57x08QH5wtIwWaQFrryn8akXjb1pYiawjsOrN5oYM1Pj41S9hWtrovb3QjUyt/i3WJ
+         FzdQ==
+X-Gm-Message-State: AOJu0Ywhhh1ddtUFlk1VYTuilYkVgUwoD/ah8vQIwhxYBXMK/QWVkH9o
+	prjvRoF0eLB8w/W7LIS15u9gsfRL4jqeidu70/OgzOf0ql8n8obSMNAH24BvO2qL
+X-Gm-Gg: AY/fxX5bRh0+lXaJq43F28VhgdoK42hQvPODhLosKPp5n8ftwWQtW3qSwkoNOs1Bqo1
+	5PqMsJVR1/vr6ZewWJcF4qmt0nlIdL1UXB9aHHOwffHD4iAZQb1bV2wzZvybpkJQSZhtKJKk4gI
+	8N8xz7gP98mds63mrTapRI1kdsXa8T3aOHb64IZKsx0YaldwTfZyBcLBG7GBvU3/DP3/dC1+c8D
+	LZp7w8WUAXLkQL8PaalXGwQXPyB8sL0wMwaNv2VdcxfBlTkhDAiPrgBkV4cqS03mUEYyOjn/4qI
+	3RRD+gTr2FS+l0seBY+blzbRPeBOvwjP8wlbcvVzVdq6PPMeTK9fHUB1nhCCzEyhzX4yv+d+1H3
+	iRTnvcuqLWTFoqDRPceiQKmooks1KAUXK0jLgnUUNoXECrFGgj6qNsnjH5upmdp5VX7JoNCF11x
+	UCDX77I176BaCar4spU+Yk7gvc1Zs65zBRwlVrU+gXmJJHwSXdRP4H7wxw
+X-Google-Smtp-Source: AGHT+IEGc0QOp+l1gydkQybI439b6gbHvcvb8dqgH1RwmxA1xDXMieAoZMj4DM5CLciO5oQH8CCbRg==
+X-Received: by 2002:a05:6a00:27a6:b0:77f:efd:829b with SMTP id d2e1a72fcca58-7ff648ee39cmr18809293b3a.22.1766825496501;
+        Sat, 27 Dec 2025 00:51:36 -0800 (PST)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c1e79a164d0sm20755932a12.10.2025.12.27.00.50.34
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e48f300sm24075421b3a.54.2025.12.27.00.51.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Dec 2025 00:50:35 -0800 (PST)
-Message-ID: <7374a013-df0f-4368-8e66-8a650cc732fc@gmail.com>
-Date: Sat, 27 Dec 2025 17:50:34 +0900
+        Sat, 27 Dec 2025 00:51:36 -0800 (PST)
+Message-ID: <a3265682-142c-4d6a-be3c-72bb64cf5dbc@gmail.com>
+Date: Sat, 27 Dec 2025 17:51:34 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 4/5] toyrcu: Replace \co{} with \cref{}
+Subject: [PATCH -perfbook 5/5] toyrcu: Mark inline enumerate list as such
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <43d0a319-a3c7-4b91-88b3-d8f029019d9f@gmail.com>
@@ -78,26 +78,39 @@ In-Reply-To: <43d0a319-a3c7-4b91-88b3-d8f029019d9f@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Trivial typo fix.
+Use the "enumerate*" environment provided by the "enumitem" package to
+make the inline list construct obvious, with non-breakable spaces
+applied implicitly.
+
+{} at the head of each item is to escape warnings from punctcheck.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- appendix/toyrcu/toyrcu.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ appendix/toyrcu/toyrcu.tex | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/appendix/toyrcu/toyrcu.tex b/appendix/toyrcu/toyrcu.tex
-index cfd6fcb6..e19b2408 100644
+index e19b2408..b623cd83 100644
 --- a/appendix/toyrcu/toyrcu.tex
 +++ b/appendix/toyrcu/toyrcu.tex
-@@ -861,7 +861,7 @@ grace periods, preventing grace-period sharing.
+@@ -744,9 +744,14 @@ that polls each per-thread counter in turn.
+ \end{fcvref}
  
- Fourth, the need to consult \co{rcu_idx} slows readers slightly compared
- to the implementation presented in
--\co{sec:app:toyrcu:Scalable Single-Counter RCU}.
-+\cref{sec:app:toyrcu:Scalable Single-Counter RCU}.
- 
- Finally, as noted in the text, the need for per-thread variables
- and for enumerating threads may be problematic in some software
+ This RCU implementation imposes important new requirements on its
+-software environment, namely, (1) that it be possible to declare
+-per-thread variables, (2) that these per-thread variables be accessible
+-from other threads, and (3) that it is possible to enumerate all threads.
++software environment, namely,
++%
++\begin{enumerate*}[(1)]
++\item {}that it be possible to declare per-thread variables,
++\item {}that these per-thread variables be accessible from other threads, and
++\item {}that it is possible to enumerate all threads.
++\end{enumerate*}
++%
+ These requirements can be met in almost all software environments,
+ but often result in fixed upper bounds on the number of threads.
+ More-complex implementations might avoid such bounds, for example, by using
 -- 
 2.43.0
 
