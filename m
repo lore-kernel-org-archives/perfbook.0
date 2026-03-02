@@ -1,65 +1,65 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA49B38CFF3
-	for <perfbook@vger.kernel.org>; Mon,  2 Mar 2026 09:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB4038F625
+	for <perfbook@vger.kernel.org>; Mon,  2 Mar 2026 09:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772443226; cv=none; b=hmpYht4Cd4YpeyIAyvRPb9FVICkF7Mjpk0AyGefR2uJ8wkx72SOHqUFcAzlAvW9eDM6Fq2mCVkyEalbkWtg8JCh97Y+ZIvrSxb+3w8dQNzIAzOBifmwABeTO3BMkr+7+Pbnbr07qBFNh0TExZ9AkqdmJAGvulChK+QT2B6HlD2U=
+	t=1772443303; cv=none; b=peF6zgBfAmszTgfjIIDSEaqIfaKcP95LcC3hq3DwgVTWVJFJCAKMiw9oD7q4QmJyMfFcwRf4NwUkw8Bv+DGBvgygwKM6mr5Bq6WsTPk6gYHPKYmBoqNb3rKaxCxykEVWIlDrMpwRA8YEFzXKGSuNBxTjtco4dgvJ0nUs4SOSWu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772443226; c=relaxed/simple;
-	bh=8TDpOts88vaVYD0dCYyX1HU1u2FxMOtiIlbwVkhZ1Gk=;
+	s=arc-20240116; t=1772443303; c=relaxed/simple;
+	bh=wt9c16N/Q7MIOkgiwJuQ3KnvgtxS5wRLdnkPzwJgM4Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IVnjflWmhsODJxdejZqyNA/8puOJbDxYqju4c3IXFZMzZdG/9H+dOeZlhBmIB6vERX7MS6jaOJpSsygqvuymJ8VUXz/MWBiHXapHuLh24dM2Ao0dyvIQuccNDXjz8vQs3GiiLDl3NxJNWmV2Hp928zXVInft7SDtA56pOX/fI+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dwwLmJTh; arc=none smtp.client-ip=209.85.214.180
+	 In-Reply-To:Content-Type; b=rPGGuo55RCc4iXshbbJqnD5R216vrVTnhnQYZSkIecOB5jLTVY2M+NPGtbS0MsmG8D58UqjJ+j8lGmKdiLz5yebKX3s5MOsqISSthstmHhMeYf7nAazX60/w+TTPmkTFYsHBBv0QARFB0rKAcW+i+TC4T3IELqk1Lx03z2HcTdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eOMbHeOh; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dwwLmJTh"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ae527552acso2014625ad.0
-        for <perfbook@vger.kernel.org>; Mon, 02 Mar 2026 01:20:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eOMbHeOh"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ae4e538abdso8000035ad.3
+        for <perfbook@vger.kernel.org>; Mon, 02 Mar 2026 01:21:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772443225; x=1773048025; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1772443302; x=1773048102; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=3OpCrRs7qlniCaLvY21vEs6JHnHeT6dqFZFe4Rqgqe0=;
-        b=dwwLmJTh4RPRWvF92HmbkKG7ItavbsJ5E6C30OmCZksIa16sjenR0pE6WpXj95nZKo
-         S4LoJsjtLD4V+h3w8yrtJe4DphoUhVW/iKp1WHQSd2rcUvul6g20pRCbAsFlzcIAZq9C
-         PGc7WMpUnwu5ys5N5UqX3Ll0fTMmLuJcu4yWnV5888zYPuTy/R7zY78MJuNo0MKxOU+Z
-         sfnjww/FTXhsI0Dcu4rkw7v7GxDVzST/ULuFtTMifwqtDOGFMBJ+FZa2l+6hzx7ULr0S
-         gAWn+jRLL/MWkuc1AK9Z3NC8B40wxcVJuFlQ2l+HQPaw9IjKNKd9Bn9vF+uswR4PSeyL
-         s0YQ==
+        bh=FHeoskMbPu/aj1RvZP+aKliMOwf+biWLSjGiXtgKShw=;
+        b=eOMbHeOhyciMvRe9JCuctp2Ga0pGBCGQpADjhvx3RT7fQv8Bu4WVnfr+OERbu2I/ac
+         HB0C+kndcqxpQ7UJIoc6ij+MZoDjl7fDrf1YWzqDnglW0nL1EhLTHDGKO0mGIpiEYEQH
+         XHV2J+BN5fidqSrKuPECmH1Ovz1fTfJU53SzgDdJp9mcPnPhg0Xcdx50/1iegqEdYgy7
+         nhTcLCpJ5MLvaKrvFngYvUhrVc8iTaiYxuc1VkAROsjKu6b7lzJ8adn0CEmCCYheHZe7
+         yvUXgvMJ7fYxCJYrGFA+aAXrwHNt66pIZ5s5E032W78yMyjaWYK5klvEgtIdF0R3MLyt
+         wdEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772443225; x=1773048025;
+        d=1e100.net; s=20230601; t=1772443302; x=1773048102;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3OpCrRs7qlniCaLvY21vEs6JHnHeT6dqFZFe4Rqgqe0=;
-        b=EwYSVDhpg+hGGc/hTOiUgr29dSvPcx2iwGvWZowXNqSXrA6AnEyVwdj9TQJZnWmCn2
-         T5T2zu9hTWX4QEsHa3Lv6xg6ugAgD35ApKBGZGeAptTumQZ0by3MbuV+6gP7quJKUGwf
-         mYUYvzdpFTcQcE/p8qbWwfJNp7va7GW1cXrRp9dgZYuQnghjb8pUA2Sb87QVnPM/zdpS
-         oGLn2w6GoBHZ7k7vD0k15vdnHzpRv2AKBuKYjQwt9fbF3jdTrvsxiWyaIAAq2INvisoA
-         bfC6ZCgCNjXAgZfp7KCCHUCdHh6IhbhzYLviUHWgv8ge8yY4Olo4mWvLl8JUuoS4jpwW
-         k89g==
-X-Gm-Message-State: AOJu0Yyp4Z7N2xr9h+0voKUB6B2BBHJsJ6oc9uksFALTkWSz9uTJfKHe
-	hYTLZnKNnAG/iod4AwxZCkE7FdA4RBIgPl7OzTCzLl4spy8a4Hi2kOOX
-X-Gm-Gg: ATEYQzyk+2SWPOFsNDT+s1qfh6F5DIOTUhGJt72bc68m/Lm0cNl/0Hyq3o9sCClgq9L
-	X4VpewOnxYqYJN+eOuCPYq0El0JZ/htIjlTFQ9lUWNjDhpSKLd24aT463lfo2CIs6Z9FYr/Ps6Q
-	VJ7nwcnAmmZE/1UBWtiuWu/6DPQHRJxIo7WXd/X0RWQOz9VqXGvjlUCxMBN+IU8CxYj0BAja+HN
-	tCGV/SH/ryvhpbIIArRLI5Wj1wluaZkmtoXrm9+SzmBNx1chmglW7MQrv6S+Mo4YMlx++bZOklW
-	7sYMoWgpGvWEs6wIzSsk5Q7wc6oTWmlqgkEcaljNB+SuBseb1A+syez64bcVqprBRQy2O3Ug2j4
-	aaH/DrUCyjduFHO53c3NygDFY2uYzBN0VMa7ZbYvK/aL0fTna/WR5psLflZL9+RqlBsdP+rjRxx
-	foTO5yR2tzoIER6/gCua+A7ls0OORCBEzyVBMF+Ps+uo5s99BibCQRCVnF9kki3MwafAEG
-X-Received: by 2002:a17:903:2987:b0:2ae:4e20:9d05 with SMTP id d9443c01a7336-2ae4e20a356mr33102775ad.35.1772443224940;
-        Mon, 02 Mar 2026 01:20:24 -0800 (PST)
+        bh=FHeoskMbPu/aj1RvZP+aKliMOwf+biWLSjGiXtgKShw=;
+        b=fdxNVO7uSbDfUwoivaVR0gF+Kj83iL+ksK2GtNh0vLNM5joW8vYjTTxciy0fG3uHKi
+         iolV49QGBh1dL0MUL86bhmqrwhinsZ8g+8E8FlnZyCWZ+2R+euPLN+BNd1KKG+FeglI6
+         T+RE6F45vJ5owC3zDBZ1zNC3tXp6BHYYP4zZHIiVvsjQ71SddPDUfpVd0l+ozM+LeTBU
+         lo69TDRawtpfi792VihXXdGpp1+akaPZJLKEpVM4uNgis+xiPCvGl/LO0N0OUEpWZcTZ
+         /YKVG2e0MMtEi29l27BgeiXedDehJzRFMPPh3923EAxTZ0jKGWmiC1AZo1JtZgd1OPEN
+         NFVw==
+X-Gm-Message-State: AOJu0YwSOtYQVib63WWEBhtd0iRotDikMZidHEOPJr9jj6aHo1gP8svT
+	4t+AiDTyBNEcKfhr6GJg/8+UYPWIBeArVZh4tBtv+LRr/qJq5rgAv8pH
+X-Gm-Gg: ATEYQzzjcIrVfVXn1sGZMxyiOFEg92VkLamhOqyO7cAR3azYdXGhTIdKSLZsXj4p651
+	48bvJx6hD0s8gqjfA/w/0Z/Q95oN9imJYu0pBylQdQWX5bR2ZC5C3dVfeiGnwRCMkuSibnCd3lm
+	6QDPdzdkpMparVoLqtZbztfODSoJAvqtv1tSuy73tUFfed/eaU9H31cSag/8h7ZCqu6eLRUKSd7
+	ctlcpXeHO0svgN2FVjoLXR117ENgW500RiekVT6/RZ4Vjho+ZrZFEjAoe7htXnT507EkQvy+iFD
+	lIIujtD/ym2kUkrItZpCUwnu5ySN76XysK7ENhBCF7xX9wfFKiLsEcViK+TQZ3zG3mPSoaqIl0E
+	rfJjtlwnq42fdgFczqYxGq7vUAprTkc4CW76unZc5VBxEpxEmdkQYecOa6QKc8nC0TNvrk+ikdd
+	i174YPEYtIaUW+Nh5lPC/WjwEDOCVkaGdn8xQmzbJSKpIAJrOsyMLNhcn+xmt65O3lHi37
+X-Received: by 2002:a17:903:1a0b:b0:2ae:4e68:1f26 with SMTP id d9443c01a7336-2ae4e6821b9mr37294395ad.32.1772443301948;
+        Mon, 02 Mar 2026 01:21:41 -0800 (PST)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae51bb9da6sm20450135ad.36.2026.03.02.01.20.24
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae496470d3sm39945085ad.15.2026.03.02.01.21.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Mar 2026 01:20:24 -0800 (PST)
-Message-ID: <1da9f62c-77ec-495f-9f2d-9c0c5a5f9c4f@gmail.com>
-Date: Mon, 2 Mar 2026 18:20:26 +0900
+        Mon, 02 Mar 2026 01:21:41 -0800 (PST)
+Message-ID: <8236cea4-3a2b-4f37-9494-bd771c246be0@gmail.com>
+Date: Mon, 2 Mar 2026 18:21:43 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -67,8 +67,7 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 3/7] Give page number counts room on TOC pages in
- -1c builds
+Subject: [PATCH -perfbook 4/7] defer/rcuapi: Tweak column widths for long APIs
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <28c46b77-ceb8-4b4f-9f8e-d56ef6b2711d@gmail.com>
@@ -78,31 +77,58 @@ In-Reply-To: <28c46b77-ceb8-4b4f-9f8e-d56ef6b2711d@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-In perfbook-1cnq.pdf, Appendix starts from >1000 page.
-Apply the same tweak as commit b404be779856 ("ebook: Allocate
-enough width for four-digit page counts in TOC") for -1c builds.
+Table 9.2 has acquired a couple of long APIs and lost some of their
+tip of tails in print.
+
+Adjust column widths and overall dimensions so that they can be
+rendered properly.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- perfbook-lt.tex | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ defer/rcuapi.tex | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/perfbook-lt.tex b/perfbook-lt.tex
-index 6dc698d1..724e1b83 100644
---- a/perfbook-lt.tex
-+++ b/perfbook-lt.tex
-@@ -164,9 +164,9 @@
- 
- % Tweak width params of TOC
- \makeatletter
--\IfEbookSize{ % for ebook size build (more than 1000 pages)
-+\IfTwoColumn{}{ % for ebook-size and 1c builds (more than 1000 pages)
- \renewcommand*\@pnumwidth{2.2em}
--}{}
-+}
- % default params defined in book.sty:
- %  width of chapter (two digits):			1.5em
- %  indent of section:					1.5em
+diff --git a/defer/rcuapi.tex b/defer/rcuapi.tex
+index e44f21e4..4587a3e3 100644
+--- a/defer/rcuapi.tex
++++ b/defer/rcuapi.tex
+@@ -146,12 +146,12 @@ API~\cite{PaulEMcKenney2024RCUAPI}.\footnote{
+ \label{tab:defer:RCU Wait-to-Finish APIs}
+ \scriptsize\IfEbookSize{\hspace*{-1.8in}}{\hspace*{-.125in}}
+ \ebresizeverb{0.7}{
+-\begin{tabularx}{8.5in}{>{\raggedright\arraybackslash}p{0.94in}
+-    >{\raggedright\arraybackslash}X
+-    >{\raggedright\arraybackslash}X
+-    >{\raggedright\arraybackslash}p{1.1in}
+-    >{\raggedright\arraybackslash}p{1.35in}
+-    >{\raggedright\arraybackslash}p{1.45in}}
++\begin{tabularx}{8.5in}{>{\raggedright\arraybackslash}p{0.92in}
++    >{\raggedright\arraybackslash}p{1.37in}
++    >{\raggedright\arraybackslash}p{1.39in}
++    >{\raggedright\arraybackslash}p{1.09in}
++    >{\raggedright\arraybackslash}p{1.34in}
++    >{\raggedright\arraybackslash}p{1.44in}}
+ \toprule
+ &
+     {\bf RCU}: Original &
+@@ -170,7 +170,7 @@ API~\cite{PaulEMcKenney2024RCUAPI}.\footnote{
+ {\bf Read-side critical-section markers} &
+     \tco{rcu_read_lock()}~! \tco{rcu_read_unlock()}~!  ~~~~~~~~~~~~~~~~~~
+     (See \cref{tab:defer:RCU Markers for Read-Side Critical Sections} for more.) &
+-	\tco{srcu_read_lock()} \tco{srcu_read_unlock()} ~~~~~~~~~~~~
++	\tco{srcu_read_lock()} \tco{srcu_read_unlock()} ~~~~~~~~~~~~~~~~~
+ 	(See \cref{tab:defer:SRCU Markers for Read-Side Critical Sections} for more.) &
+ 	    Voluntary context switch in non-idle tasks. &
+ 		Preemption-disabled regions of code. &
+@@ -188,7 +188,7 @@ API~\cite{PaulEMcKenney2024RCUAPI}.\footnote{
+ 		    \tco{synchronize_rcu_tasks_trace()}
+ 		    \tco{rcu_trace_implies_rcu_gp()} \\
+ {\bf Update-side primitives (asynchronous / callback) } &
+-    \tco{call_rcu()} !
++    \tco{call_rcu()} ! ~~~~~~
+     \tco{call_rcu_hurry()} &
+ 	\tco{call_srcu()} &
+ 	    \tco{call_rcu_tasks()} &
 -- 
 2.43.0
 
