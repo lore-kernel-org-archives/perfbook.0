@@ -1,67 +1,66 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FC93AEF47
-	for <perfbook@vger.kernel.org>; Mon,  9 Mar 2026 13:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5488F3A63F7
+	for <perfbook@vger.kernel.org>; Mon,  9 Mar 2026 14:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773063591; cv=none; b=I1nq4ViLWtTh7FdMGVO82Mkfj8TBcqhxfY4ASXSuv5o9jLzdq65D+cHjTSDnL950HnZBVOhS+7cXO6AeaHVoWZ1ClrmUK3OaHwiYEMRYGvVhKrijmeAzaOEw2KOiQxBTxBdvVOCwjT7FYo1OtzChpKVTWaAZwAHo7rM4CB9jXZA=
+	t=1773065600; cv=none; b=NVlKt2B1uZ3uZfBKXxAH7n+QPOsm9HoFJssaA0kQ/9bwhF34FMxHZia+sw7iHmuKTp0WDMRGqMMtqXqsPJXHSzZ1Ak6WL0aToBVOK8LtxQI9Bvo+wr7S1+7nb+H8m8GdVTmERzYsEL1W237E0myA/0DAyDdAoPNNidO8IKRbXhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773063591; c=relaxed/simple;
-	bh=u3hJxOBe6a+IMhJKBdZ/WVxdlnQmMzMOgzP9so3DO+g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VAerxWSqzoDHATzNShkhlObd4XJMtReN6sCStMswPSgNa+iR3nmk5jMUHurNRJaJKtoxnXhHj9UI3Crd/JqDkGe6iweTZUl7LhTqPmSMlSZXeP9oysJ9GO1/JFTfDxpxuF5zqLfBFBC/IPXUwCg0ErvNUaCOkCfhRHmhEyC3bZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=imbwmp+6; arc=none smtp.client-ip=209.85.210.173
+	s=arc-20240116; t=1773065600; c=relaxed/simple;
+	bh=vA3LbpuCGsCqr/w1MrLt3o1fdmXlfkXnDS7FEhnMPyI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BCSEr+H/nifZua37uiDT21m0YN+YHt8uLcOn12vzh3TYjU8YdEARB5QV3mL9A3uap1iZ9LGidCCI3DLcI40SCEKAqsZlo6mF6qZ0IgW5630utas4zqEFgucileO3uGQib7ZYwA450yUIotB8eidsc3AKkc0LQDet3BqwZ2wmtxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cj/IhZpG; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="imbwmp+6"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-82976220e97so2829923b3a.3
-        for <perfbook@vger.kernel.org>; Mon, 09 Mar 2026 06:39:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cj/IhZpG"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-354bc7c2c46so7012648a91.0
+        for <perfbook@vger.kernel.org>; Mon, 09 Mar 2026 07:13:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773063588; x=1773668388; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773065598; x=1773670398; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b4iXEHD7VZrDJqlsWosx3YDitHzPbTdSVs1OzitcmTM=;
-        b=imbwmp+6wFX+HB6YrMYCny+ZOrdW8B6bhSRkuoo23B4WSdP8WYTT82HDf43SwReI/w
-         DylG7Vv0VBaIviMFW+ZbC9k+r3HjFHNg982biMCBsM9qLh2SiiA86IDxXRU7GwoTEqEo
-         3vSGGg5g7lgR6hk5ubL/2HfqszqNpipzgSvNC03jecDPPQb3uU02hLGSwW3NsxPbnwC/
-         c/MwMJgKxJLDthkIdtdRPTgA920gi+wC/LYoDylmVVj+KURTqhWJv9NDQNkc99peq/To
-         M57/ulEBNRONOnSJhr83ZZcvnfcZRAY4DksqXuY+5qZbT/cxangaosV98hGkXI7USfUd
-         1D5A==
+        bh=B5nmSYl8VV3LZRO8azoN0pAa2G6NTkA8bh7fSetFbmM=;
+        b=Cj/IhZpGGlKJdLLbeTdpOJYugFsEYXhBFeAxUQgu5HN0mAnt1GhWaB1hXjTAA1bQ8V
+         tPZ5Asxj88XDaD6bs7rRIeYShWvcPdWzy+FIWolHfWmdHL4GQ/YBTaIvFYrgcuhOlxRf
+         YAhKeBx2KYwkiHRjSroEddCmN8vxLiGPtm4L0w+JD8shVcesnuuA+Y5TedD9KvhcrNlh
+         fY7ssbKISYWN1v0MTFQlitxie0RI7BCk7PhBf5ZV8QR8TI1adlrDjaY3ndd0DD2/rYRb
+         hon0QIJ0sl9FxZOgWyfOcYTLJGhbJKCqUiXFsTCIglhIVwIeB9JUQQOXxZ4lF6JHoPBm
+         RQGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773063588; x=1773668388;
+        d=1e100.net; s=20230601; t=1773065598; x=1773670398;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=b4iXEHD7VZrDJqlsWosx3YDitHzPbTdSVs1OzitcmTM=;
-        b=LiN1CNoaiNAY0nrbdHaHyLkaXd87Ed5MByEAKHYG4iA0ZNtMQ+Cb/N7CCkKrBcrizA
-         A1ttmu5Q4+vOq0B74J1S0zxsgBkKLhyqDYbkqTDTPgzWlInJMTnc6+x2mSEnPRDvyLgd
-         qkkt6yQkxO+QWuhzicDPHolZD9Sp2TlVno8nZqDD2XUYZSCmvi8sUeyoPoqBC8fDPRac
-         2lqOWtoRx07kiOTWcimugAWuzbg+9HnfQHcEXiL5ttzyi31dU06+crZx6YcSnNacBBfq
-         htu6mRwYyBk7+MO60TzX/MU8PCixSeXKV0onIUlmjtW4bOcy2L8KfRbLT1MBpSWMJRT8
-         fmEw==
-X-Gm-Message-State: AOJu0Yx3+ONaejZZ/gCcgiql3WZ+HWwlAUpisIfmIRqSiInkGYOngGXe
-	vcWhJghQd+nUoXq6p7T02VG8gLtejHrdUKatDFswIvspC6WNGIr6T0Ir31s7guBA0ic=
-X-Gm-Gg: ATEYQzx7Ihm4eUZvYxl2XaoU4qtPuihrQg0KAqZh6BkW1Pt34+30l5QLfnqdGI89sz4
-	KwXGw2LdgOeWKZtPHRsWBOnOUEdlDZbiPfE29Kn6FUDoItoGlsBfO64Quk8GWb8PQZtSBAZD+8+
-	NGOETPh2bi1FEhyGkgYefOhGD8NYNXCG4V14rvimqmsCdj2M916+YZ2xX71q7N79rzPSlfmZaRt
-	er9QnOQVB1WxxqH198IVoJITIQ+PKFAzyxN0O+SGqlzvKEPb7ayRUqwCJyqPjyoWDN9cN3TC67m
-	tJYIriVXd58qeKLwMZyT6vzSoMiCRsXN0vRUY/CHFRVIsBK2syQLMmzaDg3BvYVyqRLwI0AARnW
-	fWWTnA7JnozfJxoo8ffVwTyIer99lX86YhZAnGyeYuVexgOSE3GRJ4tsEZSQzO5cvZBU+xZTafO
-	/PjvDxHTjtmww1rZ4EzQG8NDbM6UpYjDGcKsapoJ8=
-X-Received: by 2002:a05:6a00:22c4:b0:827:2a46:685b with SMTP id d2e1a72fcca58-829a2f7cc0fmr9812853b3a.46.1773063587928;
-        Mon, 09 Mar 2026 06:39:47 -0700 (PDT)
+        bh=B5nmSYl8VV3LZRO8azoN0pAa2G6NTkA8bh7fSetFbmM=;
+        b=CkI+B0ryMf59OuDSTNWmQOykeChaYwEPHznODqE7Rhy/yz7EuD80KLQFhuwkFsy79K
+         ZYZ2UYEovFBFa8DJjoD7Osyxxntg54C9SODBYcPDUn5p6tBbruHm43hNl/EZmReIbQvz
+         U8y7TT7gf72ehr75JT4/IMCi1KGtDVkpn7W/s57sQPbOvloFRjPUpFpo9OkTB5tePl4k
+         UBxX6T6Ccx5lONM8rNbfVc6FXebi+PZkZyhk3KNKdKeQ8ZWBhRTYJTjuEXS6DoKkfH0i
+         JK2Qh0lKejCkUtGh2Akk+xU7S3UrtB+uZIIiZmyJtb4xFoAr5MxBZ65+2UlWt9axRKbX
+         NYMA==
+X-Gm-Message-State: AOJu0Yzr8lha9XKAhExbGXrXls5yNItouaKMfoutH4AkIuv1RIENCF8m
+	ijhbPUN8gcikcX/JPfD5Z+NBRi6HpBwMMa+pgQXyOsj/YyQIYTii5SJXtTm0a+Sp1SuqDvfr
+X-Gm-Gg: ATEYQzwk6fRj3xjmKKN/S3BXiOZflTOh5Io4qs/gLJOhFycIH0f7zELa6/5+HEeaEbY
+	RqYaRhofh3dn7Za5EKoqB60Dpdc2V8KzJWPqeBdcg7LqECWWdcbBvOmGzfLsHH86qUUnPqBceeS
+	wkhn6FcuYKDuXY4D5BFS8p3isY2osrqA4YGTlSxA/5tJJGMB6uVqAcieXPdlV7cJfoiX+8O4MtL
+	ykl0AONyLaUfqBKwcMLjsCxNVdHkvuY+EDiqtb/5XoiAZSJlCdsqXjNjepV4/OB39F4K+MejJvo
+	HcY3+CNnrZmCSY+BARjn5SY6U4712PBmgY+ZBWSHmofjDcFVX4MG6qp23TPuZD2EiroeoPqPmLS
+	ldUB7fYC1gygyOfhGk/MDK82kwpUGqeLdK0BcqjTiCLYdqaRMYNDuZI1SDTkxdGc1dXRgw+/wCi
+	7mQLbzr2zZv643TGH9C7e3CAiFSjWPZX35KzTwhUI=
+X-Received: by 2002:a17:90b:2685:b0:359:9016:1e72 with SMTP id 98e67ed59e1d1-359be2f0424mr10045290a91.19.1773065598439;
+        Mon, 09 Mar 2026 07:13:18 -0700 (PDT)
 Received: from localhost.localdomain ([159.226.94.119])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829a465b6ecsm10608371b3a.22.2026.03.09.06.39.46
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359bbab6e4bsm5329220a91.0.2026.03.09.07.13.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 06:39:47 -0700 (PDT)
+        Mon, 09 Mar 2026 07:13:18 -0700 (PDT)
 From: npc1054657282 <ly1054657282@gmail.com>
 To: perfbook@vger.kernel.org
-Cc: ly1054657282@gmail.com,
-	npc1054657282 <56855941+npc1054657282@users.noreply.github.com>
+Cc: npc1054657282 <ly1054657282@gmail.com>
 Subject: [PATCH] cpu/overheads.tex: Fix terminology typo in L3 cache description
-Date: Mon,  9 Mar 2026 21:39:39 +0800
-Message-ID: <20260309133939.393067-1-ly1054657282@gmail.com>
+Date: Mon,  9 Mar 2026 22:12:49 +0800
+Message-ID: <20260309141249.394299-1-ly1054657282@gmail.com>
 X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
@@ -70,8 +69,6 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-
-From: npc1054657282 <56855941+npc1054657282@users.noreply.github.com>
 
 In the description of L3 cache organization, the text incorrectly
 referred to "bucket" as "Line" in parentheses. Based on the
