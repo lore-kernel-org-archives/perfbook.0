@@ -1,84 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A885E274641
-	for <perfbook@vger.kernel.org>; Mon,  9 Mar 2026 15:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91982350D58
+	for <perfbook@vger.kernel.org>; Wed, 11 Mar 2026 07:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773069415; cv=none; b=BjaLuDoDDdBg/QRYO+eqdIotjuCfTzv+hrn/TsWLzVgsGQ1tiESfaEewINKnzakXgvpuG1LMiZxzrqayWsg+/ah9SHJ0NZRZAuxiCD7gqq6dVzE10CWvl7bImP7R9he+X3UjmLqNnYarVFPMo9io8fPAmPc5whS51DdMNpsAqBU=
+	t=1773215932; cv=none; b=ugTpVmgx1ZzyEdOxOvrxb3CfGzuR4wYthMDTwFx/GQoyzl+mqHfGzYpUMRHT39TrDECKZ3q3M+6FZLGbS+i+OKDY/yafv15DsBYItaewW5G1JXwSbpfsOVz3ppIM5E1h0u6be86w07Z/HGK7LwNyKjwQMBWK8+m8EFQh1LY4TuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773069415; c=relaxed/simple;
-	bh=Zp8wW7LjZlid2eYus/5rrcEyV8BvHd0ArMPo6RYMOi0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cx42acYPLzuoK/DUadD+5DVJ7h1SoVM+c3ROcyXpkWLSWyqxhu+c6datwHIsHB+OfaexDl0EHtL5TtsRO65XQOo3wL+RLIVujwp1gTlVuRF4ItjX9YTGZNJ62oRTYtTwlsbrFeR096kqaV24oTgf4dnLuBeOASLtyRGIPJrCWdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BehwYLhi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773215932; c=relaxed/simple;
+	bh=+oV4uZ4nQFacKOuKeVVT9mXDVQrUfziJ+wJpYBOtm88=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lBjV5H0JU3qpe1aro6euRzJ08n9BV9Dljat2B2eKobVEuR5Wk/t7sfM0+ES0v8JafY3faLaFVzzUGYAo2NlpD5eRmllac1Abia2onE8yyEms7/ZG/tayWv6Ce+QCPdOx9LBRVdIQhKmdUvdW1Ic4vVP1jhi4Z2mxomk2IeSDGZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tyQWAmI0; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BehwYLhi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55963C4CEF7;
-	Mon,  9 Mar 2026 15:16:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773069415;
-	bh=Zp8wW7LjZlid2eYus/5rrcEyV8BvHd0ArMPo6RYMOi0=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=BehwYLhiP9LQHsY7Bx+e8dsOIkSQhNo+SPiFnzc5BO6jddGhQ9lLYXhhCqJQ8sn/I
-	 NdvaOHsZu3KQvTpVi0Ct2W1fCk5i2EeHh4AFxHh4Dtp7EfhQbD9cRLuVZJsCwf8E/j
-	 LhMhiSsYLmWILn4rfQhqcc71IQbGZuJDatEl9a3Ek4n06xX87GC2USdK1OW9SuA2g7
-	 22kEv4UcDOikprwX5vIhYtr9YsrV8yeORS47WHdJbctT0oKZDi5Wt6CB6mJ5Wkiz42
-	 wplIBCtjle6zE/SqjHx8gsq4nXKKv0Z7xk+zYEYhYF+CnulSk9vEmVMf775b/X7foJ
-	 KAAZaf6b5obEQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id EF0CDCE0E57; Mon,  9 Mar 2026 08:16:54 -0700 (PDT)
-Date: Mon, 9 Mar 2026 08:16:54 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: npc1054657282 <ly1054657282@gmail.com>
-Cc: perfbook@vger.kernel.org
-Subject: Re: [PATCH] cpu/overheads.tex: Fix terminology typo in L3 cache
- description
-Message-ID: <f444bf93-c935-4858-98e9-c061c5b79314@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20260309141249.394299-1-ly1054657282@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tyQWAmI0"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1773215927;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=J7SV4WS5I2xQNhy4IgVgVBgPF/4d2deBWZkVYiJqXcA=;
+	b=tyQWAmI0lU+jtbU/mBB4svkqUJenTRMZxnHqXg9me1+LOZS1+W8tS0yyA1ss+/mPnNsnF8
+	CXYedfW/cWpvZY7/hVHE4MPYeumuw6UXdIz96Gl4aFgqzLNbtrSB+9RKR1HCp7kQ5ve78O
+	VdVyHzEO1+sOTOrqcoRmSetLxaHnnC0=
+From: Kunwu Chan <kunwu.chan@linux.dev>
+To: perfbook@vger.kernel.org
+Cc: paulmck@kernel.org,
+	Kunwu Chan <kunwu.chan@linux.dev>
+Subject: [PATCH] memorder: Reconcile W+RWC propagation path with litmus dataflow
+Date: Wed, 11 Mar 2026 15:58:06 +0800
+Message-Id: <20260311075806.950363-1-kunwu.chan@linux.dev>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260309141249.394299-1-ly1054657282@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Mar 09, 2026 at 10:12:49PM +0800, npc1054657282 wrote:
-> In the description of L3 cache organization, the text incorrectly
-> referred to "bucket" as "Line" in parentheses. Based on the
-> accompanying table, this should refer to the "Sets" column.
-> 
-> This commit changes "(``Line'')" to "(``Sets'')" to match the
-> table headers and standard cache terminology.
-> 
-> Signed-off-by: npc1054657282 <ly1054657282@gmail.com>
+Align the Section 15.3.7.2 propagation narrative with Listing 15.18 by correcting the path to P2->z->P1. This removes a variable-path contradiction in the counter-temporal explanation and restores argument traceability.
 
-Good eyes, queued and pushed, thank you!
+Signed-off-by: Kunwu Chan <kunwu.chan@linux.dev>
+---
+ memorder/memorder.tex | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-							Thanx, Paul
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index 16a569d1..2357e7ea 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -2755,8 +2755,8 @@ This situation might seem completely counter-intuitive, but keep
+ in mind that the speed of light is finite and computers are of
+ non-zero size.
+ It therefore takes time for the effect of the \co{P2()}'s store to
+-\co{x} to propagate to \co{P1()}, which in turn means that it is possible
+-that \co{P1()}'s read from \co{x} happens much later in time, but
++\co{z} to propagate to \co{P1()}, which in turn means that it is possible
++that \co{P1()}'s read from \co{z} happens much later in time, but
+ nevertheless still sees the old value of zero.
+ This situation is depicted in
+ \cref{fig:memorder:Load-to-Store is Counter-Temporal}:
+-- 
+2.25.1
 
-> ---
->  cpu/overheads.tex | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/cpu/overheads.tex b/cpu/overheads.tex
-> index b3bf5196..b3cadd06 100644
-> --- a/cpu/overheads.tex
-> +++ b/cpu/overheads.tex
-> @@ -551,7 +551,7 @@ this system.
->  Third, again referring to the figure, the caches are organized as
->  a hardware hash table with a limited number of items per bucket.
->  For example, the raw size of the L3 cache (``Size'') is almost 40\,MB, but each
-> -bucket (``Line'') can only hold 11 blocks of memory (``Ways''), each
-> +bucket (``Sets'') can only hold 11 blocks of memory (``Ways''), each
->  of which can be at most 64 bytes (``Line Size'').
->  This means that only 12 bytes of memory (admittedly at carefully chosen
->  addresses) are required to overflow this 40\,MB cache.
-> -- 
-> 2.47.3
-> 
-> 
