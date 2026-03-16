@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844DE30BF4F
-	for <perfbook@vger.kernel.org>; Mon, 16 Mar 2026 21:03:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731961C5D5E
+	for <perfbook@vger.kernel.org>; Mon, 16 Mar 2026 21:09:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773695009; cv=none; b=p3tni6xSZllYpfusbmokf8WbyeKj+0t2oWVQQhuoRyyznruBG2kERHIOlIUUgE6hL3ebJk50Yh2Ue0i2lJ4uPqCa8OM7uELQEdgvwNMjGdWAtUrt72HFzEQcq2WNtUO9Q1W/xLROR9hGDmknuULQ9m7IQ9rEO6I2c/00ihBexv4=
+	t=1773695383; cv=none; b=TIa/y8w6Q2lLJBEyAp/crFBYI+paFoKIvSMh4Xi7gcWvf29nTiVccH+7RklCMj8hJwpOXah3MmhFOXmAeR+Zci2SxY7M7dun+cXmwtDEijct7AzNJWv+eyreaUPF8O/6H7JZ2G9IRjoIxW99WRrVr3iPx9qp+78ErWQGtH4MDec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773695009; c=relaxed/simple;
-	bh=RRmn9msfdeG5Tze+v1X5T1wy6BgRy1gkRn2lbqUnQ8Q=;
+	s=arc-20240116; t=1773695383; c=relaxed/simple;
+	bh=NFHg2fp8Kx+7xYAVzLw6WJ6G2s188u3Xobdz2/KJDRE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WzKr/TTaBxfdy4no41vy4bJKjowFNgCE8DBNtSCDkup2621KTOOuu/8jOGpIlWZIHY47Gk0ClTok8sa5XcRkBa/Z5UPQAPBRSQlRjhojl1LerpeozPbAVCkZ4anIXyyKRy5SyxywFIcsqYNAKFNdOk8AohnlEyGqwt0YQ+nMvc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t4Zc45zK; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rwYsboQ2LOc1WqyNCXR+O6v+izsQNRMo+CvEYsUm6Bw3gCTYd8EeqvPmuReVLIzFc5odrIK7YDok1tnZ5NydVwLSN3EeLFiYnAjRs8jyqz4JYaoudGFMZ1LjNVWAMCj9yZbMmC+XxEeKukwvnSBWwFL6J1bX++qO5n11g7w9zl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hb5++GMd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t4Zc45zK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33FACC19421;
-	Mon, 16 Mar 2026 21:03:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hb5++GMd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADC8DC19421;
+	Mon, 16 Mar 2026 21:09:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773695009;
-	bh=RRmn9msfdeG5Tze+v1X5T1wy6BgRy1gkRn2lbqUnQ8Q=;
+	s=k20201202; t=1773695383;
+	bh=NFHg2fp8Kx+7xYAVzLw6WJ6G2s188u3Xobdz2/KJDRE=;
 	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=t4Zc45zKU1MVohx+V5uxIaEm4gx9HX9pZMYWlyotZODU0dNco8ZlNbLkxBDF0tqAK
-	 RC1Jmyq+5wdTlN5WeYUAwCEyNfbk+fPsoOhSS01OoxZxfko2mhTNjHkq3OE19PDKE5
-	 siZD3dkQdnCKiEBAWlUVwqFoRIo7acTGXgk+8I49/0mQVjXFrx5ssbStAxTQNdtxLf
-	 0AxUYDDcedsBaLFR0z4YNsgbI00ECIeQ9kcCDhYXf77iScSuTfmy+y0e3B4Ny4J5PX
-	 VmVshAoJlFzILiOxJy/qiv4t/XP6n0WyNsP2bX0dnMrdlHcB3pkzDFjIMboqoZzqJZ
-	 2XC3WnY30IkQw==
+	b=hb5++GMdz2cEHzQCNKWSHiyuyD2O1dh/A+tPlzWCGGf5r7pliQokeQXCBtLFCP6I6
+	 6lUxOOkzokDb0bolk6EPrlyTu+kKZSeyJCUmhzxCYYkwQgBG5ZKOXoh0G/HK6b6Laj
+	 qVOhaHZYQJszUHllVBA2EcYHG1jO7dPobR3J6Mvr6nctuRGxWValPdqXXkHoK3FcXo
+	 SHfV59UIFuqAaUu2LCk4kcoxuBvh7O9TAajPph6oKJqJp8QVNQmRpd7Fx6733HK5DU
+	 Sv2qEKTgHGoYShM5Ujzbexl6nBTe7GQUYxKPmxqEDx2Zl6VBsJv0lwnk7gcnuF95nP
+	 QisS7SKKaPiGA==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 04783CE0DB9; Mon, 16 Mar 2026 14:03:26 -0700 (PDT)
-Date: Mon, 16 Mar 2026 14:03:26 -0700
+	id DFD94CE098F; Mon, 16 Mar 2026 14:09:40 -0700 (PDT)
+Date: Mon, 16 Mar 2026 14:09:40 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Leonardo Bras <leobras.c@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>
 Cc: perfbook@vger.kernel.org
-Subject: Re: [RFC PATCH 1/1] SMPdesign: Fix a typo
-Message-ID: <26c22162-3f2e-4bc7-851e-62ebd339ddc4@paulmck-laptop>
+Subject: Re: [PATCH -perfbook] Extend buggy fvextra version range
+Message-ID: <d73323f6-769b-4ca5-8a43-dc67264922a8@paulmck-laptop>
 Reply-To: paulmck@kernel.org
-References: <20260316021424.39111-1-leobras.c@gmail.com>
+References: <7e535d83-2f19-4423-9a7d-297fb4b4d8fc@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -44,51 +44,47 @@ List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260316021424.39111-1-leobras.c@gmail.com>
+In-Reply-To: <7e535d83-2f19-4423-9a7d-297fb4b4d8fc@gmail.com>
 
-On Sun, Mar 15, 2026 at 11:14:24PM -0300, Leonardo Bras wrote:
-> philophers -> philosophers
+On Mon, Mar 16, 2026 at 06:15:56PM +0900, Akira Yokosawa wrote:
+> Unfortunately, the tentative fix to the regression of fvextra has
+> failed to convince the maintainer [1] and fvextra v1.14.0 was
+> released with the regression unresolved [2].
 > 
-> Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
+> Extend the buggy range of fvextra.
+> 
+> Link: https://github.com/gpoore/fvextra/issues/32#issuecomment-3942491507 [1]
+> Link: https://github.com/gpoore/fvextra/releases/tag/v1.14.0 [2]
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 > ---
-> Re-reading, found a typo accidentally. :)
+> Looks like Archlinux's texlive-latexextra (2026.0-3) comes with
+> fvextra.sty v1.14.0.
 
-;-) ;-) ;-)
+Rather annoying, I will admit.  But I am glad that you have a workaround!
 
-Good eyes, applied, and thank you!
+Thank you very much, queued and pushed.
 
 							Thanx, Paul
 
->  SMPdesign/SMPdesign.tex | 2 +-
+> --
+>  utilities/autodate.sh | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/SMPdesign/SMPdesign.tex b/SMPdesign/SMPdesign.tex
-> index 246182c2..0d94ec3a 100644
-> --- a/SMPdesign/SMPdesign.tex
-> +++ b/SMPdesign/SMPdesign.tex
-> @@ -19,21 +19,21 @@ The word ``design'' is very important:
->  You should partition first, batch second, weaken third, and code fourth.
->  Changing this order often leads to poor performance and scalability
->  along with great frustration.\footnote{
->  	That other great dodge around the Laws of Physics, read-only
->  	replication, is covered in \cref{chp:Deferred Processing}.}
+> diff --git a/utilities/autodate.sh b/utilities/autodate.sh
+> index 839db7f3..c72194fa 100644
+> --- a/utilities/autodate.sh
+> +++ b/utilities/autodate.sh
+> @@ -136,7 +136,7 @@ fi
 >  
->  This chapter will also look at some specific problems, including:
+>  # check if fvextra is buggy ("samepage=true")
+>  FVEXTRA_BUGGY_SINCE=v1.11.0
+> -FVEXTRA_BUGGY_UNTIL=v1.13.2
+> +FVEXTRA_BUGGY_UNTIL=v1.14.0 # as of 2026/02/25
 >  
->  \begin{enumerate}
->  \item	Constraints on the classic Dining Philosophers problem requiring
-> -	that all the philophers be able to dine concurrently.
-> +	that all the philosophers be able to dine concurrently.
->  \label{sec:SMPdesign:Problems Dining Philosophers}
->  \item	Lock-based double-ended queue implementations that provide
->  	concurrency between operations on both ends of a given queue
->  	when there are many elements in the queue, but still work
->  	correctly when the queue contains only a few elements.
->  	(Or, for that matter, no elements.)
->  \label{sec:SMPdesign:Problems Double-Ended Queue}
->  \item	Summarizing the rough quality of a concurrent algorithm with only
->  	a few numbers.
->  \label{sec:SMPdesign:Problems Quality Assessment}
+>  fvextra_sty=`kpsewhich fvextra.sty`
+>  if [ "x$fvextra_sty" != "x" ] ; then
+> 
+> base-commit: 492e8f9483d3e1dfd3768ef43dd462dd78e40c3b
 > -- 
-> 2.53.0
+> 2.43.0
 > 
