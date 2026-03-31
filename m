@@ -1,66 +1,65 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F42C3DB63F
-	for <perfbook@vger.kernel.org>; Tue, 31 Mar 2026 07:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818143D6493
+	for <perfbook@vger.kernel.org>; Tue, 31 Mar 2026 07:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774943880; cv=none; b=bF+zdptfaIHuv2CbBVbrznYC7zopEziQAMbe/SbpUfhILncgHv4dMT60iNH71zUpmEGu836nwDn63tRzuxRqByjd/AwiW4i2lxE1nxYsw8Ph1tFAMsRt78DoUszXkvt9DBOEoO909W6mbc2BKQAJAq88VRlOHowG+Lh62NvO8XY=
+	t=1774943990; cv=none; b=DN4blAG9St1uosWa3GQAqUfZlRUjORWTXDs4tf+mUapXWbSEue2Oi7PfjhKmDFoY4FOjhZ1OIQQ6V0flXXnKmPfAhPtqBoZgvfWw3saU6lH74hsOAsqnLQ7OEt1rPA0M1OREBnV1uPVU9j09QM8NC29Hca62Uo9df7ntVbO6Od8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774943880; c=relaxed/simple;
-	bh=4vkeuTLMWuJMhiid7PC7xignCRwf4LBwg7Q9IHUEkKA=;
+	s=arc-20240116; t=1774943990; c=relaxed/simple;
+	bh=gM1wpyvf7ha/WRTaCfh/A2gDFxzhx2LGsrf8n9Jrg8A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jAvHAkNRH9zClsn19u2T7swy31lq1O5m0lAbgpbOqXui2PQ3/wf4yBHHFELhLaP6AgkY/EPgp6xzZ6DOyOvxlI4OInM76bR3Jx8A6K41K8FrfXYnQw7hESDiDTjAX9IToQ2vG38fixOwQzpOLBAvOG+NMQyI3/XoW6nvl+FmcPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Glvz5BF6; arc=none smtp.client-ip=209.85.216.48
+	 In-Reply-To:Content-Type; b=plkYJF0vLdvvPK7wqg+nzAUy46ILaBSn8P1qsgPGY8KPZe9veTTTuDGRuR1DNFeWprvyfxxwis0n90mUXCL+kCOugNTTbndG62lsCRAtqV3Lg8k4IKG1v46tKZrHF5IumURJrdciZ9E+Z5LAID0FdN26gluAdWenNLKR5N77FNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IzpKcvpN; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Glvz5BF6"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-35da9c0c007so1661828a91.2
-        for <perfbook@vger.kernel.org>; Tue, 31 Mar 2026 00:57:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IzpKcvpN"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3585ec417f6so2449586a91.1
+        for <perfbook@vger.kernel.org>; Tue, 31 Mar 2026 00:59:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774943871; x=1775548671; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774943988; x=1775548788; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=M687pClBmyskqhyA00XSquhq2FV7KuuIoAzTg1/c05Q=;
-        b=Glvz5BF6mACp6iwLPuBOxLCg5QMT50E392SUMho2h3E3S0VysIi8V+7ALwZPnIPAVn
-         JfDKGrEJau0tJSjxcwiZvC7fyfu+XuDxk0L65eKCz8rRIzHGdQpiTv8Ljl0IrPRteI+v
-         0+wyNBAQlricWixYNXpXOgkdFYVs23nHTHrbsnSe4cusM/1nShBXxX6dyG9H9IpfP32z
-         lGbs3SFrlXbNEHeZeSeup5cy7GU1VwWpm9TQchJ0ap/+Dm6d3jVmJB28LCIcQ/VXrZQv
-         RkHtzXC033r5DfGknl7Yvsm3PrQmlqfhM6u5m7AiwrkTN5a9uSk4O2LEytS+3nrKIecB
-         SsjQ==
+        bh=GuX03/4nCde5j4gArKcCdKoSN0q/QhTXUNOQqNKSNfc=;
+        b=IzpKcvpNIA159VF6v4GtOXQh8Q6OaFLvmihbrLE1jYTCW37Iw1pb50Z9I0YNT5fuXX
+         vu8BNOE/tJ6PYRiFZI/K+bew9PvtSWU9c8jHOM3df+0q5ftqJqDLcoIBDmevVyGJNZfJ
+         KBljTH2/n3TzJkIPktCtOexrbNknNLTIhFY3P+eoXFKg+gWi0ioEvPhVjJJjNkpl0dS+
+         xLYSViuiUw82zs6EHuaqH6YpjfCTGGWhW0iU3JW83u45Hg0ZDHeywu/Ccsk7xRhhKEhG
+         Gt3bNZlFteZVdFzQ20e+2lRAAxFniTZ7MdyiWXYgGV8BVECBIiDbGjgnTPUTKJIm0hQo
+         w61A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774943871; x=1775548671;
+        d=1e100.net; s=20251104; t=1774943988; x=1775548788;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=M687pClBmyskqhyA00XSquhq2FV7KuuIoAzTg1/c05Q=;
-        b=oQcgngQP7pOfADUruPlb2K0a3n1kn4GPe1jGn2wTCDdVKV9/Fo4kRvatx2XyQVw7us
-         tSYbmFeAuyDRj0oagx/R89jp+PpOEA4AvkNsjSuCma4O1OGSahDt4yGGjPNapzJmvsC/
-         xgW/kSCqKNo+IJAYpBTo0sRW3V/PyeLuKzdcBv+IH2sAtlMzgb0yPanPJrXXbDOt+gU/
-         GNhR9gcOY/9mVBEA0iPshFC0H416zZ6rLpV2VXZpc3PcJ97nzj6fauvgdm9H99PDpH9u
-         JyolhvwEO35WN2oG1f91nasqaWU2WjbMUygU6Dp6MMRWvmaENbzNeG5p4Xm8DiRt1j3+
-         OFQg==
-X-Gm-Message-State: AOJu0YzTCdZkgcARMLmEOnCb0aJNOsQk82WR1GHKBgG0VLd/1TlREfcM
-	Hce6t0Csw84hHcK5swUu+NgWtcX9wk6QmbQfExzA/KCAbhChKObP/pnV
-X-Gm-Gg: ATEYQzx7xM/lwtKhRCdDt+m4PNrtfOh3YocH+qfgBbPJbapmOEb6pXDV9Av77bph7TT
-	4928K5y5hiutyTqp/fRzf6m2kkcvmc7bAAtQNNj2ouhj7A651hdhKLa5ZfVzsFS07J4cHRfr0r9
-	JUweNocTAO6eXZBUi7nD+ytj7Bxpkc9h4+s6IdAgaUj8ixM9aU4qz7IbTvDRYH0qA8Xp68bI3PO
-	7kpygC1oW1V+zBfs3vKRJ0rz4nqvny4HhcBWYnlEooZsg0i/k+8rw0mgb4WGCWa4wjbYNShTnuT
-	wB5JsoAizFIF+BeGvG3Ys0ll7ByT8pt1iuC+Enj29xrbXWpX2tQGt6kzTN4K6Dskdgc5Q61ql6a
-	QTSwTgE/cis0DfqBuFNd345lSyF7k9pchsB21L1QRT8OuJOM4yzPKJlkZ4zwLc6FI7pEk2tOZpk
-	ROI4MRxqap8NNzyQnF9RemHAP4JXvr0U+BT+MQGUmcFsZKG0FKrTYt84OIZG+0zyXVzKZ5XJPyZ
-	BXLFF8=
-X-Received: by 2002:a17:90b:3c10:b0:35b:aca5:db39 with SMTP id 98e67ed59e1d1-35c2fff1340mr15053361a91.9.1774943870924;
-        Tue, 31 Mar 2026 00:57:50 -0700 (PDT)
+        bh=GuX03/4nCde5j4gArKcCdKoSN0q/QhTXUNOQqNKSNfc=;
+        b=K4LpE6KIn0wsYhfEVAFkHC99+Cs86FmjxFRlfkOO6PYzQk51FGs6eKkfDaetR+txKN
+         8ibbI2yq1HqVAxNzrXCQZbX9t8Mkctbq65WpkCBcPX6LXThvMXA3SZSWgeffUH2bC/S0
+         Ce1H/zVti5UL+ZdekfY+HYwTZ2qmAEwMMw9Zcdo3nw08BS+MKvtJ5ZvGLgwd4H/l8TOR
+         ywHgXsWAn90VEIaYYxPT2VnZqSr0qQzrO2H14NVCDI/A4yVIcpS1dFxlgMCUBo8TqqIR
+         a4VLjH+kEO5PfIJceCfTibcwKsmikvInvKQk6aXRAtleX1bXoKNRhNC7hG34onhvaFK5
+         wQwQ==
+X-Gm-Message-State: AOJu0Yx2MTlC1gY9Jsdmh+bCmCR6fwIoUXGsEfyFFElB44Qze2ezW21Z
+	8aPBP+4++BY1+ExVQE60x+fzS1U/ddsqI0dGu/k6ErXc+Y8WEyfCB3xC
+X-Gm-Gg: ATEYQzwSId76YkwA/DrwUe6q+d/EJBfeBjdT3PlcP7ceGB2kHkkN324cgA12GFBww21
+	F83BKq1JJz13Z2zHHI/mLNYbko0ci9M/SBW10MEwi209jtU/dLLawejLh7sT0h/ZDi8J9lx9mcq
+	1hgz4dkusm+7+bS7QPXEilA0u/8lZRjFy7/+nPwtVI7FcllCO5iNUPuboQ+XMbi09rubF+U++tU
+	IHuSBriyVULW2jWenMI2BNnwfZN8wgO7zOEpyYh6ymU/fbRcgDSL7yTsTTN/jItzRPUCh+Mkh1H
+	LKSERTrC75e5pBfUccqJgLYxPMDQLRi9KJLJ28lYJRc555USL6LU9pTYgVhml2XCM03sjXeFqrS
+	fTBDIF5V4nSlzp1tbCYPzhZczsukCFwXWU5q6ddgvPjTUNxY4NjSf7+xhsEH4i5FEWkw4zx0dv5
+	kFXI1BEjM0xei/1WnRdLnkNZTZBYKh5kSRNMjEmlDd94DdkrlHsJYz18pVSW6aslBbjen3
+X-Received: by 2002:a17:90b:4e86:b0:35d:a559:5c0a with SMTP id 98e67ed59e1d1-35db8e88d49mr1999048a91.6.1774943987596;
+        Tue, 31 Mar 2026 00:59:47 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35dbe5e5127sm1088235a91.1.2026.03.31.00.57.49
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35dba33b56fsm437920a91.0.2026.03.31.00.59.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2026 00:57:50 -0700 (PDT)
-Message-ID: <02bc543c-48c6-401f-8a61-59090c50e490@gmail.com>
-Date: Tue, 31 Mar 2026 16:57:49 +0900
+        Tue, 31 Mar 2026 00:59:47 -0700 (PDT)
+Message-ID: <15ce7736-a8a2-4d21-a425-4de4603f2231@gmail.com>
+Date: Tue, 31 Mar 2026 16:59:45 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -68,7 +67,8 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 2/3] cpu/overview: Tweak index markings
+Subject: [PATCH -perfbook 3/3] runlatex.sh: Detect errors in makeindex log
+ files
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <7304a7e5-2b6d-4109-9387-01fa4015cbf0@gmail.com>
@@ -78,81 +78,30 @@ In-Reply-To: <7304a7e5-2b6d-4109-9387-01fa4015cbf0@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Let's make them more consistent with other index markings.
+Messages of "!! Input index error" would have helped in catching
+the regression caused by the hyperref change.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- cpu/overview.tex |  4 ++--
- glossary.tex     | 14 ++++++--------
- indexsee.tex     |  1 +
- 3 files changed, 9 insertions(+), 10 deletions(-)
+ utilities/runlatex.sh | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/cpu/overview.tex b/cpu/overview.tex
-index 56c843ef..4a3ac25a 100644
---- a/cpu/overview.tex
-+++ b/cpu/overview.tex
-@@ -456,14 +456,14 @@ But here in 2026, such computers are the exception rather than the rule.
- In fact, most computers exist only to respond to requests transmitted
- to them from all over the world.
- These requests are received by devices within the computers system,
--and then these devices \emph{\IX{interrupt}} a CPU to inform it that
-+and then these devices \emph{\IXB{interrupt}} a CPU to inform it that
- a new request has arrived.
- A CPU must also transmit responses via these same devices, which in turn
- might interrupt the CPU when a given transmission has completed.
- CPUs can also interrupt each other using \IXacrfpl{ipi}.
- 
- Either way, the CPU disables further interrupts, commences executing an
--\emph{\IXG{interrupt handler}}, and once this handler has completed,
-+\emph{\IXB{interrupt handler}}, and once this handler has completed,
- the CPU re-enables interrupts and resumes executing whatever sequence
- of instructions was interrupted.
- These interrupts take time away from whatever task the CPU was executing,
-diff --git a/glossary.tex b/glossary.tex
-index f65f4dff..628e5724 100644
---- a/glossary.tex
-+++ b/glossary.tex
-@@ -368,9 +368,11 @@
- 	CPUs are available).
- \item[\IXG{Immutable}:]
- 	In this book, a synonym for read-mostly.
--\item[\IXG{Inter-Processor Interrupt}:]\glsuseriii{ipi}
-+\item[Inter-Processor Interrupt (IPI):]\glsuseriii{ipi}
- 	An interrupt sent by a CPU instead of by an I/O device.
--	See IPI.
-+	IPIs are used heavily in the Linux kernel, for example, within
-+	the scheduler to alert CPUs that a high-priority process is now
-+	runnable.
- \item[\IXG{Interrupt}:]
- 	A signal to a CPU that causes it to stop whatever it is doing,
- 	disable interrupts, and execute an interrupt handler.
-@@ -387,12 +389,8 @@
- 	If necessary, the item is removed from the other CPUs' caches
- 	via ``invalidation'' messages from the writing CPUs to any
- 	CPUs having a copy in their caches.
--\item[IPI:]\glsuseriii{ipi}
--	Inter-processor interrupt, which is an
--	interrupt sent from one CPU to another.
--	IPIs are used heavily in the Linux kernel, for example, within
--	the scheduler to alert CPUs that a high-priority process is now
--	runnable.
-+\item[IPI:]
-+	See ``Inter-Processor Interrupt (IPI)''.
- \item[IRQ:]\glsuseriii{irq}
- 	Interrupt request, often used as an abbreviation for ``interrupt''
- 	within the Linux kernel community, as in ``irq handler''.
-diff --git a/indexsee.tex b/indexsee.tex
-index fe57094b..cad3532f 100644
---- a/indexsee.tex
-+++ b/indexsee.tex
-@@ -1,6 +1,7 @@
- % effective in both single- and two- level index
- \index{Coherence|see{Cache coherence}}
- \index{Full(y) multi-copy atomic|see{Multi-copy atomic}}
-+\index{IPI|see{Inter-processor interrupt}}
- \index{Memory consistency model|see{Memory model}}
- \index{Single-copy atomic|see{Cache coherence}}
- \index{Single-variable SC|see{Cache coherence}}
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index 17d833ad..5346bb3b 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -76,6 +76,11 @@ iterate_latex () {
+ 		echo "----- Warning in makeindex, see .ilg log files. -----"
+ 		exit 1
+ 	fi
++	if grep -q '!! Input index error' $basename.ilg $basename-ppl.ilg $basename-api.ilg
++	then
++		echo "----- Error in makeindex, see .ilg log files. -----"
++		exit 1
++	fi
+ 	makeglossaries $basename > /dev/null 2>&1
+ 	$LATEX $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null
+ 	exitcode=$?
 -- 
 2.43.0
 
