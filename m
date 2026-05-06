@@ -1,114 +1,135 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756611FCF41
-	for <perfbook@vger.kernel.org>; Wed,  6 May 2026 11:47:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756AC3E1220
+	for <perfbook@vger.kernel.org>; Wed,  6 May 2026 18:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778068028; cv=none; b=S++NcGRDa6OPO6bPtMzwSpOBCJG7GWxtGLIZGCWqkmqq8HLIyDELzAcZqAYiQMFb23t0Cjc3zOdelDg1us2XAQQo1pgGiUEjLDCGI+mSOEwXwIGqjVYBIQud3M7XsZ308i0NQ7LSK+oe82iG1eE0G3hmP9/Wk4gS1gOzR7ofHfw=
+	t=1778092950; cv=none; b=gHrnT8iYu/ZFVhBpxwGXlq5sJdUgKqE/KmlX1HdSo/F2scMp0WWpHcTvrlKwRDEy3yp1LvO3c43A95KLI/WvZBBqoSRPD+Q0rVVMoW8ar/57nsZsTvMCVr5k9iNyIler1QAjHwkYf6CG57m19JGCVwXaPnLNniN6OAr7vr9XCBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778068028; c=relaxed/simple;
-	bh=cWaiosygwAcNbA5Ip3N+v+stDUwoHgY2ibDJdMJiI/E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P30fM+WBnhf3L3OQnBgyb4n6Xnqlq4UFbT78uZD3QH3PxQmk52Avl5jcIEsT0kgth1mqW63mteBEJCnPkyOSe1qBoZDy1z8mRVjWMHjir74oPPrkcXP1sK90VzZOLpLYTLDJ7NGwGbhrcEi1deKbgKe9G0LL1DXwEpy3bI4590w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WS3bS7hD; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778092950; c=relaxed/simple;
+	bh=GptK7WI/okvSZZzD9acqWEt72Zr8wmUykAy2NeOJHMg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SVjml2jqHXrFpjb2/HsgYM3Vq+OSZineqVxnB4t8r1sfYS3Jtqc4eCf4h4ipfuJ3IILL2ySTDVA9f7cHYBO/QBBtA55fZXE6IdnoW/GAFugRWsER4OyEGhCDfesFyLBqAYMNnUpEZHn0F1P4J/Mgf1KSalIv1ZSE1aQO74P/jy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TXuKkKgh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WS3bS7hD"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-83975e992e1so933632b3a.2
-        for <perfbook@vger.kernel.org>; Wed, 06 May 2026 04:47:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778068027; x=1778672827; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WiHJtef9fAM9ZPavv/dTns/WMofCaTKS/3p42ZpMGWg=;
-        b=WS3bS7hDKGqKQZ6XRzpIqIE4lZQnx2nMPGQyPx+KgjrKrRQKnh/O/uRjWijEu8xCpW
-         ByCg2yxJ/PBqduMd73E4NsmPABwXtr3qN+oCuLZoIO8uitf1l0jW/I9wU5xS7marenZ1
-         LLC1cKGpRpvyJDDjUQTrRUbK78eszMzTbaf7EvEKgaoS8+pHHQ8j4luqAKab46YKoFwa
-         7/N/RL6u1zI7Lnl9hzx5cuufxVG3ovfOACjKxwfrqQffhhDOxqN9WCCDO6s5/VWX/TqH
-         pFtQw3MkNHD7vZcUJb48WsEf4+GtyM/2JKPo9JiWwXHCjzC+/tRBPUbc5CnV5oEVYJ9v
-         jF/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778068027; x=1778672827;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WiHJtef9fAM9ZPavv/dTns/WMofCaTKS/3p42ZpMGWg=;
-        b=mt30FGT6LwPj0cc+QZ3MY0naBOl7tqhXOm1Ke9S/kR/pi8/XU5Z2ydoIzPpoK6gKzB
-         USAFBhfep+w5KZsi95g3Sk9kpxH4XRfu0yhRgIhvnN+/deh2H/LKD/w7vnprM/9xyc35
-         X0qIkhqA3ieuc3m7cbd1w64phQLS7Zb7mwwYdigKahHe0952AIwvGOh9SlYxY3kHbmlh
-         31bqMpKzGpggB66RIXrv0O0aN+wI9D803iA/k6KLmADv1nTPiVxBbebmq/w2S2dcctAd
-         LKD4WfS3qw0emIxRNYIXqindKqhIW76Kn9ovakV8bp8xcrhPWLmEYo/n1wmxGMdixmVu
-         MXTQ==
-X-Gm-Message-State: AOJu0Yyi0Znkt+05JQLUddXueElAwSYtyFg0+CFXmJ7vkZT5H8/tjpic
-	1SP8NNcIkD2niK/gagcqDqgoFA7+tE8Oy8cgpliOGtKe6mLjr28l03oAYMf08Q==
-X-Gm-Gg: AeBDiet6dvNyIu+RT02hpvosma/h4SkmefZSN/8XyrOTVLJRLYYL7uBwQWWOAQDJZRD
-	StcoKVG6K+6Lhp7d7imVwdTe4MFB8A3GhwXymGYlr8bDJYoxZjIk6807qTeei3ZAxOhq9TFl4G6
-	J2LYWdKWjRbx9MP7HnhrH2omr4ADg+lpoefcPqD+SzcR+DbdZsmJLna4dt0+5zwT5vuWLUhR8Tc
-	mQHqVcnNxOI4Trlk7a6F9sNXBWjtKjvsMwcH8PxHIzZbYC+ghSAL04keawRLnVSkTMFp/Bn/zmq
-	w3qTI2Gv2bdvbKGN35zClk2Vs8xLILcEySnQ5N/5DZHQWwfuqA47bndUf8+xOSTCyQCizTdmto2
-	Ws3yqhXWTFrJLEkAbMrLzCoCIRezeMBhOVTyfPAg96oUbxv9gkc9ml6yCCxCnWcddiQbfeZDnO/
-	qTG7L72mLnC+GbgRtAqy9t4VrE5YSMRQ+8aaN94UejezA39T/g0pdp2GybQhk6F/fg+lGk0O71U
-	w01Xt8=
-X-Received: by 2002:a05:6a00:21ca:b0:838:1c02:2763 with SMTP id d2e1a72fcca58-83a5b3ca97dmr2638389b3a.9.1778068026710;
-        Wed, 06 May 2026 04:47:06 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839682a103esm7135429b3a.51.2026.05.06.04.47.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 04:47:06 -0700 (PDT)
-Message-ID: <c0ef8976-1099-4c1b-bd73-e2f5ff716f26@gmail.com>
-Date: Wed, 6 May 2026 20:47:08 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TXuKkKgh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 140C9C2BCB0;
+	Wed,  6 May 2026 18:42:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778092950;
+	bh=GptK7WI/okvSZZzD9acqWEt72Zr8wmUykAy2NeOJHMg=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=TXuKkKgh1P2dCc62TZo7wGEkbVcXnUhXWthgNrYUXEdaBdF+xNCwrGDXioXo59q8N
+	 IXgGkf58IN+BaIX/IqZcUWj7n+e8w4lxZE8/VbQaSzieecfwnt1lu1yH2zb8ZbRMf2
+	 03cPJGUO29CRUZ2WPItbt1R62VCxV9NbTPk8Mk/jsr7L//FGLZCs1yioGNCCvYHjoi
+	 GvkPO2CZq9U1LUiFjTE2Iy4SPBvtzrhDGel4Qdfix/bwl5oKMc03VuAfJ/i5yx1E7L
+	 YqZ/6IL1sL3FDXSSbI4OKeFRJ6h46CAu5QCG6wg5R1T9DeAVmSpCHXa6OLAsJ/y5L8
+	 sGayq47bj0Jwg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 86607CE0782; Wed,  6 May 2026 11:42:29 -0700 (PDT)
+Date: Wed, 6 May 2026 11:42:29 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
+Subject: Re: [PATCH -perfbook 0/8] May 2026 updates (1st set)
+Message-ID: <0d569f53-0a6b-43bc-8659-5345b0ccdc80@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <e8b6b390-7034-4d01-a565-8d5d48309a05@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 8/8] FAQ-BUILD: Add needed packages for Fedora 44
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <e8b6b390-7034-4d01-a565-8d5d48309a05@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <e8b6b390-7034-4d01-a565-8d5d48309a05@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Under Fedora 44, a couple of essential packages for perfbook are
-missing after installing distro packages for Fedora listed in #5.
-Looks like there were some changes in dependency of TeX Live
-packages.
+On Wed, May 06, 2026 at 08:37:11PM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> I guess this is larger than what you have expected.
+> I didn't expect it, either.  :-/
 
-Missing packages belong to texlive-collection-fontsrecommended
-and texlive-collection-pstricks.
+Sometimes you have to expect the unexpected!  ;-)
 
-Add them in the Fedora list.
+Kidding aside, thank you for finding and fixing all of these issues!
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- FAQ-BUILD.txt | 2 ++
- 1 file changed, 2 insertions(+)
+> Patch 1/8 is the usual update.  I see there were some cleanups in
+> RCU code but would like to defer text updates to you.
 
-diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index 036f1063..6845db14 100644
---- a/FAQ-BUILD.txt
-+++ b/FAQ-BUILD.txt
-@@ -53,8 +53,10 @@
- 			texlive-collection-plaingeneric
- 			texlive-collection-binextra
- 			texlive-collection-latexextra
-+			texlive-collection-fontsrecommended
- 			texlive-collection-fontsextra
- 			texlive-collection-fontutils
-+			texlive-collection-pstricks
- 			transfig graphviz librsvg2-tools gnuplot
- 
- 		On other Linux distributions such as RHEL/CentOS and
--- 
-2.43.0
+And please see below for that text update.
+
+							Thanx, Paul
+
+> Patch 2/8 takes care of a regression in cleveref.  It started affecting
+> perfbook as early as Debian 13, which I failed to catch ...
+> 
+> There's been quite a few other issues in early testing under
+> Ubuntu 26.04 and Fedora 44.
+> 
+> Ubuntu 26.04 misses an update of lineno.sty dated in March 2026.
+> Debian has updated TeX Live packages under testing, and hopefully,
+> Ubuntu 26.04 will follow suit soon.
+> 
+> One of Fedora 44's issue looks more concerning. Please have a look
+> at Patch 5/8 changelog.
+> 
+> FAQ-BUILD.txt and files under docker/ want further updates, but I'd like
+> to see how long those issues in distro packages remain.
+> 
+> Thanks, Akira
+> --
+> Akira Yokosawa (8):
+>   Update rcu-test-ratio for Linux v7.0
+>   Apply hotfix for cleveref against recent LaTeX2e
+>   Cope with iconv without ISO~8859-1 support
+>   precheck-tentative.sh: Detect premature versions of "lineno" and
+>     "microtype"
+>   runlatex.sh: Add WARNEXIT variable to make "LaTeX Warning:" in .log
+>     be ignored
+>   precheck-tentative.sh: Fail early with suggestions for Fedora 44
+>   precheck.sh: Add check of missing LaTeX packages for Fedora 44
+>   FAQ-BUILD: Add needed packages for Fedora 44
+> 
+>  CodeSamples/formal/data/rcu-test.dat |   3 +-
+>  FAQ-BUILD.txt                        |   2 +
+>  Makefile                             |   1 +
+>  fixcleveref.ltx                      |  12 +++
+>  perfbook-lt.tex                      |   2 +
+>  utilities/precheck-tentative.sh      | 106 +++++++++++++++++++++++++++
+>  utilities/precheck.sh                |  40 +++++++++-
+>  utilities/runfirstlatex.sh           |  15 +++-
+>  utilities/runlatex.sh                |  27 ++++++-
+>  9 files changed, 200 insertions(+), 8 deletions(-)
+>  create mode 100644 fixcleveref.ltx
+>  create mode 100755 utilities/precheck-tentative.sh
+> 
+> 
+> base-commit: 5d4a155828dce1cda2fa1a2769462e9a11838a70
+> -- 
+> 2.43.0
 
 
+commit 82dd3ab1629a9e93ea60eb5623a44705d485d3ce
+Author: Paul E. McKenney <paulmck@kernel.org>
+Date:   Wed May 6 11:38:07 2026 -0700
+
+    formal/formal.tex: Update for Linux kernel v7.0
+    
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+
+diff --git a/formal/formal.tex b/formal/formal.tex
+index 5d43569d..5ea1f0e4 100644
+--- a/formal/formal.tex
++++ b/formal/formal.tex
+@@ -379,6 +379,8 @@ Linux kernel v6.14 moved \co{kvfree_rcu()} into SLAB (in
+ \path{mm/slab_common.c})~\cite{20241212180208.274813-1-urezki}.
+ Linux kernel v6.19 added a few SRCU flavors and also added a number of
+ primitives to the \co{refscale} test suite.
++Linux kernel v7.0 removed RCU Tasks Trace, implementing its API in terms
++of the new SRCU-fast RCU flavor.
+ Numerous other changes may be found in the Linux kernel's \co{git} archives.
+ % rcutorture
+ % v2.6.15: First torture test
