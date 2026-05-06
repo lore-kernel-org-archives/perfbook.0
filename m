@@ -1,66 +1,66 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E694423A63
-	for <perfbook@vger.kernel.org>; Wed,  6 May 2026 11:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F360C43D517
+	for <perfbook@vger.kernel.org>; Wed,  6 May 2026 11:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778067846; cv=none; b=vGQf+lQbdMweLYnaXu47yu2svY/S7CVpRNJ+GLfli804YN3C7djJP97QLUj4Y82mdLwjRCebmPKs2Ezt4ZAE6ZAO/tl1+kaEvrJXT+of48/0orgm9E0mmlofxZzHtWep+LevL0CH5qFWlqIoFbLbwuFZoWv5BXmFFGOjC7UmIlA=
+	t=1778067906; cv=none; b=hoUQernSH3Ft8ig/3sTughvVCdagNypQYEG+A7zAzsWHUfvSrFWABdJiuvSguVXyZC8IovjGb+UtzGq7QA4cAxGENrfJwZC/FJRSIsThrxQfBNj4DvJWDml8JbjjoFX7o+5sKURut7zIE3PfsfFvZo7pqbHanLAEpeAQOTFh26g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778067846; c=relaxed/simple;
-	bh=bva/T0WrptCN/YYpnSOXURGoMQsk0Ic1SsY73GDe9MA=;
+	s=arc-20240116; t=1778067906; c=relaxed/simple;
+	bh=uPISJrgcQw7/uhB6FJdlyL/oPHyAe7DFqXdIYHaPLsg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rw+ot3C4mmCzxBUVx4oMULPOUzlchovrxh8qvVAds9retleixLlVLRidKrlLbPtbMpJeWWkFxxOmz9kfFpBkFhwI6Qk92gO6+VtPBAmRYF9ydK97w4GyBsgF0EI0vBCRiQNYQXW/od0SHZBNRKuRJBowaI4prRB6RfF2qGOSk8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HjDIAY/o; arc=none smtp.client-ip=209.85.214.171
+	 In-Reply-To:Content-Type; b=eqKVgbrzlIFP0jd8xW1MDrARknRmPunnDBXMgff+jw34iVCj9V9ceFqr+6Cn/RZWvxqdgNoAnC288gadRgfjS3wRGq0k/aeL39oBT9+YlR0H5UVpw1EZr6t7ZXywWciixXTg9tbXzp1usPqfbDDsmL0xvBuneQOuo4SavnegRVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qT0g+TIE; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HjDIAY/o"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ba17c8cfacso34300685ad.2
-        for <perfbook@vger.kernel.org>; Wed, 06 May 2026 04:44:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qT0g+TIE"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8367df48711so1569910b3a.1
+        for <perfbook@vger.kernel.org>; Wed, 06 May 2026 04:45:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778067845; x=1778672645; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778067904; x=1778672704; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Fz9DjUbpYr4SGGIgtuGvsQsV52cVbbgYOENIbltSC+U=;
-        b=HjDIAY/o3CkSZSmzubpn2MsFNE0GFEKjXUBT7YrQVAqXJ/KDskhEtqah5XzLb3P7bH
-         nXopJbfuwie1atoXL28WnBMZGOQrpl69AAKfDt/coLATuKlVdXnQRdJNdRiYvRrny4D3
-         8iXFNrYYlAGO3J+j3oZzKzCRJhKkMgx/Y6cjsec4EIgZMtaTZkxxgNYFKVqus5ha3R3H
-         HKl412X9TW4f0egac7fjkE+SexfcNs644FvvTZJs4GunxmiAWHPsuIyBNm2gwwFoR6iQ
-         0BiLzLpUv1F3MbRqpnQTTRgEjWazsFHD/yAWd2MkCV5FHtbL/sjluX+nOCmKBHIuN39A
-         tB7w==
+        bh=XrTI10+MwLUSSTN5f7vDHtcArrIgyttkBGn5j7zPXYY=;
+        b=qT0g+TIEny+r6H29jWdIOVjORjlnnmhF4cHd8eSxIebl8Z2faw3YJNaFNUC0PYuMZt
+         5NJpJ28y99GpWgu/xpjxUJOaDJpQ87gquZLvnAx/KQcvmvd7HfNBg7tP3NYDz+xtwes7
+         16SP7dzFbG6talKctPKvgqtRnPliPFP8eRf2iV6CId2CU+zVuYZumR7CUpunrXceR9aM
+         EvqpUk6gpBb4w5xRRO3q2Kc6Ob7iWV5ZzncwnTBWBgtWwnnz0v5WSGV384MLdEAd4MzH
+         EuvJn+7SWVMPQhddBET0tpOfLQqtVSNN82C2LztDKZGqchR8Rpi1vlx3tUz7TsAxeC3F
+         +8nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778067845; x=1778672645;
+        d=1e100.net; s=20251104; t=1778067904; x=1778672704;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Fz9DjUbpYr4SGGIgtuGvsQsV52cVbbgYOENIbltSC+U=;
-        b=V4ZFXkJzC81pSjbNvGgxuSTVaLyDlSDg5PMaUDhfqYPQN59hUJk4hDr59SFnV0P2vR
-         upcj683m8tMOkgEu11qSdz14sWMUaqCn7CsgRN8i2MElTMVtDzos3+RERV8vo8DfvKSN
-         /6s/dBJr05UB2vI4rYfd/yOnHOSRlumavX8kgE2HSP0QUCVN7l84AZCzcMS5snxGZfTu
-         955RCUWRsjOEbJNUy68gIDv9jNoVnjEQVfU+MeWU+Qh1rUl9XFEFvmd4pxHOpaqrayLK
-         wzKwDoobWy8UwpEj7l71Exqda3kJK30GCAc33tlMEw3qKkPUXGnuoqUm53JNLmCbc6n8
-         OUmg==
-X-Gm-Message-State: AOJu0YyeVejSSewdPLxRQTSupKz28pZ6VEuKh2Vx7UrqOWpCBx7ZNd65
-	f/Mw/odpMfjP4T3g7krH594HpgnIpLHtA7quu8DQJ2Q+MTIOncSZe+yn
-X-Gm-Gg: AeBDiesz0dUg1wbt+Vvpa/95ASmZnuHTs0Qgsvr7owXY82jR5OwQGN79ehmOFFtQuf6
-	nCfzCWuTkeTNBkd5xqSAn+KkYNXPUZtfrGoCetu2Q6rfMxxlkTfCf6G89bGluyfF0BsJd6spbAN
-	kbs4I890OFjsMTdUWZeZl4Zrm4Jr94mrGOkXP6IODtbSwuhSqdSbbljnIZ5dXX+LIfwjVuKpDx9
-	y9kBt6VA1o70+BmC7oW9mDrs9BxLS3kQvbyRjUv34yEXqFgqKRvoSe/TM8CT9cXFl7mpHbdtzr2
-	B0+XzG4jIslSQYo4SWJCXSyNBdTLs2wBRCf9awevdwRGsVGAV28S0pYHCbM5gBzyX2UhPbUPnwp
-	4yQN0riq8uErQvKU3KnDyW8210lCqlb2i5Mtaq5IN4BrWvYbV6WVN5hleg0U2LDqJGhdAkXI4z8
-	yYxB/Wu71l2l6Tt8vTOola3p6R8CZ+PywD0Of/OORjZBzU55Rxx1y/mBDgkde7EHl/LpEL0jKko
-	UXHrYE=
-X-Received: by 2002:a17:903:32d0:b0:2b9:d647:5261 with SMTP id d9443c01a7336-2ba79185045mr28679395ad.13.1778067844755;
-        Wed, 06 May 2026 04:44:04 -0700 (PDT)
+        bh=XrTI10+MwLUSSTN5f7vDHtcArrIgyttkBGn5j7zPXYY=;
+        b=pJb/dfraNYCa4DUj0FayW+r33VuxRyWqp78X6i2PtHEEklTeXlMEVzvcREta3woZKR
+         2txRoyINgOF4+kg1Hp5BAVLKY4lq0kgRZt2uGFMhwBYzzmjBfpoZOsW21jatP+y7u3ux
+         S2qRz/LLS36vG7oE+1W1lX/3gPNcPmWTqdjSWqK3hdZDSSmNWMkizloTfpJAetk9a0IW
+         klOPLCwaPAoTLKhUBU9IbetAPqGzBeSRCWxdcleOHfb6PkOQ7F1exlvZ71WsvtdNDiOL
+         ynITK/yBGYXPPpbE1AuLOkJZtFlU9Kj4gm3r3XjnfhbCzYwpHB7xjHtCi5m0TScve91i
+         sKPw==
+X-Gm-Message-State: AOJu0YyJNV5e+usjjO/4ohJqtsjZfkLH1Jqq2kM/ATSk+CBMFKs8i5WV
+	8yAglaQ7OsZBL4UTYXehILyKTrBmpdVrdKXKLCT919ect9eYhzLerchS6yqU9w==
+X-Gm-Gg: AeBDiesfm6agy+jekLX4YfqzUEhMd60yjOYDTnqekX8LwJctKcR2CmQrdBZx2A7ww51
+	lUGFDAxpR1ww00kvv9gJsTuXAD2dynSofS8SPgkxdmXYy9QeLKqXdzdynQixdqV/UeUl1y0BVPg
+	d/+lPpRx/bfu8yw+sQP5c2zgEeHItdVDShHV1irjyxMBIOebUI4iSMDSHBHJrL0kmNTvLkVHloF
+	bfAuXA5+oPFWDwnlZlTqBaVQFHF6UXTHW3xwXz6rK/PGs+5lCfMtIta2UD+ItrglxHgNfXLHm9A
+	qt0l5aI3z8Hok+QrykJ8I0WqFhQFc313QWHO+mBggCs489yYfvGs+UUG6vF1ty6Uqh7mI5B60IZ
+	BsPTL/vZ+ipdYPRuG9OnkgWI5m1+ciMhLOvJHi835Rccqfdd5Dw1C1Qm2HfB5Mv/HIyqIXdT29c
+	46iB0Aq3iXNKbwF7A4CuARHj6FHK7pLKATSGUi6JeF3xAcNJSNc7azWrUPnzuUYZVQEbt5qhJC/
+	y6MekM=
+X-Received: by 2002:a05:6a21:338f:b0:395:7fb:9362 with SMTP id adf61e73a8af0-3aa5a90db5cmr3631606637.19.1778067904235;
+        Wed, 06 May 2026 04:45:04 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ba7ca105desm23694995ad.55.2026.05.06.04.44.03
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8242bb959bsm2091835a12.27.2026.05.06.04.45.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 04:44:04 -0700 (PDT)
-Message-ID: <313423b6-901c-44aa-84d7-855905587856@gmail.com>
-Date: Wed, 6 May 2026 20:44:06 +0900
+        Wed, 06 May 2026 04:45:03 -0700 (PDT)
+Message-ID: <2e706ab3-e69b-4148-bf89-fbbcc0f2dfba@gmail.com>
+Date: Wed, 6 May 2026 20:45:06 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 5/8] runlatex.sh: Add WARNEXIT variable to make
- "LaTeX Warning:" in .log be ignored
+Subject: [PATCH -perfbook 6/8] precheck-tentative.sh: Fail early with
+ suggestions for Fedora 44
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <e8b6b390-7034-4d01-a565-8d5d48309a05@gmail.com>
@@ -79,101 +79,81 @@ In-Reply-To: <e8b6b390-7034-4d01-a565-8d5d48309a05@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-In testing Fedora 44's TeX Live packages, a warning in .log files
-caused build failures with this message:
+Here is an example of aborting message you will see under Fedora 44 from
+simple "make":
 
-    LaTeX Warning: You have requested release `2026/06/01' of LaTeX,
-                   but only release `2025-11-01' is available.
+    #### array.sty requires a later release of LaTeX2e.     ####
+    #### arary.sty requires LaTeX2e <2026-06-01>,           ####
+    #### while your LaTeX2e is <2025-11-01>.                ####
+    #### Check your TeX Live installation.  (Known issue under Fedora 44).
+    #### 1st option is to downgrade array.sty to v2.6n.
+    #### 2nd option is to install texlive-latex-base-dev and
+    ####     say 'make LATEX=pdflatex-dev'.
+    #### As a last resort, 'make WARNEXIT=0' would ignore such 'LaTeX Warning:'
+    ####     messages and complete iteration of latex runs (if you are lucky).
+    make: *** [Makefile:300: perfbook.aux] Error 1
 
-    Package: array 2026/01/25 v2.7a Tabular extension package (FMi)
-    \col@sep=\dimen149
-    ### Incompatible package(s) detected. See perfbook.log for details. ###
-
-The root cause of this is mismatching LaTeXe2 and array.sty versions
-contained in Fedora 44's texlive-base and texlive-tools packages.
-
-This was reported at Fedora bugzilla [1], without getting much
-attention of its maintainer.
-
-As a tentative measure, add a fall-through mode in runlatex.sh which
-can be enabled by saying:
-
-    make WARNEXIT=0
-
-Link: https://bugzilla.redhat.com/show_bug.cgi?id=2447682 [1]
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/runfirstlatex.sh |  6 +++++-
- utilities/runlatex.sh      | 18 +++++++++++++++---
- 2 files changed, 20 insertions(+), 4 deletions(-)
+ utilities/precheck-tentative.sh | 40 +++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/utilities/runfirstlatex.sh b/utilities/runfirstlatex.sh
-index 3fed1b69..269a3b62 100644
---- a/utilities/runfirstlatex.sh
-+++ b/utilities/runfirstlatex.sh
-@@ -68,6 +68,7 @@ fi
- basename=`echo $1 | sed -e 's/\.tex$//'`
+diff --git a/utilities/precheck-tentative.sh b/utilities/precheck-tentative.sh
+index 8b53e02c..96d2fe2f 100755
+--- a/utilities/precheck-tentative.sh
++++ b/utilities/precheck-tentative.sh
+@@ -5,6 +5,8 @@
+ #
+ # Copyright (C) Akira Yokosawa, 2026
  
- : ${LATEX:=pdflatex}
-+: ${WARNEXIT:=1}
- 
- if iconv --list | grep -q -i iso-8859-1
- then
-@@ -94,7 +95,10 @@ then
- 	grep -A 4 'LaTeX Warning: You have requested' $basename.log
- 	echo "### Incompatible package(s) detected. See $basename.log for details. ###"
- 	echo "### See items 9 and 10 in FAQ-BUILD.txt for how to update.          ###"
--	exit 1
-+	if [ $WARNEXIT -eq 0 ] ; then
-+		touch $basename-first.log
-+	fi
-+	exit $WARNEXIT
- fi
- if grep -q 'LaTeX Error:' $basename.log
- then
-diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
-index e9689a99..50aec2f9 100644
---- a/utilities/runlatex.sh
-+++ b/utilities/runlatex.sh
-@@ -30,6 +30,9 @@
- #          Akira Yokosawa <akiyks@gmail.com>
- 
- : ${LATEX:=pdflatex}
 +: ${WARNEXIT:=1}
 +
-+WARN_REMAIN=0
+ KPSEWHICH=`command -v kpsewhich`
  
- if iconv --list | grep -q -i iso-8859-1
- then
-@@ -68,7 +71,10 @@ excerpt_warnings () {
- 		echo "----- You can see $basename-warning.log for the warnings above. -----"
- 		echo "----- If you need to, see $basename.log for details. -----"
- 		rm -f $basename-warning-prev.log
--		exit 1
-+		WARN_REMAIN=1
-+		if [ $WARNEXIT -ne 0 ] ; then
-+			exit $WARNEXIT
-+		fi
- 	fi
- }
+ if [ "$KPSEWHICH" != "" ] ; then
+@@ -63,4 +65,42 @@ if [ "$hyperrefsince" = "$HYPERREF_SINCE" ] ; then  # older
+     fi
+ fi
  
-@@ -169,8 +175,14 @@ do
- 	iterate_latex
- done
- excerpt_warnings
--rm -f $basename-warning.log $basename-warning-prev.log
--echo "'$basename.pdf' is ready."
-+if [ $WARNEXIT -ne 0 ] ; then
-+	rm -f $basename-warning.log $basename-warning-prev.log
++#### Tentative check of packaging inconsistency in Fedora 44 #############
++# latex-base vs array (provided in texlive-tools)
++
++latex_release_dev=`kpsewhich latex-dev/base/latexrelease.sty`
++
++if [ "$latex_release_dev" != "" ] ; then
++	latex_dev_ver=`grep -F -A1 -e '\edef\latexreleaseversion' $latex_release_dev | \
++	grep -F '{' | \
++	sed -E -e 's/[ ]+\{([0-9\-]+)\}/<\1>/' -e 's/\//\-/g'`
 +fi
-+if [ $WARN_REMAIN -eq 0 ] ; then
-+	echo "'$basename.pdf' is ready."
++
++array_sty=`kpsewhich array.sty`
++array_req_ver=`grep -F -e '\NeedsTeXFormat{LaTeX2e}' $array_sty | \
++	tail -n 1 | \
++	sed -e 's/\\\\NeedsTeXFormat{LaTeX2e}//' | \
++	sed -E -e 's/\[/</' -e 's/\]/>/' -e 's/\//\-/g'`
++
++if [ "$LATEX" != "pdflatex-dev" ] ; then
++    if [ "$array_req_ver" \> "$latex_ver" -a "$WARNEXIT" = "1" ] ; then
++	echo "#### array.sty requires a later release of LaTeX2e.     ####"
++	echo "#### arary.sty requires LaTeX2e $array_req_ver,           ####"
++	echo "#### while your LaTeX2e is $latex_ver.                ####"
++	echo "#### Check your TeX Live installation.  (Known issue under Fedora 44.)"
++	echo "#### 1st option is to downgrade array.sty to v2.6n."
++	echo "#### 2nd option is to install texlive-latex-base-dev and"
++	echo "####     say 'make LATEX=pdflatex-dev'."
++	echo "#### As a last resort, 'make WARNEXIT=0' would ignore such 'LaTeX Warning:'"
++	echo "####     messages and complete iteration of latex runs (if you are lucky)."
++	exit 1
++    fi
 +else
-+	echo "'$basename.pdf' is ready, with above warning(s) ignored."
++    if [ "$latex_dev_ver" = "" ] ; then
++	echo "#### LaTeX2e (-dev) is not found!                       ####"
++	echo "#### You need to install texlive-latex-base-dev.        ####"
++	exit 1
++    fi
 +fi
- # cleveref version check (Ubuntu 18.04 LTS has buggy one
- if grep -q -F "packageversion{0.21.1}" `kpsewhich cleveref.sty`
- then
++
+ fi  #KPSEWHICH
 -- 
 2.43.0
 
