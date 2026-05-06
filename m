@@ -1,66 +1,66 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0478243D50C
-	for <perfbook@vger.kernel.org>; Wed,  6 May 2026 11:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9521643D51B
+	for <perfbook@vger.kernel.org>; Wed,  6 May 2026 11:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778067612; cv=none; b=BHmftBsYItYH2m11ICh2rdyrEbjQ4cykmHv17phh9kk3VshJYLQqoai7REnuqqtHduReMAgyKvEbvoDzZVpfFziHULTKHAocqojTnKyVze+m4WqIafRv+SZv9b9tn+6U8GjWaW9GIWbEVEtMUpAAz3iSBPuSwxAWGaOMlKgSKgA=
+	t=1778067719; cv=none; b=aBr0W3p9AZS5GwMGgdEJzP0iidjO57J27LZpHTuPSXoXkvcCatG2YJ4OIUCTQU/YeWSDHJnQ9BufwUJArJyO5CDwTRewOnG9wi5YjCOc5Tc+98kNYAqVzIppVn+pIjip+4e5L3lQPpOAw4UofTqS7Xo/ph8vnvz+rilVYyrxGNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778067612; c=relaxed/simple;
-	bh=WQR651K/Aj03BsA1wmGAz5/RTwuQIDyNo86ee5igRNk=;
+	s=arc-20240116; t=1778067719; c=relaxed/simple;
+	bh=+CV+HXojUTvB6G58xXEjPEo30hfSCgYNxwtISBCvUrE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IJ7VV67XhOTIkyQGx1aaVhxMZ2+HAEpN7+JCQPRnhsT9MtbnOeNJe8Ja5gyZjXvNSjoynwCaHEHpCoTnQVL9jhKj7EAFAjwhFYNBfn/AWPgEP5OBey6tomtrsOAMwqmD+QI/h7sYqmqIzk/bwXc2d/dvPhJ3OCDvm9IRrDDixKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MCSaerMf; arc=none smtp.client-ip=209.85.210.182
+	 In-Reply-To:Content-Type; b=DQks/r8pfEFy7BK82VrZUGyeTrpub7+xwVbW19VCh6ra+Swdbi/8FByLyukis4qRuebKdmlYTigGLhaa4Qefq4/fuY7z2p8l+YuQLWZDlH6rre7p66kvldnSTkzWURXnWWlIcPUUDTsz59ExE7T8CU9puretJOKjvBRwbjuJc8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y+jcLKPz; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MCSaerMf"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82fbdd60b64so4513064b3a.3
-        for <perfbook@vger.kernel.org>; Wed, 06 May 2026 04:40:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y+jcLKPz"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2b9705613ddso37443675ad.1
+        for <perfbook@vger.kernel.org>; Wed, 06 May 2026 04:41:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778067610; x=1778672410; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778067718; x=1778672518; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=KCzk6+h3i7BAZ7kjxxGWzJ4vwDHeayHyHLxkTh9Yqqg=;
-        b=MCSaerMfOVymLppPgYdjckkSun9VibEvmx6cgBoMtsHCzyK+gH9+bUoydhQDUcanpL
-         bn+zS0af/SQdO1s7E4PswyuhFenV25apaPF87ZivBHSjhpUqTvxwW2kQUE4NSpkiL03b
-         urIh5Ksy99TwMDiH5B66FTKrFnvI8VZBjnUZAe0rtCdi4/ws2oLZc/LD2hkAA7vaDeQU
-         vhj7T1ICXeERDjnJmGWVbQ1N8AdiuE+I24Omiy198m1bvP1Amg8ngjMFnfg7OKGdGW6D
-         +qG2IHUoU6Or8mKbJ/rTKejkGuXCOpwYdMPw6Bq0SGQptyPwf5x5hwraDpSTn1aTyGa4
-         XM2Q==
+        bh=VP9yJzCiHGq329TGRjc4uyHIviyz0pO7BrnnV33rHYs=;
+        b=Y+jcLKPzmkjo/zlx24ILBJ4J2/roD1GmGseZkmCWchgvx5bYM/pgzU8H5QF6rLlWC0
+         ndc7aB01KetTFTujPZrVW0RqasJdwQuuGIaTQ6x89GMdLVMpLLJ2XgS6PGxvWRFTHd62
+         0KBpLlAJ9YtzUrE0tq/ful+XuV2pwE/83bdihhcgcGePvJmFFPeoNWM/VTqKeLUybeYZ
+         S27UrEddYjcn1X7tXsGO/+oQh2SrWJIXEMCGaRoNLTOnWAzjlE9inw2MKoMo8Lw0TQTe
+         +1XaUjIv3/5OjBou5Hu3+NtqFslRYbuiQcDJnzv4eq8yVH22lSH/LjtKgmTGqGIzq3AI
+         lszA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778067610; x=1778672410;
+        d=1e100.net; s=20251104; t=1778067718; x=1778672518;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KCzk6+h3i7BAZ7kjxxGWzJ4vwDHeayHyHLxkTh9Yqqg=;
-        b=m8WuAdTgdFjank3FQ4CNjlFGJuGUQ0HVr+bdkRDNGW3cawIg7IQA28IS8JzNutGaP1
-         9+fK0+ks+mfULAMmDmP/W/5OEyF7Pu+Js6+sSXutX2k3l1jCT+xla6rQC+QHqhe+XWlA
-         yivgXiHK623w2st7K3m1Sm5L8Yu29hbHvG2+5Li6Ln+2KjqyeXlayUg2ctJVyV14ooS3
-         UMuH+PlSegN2baQMoBx0JrjXrtllG5S5toybENrUrDTqOO91YxoDgGRL0SECXcZzbxOR
-         1xIQpnoLND5CFyiS7wmxDkpT84m2ADjFT3yigZMDd+F+Z2Bqi8jGl1xCVWheUQVRJ/ZY
-         OVLA==
-X-Gm-Message-State: AOJu0Yw+odogJqPJsSjsNf5sYAiwC101GzNmXAlVORFJLFYJ1J5LMgEJ
-	bFfPBhsdAWCINoC7CYFR0Yx69gQKTT/UMYQzqYrqoGlN7kAr+pb/JL6j
-X-Gm-Gg: AeBDietfDvU6oqV8Ctk+KH4nQO0pyM+7iS6df31hnUItGAoSyrNxSSalpybFtp59nsh
-	c6NGgV+/RxyvwdkHxEf74351FX78dYkql5sbATtZcNlx8XhDhtsB5V6YUJ0ai/rgJjU2XS6uKgv
-	r1OffUFs7d5JfaRzrkXiBa2tWQBahN6bllB7ydgfrya7DC3prqpS3nLrZDBzmv2Q0eTwjpdYfvv
-	bmYXO3F0LCcTNe+qIj8Su2k7ZXUGPJ29QsgPR3HRoPZVp9m/QqOqEiEUGpt0PBwPWxQohpP9HbE
-	1dWpRetuWYbuS5oETrZ9XPAoCOY6llTaJyw9Rcpo5nFE+7LD/7E5X/Whc6c6BcR8gyg0ZXOPY8Z
-	/APSyiukuABx754i349LMn10pkxhbkYlSsrRlyn7OWIgMGlJoKPVHdXS7SqYXaqymHt/+YZOzMn
-	IbRbml1Z26evv07nqcYfUg1hYwn7D/C+eBbrNWVDbP8R3e05gR4mkBWCZd5TF0PnV1XayJLq5BN
-	4N0l6g=
-X-Received: by 2002:a05:6a00:2386:b0:82f:390a:69c7 with SMTP id d2e1a72fcca58-83a5e347c04mr3186770b3a.33.1778067610261;
-        Wed, 06 May 2026 04:40:10 -0700 (PDT)
+        bh=VP9yJzCiHGq329TGRjc4uyHIviyz0pO7BrnnV33rHYs=;
+        b=d3R6U1P+fJ3IhAUYFKZfyl3v+elzJ458gtj7DG3/8BCAcfIL2dZ6hUwYQ09dB4WTeK
+         gCGe3ydl3zqeRKq60UgQnwUuwhhuZPaP6LOOa6x/80fQYww2fIaJCXbQF8r6gleB7Y96
+         G4y08jOX5QUUhsCzCWpbFZB7r1VwUhz5pRdreii+dWsUcZVtYLyVFSuZQS0ZoCF0nDMQ
+         AyWGswqHTBIHgLNZIL3BBaDHt+VBlbQvQlF/ipP9kG/x9e8kxX6DiWHgrw+1hgWXHO8P
+         zXTdu80BBbY81dX5YXZfJUtyhX+y8TvHZnYNmcuDIe+8XFiQc4p0uqDUMnnTcASEOkVN
+         aIiQ==
+X-Gm-Message-State: AOJu0YwIN6FuvbYwl/iWJfXDDhuN95k9GAPgEUz+ysKhXfDm4hp1spIm
+	TwZfXvjIeSqftByateh6PLBfxGE8aOYtcgfwKn/QuRAcBhh6ST1yTNCpoLRJoA==
+X-Gm-Gg: AeBDieu33K1lweZfniOKxFmkXTWxLzLNIKhiG+40lR0G8P+yBFIyFmOtlUPFM/u+yZJ
+	W+T7NeiJfvZgOsrS3tbRtEBVSb37fpfWDY8EGrOSQf6I92nAu0b5UWqDiYywKXa5UVPQ8aiMchI
+	CyN3OGI64nPawpkg9RJGUTuUIqw38Avz+9Q7EptJYylxkZrnAZDQy71pgAeFHH8tD6OYWlF3V4E
+	H/vRsozicUQjGSLr4tv52njhqgf3nnQK/kqQQHkucAw0dl4lUk25bX571CjChStH8tgUYEcL3hM
+	aXlO7UoEiRbP7XTs2O3YPQY9rpIf96zG9bTGlCzn732gjeoMW4fh82Fx3dFnTLCxdAM9aZY2/YI
+	qHXw3NZO3Z8Uh9UrclfGPtIltSmSBlkFfxXMW/1gGYiV5mONzvv4WABO2g5eplZhFf9S49lUInN
+	ofE7sf9kTEUaCiSRVvJ5BUzh6YFzSSwdfoHAoXZTWbD56jcsUA3YPhkYsDAUqKqSi0Vfei4Z5Lw
+	AAeE5Kfic6G76OdDA==
+X-Received: by 2002:a17:903:1b10:b0:2b9:f55e:1c1b with SMTP id d9443c01a7336-2ba78f50707mr27977475ad.5.1778067717896;
+        Wed, 06 May 2026 04:41:57 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8396563f381sm6727527b3a.6.2026.05.06.04.40.09
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ba7ca2563dsm22218465ad.76.2026.05.06.04.41.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 04:40:09 -0700 (PDT)
-Message-ID: <d39b0401-0c40-4a77-a4c4-1d0ff4bceff7@gmail.com>
-Date: Wed, 6 May 2026 20:40:12 +0900
+        Wed, 06 May 2026 04:41:57 -0700 (PDT)
+Message-ID: <e536d5ad-2068-489c-af45-67724c929b94@gmail.com>
+Date: Wed, 6 May 2026 20:41:59 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -68,8 +68,7 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 2/8] Apply hotfix for cleveref against recent
- LaTeX2e
+Subject: [PATCH -perfbook 3/8] Cope with iconv without ISO~8859-1 support
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <e8b6b390-7034-4d01-a565-8d5d48309a05@gmail.com>
@@ -79,58 +78,71 @@ In-Reply-To: <e8b6b390-7034-4d01-a565-8d5d48309a05@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-It turned out that cleveref has been suffering from (yet another)
-compatibility issue against LaTeX2e since <2024-11-01> release.
+It turns out that assuming ISO-8859-1 available in "iconv" was
+wrong, for example, under openSUSE/leap 15.6.
+Fallback to plain "cat" in case that is not the case.
 
-As can be seen in the closing paragraph of Section 1.1 in CI-built
-PDFs at:
-
-     https://gitlab.com/linux-kernel/perfbook/-/artifacts
-
-, chapters in Appendix are printed as "Section C" and "Section E",
-rather than "Appendix C" and "Appendix E".
-
-Apply a hotfix based on a suggestion from Ulrike Fischer [1].
-
-Link: https://github.com/latex3/latex2e/issues/2049#issuecomment-4302720865 [1]
+Fixes: 00361e8bb1e5 ("Convert *.log files into UTF-8 encoding")
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- fixcleveref.ltx | 12 ++++++++++++
- perfbook-lt.tex |  2 ++
- 2 files changed, 14 insertions(+)
- create mode 100644 fixcleveref.ltx
+ utilities/runfirstlatex.sh | 9 ++++++++-
+ utilities/runlatex.sh      | 9 ++++++++-
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/fixcleveref.ltx b/fixcleveref.ltx
-new file mode 100644
-index 00000000..76a2b591
---- /dev/null
-+++ b/fixcleveref.ltx
-@@ -0,0 +1,12 @@
-+\makeatletter%
-+ \providecommand\IfFormatAtLeastTF{\@ifl@t@r\fmtversion}%
-+\makeatother
-+\IfFormatAtLeastTF{2024-11-01}{%
-+  \AddToHook{cmd/appendix/before}{%
-+    \crefalias{chapter}{appendix}%
-+    \crefalias{section}{appendix}%
-+    \crefalias{subsection}{appendix}%
-+    \crefalias{subsubsection}{appendix}%
-+    \crefalias{subsubsubsection}{appendix}%
-+  }%
-+}{}
-diff --git a/perfbook-lt.tex b/perfbook-lt.tex
-index 5509d455..4eec9b67 100644
---- a/perfbook-lt.tex
-+++ b/perfbook-lt.tex
-@@ -594,6 +594,8 @@
-   \input{fixfvextra.ltx}
- }{}
+diff --git a/utilities/runfirstlatex.sh b/utilities/runfirstlatex.sh
+index 676502b2..3fed1b69 100644
+--- a/utilities/runfirstlatex.sh
++++ b/utilities/runfirstlatex.sh
+@@ -69,6 +69,13 @@ basename=`echo $1 | sed -e 's/\.tex$//'`
  
-+\input{fixcleveref.ltx}
+ : ${LATEX:=pdflatex}
+ 
++if iconv --list | grep -q -i iso-8859-1
++then
++	ICONV="iconv -f ISO-8859-1 -t UTF-8"
++else
++	ICONV="cat"
++fi
 +
- \begin{document}
+ echo "$LATEX 1 for $basename.pdf"
+ $LATEX $LATEX_OPT $basename > /dev/null 2>&1 < /dev/null
+ exitcode=$?
+@@ -78,7 +85,7 @@ then
+ 	if encguess -s iso-8859-1 $basename.log | grep -q ISO-8859-1
+ 	then
+ 		mv $basename.log $basename-tmp.log
+-		iconv -f ISO-8859-1 -t UTF-8 $basename-tmp.log > $basename.log
++		$ICONV $basename-tmp.log > $basename.log
+ 		rm $basename-tmp.log
+ 	fi
+ fi
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index 5346bb3b..e9689a99 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -31,6 +31,13 @@
  
- %%HTMLSKIP
+ : ${LATEX:=pdflatex}
+ 
++if iconv --list | grep -q -i iso-8859-1
++then
++	ICONV="iconv -f ISO-8859-1 -t UTF-8"
++else
++	ICONV="cat"
++fi
++
+ diff_warning () {
+ 	if diff -q $basename-warning.log $basename-warning-prev.log >/dev/null
+ 	then
+@@ -90,7 +97,7 @@ iterate_latex () {
+ 		if encguess -s iso-8859-1 $basename.log | grep -q ISO-8859-1
+ 		then
+ 			mv $basename.log $basename-tmp.log
+-			iconv -f ISO-8859-1 -t UTF-8 $basename-tmp.log > $basename.log
++			$ICONV $basename-tmp.log > $basename.log
+ 			rm $basename-tmp.log
+ 		fi
+ 	fi
 -- 
 2.43.0
 
