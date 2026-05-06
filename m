@@ -1,66 +1,66 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E5536CDEB
-	for <perfbook@vger.kernel.org>; Wed,  6 May 2026 11:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E694423A63
+	for <perfbook@vger.kernel.org>; Wed,  6 May 2026 11:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778067784; cv=none; b=hOYkVDDvTK15JPTDhTNY7wuattG3bBJ470/xOUpfTmyuzybgh7x6a6QC5/zlqEgDouyiqt30CqLDB8TSo2Qw4/c/rx34pqF3zjjHEVbqNFtYn02JUiSIXOkCBpf1JSzt5TmLK2D3otKI8bjuYw7rWJxc8HM2fuKiZGc41os5guo=
+	t=1778067846; cv=none; b=vGQf+lQbdMweLYnaXu47yu2svY/S7CVpRNJ+GLfli804YN3C7djJP97QLUj4Y82mdLwjRCebmPKs2Ezt4ZAE6ZAO/tl1+kaEvrJXT+of48/0orgm9E0mmlofxZzHtWep+LevL0CH5qFWlqIoFbLbwuFZoWv5BXmFFGOjC7UmIlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778067784; c=relaxed/simple;
-	bh=TQxK7/WDWQjaDZk5qyqQUspYyAQ9Y4kFAIySBOTKPi8=;
+	s=arc-20240116; t=1778067846; c=relaxed/simple;
+	bh=bva/T0WrptCN/YYpnSOXURGoMQsk0Ic1SsY73GDe9MA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k3idMbeMoyz3PxnBGn7dR8YOg5qnTp0CEoynhUrHylsLkByL1SMI02YJIms78lbX9adx8MgSja90qeinIe0pWKFY+JB4tWM7mLoFC4GJPLTmp0U1/cHWD4CMSMxL2xjwF55V50bay0OMjGmrLhZ8fKdm3VtuzFGW1e2p8eEOaEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rhd4Kr+9; arc=none smtp.client-ip=209.85.216.49
+	 In-Reply-To:Content-Type; b=Rw+ot3C4mmCzxBUVx4oMULPOUzlchovrxh8qvVAds9retleixLlVLRidKrlLbPtbMpJeWWkFxxOmz9kfFpBkFhwI6Qk92gO6+VtPBAmRYF9ydK97w4GyBsgF0EI0vBCRiQNYQXW/od0SHZBNRKuRJBowaI4prRB6RfF2qGOSk8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HjDIAY/o; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rhd4Kr+9"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-365d4d2f9c1so143769a91.1
-        for <perfbook@vger.kernel.org>; Wed, 06 May 2026 04:43:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HjDIAY/o"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ba17c8cfacso34300685ad.2
+        for <perfbook@vger.kernel.org>; Wed, 06 May 2026 04:44:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778067782; x=1778672582; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778067845; x=1778672645; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=qkheTw/SE/Gl8VSf8QKxWpeJr2xAMhm+z9cc8NtxazA=;
-        b=rhd4Kr+9Du2WlRaF/HRXcqwY+g36JkYGMRpY1P6401akk7zRLeoTAHDK+fZSlqIbn7
-         F3uEBhC1oeC+YeFbiQWNrVsAuof/F38TsBzRViUmHkVuhD79nQ/gigj/8U5Wsp8gb0g7
-         WB0j3NX0rsR63pDiqWuXqcVYPYmTYEbWtpEyfSMXZB3wE9rE1RNiOMG2xMAEtXXLotZk
-         pSoj/JjKgpss+uKzxK5GIGOQeyrkG9Z0ZIwFXI/Z7A/0wJ79P6dMyirCaJAhxpz7rMZ0
-         xrH2smtDDJAkFrr+6IHrz5np7cvY3ZweL22q0XVsjfQerLsaOEBeMWeGvG0FmeSTosz4
-         vS/g==
+        bh=Fz9DjUbpYr4SGGIgtuGvsQsV52cVbbgYOENIbltSC+U=;
+        b=HjDIAY/o3CkSZSmzubpn2MsFNE0GFEKjXUBT7YrQVAqXJ/KDskhEtqah5XzLb3P7bH
+         nXopJbfuwie1atoXL28WnBMZGOQrpl69AAKfDt/coLATuKlVdXnQRdJNdRiYvRrny4D3
+         8iXFNrYYlAGO3J+j3oZzKzCRJhKkMgx/Y6cjsec4EIgZMtaTZkxxgNYFKVqus5ha3R3H
+         HKl412X9TW4f0egac7fjkE+SexfcNs644FvvTZJs4GunxmiAWHPsuIyBNm2gwwFoR6iQ
+         0BiLzLpUv1F3MbRqpnQTTRgEjWazsFHD/yAWd2MkCV5FHtbL/sjluX+nOCmKBHIuN39A
+         tB7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778067782; x=1778672582;
+        d=1e100.net; s=20251104; t=1778067845; x=1778672645;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qkheTw/SE/Gl8VSf8QKxWpeJr2xAMhm+z9cc8NtxazA=;
-        b=fz2qCr41CxmscrGrSnHzkLdfwfZ5pz/Q5wPv82gSMHiqwsoejyCHgbSoxouceKtJ5J
-         et5XeUSMFewjBf9IRp0qK6PSy5HyuAPiQP8+sv5nx2U2QkxlzzhejJBZS+KBaVcHKay5
-         39kWDorrFDnwsDS9pXbxS2nkS4jXxD83/SIcf7zsq/1VNUMfAAwmti/r+qPyuExPjJuI
-         HVmQ1OfLjpBjY+JZadCoMOUhm9sSaqrp0pfECFvcLFbPiO0zof0pozjDOd21z/Jqqq9d
-         O8nZPlx6pzwD676KpidlgY9lhXSq6Sa/Owf3apA5xFJW8tL5O4JnLmfokAbB0IYvW9PA
-         JvaA==
-X-Gm-Message-State: AOJu0YyYmfQm1TmQnjHbHggNuXrg+22I7HKgRk/ASfxCSNzd8q39XSRv
-	BIs7nRGw/ADbjoyVNClcg4+WfcLBgfScSD9S0Nrn/hp6rWTXrqVVYZBw
-X-Gm-Gg: AeBDieurooVSwQI5pb+eEz/cu0sYozQ20GtvtOkxytXVTLV9SOBRSwbylZX2QrYQJzB
-	AVObfl80PfnQJQypICK2qX1Hm9jSbRUax7yd/dZ2UTWzbzGvJBIbZiKMRNMJVnewVZln0SaeNlW
-	gq+BAg91Axf+qUGBQ3wkot1BX+2VsDw/Wyj6PVqcvsiM2qFox29zi2/a6P11TkU8WHgDZAwR1Hv
-	4Wh1Qs51iiNR9xHxG0AXNennWy6Jtdnno7lzaTaST6l76vZwsNGnD8n672pyfU4A0MopV78xhjn
-	c9Y+/dhD5B61hk85tAEtCMTcpDzk8ZDQVk8574pQTcZAwgVLx/rrbdfHZu6ADS961Icoc0vY1IC
-	hmXhpc6E8nGdGgo+XujVukYjhJSuXuVRP16uzT5k/HKeMmTpmNUtulmRissCFt8hYQ5AVVLVCMR
-	2JIQyQkL22i/SHWbVE8MYWpNVe2t3AEA3vmgbVG7NwwngHowm/7Wa8Y6l5LEoQ0K6PKOqrJ5MJL
-	Iers/8=
-X-Received: by 2002:a17:90b:3e86:b0:365:5c58:79ef with SMTP id 98e67ed59e1d1-365ac79179amr3019878a91.27.1778067782005;
-        Wed, 06 May 2026 04:43:02 -0700 (PDT)
+        bh=Fz9DjUbpYr4SGGIgtuGvsQsV52cVbbgYOENIbltSC+U=;
+        b=V4ZFXkJzC81pSjbNvGgxuSTVaLyDlSDg5PMaUDhfqYPQN59hUJk4hDr59SFnV0P2vR
+         upcj683m8tMOkgEu11qSdz14sWMUaqCn7CsgRN8i2MElTMVtDzos3+RERV8vo8DfvKSN
+         /6s/dBJr05UB2vI4rYfd/yOnHOSRlumavX8kgE2HSP0QUCVN7l84AZCzcMS5snxGZfTu
+         955RCUWRsjOEbJNUy68gIDv9jNoVnjEQVfU+MeWU+Qh1rUl9XFEFvmd4pxHOpaqrayLK
+         wzKwDoobWy8UwpEj7l71Exqda3kJK30GCAc33tlMEw3qKkPUXGnuoqUm53JNLmCbc6n8
+         OUmg==
+X-Gm-Message-State: AOJu0YyeVejSSewdPLxRQTSupKz28pZ6VEuKh2Vx7UrqOWpCBx7ZNd65
+	f/Mw/odpMfjP4T3g7krH594HpgnIpLHtA7quu8DQJ2Q+MTIOncSZe+yn
+X-Gm-Gg: AeBDiesz0dUg1wbt+Vvpa/95ASmZnuHTs0Qgsvr7owXY82jR5OwQGN79ehmOFFtQuf6
+	nCfzCWuTkeTNBkd5xqSAn+KkYNXPUZtfrGoCetu2Q6rfMxxlkTfCf6G89bGluyfF0BsJd6spbAN
+	kbs4I890OFjsMTdUWZeZl4Zrm4Jr94mrGOkXP6IODtbSwuhSqdSbbljnIZ5dXX+LIfwjVuKpDx9
+	y9kBt6VA1o70+BmC7oW9mDrs9BxLS3kQvbyRjUv34yEXqFgqKRvoSe/TM8CT9cXFl7mpHbdtzr2
+	B0+XzG4jIslSQYo4SWJCXSyNBdTLs2wBRCf9awevdwRGsVGAV28S0pYHCbM5gBzyX2UhPbUPnwp
+	4yQN0riq8uErQvKU3KnDyW8210lCqlb2i5Mtaq5IN4BrWvYbV6WVN5hleg0U2LDqJGhdAkXI4z8
+	yYxB/Wu71l2l6Tt8vTOola3p6R8CZ+PywD0Of/OORjZBzU55Rxx1y/mBDgkde7EHl/LpEL0jKko
+	UXHrYE=
+X-Received: by 2002:a17:903:32d0:b0:2b9:d647:5261 with SMTP id d9443c01a7336-2ba79185045mr28679395ad.13.1778067844755;
+        Wed, 06 May 2026 04:44:04 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-365b06b6f12sm1040471a91.5.2026.05.06.04.43.01
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ba7ca105desm23694995ad.55.2026.05.06.04.44.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 04:43:01 -0700 (PDT)
-Message-ID: <afadddc8-714f-483d-8359-1b3640ee37e4@gmail.com>
-Date: Wed, 6 May 2026 20:43:03 +0900
+        Wed, 06 May 2026 04:44:04 -0700 (PDT)
+Message-ID: <313423b6-901c-44aa-84d7-855905587856@gmail.com>
+Date: Wed, 6 May 2026 20:44:06 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 4/8] precheck-tentative.sh: Detect premature
- versions of "lineno" and "microtype"
+Subject: [PATCH -perfbook 5/8] runlatex.sh: Add WARNEXIT variable to make
+ "LaTeX Warning:" in .log be ignored
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <e8b6b390-7034-4d01-a565-8d5d48309a05@gmail.com>
@@ -79,116 +79,101 @@ In-Reply-To: <e8b6b390-7034-4d01-a565-8d5d48309a05@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-LaTeX2e "<2025-06-01> Patch Level 1" and later changed the way
-output hooks are applied to column/page breaks.
-As a result, loading pre-v5.7 lineno.sty breaks chapter/section
-titles printed in the header area of twocolumn builds.
-lineno.sty v5.7 has restored compatibility with recent LaTeX2e
-releases and v5.9 has fixed its regression of potential infinite
-loop [1].
+In testing Fedora 44's TeX Live packages, a warning in .log files
+caused build failures with this message:
 
-hyperref.sty has made a change in a way it loses compatibility
-with microtype.sty <v3.2c [2].
+    LaTeX Warning: You have requested release `2026/06/01' of LaTeX,
+                   but only release `2025-11-01' is available.
 
-Unfortunately, Ubuntu LTS (26.04) and Fedora 44 were released
-with such premature versions at their initial releases.
+    Package: array 2026/01/25 v2.7a Tabular extension package (FMi)
+    \col@sep=\dimen149
+    ### Incompatible package(s) detected. See perfbook.log for details. ###
 
-As a tentative measure, add a script named precheck-tentative.sh,
-which detects said premature packages and suggests their upgrades.
+The root cause of this is mismatching LaTeXe2 and array.sty versions
+contained in Fedora 44's texlive-base and texlive-tools packages.
 
-Link: https://ctan.org/ctan-ann/id/aa3GMRDWA8OxUAGc@prptp [1]
-Link: https://github.com/schlcht/microtype/issues/64 [2]
+This was reported at Fedora bugzilla [1], without getting much
+attention of its maintainer.
+
+As a tentative measure, add a fall-through mode in runlatex.sh which
+can be enabled by saying:
+
+    make WARNEXIT=0
+
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=2447682 [1]
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- Makefile                        |  1 +
- utilities/precheck-tentative.sh | 66 +++++++++++++++++++++++++++++++++
- 2 files changed, 67 insertions(+)
- create mode 100755 utilities/precheck-tentative.sh
+ utilities/runfirstlatex.sh |  6 +++++-
+ utilities/runlatex.sh      | 18 +++++++++++++++---
+ 2 files changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index a72b4794..b4f34c51 100644
---- a/Makefile
-+++ b/Makefile
-@@ -297,6 +297,7 @@ endif
- ifeq ($(LATEX_CMD),)
- 	$(error LaTeX engine "$(LATEX)" not found.)
- endif
-+	LATEX=$(LATEX) sh utilities/precheck-tentative.sh
- 	LATEX=$(LATEX) sh utilities/runfirstlatex.sh $(basename $@)
+diff --git a/utilities/runfirstlatex.sh b/utilities/runfirstlatex.sh
+index 3fed1b69..269a3b62 100644
+--- a/utilities/runfirstlatex.sh
++++ b/utilities/runfirstlatex.sh
+@@ -68,6 +68,7 @@ fi
+ basename=`echo $1 | sed -e 's/\.tex$//'`
  
- autodate.tex: $(LATEXSOURCES) $(BIBSOURCES) $(LST_SOURCES) \
-diff --git a/utilities/precheck-tentative.sh b/utilities/precheck-tentative.sh
-new file mode 100755
-index 00000000..8b53e02c
---- /dev/null
-+++ b/utilities/precheck-tentative.sh
-@@ -0,0 +1,66 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Check buggy LaTeX packages observed in distro TeX Live as of April 2026.
-+#
-+# Copyright (C) Akira Yokosawa, 2026
+ : ${LATEX:=pdflatex}
++: ${WARNEXIT:=1}
+ 
+ if iconv --list | grep -q -i iso-8859-1
+ then
+@@ -94,7 +95,10 @@ then
+ 	grep -A 4 'LaTeX Warning: You have requested' $basename.log
+ 	echo "### Incompatible package(s) detected. See $basename.log for details. ###"
+ 	echo "### See items 9 and 10 in FAQ-BUILD.txt for how to update.          ###"
+-	exit 1
++	if [ $WARNEXIT -eq 0 ] ; then
++		touch $basename-first.log
++	fi
++	exit $WARNEXIT
+ fi
+ if grep -q 'LaTeX Error:' $basename.log
+ then
+diff --git a/utilities/runlatex.sh b/utilities/runlatex.sh
+index e9689a99..50aec2f9 100644
+--- a/utilities/runlatex.sh
++++ b/utilities/runlatex.sh
+@@ -30,6 +30,9 @@
+ #          Akira Yokosawa <akiyks@gmail.com>
+ 
+ : ${LATEX:=pdflatex}
++: ${WARNEXIT:=1}
 +
-+KPSEWHICH=`command -v kpsewhich`
-+
-+if [ "$KPSEWHICH" != "" ] ; then
-+
-+#### Is lineno.sty too young for LaTeX2e ?
-+# LaTeX2e <2025-06-01> and later needs lineno.sty v5.7 or later.
-+# This is a minor incompatibility observed only in twocolumn builds.
-+#
-+#   Symptom: chapter & section titles in header area are broken.
-+
-+lineno_sty=`kpsewhich lineno.sty`
-+lineno_ver=`grep -F '\def\fileversion' $lineno_sty | \
-+	sed -E -e 's/.*\{(v[0-9\.]+)\}.*$/\1/'`
-+LINENO_AT_LEAST=v5.7
-+linenosince=`env printf "$LINENO_AT_LEAST\n$lineno_ver" | sort -V | head -n 1`
-+
-+latex_release=`kpsewhich latexrelease.sty`
-+latex_ver=`grep -F -A1 -e '\edef\latexreleaseversion' $latex_release | \
-+	grep -F '{' | \
-+	sed -E -e 's/[ ]+\{([0-9\-]+)\}/<\1>/' -e 's/\//\-/g'`
-+
-+LATEX_SINCE="<2025-06-01>"
-+latexsince=`env printf "$LATEX_SINCE\n$latex_ver" | sort | head -n 1`
-+
-+if [ "$latexsince" = "$LATEX_SINCE" ] ; then  # older
-+    if [ "$linenosince" != "$LINENO_AT_LEAST" ] ; then
-+	echo "lineno.sty $lineno_ver is too young for LaTeX2e $latex_ver."
-+	echo "Upgrade lineno.sty to at least v5.7."
-+        echo "Treat this as a minor issue and continue building nonetheless."
-+    fi
++WARN_REMAIN=0
+ 
+ if iconv --list | grep -q -i iso-8859-1
+ then
+@@ -68,7 +71,10 @@ excerpt_warnings () {
+ 		echo "----- You can see $basename-warning.log for the warnings above. -----"
+ 		echo "----- If you need to, see $basename.log for details. -----"
+ 		rm -f $basename-warning-prev.log
+-		exit 1
++		WARN_REMAIN=1
++		if [ $WARNEXIT -ne 0 ] ; then
++			exit $WARNEXIT
++		fi
+ 	fi
+ }
+ 
+@@ -169,8 +175,14 @@ do
+ 	iterate_latex
+ done
+ excerpt_warnings
+-rm -f $basename-warning.log $basename-warning-prev.log
+-echo "'$basename.pdf' is ready."
++if [ $WARNEXIT -ne 0 ] ; then
++	rm -f $basename-warning.log $basename-warning-prev.log
 +fi
-+
-+#### Is microtype.sty too young for recent hyperref (>=v7.01p) ?
-+
-+microtype_sty=`kpsewhich microtype.sty`
-+microtype_ver=`grep -F -A2 -e '\ProvidesPackage' $microtype_sty | \
-+	grep -F '[' | \
-+	sed -E -e 's/[ ]+\[[0-9\/]+ (v[0-9a-z\.]+)/\1/'`
-+
-+MICROTYPE_AT_LEAST="v3.2c"
-+microtypesince=`env printf "$MICROTYPE_AT_LEAST\n$microtype_ver" | sort -V | head -n 1`
-+
-+hyperref_sty=`kpsewhich hyperref.sty`
-+hyperref_ver=`grep -F -A1 -e '\ProvidesPackage{hyperref}' $hyperref_sty | \
-+	grep -F '[' | sed -e 's/%//' | \
-+	sed -E -e 's/[ ]+\[[0-9\/\-]+ (v[0-9a-z\.]+)[ ]+/\1/'`
-+
-+HYPERREF_SINCE="v7.01p"
-+hyperrefsince=`env printf "$HYPERREF_SINCE\n$hyperref_ver" | sort -V | head -n 1`
-+
-+if [ "$hyperrefsince" = "$HYPERREF_SINCE" ] ; then  # older
-+    if [ "$microtypesince" != "$MICROTYPE_AT_LEAST" ] ; then
-+	echo "microtype.sty $microtype_ver is too young for hyperref.sty $hyperref_ver."
-+	echo "Upgrade microtype.sty to at least $MICROTYPE_AT_LEAST."
-+        echo "Treat this as a minor issue and continue building nonetheless."
-+    fi
++if [ $WARN_REMAIN -eq 0 ] ; then
++	echo "'$basename.pdf' is ready."
++else
++	echo "'$basename.pdf' is ready, with above warning(s) ignored."
 +fi
-+
-+fi  #KPSEWHICH
+ # cleveref version check (Ubuntu 18.04 LTS has buggy one
+ if grep -q -F "packageversion{0.21.1}" `kpsewhich cleveref.sty`
+ then
 -- 
 2.43.0
 
