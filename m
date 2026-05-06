@@ -1,66 +1,66 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320B43368B7
-	for <perfbook@vger.kernel.org>; Wed,  6 May 2026 11:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756611FCF41
+	for <perfbook@vger.kernel.org>; Wed,  6 May 2026 11:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778067971; cv=none; b=rjajKkpINu6fMBBfuAgzc04xfuCNjHmvsFDtcQt6kOVJCCpriuYlASi7imlXhYhJLwdn9/sNkG/mM6SNJej/2wGzR4IxDcEYIdazVbG7VRIyVaSvmnNm6jQ8c+2QXlsq8PJPfacPE51Ys8hfqUqPyAiYFoSGn84aR3WAe30KpOw=
+	t=1778068028; cv=none; b=S++NcGRDa6OPO6bPtMzwSpOBCJG7GWxtGLIZGCWqkmqq8HLIyDELzAcZqAYiQMFb23t0Cjc3zOdelDg1us2XAQQo1pgGiUEjLDCGI+mSOEwXwIGqjVYBIQud3M7XsZ308i0NQ7LSK+oe82iG1eE0G3hmP9/Wk4gS1gOzR7ofHfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778067971; c=relaxed/simple;
-	bh=ly+Fq6cR0JRBsXBiaGyvQggeWMo9taIJKHTFkYVTmUI=;
+	s=arc-20240116; t=1778068028; c=relaxed/simple;
+	bh=cWaiosygwAcNbA5Ip3N+v+stDUwoHgY2ibDJdMJiI/E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pvet2c9zjOWZdaJssoRsxRPM0kNN0hKdhupblIJJP04Lp/REX06CzoHZQn52gx/FOo0m/SmH0D3CubDRTdhDmk8TcsV4+FHFa05BRyeM4RFczpFEoxYpgoc3SKklxcnFdwUXGfrJIWdxLDNue/zY77bI71XtwWUi9xy49TtsuYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D+C1b2h6; arc=none smtp.client-ip=209.85.216.47
+	 In-Reply-To:Content-Type; b=P30fM+WBnhf3L3OQnBgyb4n6Xnqlq4UFbT78uZD3QH3PxQmk52Avl5jcIEsT0kgth1mqW63mteBEJCnPkyOSe1qBoZDy1z8mRVjWMHjir74oPPrkcXP1sK90VzZOLpLYTLDJ7NGwGbhrcEi1deKbgKe9G0LL1DXwEpy3bI4590w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WS3bS7hD; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D+C1b2h6"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-362e30526f8so2682128a91.3
-        for <perfbook@vger.kernel.org>; Wed, 06 May 2026 04:46:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WS3bS7hD"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-83975e992e1so933632b3a.2
+        for <perfbook@vger.kernel.org>; Wed, 06 May 2026 04:47:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778067969; x=1778672769; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778068027; x=1778672827; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=MKhnVYrUtf5/eEMkcj26SlcMFwSSla4LVH8iY8StnII=;
-        b=D+C1b2h6akmuVNO85kop1E5vDTn8+o6adt5x3NE2o9m4z+XvLM5g4DdCCgs4sxCouL
-         RhAGV95QhC1kBuDvVH/PXsMTRMqTHQz3QILUOa1fqLaprBqnZ9djRh0Dd2yjbTTzrWI/
-         fcPxH0bNfRznU0+ug9s3lpfxs6RIqA9VfRUrOy5WxxfQyT2BHoTW9PXJoWCGoP6nN62p
-         tuTkhXe84q68JgxEbivPlr3fHuzfTPLzZc3n6Li2vkdsgNLqfVbMxybXiUFwS5yZZZyJ
-         sR15ghS2olpXk07bXuM34kPz0PnyKB/ZEaD/zARm5GzBaRBya/TjLXBj0dO+3IutR+HK
-         TgrA==
+        bh=WiHJtef9fAM9ZPavv/dTns/WMofCaTKS/3p42ZpMGWg=;
+        b=WS3bS7hDKGqKQZ6XRzpIqIE4lZQnx2nMPGQyPx+KgjrKrRQKnh/O/uRjWijEu8xCpW
+         ByCg2yxJ/PBqduMd73E4NsmPABwXtr3qN+oCuLZoIO8uitf1l0jW/I9wU5xS7marenZ1
+         LLC1cKGpRpvyJDDjUQTrRUbK78eszMzTbaf7EvEKgaoS8+pHHQ8j4luqAKab46YKoFwa
+         7/N/RL6u1zI7Lnl9hzx5cuufxVG3ovfOACjKxwfrqQffhhDOxqN9WCCDO6s5/VWX/TqH
+         pFtQw3MkNHD7vZcUJb48WsEf4+GtyM/2JKPo9JiWwXHCjzC+/tRBPUbc5CnV5oEVYJ9v
+         jF/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778067969; x=1778672769;
+        d=1e100.net; s=20251104; t=1778068027; x=1778672827;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MKhnVYrUtf5/eEMkcj26SlcMFwSSla4LVH8iY8StnII=;
-        b=WNF2v8UdfWT4wbX6IG8OcBAb6wRPmaazXCSDiU2LaWjISt4lNJxu4cWCgQZI+CRqXK
-         I7m5ju42qtG86H5lLqWiZGP5BNeYKlU4hLPokUeUL8o7qbdOUA9vOYQZ8okgGxt3bHXN
-         jnRnDod99gRobrqHSen1+oJ/lyDzSKsGG7jP/kknZ/ps5oYgoAPzBvUhDtdqMhES+r9n
-         om9ptBVCNUfzeiwrZTJtBCuGE/0gQHnw7RSAnaF01MCKjLvI8TCk40AdVxy87ZDo/wxd
-         q21tEshwNb5ScDr0fTF8RRIxqCQfR/fT1PnV3a9ml4X6G1JHlpEvMMPt59jDxKhvlLpu
-         H9yg==
-X-Gm-Message-State: AOJu0Yzi6nZ2CvzEey7InCsXEIpchdBeDGeLH83NXXBynIDKaobZMxDK
-	1aF8S5xISfCUPlztBCFDT1X+Y7nfnUGlra7BVlzhnnzZQFelqcmP2MMl
-X-Gm-Gg: AeBDieva34KBSi8HrB18o9hGyZXCXrXH1DgU0RifCzQRmpuAaBlL+//+r334WGczIJH
-	HJvxGSTJX9LwYyEGo5LmPlXdDy8hGCBaBOY5MmXt9vMfo21ChQorrbjjbEEDPvBqYhCNdGNMhSL
-	CCr/YCdtjGQTQ5he12UEgvjutxgmiBZUCXHhipkFKFkMCvlC+vhHA+0jqphQ8l2/GMTBZny20a+
-	62W+LjO+NYX2PmY1JNGoOxqJtUk9j+d/4K4+9+Y0J2HQON0s8IKUc42eucV6sbGRB1+Klqg1xaj
-	TxomvESS9C3iftlEcF3uq8x0iFM22qlHzFaf7B0DRLUEmO7V4k+EYxXR+QsTncmDmi811aeUvss
-	IUOVJ/IfLmzOVItOx/+dV8g04Wa97CWFVQHRDpJeOzUgBSAoLdRRjo0mQC0SRfFK1mePca9uGMV
-	Ashr0X1JUTBy98vY2YA5XGxKbd2EA78d4V1N4N7P8+bQFY3Uh7wJssR/37sl3BAwWmICug3qSaH
-	5ZEHGY=
-X-Received: by 2002:a17:90b:3a0f:b0:35b:9896:cbcd with SMTP id 98e67ed59e1d1-365ac9913f3mr2849669a91.27.1778067969420;
-        Wed, 06 May 2026 04:46:09 -0700 (PDT)
+        bh=WiHJtef9fAM9ZPavv/dTns/WMofCaTKS/3p42ZpMGWg=;
+        b=mt30FGT6LwPj0cc+QZ3MY0naBOl7tqhXOm1Ke9S/kR/pi8/XU5Z2ydoIzPpoK6gKzB
+         USAFBhfep+w5KZsi95g3Sk9kpxH4XRfu0yhRgIhvnN+/deh2H/LKD/w7vnprM/9xyc35
+         X0qIkhqA3ieuc3m7cbd1w64phQLS7Zb7mwwYdigKahHe0952AIwvGOh9SlYxY3kHbmlh
+         31bqMpKzGpggB66RIXrv0O0aN+wI9D803iA/k6KLmADv1nTPiVxBbebmq/w2S2dcctAd
+         LKD4WfS3qw0emIxRNYIXqindKqhIW76Kn9ovakV8bp8xcrhPWLmEYo/n1wmxGMdixmVu
+         MXTQ==
+X-Gm-Message-State: AOJu0Yyi0Znkt+05JQLUddXueElAwSYtyFg0+CFXmJ7vkZT5H8/tjpic
+	1SP8NNcIkD2niK/gagcqDqgoFA7+tE8Oy8cgpliOGtKe6mLjr28l03oAYMf08Q==
+X-Gm-Gg: AeBDiet6dvNyIu+RT02hpvosma/h4SkmefZSN/8XyrOTVLJRLYYL7uBwQWWOAQDJZRD
+	StcoKVG6K+6Lhp7d7imVwdTe4MFB8A3GhwXymGYlr8bDJYoxZjIk6807qTeei3ZAxOhq9TFl4G6
+	J2LYWdKWjRbx9MP7HnhrH2omr4ADg+lpoefcPqD+SzcR+DbdZsmJLna4dt0+5zwT5vuWLUhR8Tc
+	mQHqVcnNxOI4Trlk7a6F9sNXBWjtKjvsMwcH8PxHIzZbYC+ghSAL04keawRLnVSkTMFp/Bn/zmq
+	w3qTI2Gv2bdvbKGN35zClk2Vs8xLILcEySnQ5N/5DZHQWwfuqA47bndUf8+xOSTCyQCizTdmto2
+	Ws3yqhXWTFrJLEkAbMrLzCoCIRezeMBhOVTyfPAg96oUbxv9gkc9ml6yCCxCnWcddiQbfeZDnO/
+	qTG7L72mLnC+GbgRtAqy9t4VrE5YSMRQ+8aaN94UejezA39T/g0pdp2GybQhk6F/fg+lGk0O71U
+	w01Xt8=
+X-Received: by 2002:a05:6a00:21ca:b0:838:1c02:2763 with SMTP id d2e1a72fcca58-83a5b3ca97dmr2638389b3a.9.1778068026710;
+        Wed, 06 May 2026 04:47:06 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-365b06bce16sm1171486a91.2.2026.05.06.04.46.08
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839682a103esm7135429b3a.51.2026.05.06.04.47.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 04:46:08 -0700 (PDT)
-Message-ID: <1dc3f4cb-eca8-4dec-9fab-40134432e825@gmail.com>
-Date: Wed, 6 May 2026 20:46:11 +0900
+        Wed, 06 May 2026 04:47:06 -0700 (PDT)
+Message-ID: <c0ef8976-1099-4c1b-bd73-e2f5ff716f26@gmail.com>
+Date: Wed, 6 May 2026 20:47:08 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -68,8 +68,7 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 7/8] precheck.sh: Add check of missing LaTeX
- packages for Fedora 44
+Subject: [PATCH -perfbook 8/8] FAQ-BUILD: Add needed packages for Fedora 44
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
 References: <e8b6b390-7034-4d01-a565-8d5d48309a05@gmail.com>
@@ -79,76 +78,36 @@ In-Reply-To: <e8b6b390-7034-4d01-a565-8d5d48309a05@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Due to changes in dependency of Fedora TeX Live packages, existing
-list of packages in FAQ-BUILD.txt can fail to install some of
-required LaTeX packages for perfbook.
+Under Fedora 44, a couple of essential packages for perfbook are
+missing after installing distro packages for Fedora listed in #5.
+Looks like there were some changes in dependency of TeX Live
+packages.
 
-Add checks for their existence in precheck.sh.
+Missing packages belong to texlive-collection-fontsrecommended
+and texlive-collection-pstricks.
+
+Add them in the Fedora list.
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 ---
- utilities/precheck.sh | 40 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
+ FAQ-BUILD.txt | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/utilities/precheck.sh b/utilities/precheck.sh
-index d98bb0de..cce766e5 100755
---- a/utilities/precheck.sh
-+++ b/utilities/precheck.sh
-@@ -46,6 +46,28 @@ else
- 	fatal="date-format $fatal"
- fi
+diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
+index 036f1063..6845db14 100644
+--- a/FAQ-BUILD.txt
++++ b/FAQ-BUILD.txt
+@@ -53,8 +53,10 @@
+ 			texlive-collection-plaingeneric
+ 			texlive-collection-binextra
+ 			texlive-collection-latexextra
++			texlive-collection-fontsrecommended
+ 			texlive-collection-fontsextra
+ 			texlive-collection-fontutils
++			texlive-collection-pstricks
+ 			transfig graphviz librsvg2-tools gnuplot
  
-+# test availability of ptmro7t.tfm and pst-tools.sty
-+# (to cope with Fedora 44's change in package dependencies)
-+
-+KPSEWHICH=`$WHICH kpsewhich`
-+
-+if [ "$KPSEWHICH" != "" ] ; then
-+	ptmro7t_tfm=`$KPSEWHICH ptmro7t.tfm`
-+	pst_tools_sty=`$KPSEWHICH pst-tools.sty`
-+	if [ "$ptmro7t_tfm" = "" ] ; then
-+		ptmro7t_result="NG"
-+		fatal="ptmro7t.tfm $fatal"
-+	else
-+		ptmro7t_result="OK"
-+	fi
-+	if [ "$pst_tools_sty" = "" ] ; then
-+		pst_tools_result="NG"
-+		fatal="pst-tools.sty $fatal"
-+	else
-+		pst_tools_result="OK"
-+	fi
-+fi	
-+
- if [ "$fatal" = "" -a "$VERBOSE" = "" ] ; then
- 	exit 0
- fi
-@@ -84,8 +106,24 @@ if [ "$date_result" != "OK" -o "$VERBOSE" != "" ] ; then
- 		fi
- 	fi
- fi
--
-+if [ "$ptmro7t_result" != "OK" ] ; then
-+	echo
-+	echo "------------------------------------------"
-+	echo " testing ptmro7t.tfm                      "
-+	echo "------------------------------------------"
-+	echo "ptmro7t.tfm ...  Not found!"
-+	echo "Please install texlive-collection-fontsrecommended."
-+fi
-+if [ "$pst_tools_result" != "OK" ] ; then
-+	echo
-+	echo "------------------------------------------"
-+	echo " testing pst-tools.sty                    "
-+	echo "------------------------------------------"
-+	echo "pst-tools.sty ...  Not found!"
-+	echo "Please install texlive-collection-pstricks."
-+fi
- if [ "$fatal" != "" ] ; then
-+	echo
- 	echo "See #14 in FAQ-BUILD.txt for further info."
- 	echo "fatal: $fatal"
- 	exit 1
+ 		On other Linux distributions such as RHEL/CentOS and
 -- 
 2.43.0
 
