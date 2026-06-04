@@ -1,108 +1,96 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E627D392C4F
-	for <perfbook@vger.kernel.org>; Thu,  4 Jun 2026 10:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68BCD4C6F13
+	for <perfbook@vger.kernel.org>; Thu,  4 Jun 2026 17:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780568792; cv=none; b=fa+l3qk1Mi+Kwc8CrZXLiRLKkWccVu4DrgB79om1rgQPNwIhIgRdAw5fOJzoj7Q9fmiXFdzilMERwPzZCLY581AtRM/zPoh7KxUJMVfa+532SDvLfD1UzB9HMTlDv7np5oy4zlyrdVYlYadWqMgkoumF9mK8MfeWsXS+UyHye1o=
+	t=1780594113; cv=none; b=dha10mm1ZW8X7sa9RZ7zvtfR4iA4VV9iYbs2sYVEoDOUMldqVfo5l65Jv5Ug2hQqTUcKXVfEyXftH/LAaFHH0tODFQkK09yk4eP8L+C5cPM6co4PEHSQFamJfB+Ro/6w3jc5Uuji2cOcHMW82fmslKW9ArI8NJU/rn7IM+9eI54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780568792; c=relaxed/simple;
-	bh=gykB+zjAq2V/SxkVMoj2VAFA+57w3suq7Lg9BFp2/RQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dAcXIVr3cOFTzrEyBnD+4pkqW+51hQqTLAk5+gZWhjI7jTpJ1ZzJf/nn6XC1O3BKmpobw95nuRfF/2uBsXDFNApK5jf8aMPI/xPALn0FvWixVrQ891FsOtQTYj6QNmAHQEpbmIzwodm1+7Im0ZCyNeyCrjalMdcVNsGP26XZyF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VLP2qTci; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780594113; c=relaxed/simple;
+	bh=QviNm+5SnQMZknos0z8ohE//kY0XcBcU30TBRC3Gcic=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gftp5LRcLEPsfVY1EzPq5GKOwzskNlYnRRiakEJjlM1cU/XDkbkJKthSneXvr+d7DGQ/IJJNTYkEkhyeX7lqtquBtOWdcsOSWCrecbF5UcjLTUvMxzIaMwd9NCo6bkOq8JNzQmYKCkyNam2RLBztkqME5hZ1pTVM9Z+ZpbCCjC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CD6nUZq9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VLP2qTci"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-842307473b5so383533b3a.2
-        for <perfbook@vger.kernel.org>; Thu, 04 Jun 2026 03:26:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780568790; x=1781173590; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lOIiclvSEHU4eZm5ztOFxMVkErkejr0ByldK09nX+Rg=;
-        b=VLP2qTciLFhPw4UdIkHFsw4RRCL5g5+l23xPhn9ovzcTyrEI+1XzEo+G/NR84hAtiT
-         6qp5K0CZkbPG1ZI/CwEgO6dN/zPdfP914LTMWYDiowsKLCsH59h6pOBwUDO24yqP4JuZ
-         qZ0UfIhgoe1fX+VVyCJNZEKQm8fQUr30DsncCk1fLt6RgtgLFtpsv+hgh4b6wmftqUFH
-         DWGu191FSwlrVjkR4JIQy1MdJQnUSKC6RQO06cOHeO7oK/BAE4ri2RyAUm8B8nbS2k2q
-         70ZaGVZigKzNajsojXRVhDyR4HbfFur4q+T5hnkf8LQXKMhyU1ymuK4VgmV3c6hwJkPc
-         jMtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780568790; x=1781173590;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lOIiclvSEHU4eZm5ztOFxMVkErkejr0ByldK09nX+Rg=;
-        b=XukCaCKAveNC5SKTG4OY+jOQWsOafWVgHBbBSm4vOvYROKP24wc7EykL6tquAmQ/Jk
-         GbezeothcsohX70B8YIQsDHbMMqvPc+FiNrX+FiHj9n2XWWwygmCv2a6Wcmt/DkZ0Hjn
-         o1BZDjq8y3taIUZJN7qLpjCuFArY+hiOeeMRtWxboeQ1QSplr2GbSxeiD0UksFU6tHOX
-         E1EO767mhr6qxTM1jDuR/UCq20knVfUPnbGSWa2TPddWUB+6Ia84s7YpunGJkaUuscsN
-         3oQEad2Y9/7WFDBJlomBuESkOyXyDcq/DbHhGiD1m+tWi8XB7VwuZPtoHaTPcWTAnV/R
-         6fjw==
-X-Gm-Message-State: AOJu0YzdtN/WBxll/FERW6dMIdQg8kPE7thcQVUHVRaw7vWHbsGKwtUB
-	IqlnA5Kcy6Il2cOHEyPEO/kQ4hIQBLL2BLCq73mX+CJkl4LDetK+dLiWTFQW64F/
-X-Gm-Gg: Acq92OFccwXJUMrPqqweYXZVyxeHcZJPFnH+4re5aEQzti6CSazGIMajxwEeJWU3kuW
-	3Qsddy8WbVmm7A3OBvy/6+YHoaN3+YOpqxBZMaChNtremeF5ATTeX9xrdD2PnmAgUUzhw+j5q2m
-	MtaBmqjwbJjwG6t/cVUlLPAFRrI1wwWHqY5VxT5YLFzlpqu56xGRUNollmZf68RK0bidTdfA05E
-	NTxGXtz2XMHVDpdEuFo/dw/d5kBi7d4uyDx0ZAMSm3oYuQxnSew4pKJYWR5mJd6WoT7GQGLs7uu
-	dP6Dfs2AGbCY6KTqpSkZjWs/VYz/RI1F+PDPpHdIfnoVyIbgh464tVg6buuhG5Snogr58/M/eTx
-	eIKku/UNL7wtq4yP3qyAxEiowG+YLbPov+1//IkSPZqy+zwxVLvU11bgi4eaztbJBr0ri/O3M3Q
-	T7O9Ig+wilqsF75R7KNN7Fs0xjIovmYysDCfnHZj2mBWKA0R09R1494Vr8GI6km67b2p9fUUOgI
-	sbfMdM=
-X-Received: by 2002:a05:6a00:994:b0:82f:623f:e5b3 with SMTP id d2e1a72fcca58-84284ec082cmr7609607b3a.34.1780568790180;
-        Thu, 04 Jun 2026 03:26:30 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84282221086sm5635404b3a.10.2026.06.04.03.26.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 03:26:29 -0700 (PDT)
-Message-ID: <0a6e59ab-86a2-4062-9869-303d878caf78@gmail.com>
-Date: Thu, 4 Jun 2026 19:26:28 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CD6nUZq9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 072F11F00893;
+	Thu,  4 Jun 2026 17:28:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780594112;
+	bh=/RbnhMiWE4eSGairPo6wkZBspRVcnRWqfFE8S0ZFRjM=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=CD6nUZq9rJmmAp1i7sH5PQDrU08fG5BLt6J2Marnb074oDxq/rc+1rfmR9C9tQUUB
+	 bDgiXNW+pB+Hw43dDN01eRjHJDL3ym2UhoV+S6U6uqCZvMQRhFfhn5UVlqpYjZ3QgR
+	 kQ7zxZmafWYJomPzMbI87qP/WVCQIZ06X8SL2VrMNK/RkRIndK2eQ+/YhOk4YYwAO+
+	 bXzpEsFsb4+pXOBD49tMRUF179UHNPBX5x6QATImCayo/FPseQ1Ok44TVK91hrkOGX
+	 R9ApJ1KbqfXYF9EjNNiANCkYv6v/Et27rFizKzlU0UiaSFnMck3eF/LIwxkeioP/2k
+	 4gzGlqkWB5v9Q==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 76D11CE0555; Thu,  4 Jun 2026 10:28:31 -0700 (PDT)
+Date: Thu, 4 Jun 2026 10:28:31 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
+Subject: Re: [PATCH -perfbook 0/6] Updates for LaTeX2e <2026-06-01> release
+Message-ID: <a3fcde71-b653-4b2b-8780-7d207370b1fd@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <238a898f-78dd-48ff-b2b8-996b477dbcf6@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 6/6] memorder: Fix use of \cpagerefrange{}{}
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <238a898f-78dd-48ff-b2b8-996b477dbcf6@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <238a898f-78dd-48ff-b2b8-996b477dbcf6@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-In this case, \cpageref{label1,,label2,,label3} is the right construct
-to suit the wording of ", respectively".  The use of ",," as separators
-is to prevent range of pages rendered as "pages M--N".
+On Thu, Jun 04, 2026 at 07:10:00PM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> Newly released LaTeX2e <2026-06-01> is not compatible with perfbook.
+> The new LaTeX kernel doesn't allow both of arydshln and tabularx
+> to be loaded in a docment.  As arydshln doesn't play any important
+> role in perfbook, I have decided to get rid of it.  See Patch 4/6.
+> 
+> Another recent headache for perfbook is cleveref.  Patch 5/6 resolves
+> it by employing "zref-clever" and defining wrapper commands in the
+> preamble.
+> 
+> The other patches are minor fixes.
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- memorder/memorder.tex | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Good catches, and I have no idea how my fingers hit "`" instead of the
+spacebar!  Thank you very much, queued and pushed.
 
-diff --git a/memorder/memorder.tex b/memorder/memorder.tex
-index d0775c36..f3ce94d7 100644
---- a/memorder/memorder.tex
-+++ b/memorder/memorder.tex
-@@ -335,7 +335,9 @@ Some long-chain examples will be illustrated by
- lst:memorder:Long ISA2 Release-Acquire Chain,%
- lst:memorder:Long Z6.2 Release-Acquire Chain}
- on
--\cpagerefrange{lst:memorder:Long LB Release-Acquire Chain}{lst:memorder:Long Z6.2 Release-Acquire Chain},
-+\cpageref{lst:memorder:Long LB Release-Acquire Chain,,%
-+lst:memorder:Long ISA2 Release-Acquire Chain,,%
-+lst:memorder:Long Z6.2 Release-Acquire Chain},
- respectively.
- 
- The seeing and not seeing of accesses works the same way as described in
--- 
-2.43.0
+							Thanx, Paul
 
-
+> Updates in FAQ-BUILD.txt and under docker/ should follow shortly.
+> 
+> Thanks, Akira
+> 
+> --
+> Akira Yokosawa (6):
+>   memorder: Fix typo ("`" --> " ")
+>   runlatex.sh: "iconv -l" rather than "iconv --list"
+>   precheck-tentative.sh: Allow "v4.4a" style revision of lineno.sty
+>   Get rid of "arydshln"
+>   Stop using "cleveref" with LaTeX2e <2024-11-01> and later
+>   memorder: Fix use of \cpagerefrange{}{}
+> 
+>  appendix/styleguide/styleguide.tex | 355 +----------------------------
+>  datastruct/datastruct.tex          |  19 +-
+>  fixcleveref.ltx                    |  12 -
+>  memorder/memorder.tex              |   6 +-
+>  perfbook-lt.tex                    |  91 ++++++--
+>  utilities/precheck-tentative.sh    |   2 +-
+>  utilities/runfirstlatex.sh         |   2 +-
+>  utilities/runlatex.sh              |   2 +-
+>  8 files changed, 83 insertions(+), 406 deletions(-)
+>  delete mode 100644 fixcleveref.ltx
+> 
+> 
+> base-commit: 15b4ca760b07bac138b9e0f6467e6733ecc656dc
+> -- 
+> 2.43.0
+> 
