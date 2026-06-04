@@ -1,64 +1,66 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8204A07
-	for <perfbook@vger.kernel.org>; Thu,  4 Jun 2026 10:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07943A1CFE
+	for <perfbook@vger.kernel.org>; Thu,  4 Jun 2026 10:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780567804; cv=none; b=RaZHE3mTEZavnltuOsSi5Imx1MUx+ygJIL23DyXSRhOAu5/GHU+NuKJUvQnIGjoAQYjeqJHs30lCtyOz3EsMoCOYbZ9iUx87rBwqO5Hna+wei4iGi3a8lp+JoLSj9haI51hV9GNnxit+8JrgRTDWd5qWOmIOOU+cUBahu1GBAMA=
+	t=1780567878; cv=none; b=RHNcHwCRbTHdaF4tAPKoY0ncLPhNZwlLWSO1NJH44ewHe2WkkaOGNsNShfyr+YgNgm57Pujwpy0loPgBb9PmSjb6Gn+HX9yQMR+gAXIwH35njRbkvKmSHrKvB9E3rrDz1gP3SiqE5ClstH5leoO5xLRDqjCYZjkZnE1fbPthUJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780567804; c=relaxed/simple;
-	bh=P7NIKAS2hu0yNS+hehNG1SSeKRx5scIU1PiO34QGJfA=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=q7jY6p9g9NgwRC69oxcToFGpLAJTNQOqVkw1bcOCkZ6nmioGYiSTM2ytM2JlBQe3IcBeU+U0+i9F/d7zwAeNL8lbPtqi4wRW7XT+xdKjUgDDgPNO6ixmDG3vY/pBxvxgf7PYE/NdcbSBTe43sBZSiaMhhRHLU5Qwhqiz0imSldE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fDqgeu3i; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1780567878; c=relaxed/simple;
+	bh=SIwO0YDqetWmK4rx5WCe+7knksKbWpK8o3iwrCzuDOg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QYZvoyzy5s2+x8x9bQbzhU+WEg31dSZcKBFpw2m/iHxe+J1VQGK/VP5AACvKbISt5jssVGfn0RPZXxdKjTYbPuLaDnWnbTb8CSdrsueWcbCjrvuSfF07+kk6F/I4wXeAv2z0+Ffcti05iqh1m+kqyyenBgOxSw1mgZEyf3uTIOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nBjiPmd8; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fDqgeu3i"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2c0c32f6ce1so3527795ad.2
-        for <perfbook@vger.kernel.org>; Thu, 04 Jun 2026 03:10:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nBjiPmd8"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2bf36a6905cso3478055ad.3
+        for <perfbook@vger.kernel.org>; Thu, 04 Jun 2026 03:11:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780567802; x=1781172602; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8x/ZhUedzA+ETK1hZwvjOZ6mp0YYVbn7yW2T8yZ8Os8=;
-        b=fDqgeu3iERkoMbppLaQr+mxSyqMjAXzr5SaHfpa8XWNjC7snkjfjlUPHt1cYEGEWdg
-         mgVO1auU2JOTX4x9UQF6gHxHjLnGw98oa+Kwva+RRra5EZGs8KDi1PdeAuG6ASC0iD6d
-         +HRy9Zy7Bnn4o52HOvRNHRvziTY5jQQdJV2v1+Ya5jYJL7VVN2Tp7FGH+ccyOBe/TRsg
-         Z2ozV7ZBMnyxM9U2DzblTaq3gLrDB8p5YLdb9o3788SKnty6RJ8Km2XGD/W11IE0scEX
-         pWWoQDCYJQSuxl6HSoR78WxHIDIxmIufVz7jk3UPiNcAuUkn9k6Vdia0fDVxZeamJK0/
-         PQYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780567802; x=1781172602;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+        d=gmail.com; s=20251104; t=1780567877; x=1781172677; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=8x/ZhUedzA+ETK1hZwvjOZ6mp0YYVbn7yW2T8yZ8Os8=;
-        b=Hsn6bgj+gwzyfcSbhDY8N/HdhrXJzcc9U052D8IlKXWr/DwKOU6/KFlHtxmgFNS3+R
-         FDPtPuhk0vpyAacH607Q71so4094YKXyAmFnGmI6ocNBIxFZlhf67weS9wkO/7tuTJFz
-         hY+K9rl5KOzk8oWEDzPJCzaYmhw2vOai98usgDXfwjBr+elTZ0Ky0cjyNWIOQXJZQnTJ
-         e74rSS4sUZVvV1D0ORE4SBcoLGjrXH3wsDxEWeLhO5QjVPeln2vY1JZZi5KV68N0XUDU
-         OvQK0KA2zLKANTZNm1EaJo/VF7LeJEzW7WMg9beK8w/D8ChbKR/79UGAp+ve0HQmwPUv
-         jgUQ==
-X-Gm-Message-State: AOJu0YyEGELJkLJzmxBmpqmj/6z6JMhkTvNaCofonvQoi/cqFnDdblEL
-	KlOAGWOKc7x5CqwmzuDgN/YarM1gUFaGAeIAIwCj7K3xh9wc8mbzxr0b
-X-Gm-Gg: Acq92OE1bTG4sgxp+VCA3cpUxRWe4YdcqcWSP2lYd8RQuJm+WM6CEv2UnibzTO0riQ5
-	cBJn9Jja1ZfSHY3moQaxXZrsIYdnjAz0G00ihhcYlx1h/FsJU7ocgTsEdRXPgTzXMXbBszWDo2E
-	aNEitLX5gSfQkHghRQ5ji1KtyM95rxkiqaYsYK8lXUziFnrnSBGtO2AJ1E5DOx+Iq/L9XICsrj5
-	fIDO9JiGo41Hrq3rbRQHNyeYkh/EPiZWOZXZBiF1uSS5oaxtrc6Jnnk89DMre2pElB7of+CQZ84
-	b698v4k2sbAQDdApWVyMNw+rGy5isUm88VgMRF1pcSG5ED3kXe2krQXMH5RtFlTU3N/WIfetwfE
-	GIHsSz7olycHGhl6Pr0lRBucuZdHMeu+yDXAO7nsVROBlr+LUosTRBwpU/5zqmRW/v8VI9Ggi7z
-	pceb8DhMF/3AxGYDwsQcmgiLC9CcmdmxfUNMWOnG7pAcproyN7E+DMqDjMsb2lQgli6K/9sjxEh
-	zrJct0=
-X-Received: by 2002:a17:903:2ac7:b0:2b4:6d92:b002 with SMTP id d9443c01a7336-2c1643aafcbmr79175085ad.37.1780567802183;
-        Thu, 04 Jun 2026 03:10:02 -0700 (PDT)
+        bh=oSQYzPY1N5U6gR93ezU0JmRwelpKYdxF/OTXXvuIc5c=;
+        b=nBjiPmd8NB1XSvAT6PDcj71YeVX+pEeRf5TTXD930QYSBfPylzDVqB7g3++uaWVD12
+         jCo/OtBta3hjMCRhoXNp6UPmtMAf4pG0hDIknppheao5kKAJaSIahyArwj9fnAKDkkOy
+         2Im0z9iV7W64ldvjZow1hTFL7XMFu1RhXOrzfhwAlojurVm3UUuMaHvlBdiyX4J/aLyj
+         w9WDKtpZo/DYyf5DKAVeTWJdMEu+XSzo8Bajm2Y5IF3t/kYnirAmRUI3qmi1LR5ARoTa
+         jQNPz8ZZ13cNqghmfnz7AKi1gq0nvtj4stzh/Xjnf8t42TgBWujxNxpFtjf4cyGotpmB
+         6KDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780567877; x=1781172677;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oSQYzPY1N5U6gR93ezU0JmRwelpKYdxF/OTXXvuIc5c=;
+        b=iX6DQwGfwKlVGCUw70/+XF8+V9X/xQAFduNKfmLwBzqQH9OGF9r3wAlFeOCNZ+cKx6
+         /9BwiKsQq6HBVbh1Oct0njUGtJAACnx0W0XTFYGN8PHlTRvlhwfaGMS5qpXMrjrYqw+S
+         FjW80ewy5yNk8wmT2TjGp/USDN6vYPPxNwTyqKjJ48bi6ilJ54PkAR4jkRrPpCDm3nz6
+         gFQQrVUtrsYxMs5hXtUA5VrPCm35ytZLhk6FqJ1M00SPjlJ1ehmf6pgBS5FJZBs/zqvE
+         QQ58uSZsKHJNkWW3esWPBLT/hrtjDag6qK3QuVYVodsaLM3cmguq0AIQUJ3fBKh/VNny
+         Ogfg==
+X-Gm-Message-State: AOJu0YwQL901O9rYR++b0iMmq/V1P3ZbLAZL9xIosVIhGHOGpB1ICRKM
+	qt+xPybixyofV/vAogfsiZBRFUvHFrc2BUbA9gcV7agXNW9NEBlQJfpg
+X-Gm-Gg: Acq92OFTI5yfUw+CpzCALAbTSAiqUkHNHRpVoex2fviIrNDBkuHJh7DS4d6oS4dql5P
+	tTOVprgMKBV2Ql7vsU1MQLrjfAUA9q8fj0Al7mLHGkV4YjFHyrAmZjJZc/D3boa+1GwFYFTqbll
+	9cZw+s7Tun+W79Jsh/esA+I03TZMkAyBGXBFT5DAq6Dx40Nlg45K2ckwnGdXaZO+BVT549DHt7z
+	Pq3Q5v1xEH5MWYYCziJvCVWJ4CRE4HpeuwkzQZpnqUPHvsJlzp7LGmSYWtfdfVBvGlQ30Rlly2i
+	F0FffxELiQkxYVmV9EC3K4Bq+PGyq4jaNKrSFaCxoTQAukDfZqjxODauwWUetEg+IomrATXkXN0
+	vxJQSb2Ug5449XyhPtrr9gpEDeoVPf1XxrFwHDk2PXi3oPRjcd2AqHaS9vktmCCOtYmDnx2iW2I
+	neTEcE9+f+VgBYQR91J+DELF8fkatLUghPB8xPh8uhEqtsY26OK2vcCH/R051xNzmnDGXBCAgmN
+	UBJBODQkQec4iV/bQ==
+X-Received: by 2002:a17:903:2ec5:b0:2c0:aef8:23dd with SMTP id d9443c01a7336-2c163fa89aemr80958985ad.22.1780567877067;
+        Thu, 04 Jun 2026 03:11:17 -0700 (PDT)
 Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16629cd24sm68872685ad.57.2026.06.04.03.10.01
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609e0bbsm52644805ad.50.2026.06.04.03.11.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 03:10:01 -0700 (PDT)
-Message-ID: <238a898f-78dd-48ff-b2b8-996b477dbcf6@gmail.com>
-Date: Thu, 4 Jun 2026 19:10:00 +0900
+        Thu, 04 Jun 2026 03:11:16 -0700 (PDT)
+Message-ID: <0a885c74-8ecd-48ef-96e9-e262895f949a@gmail.com>
+Date: Thu, 4 Jun 2026 19:11:15 +0900
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
@@ -66,53 +68,34 @@ List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+Subject: [PATCH -perfbook 1/6] memorder: Fix typo ("`" --> " ")
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <238a898f-78dd-48ff-b2b8-996b477dbcf6@gmail.com>
+Content-Language: en-US
 From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH -perfbook 0/6] Updates for LaTeX2e <2026-06-01> release
+In-Reply-To: <238a898f-78dd-48ff-b2b8-996b477dbcf6@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Paul,
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ memorder/memorder.tex | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Newly released LaTeX2e <2026-06-01> is not compatible with perfbook.
-The new LaTeX kernel doesn't allow both of arydshln and tabularx
-to be loaded in a docment.  As arydshln doesn't play any important
-role in perfbook, I have decided to get rid of it.  See Patch 4/6.
-
-Another recent headache for perfbook is cleveref.  Patch 5/6 resolves
-it by employing "zref-clever" and defining wrapper commands in the
-preamble.
-
-The other patches are minor fixes.
-
-Updates in FAQ-BUILD.txt and under docker/ should follow shortly.
-
-Thanks, Akira
-
---
-Akira Yokosawa (6):
-  memorder: Fix typo ("`" --> " ")
-  runlatex.sh: "iconv -l" rather than "iconv --list"
-  precheck-tentative.sh: Allow "v4.4a" style revision of lineno.sty
-  Get rid of "arydshln"
-  Stop using "cleveref" with LaTeX2e <2024-11-01> and later
-  memorder: Fix use of \cpagerefrange{}{}
-
- appendix/styleguide/styleguide.tex | 355 +----------------------------
- datastruct/datastruct.tex          |  19 +-
- fixcleveref.ltx                    |  12 -
- memorder/memorder.tex              |   6 +-
- perfbook-lt.tex                    |  91 ++++++--
- utilities/precheck-tentative.sh    |   2 +-
- utilities/runfirstlatex.sh         |   2 +-
- utilities/runlatex.sh              |   2 +-
- 8 files changed, 83 insertions(+), 406 deletions(-)
- delete mode 100644 fixcleveref.ltx
-
-
-base-commit: 15b4ca760b07bac138b9e0f6467e6733ecc656dc
+diff --git a/memorder/memorder.tex b/memorder/memorder.tex
+index 309d3be1..d0775c36 100644
+--- a/memorder/memorder.tex
++++ b/memorder/memorder.tex
+@@ -5571,7 +5571,7 @@ API to the C++ standard~\cite{DavidGoldblatt2022asymmetricFences}.
+ It is quite beneficial to verify code in terms of a higher-level primitive
+ instead of in terms of the low-level memory accesses used in a particular
+ implementation of that primitive.
+-First, this allows code using`those primitives to be
++First, this allows code using those primitives to be
+ verified against an abstract representation of those primitives,
+ thus making that code less vulnerable to implementation changes.
+ Second, partitioning the verification at API boundaries results in
 -- 
 2.43.0
 
