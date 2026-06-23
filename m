@@ -1,97 +1,89 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA79129E10B
-	for <perfbook@vger.kernel.org>; Tue, 23 Jun 2026 10:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4249C305670
+	for <perfbook@vger.kernel.org>; Tue, 23 Jun 2026 16:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782210671; cv=none; b=MRX6kfBp2zPcmZMiSHgUUpgftUd8j30/P8Z/HnTs0e9lgT5JyUpKjycemxPfOYtFY2ZDq6Fmi314lpVYU2P/i73STn8ZRSuA5759hH6BCT7189HZv5jLUpiuS8QjUDrn3zey3gQ+UcS5fGE8Q3EaUvQwA1+K0FK2/qoVXEl+PxE=
+	t=1782232428; cv=none; b=uGhwpIOw8/K34nIHa5nvAdKCdYidJYr1WlxfInn4ik5AdIl/8HMS30uFo9qxi74EZgZo9awKIJmcNjbO+VBg5/jxuhWOhahR1WiM6b0erX4xZa74jciGxwp9feX+9hmdyMV5HP48TGff3/foHKo2EvsrOIABo1ulRJrPe3Y2k+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782210671; c=relaxed/simple;
-	bh=tQwR+iHnpw2i6vfV/SdLf9sw2qHwdsocz1tHuc6FQ24=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rrFxY4K6Us68W1rWL2xER/vmfPeHh7m7xlao8OXovrXS3qx2qerHshUGBLDdkfPScHgitZvghJxB3SBg8lIiie3CC7qKHsyDl4/7YeBu4rP3FIWIsWSphU0RORwzRf6SL+jt0mQWzC4b33He+E6WNbLvCR2DcLpviNXzS5IMq8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W28h1DMg; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782232428; c=relaxed/simple;
+	bh=4DpXToGI7nky9xTy1NzhA8WKH8CK8hF060X6phRcu1k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UwcA+OyRDqfDdAdkflbc84doIc7KnPbn7S/UETHQpMH9hFBJdiPjpigWZ9ko3VEb0Htf2ZieJS+6WfDwTm/1mxaipICPrY+z4kyXSJ9F64gHiPeaxNTg/S7GmDPWC5VmhNbLUEo11/8lJQJ7B1LcMkS+1iJ03wIQ9/yYAedA79Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HcYkwEkH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W28h1DMg"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-37c867bd3e0so2730012a91.0
-        for <perfbook@vger.kernel.org>; Tue, 23 Jun 2026 03:31:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782210670; x=1782815470; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eeHTEuI5SjZ/vvw7dBWKV577j1K7TkHbEHu1BnBuWUY=;
-        b=W28h1DMgWkXswu9NR0ooUNFU2fB+4e8RG3xQo5QgR2jjcSIEfkiE6bVIS03usFSjrT
-         nksNouEvgsBlqSWm5TwHFf8WYPCdWId+AflGV0uEvU5m24UN1lOOy2E4u4+ckqq4Guzd
-         4VHgd27MPXTCLm7FnZHRucAhlgIj965us4QHIavkWH+nI7xUK6S/dm9yRNq15jMSjKPw
-         h6pNBMbR0BWLxJMg2tgxnaxg8AjGhOBbsd7uby9M0cXrKgFluU0oZlWzCIp9wtbhxXwV
-         py907v5au4Ngc3ZLGxDUc+f+CSqKnXN2hHTn/+QFacAkwJLEdwVaewgGNE+p/r/KHXg9
-         8Qgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782210670; x=1782815470;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eeHTEuI5SjZ/vvw7dBWKV577j1K7TkHbEHu1BnBuWUY=;
-        b=nUDJ4zQ2bSNqqpFQq02aycRLtRDC4z08Ufr2PhpZTPLHBXkeqWx0nIsYID5XAje4Bx
-         o/mhDCwaf5aV87jLUpXUpl3kBiaWMHsKKA4EEFyPab1EXvqHkfkBNb3fgvnLRkTT7zXy
-         08LJV0krndQeTqxNNbBlg2oUen9rUvbRGQYo8wn4YKV20eHMVhk4zWNbEtFk4rIkLmSU
-         tbWewnWUt61UmkD/BfPfgoVZDIalLorDNUzrLbLeuALfyVgF7WzeqImdr20zDzz4zXSj
-         7I63GjjVOAMy8gYN1W5lnvnhp11mC7Fz6/Io0zlS/6qSjV6a3rRYgm5mkIDcB7VaCQFJ
-         Gmwg==
-X-Gm-Message-State: AOJu0YzSrG34fgN/JLKVkJNlUZge3e53jD/3Qusm48orUF5FcTr+nD7/
-	GPvORRZLj9x39bfVbw4mIAqGrsgiClSYozwlhY9+ueVM5T1DK/wZeSVs
-X-Gm-Gg: AfdE7cncpwIGuE/W4gQKUbwSVFhWvi5HZQhDrfj6t4hzNyr+CnawzrVNxIiWl3aH/sl
-	g9mewd0OUoTd99sk18zudOyW7HSE9dm6Lmoo0RC79auebs0pt5wIWhgfvnxIA1tXdUbm1uuxBE1
-	CCXfBDh3o6u8gauoa8Gv5Sf4n5sJN8sQrEsgTSUfUw1GYL+zApw0KtKghOWBZifOJgAc+zhZfAQ
-	FjWgMAIxupgi/lPedoXe/Ucf54RgyA8DvstcE/jZT592UC2+2vSppts5CeCR6c0+xkiycSAXI2u
-	TRJg+SNKEhOSPIjbXFAKOI0XIb/P95xWgnoXu1RJccOyXA/I5Vspsjm5QtpgcAR6Bqag6nq8DX2
-	U7ZdAXOUiupePUdXzSXnsNqPechs5MX+Ty3RWDRy7pKRmt+85LF1CDLQqy0fZ5vZv5DJuQAuSYJ
-	h2J7VItPUju8BAbn2JCU5yCCMZ0Q9YnnySYt7034ie5X0O5E4Vz7zSmhALLQ==
-X-Received: by 2002:a17:903:1965:b0:2c1:ef9:4516 with SMTP id d9443c01a7336-2c7c9af72afmr17571115ad.35.1782210669924;
-        Tue, 23 Jun 2026 03:31:09 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7437002aesm105233315ad.37.2026.06.23.03.31.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2026 03:31:09 -0700 (PDT)
-Message-ID: <a32da007-d3fb-41bf-a2b1-5f7b3c3423ee@gmail.com>
-Date: Tue, 23 Jun 2026 19:31:08 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HcYkwEkH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E57391F000E9;
+	Tue, 23 Jun 2026 16:33:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782232426;
+	bh=dI3CYb0UESuNnEg1aWt8hchCdKOlvhIIXG0vUaVYrRo=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=HcYkwEkHGhYtQmf9c8so6NjXsGOg1v8P8PEB3HdEdeSVW3yw9m/K57T8TNL1kYkOJ
+	 BbpBNGwzY12y+9RoK5SOLyirCHErkMthghVm9yPy59cDDh+/fTT0eIXafWQ5tIMDpN
+	 dpPaGn/QZTUgcju0y4SbBK0Uk67j1sreyVYVSemmMtnDkm4OIKXUVQTwXM8H51MLTA
+	 I2yH9Zt3Kv+kEL5HVnCN3UbPo+YUBuocYNeabBrVPDLy7Og0C4KQ9sODiiJnGIHSGk
+	 0UqoyViOzh1yZ6+E86aVX7u2QDJAC9tPZ6BEDtx41hrSTTz8CKSDyYggHrIQc4tp67
+	 HcPVEUU6nmMdA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id B20F0CE04B1; Tue, 23 Jun 2026 09:33:46 -0700 (PDT)
+Date: Tue, 23 Jun 2026 09:33:46 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
+Subject: Re: [PATCH -perfbook 0/6] 2nd batch for June 2026
+Message-ID: <abeb5ab5-9c0f-4948-bfcb-392c7b77c6db@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <5365c170-af04-466e-876b-7c220b327591@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 6/6] Update rcu-test-ratio for Linux v7.1
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <5365c170-af04-466e-876b-7c220b327591@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <5365c170-af04-466e-876b-7c220b327591@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- CodeSamples/formal/data/rcu-test.dat | 1 +
- 1 file changed, 1 insertion(+)
+On Tue, Jun 23, 2026 at 07:20:19PM +0900, Akira Yokosawa wrote:
+> Hi Paul,
+> 
+> I found recently added listings 9.13 and 9.14 can be made
+> more consistent with other code snippets.
+> 
+> Patches 3/6 and 4/6 are my attempts for making them nicer.
+> 
+> Patch 6/6 is the usual update of rcu-test-ratio.
+> 
+> The other ones are minor fixes.
 
-diff --git a/CodeSamples/formal/data/rcu-test.dat b/CodeSamples/formal/data/rcu-test.dat
-index 722a08d6..c04f613d 100644
---- a/CodeSamples/formal/data/rcu-test.dat
-+++ b/CodeSamples/formal/data/rcu-test.dat
-@@ -108,3 +108,4 @@ v6.16 22370 12983 35353 36.7
- ""    22542 13299 35841 37.1
- ""    22884 13848 36732 37.7
- v7.0  22359 14019 36378 38.5
-+""    22456 13924 36380 38.3
--- 
-2.43.0
+Queued and pushed, thank you!  I will use the new three-part table
+format in similar changes planned for Section 4.3.4 ("Accessing Shared
+Variables"), so I don't feel quite so bad about not having gotten to
+that yet.  ;-)
 
+							Thanx, Paul
 
+>         Thanks, Akira
+> --
+> Akira Yokosawa (6):
+>   runlatex.sh: Cope with missing cleveref.sty
+>   Stop loading braket.sty
+>   defer/rcuintro: Tweak Listings 9.13 and 9.14 by employing fancyvrb
+>   defer/rcuintro: More tweaks for Listings 9.13 and 9.14
+>   defer/rcufundamental: Fix typo ("cannot not return")
+>   Update rcu-test-ratio for Linux v7.1
+> 
+>  CodeSamples/formal/data/rcu-test.dat |   1 +
+>  defer/rcufundamental.tex             |   4 +-
+>  defer/rcuintro.tex                   | 114 +++++++++++++++++----------
+>  perfbook-lt.tex                      |   2 +-
+>  utilities/runlatex.sh                |   7 +-
+>  5 files changed, 82 insertions(+), 46 deletions(-)
+> 
+> 
+> base-commit: d7c24ba666e292263b36954f8d07974422f3e034
+> -- 
+> 2.43.0
+> 
