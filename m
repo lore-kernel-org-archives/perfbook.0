@@ -1,104 +1,122 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3436837D126
-	for <perfbook@vger.kernel.org>; Sun, 28 Jun 2026 10:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF888368D6E
+	for <perfbook@vger.kernel.org>; Sun, 28 Jun 2026 15:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782641510; cv=none; b=rQQr7ZoBW2wknH+XRm5+lK60CplCWXjPJRcpe2zdwDRdZVaNtHsgKydObFDXbl0SqIfQflG2lYNIJKEWQjePiVoewD3lMz9SGbu2mTy0qeq5loeYkgfiATrPfzKwnlYNEOHbHXWut2EvCTVb7cw4arxROXeNDWNv5HMlWjQYGm4=
+	t=1782661633; cv=none; b=C4gYuL6MGCmMZBYrqJQ+Be5srISQzHQ5DJnbfhMDszgjHhqgXoR6UyhFb5l2wsufymrwAVlEd7xnpbYzDnXhcq7XhkMU7w3QTr/d7QR3l0PswfS8kS2mbQCSn2HMW3+NcILJNsg+YMTlmc9cXqyt4aT0rTU9UT5QGdKgUNCar0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782641510; c=relaxed/simple;
-	bh=V6FMuPDulj71gxhP/pU1My7JSqqNc+8XYISb6rIGKcE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TnzW1MYM+jPGv50JpmQfHYltZoWD2CH2HxjnXb5p3YbfUZTmocDxnd8d2bp2vAaS+ifMPz+a1Sxyj+j25gBs8oA460pTwhd8E/iL/03scgAfCPp8vu8jvst7KqRRc4EbK8FWCzfQ4uhvBw6Yxt5DWVa9cGP+ODiZKmhx2nC7j+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PEpvE/9m; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782661633; c=relaxed/simple;
+	bh=w3CiLEfp0GWKdHIfeT6Ba7muVvY4b3ebUmujd0hJ81g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u5ibesPAqLlVehxxmfLihHJPp8RBRD8o1nCglWiMk7BtKVECRG68HpDqin0VeuhBzUTDVDPnyAqXNSNTSWY8AkhzWrJhZ5/uk8okytU8xEE86zGTzAln9phYUOadqb5fxzwM++UIQdSQitPphZCu4FliTLJpltnvHnS9uE4RTGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P+Qlrpjg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PEpvE/9m"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c8007ce809so11879725ad.0
-        for <perfbook@vger.kernel.org>; Sun, 28 Jun 2026 03:11:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782641507; x=1783246307; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i/ZBJr7pi+v+JxjflBvdTH23jWBs/EO865kZZctSlk0=;
-        b=PEpvE/9mUPvIydxOou8INFiYDIxsQ4qVBEPqwrNPALvpHlAglQKb6tfSaU8k2XyMKZ
-         AHgcG6zwZ7I6kOvjgf6OGiW8WLrd/Nqiai0nj6C+Otr3Ossq6SIXL9Zkn3qldBhI4CWU
-         9QUNPE0XiCtkxOqUVk9jCi12CsSWHPWFM3JiA4QJtLXzV38Amf2vHF0WIVP2Bt8dknEv
-         B+l5g5gG3+G3okTNeS5u+HOTcxCoAcZvDKN4yfYK1rUF7qDEh5KZYQ6Yh2VZPYD2guIb
-         vDmFCJ7AtzLRzDzGMekbpIxA2dScv4J2oeebfhqWXVH6FEPSk/LXbBd85TW7IK1oK3uX
-         YrFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782641507; x=1783246307;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i/ZBJr7pi+v+JxjflBvdTH23jWBs/EO865kZZctSlk0=;
-        b=plwRh8whXR2WnluGKeElJ2LxN1RBJmtiVY/eqZCFlBS3JnY+GMNoiWtNaKcav2Sykk
-         2U/QaUEuqxHRLI1YEURw2nLbQFhAqNMZyMzI8XoQ/48jz5Nt7xj9tXWpR5vlaQN7SHm7
-         lYDOkdSVDiCpnEZk9U2Fkgw7sS29+nbrtDPGSdEpmRD3VnWKJa909O6J48UL7/d0RtEY
-         P/A+CdH4qzSKXCci2ItH1MwU8TEi8EzRs1nC/6HptEhrXzzXUUGnhfypToS8KLwdMqRy
-         I3KRTZIw3JN/S/8pPavPgOmz0EOKZ7IpW0aq+aEMRGgtxiNW/4jvT5SgnNaWRpYIUcOn
-         p4sw==
-X-Gm-Message-State: AOJu0YzEvgnyKQwvZJ5gwJgy29HIVn2AmF5o8qJLmUmJDH3hERB17BKC
-	HT3rx+M173+mOgNvzEtZpxnJARXaYeThfdJQAp9zLNmGGSgbERVv/uoV14txvg==
-X-Gm-Gg: AfdE7ckjN68r3kswmJ/boZyoCd/nIv5qCRJZfLjAG4G7RBBRNNSUvLdJGTF3dWKcuKL
-	yMvGFYFBZWS1UDD1eQdRmPkgD3M5XFCy1aqS5qdkEBCb0VRa9+qfddX7cmn+7cLNce1vxQfVVHf
-	R+9bzFi+X2S1C9EDvFovS50M/VM2PCbrtQ47QgWyXdmN31cOf9+DJeln9pHOCfWfMq34zjKz0Zw
-	UfxZ98ECVsJ9CXF+3joF/DL/KvDiYQZVVnoiY0ysU+RZCsuu2lTC8JcdIuADtGjCYDuX5DF09sG
-	yxwlifYyUFna4QEM60kRmI7WQLu3GgJYdUn52gn9fAc0ImGVZLxnGuazEiPP6juJMvX4nic9jsd
-	hOPDIMgo8nLGm2Rru+Vd73CEWH68MD6Vt4rBhcG/NRdih/wUoI76BVwoWl9vOMiNb1dFgzyKBs+
-	h2dKZiEo3IOqT2nKXOOItT7eyGbrKK6Jnd5EqyVudz/boIEwqzktiwKNNbig==
-X-Received: by 2002:a17:903:2cb:b0:2c9:9e6c:7c08 with SMTP id d9443c01a7336-2c99e6c7c90mr46158455ad.21.1782641507412;
-        Sun, 28 Jun 2026 03:11:47 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c9992a586csm31889335ad.21.2026.06.28.03.11.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Jun 2026 03:11:47 -0700 (PDT)
-Message-ID: <db176804-0f0d-478c-aa5a-ca523b594c85@gmail.com>
-Date: Sun, 28 Jun 2026 19:11:46 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P+Qlrpjg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30E9A1F000E9;
+	Sun, 28 Jun 2026 15:47:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782661629;
+	bh=9ZWZAsMX4foxSV6eL2n3v895SlPnYObwBtJlfBKNIdQ=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=P+QlrpjgW5fDkCosrYm2eAtwg8WtwBo3HM4DqViU2byt4YXKpFdww+SKCRHZdWAbR
+	 w1mOWBNSOjJ7wPHO76gkJKAqV0K3TX7VLqs/EImO1Givvs7DYJolKYByafCURqIodg
+	 Lpc7qK4Unam6NPKw4uC5nBPha+HSMhIpnNKNuaN/PcKoB3YfgI/HuZC4kFc9cGyt7N
+	 pqB3m17tJ4l1vkmsNO50Oi5blBozCmp6Yl+aTBnP0pZsMc0ib8gbVzTqhlP4nOhyAZ
+	 0tqH9xt/IEpVc5srDwFXhzMrcsVlGntxaCocIO/kjE61M0RkKTENj2MFItR4k3TVP8
+	 wbvQFq+WZ2mZw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id E2115CE08B8; Sun, 28 Jun 2026 08:47:08 -0700 (PDT)
+Date: Sun, 28 Jun 2026 08:47:08 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: perfbook@vger.kernel.org
+Subject: Re: [PATCH -perfbook 1/2] toolsoftrade: Fix up conventions around
+ VerbatimT
+Message-ID: <8815f8c1-88b5-4f7c-9b74-eb85e0784ddf@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <1c9d883c-fa79-44dd-ac4e-0278af17d0c9@gmail.com>
 Precedence: bulk
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Subscribe: <mailto:perfbook+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH -perfbook 2/2] toolsoftrade: Fix off-by-one error WRT Listing
- 4.14's line count
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: perfbook@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <1c9d883c-fa79-44dd-ac4e-0278af17d0c9@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <1c9d883c-fa79-44dd-ac4e-0278af17d0c9@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-There is no such line "B4" there.
+On Sun, Jun 28, 2026 at 07:10:31PM +0900, Akira Yokosawa wrote:
+> After the convention introduced in commit b29ee7777f33 ("Redefine
+> line count format at the beginning of VerbatimT env"), redefine
+> \myfvline in front of \begin{VerbatimT}.
+> 
+> This restores custom form of line counts in Listing 4.14 such
+> as "A1", "B2", "C3", etc.
+> 
+> Remove \fvset{} which is now redundant as well.
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- toolsoftrade/toolsoftrade.tex | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Much better, queued and pushed, and thank you for bearing with me on
+this one!
 
-diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
-index 08efff11..9b3f2e4e 100644
---- a/toolsoftrade/toolsoftrade.tex
-+++ b/toolsoftrade/toolsoftrade.tex
-@@ -1527,7 +1527,7 @@ relatively small memories of that era.
- Nevertheless, problems did arise, as shown in lines~A1--A3 of
- \cref{lst:toolsoftrade:Living Dangerously Early 1990s Style},
- which the compiler is within its rights to transform into
--lines~B1--B4.
-+lines~B1--B3.
- As you can see, the temporary on line~A1 has been optimized away, so
- that \co{global_ptr} will be loaded up to three times.
- This can be prevented using \co{READ_ONCE()} as shown on line~C1,
--- 
-2.43.0
+							Thanx, Paul
 
-
+> ---
+>  toolsoftrade/toolsoftrade.tex | 13 +++----------
+>  1 file changed, 3 insertions(+), 10 deletions(-)
+> 
+> diff --git a/toolsoftrade/toolsoftrade.tex b/toolsoftrade/toolsoftrade.tex
+> index d83e55f2..08efff11 100644
+> --- a/toolsoftrade/toolsoftrade.tex
+> +++ b/toolsoftrade/toolsoftrade.tex
+> @@ -1487,24 +1487,19 @@ A short answer to this question is ``they lived dangerously''.
+>  \begin{listing}[tb]
+>  \begin{adjustwidth}{10pt}{5pt}
+>  \footnotesize
+> -\fvset{numbers=left,numbersep=5pt,fontsize=\scriptsize,frame=single,xrightmargin=5pt}
+> -{\renewcommand{\theFancyVerbLine}{%
+> -  {\rmfamily\tiny A\arabic{FancyVerbLine}}}
+> +\renewcommand{\myfvline}{A\arabic{FancyVerbLine}}
+>  \begin{VerbatimT}
+>  ptr = global_ptr;
+>  if (ptr != NULL && ptr < high_address)
+>  	do_low(ptr);
+>  \end{VerbatimT}
+> -}
+>  Might be transformed to:
+> -{\renewcommand{\theFancyVerbLine}{%
+> -  {\rmfamily\tiny B\arabic{FancyVerbLine}}}
+> +\renewcommand{\myfvline}{B\arabic{FancyVerbLine}}
+>  \begin{VerbatimT}
+>  if (global_ptr != NULL &&
+>      global_ptr < high_address)
+>  	do_low(global_ptr);
+>  \end{VerbatimT}
+> -}
+>  The compiler assumes normal variables do not spontaneously change,
+>  the surrounding code  might use many machine registers, and this
+>  transformation reduces register pressure.
+> @@ -1513,14 +1508,12 @@ to \co{NULL} between lines~B1 and~B2 of the transformed code, the
+>  two comparisons will be against different variables, possibly passing
+>  \co{do_low} a \co{NULL} pointer.
+>  Prevent this by using \co{READ_ONCE()} as follows:
+> -{\renewcommand{\theFancyVerbLine}{%
+> -  {\rmfamily\tiny C\arabic{FancyVerbLine}}}
+> +\renewcommand{\myfvline}{C\arabic{FancyVerbLine}}
+>  \begin{VerbatimT}
+>  ptr = READ_ONCE(global_ptr);
+>  if (ptr != NULL && ptr < high_address)
+>  	do_low(ptr);
+>  \end{VerbatimT}
+> -}
+>  \end{adjustwidth}
+>  \caption{Living Dangerously Early 1990s Style}
+>  \label{lst:toolsoftrade:Living Dangerously Early 1990s Style}
+> 
+> base-commit: f7fdd691fd80b87b08719f1faad5059105712f37
+> -- 
+> 2.43.0
+> 
