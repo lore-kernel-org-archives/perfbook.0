@@ -1,78 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794776506;
-	b=wwUKOq40d/Mc0hIBwcceHkn9Qu6BKhcHd4cQrWo4HEqkAnGPTiTy6X2wVPMRgxQI2lD1
-	 WH1mSlCpqDEwfv785cx/coYAudgUd20E5ahAFGckoS/GRfAicEAQFRJIRHiq6PCb8SkX/
-	 hoPm/Pg2K2lub7pSupUuq8qc/DP/JLx5sjoermn+HfSq8trqD4iRbv7f/ZPDqvmMDEjeQ
-	 fy9h1UvtCsIxVTp0MgrFPBtS5XWfukBhBZByOomcetoAqG/EBtABdHaJ1QDFs5Mn6om/m
-	 Hd43YwdvDrDp9hzKSyVY7GVdEGerwJLJlH1SxnLGCGDPSObaMEEzRSI713dMo9U+ZRg==
+	t=1794776507;
+	b=5Uzcf6qr+dVfhRb62NNVeLLqbBM/UlHmwvkmdkOYul8ixpmhX0iUgtKvTxodhTP6+DEA
+	 iU1csPRosh63eLGX9gpJBslBTyx4w9rdIXkUS+5dWPxGuJtWkvazxFfduKk2rcMIcpicX
+	 eXn5+bAk51zzAiaP/Xb46JuBp/7bv7zq+7A8S4PuM0VF3wY/vlEEROnsHcxlqGqZm7I/u
+	 7SVE/Oi9GX0OfPYZjzdiGdOKV4knriXzPkaXnmMBCOY/VmBzMzBhTdmDBSRvAYe1GHqm7
+	 PJKW7DeTqrMD0Y2MNYkuEjgOV8RoTKXmifDKfF26UvJ4iThZpV0erdSJj1wZpCuqAfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794776506;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794776507;
 	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
 	 X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=1bccGKbKXTtcVVcSl3xVa0pzdbSyc+r9IqVxn6mTewM=;
-	b=raQhsex6nhvKWCw25L+tpGU4KObfDXv+Qd5BzTvB2JATW7gi/nHsYqG4dgZAVyfhLZCj
-	 5WvZxCjM9UF1B0IoVmsCwU3uTCP31CMCzDKE8zrDEa+AFtjWh3MHNZ6wXW80aCy8HIH78
-	 ipIOy6wi6eRPZEHOItzTAbzNcr4Y3oidsF3tn3wuvWcEmTWkJIjqYMMs2YjjhXZGP5DLW
-	 m6Cxl6aciQeJHf+yQAmyvvJV5v7Q2ZydrAhK66aZ/3AiOJ/UmovBQP9rq0TRL2F+fhZIJ
-	 jgjWTpixYaDgC6fMHUsZ8xmiP3UXlLb3zdS9rr20ik3/p9ovmGSyLAEcJdv7l3Q1Jdg==
+	bh=+Bpq7ruFaoNfv4AnRhQ8/LsiWH9jj7TpbWfaiwgceDU=;
+	b=mryNSvgqC9GTzb2xFwOMY305X78pWC8nyjt8S77zYPoSlKdTXaeMpXcOZOSLnaqt1cP7
+	 yQoo7tpd2cMygIhXxsxb2+0R62HJyBzftvjtjztROgWQb3yJff914l2jhzTKdTwtWBdzs
+	 K9zERHxROs5+YunH3lVf9VA1bIb94YUexatqfWlTGmKXwe1rv+0JEsyt2fwdt0V3dOi+P
+	 EF8FRyCeEQ29+VUjPS/8LUIZl50YYvzf+Fvpiyhb0WYj+5T+qjs0hJ7Fz+5HSmWgS8ld0
+	 jrR1lZYMblRlaIeezd6bTSNdDo1J7nXd5N0GFfPgHHsEtCsTQI1FnA+E8tR+A4KmS8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=fail header.from=fejes.dev;
 	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	arc=none smtp.remote-ip=74.125.82.169
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64193606A329
-	for <perfbook@vger.kernel.org>; Sun, 15 Nov 2026 21:01:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64193606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCC2606A329
+	for <perfbook@vger.kernel.org>; Sun, 15 Nov 2026 21:01:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BCC2606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fejes.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-36dbde64409so4105855eec.0
-        for <perfbook@vger.kernel.org>; Sun, 15 Nov 2026 13:01:46 -0800 (PST)
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-37986eb6fa2so3156598eec.0
+        for <perfbook@vger.kernel.org>; Sun, 15 Nov 2026 13:01:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794776505; x=1795381305;
+        d=1e100.net; s=20260707; t=1794776506; x=1795381306;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1bccGKbKXTtcVVcSl3xVa0pzdbSyc+r9IqVxn6mTewM=;
-        b=sSBV3kB5SJ+6wOsyd8RdQ7Dp3/azH4itl+jCuaAhPQ7xZnhyHRJe5ax7R04O+ZsqeN
-         I6nOp7mfBBehDYTzBC1ys3bdMHqpB1AMXi3gFGzipWUoMCTBpR0y4Ckps7etVuYLsUb5
-         gG7QLKLBOBnXrk3WUm61meTr6cxTVGqL9c7uqrZfzFwbSeJrd5IGkwK6IILNcd6bwkEt
-         x900etLZf+5wvMBq25P5jI1KPBD0Qo5CyyQ16mOcom7AlQdyplW3AxQqytB9hG49c92k
-         3rCEnhAuLuNc0KTdxsHfvw/GnFOZ3H4BpykWC4+azLYVqh/+/aNq5wArIGB52SBL5ln0
-         QqaA==
-X-Gm-Message-State: APuU4Z8DNg1aAQTgEt3TXm0Rs1iv+QMvmTY5YYvjNqweyf3yhj/wAqQS
-	UgIskIh+WiWFvYP60IbYbRvZqBep6Pc/N91jWOeSff3325FabmITGLWeGLVU5rLL+RE9UQIF
-X-Gm-Gg: AYBFou2szF4+oDFM23HRs9r2q6mSJ/Q2aAMEJYNA+QkhV3S9IMyWPOjK/yj5M2ZWUYI
-	bumELbQpg5Tn4JNl5oMB1xeVaPnT91nlLKs+Y3WLjFQ0TSjB0usptcSjYmfLA/50kEA9OMd/28y
-	6EqtDNBX+nlsDitgxojYYplmjbNv7/CmvuK0kO/MHSYsBCZrPd1ozcCItih+f2cnWCSmWRmGtQw
-	v6ldTbDJFvKMve/9enU//UNIJfmBFvNHL2t9zi7DKuKjqtAvfiKGD+mvC92NNqRuaqc23NJzJn2
-	MyuXTC7W0wi00m/hcLgqarHjzVjUy1PuqsL7Xqq3pPum2fHPSWm01jyIhqg2BMj9uhJ33kjWbmK
-	KINUyNGpgHzJB2sHdxDkiSOcrhA5dz/otKejY/YxK4uwd00eLF4vyqV4hIW0K+3emB6a5Y0d/QZ
-	WmXjyOjjDoLQIR8/6WE6jTM0LwRPEUsZFTAu5DdBfVh9AkcnOOEv1SgufWmwak6c/qDJJk/y9o+
-	VQZFPGKle1fiR37gKMXPL/7AwUxyqTG/zcNnrzaDuSCyK1p38/ZfMIu/v77wJ5P0kKF+Wn7tqdv
-	AsY7nm8hBK0fLZdj2RG3KDD7tGOMF4UpQWB1PKVL4Y8d5YdWeWs69lW8pxHyFLmvEhRDR724pBK
-	MG1ToZvW98UpOkp7iyRXcswyBCxv/MmLm5WaBuu7XTR1H36Dh1kFEa84CiIWwDbGzdT0A4M2J6u
-	Dzu946fg95/ViYvqKHa/tcS2YFDtjdav11OGtFRxw=
-X-Received: by 2002:a05:7301:782:b0:376:bb3d:5af4 with SMTP id 5a478bee46e88-37965f9ca89mr7475005eec.10.1794776505271;
-        Sun, 15 Nov 2026 13:01:45 -0800 (PST)
+        bh=+Bpq7ruFaoNfv4AnRhQ8/LsiWH9jj7TpbWfaiwgceDU=;
+        b=IMnQb4uqZzVoJ5WjZP11i9SQDIatgO6IdDNqYsbPgawnWmhoqtlNsNc7oTreObw8J6
+         WRthVCbQ4n1akfCTa3lEWU9/horuziXiwuTLuc0ZRuqS2L9qTdW3L6L7pWPDDGwH4kk8
+         RLhhkDDLRJn2SMhPqxnrksGdG6oq7lNE9yhEEqBRKSitriBYoMJexX88lG9OH0qyvJcv
+         d9Dd5O5q1PiPukbQJ+gcknXqu3/4VrW00En+BehfAEGL5EcwSUGorTvrwzsBwWATQm2n
+         V0ApHCGEbMOzwAhG2z5+bTlGuTcDtpBS7K40EQmF9WXH5S1pMLAz3lJ8e4+p/Xt7dxoc
+         QubA==
+X-Gm-Message-State: APuU4Z8PU8aAAv6ShFlSa6obVDgDPUrhelkC6wAuF+fkesxOGQJsuJSb
+	yIRA8mr91qiSQr5JuqX1w1UtJ511H7BjL9gM6qxcWWZ1jRSRDSiayEUrUKWyJM7rJ3QfZVRc
+X-Gm-Gg: AYBFou2F/G4G+RXQDDhVhO2B0ssqEj79dqIqZHK3wVBic7gXC3B2oxi7HTGthz8Lx/b
+	inWpcGA4oXKNaSkjXj8ZqXwHI4x3ZF0QXQ2g6eIj84ciw1JMtAYJApYNRRYaC96rN3qbvUD6RRF
+	HLcB15BuQ2UGL0lrRd4kPgIRv0chk1jdyFj/EPS7vGcN93Op0jsy9S6+fMorIHXwc0cHBjTNX00
+	jnCFLGJZvwx03OMqzJ6emFBZR7rvqapwWxM+8wfxyUwUB/7DiTeMiRrxBHvD3IZ87rjJ3bi3gal
+	pB4lSxAUCd99c1C045+0QjRlGHKigAYXxRpuoViFJaDBGYxIbqaplqgNAQbeinSlmhrcKhuHRNp
+	lo0br8sL3IFBZuJ1dYshsuQEg9ULj8rGpYfMd0n9oKmTwskdD308RutkpZko9J9xYNDOW69ynVY
+	IyKBp4NxPx+xfBugM6+lMdTdOiEQqINLONh+lkFyBz3gYEC9i1bTJurKsD55UjegjbtJ5OQEBao
+	Vs1DMNOT8ZdOSxo9jyD/geyzqJnqKI8LK8XOxdEOoPot4LooTZnRX/s6WZU2JMLee3y7RK2OhbE
+	b4IXyuhUdOCo7rHtqIuxpzTwj6aBiN9VnWI+MwACQpGshyiyxvxdiEdPwUZo+sCPDD4EJ0r3KQq
+	4uXIHDjcTA9nyds04x0jYXVU9U36B620oMmbCgR5DvwZnpz+6nX1YxotU72Q+2v49XcfOBLWR0L
+	ClAi4hkfc52N52WQ8JRWLDUWkMf+2/TcG8nUeHCbw=
+X-Received: by 2002:a05:7300:86:b0:375:be89:8a47 with SMTP id 5a478bee46e88-3796740b880mr9500316eec.27.1794776506210;
+        Sun, 15 Nov 2026 13:01:46 -0800 (PST)
 Received: from hp.tailca3b3b.ts.net ([2001:67c:370:128:4595:f7da:56c1:448d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379565d07b3sm26926677eec.22.2026.11.15.13.01.44
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379565d07b3sm26926677eec.22.2026.11.15.13.01.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 13:01:44 -0800 (PST)
+        Sun, 15 Nov 2026 13:01:45 -0800 (PST)
 From: Ferenc Fejes <ferenc@fejes.dev>
 To: perfbook@vger.kernel.org
 Cc: "Paul E . McKenney" <paulmck@kernel.org>,
 	Akira Yokosawa <akiyks@gmail.com>,
 	Leonardo Bras <leobras.c@gmail.com>,
 	Ferenc Fejes <ferenc@fejes.dev>
-Subject: [RFC PATCH 4/7] Makefile, .gitignore: Add epub and html build targets
-Date: Sun, 15 Nov 2026 22:01:35 +0100
-Message-ID: <20261115210138.229034-5-ferenc@fejes.dev>
+Subject: [RFC PATCH 5/7] epub: Add endnote variant for readers without popup footnotes
+Date: Sun, 15 Nov 2026 22:01:36 +0100
+Message-ID: <20261115210138.229034-6-ferenc@fejes.dev>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261115210138.229034-1-ferenc@fejes.dev>
 References: <20261115210138.229034-1-ferenc@fejes.dev>
@@ -87,155 +87,148 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Wire make epub, make html, and make epub-clean into Makefile, staging
-converted and flowRoot-sanitized SVG figures under epub-figs/ so make -j
-builds them in parallel before invoking runlwarp.sh.  Ignore lwarp and
-EPUB build artifacts in .gitignore.
+Add make epub-endnotes to transform perfbook.epub into
+perfbook-endnotes.epub without re-running LaTeX or Pandoc.  It moves
+chapter footnote asides into linked end-of-chapter sections and unwraps
+Quick Quiz answer asides into regular blocks for e-readers without EPUB3
+popup support.
 
 Signed-off-by: Ferenc Fejes <ferenc@fejes.dev>
 ---
- .gitignore | 14 ++++++++++++
- Makefile   | 63 +++++++++++++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 74 insertions(+), 3 deletions(-)
+ Makefile                  |  9 +++++++--
+ utilities/epub-fixhtml.pl | 15 ++++++++++++++-
+ utilities/runlwarp.sh     | 19 ++++++++++++++++---
+ 3 files changed, 37 insertions(+), 6 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-index ce93394f..6624a175 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -25,6 +25,20 @@
- *.pdfp
- *.pdfq
- *.synctex*
-+*.epub
-+*.sidetoc
-+*.lwarpmkconf
-+lwarpmk.conf
-+comment_*.cut
-+lwarp*.css
-+sample_project.css
-+lwarp.ist
-+*.xdy
-+core
-+core.*
-+/perfbook-epub-images/
-+/epub-tmp/
-+/epub-figs/
- perfbook_flat.tex
- qqz*.tex
- sub_qqz
 diff --git a/Makefile b/Makefile
-index b4f34c51..cf1282d1 100644
+index cf1282d1..358fab3a 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -53,7 +53,7 @@ FIGSOURCES := $(wildcard */*.fig) $(wildcard */*/*.fig)
- 
- EPSSOURCES_FROM_FIG := $(FIGSOURCES:%.fig=%.eps)
- 
--SVGSOURCES_ALL := $(wildcard */*.svg)
-+SVGSOURCES_ALL := $(filter-out perfbook-epub-images/%,$(wildcard */*.svg))
- SVG_EMERGENCY := $(wildcard */*.svg*.svg)
- SVG_GENERATED := CodeSamples/formal/data/RCU-test-ratio.svg
- SVGSOURCES := $(filter-out $(SVG_EMERGENCY) $(SVG_GENERATED),$(SVGSOURCES_ALL)) $(SVG_GENERATED)
-@@ -252,8 +252,9 @@ BASE_DEPENDS := perfbook.tex $(foreach v,tcb 1c msns mss mstx msr msn msnt sf nq
+@@ -252,7 +252,7 @@ BASE_DEPENDS := perfbook.tex $(foreach v,tcb 1c msns mss mstx msr msn msnt sf nq
  .PHONY: qq perfbook-qq.pdf qqmsg
  .PHONY: help help-official help-full help-semiofficial help-paper help-draft
  .PHONY: help-experimental help-prefixed
-+.PHONY: epub epub-clean html html-clean
+-.PHONY: epub epub-clean html html-clean
++.PHONY: epub epub-endnotes epub-clean html html-clean
  .PHONY: paper-clean periodcheck punctcheck punctcheck-auto
--.PHONY: cleanfigs cleanfigs-eps cleanfigs-svg figs precheck
-+.PHONY: cleanfigs cleanfigs-eps cleanfigs-svg cleanfigs-epub figs precheck
+ .PHONY: cleanfigs cleanfigs-eps cleanfigs-svg cleanfigs-epub figs precheck
  
- all: punctcheck-auto
+@@ -656,6 +656,8 @@ help-experimental:
+ 	@echo
+ 	@echo "Reflowable EPUB (experimental, lwarp + pandoc; see FAQ-BUILD.txt #15):"
+ 	@echo "  perfbook.epub,     epub: chapter-split EPUB3 from the ebook-size variant"
++	@echo "  perfbook-endnotes.epub, epub-endnotes: same, with plain linked endnotes and"
++	@echo "                    inline Quick Quiz answers instead of popup footnotes"
+ 	@echo "  perfbook-epub_html.html, html: lwarp HTML only, no EPUB packaging"
  
-@@ -652,9 +653,63 @@ help-experimental:
- 	@echo "  - \"sf\" requires \"newtxsf\"."
- 	@echo "  - All the targets except for \"msn\" use \"Latin Modern Typewriter\" font"
- 	@echo "    for code snippets."
-+	@echo
-+	@echo "Reflowable EPUB (experimental, lwarp + pandoc; see FAQ-BUILD.txt #15):"
-+	@echo "  perfbook.epub,     epub: chapter-split EPUB3 from the ebook-size variant"
-+	@echo "  perfbook-epub_html.html, html: lwarp HTML only, no EPUB packaging"
-+
-+PDFTOCAIRO := $(shell $(WHICH) pdftocairo 2>/dev/null)
-+EPUB_SVGS := $(addprefix epub-figs/,$(EPSSOURCES:%.eps=%.svg))
-+EPUB_SVG_CROP := epub-figs/CodeSamples/formal/data/RCU-test-ratio-crop.svg
-+EPUB_SVG_CLEAN := intro/PPGrelation.svg defer/RCUListDeleteClassic.svg \
-+	memorder/RCU2G2R.svg formal/cbmc.svg formal/nidhugg.svg
-+EPUB_SVG_STAGED := $(addprefix epub-figs/,$(EPUB_SVG_CLEAN))
-+
-+$(EPUB_SVG_STAGED): epub-figs/%.svg: %.svg
-+	@echo "$< --> $@ (sanitize flowRoot)"
-+	@mkdir -p $(dir $@)
-+	@perl -0777 -pe 's{<flowRoot\b.*?</flowRoot>}{}gs' $< > $@
-+
-+$(EPUB_SVGS): epub-figs/%.svg: %.pdf
-+	@echo "$< --> $@ (pdftocairo)"
-+ifndef PDFTOCAIRO
-+	$(error pdftocairo (poppler-utils) not found. Please install it)
-+endif
-+	@mkdir -p $(dir $@)
-+	@pdftocairo -svg $< $@
-+
-+$(EPUB_SVG_CROP): CodeSamples/formal/data/RCU-test-ratio.svg
-+	@echo "$< --> $@ (copy, uncropped)"
-+	@mkdir -p $(dir $@)
-+	@cp $< $@
-+
-+epub: perfbook.epub
-+html: perfbook-epub_html.html
-+
-+perfbook-epub.tex: perfbook-eb.tex
-+	echo '\input{reflow.ltx}\input{perfbook-eb}' > $@
-+
-+perfbook.epub perfbook-epub_html.html: perfbook-epub.tex $(LATEXGENERATED) $(BIBSOURCES) \
-+    $(EPUB_SVGS) $(EPUB_SVG_CROP) $(EPUB_SVG_STAGED) reflow.ltx utilities/runlwarp.sh \
-+    utilities/epub-fixhtml.pl utilities/epub.css
-+perfbook.epub:
-+	LATEX=$(LATEX) sh utilities/runlwarp.sh perfbook-epub
-+perfbook-epub_html.html:
-+	LATEX=$(LATEX) sh utilities/runlwarp.sh perfbook-epub html
-+
-+cleanfigs-epub:
-+	rm -rf epub-figs
-+
-+html-clean: epub-clean
-+epub-clean:
-+	rm -rf epub-tmp perfbook-epub-images perfbook-epub-images.txt \
-+		lwarpmk.conf perfbook-epub.lwarpmkconf perfbook-epub*.html \
-+		perfbook-epub.tex perfbook-epub_html.* epub-tmp-*.log comment_*.cut \
-+		lwarp*.css sample_project.css lwarp.ist lwarp.xdy *.xdy core core.*
+ PDFTOCAIRO := $(shell $(WHICH) pdftocairo 2>/dev/null)
+@@ -684,6 +686,7 @@ $(EPUB_SVG_CROP): CodeSamples/formal/data/RCU-test-ratio.svg
+ 	@cp $< $@
  
- help-full: help-official help-paper help-semiofficial help-draft help-prefixed help-experimental
+ epub: perfbook.epub
++epub-endnotes: perfbook-endnotes.epub
+ html: perfbook-epub_html.html
  
-+clean: epub-clean
- clean:
- 	find . -name '*.aux' -o -name '*.blg' \
- 		-o -name '*.dvi' -o -name '*.log' \
-@@ -677,6 +732,7 @@ paper-clean:
- distclean: clean
- 	sh utilities/cleanpdf.sh
- 	rm -f $(EPSSOURCES_FROM_DOT) $(EPSSOURCES_FROM_TEX) $(EPSSOURCES_FROM_FIG)
-+	rm -rf epub-figs
- 	find . -name '*.fcv' -o -name '*.ltms' | xargs rm -f
+ perfbook-epub.tex: perfbook-eb.tex
+@@ -696,6 +699,8 @@ perfbook.epub:
+ 	LATEX=$(LATEX) sh utilities/runlwarp.sh perfbook-epub
+ perfbook-epub_html.html:
+ 	LATEX=$(LATEX) sh utilities/runlwarp.sh perfbook-epub html
++perfbook-endnotes.epub: perfbook.epub utilities/runlwarp.sh utilities/epub-fixhtml.pl
++	LATEX=$(LATEX) sh utilities/runlwarp.sh perfbook-epub endnotes
  
- touchsvg:
-@@ -687,6 +743,7 @@ ls-unused:
+ cleanfigs-epub:
+ 	rm -rf epub-figs
+@@ -743,7 +748,7 @@ ls-unused:
  
  neatfreak: distclean
  	find . -name '*.pdf' | xargs rm -f
-+	rm -f perfbook.epub
+-	rm -f perfbook.epub
++	rm -f perfbook.epub perfbook-endnotes.epub
  
  cleanfigs-eps:
  	rm -f $(EPSSOURCES_FROM_TEX) $(EPSSOURCES_FROM_DOT) $(EPSSOURCES_FROM_FIG)
-@@ -695,7 +752,7 @@ cleanfigs-eps:
- cleanfigs-svg:
- 	rm -f $(PDFTARGETS_OF_SVG) $(SVG_EMERGENCY) $(SVG_GENERATED) $(PDFTARGETS_OF_SVG_CROP)
+diff --git a/utilities/epub-fixhtml.pl b/utilities/epub-fixhtml.pl
+index 64428efc..4940681a 100755
+--- a/utilities/epub-fixhtml.pl
++++ b/utilities/epub-fixhtml.pl
+@@ -10,11 +10,24 @@
+ use strict;
+ use warnings;
  
--cleanfigs: cleanfigs-eps cleanfigs-svg
-+cleanfigs: cleanfigs-eps cleanfigs-svg cleanfigs-epub
+-my $pkg = shift(@ARGV) or die "Usage: $0 <epub-pkg-dir>\n";
++my $endnotes = (@ARGV && $ARGV[0] eq '--endnotes') ? shift(@ARGV) : 0;
++my $pkg = shift(@ARGV) or die "Usage: $0 [--endnotes] <epub-pkg-dir>\n";
  
- figs: $(PDFTARGETS_OF_EPS) $(PDFTARGETS_OF_SVG) $(PDFTARGETS_OF_SVG_CROP)
+ sub slurp { open my $fh, '<:raw', $_[0] or die "$_[0]: $!"; local $/; <$fh> }
+ sub spurt { open my $fh, '>:raw', $_[0] or die "$_[0]: $!"; print $fh $_[1] }
  
++if ($endnotes) {
++    for my $f (glob("$pkg/EPUB/text/*.xhtml")) {
++        my ($x, @fn) = slurp($f);
++        $x =~ s{<aside id="(footnote-[^"]+)"[^>]*>(.*?)</aside>\n?}{push @fn, qq(<div class="endnote" id="$1">$2</div>); ''}gse;
++        $x =~ s{</body>}{<section class="endnotes">\n<hr />\n@{[join "\n", @fn]}\n</section>\n</body>} if @fn;
++        $x =~ s{<aside class="quiz-answer" id="([^"]+)"[^>]*>(.*?)</aside>}{<div class="quiz-answer" id="$1">$2</div>}gs;
++        $x =~ s/\s+(?:epub:type|role)="(?:doc-)?(?:noteref|footnote|backlink)"//g;
++        spurt($f, $x);
++    }
++    exit 0;
++}
++
+ my (%w, %h, %rot90, %fig);
+ for my $f (glob("$pkg/EPUB/media/*.svg")) {
+     my ($n) = $f =~ m{([^/]+)$};
+diff --git a/utilities/runlwarp.sh b/utilities/runlwarp.sh
+index 7e0dbd65..d55d87f7 100644
+--- a/utilities/runlwarp.sh
++++ b/utilities/runlwarp.sh
+@@ -2,7 +2,7 @@
+ # SPDX-License-Identifier: GPL-2.0-or-later
+ #
+ # Build a reflowable EPUB (or browsable HTML) from perfbook-epub.tex.
+-# Usage: sh utilities/runlwarp.sh perfbook-epub [epub|html]
++# Usage: sh utilities/runlwarp.sh perfbook-epub [epub|endnotes|html]
+ #
+ # Copyright (C) Ferenc Fejes, 2026
+ #
+@@ -18,7 +18,7 @@ BOOK_COVER="cartoons/r-2014-Book-cover-front.png"
+ MIN_LWARP_VERSION="0.921"
+ 
+ if [ -z "$1" ]; then
+-	echo "Usage: sh utilities/runlwarp.sh <file[.tex]> [epub|html]" >&2
++	echo "Usage: sh utilities/runlwarp.sh <file[.tex]> [epub|endnotes|html]" >&2
+ 	exit 2
+ fi
+ 
+@@ -264,6 +264,16 @@ build_epub () {
+ 	echo "perfbook.epub built ($html_passes HTML passes)."
+ }
+ 
++build_endnotes () {
++	package="$tmp/endnotes"
++	rm -rf "$package" && mkdir -p "$package"
++	unzip -q perfbook.epub -d "$package" || exit 2
++	perl utilities/epub-fixhtml.pl --endnotes "$package" || exit 2
++	repack_epub "$package" perfbook-endnotes.epub
++	rm -rf "$package"
++	echo "perfbook-endnotes.epub built."
++}
++
+ # ---------------------------------------------------------------------------
+ # Main dispatch
+ # ---------------------------------------------------------------------------
+@@ -280,7 +290,10 @@ html)
+ 	wait_limages
+ 	echo "HTML ready: $html.html (split chapters ${base}-*.html, images ${base}-images/)."
+ 	;;
++endnotes)
++	build_endnotes
++	;;
+ *)
+-	die "Unknown mode '$mode' (want epub|html)"
++	die "Unknown mode '$mode' (want epub|endnotes|html)"
+ 	;;
+ esac
 -- 
 2.55.0
 
