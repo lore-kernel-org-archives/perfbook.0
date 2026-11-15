@@ -1,78 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794776509;
-	b=s86eAJoOp/taeP1QdzPz5/R7aBCcJP7aYBGOwrkGeaV9enKGOG/8D0D2/lIQXZcFol2V
-	 BA6C1QvWB5Dg2Ta4C/72a592C04aowwHGlcGt9H7e6eyOvlUcswQrVap1OXm0dhHyapO5
-	 Cr2yPLAfbOklSRoq6EvpmCQJ6C5yrdrHp4QXqtwQuVZzQtgF6q190/eoXFLGmuQf2HvZC
-	 YZeh4hVvv5HEh4JQHELHPYWNfbj2seT43pMHJExveKJBq90/jkOTKAH3L90VHrPv3IqvD
-	 EAIQa2DEratfLMyuRU49u7jSm91wsw1iYtiKcwe1sxZTmKkau/+3P5OaKejM3Pe3+4w==
+	b=hyRItvWQZXVxPsm2moEaLvjdoFAhdpge66TVvKfUTkQ4Kx8mJizYft0yI3ypRSjL/dL8
+	 bO4sULYyyVrRBFCJ+llaxP0UG8B8Qs2h9M6P7+ytXtHGLNFn1DhsbzarTtwYki7CZZUUB
+	 hr/YmUOsDtcoJXOMj74VeTH4rmGuZoM/ffxs0r+ojE0Tov+UWOgYg9WC9sdSQFCIDz17t
+	 sxfVPwnas+4edsJwRTVuUE6A+LtDWnkRZGc02b49pSp+bAOgXdCskMFOdVOrzrJ5vv6t8
+	 gAIljvOwLZWc13hCj48VC80vFMvxvIa/tzNJCwScZjMRjBFnbdxiPMWokKsmCQYYcqg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794776509;
 	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
 	 X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=/jfPITZthy/vz4OYXlijELv/lNbsV7yug/KyDcZtQm4=;
-	b=ikofWdx18lzCj0lB5cn1V9yeZHcsIkchlpF7aX0jE7AMuGRQhYMivTObXN6fMymnjQtT
-	 6+Dt3FU9l0juutGZlRu8SXrKlIPloVShlM/YP9fF06wFWLq5zhJl55zkzSZ+qdvnIgUIm
-	 q5PvR28xmTUSDQO9slLG4vtgBZsIRAgwrFPfiUZD6ftxjxb2L3QSJTYLtfsLggC/VucXD
-	 4DgNn1n1jCpShJdr/XaHE1dO/YK7yJeIAKhtVmHmlGAJjj7qLO9yJZGtXm6UTfZv734gY
-	 YGxCc1HYBAiqcOIVzr53pyNK4xu5rq0XW3SAOP9fCAFC80o9bu0zX1BnD73/cMnjVhA==
+	bh=/Dd1TbjTgIWemuNhMqUOuiP7KiL6gPxWcaQALcZt7J4=;
+	b=PXkOIZzBqFR+8fv25mHuPSxIYfmJ5CY2zNuudejgDu+uzMLczf9QaSeKM1oZ5tDXCx0k
+	 9PkgOIBQMbRokYNvq26hLZtp6tWSsrRN8dws4zi+a7DOZwxiIAU/JHI18rU1NNr9q4IzB
+	 bR6I2dZeaamPEpk2vAkCHnaV2BFaaIDdzenQsznHuoSRU8f3DUKrSOAikaTmdiTaLu+vC
+	 iZAaZ1lJs5lVP1xatLjHohThm6VBSpBFbscmftyOBES5Xh8P/PED2hHGiNdIgvocKr72W
+	 gwc2eNQLBM8od8ZJvHYlaNqZRh6W7mJ3qmEexFdDSZT5HxN2GYmbMUsd+ttHK77YSHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=fail header.from=fejes.dev;
 	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=74.125.82.179
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	arc=none smtp.remote-ip=74.125.82.177
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA04606A31F
-	for <perfbook@vger.kernel.org>; Sun, 15 Nov 2026 21:01:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5CA04606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741ED606A32F
+	for <perfbook@vger.kernel.org>; Sun, 15 Nov 2026 21:01:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 741ED606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fejes.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-37198ed3727so4323928eec.0
-        for <perfbook@vger.kernel.org>; Sun, 15 Nov 2026 13:01:48 -0800 (PST)
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-33fb4680717so7820517eec.1
+        for <perfbook@vger.kernel.org>; Sun, 15 Nov 2026 13:01:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794776507; x=1795381307;
+        d=1e100.net; s=20260707; t=1794776509; x=1795381309;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/jfPITZthy/vz4OYXlijELv/lNbsV7yug/KyDcZtQm4=;
-        b=NgjJKkdsmYNgMQKefq8YCdhXzZtq79r1rTdH15wJpUzTkbtyzDmLmlUe4cGHhY6G+A
-         ygm+UFbGK0+ewAOTL8fNkAMU2vv1iIy5etXB2/hLOajthAaM66i3cBe6S8ClmKeuwHk4
-         W6agPmAwmPcNtnu1k749CovXIqrgmt3Q1XzFZ4dALhLpmbBPx4TivAldlMdM6oHxclro
-         Y+uckFsYZiB/R3Z285k+7siGwgdcTnPkKHl+0MqvBqiFbYf9XA7pBXH8sylC3ghO8NCo
-         A+zBe/MZyUqTxrcsytd0qxmeJdtUYPRb3Vn3GI4njv8r5jF1BalNCxaYs9ZtwCSQXdJi
-         5HdQ==
-X-Gm-Message-State: APuU4Z+nUkJAC1NID+bf8vXSBXfK36iBff8ZbRfQcfuqhLOd50muRBai
-	XZYxJyUr278hBcJkxjTGagV/BS0a8yEreXySSuzmRKHKtLLiJYslUhYKiuQhEdUh0EghbK5g
-X-Gm-Gg: AYBFou1sXYVJetMwbPxsmkbFKXhCPWTNK14TjJGdHFQuoIM6HpA7FkgvujYyrNwZn4H
-	r6Vd6vHGdp6dZ7FrsBpx2JFNysGUjWUuYKjhI2sJz/bNXzuEjJ4ClSrPwyQYBtWKxcXVa2tyLOH
-	MHKXZBJaERmu0FSojjDCWEyOI0NdLiu8Y72V1G7zo7vQTPOuqd8ydKxGe25nZItjCVb0k3/yUpB
-	hZVY9BaIEWYy48BItUMmIl51IuZfH4g3J3x4rJQWeasITEw6ZfK5+V7jM5YOXxeQqfXnOHKv0HL
-	+PAZ83jMxNACwtA3gY+JJTD7ziy7B9kBysVvy4g98266IjWFIRfL0FGnue5D5esxKjACh5vaK2C
-	5o+3HUV06jFgTB6WG9lOiqvXBlouQj7Li0yvZyYk8MAP5oiy92YImhTkFc8wFCmZdcMLL4ntaa2
-	5SWOyDMyu7kTCCCbxKE6BZJYJTerII/w8e2Qt2K4nzvsEM5K6WfmdRSD9mV1/eQOvFOXlAer5xK
-	4X5GE9MAev7/piGLK17GgevYoB+Lkijol/V2dtNDoW7lZidRSNmP1zjAIwtMX4P58mVl/K0iJZ3
-	E7i4kPdpLUssMDJX4wDG+1E9a4ph4XLIs/ZASo/I83976y7xESw/76e0P5KA4PkvD03HOmnM8y6
-	bcbP1uG+yz8CWZLhcWlIohwqs4fFhodcEakXAA8PZL0IPDYnTIRLD9D479XxH/cMDYNYy8Tpat3
-	LOLk4raGJHMFGRxbkDhPXHjKchwRuALqF/zwvG+nI=
-X-Received: by 2002:a05:7300:d402:b0:357:ee3a:267a with SMTP id 5a478bee46e88-37963565cb0mr8789716eec.2.1794776507344;
-        Sun, 15 Nov 2026 13:01:47 -0800 (PST)
+        bh=/Dd1TbjTgIWemuNhMqUOuiP7KiL6gPxWcaQALcZt7J4=;
+        b=0MntgDH1vj1cJVoeyVLcgcvSbIaVEZ0jYbWIQIddTfuBviVEObedY7rDyhCYsDrSgT
+         IDVSs1rN4+JBqlExQ3K7gSxIzFkvFw/uzahyTz31tugnAVhnS8oxjiR+AFPSc9aSgA/O
+         zaY6AUqCBTHjTMfA3S4apSdMG/adHoF3PiMtSQOuDbMLTm0mee0SHMaI4rVi4DFiyZGm
+         AeIy1DLQ9aC4/VY1+fs5eKYeH5Lk9XzC7PRFhzpsAV7bjiDbacITsv4b3HVgNQSmwPND
+         v2Y316maADpYod2duV29XbFqoyuWbGgtA/DtgaVu/4rowu61UKJB5Ywux76uy1YqHX9m
+         htLg==
+X-Gm-Message-State: APuU4Z8kZ/K5t8uVvJ71S0yMIPsKY34nsL3sriQexa+9lKoUNyxAlyPy
+	mz6wI6I+C1MagDbxpqrgUug6vqtLRjao8FNbw7bTzMYGkQYTLu6lacq18EjZCGFMrA5NMtf8
+X-Gm-Gg: AYBFou0KtQGcbbnsQ5wm5k19rYixuAq6YrkDsJD6HSJ2k9E2PnKdsDYI/GXTnsl0nQo
+	UYkZpk9lm5l2tV89RVQA4+PVzUZhwe2fLj1K/ckiyMFghfY5T3q4bfDXzKnsh6eblXCLU8AnTYg
+	hZDLc0w4nmfEzRjxaWIl5FvmDwf2Vnym5oLFnjasMUP3RElDmFVdeLSJi/1S0TduhIhnNS4fZDk
+	btk4v6pS0d/Isw3cmGg900vyK4yv1fu6cXa/3o0KBuW3hx1/dlajX2BlURRF51Cm34U1J0aDPn2
+	iLKWK4c0imRZ/QpvD4CX6JIJ2c2+/5nCjnmSkR0BAdni9ideY+YFyfqnpLx40KBWRLCXyJVJn9r
+	apXAm6LXQAHypLfrQ8EGgFBUNiCOW1j4LY12zFlRBQgfRFzc5rraBWnSD6af8amBV6Phho26MXi
+	E4uWKQfa0HAEmf6NNcRySWp1TtfhVWWedt+yDg9cO4+rndWoBWxyKgLMjtky17a38LwTGw3KXlD
+	63bT+E9HfbvWXOt4A0YXy4b3EJhxV+o/ovyo0OUzS9TZ8UvBYxiIf1zvS8OIn+UZKae/MWeZfUw
+	Snnhpy4Xgj4D5fvYEVjDeqmAB2g8sHsoFmbQiu2bd3A8WabAYRKTDBVF5cmFClQD0EQdP1NNZjG
+	HgFywmc2xwvmy8Ecse4keW6pByKfKcDwxtb/wKLIusLUv3FiamOFN5oNjSz4mbCgkkBO9vI/JZB
+	t1MVPKnP1qdpIYNJNbB5/KagKsSEw2959G5QfUJqB+sLsmWI2woks4a4tNB7XD
+X-Received: by 2002:a05:7300:dd03:b0:36a:437a:4c00 with SMTP id 5a478bee46e88-37967314a08mr7968556eec.24.1794776508456;
+        Sun, 15 Nov 2026 13:01:48 -0800 (PST)
 Received: from hp.tailca3b3b.ts.net ([2001:67c:370:128:4595:f7da:56c1:448d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379565d07b3sm26926677eec.22.2026.11.15.13.01.46
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379565d07b3sm26926677eec.22.2026.11.15.13.01.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 13:01:46 -0800 (PST)
+        Sun, 15 Nov 2026 13:01:47 -0800 (PST)
 From: Ferenc Fejes <ferenc@fejes.dev>
 To: perfbook@vger.kernel.org
 Cc: "Paul E . McKenney" <paulmck@kernel.org>,
 	Akira Yokosawa <akiyks@gmail.com>,
 	Leonardo Bras <leobras.c@gmail.com>,
 	Ferenc Fejes <ferenc@fejes.dev>
-Subject: [RFC PATCH 6/7] FAQ-BUILD.txt: Document HTML and EPUB build targets
-Date: Sun, 15 Nov 2026 22:01:37 +0100
-Message-ID: <20261115210138.229034-7-ferenc@fejes.dev>
+Subject: [RFC PATCH 7/7] docker, gitlab-ci: Add EPUB build dependencies and CI job
+Date: Sun, 15 Nov 2026 22:01:38 +0100
+Message-ID: <20261115210138.229034-8-ferenc@fejes.dev>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261115210138.229034-1-ferenc@fejes.dev>
 References: <20261115210138.229034-1-ferenc@fejes.dev>
@@ -87,68 +87,55 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add FAQ #15 describing the epub, epub-endnotes, and html build targets,
-their TeX Live, Pandoc, and Poppler prerequisites, e-reader settings for
-KOReader and Foliate, and known limitations.
+Install pandoc, unzip, zip, and texlive-lang-japanese in
+docker/Dockerfile for EPUB builds.  Add a non-blocking generate_epub job
+in utilities/gitlab-ci.yml that builds and archives perfbook.epub and
+perfbook-endnotes.epub.
 
 Signed-off-by: Ferenc Fejes <ferenc@fejes.dev>
 ---
- FAQ-BUILD.txt | 45 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ docker/Dockerfile       |  2 +-
+ utilities/gitlab-ci.yml | 17 +++++++++++++++++
+ 2 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/FAQ-BUILD.txt b/FAQ-BUILD.txt
-index 6845db14..20673dec 100644
---- a/FAQ-BUILD.txt
-+++ b/FAQ-BUILD.txt
-@@ -370,3 +370,48 @@
- 		Code samples under CodeSamples/ were originally written for
- 		Linux and a QNX compat layer was added in 2022.  Compat layers
- 		for other OSes are more than welcome!
+diff --git a/docker/Dockerfile b/docker/Dockerfile
+index ee120e4b..063a678b 100644
+--- a/docker/Dockerfile
++++ b/docker/Dockerfile
+@@ -9,7 +9,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive TZ=UTC apt-get install -y t
+     rm -rf /var/lib/apt/lists/*
+ RUN apt-get update && apt-get install -y fig2ps inkscape xfig graphviz psutils \
+     texlive-publishers texlive-pstricks texlive-science texlive-fonts-extra \
+-    make nano vim git curl gnuplot-nox time poppler-utils librsvg2-bin && \
++    make nano vim git curl gnuplot-nox time poppler-utils librsvg2-bin pandoc unzip zip texlive-lang-japanese && \
+     rm -rf /var/lib/apt/lists/*
+ COPY steel-city-comic.regular.ttf /usr/local/share/fonts/
+ RUN fc-cache /usr/local/share/fonts/
+diff --git a/utilities/gitlab-ci.yml b/utilities/gitlab-ci.yml
+index f03e39a9..6068b215 100644
+--- a/utilities/gitlab-ci.yml
++++ b/utilities/gitlab-ci.yml
+@@ -31,3 +31,20 @@ generate_pdfs:
+           - perfbook.pdf
+           - perfbook-1c.pdf
+           - perfbook-eb.pdf
 +
-+15.	How can I build a reflowable EPUB for my e-reader?
++generate_epub:
++    stage: build
++    allow_failure: true
 +
-+	A.	Typing "make epub" will build "perfbook.epub", a chapter-split
-+		EPUB3 derived from the ebook-size variant via lwarp and pandoc.
-+		Typing "make html" stops after the lwarp HTML output (no pandoc
-+		needed), leaving perfbook-epub_html.html, perfbook-epub-*.html,
-+		and perfbook-epub-images/ ready to open in a browser.
++    before_script:
++        - pacman --noconfirm -Syu texlive-meta fig2dev ghostscript graphviz librsvg gnuplot wget make which fontconfig git ttf-dejavu gnu-free-fonts ttf-liberation pandoc poppler texlive-langjapanese unzip zip epubcheck
++        - mkdir -p ~/.local/share/fonts && cp fonts/steel-city-comic.regular.ttf ~/.local/share/fonts/ && fc-cache
 +
-+		In addition to #5 above, prerequisites are pandoc, poppler-utils
-+		(pdftocairo, pdftotext, pdfseparate), unzip, zip, lwarp/lwarpmk
-+		(>= 0.921, in texlive-latex-extra on Debian/Ubuntu, texlive-meta
-+		on Arch, texlive-collection-latexextra on Fedora), and ifptex.sty
-+		(texlive-lang-japanese on Debian/Ubuntu, texlive-langjapanese on
-+		Arch).  docker/Dockerfile includes all of these.
++    script:
++        - source /etc/profile
++        - make epub epub-endnotes
 +
-+		Intermediates go to epub-tmp/, epub-figs/, perfbook-epub-images/,
-+		and perfbook-epub_html.*.  "make epub-clean" (or "make html-clean",
-+		also run by "make clean") removes them; "make neatfreak" also
-+		removes "perfbook.epub" and "perfbook-endnotes.epub".
-+
-+		Footnotes and Quick Quiz answers are EPUB 3 popup footnotes
-+		(epub:type="noteref"/"footnote").  Readers without popup
-+		support, or that typeset footnotes at the bottom of the page,
-+		can use "make epub-endnotes" instead.  It builds
-+		"perfbook-endnotes.epub", where footnotes are plain linked
-+		notes at the end of each chapter and Quick Quiz answers are
-+		ordinary text in the answers appendix, as in the PDF.
-+
-+		KOReader shows the popup footnotes when "Show footnotes in popup"
-+		is on (Settings > Taps and gestures > Links).  Its default
-+		"In-page EPUB footnotes" style tweak (Style tweaks > In-page
-+		footnotes) puts footnote text at the bottom of the page instead;
-+		turn it off and turn on "Hide non-linear fragments" (Navigation
-+		menu) to keep the text out of the page flow.  Quick Quiz answers
-+		are never placed in-page.
-+
-+		Foliate 3.3 (WebKitGTK 2.54) leaves blank space where a scroll
-+		box continues on the next page, so listings and tables wrap
-+		long lines rather than scroll horizontally.
-+
-+		Known limitations: page-number indexes are omitted (the acronym
-+		list is kept), math is rendered as SVG images, and SVG cartoons
-+		fall back to the reader's font.  pdftocairo may dump git-ignored
-+		core files on exit while still writing valid SVGs.
++    artifacts:
++      paths:
++          - perfbook.epub
++          - perfbook-endnotes.epub
 -- 
 2.55.0
 
