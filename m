@@ -1,97 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795284565;
-	b=hv5Nx9PNooFw1Wb/LeHuDazBvYvF3HG4/Dn+Aczlsx+k8RUOQOMtsoNEXWZyc99Gqac8
-	 HXdPTzVu8VhUuDzzpGqemTa124RhDnjV9gv0zvFM0mULL6S6Y/ElQtlZS1i9AgefvBrGj
-	 5D3ycSqd8WwRz/3TZnwD9eG9yhFrll+GTgM9YlpP9qMBtzVY2wnqkixm0Smz2L7Pzg+NY
-	 lxoE0iVuaWe0lAadZzwvj3/r2jVelwkuIdjWN8tLMSE5y/Ft2XFrZnJA3LRLD6EcnxGIC
-	 vLkwXX/raC6W8TqvS7R+Z3SIb2aSrZbA0WSqzbMah1kC2s/b12QRLfeUrQ6UHR+r0nw==
+	t=1795520155;
+	b=EgPyNblTO0KQQ2nzHizDx15Borf0Bou7gs5pWDtWmpmBQiHWAf4LK91nHOcL8xLT072P
+	 JcLhDtfZx7H2vbOiV3fPC1g1k5+zodBMnHpWrWu7G35PwR1IIvkdZa+nOkFSc/kiwR4M+
+	 EhsK9CRgrBV33j+cEtHUq/X9Rc+JEpM7aBYb9Mf0O7ld89Z+owv3H3h94IIqL+gS2jWr6
+	 lnYm5YOTV7X6YH12s0nnn48r9E/xCy5omPn8J996Hxy/zzVnLVxGDZLc61kk/5d1aX1iC
+	 d0uqaX4FACuroooBnssTBOR50Zt1iKTQlRgRZFsXWVrbDzycl7AgGlEYvMx4jxgSs3A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795284565;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795520155;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=zdMtFuTSIrN2qmkSAereHqAnISNbZbBfqIHHDvF3Q0M=;
-	b=mrB9p3WIPTeYBptosXttudE8xiqU8huap0sy8pvpGJZLJ25oTMs8rtsn6H5lvdBBk9lK
-	 U1d+gF+iQXiKspqiKZibdVWBoQS1JBfqIoen1G7UFLtIaeObvsI+H8KqR5HwuOF6ldKl/
-	 UJF0tAzMptZFQZR8sWamKa+Bju/1orYi9WV6q0DM1QB1odUTgyk7JFaji+7lbFE1HcB2c
-	 yt7awUhshoTe12KDfudw4ajyGmAyC/DJfT/9IlBnsL3xFoV1My7Cv1sXZeOiNr93UeVp6
-	 lO5XS5qsKymqOzF3ZbJM8BIl7XSdkOOe+Z57oARDJdeWTvOeJY01zUwYx6sLJWolTEA==
+	bh=CSy1NvXtkWgcj90/c1+cOYC6EVTMgoZYF9k8udQ5TI0=;
+	b=SYSUOXpHABZN3Y8FFVZ+ZWhvLNndffdBLrT6Q5pVeh3HHNTzNoHDMpw/JpD48Rq2HT+O
+	 sf+MTxCikJa2BXMVPCGxJTPTgDtvLcoa+CAI2fk/se8yl+6H6s8LvX5SvPmaSFs3HCt8X
+	 TaEn3TMy6+znfyhdXoFpEZ1Jv9lORrP3/9n0Z92P1dI90oNiRQqkgLii6FKZQFce3Pgdy
+	 pTRw2gRyh+fH1kiOuShJtkPktwqzFs3f+bSGLknI3MrkCKdSld9qy7rL01hBxW8icOR14
+	 /IuvDtym7Lu/dcZqxehGyHU25rryK3n92Mr3xUDsOiA9dVYj+TexOWD67H9UH7rySgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uU86bpVB;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wejGth1z;
+	arc=none smtp.remote-ip=209.85.210.172
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A44606A320
-	for <perfbook@vger.kernel.org>; Sat, 21 Nov 2026 18:09:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0A44606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79167606A31E
+	for <perfbook@vger.kernel.org>; Tue, 24 Nov 2026 11:35:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79167606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uU86bpVB
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4b467581b98so18184565e9.0
-        for <perfbook@vger.kernel.org>; Sat, 21 Nov 2026 10:09:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wejGth1z
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8b32bc605d9so2041577b3a.2
+        for <perfbook@vger.kernel.org>; Tue, 24 Nov 2026 03:35:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795284563; x=1795889363; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zdMtFuTSIrN2qmkSAereHqAnISNbZbBfqIHHDvF3Q0M=;
-        b=uU86bpVBx9JlxyUMBzQ1juplwSnjINeE2EKKmwwfu5uK857Y7wgkpUMIDgMJiTG+Mf
-         8jlkCGYWL0AhVa2v8lQ1iL/Ly1tvDdpt34um6G6EeQk07Fu0fCJYkscYgC6fsMm6K+mF
-         ajgwbMmbX+mmgHO1fXhyY0IkZ8w5SGulsXN44ZprgiQCEYr2NI2CekRrCAGun4ohcEfm
-         fj76sdIIPmO57QRSKW6HENXkY/dwcMBcgVxPmvxZCSRMcCtN0BzP/S+tbeccgfZDQIRp
-         iCMVfsZnFmF2BhPFAR5knAmoojUmIv9Zc8beymluqovcKsWbx9mDZbw5rl7KEnP0NKVG
-         1ZJw==
+        d=gmail.com; s=20260707; t=1795520155; x=1796124955; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CSy1NvXtkWgcj90/c1+cOYC6EVTMgoZYF9k8udQ5TI0=;
+        b=wejGth1z3iJioCV+SDPLAjTNTtcapF5Dsg8ix3ZdkTZ1EY711KNDO3HX1Pomgv1P2w
+         vjYmq0BNGJjQJk3g6Zy1FteRESIrdmqUKFos4IiUuEQDh+TXHmquE4cMh7IW7tHeGdD6
+         8DlRszV78Kj1Y9trNI0zXi7dO/84OwWyp2+/M+jbCrrl+zOqkRLuseMjxYNztlVDMB7f
+         NFaRjOilafqE8BHUKXEAm18bXFyjgZv9c5LPs67JfT+5rt+rR462SYKU2CcadymjabNs
+         wviT+QRGGtdsQYbumRgAqK5bTswZM1Vz+J0YEFCQQ9n+ElcuQYT8pEOdiLFo9i+iyk4w
+         MoNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795284563; x=1795889363;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=zdMtFuTSIrN2qmkSAereHqAnISNbZbBfqIHHDvF3Q0M=;
-        b=1QbwdaMyjTnk6Tc5bt0wJ3GDM8RLK/BqOmRX6t4miFuJz4/f5cgIapufPod3nrThEA
-         EWp24KRk7y8YYPzyLh6hQJbxQg1V8PVgVTItZcidLXot+uPtwQTJ2QFlRRm6oJqYARuR
-         AEvL+3ophC/PMYQl/WkdCwz2TbVjHZ3tJM8SW3nKLNZkow6X2EE3U+C/Sm/87LGdGZC6
-         zrfL7fIsFGW60EbBvFwGBzojcGWmYyAPOLq1gVdR5uqPXnG8i3ZRbAM7IsAvVay9Woko
-         yL7UcypXFsWP+7JfVVaAyP7yrLh7xDkmah9APRO/tBbSFRaqub0FZTCqJrLHiYNpCVm+
-         GgAw==
-X-Forwarded-Encrypted: i=1; AL+hErFE/DQFPi8nd3pfr5W5xNpyFyUargCZnJ55GgFzurnWq7uo6wY2kxQueQhpj5wkInCb0bU+9RwFlA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+dLPvMGWVSx627fBZbUyrXVtpELHQVGHa43lleqD7BCzirXDx3
-	uqwoZaskwYR701gXGwBBdtfdrYVf/3CC0sXmr2tbhHGaiGPEojBy7DSn
-X-Gm-Gg: AZFdTZfFVdDyBU98sGo3xyt9T5JOAYpAK20dlL2a4/We7KtfuIWe0hO4eUU/CnE9/fp
-	45Wvh3cZHgxIdyxXnkI688ltnzmXsskg8tsq9plQhKT47Gu1uoRJUfJtQsyrN0TuwSIFrO7bNFs
-	9Z7rAkV4Ga1K5mBEfXvEqiZthEZQlPtrR97PUua77cYMYDhQNSb0lZZKrC/fnsuGX4FfR5vd78V
-	AoPu6PFyDEBi3qBrfy67s4fcPRoyhuKzjSEXZWJWtBM70DzY7M9ihCJcfABfvs6L8Yq8w24uZtL
-	sPsGKfT8kxQ8oJWSGN3bZ9LE+/CGDbP1y6NklIRR3K/TN9sAgCGWwD2sbTU85Hbf4xJxP2iv6zJ
-	Um/C71Sy3sP0SFxM/QDbvIigAmz+SzsAwENFFvKmwSCu8WIm2hSp6nCv/EtLTYhqgHVW9MpBhc+
-	Nd9/J4Oa1nZ9f77aqjNp0FrS3Q1soKWpHuE025mAxfuhda0CoY+xeH16ALNdfYMiRfDEEspVZ43
-	/tacf725zxlya2k5Pv2LjOqTQ1loRlK7OhY2arAiGjzwVyY3OINc+mmGZCuEZyBXztf9CqJXfTG
-	7Bj4veiFjgSHVoxZbx9melVF6d6ookOB54fDRlvI
-X-Received: by 2002:a05:600c:670b:b0:4a6:30c3:1114 with SMTP id 5b1f17b1804b1-4bb88922df3mr142665155e9.12.1795284562772;
-        Sat, 21 Nov 2026 10:09:22 -0800 (PST)
-Received: from WindFlash.powerhub ([2a0a:ef40:e42:6801:83dd:7493:26d0:2927])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8538b2c5sm209609025e9.5.2026.11.21.10.09.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 10:09:21 -0800 (PST)
-From: Leonardo Bras <leobras.c@gmail.com>
-To: Ferenc Fejes <ferenc@fejes.dev>
-Cc: Leonardo Bras <leobras.c@gmail.com>,
-	perfbook@vger.kernel.org,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [RFC PATCH 7/7] docker, gitlab-ci: Add EPUB build dependencies and CI job
-Date: Sat, 21 Nov 2026 15:09:20 -0300
-Message-ID: <awHeUP4OFZPtgaB4@WindFlash>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261115210138.229034-8-ferenc@fejes.dev>
-References: <20261115210138.229034-1-ferenc@fejes.dev> <20261115210138.229034-8-ferenc@fejes.dev>
+        d=1e100.net; s=20260707; t=1795520155; x=1796124955;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CSy1NvXtkWgcj90/c1+cOYC6EVTMgoZYF9k8udQ5TI0=;
+        b=ptT9EWFJfX7j5hVWD5txRwylQCZ+9TWnbmLGBBjr5o6ucekR0+UPOZe0u7Gq2LcDYX
+         KQk0+6wdcr+B4xafhAPSC91QOB1ltIDfkYtyxB47balhKM553V8nRzXzuFqY6JNgKOFO
+         xdVluU+J1AYUW8X3PUee4LGKuqne5EgCp0wVNe+W3V4JPkyYFqVZBfDlzoYh2FbqJzuS
+         96q54MxwmnL03lr++cn3kbBUOLjpCCnou7mkB2MZBxIQpIcle3SUSuZxt74fwCSFHjSA
+         OTpNZB7hxF+uxFfV0rXhct47WsbjKLr6utU11dm6uP4TL9QNN8oy1MnXS5951osPjgXy
+         bs5w==
+X-Forwarded-Encrypted: i=1; AL+hErHiH6AODk4+nmX369F8FKzpD1dEgfu0ZDTgSI2BeVlF56avIXugh0Z15a3rBee9KEHGj5JuZco0IQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9Oy/1jbpn9lNMFLQL/c3e1aUB4OwVcnbDMst5JI71PpvBOYAtR
+	/rAlmVv71RGua+WrQsWOkkoznnjl2k+eP/UKX1cnpI927iwNTKqEQhicjB+bAQ==
+X-Gm-Gg: AZFdTZcL7i6srqd5YP4OqR5pWVUImAzqKPjsO/9M0ZvNNCOyjyD4yWwN0r6dhJXplIc
+	QtuyrRFSRD9gO5D5Oy+/LxrXUlJ13dDn3kfc4nCu1ORdiBTnJBvHVi2fgcdxx3KKSeT12HyWqI9
+	8XTYuDH8U9ei9dTNIiINr8x/3UVTY45nqgDx964XNn9tqsGM2zmUqyRtJT/S1gsIBE8CxqucGDd
+	9qfMiUKw2DzQVLXrYhVjss+HtteR77TtpQ1Mgk5euUbkZXFwJGFUePqfTWtRfEQzl6sge311GkM
+	P0qyxkUbpt69bnsfk5ZGVzkLHxOtehKhajUr2Ks4xbdBTfUCkmQSVbieM80A8wQAAnvzfgczvEO
+	jKv/na/gX5bQR0lXiwW3ZR8Y0lAIKL+iEtkexGcl1FLeQOp6Z6kdLZHWro0c+pZxDAG5we7abfo
+	UApMGFFQ6muheAFdQKOMGUKYy+kJYCD2x8EWDF4tTHgP7dzUUxVZqWIj3Ys4RZnJABsvp1yoeX7
+	Qq1K/0GUac+XyH6Yb+kEggzzdbMFOULqSTQTX5h9aSFnkVXliBwqL4Ttzdkan4ov5KRceW7UPv5
+	/W3ti5VjlqfUTCEpPg9yAqdfkmMliBH1h2erQQIaxAr1CP46Qx8AGVEub++qCSlbk3EfGxbb1w=
+	=
+X-Received: by 2002:a05:6a21:1b81:b0:3de:b120:bba4 with SMTP id adf61e73a8af0-4014bc4b224mr13365601637.50.1795520154779;
+        Tue, 24 Nov 2026 03:35:54 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c873c1cfa0sm6942887b3a.48.2026.11.24.03.35.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 03:35:54 -0800 (PST)
+Message-ID: <ac69ab31-24b8-4771-b87f-b439385abd51@gmail.com>
+Date: Tue, 24 Nov 2026 20:35:47 +0900
 X-Mailing-List: perfbook@vger.kernel.org
 List-Id: <perfbook.vger.kernel.org>
 List-Post: <mailto:perfbook@vger.kernel.org>
@@ -101,96 +93,66 @@ List-Unsubscribe: <mailto:perfbook+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:perfbook+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 3/7] utilities/runlwarp.sh: Add lwarp and Pandoc build
+ driver
+To: Ferenc Fejes <ferenc@fejes.dev>, perfbook@vger.kernel.org
+Cc: "Paul E . McKenney" <paulmck@kernel.org>,
+ Leonardo Bras <leobras.c@gmail.com>
+References: <20261115210138.229034-1-ferenc@fejes.dev>
+ <20261115210138.229034-4-ferenc@fejes.dev>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20261115210138.229034-4-ferenc@fejes.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Nov 15, 2026 at 10:01:38PM +0100, Ferenc Fejes wrote:
-> Install pandoc, unzip, zip, and texlive-lang-japanese in
-> docker/Dockerfile for EPUB builds.  Add a non-blocking generate_epub job
-> in utilities/gitlab-ci.yml that builds and archives perfbook.epub and
-> perfbook-endnotes.epub.
+Hi,
+
+I think I see what went wrong under Gitlab-CI.
+See below.
+
+On Sun, 15 Nov 2026 22:01:34 +0100, Ferenc Fejes wrote:
+> Add utilities/runlwarp.sh to drive multi-pass lwarp HTML compilation,
+> background SVG math rendering, and Pandoc EPUB3 packaging.  After
+> running epub-fixhtml.pl and appending epub.css, the script verifies
+> anchor, equation, footnote, Quick Quiz, and epigraph counts and runs
+> epubcheck when available.
 > 
 > Signed-off-by: Ferenc Fejes <ferenc@fejes.dev>
 > ---
->  docker/Dockerfile       |  2 +-
->  utilities/gitlab-ci.yml | 17 +++++++++++++++++
->  2 files changed, 18 insertions(+), 1 deletion(-)
+>  utilities/runlwarp.sh | 286 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 286 insertions(+)
+>  create mode 100644 utilities/runlwarp.sh
 > 
-> diff --git a/docker/Dockerfile b/docker/Dockerfile
-> index ee120e4b..063a678b 100644
-> --- a/docker/Dockerfile
-> +++ b/docker/Dockerfile
-> @@ -9,7 +9,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive TZ=UTC apt-get install -y t
->      rm -rf /var/lib/apt/lists/*
->  RUN apt-get update && apt-get install -y fig2ps inkscape xfig graphviz psutils \
->      texlive-publishers texlive-pstricks texlive-science texlive-fonts-extra \
-> -    make nano vim git curl gnuplot-nox time poppler-utils librsvg2-bin && \
-> +    make nano vim git curl gnuplot-nox time poppler-utils librsvg2-bin pandoc unzip zip texlive-lang-japanese && \
->      rm -rf /var/lib/apt/lists/*
->  COPY steel-city-comic.regular.ttf /usr/local/share/fonts/
->  RUN fc-cache /usr/local/share/fonts/
-> diff --git a/utilities/gitlab-ci.yml b/utilities/gitlab-ci.yml
-> index f03e39a9..6068b215 100644
-> --- a/utilities/gitlab-ci.yml
-> +++ b/utilities/gitlab-ci.yml
-> @@ -31,3 +31,20 @@ generate_pdfs:
->            - perfbook.pdf
->            - perfbook-1c.pdf
->            - perfbook-eb.pdf
-> +
-> +generate_epub:
-> +    stage: build
-> +    allow_failure: true
-> +
-> +    before_script:
-> +        - pacman --noconfirm -Syu texlive-meta fig2dev ghostscript graphviz librsvg gnuplot wget make which fontconfig git ttf-dejavu gnu-free-fonts ttf-liberation pandoc poppler texlive-langjapanese unzip zip epubcheck
-> +        - mkdir -p ~/.local/share/fonts && cp fonts/steel-city-comic.regular.ttf ~/.local/share/fonts/ && fc-cache
-> +
-> +    script:
-> +        - source /etc/profile
-> +        - make epub epub-endnotes
-
-IIUC, the targets in this project tend to be the output filenames.
+> diff --git a/utilities/runlwarp.sh b/utilities/runlwarp.sh
+> new file mode 100644
+> index 00000000..7e0dbd65
+> --- /dev/null
+> +++ b/utilities/runlwarp.sh
+[...]
 
 > +
-> +    artifacts:
-> +      paths:
-> +          - perfbook.epub
-> +          - perfbook-endnotes.epub
+> +# Wait for backgrounded pdfcrop/pdftocairo jobs spawned by `lwarpmk limages`.
+> +wait_limages () {
+> +	while find "$base-images" -name '*.pdf' -o -size 0 2>/dev/null | grep -q .; do
 
+It looks like "find" on Arch Linux needs explicit -print.
+After adding it as follows:
 
-I tested it, and it ran the new generate_epub job for 40 minutes without 
-finishing (last command at 1m46s). Since generate_pdfs takes about 2 
-minutes to finish, I thought something was going wrong.
+	while find "$base-images" -name '*.pdf' -o -size 0 -print 2>/dev/null | grep -q .; do
 
-Thats the job:
-https://gitlab.com/linux-kernel/perfbook/-/jobs/18239889160
+, both "make epub" and "make epub-endnotes" completed under Arch Linux.
 
-I retried and the result was the same:
-https://gitlab.com/linux-kernel/perfbook/-/jobs/18240502790
+> +		sleep 0.1
 
-Please test if the job concludes before submitting a new version.
+Probably "sleep 1" or longer would suffice, I guess.
 
+Hope this helps.
 
-In terms of Gitlab-CI yaml, I would recommend against duplicating the 
-generation recipe. When you add generate_epub, it requires to run all the 
-setup again (i.e. configuration and pacman installation) in a new instance.
+Thanks, Akira
 
-Instead, to avoid duplicated code and work, I recommend just changing the 
-original script to include the new targets (-epub, etc), as well as the 
-artifacts list.
-
-Not sure if you actually need to have an allow_failure, but if that's the 
-case, one simpler option would be:
-
-    script:
-        - source /etc/profile
-        - make perfbook.pdf perfbook-1c.pdf perfbook-eb.pdf
-+	- make perfbook.epub || touch perfbook.epub 
-+	- make perfbook-endnotes.epub || touch perfbook-endnotes.epub 
-
-and having a zero-size file in the artifacts means it failed.
-
-Thanks!
-Leo
+> +	done
+> +}
+> +
+[...]
